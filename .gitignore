@@ -6,3 +6,6 @@
 /*/*.sln
 /*/*.userprefs
 /*/*.unityproj
+/*/Assets/Plugins/Editor/JetBrains*
+
+/**/*_Private*
