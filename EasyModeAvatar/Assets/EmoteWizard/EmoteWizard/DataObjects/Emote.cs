@@ -25,5 +25,31 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
         [SerializeField] public AnimationClip clipLeft;
         [SerializeField] public AnimationClip clipRight;
+
+        public string ToStateName()
+        {
+            string ToPart(EmoteGestureCondition gesture)
+            {
+                switch (gesture.mode)
+                {
+                    case GestureConditionMode.Equals:
+                        return $"{gesture.handSign}";
+                    case GestureConditionMode.NotEqual:
+                        return $"¬{gesture.handSign}";
+                    case GestureConditionMode.Ignore:
+                        return "";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            IEnumerable<string> ToParts()
+            {
+                if (gesture1.mode != GestureConditionMode.Ignore) yield return ToPart(gesture1);
+                if (gesture2.mode != GestureConditionMode.Ignore) yield return ToPart(gesture2);
+            }
+
+            return string.Join(" ", ToParts());
+        }
     }
 }

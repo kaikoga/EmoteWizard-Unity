@@ -45,7 +45,12 @@ namespace EmoteWizard.Base
 
         protected void BuildStaticStateMachine(AnimatorStateMachine stateMachine, string stateName, Motion clip)
         {
-            var state = stateMachine.AddState(stateName, new Vector2(320, 0));
+            stateMachine.anyStatePosition = new Vector2(0, 0);
+            stateMachine.entryPosition = new Vector2(0, 100);
+            stateMachine.exitPosition = new Vector2(0, 200);
+            if (!clip) return;
+
+            var state = stateMachine.AddState(stateName, new Vector2(300, 0));
             state.motion = clip;
             state.writeDefaultValues = false;
             stateMachine.defaultState = state;
@@ -56,12 +61,14 @@ namespace EmoteWizard.Base
             var emotes = AnimationWizardBase.emotes;
 
             stateMachine.anyStatePosition = new Vector2(0, 0);
+            stateMachine.entryPosition = new Vector2(0, 100);
+            stateMachine.exitPosition = new Vector2(0, 200);
 
-            for (var i = 0; i < emotes.Count; i++)
+            var position = new Vector2(300, 0);
+            foreach (var emote in emotes)
             {
-                var emote = emotes[i];
                 var clip = isLeft ? emote.clipLeft : emote.clipRight;
-                var state = stateMachine.AddState($"{emote.gesture1.handSign}", new Vector2(320, 0 + i * 70));
+                var state = stateMachine.AddState(emote.ToStateName(), position);
                 state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.emptyClip;
                 state.writeDefaultValues = false;
                 var transition = stateMachine.AddAnyStateTransition(state);
@@ -73,6 +80,7 @@ namespace EmoteWizard.Base
                 transition.hasExitTime = false;
                 transition.duration = 0.1f;
                 transition.canTransitionToSelf = false;
+                position.y += 60;
             }
             
             stateMachine.defaultState = stateMachine.states[0].state;
