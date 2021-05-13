@@ -4,6 +4,8 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
+using static EmoteWizard.Tools.EmoteWizardEditorTools;
+
 namespace EmoteWizard.Base
 {
     public abstract class AnimationWizardBaseEditor : Editor
@@ -15,6 +17,7 @@ namespace EmoteWizard.Base
             var outputAsset = AnimationWizardBase.outputAsset;
             var path = outputAsset ? AssetDatabase.GetAssetPath(outputAsset) : AnimationWizardBase.EmoteWizardRoot.GeneratedAssetPath(relativePath);
 
+            EnsureDirectory(path);
             var animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
             animatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
             animatorController.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);

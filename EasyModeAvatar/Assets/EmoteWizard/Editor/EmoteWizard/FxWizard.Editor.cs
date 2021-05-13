@@ -1,6 +1,7 @@
 using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,10 +30,10 @@ namespace EmoteWizard
                 BuildAnimatorController("FX/GeneratedFX.controller", animatorController =>
                 {
                     var resetLayer = PopulateLayer(animatorController, "Reset"); 
-                    BuildStaticStateMachine(resetLayer.stateMachine, "Reset", fxWizard.resetClip);
+                    BuildStaticStateMachine(resetLayer.stateMachine, "Reset", fxWizard.EnsureResetClip());
 
                     var allPartsLayer = PopulateLayer(animatorController, "AllParts"); 
-                    BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", fxWizard.globalClip);
+                    BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", fxWizard.EnsureGlobalClip());
 
                     var leftHandLayer = PopulateLayer(animatorController, "Left Hand"); 
                     BuildStateMachine(leftHandLayer.stateMachine, true);

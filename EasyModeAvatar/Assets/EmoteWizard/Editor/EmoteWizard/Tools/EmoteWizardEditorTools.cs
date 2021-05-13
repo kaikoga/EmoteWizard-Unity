@@ -1,4 +1,7 @@
+using System.IO;
 using UnityEditor;
+using UnityEngine;
+
 using static EmoteWizard.Tools.EmoteWizardTools;
 
 namespace EmoteWizard.Tools
@@ -12,6 +15,22 @@ namespace EmoteWizard.Tools
             if (!absolutePath.StartsWith(ProjectRoot)) return false;
             projectPath = AbsoluteToProjectPath(absolutePath);
             return true;
+        }
+
+        public static void EnsureDirectory(string path)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+        }
+
+        public static AnimationClip EnsureAnimationClip(EmoteWizardRoot root, string relativePath, ref AnimationClip clip)
+        {
+            if (clip) return clip;
+            var path = root.GeneratedAssetPath(relativePath);
+            clip = new AnimationClip();
+            EnsureDirectory(path);
+            AssetDatabase.CreateAsset(clip, path);
+            AssetDatabase.SaveAssets();
+            return clip;
         }
     }
 }
