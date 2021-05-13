@@ -1,6 +1,7 @@
+using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EmoteWizard
@@ -41,6 +42,25 @@ namespace EmoteWizard
                     
                 });
             }
+        }
+
+        static void RepopulateDefaultFxEmotes(AnimationWizardBase wizard)
+        {
+            var newEmotes = Enumerable.Empty<Emote>()
+                .Concat(Emote.HandSigns
+                    .Select(handSign => new Emote
+                    {
+                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
+                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
+                    }))
+                .Concat(Emote.HandSigns
+                    .Select(handSign => new Emote
+                    {
+                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
+                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
+                    }))
+                .ToList();
+            wizard.emotes = newEmotes;
         }
     }
 }

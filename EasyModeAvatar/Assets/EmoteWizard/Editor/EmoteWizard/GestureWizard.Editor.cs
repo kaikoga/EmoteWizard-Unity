@@ -1,6 +1,7 @@
+using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EmoteWizard
@@ -37,6 +38,14 @@ namespace EmoteWizard
                     BuildStateMachine(rightHandLayer.stateMachine, false);
                 });
             }
+        }
+
+        static void RepopulateDefaultGestureEmotes(AnimationWizardBase wizard)
+        {
+            var newEmotes = Emote.HandSigns
+                .Select(Emote.Populate)
+                .ToList();
+            wizard.emotes = newEmotes;
         }
     }
 }

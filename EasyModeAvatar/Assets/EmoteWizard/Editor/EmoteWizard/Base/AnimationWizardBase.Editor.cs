@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using EmoteWizard.DataObjects;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -10,33 +9,6 @@ namespace EmoteWizard.Base
     public abstract class AnimationWizardBaseEditor : Editor
     {
         AnimationWizardBase AnimationWizardBase => target as AnimationWizardBase;
-
-        protected static void RepopulateDefaultGestureEmotes(AnimationWizardBase wizard)
-        {
-            var newEmotes = Emote.HandSigns
-                .Select(Emote.Populate)
-                .ToList();
-            wizard.emotes = newEmotes;
-        }
-
-        protected static void RepopulateDefaultFxEmotes(AnimationWizardBase wizard)
-        {
-            var newEmotes = Enumerable.Empty<Emote>()
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
-                    {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
-                    }))
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
-                    {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
-                    }))
-                .ToList();
-            wizard.emotes = newEmotes;
-        }
 
         AnimatorController RebuildOrCreateAnimatorController(string relativePath)
         {
