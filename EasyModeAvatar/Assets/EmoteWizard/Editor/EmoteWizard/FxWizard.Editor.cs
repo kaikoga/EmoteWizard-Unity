@@ -1,10 +1,12 @@
+using EmoteWizard.Base;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EmoteWizard
 {
     [CustomEditor(typeof(FxWizard))]
-    public class FxWizardEditor : Editor
+    public class FxWizardEditor : AnimationWizardBaseEditor
     {
         FxWizard fxWizard;
 
@@ -17,9 +19,27 @@ namespace EmoteWizard
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Create"))
+            if (GUILayout.Button("Repopulate Emotes"))
             {
-                Debug.Log(fxWizard);
+                RepopulateDefaultFxEmotes(fxWizard);
+            }
+            if (GUILayout.Button("Generate Animation Controller"))
+            {
+                BuildAnimatorController("FX/GeneratedFX.controller", animatorController =>
+                {
+                    var resetLayer = PopulateLayer(animatorController, "Reset"); 
+                    BuildStaticStateMachine(resetLayer.stateMachine, "Reset", fxWizard.resetClip);
+
+                    var allPartsLayer = PopulateLayer(animatorController, "AllParts"); 
+                    BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", fxWizard.globalClip);
+
+                    var leftHandLayer = PopulateLayer(animatorController, "Left Hand"); 
+                    BuildStateMachine(leftHandLayer.stateMachine, true);
+            
+                    var rightHandLayer = PopulateLayer(animatorController, "Right Hand"); 
+                    BuildStateMachine(rightHandLayer.stateMachine, false);
+                    
+                });
             }
         }
     }

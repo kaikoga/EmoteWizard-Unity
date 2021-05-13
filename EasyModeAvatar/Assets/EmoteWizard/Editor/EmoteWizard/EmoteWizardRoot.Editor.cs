@@ -1,11 +1,10 @@
-using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
+using static EmoteWizard.Tools.EmoteWizardEditorTools;
 
 namespace EmoteWizard
 {
     [CustomEditor(typeof(EmoteWizardRoot))]
-    [DisallowMultipleComponent]
     public class EmoteWizardRootEditor : Editor
     {
         EmoteWizardRoot emoteWizardRoot;
@@ -24,7 +23,7 @@ namespace EmoteWizard
                 emoteWizardRoot.generatedAssetRoot = EditorGUILayout.TextField("Generated Assets Root", emoteWizardRoot.generatedAssetRoot);
                 if (GUILayout.Button("Browse"))
                 {
-                    EmoteWizardTools.SelectFolder("Select Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
+                    SelectFolder("Select Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
                 }
             }
             if (GUILayout.Button("Generate Wizards"))
