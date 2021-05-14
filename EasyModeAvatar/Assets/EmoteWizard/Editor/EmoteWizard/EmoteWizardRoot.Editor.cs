@@ -26,10 +26,12 @@ namespace EmoteWizard
                     SelectFolder("Select Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
                 }
             }
-            if (GUILayout.Button("Generate Wizards"))
+            if (!emoteWizardRoot.GetComponent<SetupWizard>())
             {
-                EnsureComponent<GestureWizard>();
-                EnsureComponent<FxWizard>();
+                if (GUILayout.Button("Setup"))
+                {
+                    EnsureComponent<SetupWizard>();
+                }
             }
         }
 
