@@ -1,13 +1,13 @@
 using System.IO;
 using UnityEngine;
-using VRC.SDKBase;
+using VRC.SDK3.Avatars.Components;
 
 namespace EmoteWizard
 {
     [DisallowMultipleComponent]
     public class EmoteWizardRoot : MonoBehaviour
     {
-        [SerializeField] VRC_AvatarDescriptor avatarDescriptor;
+        [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
 
         [SerializeField] [HideInInspector] public string generatedAssetRoot;
         

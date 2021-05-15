@@ -12,10 +12,10 @@ namespace EmoteWizard.Base
     {
         AnimationWizardBase AnimationWizardBase => target as AnimationWizardBase;
 
-        AnimatorController RebuildOrCreateAnimatorController(string relativePath)
+        AnimatorController RebuildOrCreateAnimatorController(string defaultRelativePath)
         {
             var outputAsset = AnimationWizardBase.outputAsset;
-            var path = outputAsset ? AssetDatabase.GetAssetPath(outputAsset) : AnimationWizardBase.EmoteWizardRoot.GeneratedAssetPath(relativePath);
+            var path = outputAsset ? AssetDatabase.GetAssetPath(outputAsset) : AnimationWizardBase.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
 
             EnsureDirectory(path);
             var animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
@@ -26,9 +26,9 @@ namespace EmoteWizard.Base
             return animatorController;
         }
 
-        protected void BuildAnimatorController(string relativePath, Action<AnimatorController> populateLayers)
+        protected void BuildAnimatorController(string defaultRelativePath, Action<AnimatorController> populateLayers)
         {
-            var animatorController = RebuildOrCreateAnimatorController(relativePath);
+            var animatorController = RebuildOrCreateAnimatorController(defaultRelativePath);
 
             populateLayers(animatorController);
 

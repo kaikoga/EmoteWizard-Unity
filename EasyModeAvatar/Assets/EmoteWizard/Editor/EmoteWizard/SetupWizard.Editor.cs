@@ -22,6 +22,7 @@ namespace EmoteWizard
             {
                 EnsureComponent<GestureWizard>();
                 EnsureComponent<FxWizard>();
+                EnsureComponent<ExpressionWizard>();
             }
             if (GUILayout.Button("Complete setup and remove me"))
             {
