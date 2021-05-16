@@ -60,14 +60,38 @@ namespace EmoteWizard
         void BuildExpressionMenu()
         {
             var expressionMenu = RebuildOrCreateExpressionsMenu("Expressions/GeneratedExprMenu.asset");
-            var controls = expressionWizard.expressionItems.GroupBy(item => item.Folder)
-                .First(group => group.Key == "")
-                .Select(item => item.ToControl())
-                .ToList();
-            expressionMenu.controls = controls;
+            var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
+            var rootPath = $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
+
+            var groups = expressionWizard.GroupExpressionItems();
+
+            foreach (var group in groups)
+            {
+                var controls = group.Items.Select(item => item.ToControl()).ToList();
+                if (group.Path == "")
+                {
+                    expressionMenu.controls = controls;
+                    EditorUtility.SetDirty(expressionMenu);
+                }
+                else if (expressionWizard.buildAsSubAsset)
+                {
+                    var childMenu = CreateInstance<VRCExpressionsMenu>();
+                    AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
+                    childMenu.name = group.Path;
+                    childMenu.controls = controls;
+                }
+                else
+                {
+                    var childMenu = CreateInstance<VRCExpressionsMenu>();
+                    var childPath = $"{rootPath}{group.Path}.asset";
+                    EnsureDirectory(childPath);
+                    AssetDatabase.CreateAsset(childMenu, childPath);
+                    childMenu.controls = controls;
+                    EditorUtility.SetDirty(childMenu);
+                }
+            }
             AssetDatabase.SaveAssets();
             expressionWizard.outputAsset = expressionMenu;
-            EditorUtility.SetDirty(expressionMenu);
         }
     }
 }
