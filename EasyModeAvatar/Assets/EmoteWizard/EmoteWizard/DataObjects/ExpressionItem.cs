@@ -15,10 +15,19 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public string path;
         [SerializeField] public string parameter;
         [SerializeField] public int value;
+        [SerializeField] public string subMenu;
         [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
 
         public string Name => Path.GetFileName(path);
         public string Folder => Path.GetDirectoryName(path);
+
+        public IEnumerable<string> Folders()
+        {
+            for (var p = Folder; !string.IsNullOrEmpty(p); p = Path.GetDirectoryName(p))
+            {
+                yield return p;
+            }
+        }
 
         static string NameForDefaultEmote(int value)
         {
@@ -63,20 +72,50 @@ namespace EmoteWizard.DataObjects
             };
         }
         
-        public VRCExpressionsMenu.Control ToControl()
+        public static ExpressionItem PopulateFolder(Texture2D icon, string path)
         {
-            return new VRCExpressionsMenu.Control
+            return new ExpressionItem
             {
+                kind = ExpressionItemKind.Folder,
                 icon = icon,
-                labels = new VRCExpressionsMenu.Control.Label[] { },
-                name = Name,
-                parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
-                style = VRCExpressionsMenu.Control.Style.Style1,
-                subMenu = null,
-                subParameters = new VRCExpressionsMenu.Control.Parameter[] { },
-                type = controlType,
-                value = value
+                path = path,
+                controlType = VRCExpressionsMenu.Control.ControlType.SubMenu
             };
+        }
+        
+        public VRCExpressionsMenu.Control ToControl(Func<string, VRCExpressionsMenu> subMenuResolver)
+        {
+            switch (kind)
+            {
+                case ExpressionItemKind.Default:
+                    return new VRCExpressionsMenu.Control
+                    {
+                        icon = icon,
+                        labels = new VRCExpressionsMenu.Control.Label[] { },
+                        name = Name,
+                        parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
+                        style = VRCExpressionsMenu.Control.Style.Style1,
+                        subMenu = null,
+                        subParameters = new VRCExpressionsMenu.Control.Parameter[] { },
+                        type = controlType,
+                        value = value
+                    };
+                case ExpressionItemKind.Folder:
+                    return new VRCExpressionsMenu.Control
+                    {
+                        icon = icon,
+                        labels = new VRCExpressionsMenu.Control.Label[] { },
+                        name = Name,
+                        parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
+                        style = VRCExpressionsMenu.Control.Style.Style1,
+                        subMenu = subMenuResolver(subMenu),
+                        subParameters = new VRCExpressionsMenu.Control.Parameter[] { },
+                        type = controlType,
+                        value = value
+                    };
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

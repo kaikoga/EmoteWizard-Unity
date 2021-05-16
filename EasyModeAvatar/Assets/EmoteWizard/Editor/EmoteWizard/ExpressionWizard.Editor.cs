@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
@@ -63,14 +64,16 @@ namespace EmoteWizard
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
 
-            var groups = expressionWizard.GroupExpressionItems();
+            var groups = expressionWizard.GroupExpressionItems().ToList();
 
+            var menus = new Dictionary<string, VRCExpressionsMenu>();
+
+            // populate folders first
             foreach (var group in groups)
             {
-                var controls = group.Items.Select(item => item.ToControl()).ToList();
                 if (group.Path == "")
                 {
-                    expressionMenu.controls = controls;
+                    menus[group.Path] = expressionMenu;
                     EditorUtility.SetDirty(expressionMenu);
                 }
                 else if (expressionWizard.buildAsSubAsset)
@@ -78,7 +81,7 @@ namespace EmoteWizard
                     var childMenu = CreateInstance<VRCExpressionsMenu>();
                     AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
                     childMenu.name = group.Path;
-                    childMenu.controls = controls;
+                    menus[group.Path] = childMenu;
                 }
                 else
                 {
@@ -86,10 +89,17 @@ namespace EmoteWizard
                     var childPath = $"{rootPath}{group.Path}.asset";
                     EnsureDirectory(childPath);
                     AssetDatabase.CreateAsset(childMenu, childPath);
-                    childMenu.controls = controls;
+                    menus[group.Path] = childMenu;
                     EditorUtility.SetDirty(childMenu);
                 }
             }
+            
+            foreach (var group in groups)
+            {
+                var controls = group.Items.Select(item => item.ToControl(path => menus[path])).ToList();
+                menus[group.Path].controls = controls;
+            }
+
             AssetDatabase.SaveAssets();
             expressionWizard.outputAsset = expressionMenu;
         }
