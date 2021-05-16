@@ -6,5 +6,7 @@ namespace EmoteWizard.Base
     public abstract class EmoteWizardBase : MonoBehaviour
     {
         public EmoteWizardRoot EmoteWizardRoot => GetComponent<EmoteWizardRoot>();
+
+        public bool IsSetupMode => GetComponent<SetupWizard>();
     }
 }

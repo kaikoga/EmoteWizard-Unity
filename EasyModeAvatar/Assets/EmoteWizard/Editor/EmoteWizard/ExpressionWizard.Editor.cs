@@ -5,6 +5,7 @@ using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
+using static EmoteWizard.Extensions.EditorUITools;
 using static EmoteWizard.Tools.EmoteWizardEditorTools;
 
 namespace EmoteWizard
@@ -23,10 +24,13 @@ namespace EmoteWizard
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Repopulate Expression Items"))
+            SetupOnlyUI(expressionWizard, () =>
             {
-                RepopulateDefaultExpressionItems(expressionWizard);
-            }
+                if (GUILayout.Button("Repopulate Expression Items"))
+                {
+                    RepopulateDefaultExpressionItems(expressionWizard);
+                }
+            });
             if (GUILayout.Button("Generate Expression Menu"))
             {
                 BuildExpressionMenu();

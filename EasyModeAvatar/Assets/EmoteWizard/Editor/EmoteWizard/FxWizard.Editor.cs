@@ -4,6 +4,7 @@ using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
+using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -21,10 +22,13 @@ namespace EmoteWizard
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Repopulate Emotes"))
+            SetupOnlyUI(fxWizard, () =>
             {
-                RepopulateDefaultFxEmotes(fxWizard);
-            }
+                if (GUILayout.Button("Repopulate Emotes"))
+                {
+                    RepopulateDefaultFxEmotes(fxWizard);
+                }
+            });
             if (GUILayout.Button("Generate Animation Controller"))
             {
                 BuildAnimatorController("FX/GeneratedFX.controller", animatorController =>

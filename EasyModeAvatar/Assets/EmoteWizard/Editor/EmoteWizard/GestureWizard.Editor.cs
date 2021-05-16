@@ -3,6 +3,7 @@ using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
 using UnityEditor;
 using UnityEngine;
+using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -20,10 +21,13 @@ namespace EmoteWizard
         {
             base.OnInspectorGUI();
 
-            if (GUILayout.Button("Repopulate Emotes"))
+            SetupOnlyUI(gestureWizard, () =>
             {
-                RepopulateDefaultGestureEmotes(gestureWizard);
-            }
+                if (GUILayout.Button("Repopulate Emotes"))
+                {
+                    RepopulateDefaultGestureEmotes(gestureWizard);
+                }
+            });
             if (GUILayout.Button("Generate Animation Controller"))
             {
                 BuildAnimatorController("Gesture/GeneratedGesture.controller", animatorController =>
