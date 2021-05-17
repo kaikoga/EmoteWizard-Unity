@@ -14,7 +14,6 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public string path;
         [SerializeField] public string parameter;
         [SerializeField] public int value;
-        [SerializeField] public string subMenu;
         [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
 
         public string Name => Path.GetFileName(path);
@@ -80,8 +79,7 @@ namespace EmoteWizard.DataObjects
                 kind = ExpressionItemKind.Folder,
                 icon = icon,
                 path = path,
-                controlType = VRCExpressionsMenu.Control.ControlType.SubMenu,
-                subMenu = path
+                controlType = VRCExpressionsMenu.Control.ControlType.SubMenu
             };
         }
         
@@ -110,7 +108,7 @@ namespace EmoteWizard.DataObjects
                         name = Name,
                         parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
                         style = VRCExpressionsMenu.Control.Style.Style1,
-                        subMenu = subMenuResolver(subMenu),
+                        subMenu = subMenuResolver(path),
                         subParameters = new VRCExpressionsMenu.Control.Parameter[] { },
                         type = controlType,
                         value = value
