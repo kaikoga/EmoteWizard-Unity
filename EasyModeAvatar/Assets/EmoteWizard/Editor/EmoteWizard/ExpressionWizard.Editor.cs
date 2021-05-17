@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
+using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;

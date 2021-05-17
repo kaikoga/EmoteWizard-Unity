@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -23,8 +22,10 @@ namespace EmoteWizard.DataObjects
 
         public IEnumerable<string> Folders()
         {
-            for (var p = Folder; !string.IsNullOrEmpty(p); p = Path.GetDirectoryName(p))
+            var p = path;
+            while (!string.IsNullOrEmpty(p))
             {
+                p = Path.GetDirectoryName(p);
                 yield return p;
             }
         }
@@ -79,7 +80,8 @@ namespace EmoteWizard.DataObjects
                 kind = ExpressionItemKind.Folder,
                 icon = icon,
                 path = path,
-                controlType = VRCExpressionsMenu.Control.ControlType.SubMenu
+                controlType = VRCExpressionsMenu.Control.ControlType.SubMenu,
+                subMenu = path
             };
         }
         
