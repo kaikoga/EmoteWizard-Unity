@@ -9,7 +9,6 @@ namespace EmoteWizard.DataObjects
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            position.height = BoxHeight(LineHeight(2f));
             GUI.Box(position, GUIContent.none);
             position = InsideBox(position);
             using (new EditorGUI.PropertyScope(position, label, property))
@@ -28,7 +27,7 @@ namespace EmoteWizard.DataObjects
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return BoxHeight(base.GetPropertyHeight(property, label) + LineHeight(1.5f));
+            return BoxHeight(LineHeight(2f));
         }
     }
 }
