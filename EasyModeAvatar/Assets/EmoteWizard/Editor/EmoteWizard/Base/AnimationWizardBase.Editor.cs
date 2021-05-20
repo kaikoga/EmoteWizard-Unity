@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using EmoteWizard.DataObjects;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-
 using static EmoteWizard.Tools.EmoteWizardEditorTools;
 
 namespace EmoteWizard.Base
@@ -11,6 +12,27 @@ namespace EmoteWizard.Base
     public abstract class AnimationWizardBaseEditor : Editor
     {
         AnimationWizardBase AnimationWizardBase => target as AnimationWizardBase;
+
+        protected void BuildResetClip(AnimationClip clip)
+        {
+            IEnumerable<AnimationClip> ClipsInEmote(Emote emote)
+            {
+                if (emote.clipLeft != null) yield return emote.clipLeft;
+                if (emote.clipRight != null) yield return emote.clipRight;
+            }
+
+            var allEmoteClips = AnimationWizardBase.emotes.SelectMany(ClipsInEmote);
+            var allParameters = allEmoteClips.SelectMany(AnimationUtility.GetCurveBindings)
+                .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
+                .Distinct().OrderBy(x => x);
+            
+            clip.ClearCurves();
+            clip.frameRate = 60f;
+            foreach (var (path, propertyName, type) in allParameters)
+            {
+                clip.SetCurve(path, type, propertyName, AnimationCurve.Constant(0f, 1 / 60f, 0f));
+            }
+        }
 
         AnimatorController RebuildOrCreateAnimatorController(string defaultRelativePath)
         {
