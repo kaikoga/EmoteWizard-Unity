@@ -1,6 +1,7 @@
 using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
+using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Extensions.EditorUITools;
@@ -32,13 +33,19 @@ namespace EmoteWizard
             {
                 BuildAnimatorController("Gesture/GeneratedGesture.controller", animatorController =>
                 {
-                    var allPartsLayer = PopulateLayer(animatorController, "Reset"); 
-                    BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", null);
+                    var resetLayer = PopulateLayer(animatorController, "Reset"); 
+                    BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
-                    var leftHandLayer = PopulateLayer(animatorController, "Left Hand"); 
+                    var allPartsLayer = PopulateLayer(animatorController, "AllParts");
+                    BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", gestureWizard.globalClip);
+
+                    var ambienceLayer = PopulateLayer(animatorController, "Ambience");
+                    BuildStaticStateMachine(ambienceLayer.stateMachine, "Ambient", gestureWizard.ambienceClip);
+
+                    var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
                     BuildStateMachine(leftHandLayer.stateMachine, true);
             
-                    var rightHandLayer = PopulateLayer(animatorController, "Right Hand"); 
+                    var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
                     BuildStateMachine(rightHandLayer.stateMachine, false);
                 });
             }

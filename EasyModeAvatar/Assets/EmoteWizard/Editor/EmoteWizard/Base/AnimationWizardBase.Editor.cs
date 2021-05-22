@@ -60,11 +60,22 @@ namespace EmoteWizard.Base
             EditorUtility.SetDirty(animatorController);
         }
 
-        protected AnimatorControllerLayer PopulateLayer(AnimatorController animatorController, string layerName)
+        protected AnimatorControllerLayer PopulateLayer(AnimatorController animatorController, string layerName, AvatarMask avatarMask = null)
         {
-            animatorController.AddLayer(layerName);
-            var layer = animatorController.layers[animatorController.layers.Length - 1]; 
-            layer.defaultWeight = 1.0f;
+            layerName = animatorController.MakeUniqueLayerName(layerName);
+            var layer = new AnimatorControllerLayer
+            {
+                name = layerName,
+                defaultWeight = 1.0f,
+                avatarMask = avatarMask,
+                stateMachine = new AnimatorStateMachine
+                {
+                    name = layerName,
+                    //hideFlags = HideFlags.HideInHierarchy
+                }
+            };
+            AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(animatorController));
+            animatorController.AddLayer(layer);
             return layer;
         }
 
@@ -73,7 +84,6 @@ namespace EmoteWizard.Base
             stateMachine.anyStatePosition = new Vector2(0, 0);
             stateMachine.entryPosition = new Vector2(0, 100);
             stateMachine.exitPosition = new Vector2(0, 200);
-            if (!clip) return;
 
             var state = stateMachine.AddState(stateName, new Vector2(300, 0));
             state.motion = clip;

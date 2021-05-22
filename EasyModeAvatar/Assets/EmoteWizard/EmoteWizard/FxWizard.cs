@@ -8,5 +8,6 @@ namespace EmoteWizard
     {
         [SerializeField] public AnimationClip resetClip;
         [SerializeField] public AnimationClip globalClip;
+        [SerializeField] public AnimationClip ambienceClip;
     }
 }
