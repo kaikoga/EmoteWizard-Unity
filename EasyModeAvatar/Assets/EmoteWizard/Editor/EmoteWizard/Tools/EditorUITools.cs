@@ -1,5 +1,6 @@
 using System;
 using EmoteWizard.Base;
+using UnityEditor;
 using UnityEngine;
 
 namespace EmoteWizard.Extensions
@@ -11,13 +12,38 @@ namespace EmoteWizard.Extensions
             if (!emoteWizardBase.IsSetupMode) return;
             
             var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.red;
+            GUI.backgroundColor = Color.magenta;
             using (new GUILayout.VerticalScope(GUI.skin.box))
             {
-                GUI.backgroundColor = Color.magenta;
+                GUI.backgroundColor = backgroundColor;
+                GUILayout.Label("Setup only zone");
                 action();
             }
-            GUI.backgroundColor = backgroundColor;
+        }
+        
+        public static void OutputUIArea(EmoteWizardBase emoteWizardBase, Action action)
+        {
+            var backgroundColor = GUI.backgroundColor;
+            GUI.backgroundColor = Color.cyan;
+            using (new GUILayout.VerticalScope(GUI.skin.box))
+            {
+                GUI.backgroundColor = backgroundColor;
+                GUILayout.Label("Output zone");
+                action();
+            }
+        }
+
+                
+        public static void PropertyFieldWithGenerate(SerializedProperty serializedProperty, Func<UnityEngine.Object> generate)
+        {
+            using (new GUILayout.HorizontalScope())
+            {
+                EditorGUILayout.PropertyField(serializedProperty);
+                if (serializedProperty.objectReferenceValue == null && GUILayout.Button("Generate", GUILayout.Width(60f)))
+                {
+                    serializedProperty.objectReferenceValue = generate();
+                }
+            }
         }
     }
 }

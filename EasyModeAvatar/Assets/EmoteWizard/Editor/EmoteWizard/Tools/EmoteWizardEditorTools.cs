@@ -1,4 +1,5 @@
 using System.IO;
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,17 +21,6 @@ namespace EmoteWizard.Tools
         public static void EnsureDirectory(string path)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-        }
-
-        public static AnimationClip EnsureAnimationClip(EmoteWizardRoot root, string relativePath, ref AnimationClip clip)
-        {
-            if (clip) return clip;
-            var path = root.GeneratedAssetPath(relativePath);
-            clip = new AnimationClip();
-            EnsureDirectory(path);
-            AssetDatabase.CreateAsset(clip, path);
-            AssetDatabase.SaveAssets();
-            return clip;
         }
     }
 }

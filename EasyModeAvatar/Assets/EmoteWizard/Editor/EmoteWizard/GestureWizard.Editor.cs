@@ -1,6 +1,7 @@
 using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
+using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
@@ -20,10 +21,7 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("emotes"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("outputAsset"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("globalClip"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("ambienceClip"));
+            var serializedObj = this.serializedObject;
 
             SetupOnlyUI(gestureWizard, () =>
             {
@@ -32,26 +30,38 @@ namespace EmoteWizard
                     RepopulateDefaultGestureEmotes(gestureWizard);
                 }
             });
-            if (GUILayout.Button("Generate Animation Controller"))
+
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/GeneratedGlobalGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/GeneratedAmbienceGesture.anim"));
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
+
+            OutputUIArea(gestureWizard, () =>
             {
-                BuildAnimatorController("Gesture/GeneratedGesture.controller", animatorController =>
+                if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    var resetLayer = PopulateLayer(animatorController, "Reset"); 
-                    BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
+                    BuildAnimatorController("Gesture/GeneratedGesture.controller", animatorController =>
+                    {
+                        var resetLayer = PopulateLayer(animatorController, "Reset"); 
+                        BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
-                    var allPartsLayer = PopulateLayer(animatorController, "AllParts");
-                    BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", gestureWizard.globalClip);
+                        var allPartsLayer = PopulateLayer(animatorController, "AllParts");
+                        BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", gestureWizard.globalClip);
 
-                    var ambienceLayer = PopulateLayer(animatorController, "Ambience");
-                    BuildStaticStateMachine(ambienceLayer.stateMachine, "Ambient", gestureWizard.ambienceClip);
+                        var ambienceLayer = PopulateLayer(animatorController, "Ambience");
+                        BuildStaticStateMachine(ambienceLayer.stateMachine, "Ambient", gestureWizard.ambienceClip);
 
-                    var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                    BuildStateMachine(leftHandLayer.stateMachine, true);
+                        var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
+                        BuildStateMachine(leftHandLayer.stateMachine, true);
             
-                    var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
-                    BuildStateMachine(rightHandLayer.stateMachine, false);
-                });
-            }
+                        var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
+                        BuildStateMachine(rightHandLayer.stateMachine, false);
+                    });
+                }
+
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));
+            });
+
+            serializedObj.ApplyModifiedProperties();
         }
 
         static void RepopulateDefaultGestureEmotes(AnimationWizardBase wizard)

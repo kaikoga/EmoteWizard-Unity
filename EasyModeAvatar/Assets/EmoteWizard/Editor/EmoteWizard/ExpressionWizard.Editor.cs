@@ -24,9 +24,7 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("expressionItems"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("outputAsset"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("buildAsSubAsset"));
+            var serializedObj = this.serializedObject;
 
             SetupOnlyUI(expressionWizard, () =>
             {
@@ -35,10 +33,20 @@ namespace EmoteWizard
                     RepopulateDefaultExpressionItems(expressionWizard);
                 }
             });
-            if (GUILayout.Button("Generate Expression Menu"))
+
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("expressionItems"), true);
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
+
+            OutputUIArea(expressionWizard, () =>
             {
-                BuildExpressionMenu();
-            }
+                if (GUILayout.Button("Generate Expression Menu"))
+                {
+                    BuildExpressionMenu();
+                }
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));
+            });
+
+            serializedObj.ApplyModifiedProperties();
         }
 
         static void RepopulateDefaultExpressionItems(ExpressionWizard expressionWizard)
