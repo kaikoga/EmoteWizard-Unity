@@ -24,7 +24,9 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("expressionItems"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("outputAsset"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("buildAsSubAsset"));
 
             SetupOnlyUI(expressionWizard, () =>
             {

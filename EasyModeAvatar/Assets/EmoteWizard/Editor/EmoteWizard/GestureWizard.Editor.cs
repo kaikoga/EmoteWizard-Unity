@@ -20,7 +20,10 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("emotes"), true);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("outputAsset"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("globalClip"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("ambienceClip"));
 
             SetupOnlyUI(gestureWizard, () =>
             {
