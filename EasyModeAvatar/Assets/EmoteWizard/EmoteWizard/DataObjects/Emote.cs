@@ -26,6 +26,12 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public AnimationClip clipLeft;
         [SerializeField] public AnimationClip clipRight;
 
+        public IEnumerable<AnimationClip> AllClips()
+        {
+            if (clipLeft != null) yield return clipLeft;
+            if (clipRight != null) yield return clipRight;
+        }
+
         public string ToStateName()
         {
             string ToPart(EmoteGestureCondition gesture)

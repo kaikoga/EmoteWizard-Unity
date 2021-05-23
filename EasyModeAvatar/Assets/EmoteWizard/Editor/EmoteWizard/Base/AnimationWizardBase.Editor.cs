@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.DataObjects;
 using UnityEditor;
@@ -15,13 +14,7 @@ namespace EmoteWizard.Base
 
         protected void BuildResetClip(AnimationClip clip)
         {
-            IEnumerable<AnimationClip> ClipsInEmote(Emote emote)
-            {
-                if (emote.clipLeft != null) yield return emote.clipLeft;
-                if (emote.clipRight != null) yield return emote.clipRight;
-            }
-
-            var allEmoteClips = AnimationWizardBase.emotes.SelectMany(ClipsInEmote);
+            var allEmoteClips = AnimationWizardBase.emotes.SelectMany(e => e.AllClips());
             var allParameters = allEmoteClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
                 .Distinct().OrderBy(x => x);
