@@ -71,7 +71,7 @@ namespace EmoteWizard.Base
                 stateMachine = new AnimatorStateMachine
                 {
                     name = layerName,
-                    //hideFlags = HideFlags.HideInHierarchy
+                    hideFlags = HideFlags.HideInHierarchy
                 }
             };
             AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(animatorController));
