@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.EditorUITools;
-using static EmoteWizard.Tools.EmoteWizardEditorTools;
 
 namespace EmoteWizard
 {
@@ -35,22 +35,12 @@ namespace EmoteWizard
             serializedObj.ApplyModifiedProperties();
         }
 
-        VRCExpressionParameters RebuildOrCreateExpressionParameters(string defaultRelativePath)
-        {
-            var outputAsset = parametersWizard.outputAsset;
-            var path = outputAsset ? AssetDatabase.GetAssetPath(outputAsset) : parametersWizard.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
-
-            EnsureDirectory(path);
-            var expressionParameters = CreateInstance<VRCExpressionParameters>();
-            AssetDatabase.CreateAsset(expressionParameters, path);
-            return expressionParameters;
-        }
-
         void BuildExpressionParameters()
         {
-            var expressionParams = RebuildOrCreateExpressionParameters("Expressions/GeneratedExprParams.asset");
+            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/GeneratedExprParams.asset");
 
             var groups = Enumerable.Empty<VRCExpressionParameters.Parameter>()
+                .Concat(parametersWizard.outputAsset.parameters ?? Enumerable.Empty<VRCExpressionParameters.Parameter>() )
                 .Concat(new List<VRCExpressionParameters.Parameter>
                 {
                     new VRCExpressionParameters.Parameter
@@ -74,12 +64,20 @@ namespace EmoteWizard
                         saved = false,
                         valueType = VRCExpressionParameters.ValueType.Float
                     }
-                });
+                }).Concat(parametersWizard.GetComponent<ExpressionWizard>().expressionItems
+                    .Select(expressionItem => new VRCExpressionParameters.Parameter
+                    {
+                        defaultValue = 0,
+                        name = expressionItem.parameter,
+                        saved = false,
+                        valueType = VRCExpressionParameters.ValueType.Int
+                    }))
+                .GroupBy(parameter => parameter.name)
+                .Select(group => group.First());
 
             expressionParams.parameters = groups.ToArray();
 
             AssetDatabase.SaveAssets();
-            parametersWizard.outputAsset = expressionParams;
         }
     }
 }

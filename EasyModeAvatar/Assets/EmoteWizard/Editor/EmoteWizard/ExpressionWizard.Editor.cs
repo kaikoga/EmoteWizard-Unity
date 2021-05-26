@@ -58,20 +58,10 @@ namespace EmoteWizard
             expressionWizard.expressionItems = expressionItems;
         }
 
-        VRCExpressionsMenu RebuildOrCreateExpressionsMenu(string defaultRelativePath)
-        {
-            var outputAsset = expressionWizard.outputAsset;
-            var path = outputAsset ? AssetDatabase.GetAssetPath(outputAsset) : expressionWizard.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
-
-            EnsureDirectory(path);
-            var expressionsMenu = CreateInstance<VRCExpressionsMenu>();
-            AssetDatabase.CreateAsset(expressionsMenu, path);
-            return expressionsMenu;
-        }
-
         void BuildExpressionMenu()
         {
-            var expressionMenu = RebuildOrCreateExpressionsMenu("Expressions/GeneratedExprMenu.asset");
+            var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/GeneratedExprMenu.asset");
+
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
 
@@ -98,8 +88,7 @@ namespace EmoteWizard
                 {
                     var childMenu = CreateInstance<VRCExpressionsMenu>();
                     var childPath = $"{rootPath}{group.Path}.asset";
-                    EnsureDirectory(childPath);
-                    AssetDatabase.CreateAsset(childMenu, childPath);
+                    expressionWizard.ReplaceOrCreateOutputAsset(ref childMenu, childPath);
                     menus[group.Path] = childMenu;
                     EditorUtility.SetDirty(childMenu);
                 }
@@ -112,7 +101,6 @@ namespace EmoteWizard
             }
 
             AssetDatabase.SaveAssets();
-            expressionWizard.outputAsset = expressionMenu;
         }
     }
 }
