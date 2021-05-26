@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EmoteWizard.DataObjects
+namespace EmoteWizard.DataObjects.Internal
 {
     public class ExpressionItemSet
     {
