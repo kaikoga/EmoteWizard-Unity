@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using EmoteWizard.DataObjects;
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using static EmoteWizard.Tools.EmoteWizardEditorTools;
 
 namespace EmoteWizard.Base
 {
@@ -27,30 +27,10 @@ namespace EmoteWizard.Base
             }
         }
 
-        AnimatorController RebuildOrCreateAnimatorController(string defaultRelativePath)
-        {
-            var outputAsset = AnimationWizardBase.outputAsset;
-            var path = outputAsset ? AssetDatabase.GetAssetPath(outputAsset) : AnimationWizardBase.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
-
-            EnsureDirectory(path);
-            var animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
-            animatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
-            animatorController.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);
-            animatorController.AddParameter("GestureRight", AnimatorControllerParameterType.Int);
-            animatorController.AddParameter("GestureRightWeight", AnimatorControllerParameterType.Float);
-            return animatorController;
-        }
-
         protected void BuildAnimatorController(string defaultRelativePath, Action<AnimatorController> populateLayers)
         {
-            var animatorController = RebuildOrCreateAnimatorController(defaultRelativePath);
-
+            var animatorController = AnimationWizardBase.ReplaceOrCreateOutputAsset(ref AnimationWizardBase.outputAsset, defaultRelativePath);
             populateLayers(animatorController);
-
-            animatorController.RemoveLayer(0); // Remove Base Layer
-            AssetDatabase.SaveAssets();
-            AnimationWizardBase.outputAsset = animatorController;
-            EditorUtility.SetDirty(animatorController);
         }
 
         protected AnimatorControllerLayer PopulateLayer(AnimatorController animatorController, string layerName, AvatarMask avatarMask = null)

@@ -90,7 +90,6 @@ namespace EmoteWizard
                     var childPath = $"{rootPath}{group.Path}.asset";
                     expressionWizard.ReplaceOrCreateOutputAsset(ref childMenu, childPath);
                     menus[group.Path] = childMenu;
-                    EditorUtility.SetDirty(childMenu);
                 }
             }
             
