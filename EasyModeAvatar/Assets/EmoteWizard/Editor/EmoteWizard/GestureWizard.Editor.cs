@@ -51,10 +51,10 @@ namespace EmoteWizard
                         BuildStaticStateMachine(ambienceLayer.stateMachine, "Ambient", gestureWizard.ambienceClip);
 
                         var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                        BuildStateMachine(leftHandLayer.stateMachine, true);
+                        BuildGestureStateMachine(leftHandLayer.stateMachine, true);
             
                         var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
-                        BuildStateMachine(rightHandLayer.stateMachine, false);
+                        BuildGestureStateMachine(rightHandLayer.stateMachine, false);
                     });
                 }
 

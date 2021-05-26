@@ -64,7 +64,7 @@ namespace EmoteWizard.Base
             stateMachine.defaultState = state;
         }
 
-        protected void BuildStateMachine(AnimatorStateMachine stateMachine, bool isLeft)
+        protected void BuildGestureStateMachine(AnimatorStateMachine stateMachine, bool isLeft)
         {
             var emotes = AnimationWizardBase.emotes;
 
