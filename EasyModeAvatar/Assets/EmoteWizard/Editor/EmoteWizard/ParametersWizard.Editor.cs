@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects.Internal;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
@@ -23,6 +22,8 @@ namespace EmoteWizard
         {
             var serializedObj = this.serializedObject;
 
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
+
             OutputUIArea(parametersWizard, () =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
@@ -37,45 +38,33 @@ namespace EmoteWizard
 
         void BuildExpressionParameters()
         {
+            var vrcDefaultParameters = ExpressionParameterBuilder.ParameterStub.VrcDefaultParameters;
+            var oldParameters = parametersWizard.outputAsset.parameters.ToList();
             var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/GeneratedExprParams.asset");
 
-            var groups = Enumerable.Empty<VRCExpressionParameters.Parameter>()
-                .Concat(parametersWizard.outputAsset.parameters ?? Enumerable.Empty<VRCExpressionParameters.Parameter>() )
-                .Concat(new List<VRCExpressionParameters.Parameter>
-                {
-                    new VRCExpressionParameters.Parameter
-                    {
-                        defaultValue = 0,
-                        name = "VRCEmote",
-                        saved = false,
-                        valueType = VRCExpressionParameters.ValueType.Int
-                    },
-                    new VRCExpressionParameters.Parameter
-                    {
-                        defaultValue = 0,
-                        name = "VRCFaceBlendH",
-                        saved = false,
-                        valueType = VRCExpressionParameters.ValueType.Float
-                    },
-                    new VRCExpressionParameters.Parameter
-                    {
-                        defaultValue = 0,
-                        name = "VRCFaceBlendV",
-                        saved = false,
-                        valueType = VRCExpressionParameters.ValueType.Float
-                    }
-                }).Concat(parametersWizard.GetComponent<ExpressionWizard>().expressionItems
-                    .Select(expressionItem => new VRCExpressionParameters.Parameter
-                    {
-                        defaultValue = 0,
-                        name = expressionItem.parameter,
-                        saved = false,
-                        valueType = VRCExpressionParameters.ValueType.Int
-                    }))
-                .GroupBy(parameter => parameter.name)
-                .Select(group => group.First());
+            var builder = new ExpressionParameterBuilder();
+            // create VRC default parameters entry
+            if (parametersWizard.vrcDefaultParameters)
+            {
+                builder.Import(vrcDefaultParameters);
+            }
+            if (parametersWizard.outputAsset.parameters != null)
+            {
+                builder.Import(oldParameters);
+            }
 
-            expressionParams.parameters = groups.ToArray();
+            foreach (var expressionItem in parametersWizard.GetComponent<ExpressionWizard>().expressionItems)
+            {
+                builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+            }
+
+            // override VRC default parameters with default values
+            if (parametersWizard.vrcDefaultParameters)
+            {
+                builder.Import(vrcDefaultParameters);
+            }
+
+            expressionParams.parameters = builder.Export();
 
             AssetDatabase.SaveAssets();
         }

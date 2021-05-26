@@ -8,5 +8,6 @@ namespace EmoteWizard
     public class ParametersWizard : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
+        [SerializeField] public bool vrcDefaultParameters = true;
     }
 }
