@@ -13,7 +13,7 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public Texture2D icon;
         [SerializeField] public string path;
         [SerializeField] public string parameter;
-        [SerializeField] public int value;
+        [SerializeField] public float value;
         [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
 
         public string Name => Path.GetFileName(path);

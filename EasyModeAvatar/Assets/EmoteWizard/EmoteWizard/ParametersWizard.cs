@@ -13,34 +13,24 @@ namespace EmoteWizard
         [SerializeField] public VRCExpressionParameters outputAsset;
         [SerializeField] public bool vrcDefaultParameters = true;
 
-        public VRCExpressionParameters.Parameter[] ToParameters()
+        public VRCExpressionParameters.Parameter[] ToParameters(bool customOnly = false)
         {
             var vrcDefaultParametersStub = ExpressionParameterBuilder.ParameterStub.VrcDefaultParameters;
             var oldParameters = outputAsset.parameters.ToList();
             var builder = new ExpressionParameterBuilder();
-            // create VRC default parameters entry
-            if (vrcDefaultParameters)
-            {
-                builder.Import(vrcDefaultParametersStub);
-            }
 
-            if (outputAsset.parameters != null)
-            {
-                builder.Import(oldParameters);
-            }
+            builder.Import(vrcDefaultParametersStub); // create VRC default parameters entry
+
+            builder.Import(oldParameters);
 
             foreach (var expressionItem in ExpressionWizard.expressionItems)
             {
                 builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
             }
 
-            // override VRC default parameters with default values
-            if (vrcDefaultParameters)
-            {
-                builder.Import(vrcDefaultParametersStub);
-            }
+            builder.Import(vrcDefaultParametersStub); // override VRC default parameters with default values
 
-            return builder.Export();
+            return builder.Export(customOnly);
         }
     }
 }

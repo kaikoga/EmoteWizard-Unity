@@ -4,8 +4,9 @@ using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
-
+using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
@@ -59,6 +60,14 @@ namespace EmoteWizard
                 
                         var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
                         BuildGestureStateMachine(rightHandLayer.stateMachine, false);
+
+                        foreach (var grouping in fxWizard.ExpressionWizard.GroupExpressionItems)
+                        {
+                            var expressionLayer = PopulateLayer(animatorController, grouping.Key); 
+                            BuildExpressionStateMachine(expressionLayer.stateMachine, grouping.Key, grouping);
+                        }
+                        
+                        BuildParameters(animatorController, fxWizard.ParametersWizard.ToParameters(true));
                     });
                 }
 

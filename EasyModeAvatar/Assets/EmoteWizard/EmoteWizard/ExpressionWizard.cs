@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
 using UnityEngine;
@@ -13,5 +14,8 @@ namespace EmoteWizard
 
         [SerializeField] public VRCExpressionsMenu outputAsset;
         [SerializeField] public bool buildAsSubAsset = true;
+
+        public IEnumerable<IGrouping<string, ExpressionItem>> GroupExpressionItems =>
+            expressionItems.GroupBy(expressionItem => expressionItem.parameter);
     }
 }

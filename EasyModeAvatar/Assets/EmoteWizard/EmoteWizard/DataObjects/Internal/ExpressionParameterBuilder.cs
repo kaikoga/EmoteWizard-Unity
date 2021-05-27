@@ -40,7 +40,10 @@ namespace EmoteWizard.DataObjects.Internal
             }
         }
 
-        public VRCExpressionParameters.Parameter[] Export() => parameters.Select(parameter => parameter.Export()).ToArray();
+        public VRCExpressionParameters.Parameter[] Export(bool customOnly = false) =>
+            parameters.Where(parameter => !customOnly || !parameter.DefaultParameter)
+                .Select(parameter => parameter.Export())
+                .ToArray();
 
         public class ParameterStub
         {
@@ -49,6 +52,7 @@ namespace EmoteWizard.DataObjects.Internal
             public bool Saved = true;
             public float DefaultValue;
             float usageValue;
+            public bool DefaultParameter;
 
             public static List<ParameterStub> VrcDefaultParameters =>
                 new List<ParameterStub>
@@ -58,21 +62,24 @@ namespace EmoteWizard.DataObjects.Internal
                         DefaultValue = 0,
                         Name = "VRCEmote",
                         Saved = false,
-                        ValueTypes = ValueTypes.Int
+                        ValueTypes = ValueTypes.Int,
+                        DefaultParameter = true
                     },
                     new ParameterStub
                     {
                         DefaultValue = 0,
                         Name = "VRCFaceBlendH",
                         Saved = false,
-                        ValueTypes = ValueTypes.Float
+                        ValueTypes = ValueTypes.Float,
+                        DefaultParameter = true
                     },
                     new ParameterStub
                     {
                         DefaultValue = 0,
                         Name = "VRCFaceBlendV",
                         Saved = false,
-                        ValueTypes = ValueTypes.Float
+                        ValueTypes = ValueTypes.Float,
+                        DefaultParameter = true
                     }
                 };
 
@@ -84,7 +91,8 @@ namespace EmoteWizard.DataObjects.Internal
                     ValueTypes = ValueTypes.Bool | ValueTypes.Int | ValueTypes.Float,
                     Saved = false,
                     DefaultValue = 0,
-                    usageValue = 0
+                    usageValue = 0,
+                    DefaultParameter = false
                 };
             }
 
@@ -99,7 +107,7 @@ namespace EmoteWizard.DataObjects.Internal
                 {
                     ValueTypes &= ~ValueTypes.Float;
                 }
-                if (value % 1f > 0f)
+                if (Mathf.Abs(value % 1f) > 0f)
                 {
                     ValueTypes &= ~ValueTypes.Int;
                 }
@@ -120,12 +128,12 @@ namespace EmoteWizard.DataObjects.Internal
                         ValueTypes = ValueTypes.Float;
                         break;
                     case VRCExpressionParameters.ValueType.Bool:
-                        ValueTypes = ValueTypes.Bool;
+                        ValueTypes = ValueTypes.Bool | ValueTypes.Int | ValueTypes.Float;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                usageValue = 0x7fffffff;
+                usageValue = 0f;
             }
 
             public void Import(ParameterStub parameter)
@@ -134,7 +142,8 @@ namespace EmoteWizard.DataObjects.Internal
                 Saved = parameter.Saved;
                 DefaultValue = parameter.DefaultValue;
                 ValueTypes = parameter.ValueTypes;
-                usageValue = 0x7fffffff;
+                usageValue = 0f;
+                DefaultParameter |= parameter.DefaultParameter;
             }
 
             public VRCExpressionParameters.Parameter Export()
@@ -143,8 +152,11 @@ namespace EmoteWizard.DataObjects.Internal
                 {
                     if (ValueTypes.HasFlag(ValueTypes.Bool)) return VRCExpressionParameters.ValueType.Bool;
                     if (ValueTypes.HasFlag(ValueTypes.Int)) return VRCExpressionParameters.ValueType.Int;
-                    return VRCExpressionParameters.ValueType.Float;
+                    if (ValueTypes.HasFlag(ValueTypes.Float)) return VRCExpressionParameters.ValueType.Float;
+                    return VRCExpressionParameters.ValueType.Int;
                 }
+
+                // Debug.Log($"Name {Name} ValueType {ValueTypes} => {GuessValueType()}");
 
                 return new VRCExpressionParameters.Parameter
                 {

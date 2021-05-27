@@ -7,6 +7,7 @@ namespace EmoteWizard.Base
     {
         public EmoteWizardRoot EmoteWizardRoot => GetComponent<EmoteWizardRoot>();
         public ExpressionWizard ExpressionWizard => GetComponent<ExpressionWizard>();
+        public ParametersWizard ParametersWizard => GetComponent<ParametersWizard>();
 
         public bool IsSetupMode => GetComponent<SetupWizard>();
     }

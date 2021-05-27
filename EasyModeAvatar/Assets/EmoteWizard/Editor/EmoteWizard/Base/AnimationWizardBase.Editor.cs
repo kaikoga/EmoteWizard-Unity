@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace EmoteWizard.Base
 {
@@ -92,6 +94,65 @@ namespace EmoteWizard.Base
             }
             
             stateMachine.defaultState = stateMachine.states[0].state;
+        }
+
+        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, string parameterName,
+            IEnumerable<ExpressionItem> expressionItems)
+        {
+            stateMachine.anyStatePosition = new Vector2(0, 0);
+            stateMachine.entryPosition = new Vector2(0, 100);
+            stateMachine.exitPosition = new Vector2(0, 200);
+
+            var position = new Vector2(300, 0);
+            {
+                var state = stateMachine.AddState($"{parameterName} off", position);
+                state.motion = AnimationWizardBase.EmoteWizardRoot.emptyClip;
+                state.writeDefaultValues = false;
+                var transition = stateMachine.AddAnyStateTransition(state);
+                transition.AddCondition(AnimatorConditionMode.Equals, 0, parameterName);
+                transition.hasExitTime = false;
+                transition.duration = 0.1f;
+                transition.canTransitionToSelf = false;
+                position.y += 60;
+            }
+
+            foreach (var expressionItem in expressionItems)
+            {
+                var state = stateMachine.AddState($"{expressionItem.parameter} = {expressionItem.value}", position);
+                state.motion = AnimationWizardBase.EmoteWizardRoot.emptyClip;
+                state.writeDefaultValues = false;
+                var transition = stateMachine.AddAnyStateTransition(state);
+                // FIXME: bool params use If and IfNot
+                transition.AddCondition(AnimatorConditionMode.Equals, expressionItem.value, expressionItem.parameter);
+                transition.hasExitTime = false;
+                transition.duration = 0.1f;
+                transition.canTransitionToSelf = false;
+                position.y += 60;
+            }
+        }
+
+        protected void BuildParameters(AnimatorController animatorController, IEnumerable<VRCExpressionParameters.Parameter> parameters)
+        {
+            foreach (var parameter in parameters)
+            {
+                var parameterName = parameter.name;
+                AnimatorControllerParameterType parameterType;
+                switch (parameter.valueType)
+                {
+                    case VRCExpressionParameters.ValueType.Int:
+                        parameterType = AnimatorControllerParameterType.Int;
+                        break;
+                    case VRCExpressionParameters.ValueType.Float:
+                        parameterType = AnimatorControllerParameterType.Float;
+                        break;
+                    case VRCExpressionParameters.ValueType.Bool:
+                        parameterType = AnimatorControllerParameterType.Bool;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                animatorController.AddParameter(parameterName, parameterType);
+            }
         }
     }
 }
