@@ -5,41 +5,42 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace EmoteWizard.DataObjects
 {
+    [Serializable]
     public class ParameterItem
     {
-        public string Name;
-        public ParameterValueTypeFlags ValueTypeFlags;
-        public bool Saved = true;
-        public float DefaultValue;
+        public string name;
+        public ParameterValueTypeFlags valueTypeFlags;
+        public bool saved = true;
+        public float defaultValue;
         float usageValue;
-        public bool DefaultParameter;
+        public bool defaultParameter;
 
         public static List<ParameterItem> VrcDefaultParameters =>
             new List<ParameterItem>
             {
                 new ParameterItem
                 {
-                    DefaultValue = 0,
-                    Name = "VRCEmote",
-                    Saved = false,
-                    ValueTypeFlags = ParameterValueTypeFlags.Int,
-                    DefaultParameter = true
+                    defaultValue = 0,
+                    name = "VRCEmote",
+                    saved = false,
+                    valueTypeFlags = ParameterValueTypeFlags.Int,
+                    defaultParameter = true
                 },
                 new ParameterItem
                 {
-                    DefaultValue = 0,
-                    Name = "VRCFaceBlendH",
-                    Saved = false,
-                    ValueTypeFlags = ParameterValueTypeFlags.Float,
-                    DefaultParameter = true
+                    defaultValue = 0,
+                    name = "VRCFaceBlendH",
+                    saved = false,
+                    valueTypeFlags = ParameterValueTypeFlags.Float,
+                    defaultParameter = true
                 },
                 new ParameterItem
                 {
-                    DefaultValue = 0,
-                    Name = "VRCFaceBlendV",
-                    Saved = false,
-                    ValueTypeFlags = ParameterValueTypeFlags.Float,
-                    DefaultParameter = true
+                    defaultValue = 0,
+                    name = "VRCFaceBlendV",
+                    saved = false,
+                    valueTypeFlags = ParameterValueTypeFlags.Float,
+                    defaultParameter = true
                 }
             };
 
@@ -47,13 +48,21 @@ namespace EmoteWizard.DataObjects
         {
             return new ParameterItem
             {
-                Name = name,
-                ValueTypeFlags = ParameterValueTypeFlags.Bool | ParameterValueTypeFlags.Int | ParameterValueTypeFlags.Float,
-                Saved = false,
-                DefaultValue = 0,
+                name = name,
+                valueTypeFlags = ParameterValueTypeFlags.Bool | ParameterValueTypeFlags.Int | ParameterValueTypeFlags.Float,
+                saved = false,
+                defaultValue = 0,
                 usageValue = 0,
-                DefaultParameter = false
+                defaultParameter = false
             };
+        }
+
+        public VRCExpressionParameters.ValueType GuessValueType()
+        {
+            if (valueTypeFlags.HasFlag(ParameterValueTypeFlags.Bool)) return VRCExpressionParameters.ValueType.Bool;
+            if (valueTypeFlags.HasFlag(ParameterValueTypeFlags.Int)) return VRCExpressionParameters.ValueType.Int;
+            if (valueTypeFlags.HasFlag(ParameterValueTypeFlags.Float)) return VRCExpressionParameters.ValueType.Float;
+            return VRCExpressionParameters.ValueType.Int;
         }
 
         public void AddUsage(float value)
@@ -61,34 +70,34 @@ namespace EmoteWizard.DataObjects
             const float epsilon = 0.00001f;
             if (usageValue != 0 && Mathf.Abs(usageValue - value) > epsilon)
             {
-                ValueTypeFlags &= ~ParameterValueTypeFlags.Bool;
+                valueTypeFlags &= ~ParameterValueTypeFlags.Bool;
             }
             if (value > 1)
             {
-                ValueTypeFlags &= ~ParameterValueTypeFlags.Float;
+                valueTypeFlags &= ~ParameterValueTypeFlags.Float;
             }
             if (Mathf.Abs(value % 1f) > 0f)
             {
-                ValueTypeFlags &= ~ParameterValueTypeFlags.Int;
+                valueTypeFlags &= ~ParameterValueTypeFlags.Int;
             }
             usageValue = value;
         }
 
         public void Import(VRCExpressionParameters.Parameter parameter)
         {
-            Name = parameter.name;
-            Saved = parameter.saved;
-            DefaultValue = parameter.defaultValue;
+            name = parameter.name;
+            saved = parameter.saved;
+            defaultValue = parameter.defaultValue;
             switch (parameter.valueType)
             {
                 case VRCExpressionParameters.ValueType.Int:
-                    ValueTypeFlags = ParameterValueTypeFlags.Int;
+                    valueTypeFlags = ParameterValueTypeFlags.Int;
                     break;
                 case VRCExpressionParameters.ValueType.Float:
-                    ValueTypeFlags = ParameterValueTypeFlags.Float;
+                    valueTypeFlags = ParameterValueTypeFlags.Float;
                     break;
                 case VRCExpressionParameters.ValueType.Bool:
-                    ValueTypeFlags = ParameterValueTypeFlags.Bool | ParameterValueTypeFlags.Int | ParameterValueTypeFlags.Float;
+                    valueTypeFlags = ParameterValueTypeFlags.Bool | ParameterValueTypeFlags.Int | ParameterValueTypeFlags.Float;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -98,31 +107,23 @@ namespace EmoteWizard.DataObjects
 
         public void Import(ParameterItem parameter)
         {
-            Name = parameter.Name;
-            Saved = parameter.Saved;
-            DefaultValue = parameter.DefaultValue;
-            ValueTypeFlags = parameter.ValueTypeFlags;
+            name = parameter.name;
+            saved = parameter.saved;
+            defaultValue = parameter.defaultValue;
+            valueTypeFlags = parameter.valueTypeFlags;
             usageValue = 0f;
-            DefaultParameter |= parameter.DefaultParameter;
+            defaultParameter |= parameter.defaultParameter;
         }
 
         public VRCExpressionParameters.Parameter Export()
         {
-            VRCExpressionParameters.ValueType GuessValueType()
-            {
-                if (ValueTypeFlags.HasFlag(ParameterValueTypeFlags.Bool)) return VRCExpressionParameters.ValueType.Bool;
-                if (ValueTypeFlags.HasFlag(ParameterValueTypeFlags.Int)) return VRCExpressionParameters.ValueType.Int;
-                if (ValueTypeFlags.HasFlag(ParameterValueTypeFlags.Float)) return VRCExpressionParameters.ValueType.Float;
-                return VRCExpressionParameters.ValueType.Int;
-            }
-
             // Debug.Log($"Name {Name} ValueType {ValueTypes} => {GuessValueType()}");
 
             return new VRCExpressionParameters.Parameter
             {
-                name = Name,
-                saved = Saved,
-                defaultValue = DefaultValue,
+                name = name,
+                saved = saved,
+                defaultValue = defaultValue,
                 valueType = GuessValueType()
             };
         }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
@@ -13,9 +14,11 @@ namespace EmoteWizard
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
         [SerializeField] public bool vrcDefaultParameters = true;
+        [SerializeField] public List<ParameterItem> parameterItems;
 
-        public VRCExpressionParameters.Parameter[] ToParameters(bool customOnly = false)
+        public void RefreshParameters()
         {
+            var customOnly = !vrcDefaultParameters;
             var vrcDefaultParametersStub = ParameterItem.VrcDefaultParameters;
             var oldParameters = outputAsset.parameters.ToList();
             var builder = new ExpressionParameterBuilder();
@@ -31,7 +34,13 @@ namespace EmoteWizard
 
             builder.Import(vrcDefaultParametersStub); // override VRC default parameters with default values
 
-            return builder.Export(customOnly);
+            parameterItems = builder.ParameterItems.Where(parameter => !customOnly || !parameter.defaultParameter).ToList();
+        }
+
+        public VRCExpressionParameters.Parameter[] ToParameters()
+        {
+            RefreshParameters(); 
+            return parameterItems.Select(parameter => parameter.Export()).ToArray();
         }
     }
 }

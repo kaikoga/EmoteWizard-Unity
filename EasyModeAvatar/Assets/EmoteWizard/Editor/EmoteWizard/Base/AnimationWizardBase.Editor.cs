@@ -131,13 +131,15 @@ namespace EmoteWizard.Base
             }
         }
 
-        protected void BuildParameters(AnimatorController animatorController, IEnumerable<VRCExpressionParameters.Parameter> parameters)
+        protected void BuildParameters(AnimatorController animatorController, IEnumerable<ParameterItem> parameters)
         {
             foreach (var parameter in parameters)
             {
+                if (parameter.defaultParameter) continue;
+
                 var parameterName = parameter.name;
                 AnimatorControllerParameterType parameterType;
-                switch (parameter.valueType)
+                switch (parameter.GuessValueType())
                 {
                     case VRCExpressionParameters.ValueType.Int:
                         parameterType = AnimatorControllerParameterType.Int;

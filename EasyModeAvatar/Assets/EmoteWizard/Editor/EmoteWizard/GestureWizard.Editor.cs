@@ -62,7 +62,7 @@ namespace EmoteWizard
                             BuildExpressionStateMachine(expressionLayer.stateMachine, grouping.Key, grouping);
                         }
 
-                        BuildParameters(animatorController, gestureWizard.ParametersWizard.ToParameters(true));
+                        BuildParameters(animatorController, gestureWizard.ParametersWizard.parameterItems);
                     });
                 }
 

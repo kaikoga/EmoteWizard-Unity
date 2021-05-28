@@ -21,6 +21,11 @@ namespace EmoteWizard
             var serializedObj = this.serializedObject;
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
+            if (GUILayout.Button("Collect Parameters"))
+            {
+                parametersWizard.RefreshParameters();
+            }
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("parameterItems"), true);
 
             OutputUIArea(parametersWizard, () =>
             {
@@ -38,7 +43,7 @@ namespace EmoteWizard
         {
             var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/GeneratedExprParams.asset");
 
-            expressionParams.parameters = parametersWizard.ToParameters(!parametersWizard.vrcDefaultParameters);
+            expressionParams.parameters = parametersWizard.ToParameters();
 
             AssetDatabase.SaveAssets();
         }

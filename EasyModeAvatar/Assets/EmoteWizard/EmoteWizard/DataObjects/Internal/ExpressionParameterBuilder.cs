@@ -6,19 +6,20 @@ namespace EmoteWizard.DataObjects.Internal
 {
     public class ExpressionParameterBuilder
     {
-        List<ParameterItem> parameters;
+        readonly List<ParameterItem> parameterItems;
+        public IEnumerable<ParameterItem> ParameterItems => parameterItems;
 
         public ExpressionParameterBuilder()
         {
-            parameters = new List<ParameterItem>();
+            parameterItems = new List<ParameterItem>();
         }
 
         public ParameterItem FindOrCreate(string name)
         {
-            var result = parameters.FirstOrDefault(parameter => parameter.Name == name);
+            var result = parameterItems.FirstOrDefault(parameter => parameter.name == name);
             if (result != null) return result;
             result = ParameterItem.Populate(name);
-            parameters.Add(result);
+            parameterItems.Add(result);
             return result;
         }
 
@@ -34,13 +35,8 @@ namespace EmoteWizard.DataObjects.Internal
         {
             foreach (var parameter in parameters)
             {
-                FindOrCreate(parameter.Name).Import(parameter);
+                FindOrCreate(parameter.name).Import(parameter);
             }
         }
-
-        public VRCExpressionParameters.Parameter[] Export(bool customOnly = false) =>
-            parameters.Where(parameter => !customOnly || !parameter.DefaultParameter)
-                .Select(parameter => parameter.Export())
-                .ToArray();
     }
 }
