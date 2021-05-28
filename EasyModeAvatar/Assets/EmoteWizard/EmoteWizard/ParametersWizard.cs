@@ -1,5 +1,6 @@
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects;
 using EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -15,7 +16,7 @@ namespace EmoteWizard
 
         public VRCExpressionParameters.Parameter[] ToParameters(bool customOnly = false)
         {
-            var vrcDefaultParametersStub = ExpressionParameterBuilder.ParameterStub.VrcDefaultParameters;
+            var vrcDefaultParametersStub = ParameterItem.VrcDefaultParameters;
             var oldParameters = outputAsset.parameters.ToList();
             var builder = new ExpressionParameterBuilder();
 
