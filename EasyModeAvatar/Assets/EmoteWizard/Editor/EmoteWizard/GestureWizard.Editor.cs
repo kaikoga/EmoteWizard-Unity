@@ -56,13 +56,13 @@ namespace EmoteWizard
                         var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
                         BuildGestureStateMachine(rightHandLayer.stateMachine, false);
 
-                        foreach (var grouping in gestureWizard.ParametersWizard.WithExpressionItems())
+                        foreach (var parameterItem in gestureWizard.ParametersWizard.CustomParameterItems)
                         {
-                            var expressionLayer = PopulateLayer(animatorController, grouping.Key.name); 
-                            BuildExpressionStateMachine(expressionLayer.stateMachine, grouping.Key, grouping);
+                            var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
+                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem);
                         }
 
-                        BuildParameters(animatorController, gestureWizard.ParametersWizard.parameterItems);
+                        BuildParameters(animatorController, gestureWizard.ParametersWizard.CustomParameterItems);
                     });
                 }
 
