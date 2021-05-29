@@ -1,4 +1,5 @@
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -25,6 +26,8 @@ namespace EmoteWizard
             {
                 parametersWizard.RefreshParameters();
             }
+
+            ParameterItemDrawer.DrawHeader();
             EditorGUILayout.PropertyField(serializedObj.FindProperty("parameterItems"), true);
 
             OutputUIArea(parametersWizard, () =>

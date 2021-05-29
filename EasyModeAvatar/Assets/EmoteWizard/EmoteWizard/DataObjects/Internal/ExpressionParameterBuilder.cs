@@ -6,19 +6,19 @@ namespace EmoteWizard.DataObjects.Internal
 {
     public class ExpressionParameterBuilder
     {
-        readonly List<ParameterItem> parameterItems;
-        public IEnumerable<ParameterItem> ParameterItems => parameterItems;
+        readonly List<ParameterItemBuilder> parameterItems;
+        public IEnumerable<ParameterItem> ParameterItems => parameterItems.Select(item => item.Export());
 
         public ExpressionParameterBuilder()
         {
-            parameterItems = new List<ParameterItem>();
+            parameterItems = new List<ParameterItemBuilder>();
         }
 
-        public ParameterItem FindOrCreate(string name)
+        public ParameterItemBuilder FindOrCreate(string name)
         {
             var result = parameterItems.FirstOrDefault(parameter => parameter.name == name);
             if (result != null) return result;
-            result = ParameterItem.Populate(name);
+            result = ParameterItemBuilder.Populate(name);
             parameterItems.Add(result);
             return result;
         }

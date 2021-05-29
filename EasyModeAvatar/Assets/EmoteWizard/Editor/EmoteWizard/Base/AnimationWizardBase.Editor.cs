@@ -139,7 +139,7 @@ namespace EmoteWizard.Base
 
                 var parameterName = parameter.name;
                 AnimatorControllerParameterType parameterType;
-                switch (parameter.GuessValueType())
+                switch (parameter.valueType)
                 {
                     case VRCExpressionParameters.ValueType.Int:
                         parameterType = AnimatorControllerParameterType.Int;

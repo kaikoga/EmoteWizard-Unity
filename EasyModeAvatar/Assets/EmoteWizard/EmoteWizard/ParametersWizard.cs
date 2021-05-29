@@ -40,7 +40,7 @@ namespace EmoteWizard
         public VRCExpressionParameters.Parameter[] ToParameters()
         {
             RefreshParameters(); 
-            return parameterItems.Select(parameter => parameter.Export()).ToArray();
+            return parameterItems.Select(parameter => parameter.ToParameter()).ToArray();
         }
     }
 }
