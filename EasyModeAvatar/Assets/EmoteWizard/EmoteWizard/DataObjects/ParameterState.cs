@@ -7,6 +7,7 @@ namespace EmoteWizard.DataObjects
     public class ParameterState
     {
         public float value;
-        public AnimationClip clip;
+        public AnimationClip gestureClip;
+        public AnimationClip fxClip;
     }
 }

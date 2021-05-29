@@ -111,7 +111,8 @@ namespace EmoteWizard.DataObjects.Internal
                     .Select(group => new ParameterState
                     {
                         value = group.Key,
-                        clip = group.Select(state => state.clip).FirstOrDefault(clip => clip != null)
+                        gestureClip = group.Select(state => state.gestureClip).FirstOrDefault(clip => clip != null),
+                        fxClip = group.Select(state => state.fxClip).FirstOrDefault(clip => clip != null)
                     })
                     .OrderBy(state => state.value)
                     .ToList()

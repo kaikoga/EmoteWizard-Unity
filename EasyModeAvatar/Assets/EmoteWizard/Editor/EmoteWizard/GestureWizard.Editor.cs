@@ -59,7 +59,7 @@ namespace EmoteWizard
                         foreach (var parameterItem in gestureWizard.ParametersWizard.CustomParameterItems)
                         {
                             var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
-                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem);
+                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, false);
                         }
 
                         BuildParameters(animatorController, gestureWizard.ParametersWizard.CustomParameterItems);

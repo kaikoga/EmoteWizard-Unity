@@ -9,7 +9,7 @@ namespace EmoteWizard.DataObjects
     {
         public static void DrawHeader()
         {
-            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(1)));
+            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
             GUI.Box(position, GUIContent.none);
             position = InsideBox(position);
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
@@ -18,6 +18,10 @@ namespace EmoteWizard.DataObjects
                 GUI.Label(new Rect(position.x + position.width * 0.40f, position.y + LineTop(0), position.width * 0.25f, LineHeight(1)), "Type");
                 GUI.Label(new Rect(position.x + position.width * 0.65f, position.y + LineTop(0), position.width * 0.20f, LineHeight(1)), "Default");
                 GUI.Label(new Rect(position.x + position.width * 0.85f, position.y + LineTop(0), position.width * 0.15f, LineHeight(1)), "Saved");
+
+                GUI.Label(new Rect(position.x + position.width * 0.00f, position.y + LineTop(1), position.width * 0.20f, LineHeight(1)), "Value");
+                GUI.Label(new Rect(position.x + position.width * 0.20f, position.y + LineTop(1), position.width * 0.40f, LineHeight(1)), "Gesture Clip");
+                GUI.Label(new Rect(position.x + position.width * 0.60f, position.y + LineTop(1), position.width * 0.40f, LineHeight(1)), "FX Clip");
             }
         }
 
