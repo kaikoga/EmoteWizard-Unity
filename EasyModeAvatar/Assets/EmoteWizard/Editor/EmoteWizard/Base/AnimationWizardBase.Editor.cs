@@ -96,37 +96,51 @@ namespace EmoteWizard.Base
             stateMachine.defaultState = stateMachine.states[0].state;
         }
 
-        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, string parameterName,
+        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterItem parameterItem,
             IEnumerable<ExpressionItem> expressionItems)
         {
+            void AddTransition(AnimatorState state, string parameterName, float value)
+            {
+                AnimatorStateTransition transition;
+                switch (parameterItem.valueType)
+                {
+                    case VRCExpressionParameters.ValueType.Int:
+                        transition = stateMachine.AddAnyStateTransition(state);
+                        transition.AddCondition(AnimatorConditionMode.Equals, value, parameterName);
+                        break;
+                    case VRCExpressionParameters.ValueType.Float:
+                        return; // TODO
+                    case VRCExpressionParameters.ValueType.Bool:
+                        transition = stateMachine.AddAnyStateTransition(state);
+                        transition.AddCondition(value != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, value, parameterName);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                transition.hasExitTime = false;
+                transition.duration = 0.1f;
+                transition.canTransitionToSelf = false;
+            }
+
             stateMachine.anyStatePosition = new Vector2(0, 0);
             stateMachine.entryPosition = new Vector2(0, 100);
             stateMachine.exitPosition = new Vector2(0, 200);
 
             var position = new Vector2(300, 0);
             {
-                var state = stateMachine.AddState($"{parameterName} off", position);
+                var state = stateMachine.AddState($"{parameterItem.name} off", position);
                 state.motion = AnimationWizardBase.EmoteWizardRoot.emptyClip;
                 state.writeDefaultValues = false;
-                var transition = stateMachine.AddAnyStateTransition(state);
-                transition.AddCondition(AnimatorConditionMode.Equals, 0, parameterName);
-                transition.hasExitTime = false;
-                transition.duration = 0.1f;
-                transition.canTransitionToSelf = false;
+                AddTransition(state, parameterItem.name, 0f);
                 position.y += 60;
             }
 
             foreach (var expressionItem in expressionItems)
             {
-                var state = stateMachine.AddState($"{expressionItem.parameter} = {expressionItem.value}", position);
+                var state = stateMachine.AddState($"{parameterItem.name} = {expressionItem.value}", position);
                 state.motion = AnimationWizardBase.EmoteWizardRoot.emptyClip;
                 state.writeDefaultValues = false;
-                var transition = stateMachine.AddAnyStateTransition(state);
-                // FIXME: bool params use If and IfNot
-                transition.AddCondition(AnimatorConditionMode.Equals, expressionItem.value, expressionItem.parameter);
-                transition.hasExitTime = false;
-                transition.duration = 0.1f;
-                transition.canTransitionToSelf = false;
+                AddTransition(state, parameterItem.name, expressionItem.value);
                 position.y += 60;
             }
         }

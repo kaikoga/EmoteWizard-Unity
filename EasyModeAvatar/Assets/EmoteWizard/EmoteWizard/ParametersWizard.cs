@@ -16,6 +16,8 @@ namespace EmoteWizard
         [SerializeField] public bool vrcDefaultParameters = true;
         [SerializeField] public List<ParameterItem> parameterItems;
 
+        ExpressionWizard ExpressionWizard => GetComponent<ExpressionWizard>();
+
         public void RefreshParameters()
         {
             var customOnly = !vrcDefaultParameters;
@@ -35,6 +37,14 @@ namespace EmoteWizard
             builder.Import(vrcDefaultParametersStub); // override VRC default parameters with default values
 
             parameterItems = builder.ParameterItems.Where(parameter => !customOnly || !parameter.defaultParameter).ToList();
+        }
+
+
+        public IEnumerable<IGrouping<ParameterItem, ExpressionItem>> WithExpressionItems()
+        {
+            RefreshParameters();
+            return ExpressionWizard.expressionItems.GroupBy(expressionItem =>
+                parameterItems.First(parameterItem => parameterItem.name == expressionItem.parameter));
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()
