@@ -30,24 +30,28 @@ namespace EmoteWizard.DataObjects
 
             position = InsideBox(position);
             using (new EditorGUI.PropertyScope(position, label, property))
-            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                var labelWidth = EditorGUIUtility.labelWidth;
-                EditorGUIUtility.labelWidth = 1f;
-                using (new EditorGUI.DisabledScope(defaultParameter))
+                using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
-                    EditorGUI.PropertyField(new Rect(position.x + position.width * 0.00f, position.y + LineTop(0), position.width * 0.40f, LineHeight(1)), property.FindPropertyRelative("name"), new GUIContent(" "));
-                    EditorGUI.PropertyField(new Rect(position.x + position.width * 0.40f, position.y + LineTop(0), position.width * 0.25f, LineHeight(1)), property.FindPropertyRelative("valueType"), new GUIContent(" "));
-                    EditorGUI.PropertyField(new Rect(position.x + position.width * 0.65f, position.y + LineTop(0), position.width * 0.20f, LineHeight(1)), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
-                    EditorGUI.PropertyField(new Rect(position.x + position.width * 0.85f, position.y + LineTop(0), position.width * 0.15f, LineHeight(1)), property.FindPropertyRelative("saved"));
+                    var labelWidth = EditorGUIUtility.labelWidth;
+                    EditorGUIUtility.labelWidth = 1f;
+                    using (new EditorGUI.DisabledScope(defaultParameter))
+                    {
+                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.00f, position.y + LineTop(0), position.width * 0.40f, LineHeight(1)), property.FindPropertyRelative("name"), new GUIContent(" "));
+                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.40f, position.y + LineTop(0), position.width * 0.25f, LineHeight(1)), property.FindPropertyRelative("valueType"), new GUIContent(" "));
+                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.65f, position.y + LineTop(0), position.width * 0.20f, LineHeight(1)), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
+                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.85f, position.y + LineTop(0), position.width * 0.15f, LineHeight(1)), property.FindPropertyRelative("saved"));
+                    }
+                    EditorGUIUtility.labelWidth = labelWidth;
                 }
-                EditorGUIUtility.labelWidth = labelWidth;
+
+                EditorGUI.PropertyField(new Rect(position.x, position.y + LineTop(1), position.width, position.height - LineHeight(1)), property.FindPropertyRelative("states"), true);
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return BoxHeight(LineHeight(1f));
+            return BoxHeight(LineHeight(1f) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("states"), true));
         }
     }
 }

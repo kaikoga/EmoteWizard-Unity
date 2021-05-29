@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -12,6 +14,7 @@ namespace EmoteWizard.DataObjects.Internal
         float defaultValue;
         float usageValue;
         bool defaultParameter;
+        readonly List<ParameterState> states = new List<ParameterState>();
 
         VRCExpressionParameters.ValueType ConvertValueType
         {
@@ -50,7 +53,8 @@ namespace EmoteWizard.DataObjects.Internal
                 saved = false,
                 defaultValue = 0,
                 usageValue = 0,
-                defaultParameter = false
+                defaultParameter = false,
+                states = { new ParameterState {value = 0} }
             };
         }
 
@@ -70,6 +74,7 @@ namespace EmoteWizard.DataObjects.Internal
                 valueTypeFlags &= ~ParameterValueTypeFlags.Int;
             }
             usageValue = value;
+            states.Add(new ParameterState { value = value } );
         }
 
         public void Import(VRCExpressionParameters.Parameter parameter)
@@ -89,6 +94,7 @@ namespace EmoteWizard.DataObjects.Internal
             ConvertValueType = parameter.valueType;
             usageValue = 0f;
             defaultParameter |= parameter.defaultParameter;
+            if (parameter.states != null) states.AddRange(parameter.states);
         }
 
         public ParameterItem Export()
@@ -99,7 +105,16 @@ namespace EmoteWizard.DataObjects.Internal
                 saved = saved,
                 defaultValue = defaultValue,
                 valueType = ConvertValueType,
-                defaultParameter = defaultParameter
+                defaultParameter = defaultParameter,
+                states = states.Where(_ => !defaultParameter)
+                    .GroupBy(state => state.value)
+                    .Select(group => new ParameterState
+                    {
+                        value = group.Key,
+                        clip = group.Select(state => state.clip).FirstOrDefault(clip => clip != null)
+                    })
+                    .OrderBy(state => state.value)
+                    .ToList()
             };
         }
     }

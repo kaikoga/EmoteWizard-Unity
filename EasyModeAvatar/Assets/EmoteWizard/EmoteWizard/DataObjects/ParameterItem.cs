@@ -12,6 +12,7 @@ namespace EmoteWizard.DataObjects
         public bool saved = true;
         public float defaultValue;
         public bool defaultParameter;
+        public List<ParameterState> states;
 
         public static List<ParameterItem> VrcDefaultParameters =>
             new List<ParameterItem>
