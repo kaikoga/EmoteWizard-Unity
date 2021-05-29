@@ -21,6 +21,15 @@ namespace EmoteWizard
         {
             var serializedObj = this.serializedObject;
 
+            SetupOnlyUI(parametersWizard, () =>
+            {
+                if (GUILayout.Button("Repopulate Parameters"))
+                {
+                    parametersWizard.parameterItems.Clear();
+                    parametersWizard.RefreshParameters();
+                }
+            });
+
             EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
             if (GUILayout.Button("Collect Parameters"))
             {
