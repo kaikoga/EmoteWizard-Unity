@@ -7,7 +7,7 @@ namespace EmoteWizard
     public class FxWizard : AnimationWizardBase
     {
         [SerializeField] public AnimationClip resetClip;
-        [SerializeField] public AnimationClip globalClip;
-        [SerializeField] public AnimationClip ambienceClip;
+        [SerializeField] public Motion globalClip;
+        [SerializeField] public Motion ambienceClip;
     }
 }
