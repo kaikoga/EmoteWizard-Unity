@@ -1,3 +1,4 @@
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,9 +14,9 @@ namespace EmoteWizard.DataObjects
             {
                 var labelWidth = EditorGUIUtility.labelWidth;
                 EditorGUIUtility.labelWidth = 1f;
-                EditorGUI.PropertyField(new Rect(position.x + position.width * 0.00f, position.y, position.width * 0.50f, position.height), property.FindPropertyRelative("parameter"), new GUIContent(" "));
-                EditorGUI.PropertyField(new Rect(position.x + position.width * 0.50f, position.y, position.width * 0.25f, position.height), property.FindPropertyRelative("mode"), new GUIContent(" "));
-                EditorGUI.PropertyField(new Rect(position.x + position.width * 0.75f, position.y, position.width * 0.25f, position.height), property.FindPropertyRelative("threshold"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.SliceH(0.00f, 0.50f), property.FindPropertyRelative("parameter"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.SliceH(0.50f, 0.25f), property.FindPropertyRelative("mode"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.SliceH(0.75f, 0.50f), property.FindPropertyRelative("threshold"), new GUIContent(" "));
                 EditorGUIUtility.labelWidth = labelWidth;
             }
         }

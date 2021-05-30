@@ -11,8 +11,8 @@ namespace EmoteWizard.DataObjects
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             GUI.Box(position, GUIContent.none);
-            position = PropertyDrawerUITools.InsideBox(position);
-            var cursor = new Rect(position.x, position.y, position.width, PropertyDrawerUITools.LineHeight(1));
+            position = position.InsideBox();
+            var cursor = position.SliceV(0, 1);
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 var labelWidth = EditorGUIUtility.labelWidth;

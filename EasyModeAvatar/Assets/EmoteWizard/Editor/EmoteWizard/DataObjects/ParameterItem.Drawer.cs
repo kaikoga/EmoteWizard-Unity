@@ -1,3 +1,4 @@
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Extensions.PropertyDrawerUITools;
@@ -11,17 +12,17 @@ namespace EmoteWizard.DataObjects
         {
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
             GUI.Box(position, GUIContent.none);
-            position = InsideBox(position);
+            position = position.InsideBox();
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                GUI.Label(new Rect(position.x + position.width * 0.00f, position.y + LineTop(0), position.width * 0.40f, LineHeight(1)), "Name");
-                GUI.Label(new Rect(position.x + position.width * 0.40f, position.y + LineTop(0), position.width * 0.25f, LineHeight(1)), "Type");
-                GUI.Label(new Rect(position.x + position.width * 0.65f, position.y + LineTop(0), position.width * 0.20f, LineHeight(1)), "Default");
-                GUI.Label(new Rect(position.x + position.width * 0.85f, position.y + LineTop(0), position.width * 0.15f, LineHeight(1)), "Saved");
+                GUI.Label(position.Slice(0.00f, 0.40f, 0), "Name");
+                GUI.Label(position.Slice(0.40f, 0.25f, 0), "Type");
+                GUI.Label(position.Slice(0.65f, 0.20f, 0), "Default");
+                GUI.Label(position.Slice(0.85f, 0.15f, 0), "Saved");
 
-                GUI.Label(new Rect(position.x + position.width * 0.00f, position.y + LineTop(1), position.width * 0.20f, LineHeight(1)), "Value");
-                GUI.Label(new Rect(position.x + position.width * 0.20f, position.y + LineTop(1), position.width * 0.40f, LineHeight(1)), "Gesture Clip");
-                GUI.Label(new Rect(position.x + position.width * 0.60f, position.y + LineTop(1), position.width * 0.40f, LineHeight(1)), "FX Clip");
+                GUI.Label(position.Slice(0.00f, 0.20f, 1), "Value");
+                GUI.Label(position.Slice(0.20f, 0.40f, 1), "Gesture Clip");
+                GUI.Label(position.Slice(0.60f, 0.40f, 1), "FX Clip");
             }
         }
 
@@ -32,7 +33,7 @@ namespace EmoteWizard.DataObjects
             GUI.Box(position, GUIContent.none);
             // GUI.backgroundColor = Color.white;
 
-            position = InsideBox(position);
+            position = position.InsideBox();
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
@@ -41,15 +42,15 @@ namespace EmoteWizard.DataObjects
                     EditorGUIUtility.labelWidth = 1f;
                     using (new EditorGUI.DisabledScope(defaultParameter))
                     {
-                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.00f, position.y + LineTop(0), position.width * 0.40f, LineHeight(1)), property.FindPropertyRelative("name"), new GUIContent(" "));
-                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.40f, position.y + LineTop(0), position.width * 0.25f, LineHeight(1)), property.FindPropertyRelative("valueType"), new GUIContent(" "));
-                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.65f, position.y + LineTop(0), position.width * 0.20f, LineHeight(1)), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
-                        EditorGUI.PropertyField(new Rect(position.x + position.width * 0.85f, position.y + LineTop(0), position.width * 0.15f, LineHeight(1)), property.FindPropertyRelative("saved"));
+                        EditorGUI.PropertyField(position.Slice(0.00f, 0.40f, 0), property.FindPropertyRelative("name"), new GUIContent(" "));
+                        EditorGUI.PropertyField(position.Slice(0.40f, 0.25f, 0), property.FindPropertyRelative("valueType"), new GUIContent(" "));
+                        EditorGUI.PropertyField(position.Slice(0.65f, 0.20f, 0), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
+                        EditorGUI.PropertyField(position.Slice(0.85f, 0.15f, 0), property.FindPropertyRelative("saved"));
                     }
                     EditorGUIUtility.labelWidth = labelWidth;
                 }
 
-                EditorGUI.PropertyField(new Rect(position.x, position.y + LineTop(1), position.width, position.height - LineHeight(1)), property.FindPropertyRelative("states"), true);
+                EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("states"), true);
             }
         }
 

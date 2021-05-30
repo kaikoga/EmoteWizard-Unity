@@ -21,15 +21,5 @@ namespace EmoteWizard.Extensions
         {
             return height + GUI.skin.box.padding.vertical * 2;
         }
-
-        public static Rect InsideBox(Rect rect)
-        {
-            var border = GUI.skin.box.border;
-            var padding = GUI.skin.box.padding;
-            return new Rect(rect.x + border.left + padding.left,
-                rect.y + border.top + padding.top,
-                rect.width - border.horizontal - padding.horizontal,
-                rect.height - border.vertical - padding.vertical);
-        }
     }
 }
