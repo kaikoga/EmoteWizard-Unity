@@ -33,7 +33,7 @@ namespace EmoteWizard.Extensions
             }
         }
 
-                
+        
         public static void PropertyFieldWithGenerate(SerializedProperty serializedProperty, Func<UnityEngine.Object> generate)
         {
             using (new GUILayout.HorizontalScope())
