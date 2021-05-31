@@ -1,6 +1,6 @@
+using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Tools.EmoteWizardEditorTools;
 
 namespace EmoteWizard
 {
@@ -20,22 +20,15 @@ namespace EmoteWizard
 
             if (GUILayout.Button("Generate Wizards"))
             {
-                EnsureComponent<GestureWizard>();
-                EnsureComponent<FxWizard>();
-                EnsureComponent<ExpressionWizard>();
-                EnsureComponent<ParametersWizard>();
+                setupWizard.EnsureComponent<GestureWizard>();
+                setupWizard.EnsureComponent<FxWizard>();
+                setupWizard.EnsureComponent<ExpressionWizard>();
+                setupWizard.EnsureComponent<ParametersWizard>();
             }
             if (GUILayout.Button("Complete setup and remove me"))
             {
                 DestroyImmediate(setupWizard);
             }
-        }
-
-        void EnsureComponent<T>()
-            where T : Component
-        {
-            var go = setupWizard.gameObject;
-            if (!go.GetComponent<T>()) go.AddComponent<T>();
         }
     }
 }

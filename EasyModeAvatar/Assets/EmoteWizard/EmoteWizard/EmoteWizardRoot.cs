@@ -8,11 +8,12 @@ namespace EmoteWizard
     public class EmoteWizardRoot : MonoBehaviour
     {
         [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
+        [SerializeField] public Animator proxyAnimator;
 
         [SerializeField] [HideInInspector] public string generatedAssetRoot;
         
         [SerializeField] public AnimationClip emptyClip;
-        
+
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath);
     }
 }

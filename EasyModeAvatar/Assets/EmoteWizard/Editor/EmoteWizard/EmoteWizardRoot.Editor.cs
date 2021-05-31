@@ -1,5 +1,7 @@
+using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using static EmoteWizard.Tools.EmoteWizardEditorTools;
@@ -32,17 +34,37 @@ namespace EmoteWizard
             {
                 if (GUILayout.Button("Setup"))
                 {
-                    EnsureComponent<SetupWizard>();
+                    emoteWizardRoot.EnsureComponent<SetupWizard>();
                 }
             }
             var avatarDescriptor = emoteWizardRoot.avatarDescriptor;
             if (avatarDescriptor)
             {
+                using (new GUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button("Edit Gesture"))
+                    {
+                        EditAnimator(emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset);
+                    }
+                    if (GUILayout.Button("Edit FX"))
+                    {
+                        EditAnimator(emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset);
+                    }
+                }
                 if (GUILayout.Button("Update Avatar"))
                 {
+                    emoteWizardRoot.avatarDescriptor.EnsureComponent<Animator>().runtimeAnimatorController = null;
                     UpdateAvatar(avatarDescriptor);
                 }
             }
+        }
+
+        void EditAnimator(AnimatorController animatorController)
+        {
+            var animator = emoteWizardRoot.proxyAnimator ? emoteWizardRoot.proxyAnimator : emoteWizardRoot.avatarDescriptor.EnsureComponent<Animator>();
+            emoteWizardRoot.proxyAnimator = animator;
+            animator.runtimeAnimatorController = animatorController;
+            Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
         }
 
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)
@@ -94,13 +116,6 @@ namespace EmoteWizard
             avatarDescriptor.customExpressions = true;
             avatarDescriptor.expressionsMenu = emoteWizardRoot.GetComponent<ExpressionWizard>()?.outputAsset;
             avatarDescriptor.expressionParameters = emoteWizardRoot.GetComponent<ParametersWizard>()?.outputAsset;
-        }
-
-        void EnsureComponent<T>()
-            where T : Component
-        {
-            var go = emoteWizardRoot.gameObject;
-            if (!go.GetComponent<T>()) go.AddComponent<T>();
         }
     }
 }
