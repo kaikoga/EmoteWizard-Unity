@@ -93,7 +93,7 @@ namespace EmoteWizard.Base
                 position.y += 60;
             }
             
-            stateMachine.defaultState = stateMachine.states[0].state;
+            stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
         }
 
         protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterItem parameterItem, bool isFx)
