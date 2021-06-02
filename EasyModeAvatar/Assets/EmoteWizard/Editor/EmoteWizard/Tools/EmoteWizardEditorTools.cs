@@ -1,7 +1,5 @@
 using System.IO;
-using EmoteWizard.Extensions;
 using UnityEditor;
-using UnityEngine;
 
 using static EmoteWizard.Tools.EmoteWizardTools;
 
@@ -20,7 +18,7 @@ namespace EmoteWizard.Tools
 
         public static void EnsureDirectory(string path)
         {
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            Directory.CreateDirectory(GetDirectoryName(path));
         }
     }
 }
