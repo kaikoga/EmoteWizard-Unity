@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
+using static EmoteWizard.Tools.EmoteWizardTools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -16,15 +16,15 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public float value;
         [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
 
-        public string Name => Path.GetFileName(path);
-        public string Folder => Path.GetDirectoryName(path);
+        public string Name => GetFileName(path);
+        public string Folder => GetDirectoryName(path);
 
         public IEnumerable<string> Folders()
         {
             var p = path;
             while (!string.IsNullOrEmpty(p))
             {
-                p = Path.GetDirectoryName(p);
+                p = GetDirectoryName(p);
                 yield return p;
             }
         }
