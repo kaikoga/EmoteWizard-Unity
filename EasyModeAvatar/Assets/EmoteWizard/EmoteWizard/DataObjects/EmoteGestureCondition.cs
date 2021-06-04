@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EmoteWizard.DataObjects
@@ -20,25 +19,6 @@ namespace EmoteWizard.DataObjects
                 handSign = handSign
             };
         }
-
-        public AnimatorConditionMode ResolvedMode
-        {
-            get {
-                switch (mode)
-                {
-                    case GestureConditionMode.Equals:
-                        return AnimatorConditionMode.Equals;
-                    case GestureConditionMode.NotEqual:
-                        return AnimatorConditionMode.NotEqual;
-                    case GestureConditionMode.Ignore:
-                        return AnimatorConditionMode.Equals;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
-        public float ResolvedThreshold => (int) handSign;
     }
 
     public enum GestureParameter

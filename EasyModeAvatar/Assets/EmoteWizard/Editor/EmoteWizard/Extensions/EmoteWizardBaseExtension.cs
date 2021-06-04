@@ -41,28 +41,29 @@ namespace EmoteWizard.Extensions
             return outputAsset;
         }
 
-        public static AnimatorController ReplaceOrCreateOutputAsset(this EmoteWizardBase emoteWizardBase, ref AnimatorController outputAsset, string defaultRelativePath)
+        public static AnimatorController ReplaceOrCreateOutputAsset(this EmoteWizardBase emoteWizardBase, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
         {
-            if (outputAsset)
+            var animatorController = (AnimatorController)outputAsset;
+            if (animatorController)
             {
-                DestroyAllSubAssets(outputAsset);
-                outputAsset.layers = new AnimatorControllerLayer[] { };
-                outputAsset.parameters = new AnimatorControllerParameter[] { };
+                DestroyAllSubAssets(animatorController);
+                animatorController.layers = new AnimatorControllerLayer[] { };
+                animatorController.parameters = new AnimatorControllerParameter[] { };
             }
             else
             {
                 var path = emoteWizardBase.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
                 EnsureDirectory(path);
-                outputAsset = AnimatorController.CreateAnimatorControllerAtPath(path);
-                outputAsset.RemoveLayer(0); // Remove Base Layer
+                animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
+                animatorController.RemoveLayer(0); // Remove Base Layer
             }
-            outputAsset.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
-            outputAsset.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);
-            outputAsset.AddParameter("GestureRight", AnimatorControllerParameterType.Int);
-            outputAsset.AddParameter("GestureRightWeight", AnimatorControllerParameterType.Float);
+            animatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
+            animatorController.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);
+            animatorController.AddParameter("GestureRight", AnimatorControllerParameterType.Int);
+            animatorController.AddParameter("GestureRightWeight", AnimatorControllerParameterType.Float);
             EditorUtility.SetDirty(emoteWizardBase);
-            EditorUtility.SetDirty(outputAsset);
-            return outputAsset;
+            EditorUtility.SetDirty(animatorController);
+            return animatorController;
         }
     }
 }

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using EmoteWizard.DataObjects;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EmoteWizard.Base
@@ -9,6 +8,6 @@ namespace EmoteWizard.Base
     {
         [SerializeField] public List<Emote> emotes;
 
-        [SerializeField] public AnimatorController outputAsset;
+        [SerializeField] public RuntimeAnimatorController outputAsset;
     }
 }

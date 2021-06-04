@@ -82,10 +82,10 @@ namespace EmoteWizard.Base
                 state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.emptyClip;
                 state.writeDefaultValues = false;
                 var transition = stateMachine.AddAnyStateTransition(state);
-                transition.AddCondition(emote.gesture1.ResolvedMode, emote.gesture1.ResolvedThreshold, isLeft ? "GestureLeft" : "GestureRight");
+                transition.AddCondition(emote.gesture1.ResolveMode(), emote.gesture1.ResolveThreshold(), isLeft ? "GestureLeft" : "GestureRight");
                 if (emote.gesture2.mode != GestureConditionMode.Ignore)
                 {
-                    transition.AddCondition(emote.gesture2.ResolvedMode, emote.gesture2.ResolvedThreshold, isLeft ? "GestureRight" : "GestureLeft");
+                    transition.AddCondition(emote.gesture2.ResolveMode(), emote.gesture2.ResolveThreshold(), isLeft ? "GestureRight" : "GestureLeft");
                 }
                 transition.hasExitTime = false;
                 transition.duration = 0.1f;
