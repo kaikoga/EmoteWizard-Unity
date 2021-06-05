@@ -27,9 +27,13 @@ namespace EmoteWizard
 
             SetupOnlyUI(fxWizard, () =>
             {
-                if (GUILayout.Button("Repopulate Emotes"))
+                if (GUILayout.Button("Repopulate Emotes: 7 items"))
                 {
-                    RepopulateDefaultFxEmotes(fxWizard);
+                    RepopulateDefaultFxEmotes();
+                }
+                if (GUILayout.Button("Repopulate Emotes: 14 items"))
+                {
+                    RepopulateDefaultFxEmotes14();
                 }
             });
 
@@ -78,7 +82,15 @@ namespace EmoteWizard
             serializedObj.ApplyModifiedProperties();
         }
 
-        static void RepopulateDefaultFxEmotes(AnimationWizardBase wizard)
+        void RepopulateDefaultFxEmotes()
+        {
+            var newEmotes = Emote.HandSigns
+                .Select(Emote.Populate)
+                .ToList();
+            fxWizard.emotes = newEmotes;
+        }
+
+        void RepopulateDefaultFxEmotes14()
         {
             var newEmotes = Enumerable.Empty<Emote>()
                 .Concat(Emote.HandSigns
@@ -94,7 +106,7 @@ namespace EmoteWizard
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
                     }))
                 .ToList();
-            wizard.emotes = newEmotes;
+            fxWizard.emotes = newEmotes;
         }
     }
 }
