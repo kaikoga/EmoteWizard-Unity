@@ -79,7 +79,7 @@ namespace EmoteWizard.Base
             {
                 var clip = isLeft ? emote.clipLeft : emote.clipRight;
                 var state = stateMachine.AddState(emote.ToStateName(), position);
-                state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.emptyClip;
+                state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
                 state.writeDefaultValues = false;
                 var transition = stateMachine.AddAnyStateTransition(state);
                 transition.AddCondition(emote.gesture1.ResolveMode(), emote.gesture1.ResolveThreshold(), isLeft ? "GestureLeft" : "GestureRight");
