@@ -43,7 +43,7 @@ namespace EmoteWizard
                 {
                     BuildAnimatorController("FX/GeneratedFX.controller", animatorController =>
                     {
-                        var resetClip = fxWizard.EnsureResetClip();
+                        var resetClip = fxWizard.ProvideResetClip();
                         BuildResetClip(resetClip);
                         
                         var resetLayer = PopulateLayer(animatorController, "Reset");

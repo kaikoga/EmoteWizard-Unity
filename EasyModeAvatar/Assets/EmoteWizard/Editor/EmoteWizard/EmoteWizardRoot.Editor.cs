@@ -44,11 +44,11 @@ namespace EmoteWizard
                 {
                     if (GUILayout.Button("Edit Gesture"))
                     {
-                        EditAnimator(emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset);
+                        EditAnimator((AnimatorController)emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset);
                     }
                     if (GUILayout.Button("Edit FX"))
                     {
-                        EditAnimator(emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset);
+                        EditAnimator((AnimatorController)emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset);
                     }
                 }
                 if (GUILayout.Button("Update Avatar"))
