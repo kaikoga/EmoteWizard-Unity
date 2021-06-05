@@ -59,7 +59,7 @@ namespace EmoteWizard
 
         void BuildExpressionMenu()
         {
-            var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/GeneratedExprMenu.asset");
+            var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";

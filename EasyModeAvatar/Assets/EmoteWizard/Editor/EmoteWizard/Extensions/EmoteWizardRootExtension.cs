@@ -9,7 +9,7 @@ namespace EmoteWizard.Extensions
     {
         public static AnimationClip ProvideEmptyClip(this EmoteWizardRoot root)
         {
-            return EnsureAnimationClip(root, "GeneratedEmpty.anim", ref root.emptyClip);
+            return EnsureAnimationClip(root, "@@@Generated@@@Empty.anim", ref root.emptyClip);
         }
 
         public static AnimationClip ProvideAnimationClip(this EmoteWizardRoot root, string relativePath)

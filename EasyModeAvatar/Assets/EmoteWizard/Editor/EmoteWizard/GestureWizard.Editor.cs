@@ -31,15 +31,15 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/GeneratedGlobalGesture.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/GeneratedAmbienceGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
             EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
 
             OutputUIArea(gestureWizard, () =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    BuildAnimatorController("Gesture/GeneratedGesture.controller", animatorController =>
+                    BuildAnimatorController("Gesture/@@@Generated@@@Gesture.controller", animatorController =>
                     {
                         var resetLayer = PopulateLayer(animatorController, "Reset"); 
                         BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);

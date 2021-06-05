@@ -53,7 +53,7 @@ namespace EmoteWizard
 
         void BuildExpressionParameters()
         {
-            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/GeneratedExprParams.asset");
+            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
 
             expressionParams.parameters = parametersWizard.ToParameters();
 

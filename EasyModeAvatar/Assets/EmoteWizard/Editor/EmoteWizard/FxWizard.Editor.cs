@@ -33,15 +33,15 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/GeneratedGlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/GeneratedAmbienceFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
             EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
 
             OutputUIArea(fxWizard, () =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    BuildAnimatorController("FX/GeneratedFX.controller", animatorController =>
+                    BuildAnimatorController("FX/@@@Generated@@@FX.controller", animatorController =>
                     {
                         var resetClip = fxWizard.ProvideResetClip();
                         BuildResetClip(resetClip);
