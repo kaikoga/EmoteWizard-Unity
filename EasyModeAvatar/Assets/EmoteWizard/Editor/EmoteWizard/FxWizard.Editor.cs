@@ -4,10 +4,7 @@ using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
-using UnityEditor.Animations;
-using UnityEditorInternal;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
@@ -27,7 +24,7 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(fxWizard, () =>
             {
@@ -46,7 +43,7 @@ namespace EmoteWizard
             
             emotesList.DrawAsProperty(fxWizard.EmoteWizardRoot.useReorderUI);
 
-            OutputUIArea(fxWizard, () =>
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {

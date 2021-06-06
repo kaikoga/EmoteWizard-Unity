@@ -25,7 +25,7 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(gestureWizard, () =>
             {
@@ -40,7 +40,7 @@ namespace EmoteWizard
 
             emotesList.DrawAsProperty(gestureWizard.EmoteWizardRoot.useReorderUI);
 
-            OutputUIArea(gestureWizard, () =>
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {

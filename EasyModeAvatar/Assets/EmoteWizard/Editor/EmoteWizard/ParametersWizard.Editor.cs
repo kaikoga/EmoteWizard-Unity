@@ -23,7 +23,7 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(parametersWizard, () =>
             {
@@ -43,7 +43,7 @@ namespace EmoteWizard
             ParameterItemDrawer.DrawHeader();
             parameterItemsList.DrawAsProperty(parametersWizard.EmoteWizardRoot.useReorderUI);
 
-            OutputUIArea(parametersWizard, () =>
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {

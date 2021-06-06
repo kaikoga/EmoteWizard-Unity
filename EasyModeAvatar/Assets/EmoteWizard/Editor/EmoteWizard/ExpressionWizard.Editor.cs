@@ -27,7 +27,7 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(expressionWizard, () =>
             {
@@ -47,7 +47,7 @@ namespace EmoteWizard
                 PopulateDefaultExpressionItems();
             }
 
-            OutputUIArea(expressionWizard, () =>
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {
