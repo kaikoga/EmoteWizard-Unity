@@ -1,6 +1,7 @@
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
+using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Extensions.EditorUITools;
@@ -11,15 +12,18 @@ namespace EmoteWizard
     public class ParametersWizardEditor : AnimationWizardBaseEditor
     {
         ParametersWizard parametersWizard;
+        ExpandableReorderableList parameterItemsList;
 
         void OnEnable()
         {
             parametersWizard = target as ParametersWizard;
+            
+            parameterItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("parameterItems"), "Parameter Items");
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(parametersWizard, () =>
             {
@@ -37,9 +41,9 @@ namespace EmoteWizard
             }
 
             ParameterItemDrawer.DrawHeader();
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("parameterItems"), true);
+            parameterItemsList.DrawAsProperty(parametersWizard.EmoteWizardRoot.useReorderUI);
 
-            OutputUIArea(parametersWizard, () =>
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {
@@ -53,7 +57,7 @@ namespace EmoteWizard
 
         void BuildExpressionParameters()
         {
-            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/GeneratedExprParams.asset");
+            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
 
             expressionParams.parameters = parametersWizard.ToParameters();
 

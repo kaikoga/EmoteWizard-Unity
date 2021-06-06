@@ -13,6 +13,8 @@ namespace EmoteWizard.DataObjects
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
+            position.xMin += 20f;
+            position.xMax -= 6f;
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
                 GUI.Label(position.Slice(0.00f, 0.40f, 0), "Name");
@@ -57,7 +59,10 @@ namespace EmoteWizard.DataObjects
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return BoxHeight(LineHeight(1f) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("states"), true));
+            // return BoxHeight(LineHeight(1f) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("states"), true));
+            var states = property.FindPropertyRelative("states");
+            var statesLines = states.isExpanded ? states.arraySize + 2f : 1f;
+            return BoxHeight(LineHeight(1f + statesLines));
         }
     }
 }

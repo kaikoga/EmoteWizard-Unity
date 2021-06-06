@@ -13,6 +13,7 @@ namespace EmoteWizard
         [SerializeField] public List<ExpressionItem> expressionItems;
 
         [SerializeField] public VRCExpressionsMenu outputAsset;
+        [SerializeField] public string defaultPrefix = "Default/";
         [SerializeField] public bool buildAsSubAsset = true;
 
         public IEnumerable<IGrouping<string, ExpressionItem>> GroupExpressionItems =>

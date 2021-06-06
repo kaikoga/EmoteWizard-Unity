@@ -5,6 +5,7 @@ using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using static EmoteWizard.Tools.EmoteWizardEditorTools;
+using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -20,16 +21,25 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
-
+            var serializedObj = serializedObject;
             using (new GUILayout.HorizontalScope())
             {
-                emoteWizardRoot.generatedAssetRoot = EditorGUILayout.TextField("Generated Assets Root", emoteWizardRoot.generatedAssetRoot);
+                emoteWizardRoot.generatedAssetRoot =
+                    EditorGUILayout.TextField("Generated Assets Root", emoteWizardRoot.generatedAssetRoot);
                 if (GUILayout.Button("Browse"))
                 {
                     SelectFolder("Select Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
                 }
             }
+
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("generatedAssetPrefix"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
+
+            using (new GUILayout.VerticalScope(GUI.skin.box))
+            {
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("useReorderUI"));
+            }
+
             if (!emoteWizardRoot.GetComponent<SetupWizard>())
             {
                 if (GUILayout.Button("Setup"))
@@ -37,34 +47,62 @@ namespace EmoteWizard
                     emoteWizardRoot.EnsureComponent<SetupWizard>();
                 }
             }
-            var avatarDescriptor = emoteWizardRoot.avatarDescriptor;
-            if (avatarDescriptor)
+            
+            OutputUIArea(() =>
             {
-                using (new GUILayout.HorizontalScope())
+                void EditAnimator(AnimatorController animatorController)
                 {
-                    if (GUILayout.Button("Edit Gesture"))
-                    {
-                        EditAnimator((AnimatorController)emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset);
-                    }
-                    if (GUILayout.Button("Edit FX"))
-                    {
-                        EditAnimator((AnimatorController)emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset);
-                    }
+                    var animator = emoteWizardRoot.proxyAnimator ? emoteWizardRoot.proxyAnimator : emoteWizardRoot.avatarDescriptor.EnsureComponent<Animator>();
+                    emoteWizardRoot.proxyAnimator = animator;
+                    animator.runtimeAnimatorController = animatorController;
+                    Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
                 }
-                if (GUILayout.Button("Update Avatar"))
-                {
-                    emoteWizardRoot.avatarDescriptor.EnsureComponent<Animator>().runtimeAnimatorController = null;
-                    UpdateAvatar(avatarDescriptor);
-                }
-            }
-        }
 
-        void EditAnimator(AnimatorController animatorController)
-        {
-            var animator = emoteWizardRoot.proxyAnimator ? emoteWizardRoot.proxyAnimator : emoteWizardRoot.avatarDescriptor.EnsureComponent<Animator>();
-            emoteWizardRoot.proxyAnimator = animator;
-            animator.runtimeAnimatorController = animatorController;
-            Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
+                var avatarDescriptor = emoteWizardRoot.avatarDescriptor;
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("avatarDescriptor"));
+                var gestureController = emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset as AnimatorController;
+                var fxController = emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset as AnimatorController;
+
+                if (avatarDescriptor)
+                {
+                    var avatarAnimator = emoteWizardRoot.avatarDescriptor.EnsureComponent<Animator>();
+                    if (GUILayout.Button("Update Avatar"))
+                    {
+                        avatarAnimator.runtimeAnimatorController = null;
+                        UpdateAvatar(avatarDescriptor);
+                    }
+
+                    if (avatarAnimator.runtimeAnimatorController == gestureController)
+                    {
+                        EditorGUILayout.HelpBox("Editing Gesture Controller on avatar.", MessageType.Warning);
+                    }
+                    else if (avatarAnimator.runtimeAnimatorController == fxController)
+                    {
+                        EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
+                    }
+                    else if (avatarAnimator.runtimeAnimatorController)
+                    {
+                        EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
+                    }
+                }
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("proxyAnimator"));
+                if (avatarDescriptor)
+                {
+                    using (new GUILayout.HorizontalScope())
+                    {
+                        if (GUILayout.Button("Edit Gesture"))
+                        {
+                            EditAnimator(gestureController);
+                        }
+                        if (GUILayout.Button("Edit FX"))
+                        {
+                            EditAnimator(fxController);
+                        }
+                    }
+                }
+            });
+
+            serializedObj.ApplyModifiedProperties();
         }
 
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)

@@ -59,13 +59,13 @@ namespace EmoteWizard.DataObjects
             }
         }
 
-        public static ExpressionItem PopulateDefault(Texture2D icon, int value)
+        public static ExpressionItem PopulateDefault(Texture2D icon, string prefix, int value)
         {
             return new ExpressionItem
             {
                 kind = ExpressionItemKind.Default,
                 icon = icon,
-                path = NameForDefaultEmote(value),
+                path = $"{prefix}{NameForDefaultEmote(value)}",
                 parameter = "VRC_emote",
                 value = value,
                 controlType = ControlTypeForDefaultEmote(value),

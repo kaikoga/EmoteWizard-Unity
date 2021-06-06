@@ -2,6 +2,7 @@ using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Extensions.EditorUITools;
+using static EmoteWizard.Extensions.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -18,27 +19,25 @@ namespace EmoteWizard.DataObjects
                 var labelWidth = EditorGUIUtility.labelWidth;
                 EditorGUIUtility.labelWidth = 1f;
                 EditorGUI.PropertyField(cursor, property.FindPropertyRelative("gesture1"), new GUIContent(" "));
-                cursor.y += PropertyDrawerUITools.LineTop(1f);
+                cursor.y += LineTop(1f);
                 EditorGUI.PropertyField(cursor, property.FindPropertyRelative("gesture2"), new GUIContent(" "));
-                cursor.y += PropertyDrawerUITools.LineTop(1f);
+                cursor.y += LineTop(1f);
                 EditorGUIUtility.labelWidth = labelWidth;
-                EditorGUI.PropertyField(cursor, property.FindPropertyRelative("conditions"), true);
-                cursor.y += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("conditions"), true) + EditorGUIUtility.standardVerticalSpacing;
+                var conditions = property.FindPropertyRelative("conditions");
+                EditorGUI.PropertyField(cursor, conditions, true);
+                cursor.y += EditorGUI.GetPropertyHeight(conditions, true) + EditorGUIUtility.standardVerticalSpacing;
                 EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipLeft"));
-                cursor.y += PropertyDrawerUITools.LineTop(1f);
+                cursor.y += LineTop(1f);
                 EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipRight"));
             }
         }
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return PropertyDrawerUITools.BoxHeight(
-                EditorGUI.GetPropertyHeight(property.FindPropertyRelative("gesture1"), true) +
-                EditorGUI.GetPropertyHeight(property.FindPropertyRelative("gesture2"), true) +
+            return BoxHeight(
+                LineHeight(4f) +
                 EditorGUI.GetPropertyHeight(property.FindPropertyRelative("conditions"), true) +
-                EditorGUI.GetPropertyHeight(property.FindPropertyRelative("clipLeft"), true) +
-                EditorGUI.GetPropertyHeight(property.FindPropertyRelative("clipRight"), true) +
-                EditorGUIUtility.standardVerticalSpacing * 4
+                EditorGUIUtility.standardVerticalSpacing
             );
         }
     }

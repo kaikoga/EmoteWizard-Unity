@@ -14,14 +14,18 @@ namespace EmoteWizard
     {
         GestureWizard gestureWizard;
 
+        ExpandableReorderableList emotesList;
+
         void OnEnable()
         {
             gestureWizard = target as GestureWizard;
+            
+            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(gestureWizard, () =>
             {
@@ -31,15 +35,16 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/GeneratedGlobalGesture.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/GeneratedAmbienceGesture.anim"));
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
-            OutputUIArea(gestureWizard, () =>
+            emotesList.DrawAsProperty(gestureWizard.EmoteWizardRoot.useReorderUI);
+
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    BuildAnimatorController("Gesture/GeneratedGesture.controller", animatorController =>
+                    BuildAnimatorController("Gesture/@@@Generated@@@Gesture.controller", animatorController =>
                     {
                         var resetLayer = PopulateLayer(animatorController, "Reset"); 
                         BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);

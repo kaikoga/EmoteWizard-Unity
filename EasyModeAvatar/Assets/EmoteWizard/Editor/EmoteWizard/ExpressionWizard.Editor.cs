@@ -16,27 +16,38 @@ namespace EmoteWizard
     {
         ExpressionWizard expressionWizard;
 
+        ExpandableReorderableList expressionItemsList;
+
         void OnEnable()
         {
             expressionWizard = target as ExpressionWizard;
+            
+            expressionItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("expressionItems"), "Expression Items");
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(expressionWizard, () =>
             {
-                if (GUILayout.Button("Repopulate Expression Items"))
+                if (GUILayout.Button("Reset Expression Items"))
                 {
-                    RepopulateDefaultExpressionItems(expressionWizard);
+                    RepopulateDefaultExpressionItems();
                 }
             });
 
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("expressionItems"), true);
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
+            expressionItemsList.DrawAsProperty(expressionWizard.EmoteWizardRoot.useReorderUI);
 
-            OutputUIArea(expressionWizard, () =>
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("defaultPrefix"));
+
+            if (GUILayout.Button("Populate Expression Items"))
+            {
+                PopulateDefaultExpressionItems();
+            }
+
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {
@@ -48,18 +59,27 @@ namespace EmoteWizard
             serializedObj.ApplyModifiedProperties();
         }
 
-        static void RepopulateDefaultExpressionItems(ExpressionWizard expressionWizard)
+        void RepopulateDefaultExpressionItems()
+        {
+            expressionWizard.expressionItems = new List<ExpressionItem>();
+            PopulateDefaultExpressionItems();
+        }
+
+        void PopulateDefaultExpressionItems()
         {
             var icon = VrcSdkAssetLocator.PersonDance();
             var expressionItems = Enumerable.Range(1, 8)
-                .Select(i => ExpressionItem.PopulateDefault(icon, i))
+                .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, i));
+            expressionWizard.expressionItems.AddRange(expressionItems);
+            expressionWizard.expressionItems = expressionWizard.expressionItems
+                .GroupBy(item => item.path)
+                .Select(g => g.First())
                 .ToList();
-            expressionWizard.expressionItems = expressionItems;
         }
 
         void BuildExpressionMenu()
         {
-            var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/GeneratedExprMenu.asset");
+            var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";

@@ -4,9 +4,7 @@ using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
@@ -15,33 +13,41 @@ namespace EmoteWizard
     public class FxWizardEditor : AnimationWizardBaseEditor
     {
         FxWizard fxWizard;
+        ExpandableReorderableList emotesList;
 
         void OnEnable()
         {
             fxWizard = target as FxWizard;
+
+            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = this.serializedObject;
+            var serializedObj = serializedObject;
 
             SetupOnlyUI(fxWizard, () =>
             {
-                if (GUILayout.Button("Repopulate Emotes"))
+                if (GUILayout.Button("Repopulate Emotes: 7 items"))
                 {
-                    RepopulateDefaultFxEmotes(fxWizard);
+                    RepopulateDefaultFxEmotes();
+                }
+                if (GUILayout.Button("Repopulate Emotes: 14 items"))
+                {
+                    RepopulateDefaultFxEmotes14();
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/GeneratedGlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/GeneratedAmbienceFX.anim"));
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
+            
+            emotesList.DrawAsProperty(fxWizard.EmoteWizardRoot.useReorderUI);
 
-            OutputUIArea(fxWizard, () =>
+            OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    BuildAnimatorController("FX/GeneratedFX.controller", animatorController =>
+                    BuildAnimatorController("FX/@@@Generated@@@FX.controller", animatorController =>
                     {
                         var resetClip = fxWizard.ProvideResetClip();
                         BuildResetClip(resetClip);
@@ -78,7 +84,15 @@ namespace EmoteWizard
             serializedObj.ApplyModifiedProperties();
         }
 
-        static void RepopulateDefaultFxEmotes(AnimationWizardBase wizard)
+        void RepopulateDefaultFxEmotes()
+        {
+            var newEmotes = Emote.HandSigns
+                .Select(Emote.Populate)
+                .ToList();
+            fxWizard.emotes = newEmotes;
+        }
+
+        void RepopulateDefaultFxEmotes14()
         {
             var newEmotes = Enumerable.Empty<Emote>()
                 .Concat(Emote.HandSigns
@@ -94,7 +108,7 @@ namespace EmoteWizard
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
                     }))
                 .ToList();
-            wizard.emotes = newEmotes;
+            fxWizard.emotes = newEmotes;
         }
     }
 }

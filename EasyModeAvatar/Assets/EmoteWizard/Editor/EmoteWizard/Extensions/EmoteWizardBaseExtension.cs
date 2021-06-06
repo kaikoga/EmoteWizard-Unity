@@ -43,7 +43,7 @@ namespace EmoteWizard.Extensions
 
         public static AnimatorController ReplaceOrCreateOutputAsset(this EmoteWizardBase emoteWizardBase, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
         {
-            var animatorController = (AnimatorController)outputAsset;
+            var animatorController = outputAsset as AnimatorController;
             if (animatorController)
             {
                 DestroyAllSubAssets(animatorController);

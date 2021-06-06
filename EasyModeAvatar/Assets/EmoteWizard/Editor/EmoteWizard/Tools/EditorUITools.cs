@@ -21,7 +21,7 @@ namespace EmoteWizard.Extensions
             }
         }
         
-        public static void OutputUIArea(EmoteWizardBase emoteWizardBase, Action action)
+        public static void OutputUIArea(Action action)
         {
             var backgroundColor = GUI.backgroundColor;
             GUI.backgroundColor = Color.cyan;
