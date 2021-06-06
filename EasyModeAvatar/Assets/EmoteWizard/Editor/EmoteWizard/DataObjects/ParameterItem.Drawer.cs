@@ -13,6 +13,8 @@ namespace EmoteWizard.DataObjects
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
+            position.xMin += 20f;
+            position.xMax -= 6f;
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
                 GUI.Label(position.Slice(0.00f, 0.40f, 0), "Name");

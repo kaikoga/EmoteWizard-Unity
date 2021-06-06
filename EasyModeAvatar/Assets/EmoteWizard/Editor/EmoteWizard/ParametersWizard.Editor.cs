@@ -1,6 +1,7 @@
 using EmoteWizard.Base;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
+using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Extensions.EditorUITools;
@@ -11,10 +12,13 @@ namespace EmoteWizard
     public class ParametersWizardEditor : AnimationWizardBaseEditor
     {
         ParametersWizard parametersWizard;
+        ExpandableReorderableList parameterItemsList;
 
         void OnEnable()
         {
             parametersWizard = target as ParametersWizard;
+            
+            parameterItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("parameterItems"));
         }
 
         public override void OnInspectorGUI()
@@ -37,7 +41,7 @@ namespace EmoteWizard
             }
 
             ParameterItemDrawer.DrawHeader();
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("parameterItems"), true);
+            parameterItemsList.DrawAsProperty(parametersWizard.EmoteWizardRoot.useReorderUI);
 
             OutputUIArea(parametersWizard, () =>
             {

@@ -14,9 +14,13 @@ namespace EmoteWizard
     {
         GestureWizard gestureWizard;
 
+        ExpandableReorderableList emotesList;
+
         void OnEnable()
         {
             gestureWizard = target as GestureWizard;
+            
+            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"));
         }
 
         public override void OnInspectorGUI()
@@ -33,7 +37,8 @@ namespace EmoteWizard
 
             PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
             PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
+
+            emotesList.DrawAsProperty(gestureWizard.EmoteWizardRoot.useReorderUI);
 
             OutputUIArea(gestureWizard, () =>
             {

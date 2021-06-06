@@ -5,6 +5,7 @@ using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEditor.Animations;
+using UnityEditorInternal;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.EditorUITools;
@@ -15,10 +16,13 @@ namespace EmoteWizard
     public class FxWizardEditor : AnimationWizardBaseEditor
     {
         FxWizard fxWizard;
+        ExpandableReorderableList emotesList;
 
         void OnEnable()
         {
             fxWizard = target as FxWizard;
+
+            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"));
         }
 
         public override void OnInspectorGUI()
@@ -39,7 +43,8 @@ namespace EmoteWizard
 
             PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
             PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("emotes"), true);
+            
+            emotesList.DrawAsProperty(fxWizard.EmoteWizardRoot.useReorderUI);
 
             OutputUIArea(fxWizard, () =>
             {
