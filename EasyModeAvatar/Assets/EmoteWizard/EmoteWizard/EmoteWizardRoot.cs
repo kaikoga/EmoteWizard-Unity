@@ -16,6 +16,6 @@ namespace EmoteWizard
         [SerializeField] public AnimationClip emptyClip;
         [SerializeField] public bool useReorderUI;
 
-        public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@Generated", generatedAssetPrefix));
+        public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
     }
 }
