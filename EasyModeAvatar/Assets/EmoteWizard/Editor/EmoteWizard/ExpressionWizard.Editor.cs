@@ -22,7 +22,7 @@ namespace EmoteWizard
         {
             expressionWizard = target as ExpressionWizard;
             
-            expressionItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("expressionItems"));
+            expressionItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("expressionItems"), "Expression Items");
         }
 
         public override void OnInspectorGUI()

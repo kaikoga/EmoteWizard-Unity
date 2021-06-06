@@ -6,11 +6,11 @@ namespace EmoteWizard.Tools
 {
     public class ExpandableReorderableList : ReorderableList
     {
-        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements) : base(serializedObject, elements)
+        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName) : base(serializedObject, elements)
         {
             drawHeaderCallback += rect =>
             {
-                var isExpanded = EditorGUI.Foldout(rect, serializedProperty.isExpanded, "Emotes");
+                var isExpanded = EditorGUI.Foldout(rect, serializedProperty.isExpanded, headerName);
                 serializedProperty.isExpanded = isExpanded;
                 draggable = isExpanded;
                 displayAdd = isExpanded;

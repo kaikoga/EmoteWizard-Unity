@@ -19,7 +19,7 @@ namespace EmoteWizard
         {
             fxWizard = target as FxWizard;
 
-            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"));
+            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
         }
 
         public override void OnInspectorGUI()
