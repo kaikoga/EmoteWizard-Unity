@@ -59,7 +59,10 @@ namespace EmoteWizard.DataObjects
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return BoxHeight(LineHeight(1f) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("states"), true));
+            // return BoxHeight(LineHeight(1f) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("states"), true));
+            var states = property.FindPropertyRelative("states");
+            var statesLines = states.isExpanded ? states.arraySize + 2f : 1f;
+            return BoxHeight(LineHeight(1f + statesLines));
         }
     }
 }
