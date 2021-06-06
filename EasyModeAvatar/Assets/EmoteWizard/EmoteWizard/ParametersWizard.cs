@@ -23,24 +23,12 @@ namespace EmoteWizard
         {
             var customOnly = !vrcDefaultParameters;
             var vrcDefaultParametersStub = ParameterItem.VrcDefaultParameters;
-            
-            IEnumerable<VRCExpressionParameters.Parameter> oldParameters;
-            if (outputAsset != null)
-            {
-                oldParameters = outputAsset.parameters?.ToList() ?? Enumerable.Empty<VRCExpressionParameters.Parameter>();
-            }
-            else
-            {
-                oldParameters = Enumerable.Empty<VRCExpressionParameters.Parameter>();
-            }
 
             var builder = new ExpressionParameterBuilder();
 
             builder.Import(vrcDefaultParametersStub); // create VRC default parameters entry
 
             builder.Import(parameterItems);
-
-            builder.Import(oldParameters);
 
             foreach (var expressionItem in ExpressionWizard.expressionItems)
             {
