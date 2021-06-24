@@ -66,7 +66,7 @@ namespace EmoteWizard.DataObjects
                 kind = ExpressionItemKind.Default,
                 icon = icon,
                 path = $"{prefix}{NameForDefaultEmote(value)}",
-                parameter = "VRC_emote",
+                parameter = "VRCEmote",
                 value = value,
                 controlType = ControlTypeForDefaultEmote(value),
             };
