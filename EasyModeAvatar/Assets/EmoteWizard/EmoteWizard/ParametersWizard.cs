@@ -28,7 +28,7 @@ namespace EmoteWizard
 
             builder.Import(vrcDefaultParametersStub); // create VRC default parameters entry
 
-            builder.Import(parameterItems);
+            if (parameterItems != null) builder.Import(parameterItems);
 
             foreach (var expressionItem in ExpressionWizard.expressionItems)
             {
