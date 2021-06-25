@@ -56,6 +56,7 @@ namespace EmoteWizard.Extensions
                 EnsureDirectory(path);
                 animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                 animatorController.RemoveLayer(0); // Remove Base Layer
+                outputAsset = animatorController;
             }
             animatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
             animatorController.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);
