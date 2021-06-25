@@ -46,7 +46,7 @@ namespace EmoteWizard
                 {
                     BuildAnimatorController("Gesture/@@@Generated@@@Gesture.controller", animatorController =>
                     {
-                        var resetLayer = PopulateLayer(animatorController, "Reset"); 
+                        var resetLayer = PopulateLayer(animatorController, "Reset", VrcSdkAssetLocator.HandsOnly()); 
                         BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
                         var allPartsLayer = PopulateLayer(animatorController, "AllParts");
