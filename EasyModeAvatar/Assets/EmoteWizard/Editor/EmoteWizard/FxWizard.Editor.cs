@@ -38,8 +38,8 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.GetOrCreateAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.GetOrCreateAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
             
             emotesList.DrawAsProperty(fxWizard.EmoteWizardRoot.useReorderUI);
 

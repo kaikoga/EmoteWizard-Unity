@@ -12,11 +12,18 @@ namespace EmoteWizard.Extensions
             return EnsureAnimationClip(root, "@@@Generated@@@Empty.anim", ref root.emptyClip);
         }
 
-        public static AnimationClip ProvideAnimationClip(this EmoteWizardRoot root, string relativePath)
+        public static AnimationClip GetOrCreateAnimationClip(this EmoteWizardRoot root, string relativePath)
         {
             var path = root.GeneratedAssetPath(relativePath);
             var clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
             return clip ? clip : EnsureAnimationClip(root, relativePath, ref clip);
+        }
+
+        public static AvatarMask GetOrCreateAvatarMask(this EmoteWizardRoot root, string relativePath)
+        {
+            var path = root.GeneratedAssetPath(relativePath);
+            var avatarMask = AssetDatabase.LoadAssetAtPath<AvatarMask>(path);
+            return avatarMask ? avatarMask : EnsureAvatarMask(root, relativePath, ref avatarMask);
         }
 
         public static AnimationClip EnsureAnimationClip(this EmoteWizardRoot root, string relativePath, ref AnimationClip clip)

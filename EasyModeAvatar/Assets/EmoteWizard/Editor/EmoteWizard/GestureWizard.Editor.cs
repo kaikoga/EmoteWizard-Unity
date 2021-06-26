@@ -35,14 +35,12 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.GetOrCreateAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.GetOrCreateAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
             PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
             {
-                var avatarMask = gestureWizard.EmoteWizardRoot.EnsureAvatarMask(
-                    "Gesture/@@@Generated@@@GestureDefaultMask.mask",
-                    ref gestureWizard.defaultAvatarMask);
+                var avatarMask = gestureWizard.EmoteWizardRoot.GetOrCreateAvatarMask("Gesture/@@@Generated@@@GestureDefaultMask.mask");
                 return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
             });
 
