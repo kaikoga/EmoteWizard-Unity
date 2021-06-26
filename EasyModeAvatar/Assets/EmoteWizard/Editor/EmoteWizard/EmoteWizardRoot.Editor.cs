@@ -107,6 +107,9 @@ namespace EmoteWizard
 
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)
         {
+            var gestureController = emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset;
+            var sittingController = VrcSdkAssetLocator.SittingLayerController2();
+
             avatarDescriptor.customizeAnimationLayers = true;
             avatarDescriptor.baseAnimationLayers = new[]
             {
@@ -128,7 +131,7 @@ namespace EmoteWizard
                 },
                 new VRCAvatarDescriptor.CustomAnimLayer
                 {
-                    animatorController = emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset,
+                    animatorController = gestureController,
                     isDefault = false,
                     isEnabled = false,
                     mask = VrcSdkAssetLocator.HandsOnly(),
@@ -149,6 +152,34 @@ namespace EmoteWizard
                     isEnabled = false,
                     mask = null,
                     type = VRCAvatarDescriptor.AnimLayerType.FX
+                }
+            };
+            
+            avatarDescriptor.specialAnimationLayers = new[]
+            {
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = sittingController,
+                    isDefault = false,
+                    isEnabled = false,
+                    mask = null,
+                    type = VRCAvatarDescriptor.AnimLayerType.Sitting
+                },
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = null,
+                    isDefault = true,
+                    isEnabled = false,
+                    mask = null,
+                    type = VRCAvatarDescriptor.AnimLayerType.TPose
+                },
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = null,
+                    isDefault = false,
+                    isEnabled = false,
+                    mask = null,
+                    type = VRCAvatarDescriptor.AnimLayerType.IKPose
                 }
             };
             avatarDescriptor.customExpressions = true;
