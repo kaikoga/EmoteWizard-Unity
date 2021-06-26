@@ -24,6 +24,7 @@ namespace EmoteWizard
         public override void OnInspectorGUI()
         {
             var serializedObj = serializedObject;
+            var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
 
             SetupOnlyUI(parametersWizard, () =>
             {
@@ -40,9 +41,9 @@ namespace EmoteWizard
                 parametersWizard.RefreshParameters();
             }
 
-            ParameterItemDrawer.DrawHeader();
-            ParameterItemDrawer.StartContext(parametersWizard.EmoteWizardRoot);
-            parameterItemsList.DrawAsProperty(parametersWizard.EmoteWizardRoot.useReorderUI);
+            ParameterItemDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            ParameterItemDrawer.StartContext(emoteWizardRoot);
+            parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             ParameterItemDrawer.EndContext();
 
             OutputUIArea(() =>

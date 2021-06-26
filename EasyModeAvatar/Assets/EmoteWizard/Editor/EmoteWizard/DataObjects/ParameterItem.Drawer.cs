@@ -20,12 +20,12 @@ namespace EmoteWizard.DataObjects
             _emoteWizardRoot = null;
         }
 
-        public static void DrawHeader()
+        public static void DrawHeader(bool useReorderUI)
         {
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
-            position.xMin += 20f;
+            position.xMin += useReorderUI ? 20f : 6f;
             position.xMax -= 6f;
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
