@@ -38,6 +38,14 @@ namespace EmoteWizard
             PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
             PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.ProvideAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
+            PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
+            {
+                var avatarMask = gestureWizard.EmoteWizardRoot.EnsureAvatarMask(
+                    "Gesture/@@@Generated@@@GestureDefaultMask.mask",
+                    ref gestureWizard.defaultAvatarMask);
+                return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
+            });
+
             emotesList.DrawAsProperty(gestureWizard.EmoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
@@ -46,7 +54,7 @@ namespace EmoteWizard
                 {
                     BuildAnimatorController("Gesture/@@@Generated@@@Gesture.controller", animatorController =>
                     {
-                        var resetLayer = PopulateLayer(animatorController, "Reset", VrcSdkAssetLocator.HandsOnly()); 
+                        var resetLayer = PopulateLayer(animatorController, "Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly()); 
                         BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
                         var allPartsLayer = PopulateLayer(animatorController, "AllParts");
