@@ -8,6 +8,18 @@ namespace EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(ParameterItem))]
     public class ParameterItemDrawer : PropertyDrawer
     {
+        static EmoteWizardRoot _emoteWizardRoot;
+
+        public static void StartContext(EmoteWizardRoot emoteWizardRoot)
+        {
+            _emoteWizardRoot = emoteWizardRoot;
+        }
+
+        public static void EndContext()
+        {
+            _emoteWizardRoot = null;
+        }
+
         public static void DrawHeader()
         {
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
@@ -52,8 +64,9 @@ namespace EmoteWizard.DataObjects
                     EditorGUIUtility.labelWidth = labelWidth;
                 }
 
-                ParameterStateDrawer.Context = property.FindPropertyRelative("name").stringValue;
+                ParameterStateDrawer.StartContext(_emoteWizardRoot, property.FindPropertyRelative("name").stringValue);
                 EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("states"), true);
+                ParameterStateDrawer.EndContext();
             }
         }
 

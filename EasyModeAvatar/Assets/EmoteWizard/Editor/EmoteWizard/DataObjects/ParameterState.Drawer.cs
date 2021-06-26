@@ -31,11 +31,28 @@ namespace EmoteWizard.DataObjects
             }
         }
 
-        public static string Context = "";
+        static string _context;
+        static EmoteWizardRoot _emoteWizardRoot;
+
+        public static void StartContext(EmoteWizardRoot emoteWizardRoot, string context)
+        {
+            _context = context;
+            _emoteWizardRoot = emoteWizardRoot;
+        }
+
+        public static void EndContext()
+        {
+            _context = null;
+            _emoteWizardRoot = null;
+        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EmoteWizardRoot FindEmoteWizardRoot() => Object.FindObjectOfType<EmoteWizardRoot>();
+            if (_context == null)
+            {
+                Debug.LogWarning("Internal: context is null", property.serializedObject.targetObject);
+            }
+            EmoteWizardRoot FindEmoteWizardRoot() => _emoteWizardRoot ? _emoteWizardRoot : Object.FindObjectOfType<EmoteWizardRoot>();
 
             using (new EditorGUI.IndentLevelScope())
             {
@@ -49,8 +66,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            string relativePath = $"FX/@@@Generated@@@FX_{Context}_{value}.anim";
-                            return EmoteWizardRootExtension.EnsureAsset<AnimationClip>(FindEmoteWizardRoot(), relativePath);
+                            var relativePath = $"FX/@@@Generated@@@FX_{_context}_{value}.anim";
+                            return FindEmoteWizardRoot().EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
                 else if (!DrawGestureClip)
@@ -59,8 +76,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            string relativePath = $"FX/@@@Generated@@@FX_{Context}_{value}.anim";
-                            return EmoteWizardRootExtension.EnsureAsset<AnimationClip>(FindEmoteWizardRoot(), relativePath);
+                            var relativePath = $"FX/@@@Generated@@@FX_{_context}_{value}.anim";
+                            return FindEmoteWizardRoot().EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
                 else

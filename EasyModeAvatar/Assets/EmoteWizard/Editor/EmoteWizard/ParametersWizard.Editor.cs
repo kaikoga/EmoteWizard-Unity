@@ -41,7 +41,9 @@ namespace EmoteWizard
             }
 
             ParameterItemDrawer.DrawHeader();
+            ParameterItemDrawer.StartContext(parametersWizard.EmoteWizardRoot);
             parameterItemsList.DrawAsProperty(parametersWizard.EmoteWizardRoot.useReorderUI);
+            ParameterItemDrawer.EndContext();
 
             OutputUIArea(() =>
             {
