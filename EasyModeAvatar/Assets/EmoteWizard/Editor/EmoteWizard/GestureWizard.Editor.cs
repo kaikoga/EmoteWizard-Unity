@@ -26,6 +26,7 @@ namespace EmoteWizard
         public override void OnInspectorGUI()
         {
             var serializedObj = serializedObject;
+            var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
 
             SetupOnlyUI(gestureWizard, () =>
             {
@@ -35,16 +36,16 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => gestureWizard.EmoteWizardRoot.GetOrCreateAnimationClip("Gesture/@@@Generated@@@GlobalGesture.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => gestureWizard.EmoteWizardRoot.GetOrCreateAnimationClip("Gesture/@@@Generated@@@AmbienceGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
             PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
             {
-                var avatarMask = gestureWizard.EmoteWizardRoot.GetOrCreateAvatarMask("Gesture/@@@Generated@@@GestureDefaultMask.mask");
+                var avatarMask = emoteWizardRoot.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
                 return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
             });
 
-            emotesList.DrawAsProperty(gestureWizard.EmoteWizardRoot.useReorderUI);
+            emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
             {

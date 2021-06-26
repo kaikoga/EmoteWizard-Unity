@@ -25,6 +25,7 @@ namespace EmoteWizard
         public override void OnInspectorGUI()
         {
             var serializedObj = serializedObject;
+            var emoteWizardRoot = fxWizard.EmoteWizardRoot;
 
             SetupOnlyUI(fxWizard, () =>
             {
@@ -38,10 +39,10 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.GetOrCreateAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.GetOrCreateAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
-            emotesList.DrawAsProperty(fxWizard.EmoteWizardRoot.useReorderUI);
+            emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
             {

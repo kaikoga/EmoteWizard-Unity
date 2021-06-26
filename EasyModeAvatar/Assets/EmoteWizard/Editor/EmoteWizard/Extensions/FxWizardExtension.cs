@@ -6,7 +6,7 @@ namespace EmoteWizard.Extensions
     {
         public static AnimationClip ProvideResetClip(this FxWizard fxWizard)
         {
-            return fxWizard.EmoteWizardRoot.EnsureAnimationClip("FX/@@@Generated@@@ResetFX.anim", ref fxWizard.resetClip);
+            return fxWizard.EmoteWizardRoot.EnsureAsset("FX/@@@Generated@@@ResetFX.anim", ref fxWizard.resetClip);
         }
     }
 }

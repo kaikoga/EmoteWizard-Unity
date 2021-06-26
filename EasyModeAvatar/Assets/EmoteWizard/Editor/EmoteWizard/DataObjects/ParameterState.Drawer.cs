@@ -49,7 +49,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            return FindEmoteWizardRoot().GetOrCreateAnimationClip($"FX/@@@Generated@@@FX_{Context}_{value}.anim");
+                            string relativePath = $"FX/@@@Generated@@@FX_{Context}_{value}.anim";
+                            return EmoteWizardRootExtension.EnsureAsset<AnimationClip>(FindEmoteWizardRoot(), relativePath);
                         });
                 }
                 else if (!DrawGestureClip)
@@ -58,7 +59,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            return FindEmoteWizardRoot().GetOrCreateAnimationClip($"FX/@@@Generated@@@FX_{Context}_{value}.anim");
+                            string relativePath = $"FX/@@@Generated@@@FX_{Context}_{value}.anim";
+                            return EmoteWizardRootExtension.EnsureAsset<AnimationClip>(FindEmoteWizardRoot(), relativePath);
                         });
                 }
                 else
