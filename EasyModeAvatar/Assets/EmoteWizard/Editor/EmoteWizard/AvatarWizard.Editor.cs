@@ -1,3 +1,4 @@
+using System;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
@@ -22,6 +23,17 @@ namespace EmoteWizard
         {
             var serializedObj = serializedObject;
             
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideGesture"));
+            if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)
+            {
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideGestureController"));
+            }
+            EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideSitting"));
+            if (avatarWizard.overrideSitting == AvatarWizard.OverrideControllerType2.Override)
+            {
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideSittingController"));
+            }
+
             OutputUIArea(() =>
             {
                 void EditAnimator(AnimatorController animatorController)
@@ -85,8 +97,40 @@ namespace EmoteWizard
         {
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
 
-            var gestureController = emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset;
-            var sittingController = VrcSdkAssetLocator.SittingLayerController2();
+            RuntimeAnimatorController SelectGestureController()
+            {
+                switch (avatarWizard.overrideGesture)
+                {
+                    case AvatarWizard.OverrideGeneratedControllerType2.Generate:
+                        return emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset;
+                    case AvatarWizard.OverrideGeneratedControllerType2.Override:
+                        return avatarWizard.overrideGestureController;
+                    case AvatarWizard.OverrideGeneratedControllerType2.Default1:
+                        return VrcSdkAssetLocator.HandsLayerController1();
+                    case AvatarWizard.OverrideGeneratedControllerType2.Default2:
+                        return VrcSdkAssetLocator.HandsLayerController2();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        
+            RuntimeAnimatorController SelectSittingController()
+            {
+                switch (avatarWizard.overrideSitting)
+                {
+                    case AvatarWizard.OverrideControllerType2.Override:
+                        return avatarWizard.overrideSittingController;
+                    case AvatarWizard.OverrideControllerType2.Default1:
+                        return VrcSdkAssetLocator.SittingLayerController1();
+                    case AvatarWizard.OverrideControllerType2.Default2:
+                        return VrcSdkAssetLocator.SittingLayerController2();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            var gestureController = SelectGestureController();
+            var sittingController = SelectSittingController();
 
             avatarDescriptor.customizeAnimationLayers = true;
             avatarDescriptor.baseAnimationLayers = new[]
@@ -163,6 +207,6 @@ namespace EmoteWizard
             avatarDescriptor.customExpressions = true;
             avatarDescriptor.expressionsMenu = emoteWizardRoot.GetComponent<ExpressionWizard>()?.outputAsset;
             avatarDescriptor.expressionParameters = emoteWizardRoot.GetComponent<ParametersWizard>()?.outputAsset;
-        }        
+        }
     }
 }
