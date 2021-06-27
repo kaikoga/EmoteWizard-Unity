@@ -102,12 +102,14 @@ namespace EmoteWizard
                     {
                         gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
+                        parameter = EmoteParameter.Populate(handSign)
                     }))
                 .Concat(Emote.HandSigns
                     .Select(handSign => new Emote
                     {
                         gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
+                        parameter = EmoteParameter.Populate(handSign)
                     }))
                 .ToList();
             fxWizard.emotes = newEmotes;

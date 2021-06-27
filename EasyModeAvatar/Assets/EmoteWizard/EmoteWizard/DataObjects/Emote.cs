@@ -16,7 +16,8 @@ namespace EmoteWizard.DataObjects
             return new Emote
             {
                 gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.Ignore)
+                gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.Ignore),
+                parameter = EmoteParameter.Populate(handSign)
             };
         }
         
