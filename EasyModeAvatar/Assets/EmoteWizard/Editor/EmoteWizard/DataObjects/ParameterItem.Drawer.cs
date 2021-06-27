@@ -1,6 +1,7 @@
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
+using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Extensions.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
@@ -64,9 +65,12 @@ namespace EmoteWizard.DataObjects
                     EditorGUIUtility.labelWidth = labelWidth;
                 }
 
-                ParameterStateDrawer.StartContext(_emoteWizardRoot, property.FindPropertyRelative("name").stringValue);
-                EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("states"), true);
-                ParameterStateDrawer.EndContext();
+                using (new EditorGUI.DisabledScope(property.FindPropertyRelative("valueType").intValue == (int)VRCExpressionParameters.ValueType.Float))
+                {
+                    ParameterStateDrawer.StartContext(_emoteWizardRoot, property.FindPropertyRelative("name").stringValue);
+                    EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("states"), true);
+                    ParameterStateDrawer.EndContext();
+                }
             }
         }
 

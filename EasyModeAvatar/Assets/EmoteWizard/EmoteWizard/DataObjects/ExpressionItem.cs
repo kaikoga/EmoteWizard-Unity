@@ -23,6 +23,25 @@ namespace EmoteWizard.DataObjects
         public string Name => GetFileName(path);
         public string Folder => GetDirectoryName(path);
 
+        public bool IsPuppet
+        {
+            get
+            {
+                switch (controlType)
+                {
+                    case VRCExpressionsMenu.Control.ControlType.Button:
+                    case VRCExpressionsMenu.Control.ControlType.Toggle:
+                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                        return false;
+                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                        return true;
+                    default: throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
         public IEnumerable<string> Folders()
         {
             var p = path;
@@ -96,7 +115,7 @@ namespace EmoteWizard.DataObjects
                     case VRCExpressionsMenu.Control.ControlType.Button:
                     case VRCExpressionsMenu.Control.ControlType.Toggle:
                     case VRCExpressionsMenu.Control.ControlType.SubMenu:
-                        return null;
+                        return new VRCExpressionsMenu.Control.Parameter[] { };
                     case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
                     case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
                     case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
@@ -118,7 +137,7 @@ namespace EmoteWizard.DataObjects
                     case VRCExpressionsMenu.Control.ControlType.Toggle:
                     case VRCExpressionsMenu.Control.ControlType.SubMenu:
                     case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
-                        return null;
+                        return new VRCExpressionsMenu.Control.Label[] { };
                     case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
                     case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
                         return labels.Zip(labelIcons, (label, labelIcon) => new VRCExpressionsMenu.Control.Label
