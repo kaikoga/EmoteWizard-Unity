@@ -1,3 +1,4 @@
+using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace EmoteWizard.DataObjects
     {
         public static bool EditConditions = true;
         public static bool EditAnimations = true;
-        public static bool EditParameters = true;
+        public static bool EditParameters = false;
 
         public static void DrawHeader(bool useReorderUI)
         {
@@ -26,9 +27,9 @@ namespace EmoteWizard.DataObjects
             // position.xMax -= 6f;
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                EditConditions = EditorGUI.ToggleLeft(position.SliceV(0), "Show Conditions", EditConditions);
-                EditAnimations = EditorGUI.ToggleLeft(position.SliceV(1), "Show Animations", EditAnimations);
-                EditParameters = EditorGUI.ToggleLeft(position.SliceV(2), "Show Parameters", EditParameters);
+                EditConditions = EditorGUI.ToggleLeft(position.SliceV(0), "Edit Conditions", EditConditions);
+                EditAnimations = EditorGUI.ToggleLeft(position.SliceV(1), "Edit Animations", EditAnimations);
+                EditParameters = EditorGUI.ToggleLeft(position.SliceV(2), "Edit Parameters", EditParameters);
             }
         }
 
@@ -75,11 +76,10 @@ namespace EmoteWizard.DataObjects
                     cursor.y += LineTop(1f);
                 }
 
-                if (EditParameters)
-                {
-                    var parameter = property.FindPropertyRelative("parameter");
-                    EditorGUI.PropertyField(cursor, parameter, true);
-                }
+                EmoteParameterDrawer.StartContext(null, EditParameters);
+                var parameter = property.FindPropertyRelative("parameter");
+                EditorGUI.PropertyField(cursor, parameter, true);
+                EmoteParameterDrawer.EndContext();
             }
         }
         
@@ -98,10 +98,10 @@ namespace EmoteWizard.DataObjects
             {
                 h += LineHeight(2f) + EditorGUIUtility.standardVerticalSpacing;
             }
-            if (EditParameters)
-            {
-                h += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("parameter"), true) + EditorGUIUtility.standardVerticalSpacing;
-            }
+            EmoteParameterDrawer.StartContext(null, EditParameters);
+            h += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("parameter"), true) + EditorGUIUtility.standardVerticalSpacing;
+            EmoteParameterDrawer.EndContext();
+
             return BoxHeight(h);
         }
     }
