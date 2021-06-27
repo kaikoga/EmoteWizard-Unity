@@ -76,10 +76,11 @@ namespace EmoteWizard.DataObjects
                     cursor.y += LineTop(1f);
                 }
 
-                EmoteParameterDrawer.StartContext(null, EditParameters);
-                var parameter = property.FindPropertyRelative("parameter");
-                EditorGUI.PropertyField(cursor, parameter, true);
-                EmoteParameterDrawer.EndContext();
+                using (EmoteParameterDrawer.StartContext(null, EditParameters))
+                {
+                    var parameter = property.FindPropertyRelative("parameter");
+                    EditorGUI.PropertyField(cursor, parameter, true);
+                }
             }
         }
         
@@ -98,9 +99,11 @@ namespace EmoteWizard.DataObjects
             {
                 h += LineHeight(2f) + EditorGUIUtility.standardVerticalSpacing;
             }
-            EmoteParameterDrawer.StartContext(null, EditParameters);
-            h += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("parameter"), true) + EditorGUIUtility.standardVerticalSpacing;
-            EmoteParameterDrawer.EndContext();
+
+            using (EmoteParameterDrawer.StartContext(null, EditParameters))
+            {
+                h += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("parameter"), true) + EditorGUIUtility.standardVerticalSpacing;
+            }
 
             return BoxHeight(h);
         }

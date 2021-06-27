@@ -32,7 +32,7 @@ namespace EmoteWizard.DataObjects
             }
         }
 
-        public static void StartContext(EmoteWizardRoot emoteWizardRoot, string name) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot, name));
+        public static Context StartContext(EmoteWizardRoot emoteWizardRoot, string name) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot, name));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

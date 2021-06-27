@@ -9,7 +9,7 @@ namespace EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(EmoteParameter))]
     public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameterDrawer.Context>
     {
-        public static void StartContext(EmoteWizardRoot emoteWizardRoot, bool isEditing) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot, isEditing));
+        public static Context StartContext(EmoteWizardRoot emoteWizardRoot, bool isEditing) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot, isEditing));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

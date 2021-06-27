@@ -10,7 +10,7 @@ namespace EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(ParameterItem))]
     public class ParameterItemDrawer : PropertyDrawerWithContext<ParameterItemDrawer.Context>
     {
-        public static void StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot));
+        public static Context StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot));
 
         public static void DrawHeader(bool useReorderUI)
         {
@@ -62,10 +62,9 @@ namespace EmoteWizard.DataObjects
                 }
 
                 using (new EditorGUI.DisabledScope(property.FindPropertyRelative("valueType").intValue == (int)VRCExpressionParameters.ValueType.Float))
+                using (ParameterStateDrawer.StartContext(context.EmoteWizardRoot, property.FindPropertyRelative("name").stringValue))
                 {
-                    ParameterStateDrawer.StartContext(context.EmoteWizardRoot, property.FindPropertyRelative("name").stringValue);
                     EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("states"), true);
-                    ParameterStateDrawer.EndContext();
                 }
             }
         }

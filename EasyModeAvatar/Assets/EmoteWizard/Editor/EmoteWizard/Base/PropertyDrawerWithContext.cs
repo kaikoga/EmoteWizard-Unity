@@ -1,5 +1,7 @@
+using System;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace EmoteWizard.Base
 {
@@ -8,9 +10,13 @@ namespace EmoteWizard.Base
     {
         static T _context;
 
-        protected static void StartContext(T context) => _context = context;
+        protected static T StartContext(T context)
+        {
+            if (_context != null) Debug.LogWarning("Internal: context is not disposed");
+            return _context = context;
+        }
 
-        public static void EndContext() => _context = null;
+        static void EndContext() => _context = null;
 
         protected T EnsureContext(SerializedProperty property)
         {
@@ -20,7 +26,7 @@ namespace EmoteWizard.Base
             return _context;
         }
 
-        public abstract class ContextBase
+        public abstract class ContextBase : IDisposable
         {
             readonly EmoteWizardRoot _emoteWizardRoot;
 
@@ -30,6 +36,8 @@ namespace EmoteWizard.Base
             }
 
             public EmoteWizardRoot EmoteWizardRoot => _emoteWizardRoot ? _emoteWizardRoot : Object.FindObjectOfType<EmoteWizardRoot>();
+
+            public void Dispose() => EndContext();
         }
     }
 }
