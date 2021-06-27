@@ -84,7 +84,14 @@ namespace EmoteWizard.Base
                 var state = stateMachine.AddState(emote.ToStateName(), position);
                 state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
                 state.writeDefaultValues = false;
-                
+                if (clip && emote.parameter.normalizedTimeEnabled)
+                {
+                    state.timeParameterActive = true;
+                    state.timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
+                    clip.SetLoopTime(false);
+                    EditorUtility.SetDirty(clip);
+                }
+
                 var transition = stateMachine.AddAnyStateTransition(state);
                 transition.AddCondition(gesture1.ResolveMode(), gesture1.ResolveThreshold(), gesture1.ResolveParameter(isLeft));
                 if (gesture2.mode != GestureConditionMode.Ignore)

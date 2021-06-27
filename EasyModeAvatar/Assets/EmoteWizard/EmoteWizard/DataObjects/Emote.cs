@@ -25,6 +25,7 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
         [SerializeField] public AnimationClip clipLeft;
         [SerializeField] public AnimationClip clipRight;
+        [SerializeField] public EmoteParameter parameter;
 
         public IEnumerable<AnimationClip> AllClips()
         {

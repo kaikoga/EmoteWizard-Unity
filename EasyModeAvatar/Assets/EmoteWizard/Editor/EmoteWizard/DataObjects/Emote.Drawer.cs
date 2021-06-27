@@ -29,6 +29,9 @@ namespace EmoteWizard.DataObjects
                 EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipLeft"));
                 cursor.y += LineTop(1f);
                 EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipRight"));
+                cursor.y += LineTop(1f);
+                var parameter = property.FindPropertyRelative("parameter");
+                EditorGUI.PropertyField(cursor, parameter, true);
             }
         }
         
@@ -37,6 +40,7 @@ namespace EmoteWizard.DataObjects
             return BoxHeight(
                 LineHeight(4f) +
                 EditorGUI.GetPropertyHeight(property.FindPropertyRelative("conditions"), true) +
+                EditorGUI.GetPropertyHeight(property.FindPropertyRelative("parameter"), true) +
                 EditorGUIUtility.standardVerticalSpacing
             );
         }
