@@ -77,15 +77,19 @@ namespace EmoteWizard.Base
             var position = new Vector2(300, 0);
             foreach (var emote in emotes)
             {
+                var gesture1 = emote.gesture1;
+                var gesture2 = emote.gesture2;
+                
                 var clip = isLeft ? emote.clipLeft : emote.clipRight;
                 var state = stateMachine.AddState(emote.ToStateName(), position);
                 state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
                 state.writeDefaultValues = false;
+                
                 var transition = stateMachine.AddAnyStateTransition(state);
-                transition.AddCondition(emote.gesture1.ResolveMode(), emote.gesture1.ResolveThreshold(), isLeft ? "GestureLeft" : "GestureRight");
-                if (emote.gesture2.mode != GestureConditionMode.Ignore)
+                transition.AddCondition(gesture1.ResolveMode(), gesture1.ResolveThreshold(), gesture1.ResolveParameter(isLeft));
+                if (gesture2.mode != GestureConditionMode.Ignore)
                 {
-                    transition.AddCondition(emote.gesture2.ResolveMode(), emote.gesture2.ResolveThreshold(), isLeft ? "GestureRight" : "GestureLeft");
+                    transition.AddCondition(gesture2.ResolveMode(), gesture2.ResolveThreshold(), gesture2.ResolveParameter(isLeft));
                 }
                 transition.hasExitTime = false;
                 transition.duration = 0.1f;

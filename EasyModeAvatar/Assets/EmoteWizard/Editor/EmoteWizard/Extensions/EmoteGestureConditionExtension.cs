@@ -6,6 +6,26 @@ namespace EmoteWizard.Extensions
 {
     public static class EmoteGestureConditionExtension
     {
+        const string GestureLeft = "GestureLeft";
+        const string GestureRight = "GestureRight";
+
+        public static string ResolveParameter(this EmoteGestureCondition condition, bool isLeft)
+        {
+            switch (condition.parameter)
+            {
+                case GestureParameter.Gesture:
+                    return isLeft ? GestureLeft : GestureRight;
+                case GestureParameter.GestureOther:
+                    return isLeft ? GestureRight : GestureLeft;
+                case GestureParameter.GestureLeft:
+                    return GestureLeft;
+                case GestureParameter.GestureRight:
+                    return GestureRight;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public static AnimatorConditionMode ResolveMode(this EmoteGestureCondition condition)
         {
             switch (condition.mode)
