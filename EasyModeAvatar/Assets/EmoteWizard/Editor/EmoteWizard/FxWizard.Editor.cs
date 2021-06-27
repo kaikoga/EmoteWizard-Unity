@@ -42,6 +42,7 @@ namespace EmoteWizard
             PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
             PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
+            EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>

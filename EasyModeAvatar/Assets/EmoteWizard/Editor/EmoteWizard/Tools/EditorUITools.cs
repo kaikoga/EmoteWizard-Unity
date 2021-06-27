@@ -21,6 +21,17 @@ namespace EmoteWizard.Extensions
             }
         }
         
+        public static void ConfigUIArea(Action action)
+        {
+            var backgroundColor = GUI.backgroundColor;
+            GUI.backgroundColor = Color.yellow;
+            using (new GUILayout.VerticalScope(GUI.skin.box))
+            {
+                GUI.backgroundColor = backgroundColor;
+                action();
+            }
+        }
+
         public static void OutputUIArea(Action action)
         {
             var backgroundColor = GUI.backgroundColor;

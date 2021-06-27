@@ -32,10 +32,7 @@ namespace EmoteWizard
             EditorGUILayout.PropertyField(serializedObj.FindProperty("generatedAssetPrefix"));
             PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
 
-            using (new GUILayout.VerticalScope(GUI.skin.box))
-            {
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("useReorderUI"));
-            }
+            ConfigUIArea(() => { emoteWizardRoot.useReorderUI = EditorGUILayout.ToggleLeft("Use Reorder UI", emoteWizardRoot.useReorderUI); });
 
             if (!emoteWizardRoot.GetComponent<SetupWizard>())
             {

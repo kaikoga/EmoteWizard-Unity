@@ -15,7 +15,10 @@ namespace EmoteWizard.DataObjects
         public static void DrawHeader(bool useReorderUI)
         {
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
+            var backgroundColor = GUI.backgroundColor;
+            GUI.backgroundColor = Color.yellow;
             GUI.Box(position, GUIContent.none);
+            GUI.backgroundColor = backgroundColor;
             position = position.InsideBox();
             position.xMin += useReorderUI ? 20f : 6f;
             position.xMax -= 6f;

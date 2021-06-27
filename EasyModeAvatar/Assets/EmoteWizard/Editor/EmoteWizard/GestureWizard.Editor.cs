@@ -45,6 +45,7 @@ namespace EmoteWizard
                 return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
             });
 
+            EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
