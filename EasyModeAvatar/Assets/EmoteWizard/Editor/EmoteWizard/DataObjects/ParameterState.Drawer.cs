@@ -31,28 +31,21 @@ namespace EmoteWizard.DataObjects
             }
         }
 
-        static string _context;
-        static EmoteWizardRoot _emoteWizardRoot;
+        static Context _context;
 
-        public static void StartContext(EmoteWizardRoot emoteWizardRoot, string context)
-        {
-            _context = context;
-            _emoteWizardRoot = emoteWizardRoot;
-        }
+        public static void StartContext(EmoteWizardRoot emoteWizardRoot, string name) => StartContext(new Context(emoteWizardRoot, name));
 
-        public static void EndContext()
-        {
-            _context = null;
-            _emoteWizardRoot = null;
-        }
+        static void StartContext(Context context) => _context = context;
+
+        public static void EndContext() => _context = null;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             if (_context == null)
             {
                 Debug.LogWarning("Internal: context is null", property.serializedObject.targetObject);
+                _context = new Context();
             }
-            EmoteWizardRoot FindEmoteWizardRoot() => _emoteWizardRoot ? _emoteWizardRoot : Object.FindObjectOfType<EmoteWizardRoot>();
 
             using (new EditorGUI.IndentLevelScope())
             {
@@ -66,8 +59,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            var relativePath = $"FX/@@@Generated@@@FX_{_context}_{value}.anim";
-                            return FindEmoteWizardRoot().EnsureAsset<AnimationClip>(relativePath);
+                            var relativePath = $"FX/@@@Generated@@@FX_{_context.Name}_{value}.anim";
+                            return _context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
                 else if (!DrawGestureClip)
@@ -76,8 +69,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            var relativePath = $"FX/@@@Generated@@@FX_{_context}_{value}.anim";
-                            return FindEmoteWizardRoot().EnsureAsset<AnimationClip>(relativePath);
+                            var relativePath = $"FX/@@@Generated@@@FX_{_context.Name}_{value}.anim";
+                            return _context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
                 else
@@ -87,6 +80,24 @@ namespace EmoteWizard.DataObjects
                 }
                 EditorGUIUtility.labelWidth = labelWidth;
             }
+        }
+        
+        class Context
+        {
+            public readonly string Name;
+            readonly EmoteWizardRoot _emoteWizardRoot;
+
+            protected internal Context()
+            {
+            }
+
+            protected internal Context(EmoteWizardRoot emoteWizardRoot, string name)
+            {
+                Name = name;
+                _emoteWizardRoot = emoteWizardRoot;
+            }
+
+            public EmoteWizardRoot EmoteWizardRoot => _emoteWizardRoot ? _emoteWizardRoot : Object.FindObjectOfType<EmoteWizardRoot>();
         }
     }
 }
