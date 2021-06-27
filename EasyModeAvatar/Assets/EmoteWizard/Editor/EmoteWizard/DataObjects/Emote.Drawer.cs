@@ -39,18 +39,32 @@ namespace EmoteWizard.DataObjects
             var cursor = position.SliceV(0, 1);
             using (new EditorGUI.PropertyScope(position, label, property))
             {
+                var gesture1 = property.FindPropertyRelative("gesture1");
+                var gesture2 = property.FindPropertyRelative("gesture2");
+                var conditions = property.FindPropertyRelative("conditions");
                 if (EditConditions)
                 {
                     var labelWidth = EditorGUIUtility.labelWidth;
                     EditorGUIUtility.labelWidth = 1f;
-                    EditorGUI.PropertyField(cursor, property.FindPropertyRelative("gesture1"), new GUIContent(" "));
+                    EditorGUI.PropertyField(cursor, gesture1, new GUIContent(" "));
                     cursor.y += LineTop(1f);
-                    EditorGUI.PropertyField(cursor, property.FindPropertyRelative("gesture2"), new GUIContent(" "));
+                    EditorGUI.PropertyField(cursor, gesture2, new GUIContent(" "));
                     cursor.y += LineTop(1f);
                     EditorGUIUtility.labelWidth = labelWidth;
-                    var conditions = property.FindPropertyRelative("conditions");
                     EditorGUI.PropertyField(cursor, conditions, true);
                     cursor.y += EditorGUI.GetPropertyHeight(conditions, true) + EditorGUIUtility.standardVerticalSpacing;    
+                }
+                else
+                {
+                    var emoteLabel = Emote.BuildStateName(
+                        (GestureConditionMode) gesture1.FindPropertyRelative("mode").intValue,
+                        (EmoteHandSign) gesture1.FindPropertyRelative("handSign").intValue,
+                        (GestureConditionMode) gesture2.FindPropertyRelative("mode").intValue,
+                        (EmoteHandSign) gesture2.FindPropertyRelative("handSign").intValue);
+                    if (conditions.arraySize > 0) emoteLabel += " *";
+
+                    GUI.Label(cursor, emoteLabel, new GUIStyle { fontStyle = FontStyle.Bold });
+                    cursor.y += LineTop(1f);
                 }
 
                 if (EditAnimations)
@@ -75,6 +89,10 @@ namespace EmoteWizard.DataObjects
             if (EditConditions)
             {
                 h += LineHeight(2f) + EditorGUI.GetPropertyHeight(property.FindPropertyRelative("conditions"), true) + EditorGUIUtility.standardVerticalSpacing;
+            }
+            else
+            {
+                h += LineHeight(1f) + EditorGUIUtility.standardVerticalSpacing;
             }
             if (EditAnimations)
             {
