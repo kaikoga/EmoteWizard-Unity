@@ -39,5 +39,33 @@ namespace EmoteWizard.Tools
             var path = AssetDatabase.GUIDToAssetPath("903ce375d5f609d44b9f00b425d6eda9");
             return AssetDatabase.LoadAssetAtPath<AvatarMask>(path);
         }
+
+        public static RuntimeAnimatorController HandsLayerController1()
+        {
+            // const string path = "Assets/VRCSDK/Examples3/Animation/Controllers/vrc_AvatarV3HandsLayer.controller";
+            var path = AssetDatabase.GUIDToAssetPath("404d228aeae421f4590305bc4cdaba16");
+            return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(path);
+        }
+
+        public static RuntimeAnimatorController HandsLayerController2()
+        {
+            // const string path = "Assets/VRCSDK/Examples3/Animation/Controllers/vrc_AvatarV3HandsLayer2.controller";
+            var path = AssetDatabase.GUIDToAssetPath("5ecf8b95a27552840aef66909bdf588f");
+            return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(path);
+        }
+
+        public static RuntimeAnimatorController SittingLayerController1()
+        {
+            // const string path = "Assets/VRCSDK/Examples3/Animation/Controllers/vrc_AvatarV3SittingLayer.controller";
+            var path = AssetDatabase.GUIDToAssetPath("1268460c14f873240981bf15aa88b21a");
+            return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(path);
+        }
+
+        public static RuntimeAnimatorController SittingLayerController2()
+        {
+            // const string path = "Assets/VRCSDK/Examples3/Animation/Controllers/vrc_AvatarV3SittingLayer2.controller";
+            var path = AssetDatabase.GUIDToAssetPath("74c2e15937e5c95478edd251f20e126f");
+            return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(path);
+        }
     }
 }

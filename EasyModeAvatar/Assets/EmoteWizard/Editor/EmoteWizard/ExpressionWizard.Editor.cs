@@ -28,6 +28,7 @@ namespace EmoteWizard
         public override void OnInspectorGUI()
         {
             var serializedObj = serializedObject;
+            var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
 
             SetupOnlyUI(expressionWizard, () =>
             {
@@ -37,7 +38,8 @@ namespace EmoteWizard
                 }
             });
 
-            expressionItemsList.DrawAsProperty(expressionWizard.EmoteWizardRoot.useReorderUI);
+            ExpressionItemDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
             EditorGUILayout.PropertyField(serializedObj.FindProperty("defaultPrefix"));

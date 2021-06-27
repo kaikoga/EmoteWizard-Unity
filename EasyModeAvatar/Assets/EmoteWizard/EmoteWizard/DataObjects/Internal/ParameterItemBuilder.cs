@@ -53,8 +53,7 @@ namespace EmoteWizard.DataObjects.Internal
                 saved = false,
                 defaultValue = 0,
                 usageValue = 0,
-                defaultParameter = false,
-                states = { new ParameterState {value = 0} }
+                defaultParameter = false
             };
         }
 
@@ -74,7 +73,18 @@ namespace EmoteWizard.DataObjects.Internal
                 valueTypeFlags &= ~ParameterValueTypeFlags.Int;
             }
             usageValue = value;
+            if (states.All(state => state.value != 0))
+            {
+                states.Add(new ParameterState { value = 0 } );
+            }
             states.Add(new ParameterState { value = value } );
+        }
+
+        public void AddPuppetUsage()
+        {
+            valueTypeFlags &= ~ParameterValueTypeFlags.Bool;
+            valueTypeFlags &= ~ParameterValueTypeFlags.Int;
+            usageValue = 0.5f;
         }
 
         public void Import(VRCExpressionParameters.Parameter parameter)

@@ -16,7 +16,8 @@ namespace EmoteWizard.DataObjects
             return new Emote
             {
                 gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.Ignore)
+                gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.Ignore),
+                parameter = EmoteParameter.Populate(handSign)
             };
         }
         
@@ -25,6 +26,7 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
         [SerializeField] public AnimationClip clipLeft;
         [SerializeField] public AnimationClip clipRight;
+        [SerializeField] public EmoteParameter parameter;
 
         public IEnumerable<AnimationClip> AllClips()
         {
@@ -32,16 +34,18 @@ namespace EmoteWizard.DataObjects
             if (clipRight != null) yield return clipRight;
         }
 
-        public string ToStateName()
+        public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);
+
+        public static string BuildStateName(GestureConditionMode mode1, EmoteHandSign handSign1, GestureConditionMode mode2, EmoteHandSign handSign2)
         {
-            string ToPart(EmoteGestureCondition gesture)
+            string ToPart(GestureConditionMode mode, EmoteHandSign handSign)
             {
-                switch (gesture.mode)
+                switch (mode)
                 {
                     case GestureConditionMode.Equals:
-                        return $"{gesture.handSign}";
+                        return $"{handSign}";
                     case GestureConditionMode.NotEqual:
-                        return $"¬{gesture.handSign}";
+                        return $"¬{handSign}";
                     case GestureConditionMode.Ignore:
                         return "";
                     default:
@@ -51,8 +55,8 @@ namespace EmoteWizard.DataObjects
 
             IEnumerable<string> ToParts()
             {
-                if (gesture1.mode != GestureConditionMode.Ignore) yield return ToPart(gesture1);
-                if (gesture2.mode != GestureConditionMode.Ignore) yield return ToPart(gesture2);
+                if (mode1 != GestureConditionMode.Ignore) yield return ToPart(mode1, handSign1);
+                if (mode2 != GestureConditionMode.Ignore) yield return ToPart(mode2, handSign2);
             }
 
             return string.Join(" ", ToParts());

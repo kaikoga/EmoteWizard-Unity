@@ -28,11 +28,16 @@ namespace EmoteWizard
 
             builder.Import(vrcDefaultParametersStub); // create VRC default parameters entry
 
-            builder.Import(parameterItems);
+            if (parameterItems != null) builder.Import(parameterItems);
 
             foreach (var expressionItem in ExpressionWizard.expressionItems)
             {
                 builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                if (!expressionItem.IsPuppet) continue;
+                foreach (var subParameter in expressionItem.subParameters)
+                {
+                    builder.FindOrCreate(subParameter).AddPuppetUsage();
+                }
             }
 
             builder.Import(vrcDefaultParametersStub); // override VRC default parameters with default values

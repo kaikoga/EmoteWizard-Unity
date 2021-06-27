@@ -25,6 +25,7 @@ namespace EmoteWizard
         public override void OnInspectorGUI()
         {
             var serializedObj = serializedObject;
+            var emoteWizardRoot = fxWizard.EmoteWizardRoot;
 
             SetupOnlyUI(fxWizard, () =>
             {
@@ -38,10 +39,11 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@GlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => fxWizard.EmoteWizardRoot.ProvideAnimationClip("FX/@@@Generated@@@AmbienceFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
+            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
-            emotesList.DrawAsProperty(fxWizard.EmoteWizardRoot.useReorderUI);
+            EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
             {
@@ -100,12 +102,14 @@ namespace EmoteWizard
                     {
                         gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
+                        parameter = EmoteParameter.Populate(handSign)
                     }))
                 .Concat(Emote.HandSigns
                     .Select(handSign => new Emote
                     {
                         gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
+                        parameter = EmoteParameter.Populate(handSign)
                     }))
                 .ToList();
             fxWizard.emotes = newEmotes;

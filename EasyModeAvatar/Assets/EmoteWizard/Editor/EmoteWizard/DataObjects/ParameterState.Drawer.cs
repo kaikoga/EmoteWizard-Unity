@@ -1,3 +1,4 @@
+using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -6,7 +7,7 @@ using static EmoteWizard.Extensions.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ParameterState))]
-    public class ParameterStateDrawer : PropertyDrawer
+    public class ParameterStateDrawer : PropertyDrawerWithContext<ParameterStateDrawer.Context>
     {
         static bool drawGestureClip = false;
         static bool drawFxClip = true;
@@ -31,11 +32,11 @@ namespace EmoteWizard.DataObjects
             }
         }
 
-        public static string Context = "";
+        public static Context StartContext(EmoteWizardRoot emoteWizardRoot, string name) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot, name));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            EmoteWizardRoot FindEmoteWizardRoot() => Object.FindObjectOfType<EmoteWizardRoot>();
+            var context = EnsureContext(property);
 
             using (new EditorGUI.IndentLevelScope())
             {
@@ -49,7 +50,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            return FindEmoteWizardRoot().ProvideAnimationClip($"FX/@@@Generated@@@FX_{Context}_{value}.anim");
+                            var relativePath = $"FX/@@@Generated@@@FX_{context.Name}_{value}.anim";
+                            return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
                 else if (!DrawGestureClip)
@@ -58,7 +60,8 @@ namespace EmoteWizard.DataObjects
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
-                            return FindEmoteWizardRoot().ProvideAnimationClip($"FX/@@@Generated@@@FX_{Context}_{value}.anim");
+                            var relativePath = $"FX/@@@Generated@@@FX_{context.Name}_{value}.anim";
+                            return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
                 else
@@ -68,6 +71,14 @@ namespace EmoteWizard.DataObjects
                 }
                 EditorGUIUtility.labelWidth = labelWidth;
             }
+        }
+        
+        public class Context : ContextBase
+        {
+            public readonly string Name;
+
+            public Context() : base(null) { }
+            public Context(EmoteWizardRoot emoteWizardRoot, string name) : base(emoteWizardRoot) => Name = name;
         }
     }
 }

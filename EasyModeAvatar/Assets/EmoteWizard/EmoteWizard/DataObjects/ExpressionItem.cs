@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using static EmoteWizard.Tools.EmoteWizardTools;
@@ -15,9 +16,31 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public string parameter;
         [SerializeField] public float value;
         [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
+        [SerializeField] public string[] subParameters;
+        [SerializeField] public string[] labels;
+        [SerializeField] public Texture2D[] labelIcons;
 
         public string Name => GetFileName(path);
         public string Folder => GetDirectoryName(path);
+
+        public bool IsPuppet
+        {
+            get
+            {
+                switch (controlType)
+                {
+                    case VRCExpressionsMenu.Control.ControlType.Button:
+                    case VRCExpressionsMenu.Control.ControlType.Toggle:
+                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                        return false;
+                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                        return true;
+                    default: throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         public IEnumerable<string> Folders()
         {
@@ -66,7 +89,7 @@ namespace EmoteWizard.DataObjects
                 kind = ExpressionItemKind.Default,
                 icon = icon,
                 path = $"{prefix}{NameForDefaultEmote(value)}",
-                parameter = "VRC_emote",
+                parameter = "VRCEmote",
                 value = value,
                 controlType = ControlTypeForDefaultEmote(value),
             };
@@ -85,18 +108,60 @@ namespace EmoteWizard.DataObjects
         
         public VRCExpressionsMenu.Control ToControl(Func<string, VRCExpressionsMenu> subMenuResolver)
         {
+            VRCExpressionsMenu.Control.Parameter[] ToSubParameters()
+            {
+                switch (controlType)
+                {
+                    case VRCExpressionsMenu.Control.ControlType.Button:
+                    case VRCExpressionsMenu.Control.ControlType.Toggle:
+                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                        return new VRCExpressionsMenu.Control.Parameter[] { };
+                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                        return subParameters.Select(subParameter => new VRCExpressionsMenu.Control.Parameter
+                        {
+                            name = subParameter
+                        }).ToArray();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+            }
+
+            VRCExpressionsMenu.Control.Label[] ToLabels()
+            {
+                switch (controlType)
+                {
+                    case VRCExpressionsMenu.Control.ControlType.Button:
+                    case VRCExpressionsMenu.Control.ControlType.Toggle:
+                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                        return new VRCExpressionsMenu.Control.Label[] { };
+                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
+                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                        return labels.Zip(labelIcons, (label, labelIcon) => new VRCExpressionsMenu.Control.Label
+                        {
+                            icon = labelIcon,
+                            name = label
+                        }).ToArray();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
             switch (kind)
             {
                 case ExpressionItemKind.Default:
                     return new VRCExpressionsMenu.Control
                     {
                         icon = icon,
-                        labels = new VRCExpressionsMenu.Control.Label[] { },
+                        labels = ToLabels(), 
                         name = Name,
                         parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
                         style = VRCExpressionsMenu.Control.Style.Style1,
                         subMenu = null,
-                        subParameters = new VRCExpressionsMenu.Control.Parameter[] { },
+                        subParameters = ToSubParameters(),
                         type = controlType,
                         value = value
                     };
