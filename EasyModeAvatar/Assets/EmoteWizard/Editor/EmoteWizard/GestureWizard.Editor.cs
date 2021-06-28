@@ -50,6 +50,7 @@ namespace EmoteWizard
             EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             
+            AnimationMixinDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>

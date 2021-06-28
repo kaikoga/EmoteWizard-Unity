@@ -1,8 +1,6 @@
-using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUITools;
 using static EmoteWizard.Extensions.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
