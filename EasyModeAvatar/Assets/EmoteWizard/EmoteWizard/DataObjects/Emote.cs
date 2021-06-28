@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace EmoteWizard.DataObjects
@@ -24,14 +25,29 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public EmoteGestureCondition gesture1;
         [SerializeField] public EmoteGestureCondition gesture2;
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
-        [SerializeField] public AnimationClip clipLeft;
-        [SerializeField] public AnimationClip clipRight;
+        [SerializeField] public Motion clipLeft;
+        [SerializeField] public Motion clipRight;
         [SerializeField] public EmoteParameter parameter;
 
         public IEnumerable<AnimationClip> AllClips()
         {
-            if (clipLeft != null) yield return clipLeft;
-            if (clipRight != null) yield return clipRight;
+            IEnumerable<AnimationClip> CollectClips(Motion motion)
+            {
+                switch (motion)
+                {
+                    case AnimationClip clip:
+                        yield return clip;
+                        break;
+                    case BlendTree blendTree:
+                        foreach (var child in blendTree.children)
+                        {
+                            foreach (var childClip in CollectClips(child.motion)) yield return childClip;
+                        }
+                        break;
+                }
+            }
+            if (clipLeft != null) foreach (var clip in CollectClips(clipLeft)) yield return clip;
+            if (clipRight != null) foreach (var clip in CollectClips(clipRight)) yield return clip;
         }
 
         public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);

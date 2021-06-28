@@ -88,7 +88,7 @@ namespace EmoteWizard.Base
                 {
                     state.timeParameterActive = true;
                     state.timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
-                    clip.SetLoopTime(false);
+                    clip.SetLoopTimeRec(false);
                     EditorUtility.SetDirty(clip);
                 }
 
