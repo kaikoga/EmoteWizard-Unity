@@ -15,12 +15,14 @@ namespace EmoteWizard
         GestureWizard gestureWizard;
 
         ExpandableReorderableList emotesList;
+        ExpandableReorderableList mixinsList;
 
         void OnEnable()
         {
             gestureWizard = target as GestureWizard;
             
             emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
+            mixinsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("mixins"), "Mixins");
         }
 
         public override void OnInspectorGUI()
@@ -47,6 +49,8 @@ namespace EmoteWizard
 
             EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            
+            mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
             {
@@ -73,6 +77,12 @@ namespace EmoteWizard
                         {
                             var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
                             BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, false);
+                        }
+
+                        foreach (var mixin in gestureWizard.mixins)
+                        {
+                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
+                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
 
                         BuildParameters(animatorController, gestureWizard.ParametersWizard.CustomParameterItems);

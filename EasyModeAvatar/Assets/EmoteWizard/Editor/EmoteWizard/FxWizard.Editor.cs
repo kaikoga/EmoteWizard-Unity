@@ -13,13 +13,16 @@ namespace EmoteWizard
     public class FxWizardEditor : AnimationWizardBaseEditor
     {
         FxWizard fxWizard;
+
         ExpandableReorderableList emotesList;
+        ExpandableReorderableList mixinsList;
 
         void OnEnable()
         {
             fxWizard = target as FxWizard;
 
             emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
+            mixinsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("mixins"), "Mixins");
         }
 
         public override void OnInspectorGUI()
@@ -44,6 +47,8 @@ namespace EmoteWizard
             
             EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+
+            mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             OutputUIArea(() =>
             {
@@ -73,6 +78,12 @@ namespace EmoteWizard
                         {
                             var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
                             BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, true);
+                        }
+                        
+                        foreach (var mixin in fxWizard.mixins)
+                        {
+                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
+                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
                         
                         BuildParameters(animatorController, fxWizard.ParametersWizard.CustomParameterItems);
