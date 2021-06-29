@@ -13,7 +13,7 @@ namespace EmoteWizard.Collections.Base
             OnGUI(position, useReorderUI);
         }
 
-        private void OnGUI(Rect position, bool useReorderUI)
+        public void OnGUI(Rect position, bool useReorderUI)
         {
             EmoteWizardGUI.ColoredBox(position, Color.yellow);
             position = position.InsideBox();

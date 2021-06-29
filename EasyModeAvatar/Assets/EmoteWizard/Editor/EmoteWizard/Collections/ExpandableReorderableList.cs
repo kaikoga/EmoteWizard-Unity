@@ -1,15 +1,15 @@
 using EmoteWizard.Collections.Base;
 using EmoteWizard.Extensions;
-using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.Collections
 {
     public class ExpandableReorderableList : ReorderableList
     {
-        ListHeaderDrawer _listHeaderDrawer;
+        readonly ListHeaderDrawer _listHeaderDrawer;
 
         public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListHeaderDrawer headerDrawer) : base(serializedObject, elements)
         {
@@ -17,11 +17,13 @@ namespace EmoteWizard.Collections
 
             drawHeaderCallback += rect =>
             {
-                var isExpanded = EditorGUI.Foldout(rect, serializedProperty.isExpanded, headerName);
+                var isExpanded = EditorGUI.Foldout(rect.SliceV(0), serializedProperty.isExpanded, headerName);
                 serializedProperty.isExpanded = isExpanded;
                 draggable = isExpanded;
                 displayAdd = isExpanded;
                 displayRemove = isExpanded;
+                
+                if (isExpanded) _listHeaderDrawer.OnGUI(rect.SliceV(1, -1), true);
             };
 
             drawElementCallback += (rect, index, selected, focused) =>
@@ -38,18 +40,29 @@ namespace EmoteWizard.Collections
 
             onCanAddCallback += list => serializedProperty.isExpanded;
             onCanRemoveCallback += list => serializedProperty.isExpanded;
+            showDefaultBackground = false;
         }
 
         public void DrawAsProperty(bool useReorderUI)
         {
             if (useReorderUI)
             {
-                _listHeaderDrawer.OnGUI(true);
+                if (serializedProperty.isExpanded)
+                {
+                    headerHeight = 16f + _listHeaderDrawer.GetHeaderHeight();
+                    footerHeight = 12f;
+                }
+                else
+                {
+                    headerHeight = 16f;
+                    footerHeight = 0f;
+                }
+
                 using (new EditorGUI.IndentLevelScope()) DoLayoutList();
             }
             else
             {
-                _listHeaderDrawer.OnGUI(false);
+                if (serializedProperty.isExpanded) _listHeaderDrawer.OnGUI(false);
                 EditorGUILayout.PropertyField(serializedProperty, true);
             }
         }
