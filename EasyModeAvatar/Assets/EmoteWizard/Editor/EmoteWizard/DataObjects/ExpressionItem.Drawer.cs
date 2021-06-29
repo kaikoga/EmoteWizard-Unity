@@ -1,6 +1,9 @@
 using System;
+using System.IO;
+using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -9,7 +12,7 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ExpressionItem))]
-    public class ExpressionItemDrawer : PropertyDrawer
+    public class ExpressionItemDrawer : PropertyDrawerWithContext<ExpressionItemDrawer.Context>
     {
         static readonly string[][] SubParameterLabels = {
             null,
@@ -19,8 +22,12 @@ namespace EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
+        public static Context StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot));
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var context = EnsureContext(property);
+
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
             using (new EditorGUI.PropertyScope(position, label, property))
@@ -70,8 +77,24 @@ namespace EmoteWizard.DataObjects
                 {
                     case VRCExpressionsMenu.Control.ControlType.Button:
                     case VRCExpressionsMenu.Control.ControlType.Toggle:
+                        break;
                     case VRCExpressionsMenu.Control.ControlType.SubMenu:
-                        DrawSubParameters(0, 0);
+                        EmoteWizardGUI.PropertyFieldWithGenerate(
+                            position.SliceV(y),
+                            property.FindPropertyRelative("subMenu"),
+                            () =>
+                            {
+                                var name = property.FindPropertyRelative("path").stringValue;
+                                if (string.IsNullOrEmpty(name))
+                                {
+                                    Debug.LogError("Expression name is required.");
+                                    return null;
+                                }
+
+                                var relativePath =
+                                    $"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.anim";
+                                return context.EmoteWizardRoot.EnsureAsset<VRCExpressionsMenu>(relativePath);
+                            });
                         break;
                     case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
                         DrawSubParameters(2, 4);
@@ -95,7 +118,9 @@ namespace EmoteWizard.DataObjects
             {
                 case VRCExpressionsMenu.Control.ControlType.Button:
                 case VRCExpressionsMenu.Control.ControlType.Toggle:
+                    break;
                 case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                    lineHeight += 1f;
                     break;
                 case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
                     lineHeight += 8f;
@@ -110,6 +135,12 @@ namespace EmoteWizard.DataObjects
                     throw new ArgumentOutOfRangeException();
             }
             return BoxHeight(LineHeight(lineHeight));
+        }
+        
+        public class Context : ContextBase
+        {
+            public Context() : base(null) { }
+            public Context(EmoteWizardRoot emoteWizardRoot) : base(emoteWizardRoot) { }
         }
     }
 }
