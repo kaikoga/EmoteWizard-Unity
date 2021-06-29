@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;

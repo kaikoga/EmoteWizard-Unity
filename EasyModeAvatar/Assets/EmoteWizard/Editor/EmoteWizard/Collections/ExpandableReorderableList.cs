@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace EmoteWizard.Tools
+namespace EmoteWizard.Collections
 {
     public class ExpandableReorderableList : ReorderableList
     {
