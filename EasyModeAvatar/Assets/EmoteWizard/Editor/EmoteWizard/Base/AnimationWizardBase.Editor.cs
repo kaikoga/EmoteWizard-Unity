@@ -157,6 +157,14 @@ namespace EmoteWizard.Base
             var state = stateMachine.AddState(mixin.name, position);
             state.motion = mixin.Motion;
             state.writeDefaultValues = false;
+
+            if (mixin.kind == AnimationMixin.AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
+            {
+                state.timeParameterActive = true;
+                state.timeParameter = mixin.normalizedTime;
+                mixin.Motion.SetLoopTimeRec(false);
+                EditorUtility.SetDirty(mixin.Motion);
+            }
         }
 
         protected void BuildParameters(AnimatorController animatorController, IEnumerable<ParameterItem> parameters)

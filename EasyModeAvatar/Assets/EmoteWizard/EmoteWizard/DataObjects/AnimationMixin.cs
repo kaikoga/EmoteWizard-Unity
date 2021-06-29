@@ -10,6 +10,9 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public string name;
         [SerializeField] public AnimationMixinKind kind = AnimationMixinKind.AnimationClip;
         [SerializeField] public AnimationClip animationClip;
+        [SerializeField] public bool normalizedTimeEnabled;
+        [SerializeField] public string normalizedTime;
+
         [SerializeField] public BlendTree blendTree;
 
         public Motion Motion
