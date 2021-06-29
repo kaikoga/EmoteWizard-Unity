@@ -1,9 +1,8 @@
-using EmoteWizard.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUITools;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -13,25 +12,6 @@ namespace EmoteWizard.DataObjects
         public static bool EditConditions = true;
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
-
-        public static void DrawHeader(bool useReorderUI)
-        {
-            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(3f)));
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.yellow;
-            GUI.Box(position, GUIContent.none);
-            GUI.backgroundColor = backgroundColor;
-            
-            position = position.InsideBox();
-            // position.xMin += useReorderUI ? 20f : 6f;
-            // position.xMax -= 6f;
-            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-            {
-                EditConditions = EditorGUI.ToggleLeft(position.SliceV(0), "Edit Conditions", EditConditions);
-                EditAnimations = EditorGUI.ToggleLeft(position.SliceV(1), "Edit Animations", EditAnimations);
-                EditParameters = EditorGUI.ToggleLeft(position.SliceV(2), "Edit Parameters", EditParameters);
-            }
-        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -45,13 +25,13 @@ namespace EmoteWizard.DataObjects
                 var conditions = property.FindPropertyRelative("conditions");
                 if (EditConditions)
                 {
-                    var labelWidth = EditorGUIUtility.labelWidth;
-                    EditorGUIUtility.labelWidth = 1f;
-                    EditorGUI.PropertyField(cursor, gesture1, new GUIContent(" "));
-                    cursor.y += LineTop(1f);
-                    EditorGUI.PropertyField(cursor, gesture2, new GUIContent(" "));
-                    cursor.y += LineTop(1f);
-                    EditorGUIUtility.labelWidth = labelWidth;
+                    using (new HideLabelsScope())
+                    {
+                        EditorGUI.PropertyField(cursor, gesture1, new GUIContent(" "));
+                        cursor.y += LineTop(1f);
+                        EditorGUI.PropertyField(cursor, gesture2, new GUIContent(" "));
+                        cursor.y += LineTop(1f);
+                    }
                     EditorGUI.PropertyField(cursor, conditions, true);
                     cursor.y += EditorGUI.GetPropertyHeight(conditions, true) + EditorGUIUtility.standardVerticalSpacing;    
                 }

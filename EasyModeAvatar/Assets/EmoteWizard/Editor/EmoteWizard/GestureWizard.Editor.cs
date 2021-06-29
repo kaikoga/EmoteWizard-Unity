@@ -1,11 +1,12 @@
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -15,12 +16,20 @@ namespace EmoteWizard
         GestureWizard gestureWizard;
 
         ExpandableReorderableList emotesList;
+        ExpandableReorderableList mixinsList;
 
         void OnEnable()
         {
             gestureWizard = target as GestureWizard;
             
-            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
+            emotesList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("emotes"),
+                "Emotes",
+                new EmoteListHeaderDrawer());
+            mixinsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("mixins"),
+                "Mixins",
+                new AnimationMixinListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -28,7 +37,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(gestureWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
             {
                 if (GUILayout.Button("Repopulate Emotes"))
                 {
@@ -36,19 +45,22 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
             {
                 var avatarMask = emoteWizardRoot.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
                 return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
             });
 
-            EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "Gesture/Mixin/"))
+            {
+                mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
@@ -73,6 +85,12 @@ namespace EmoteWizard
                         {
                             var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
                             BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, false);
+                        }
+
+                        foreach (var mixin in gestureWizard.mixins)
+                        {
+                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
+                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
 
                         BuildParameters(animatorController, gestureWizard.ParametersWizard.CustomParameterItems);

@@ -88,7 +88,7 @@ namespace EmoteWizard.Base
                 {
                     state.timeParameterActive = true;
                     state.timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
-                    clip.SetLoopTime(false);
+                    clip.SetLoopTimeRec(false);
                     EditorUtility.SetDirty(clip);
                 }
 
@@ -144,6 +144,26 @@ namespace EmoteWizard.Base
                 state.writeDefaultValues = false;
                 AddTransition(state, parameterItem.name, parameterState.value);
                 position.y += 60;
+            }
+        }
+        
+        protected void BuildMixinLayerStateMachine(AnimatorStateMachine stateMachine, AnimationMixin mixin)
+        {
+            stateMachine.anyStatePosition = new Vector2(0, 0);
+            stateMachine.entryPosition = new Vector2(0, 100);
+            stateMachine.exitPosition = new Vector2(0, 200);
+
+            var position = new Vector2(300, 0);
+            var state = stateMachine.AddState(mixin.name, position);
+            state.motion = mixin.Motion;
+            state.writeDefaultValues = false;
+
+            if (mixin.kind == AnimationMixin.AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
+            {
+                state.timeParameterActive = true;
+                state.timeParameter = mixin.normalizedTime;
+                mixin.Motion.SetLoopTimeRec(false);
+                EditorUtility.SetDirty(mixin.Motion);
             }
         }
 

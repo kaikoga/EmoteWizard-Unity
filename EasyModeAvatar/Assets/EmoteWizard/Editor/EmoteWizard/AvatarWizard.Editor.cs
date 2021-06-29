@@ -1,11 +1,11 @@
 using System;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
-using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -34,7 +34,7 @@ namespace EmoteWizard
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideSittingController"));
             }
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 void EditAnimator(AnimatorController animatorController)
                 {

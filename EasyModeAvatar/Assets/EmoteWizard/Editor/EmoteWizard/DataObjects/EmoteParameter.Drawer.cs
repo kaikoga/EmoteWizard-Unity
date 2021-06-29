@@ -1,8 +1,9 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -23,14 +24,12 @@ namespace EmoteWizard.DataObjects
                 if (context.IsEditing)
                 {
                     EditorGUI.PropertyField(position.SliceV(0), normalizedTimeEnabled, new GUIContent("Normalized Time"));
-                    var labelWidth = EditorGUIUtility.labelWidth;
                     using (new EditorGUI.IndentLevelScope())
                     using (new EditorGUI.DisabledScope(!normalizedTimeEnabled.boolValue))
                     {
                         EditorGUI.PropertyField(position.SliceV( 1), normalizedTimeLeft, new GUIContent("Parameter Left"));
                         EditorGUI.PropertyField(position.SliceV(2), normalizedTimeRight, new GUIContent("Parameter Right"));
                     }
-                    EditorGUIUtility.labelWidth = labelWidth;
                 }
                 else
                 {

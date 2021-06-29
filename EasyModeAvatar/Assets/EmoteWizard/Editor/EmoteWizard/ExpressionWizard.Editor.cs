@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -22,7 +23,10 @@ namespace EmoteWizard
         {
             expressionWizard = target as ExpressionWizard;
             
-            expressionItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("expressionItems"), "Expression Items");
+            expressionItemsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("expressionItems"),
+                "Expression Items",
+                new ExpressionItemListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -30,7 +34,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(expressionWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
             {
                 if (GUILayout.Button("Reset Expression Items"))
                 {
@@ -38,7 +42,6 @@ namespace EmoteWizard
                 }
             });
 
-            ExpressionItemDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
@@ -49,7 +52,7 @@ namespace EmoteWizard
                 PopulateDefaultExpressionItems();
             }
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {

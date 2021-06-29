@@ -1,9 +1,10 @@
 using System;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -18,36 +19,14 @@ namespace EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
-        public static void DrawHeader(bool useReorderUI)
-        {
-            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.yellow;
-            GUI.Box(position, GUIContent.none);
-            GUI.backgroundColor = backgroundColor;
-            position = position.InsideBox();
-            position.xMin += useReorderUI ? 20f : 6f;
-            position.xMax -= 6f;
-            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-            {
-                GUI.Label(position.Slice(0.0f, 0.4f, 0), "Icon");
-                GUI.Label(position.Slice(0.4f, 0.6f, 0), "Path");
-                
-                GUI.Label(position.Slice(0.0f, 0.4f, 1), "Parameter");
-                GUI.Label(position.Slice(0.4f, 0.2f, 1), "Value");
-                GUI.Label(position.Slice(0.6f, 0.4f, 1), "ControlType");
-            }
-        }
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
             using (new EditorGUI.PropertyScope(position, label, property))
             using (new EditorGUI.IndentLevelScope())
+            using (new HideLabelsScope())
             {
-                var labelWidth = EditorGUIUtility.labelWidth;
-                EditorGUIUtility.labelWidth = 1f;
                 EditorGUI.PropertyField(position.Slice(0.0f, 0.4f, 0), property.FindPropertyRelative("icon"), new GUIContent(" "));
                 EditorGUI.PropertyField(position.Slice(0.4f, 0.6f, 0), property.FindPropertyRelative("path"), new GUIContent(" "));
 
@@ -106,8 +85,6 @@ namespace EmoteWizard.DataObjects
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-                EditorGUIUtility.labelWidth = labelWidth;
             }
         }
 

@@ -1,8 +1,10 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -39,13 +41,12 @@ namespace EmoteWizard.DataObjects
             var context = EnsureContext(property);
 
             using (new EditorGUI.IndentLevelScope())
+            using (new HideLabelsScope())
             {
-                var labelWidth = EditorGUIUtility.labelWidth;
-                EditorGUIUtility.labelWidth = 1f;
                 EditorGUI.PropertyField(position.SliceH(0.0f, 0.2f), property.FindPropertyRelative("value"));
                 if (!DrawFxClip)
                 {
-                    PropertyFieldWithGenerate(position.SliceH(0.2f, 0.75f),
+                    EmoteWizardGUI.PropertyFieldWithGenerate(position.SliceH(0.2f, 0.75f),
                         property.FindPropertyRelative("gestureClip"),
                         () =>
                         {
@@ -56,7 +57,7 @@ namespace EmoteWizard.DataObjects
                 }
                 else if (!DrawGestureClip)
                 {
-                    PropertyFieldWithGenerate(position.SliceH(0.25f, 0.75f), property.FindPropertyRelative("fxClip"),
+                    EmoteWizardGUI.PropertyFieldWithGenerate(position.SliceH(0.25f, 0.75f), property.FindPropertyRelative("fxClip"),
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;
@@ -69,7 +70,6 @@ namespace EmoteWizard.DataObjects
                     EditorGUI.PropertyField(position.SliceH(0.2f, 0.4f), property.FindPropertyRelative("gestureClip"), new GUIContent(" "));
                     EditorGUI.PropertyField(position.SliceH(0.6f, 0.4f), property.FindPropertyRelative("fxClip"), new GUIContent(" "));
                 }
-                EditorGUIUtility.labelWidth = labelWidth;
             }
         }
         

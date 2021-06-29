@@ -1,8 +1,8 @@
 using EmoteWizard.Extensions;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Tools.EmoteWizardEditorTools;
-using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -30,9 +30,9 @@ namespace EmoteWizard
             }
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("generatedAssetPrefix"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
 
-            ConfigUIArea(() => { emoteWizardRoot.useReorderUI = EditorGUILayout.ToggleLeft("Use Reorder UI", emoteWizardRoot.useReorderUI); });
+            EmoteWizardGUILayout.ConfigUIArea(() => { emoteWizardRoot.useReorderUI = EditorGUILayout.ToggleLeft("Use Reorder UI", emoteWizardRoot.useReorderUI); });
 
             if (!emoteWizardRoot.GetComponent<SetupWizard>())
             {

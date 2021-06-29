@@ -1,5 +1,5 @@
 using UnityEngine;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.Extensions
 {

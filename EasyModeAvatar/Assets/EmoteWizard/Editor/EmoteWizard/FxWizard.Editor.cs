@@ -1,11 +1,12 @@
 using System.Linq;
 using EmoteWizard.Base;
+using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUITools;
 
 namespace EmoteWizard
 {
@@ -13,13 +14,22 @@ namespace EmoteWizard
     public class FxWizardEditor : AnimationWizardBaseEditor
     {
         FxWizard fxWizard;
+
         ExpandableReorderableList emotesList;
+        ExpandableReorderableList mixinsList;
 
         void OnEnable()
         {
             fxWizard = target as FxWizard;
 
-            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
+            emotesList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("emotes"),
+                "Emotes",
+                new EmoteListHeaderDrawer());
+            mixinsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("mixins"),
+                "Mixins",
+                new AnimationMixinListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -27,7 +37,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = fxWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(fxWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
             {
                 if (GUILayout.Button("Repopulate Emotes: 7 items"))
                 {
@@ -39,13 +49,16 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
-            EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "FX/Mixin/"))
+            {
+                mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
@@ -73,6 +86,12 @@ namespace EmoteWizard
                         {
                             var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
                             BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, true);
+                        }
+                        
+                        foreach (var mixin in fxWizard.mixins)
+                        {
+                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
+                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
                         
                         BuildParameters(animatorController, fxWizard.ParametersWizard.CustomParameterItems);
