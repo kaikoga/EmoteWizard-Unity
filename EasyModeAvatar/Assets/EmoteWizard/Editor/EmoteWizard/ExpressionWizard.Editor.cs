@@ -23,7 +23,10 @@ namespace EmoteWizard
         {
             expressionWizard = target as ExpressionWizard;
             
-            expressionItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("expressionItems"), "Expression Items");
+            expressionItemsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("expressionItems"),
+                "Expression Items",
+                new ExpressionItemListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -39,7 +42,6 @@ namespace EmoteWizard
                 }
             });
 
-            new ExpressionItemListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));

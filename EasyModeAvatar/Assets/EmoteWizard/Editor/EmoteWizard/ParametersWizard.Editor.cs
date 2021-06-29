@@ -18,7 +18,10 @@ namespace EmoteWizard
         {
             parametersWizard = target as ParametersWizard;
             
-            parameterItemsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("parameterItems"), "Parameter Items");
+            parameterItemsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("parameterItems"),
+                "Parameter Items",
+                new ParameterItemListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -41,7 +44,6 @@ namespace EmoteWizard
                 parametersWizard.RefreshParameters();
             }
 
-            new ParameterItemListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             using (ParameterItemDrawer.StartContext(emoteWizardRoot))
             {
                 parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);

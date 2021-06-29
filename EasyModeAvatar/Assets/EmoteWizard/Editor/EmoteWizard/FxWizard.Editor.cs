@@ -22,8 +22,14 @@ namespace EmoteWizard
         {
             fxWizard = target as FxWizard;
 
-            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
-            mixinsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("mixins"), "Mixins");
+            emotesList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("emotes"),
+                "Emotes",
+                new EmoteListHeaderDrawer());
+            mixinsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("mixins"),
+                "Mixins",
+                new AnimationMixinListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -46,10 +52,7 @@ namespace EmoteWizard
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
-            new EmoteListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-
-            new AnimationMixinListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EmoteWizardGUILayout.OutputUIArea(() =>

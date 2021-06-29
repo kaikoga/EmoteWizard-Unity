@@ -10,6 +10,11 @@ namespace EmoteWizard.Collections.Base
         public void OnGUI(bool useReorderUI)
         {
             var position = GUILayoutUtility.GetRect(0, GetHeaderHeight());
+            OnGUI(position, useReorderUI);
+        }
+
+        private void OnGUI(Rect position, bool useReorderUI)
+        {
             EmoteWizardGUI.ColoredBox(position, Color.yellow);
             position = position.InsideBox();
             position.xMin += useReorderUI ? 20f : 6f;

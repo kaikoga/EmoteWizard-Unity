@@ -22,8 +22,14 @@ namespace EmoteWizard
         {
             gestureWizard = target as GestureWizard;
             
-            emotesList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("emotes"), "Emotes");
-            mixinsList = new ExpandableReorderableList(serializedObject, serializedObject.FindProperty("mixins"), "Mixins");
+            emotesList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("emotes"),
+                "Emotes",
+                new EmoteListHeaderDrawer());
+            mixinsList = new ExpandableReorderableList(serializedObject,
+                serializedObject.FindProperty("mixins"),
+                "Mixins",
+                new AnimationMixinListHeaderDrawer());
         }
 
         public override void OnInspectorGUI()
@@ -48,10 +54,7 @@ namespace EmoteWizard
                 return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
             });
 
-            new EmoteListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            
-            new AnimationMixinListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EmoteWizardGUILayout.OutputUIArea(() =>

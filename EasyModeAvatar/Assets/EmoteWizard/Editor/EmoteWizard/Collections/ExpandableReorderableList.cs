@@ -1,3 +1,6 @@
+using EmoteWizard.Collections.Base;
+using EmoteWizard.Extensions;
+using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -6,8 +9,12 @@ namespace EmoteWizard.Collections
 {
     public class ExpandableReorderableList : ReorderableList
     {
-        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName) : base(serializedObject, elements)
+        ListHeaderDrawer _listHeaderDrawer;
+
+        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListHeaderDrawer headerDrawer) : base(serializedObject, elements)
         {
+            _listHeaderDrawer = headerDrawer;
+
             drawHeaderCallback += rect =>
             {
                 var isExpanded = EditorGUI.Foldout(rect, serializedProperty.isExpanded, headerName);
@@ -37,10 +44,12 @@ namespace EmoteWizard.Collections
         {
             if (useReorderUI)
             {
+                _listHeaderDrawer.OnGUI(true);
                 using (new EditorGUI.IndentLevelScope()) DoLayoutList();
             }
             else
             {
+                _listHeaderDrawer.OnGUI(false);
                 EditorGUILayout.PropertyField(serializedProperty, true);
             }
         }
