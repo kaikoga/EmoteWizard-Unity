@@ -3,16 +3,19 @@ using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
-using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.Collections
 {
     public class ExpandableReorderableList : ReorderableList
     {
+        public static bool UseDefaultUI = false;
+        
+        readonly string _headerName;
         readonly ListHeaderDrawer _listHeaderDrawer;
 
         public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListHeaderDrawer headerDrawer) : base(serializedObject, elements)
         {
+            _headerName = headerName;
             _listHeaderDrawer = headerDrawer;
 
             drawHeaderCallback += rect =>
@@ -45,7 +48,11 @@ namespace EmoteWizard.Collections
 
         public void DrawAsProperty(bool useReorderUI)
         {
-            if (useReorderUI)
+            if (UseDefaultUI)
+            {
+                EditorGUILayout.PropertyField(serializedProperty, true);
+            }
+            else if (useReorderUI)
             {
                 if (serializedProperty.isExpanded)
                 {
@@ -62,8 +69,23 @@ namespace EmoteWizard.Collections
             }
             else
             {
-                if (serializedProperty.isExpanded) _listHeaderDrawer.OnGUI(false);
-                EditorGUILayout.PropertyField(serializedProperty, true);
+                var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _headerName);
+                serializedProperty.isExpanded = isExpanded;
+                if (!isExpanded) return;
+                
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    const int arraySizeMax = 100;
+                    var arraySize = EditorGUILayout.DelayedIntField("Size", serializedProperty.arraySize);
+                    if (arraySize > arraySizeMax) arraySize = arraySizeMax;
+                    serializedProperty.arraySize = arraySize;
+
+                    if (serializedProperty.isExpanded) _listHeaderDrawer.OnGUI(false);
+                    for (var i = 0; i < arraySize; i++)
+                    {
+                        EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
+                    }
+                }
             }
         }
     }
