@@ -55,7 +55,10 @@ namespace EmoteWizard
             });
 
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "Gesture/Mixin/"))
+            {
+                mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
