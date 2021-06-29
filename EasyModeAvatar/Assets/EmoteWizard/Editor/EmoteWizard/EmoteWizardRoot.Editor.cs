@@ -2,7 +2,7 @@ using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Tools.EmoteWizardEditorTools;
-using static EmoteWizard.Extensions.EditorUITools;
+using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {

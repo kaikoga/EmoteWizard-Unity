@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
-using static EmoteWizard.Extensions.EditorUITools;
+using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {

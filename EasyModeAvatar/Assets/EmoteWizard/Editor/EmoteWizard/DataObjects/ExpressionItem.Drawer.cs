@@ -1,5 +1,6 @@
 using System;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -21,10 +22,7 @@ namespace EmoteWizard.DataObjects
         public static void DrawHeader(bool useReorderUI)
         {
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.yellow;
-            GUI.Box(position, GUIContent.none);
-            GUI.backgroundColor = backgroundColor;
+            EmoteWizardGUI.ColoredBox(position, Color.yellow);
             position = position.InsideBox();
             position.xMin += useReorderUI ? 20f : 6f;
             position.xMax -= 6f;
@@ -45,9 +43,8 @@ namespace EmoteWizard.DataObjects
             position = position.InsideBox();
             using (new EditorGUI.PropertyScope(position, label, property))
             using (new EditorGUI.IndentLevelScope())
+            using (new HideLabelsScope())
             {
-                var labelWidth = EditorGUIUtility.labelWidth;
-                EditorGUIUtility.labelWidth = 1f;
                 EditorGUI.PropertyField(position.Slice(0.0f, 0.4f, 0), property.FindPropertyRelative("icon"), new GUIContent(" "));
                 EditorGUI.PropertyField(position.Slice(0.4f, 0.6f, 0), property.FindPropertyRelative("path"), new GUIContent(" "));
 
@@ -106,8 +103,6 @@ namespace EmoteWizard.DataObjects
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-
-                EditorGUIUtility.labelWidth = labelWidth;
             }
         }
 

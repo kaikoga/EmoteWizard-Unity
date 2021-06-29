@@ -1,5 +1,6 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -15,10 +16,7 @@ namespace EmoteWizard.DataObjects
         public static void DrawHeader(bool useReorderUI)
         {
             var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.yellow;
-            GUI.Box(position, GUIContent.none);
-            GUI.backgroundColor = backgroundColor;
+            EmoteWizardGUI.ColoredBox(position, Color.yellow);
             position = position.InsideBox();
             position.xMin += useReorderUI ? 20f : 6f;
             position.xMax -= 6f;
@@ -48,9 +46,8 @@ namespace EmoteWizard.DataObjects
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
+                using (new HideLabelsScope())
                 {
-                    var labelWidth = EditorGUIUtility.labelWidth;
-                    EditorGUIUtility.labelWidth = 1f;
                     using (new EditorGUI.DisabledScope(defaultParameter))
                     {
                         EditorGUI.PropertyField(position.Slice(0.00f, 0.40f, 0), property.FindPropertyRelative("name"), new GUIContent(" "));
@@ -58,7 +55,6 @@ namespace EmoteWizard.DataObjects
                         EditorGUI.PropertyField(position.Slice(0.65f, 0.20f, 0), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
                         EditorGUI.PropertyField(position.Slice(0.85f, 0.15f, 0), property.FindPropertyRelative("saved"));
                     }
-                    EditorGUIUtility.labelWidth = labelWidth;
                 }
 
                 using (new EditorGUI.DisabledScope(property.FindPropertyRelative("valueType").intValue == (int)VRCExpressionParameters.ValueType.Float))

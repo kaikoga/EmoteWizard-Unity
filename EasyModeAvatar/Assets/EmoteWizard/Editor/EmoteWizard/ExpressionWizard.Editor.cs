@@ -8,7 +8,7 @@ using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Extensions.EditorUITools;
+using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {

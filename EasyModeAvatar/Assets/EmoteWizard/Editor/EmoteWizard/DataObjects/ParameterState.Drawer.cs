@@ -1,5 +1,6 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Extensions.PropertyDrawerUITools;
@@ -39,9 +40,8 @@ namespace EmoteWizard.DataObjects
             var context = EnsureContext(property);
 
             using (new EditorGUI.IndentLevelScope())
+            using (new HideLabelsScope())
             {
-                var labelWidth = EditorGUIUtility.labelWidth;
-                EditorGUIUtility.labelWidth = 1f;
                 EditorGUI.PropertyField(position.SliceH(0.0f, 0.2f), property.FindPropertyRelative("value"));
                 if (!DrawFxClip)
                 {
@@ -69,7 +69,6 @@ namespace EmoteWizard.DataObjects
                     EditorGUI.PropertyField(position.SliceH(0.2f, 0.4f), property.FindPropertyRelative("gestureClip"), new GUIContent(" "));
                     EditorGUI.PropertyField(position.SliceH(0.6f, 0.4f), property.FindPropertyRelative("fxClip"), new GUIContent(" "));
                 }
-                EditorGUIUtility.labelWidth = labelWidth;
             }
         }
         

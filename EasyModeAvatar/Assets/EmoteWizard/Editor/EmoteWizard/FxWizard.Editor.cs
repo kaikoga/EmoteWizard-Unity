@@ -6,7 +6,7 @@ using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUITools;
+using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {

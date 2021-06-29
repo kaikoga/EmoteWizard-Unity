@@ -1,21 +1,19 @@
 using System;
 using EmoteWizard.Base;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 
 namespace EmoteWizard.Extensions
 {
-    public static class EditorUITools
+    public static class EditorUILayoutTools
     {
         public static void SetupOnlyUI(EmoteWizardBase emoteWizardBase, Action action)
         {
             if (!emoteWizardBase.IsSetupMode) return;
             
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.magenta;
-            using (new GUILayout.VerticalScope(GUI.skin.box))
+            using (new BoxLayoutScope(Color.magenta))
             {
-                GUI.backgroundColor = backgroundColor;
                 GUILayout.Label("Setup only zone");
                 action();
             }
@@ -23,22 +21,16 @@ namespace EmoteWizard.Extensions
         
         public static void ConfigUIArea(Action action)
         {
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.yellow;
-            using (new GUILayout.VerticalScope(GUI.skin.box))
+            using (new BoxLayoutScope(Color.yellow))
             {
-                GUI.backgroundColor = backgroundColor;
                 action();
             }
         }
 
         public static void OutputUIArea(Action action)
         {
-            var backgroundColor = GUI.backgroundColor;
-            GUI.backgroundColor = Color.cyan;
-            using (new GUILayout.VerticalScope(GUI.skin.box))
+            using (new BoxLayoutScope(Color.cyan))
             {
-                GUI.backgroundColor = backgroundColor;
                 GUILayout.Label("Output zone");
                 action();
             }
