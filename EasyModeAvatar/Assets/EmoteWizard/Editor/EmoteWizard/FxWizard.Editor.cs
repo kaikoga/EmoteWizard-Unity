@@ -46,10 +46,10 @@ namespace EmoteWizard
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
-            EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            new EmoteListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
-            AnimationMixinDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            new AnimationMixinListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EmoteWizardGUILayout.OutputUIArea(() =>

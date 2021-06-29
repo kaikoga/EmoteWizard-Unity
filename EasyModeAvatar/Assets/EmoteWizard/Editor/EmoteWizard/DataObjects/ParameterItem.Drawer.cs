@@ -1,7 +1,6 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
-using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -13,26 +12,6 @@ namespace EmoteWizard.DataObjects
     public class ParameterItemDrawer : PropertyDrawerWithContext<ParameterItemDrawer.Context>
     {
         public static Context StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot));
-
-        public static void DrawHeader(bool useReorderUI)
-        {
-            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
-            EmoteWizardGUI.ColoredBox(position, Color.yellow);
-            position = position.InsideBox();
-            position.xMin += useReorderUI ? 20f : 6f;
-            position.xMax -= 6f;
-            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-            {
-                GUI.Label(position.Slice(0.00f, 0.40f, 0), "Name");
-                GUI.Label(position.Slice(0.40f, 0.25f, 0), "Type");
-                GUI.Label(position.Slice(0.65f, 0.20f, 0), "Default");
-                GUI.Label(position.Slice(0.85f, 0.15f, 0), "Saved");
-
-                GUI.Label(position.Slice(0.00f, 0.20f, 1), "Value");
-                ParameterStateDrawer.DrawGestureClip = GUI.Toggle(position.Slice(0.20f, 0.40f, 1), ParameterStateDrawer.DrawGestureClip, "Gesture Clip");
-                ParameterStateDrawer.DrawFxClip = GUI.Toggle(position.Slice(0.60f, 0.40f, 1), ParameterStateDrawer.DrawFxClip, "FX Clip");
-            }
-        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

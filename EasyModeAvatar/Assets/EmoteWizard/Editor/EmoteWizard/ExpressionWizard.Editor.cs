@@ -39,7 +39,7 @@ namespace EmoteWizard
                 }
             });
 
-            ExpressionItemDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            new ExpressionItemListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));

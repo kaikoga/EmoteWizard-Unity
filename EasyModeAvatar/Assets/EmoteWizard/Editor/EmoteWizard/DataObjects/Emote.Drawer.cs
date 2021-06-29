@@ -1,6 +1,5 @@
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
-using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Tools.PropertyDrawerUITools;
@@ -13,21 +12,6 @@ namespace EmoteWizard.DataObjects
         public static bool EditConditions = true;
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
-
-        public static void DrawHeader(bool useReorderUI)
-        {
-            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(3f)));
-            EmoteWizardGUI.ColoredBox(position, Color.yellow);
-            position = position.InsideBox();
-            // position.xMin += useReorderUI ? 20f : 6f;
-            // position.xMax -= 6f;
-            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-            {
-                EditConditions = EditorGUI.ToggleLeft(position.SliceV(0), "Edit Conditions", EditConditions);
-                EditAnimations = EditorGUI.ToggleLeft(position.SliceV(1), "Edit Animations", EditAnimations);
-                EditParameters = EditorGUI.ToggleLeft(position.SliceV(2), "Edit Parameters", EditParameters);
-            }
-        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

@@ -41,7 +41,7 @@ namespace EmoteWizard
                 parametersWizard.RefreshParameters();
             }
 
-            ParameterItemDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
+            new ParameterItemListHeaderDrawer().OnGUI(emoteWizardRoot.useReorderUI);
             using (ParameterItemDrawer.StartContext(emoteWizardRoot))
             {
                 parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);

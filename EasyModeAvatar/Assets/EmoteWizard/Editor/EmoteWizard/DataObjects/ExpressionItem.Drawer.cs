@@ -1,7 +1,6 @@
 using System;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
-using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -19,24 +18,6 @@ namespace EmoteWizard.DataObjects
             null,
             new[] { "Up", "Right", "Down", "Left" }
         };
-
-        public static void DrawHeader(bool useReorderUI)
-        {
-            var position = GUILayoutUtility.GetRect(0, BoxHeight(LineHeight(2f)));
-            EmoteWizardGUI.ColoredBox(position, Color.yellow);
-            position = position.InsideBox();
-            position.xMin += useReorderUI ? 20f : 6f;
-            position.xMax -= 6f;
-            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-            {
-                GUI.Label(position.Slice(0.0f, 0.4f, 0), "Icon");
-                GUI.Label(position.Slice(0.4f, 0.6f, 0), "Path");
-                
-                GUI.Label(position.Slice(0.0f, 0.4f, 1), "Parameter");
-                GUI.Label(position.Slice(0.4f, 0.2f, 1), "Value");
-                GUI.Label(position.Slice(0.6f, 0.4f, 1), "ControlType");
-            }
-        }
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
