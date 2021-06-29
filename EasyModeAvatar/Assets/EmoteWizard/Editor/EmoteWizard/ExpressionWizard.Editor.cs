@@ -42,7 +42,10 @@ namespace EmoteWizard
                 }
             });
 
-            expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            using (ExpressionItemDrawer.StartContext(emoteWizardRoot))
+            {
+                expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
             EditorGUILayout.PropertyField(serializedObj.FindProperty("defaultPrefix"));

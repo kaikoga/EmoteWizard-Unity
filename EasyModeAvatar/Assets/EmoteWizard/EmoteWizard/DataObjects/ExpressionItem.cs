@@ -16,6 +16,7 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public string parameter;
         [SerializeField] public float value;
         [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
+        [SerializeField] public VRCExpressionsMenu subMenu;
         [SerializeField] public string[] subParameters;
         [SerializeField] public string[] labels;
         [SerializeField] public Texture2D[] labelIcons;
@@ -160,7 +161,7 @@ namespace EmoteWizard.DataObjects
                         name = Name,
                         parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
                         style = VRCExpressionsMenu.Control.Style.Style1,
-                        subMenu = null,
+                        subMenu = controlType == VRCExpressionsMenu.Control.ControlType.SubMenu ? subMenu : null,
                         subParameters = ToSubParameters(),
                         type = controlType,
                         value = value
