@@ -2,9 +2,9 @@ using EmoteWizard.Base;
 using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {
@@ -26,7 +26,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(parametersWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(parametersWizard, () =>
             {
                 if (GUILayout.Button("Repopulate Parameters"))
                 {
@@ -47,7 +47,7 @@ namespace EmoteWizard
                 parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {

@@ -1,10 +1,11 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {

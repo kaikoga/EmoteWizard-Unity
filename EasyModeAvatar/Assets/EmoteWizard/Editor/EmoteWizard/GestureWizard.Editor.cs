@@ -4,9 +4,9 @@ using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {
@@ -31,7 +31,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(gestureWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
             {
                 if (GUILayout.Button("Repopulate Emotes"))
                 {
@@ -39,10 +39,10 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
             {
                 var avatarMask = emoteWizardRoot.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
                 return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
@@ -54,7 +54,7 @@ namespace EmoteWizard
             AnimationMixinDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {

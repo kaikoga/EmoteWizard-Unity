@@ -1,9 +1,10 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.PropertyDrawerUITools;
+using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.DataObjects
 {
@@ -45,7 +46,7 @@ namespace EmoteWizard.DataObjects
                 EditorGUI.PropertyField(position.SliceH(0.0f, 0.2f), property.FindPropertyRelative("value"));
                 if (!DrawFxClip)
                 {
-                    PropertyFieldWithGenerate(position.SliceH(0.2f, 0.75f),
+                    EmoteWizardGUI.PropertyFieldWithGenerate(position.SliceH(0.2f, 0.75f),
                         property.FindPropertyRelative("gestureClip"),
                         () =>
                         {
@@ -56,7 +57,7 @@ namespace EmoteWizard.DataObjects
                 }
                 else if (!DrawGestureClip)
                 {
-                    PropertyFieldWithGenerate(position.SliceH(0.25f, 0.75f), property.FindPropertyRelative("fxClip"),
+                    EmoteWizardGUI.PropertyFieldWithGenerate(position.SliceH(0.25f, 0.75f), property.FindPropertyRelative("fxClip"),
                         () =>
                         {
                             var value = property.FindPropertyRelative("value").floatValue;

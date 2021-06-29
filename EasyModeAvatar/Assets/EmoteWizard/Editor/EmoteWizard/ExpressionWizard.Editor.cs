@@ -5,10 +5,10 @@ using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {
@@ -31,7 +31,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(expressionWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
             {
                 if (GUILayout.Button("Reset Expression Items"))
                 {
@@ -50,7 +50,7 @@ namespace EmoteWizard
                 PopulateDefaultExpressionItems();
             }
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {

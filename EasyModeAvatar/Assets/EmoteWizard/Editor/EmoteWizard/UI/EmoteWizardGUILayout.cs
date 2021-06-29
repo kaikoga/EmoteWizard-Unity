@@ -4,9 +4,9 @@ using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.Extensions
+namespace EmoteWizard.UI
 {
-    public static class EditorUILayoutTools
+    public static class EmoteWizardGUILayout
     {
         public static void SetupOnlyUI(EmoteWizardBase emoteWizardBase, Action action)
         {

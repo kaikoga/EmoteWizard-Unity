@@ -4,9 +4,9 @@ using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.Tools;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Extensions.EditorUILayoutTools;
 
 namespace EmoteWizard
 {
@@ -31,7 +31,7 @@ namespace EmoteWizard
             var serializedObj = serializedObject;
             var emoteWizardRoot = fxWizard.EmoteWizardRoot;
 
-            SetupOnlyUI(fxWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
             {
                 if (GUILayout.Button("Repopulate Emotes: 7 items"))
                 {
@@ -43,8 +43,8 @@ namespace EmoteWizard
                 }
             });
 
-            PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
-            PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
+            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
             EmoteDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
@@ -52,7 +52,7 @@ namespace EmoteWizard
             AnimationMixinDrawer.DrawHeader(emoteWizardRoot.useReorderUI);
             mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
-            OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
