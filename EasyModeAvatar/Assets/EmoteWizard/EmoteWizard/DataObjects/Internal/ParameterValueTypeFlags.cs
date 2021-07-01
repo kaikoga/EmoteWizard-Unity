@@ -1,6 +1,6 @@
 using System;
 
-namespace EmoteWizard.DataObjects
+namespace EmoteWizard.DataObjects.Internal
 {
     [Flags]
     public enum ParameterValueTypeFlags
