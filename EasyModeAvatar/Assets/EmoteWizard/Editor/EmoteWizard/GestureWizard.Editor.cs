@@ -64,6 +64,11 @@ namespace EmoteWizard
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
+            if (GUILayout.Button("Collect Parameters"))
+            {
+                gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
+            }
+
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "Gesture/Mixin/"))
             {
                 mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);

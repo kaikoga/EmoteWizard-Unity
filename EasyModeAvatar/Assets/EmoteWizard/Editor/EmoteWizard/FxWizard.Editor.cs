@@ -62,6 +62,10 @@ namespace EmoteWizard
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
+            if (GUILayout.Button("Collect Parameters"))
+            {
+                fxWizard.RefreshParameters(fxWizard.ParametersWizard != null ? fxWizard.ParametersWizard.parameterItems : null);
+            }
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "FX/Mixin/"))
             {

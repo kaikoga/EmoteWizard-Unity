@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace EmoteWizard.DataObjects
@@ -9,6 +10,16 @@ namespace EmoteWizard.DataObjects
     {
         [SerializeField] public string name;
         [SerializeField] public string parameter;
-        [SerializeField] public List<ParameterEmoteState> states;
+        [SerializeField] public List<ParameterEmoteState> states = new List<ParameterEmoteState>();
+
+        public void CollectStates(ParameterItem parameterItem)
+        {
+            var oldStates = states;
+            states = parameterItem.states.Select(state => new ParameterEmoteState
+            {
+                value = state.value,
+                clip = states.FirstOrDefault(s => s.value == state.value)?.clip
+            }).ToList();
+        }
     }
 }
