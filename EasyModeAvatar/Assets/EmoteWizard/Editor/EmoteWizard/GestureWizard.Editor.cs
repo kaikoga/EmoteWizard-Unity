@@ -48,9 +48,10 @@ namespace EmoteWizard
                 {
                     RepopulateDefaultGestureEmotes(gestureWizard);
                 }
-                if (GUILayout.Button("Collect Parameters"))
+                if (GUILayout.Button("Repopulate Parameters"))
                 {
                     gestureWizard.ParametersWizard.RefreshParameters();
+                    gestureWizard.parameters.Clear();
                     gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
                 }
             });
@@ -68,6 +69,11 @@ namespace EmoteWizard
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "Gesture"))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
+            if (GUILayout.Button("Collect Parameters"))
+            {
+                gestureWizard.ParametersWizard.RefreshParameters();
+                gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
             }
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "Gesture/Mixin/"))

@@ -13,22 +13,29 @@ namespace EmoteWizard.Base
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public void RefreshParameters(IEnumerable<ParameterItem> parameterItems)
+        public void RefreshParameters(List<ParameterItem> parameterItems)
         {
+            parameterItems = parameterItems.ToList();
             var oldParameters = parameters;
-            parameters = parameterItems
-                .Where(parameterItem => !parameterItem.defaultParameter)
-                .Select(parameterItem =>
-                {
-                    var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
+            parameters = 
+                Enumerable.Empty<ParameterEmote>()
+                    .Concat(parameterItems
+                        .Where(parameterItem => !parameterItem.defaultParameter)
+                        .Select(parameterItem =>
+                        {
+                            var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
+                            {
+                                name = parameterItem.name,
+                                parameter = parameterItem.name,
+                            };
+                            parameter.CollectStates(parameterItem);
+                            return parameter;
+                        }))
+                    .Concat(oldParameters.Where(oldParameter =>
                     {
-                        name = parameterItem.name,
-                        parameter = parameterItem.name,
-                    };
-                    parameter.CollectStates(parameterItem);
-                    return parameter;
-                })
-                .ToList();
+                        return parameterItems.All(parameterItem => oldParameter.parameter != parameterItem.name);
+                    }))
+                    .ToList();
         }
     }
 }
