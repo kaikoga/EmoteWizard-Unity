@@ -8,9 +8,9 @@ namespace EmoteWizard.DataObjects
     {
         [SerializeField] public GestureParameter parameter;
         [SerializeField] public GestureConditionMode mode;
-        [SerializeField] public EmoteHandSign handSign;
+        [SerializeField] public HandSign handSign;
 
-        public static EmoteGestureCondition Populate(EmoteHandSign handSign, GestureParameter parameter, GestureConditionMode mode = GestureConditionMode.Equals)
+        public static EmoteGestureCondition Populate(HandSign handSign, GestureParameter parameter, GestureConditionMode mode = GestureConditionMode.Equals)
         {
             return new EmoteGestureCondition
             {

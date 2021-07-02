@@ -1,6 +1,6 @@
 namespace EmoteWizard.DataObjects
 {
-    public enum EmoteHandSign
+    public enum HandSign
     {
         Idle = 0,
         Fist,

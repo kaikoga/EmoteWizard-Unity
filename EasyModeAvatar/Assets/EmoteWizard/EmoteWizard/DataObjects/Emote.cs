@@ -9,10 +9,10 @@ namespace EmoteWizard.DataObjects
     [Serializable]
     public class Emote
     {
-        public static IEnumerable<EmoteHandSign> HandSigns =>
-            Enum.GetValues(typeof(EmoteHandSign)).OfType<EmoteHandSign>();
+        public static IEnumerable<HandSign> HandSigns =>
+            Enum.GetValues(typeof(HandSign)).OfType<HandSign>();
 
-        public static Emote Populate(EmoteHandSign handSign)
+        public static Emote Populate(HandSign handSign)
         {
             return new Emote
             {
@@ -52,9 +52,9 @@ namespace EmoteWizard.DataObjects
 
         public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);
 
-        public static string BuildStateName(GestureConditionMode mode1, EmoteHandSign handSign1, GestureConditionMode mode2, EmoteHandSign handSign2)
+        public static string BuildStateName(GestureConditionMode mode1, HandSign handSign1, GestureConditionMode mode2, HandSign handSign2)
         {
-            string ToPart(GestureConditionMode mode, EmoteHandSign handSign)
+            string ToPart(GestureConditionMode mode, HandSign handSign)
             {
                 switch (mode)
                 {

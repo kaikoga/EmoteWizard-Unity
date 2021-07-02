@@ -39,9 +39,9 @@ namespace EmoteWizard.DataObjects
                 {
                     var emoteLabel = Emote.BuildStateName(
                         (GestureConditionMode) gesture1.FindPropertyRelative("mode").intValue,
-                        (EmoteHandSign) gesture1.FindPropertyRelative("handSign").intValue,
+                        (HandSign) gesture1.FindPropertyRelative("handSign").intValue,
                         (GestureConditionMode) gesture2.FindPropertyRelative("mode").intValue,
-                        (EmoteHandSign) gesture2.FindPropertyRelative("handSign").intValue);
+                        (HandSign) gesture2.FindPropertyRelative("handSign").intValue);
                     if (conditions.arraySize > 0) emoteLabel += " *";
 
                     GUI.Label(cursor, emoteLabel, new GUIStyle { fontStyle = FontStyle.Bold });

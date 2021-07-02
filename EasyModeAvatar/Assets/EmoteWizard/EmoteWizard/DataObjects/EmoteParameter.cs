@@ -10,11 +10,11 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public string normalizedTimeLeft;
         [SerializeField] public string normalizedTimeRight;
         
-        public static EmoteParameter Populate(EmoteHandSign handSign)
+        public static EmoteParameter Populate(HandSign handSign)
         {
             return new EmoteParameter
             {
-                normalizedTimeEnabled = handSign == EmoteHandSign.Fist,
+                normalizedTimeEnabled = handSign == HandSign.Fist,
                 normalizedTimeLeft = "GestureLeftWeight",
                 normalizedTimeRight = "GestureRightWeight"
             };
