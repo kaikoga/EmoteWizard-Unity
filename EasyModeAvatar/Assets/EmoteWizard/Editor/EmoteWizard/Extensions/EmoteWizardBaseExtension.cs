@@ -11,10 +11,9 @@ namespace EmoteWizard.Extensions
     {
         static void DestroyAllSubAssets<T>(T outputAsset) where T : Object
         {
-            var assetPath = AssetDatabase.GetAssetPath(outputAsset);
-            if (string.IsNullOrEmpty(assetPath)) return; // not an asset
+            if (!outputAsset.IsPersistedAsset()) return;
             AssetDatabase
-                .LoadAllAssetsAtPath(assetPath)
+                .LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(outputAsset))
                 .Where(AssetDatabase.IsSubAsset)
                 .ToList()
                 .ForEach(subAsset => Object.DestroyImmediate(subAsset, true));
@@ -23,7 +22,7 @@ namespace EmoteWizard.Extensions
         public static T ReplaceOrCreateOutputAsset<T>(this EmoteWizardBase emoteWizardBase, ref T outputAsset, string defaultRelativePath)
             where T:ScriptableObject
         {
-            if (outputAsset)
+            if (outputAsset && outputAsset.IsPersistedAsset())
             {
                 DestroyAllSubAssets(outputAsset);
                 var value = ScriptableObject.CreateInstance<T>();

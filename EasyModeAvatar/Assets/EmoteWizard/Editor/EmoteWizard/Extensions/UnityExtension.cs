@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 namespace EmoteWizard.Extensions
@@ -11,5 +12,10 @@ namespace EmoteWizard.Extensions
         public static T EnsureComponent<T>(this Component component)
             where T : Component =>
             component.GetComponent<T>() ?? component.gameObject.AddComponent<T>();
+
+        public static bool IsPersistedAsset(this Object unityObject)
+        {
+            return !string.IsNullOrEmpty(AssetDatabase.GetAssetPath(unityObject));
+        }
     }
 }
