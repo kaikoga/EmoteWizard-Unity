@@ -52,6 +52,11 @@ namespace EmoteWizard
                 {
                     RepopulateDefaultFxEmotes14();
                 }
+                if (GUILayout.Button("Collect Parameters"))
+                {
+                    fxWizard.ParametersWizard.RefreshParameters();
+                    fxWizard.RefreshParameters(fxWizard.ParametersWizard != null ? fxWizard.ParametersWizard.parameterItems : null);
+                }
             });
 
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
@@ -61,10 +66,6 @@ namespace EmoteWizard
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "FX"))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            }
-            if (GUILayout.Button("Collect Parameters"))
-            {
-                fxWizard.RefreshParameters(fxWizard.ParametersWizard != null ? fxWizard.ParametersWizard.parameterItems : null);
             }
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "FX/Mixin/"))

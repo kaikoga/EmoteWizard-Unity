@@ -48,6 +48,11 @@ namespace EmoteWizard
                 {
                     RepopulateDefaultGestureEmotes(gestureWizard);
                 }
+                if (GUILayout.Button("Collect Parameters"))
+                {
+                    gestureWizard.ParametersWizard.RefreshParameters();
+                    gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
+                }
             });
 
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
@@ -63,10 +68,6 @@ namespace EmoteWizard
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "Gesture"))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            }
-            if (GUILayout.Button("Collect Parameters"))
-            {
-                gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
             }
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "Gesture/Mixin/"))

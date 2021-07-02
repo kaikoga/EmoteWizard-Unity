@@ -39,7 +39,7 @@ namespace EmoteWizard
             });
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
-            if (GUILayout.Button("Collect Parameters"))
+            if (GUILayout.Button("Collect Parameters (auto)"))
             {
                 parametersWizard.RefreshParameters();
             }

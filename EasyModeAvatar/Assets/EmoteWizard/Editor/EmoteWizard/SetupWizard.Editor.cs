@@ -21,10 +21,10 @@ namespace EmoteWizard
             if (GUILayout.Button("Generate Wizards"))
             {
                 setupWizard.EnsureComponent<AvatarWizard>();
-                setupWizard.EnsureComponent<GestureWizard>();
-                setupWizard.EnsureComponent<FxWizard>();
                 setupWizard.EnsureComponent<ExpressionWizard>();
                 setupWizard.EnsureComponent<ParametersWizard>();
+                setupWizard.EnsureComponent<GestureWizard>();
+                setupWizard.EnsureComponent<FxWizard>();
             }
             if (GUILayout.Button("Complete setup and remove me"))
             {
