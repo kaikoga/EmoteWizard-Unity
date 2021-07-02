@@ -41,6 +41,7 @@ namespace EmoteWizard
                     var animator = avatarWizard.proxyAnimator ? avatarWizard.proxyAnimator : avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
                     avatarWizard.proxyAnimator = animator;
                     animator.runtimeAnimatorController = animatorController;
+                    if (!animatorController) return;
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
                 }
 
@@ -60,7 +61,11 @@ namespace EmoteWizard
                         UpdateAvatar(avatarDescriptor);
                     }
 
-                    if (avatarAnimator.runtimeAnimatorController == gestureController)
+                    if (avatarAnimator.runtimeAnimatorController == null)
+                    {
+                        // do nothing
+                    }
+                    else if (avatarAnimator.runtimeAnimatorController == gestureController)
                     {
                         EditorGUILayout.HelpBox("Editing Gesture Controller on avatar.", MessageType.Warning);
                     }
@@ -68,7 +73,7 @@ namespace EmoteWizard
                     {
                         EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
                     }
-                    else if (avatarAnimator.runtimeAnimatorController)
+                    else
                     {
                         EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
                     }
@@ -85,6 +90,10 @@ namespace EmoteWizard
                         if (GUILayout.Button("Edit FX"))
                         {
                             EditAnimator(fxController);
+                        }
+                        if (GUILayout.Button("Remove Controller"))
+                        {
+                            EditAnimator(null);
                         }
                     }
                 }
