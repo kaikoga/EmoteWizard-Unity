@@ -8,6 +8,13 @@ namespace EmoteWizard.Base
         public EmoteWizardRoot EmoteWizardRoot => GetComponent<EmoteWizardRoot>();
         public ParametersWizard ParametersWizard => GetComponent<ParametersWizard>();
 
-        public bool IsSetupMode => GetComponent<SetupWizard>();
+        public bool IsSetupMode
+        {
+            get
+            {
+                var setupWizard = GetComponent<SetupWizard>();
+                return setupWizard != null && setupWizard.isSetupMode;
+            }
+        }
     }
 }

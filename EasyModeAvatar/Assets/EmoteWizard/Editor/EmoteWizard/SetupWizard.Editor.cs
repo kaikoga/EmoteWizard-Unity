@@ -16,7 +16,8 @@ namespace EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("isSetupMode"), new GUIContent("Enable Setup Only UI"));
+            serializedObject.ApplyModifiedProperties();
 
             if (GUILayout.Button("Generate Wizards"))
             {
