@@ -36,6 +36,7 @@ namespace EmoteWizard.Collections
                 }
             };
 
+            drawNoneElementCallback += _ => { };
             drawElementCallback += (rect, index, selected, focused) =>
             {
                 if (serializedProperty.isExpanded)
