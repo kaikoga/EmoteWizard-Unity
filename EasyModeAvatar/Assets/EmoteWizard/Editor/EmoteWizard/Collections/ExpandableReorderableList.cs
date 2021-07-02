@@ -25,8 +25,15 @@ namespace EmoteWizard.Collections
                 draggable = isExpanded;
                 displayAdd = isExpanded;
                 displayRemove = isExpanded;
-                
-                if (isExpanded) _listHeaderDrawer.OnGUI(rect.SliceV(1, -1), true);
+
+                if (isExpanded)
+                {
+                    _listHeaderDrawer?.OnGUI(rect.SliceV(1, -1), true);
+                }
+                else
+                {
+                    index = -1;
+                }
             };
 
             drawElementCallback += (rect, index, selected, focused) =>
@@ -56,7 +63,7 @@ namespace EmoteWizard.Collections
             {
                 if (serializedProperty.isExpanded)
                 {
-                    headerHeight = 16f + _listHeaderDrawer.GetHeaderHeight();
+                    headerHeight = 16f + (_listHeaderDrawer?.GetHeaderHeight() ?? 0f);
                     footerHeight = 12f;
                 }
                 else
@@ -80,7 +87,7 @@ namespace EmoteWizard.Collections
                     if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                     serializedProperty.arraySize = arraySize;
 
-                    if (serializedProperty.isExpanded) _listHeaderDrawer.OnGUI(false);
+                    if (serializedProperty.isExpanded) _listHeaderDrawer?.OnGUI(false);
                     for (var i = 0; i < arraySize; i++)
                     {
                         EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
