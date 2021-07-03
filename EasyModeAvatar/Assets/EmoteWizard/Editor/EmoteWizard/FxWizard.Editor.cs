@@ -105,8 +105,11 @@ namespace EmoteWizard
 
                         foreach (var parameterItem in fxWizard.ParametersWizard.CustomParameterItems)
                         {
-                            var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
-                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, true);
+                            var parameterEmote = fxWizard.parameters.FirstOrDefault(emote => emote.parameter == parameterItem.name);
+                            if (parameterEmote == null) continue;
+                            var expressionLayer = PopulateLayer(animatorController, parameterItem.name);
+                            
+                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, parameterEmote);
                         }
                         
                         foreach (var mixin in fxWizard.mixins)

@@ -107,7 +107,7 @@ namespace EmoteWizard.Base
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
         }
 
-        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterItem parameterItem, bool isFx)
+        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterItem parameterItem, ParameterEmote parameterEmote)
         {
             void AddTransition(AnimatorState state, string parameterName, float value)
             {
@@ -137,12 +137,12 @@ namespace EmoteWizard.Base
             stateMachine.exitPosition = new Vector2(0, 200);
 
             var position = new Vector2(300, 0);
-            foreach (var parameterState in parameterItem.states)
+            foreach (var parameterEmoteState in parameterEmote.states)
             {
-                var state = stateMachine.AddState($"{parameterItem.name} = {parameterState.value}", position);
-                state.motion = isFx ? parameterState.fxClip : parameterState.gestureClip;
+                var state = stateMachine.AddState($"{parameterEmote.parameter} = {parameterEmoteState.value}", position);
+                state.motion = parameterEmoteState.clip;
                 state.writeDefaultValues = false;
-                AddTransition(state, parameterItem.name, parameterState.value);
+                AddTransition(state, parameterEmote.parameter, parameterEmoteState.value);
                 position.y += 60;
             }
         }

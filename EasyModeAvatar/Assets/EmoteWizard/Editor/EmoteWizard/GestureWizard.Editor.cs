@@ -104,8 +104,11 @@ namespace EmoteWizard
 
                         foreach (var parameterItem in gestureWizard.ParametersWizard.CustomParameterItems)
                         {
-                            var expressionLayer = PopulateLayer(animatorController, parameterItem.name); 
-                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, false);
+                            var parameterEmote = gestureWizard.parameters.FirstOrDefault(emote => emote.parameter == parameterItem.name);
+                            if (parameterEmote == null) continue;
+                            var expressionLayer = PopulateLayer(animatorController, parameterItem.name);
+                            
+                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, parameterEmote);
                         }
 
                         foreach (var mixin in gestureWizard.mixins)
