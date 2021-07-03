@@ -1,5 +1,4 @@
 using EmoteWizard.Collections.Base;
-using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -19,8 +18,6 @@ namespace EmoteWizard.Collections
                 GUI.Label(position.Slice(0.85f, 0.15f, 0), "Saved");
 
                 GUI.Label(position.Slice(0.00f, 0.20f, 1), "Value");
-                ParameterStateDrawer.DrawGestureClip = GUI.Toggle(position.Slice(0.20f, 0.40f, 1), ParameterStateDrawer.DrawGestureClip, "Gesture Clip");
-                ParameterStateDrawer.DrawFxClip = GUI.Toggle(position.Slice(0.60f, 0.40f, 1), ParameterStateDrawer.DrawFxClip, "FX Clip");
             }
         }
 

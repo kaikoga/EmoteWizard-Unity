@@ -1,6 +1,5 @@
 using EmoteWizard.Base;
 using EmoteWizard.Collections;
-using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using EmoteWizard.UI;
 using UnityEditor;
@@ -44,10 +43,7 @@ namespace EmoteWizard
                 parametersWizard.RefreshParameters();
             }
 
-            using (ParameterItemDrawer.StartContext(emoteWizardRoot))
-            {
-                parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            }
+            parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {

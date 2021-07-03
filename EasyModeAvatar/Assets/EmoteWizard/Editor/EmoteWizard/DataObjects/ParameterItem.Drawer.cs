@@ -1,4 +1,3 @@
-using EmoteWizard.Base;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
 using UnityEditor;
@@ -9,14 +8,10 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ParameterItem))]
-    public class ParameterItemDrawer : PropertyDrawerWithContext<ParameterItemDrawer.Context>
+    public class ParameterItemDrawer : PropertyDrawer
     {
-        public static Context StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot));
-
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var context = EnsureContext(property);
-
             var defaultParameter = property.FindPropertyRelative("defaultParameter").boolValue; 
             // GUI.backgroundColor = defaultParameter ? Color.gray : Color.white;  
             GUI.Box(position, GUIContent.none);
@@ -38,7 +33,6 @@ namespace EmoteWizard.DataObjects
                 }
 
                 using (new EditorGUI.DisabledScope(property.FindPropertyRelative("valueType").intValue == (int)VRCExpressionParameters.ValueType.Float))
-                using (ParameterStateDrawer.StartContext(context.EmoteWizardRoot, property.FindPropertyRelative("name").stringValue))
                 {
                     EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("states"), true);
                 }
@@ -51,12 +45,6 @@ namespace EmoteWizard.DataObjects
             var states = property.FindPropertyRelative("states");
             var statesLines = states.isExpanded ? states.arraySize + 2f : 1f;
             return BoxHeight(LineHeight(1f + statesLines));
-        }
-
-        public class Context : ContextBase
-        {
-            public Context() : base(null) { }
-            public Context(EmoteWizardRoot emoteWizardRoot) : base(emoteWizardRoot) { }
         }
     }
 }

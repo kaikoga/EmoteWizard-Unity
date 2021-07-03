@@ -1,5 +1,4 @@
 using System;
-using UnityEngine;
 
 namespace EmoteWizard.DataObjects
 {
@@ -7,7 +6,5 @@ namespace EmoteWizard.DataObjects
     public class ParameterState
     {
         public float value;
-        public AnimationClip gestureClip;
-        public AnimationClip fxClip;
     }
 }
