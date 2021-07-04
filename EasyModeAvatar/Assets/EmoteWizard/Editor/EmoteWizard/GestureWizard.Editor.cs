@@ -30,7 +30,7 @@ namespace EmoteWizard
             parametersList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("parameters"),
                 "Parameters",
-                null);
+                new ParameterEmoteListHeaderDrawer());
             mixinsList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("mixins"),
                 "Mixins",
@@ -66,7 +66,7 @@ namespace EmoteWizard
             });
 
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "Gesture"))
+            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "Gesture", ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace EmoteWizard.DataObjects
@@ -8,5 +9,6 @@ namespace EmoteWizard.DataObjects
     {
         [SerializeField] public float value;
         [SerializeField] public AnimationClip clip;
+        [SerializeField] public List<GameObject> targets;
     }
 }

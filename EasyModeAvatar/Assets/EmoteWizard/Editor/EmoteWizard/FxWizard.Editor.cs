@@ -30,7 +30,7 @@ namespace EmoteWizard
             parametersList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("parameters"),
                 "Parameters",
-                null);
+                new ParameterEmoteListHeaderDrawer());
             mixinsList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("mixins"),
                 "Mixins",
@@ -64,7 +64,7 @@ namespace EmoteWizard
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "FX"))
+            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "FX", ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }

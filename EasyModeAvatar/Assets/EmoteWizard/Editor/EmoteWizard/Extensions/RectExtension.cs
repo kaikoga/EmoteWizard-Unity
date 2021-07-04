@@ -5,6 +5,11 @@ namespace EmoteWizard.Extensions
 {
     public static class RectExtension
     {
+        static float ParseLineY(Rect position, int lineY)
+        {
+            return lineY >= 0 ? position.y + LineTop(lineY) : position.yMax - LineTop(-lineY);
+        }
+
         static float ParseLineHeight(Rect position, int lineHeight)
         {
             return lineHeight >= 0 ? LineHeight(lineHeight) : position.height - LineHeight(-lineHeight);
@@ -17,12 +22,12 @@ namespace EmoteWizard.Extensions
 
         public static Rect SliceV(this Rect position, int lineY, int lineHeight = 1)
         {
-            return new Rect(position.x, position.y + LineTop(lineY), position.width, ParseLineHeight(position, lineHeight));
+            return new Rect(position.x, ParseLineY(position, lineY), position.width, ParseLineHeight(position, lineHeight));
         }
 
         public static Rect Slice(this Rect position, float x, float width, int lineY, int lineHeight = 1)
         {
-            return new Rect(position.x + position.width * x, position.y + LineTop(lineY), position.width * width, ParseLineHeight(position, lineHeight));
+            return new Rect(position.x + position.width * x, ParseLineY(position, lineY), position.width * width, ParseLineHeight(position, lineHeight));
         }
 
         public static Rect InsideBox(this Rect rect)
