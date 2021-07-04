@@ -5,14 +5,19 @@ namespace EmoteWizard.Extensions
 {
     public static class RectExtension
     {
+        public static Rect InsetAbs(this Rect rect, float left, float top, float right, float bottom)
+        {
+            return Rect.MinMaxRect(rect.xMin + left, rect.yMin + top, rect.xMax - right, rect.yMax - bottom);
+        }
+
         static float ParseLineY(Rect position, int lineY)
         {
-            return lineY >= 0 ? position.y + LineTop(lineY) : position.yMax - LineTop(-lineY);
+            return lineY >= 0 ? position.y + LineTop(lineY) : position.yMax - LineHeight(-lineY);
         }
 
         static float ParseLineHeight(Rect position, int lineHeight)
         {
-            return lineHeight >= 0 ? LineHeight(lineHeight) : position.height - LineHeight(-lineHeight);
+            return lineHeight >= 0 ? LineHeight(lineHeight) : position.height - LineTop(-lineHeight);
         }
 
         public static Rect SliceH(this Rect position, float x, float width)

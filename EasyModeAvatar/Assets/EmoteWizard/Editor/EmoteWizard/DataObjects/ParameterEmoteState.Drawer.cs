@@ -40,7 +40,7 @@ namespace EmoteWizard.DataObjects
                 }
                 if (context.EditTargets)
                 {
-                    EditorGUI.PropertyField(position.SliceV(1, -1), property.FindPropertyRelative("targets"), true);
+                    EmoteWizardGUI.HorizontalListPropertyField(position.SliceV(1), property.FindPropertyRelative("targets"));
                 }
             }
         }

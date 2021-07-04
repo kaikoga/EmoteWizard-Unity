@@ -50,10 +50,8 @@ namespace EmoteWizard.DataObjects
 
             var states = property.FindPropertyRelative("states");
             var statesLines = 1f;
-            if (states.isExpanded)
-            {
-                statesLines = context.EditTargets ? states.arraySize * 2f + 3f : states.arraySize * 1f + 2f;
-            }
+            if (context.EditTargets) statesLines += 1f;
+            if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets ? 2f : 1f);
             return BoxHeight(LineHeight(2f + statesLines));
         }
 
