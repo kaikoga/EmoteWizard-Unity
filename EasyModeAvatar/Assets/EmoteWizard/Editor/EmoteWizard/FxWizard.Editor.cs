@@ -64,7 +64,7 @@ namespace EmoteWizard
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
             
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "FX", ParameterEmoteDrawer.EditTargets))
+            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, "FX", ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }

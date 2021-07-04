@@ -66,7 +66,7 @@ namespace EmoteWizard
             });
 
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, "Gesture", ParameterEmoteDrawer.EditTargets))
+            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, "Gesture", ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }

@@ -3,6 +3,7 @@ using EmoteWizard.DataObjects.DrawerContexts;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
 using EmoteWizard.UI;
+using EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Tools.PropertyDrawerUITools;
@@ -34,8 +35,7 @@ namespace EmoteWizard.DataObjects
                                 return null;
                             }
 
-                            var relativePath =
-                                $"{context.Layer}/@@@Generated@@@{context.Layer}_{context.Name}_{value.floatValue}.anim";
+                            var relativePath = GeneratedAssetLocator.ParameterEmoteStateClipPath(context.Layer, context.Name, value.floatValue);
                             return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
                 }

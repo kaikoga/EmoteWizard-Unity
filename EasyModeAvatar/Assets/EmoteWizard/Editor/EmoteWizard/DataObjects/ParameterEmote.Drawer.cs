@@ -13,7 +13,7 @@ namespace EmoteWizard.DataObjects
     {
         public static bool EditTargets = true; // FIXME
 
-        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteDrawerContext>.StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, layer, editTargets));
+        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, string layer, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteDrawerContext>.StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, layer, editTargets));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -23,9 +23,10 @@ namespace EmoteWizard.DataObjects
             position = position.InsideBox();
             using (new EditorGUI.PropertyScope(position, label, property))
             {
+                var name = property.FindPropertyRelative("name");
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(0), property.FindPropertyRelative("name"));
+                    EditorGUI.PropertyField(position.UISliceV(0), name);
                     EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 1), property.FindPropertyRelative("parameter"));
                     using (new HideLabelsScope())
                     {
@@ -33,14 +34,17 @@ namespace EmoteWizard.DataObjects
                     }
                 }
 
-                using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, property.FindPropertyRelative("name").stringValue, context.EditTargets))
+                using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, context.EditTargets))
                 {
                     EditorGUI.PropertyField(position.UISliceV(2, -2), property.FindPropertyRelative("states"), true);
                 }
 
                 if (context.EditTargets)
                 {
-                    GUI.Button(position.UISliceV(-1), "Generate clips from targets");
+                    if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                    {
+                        context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, name.stringValue);
+                    }
                 }
             }
         }

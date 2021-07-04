@@ -38,8 +38,7 @@ namespace EmoteWizard
             {
                 void EditAnimator(AnimatorController animatorController)
                 {
-                    var animator = avatarWizard.proxyAnimator ? avatarWizard.proxyAnimator : avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
-                    avatarWizard.proxyAnimator = animator;
+                    var animator = avatarWizard.ProvideProxyAnimator();
                     animator.runtimeAnimatorController = animatorController;
                     if (!animatorController) return;
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
