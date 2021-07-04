@@ -9,9 +9,9 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ParameterEmoteState))]
-    public class ParameterEmoteStateDrawer : PropertyDrawerWithContext<ParameterEmoteStateDrawer.Context>
+    public class ParameterEmoteStateDrawer : PropertyDrawerWithContext<ParameterEmoteStateDrawer.DrawerContext>
     {
-        public static Context StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot, layer, name, editTargets));
+        public static DrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => PropertyDrawerWithContext<DrawerContext>.StartContext(new DrawerContext(emoteWizardRoot, layer, name, editTargets));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -55,14 +55,14 @@ namespace EmoteWizard.DataObjects
             return result;
         }
 
-        public class Context : ContextBase
+        public class DrawerContext : DrawerContextBase
         {
             public readonly string Layer;
             public readonly string Name;
             public readonly bool EditTargets;
 
-            public Context() : base(null) { }
-            public Context(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) : base(emoteWizardRoot)
+            public DrawerContext() : base(null) { }
+            public DrawerContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) : base(emoteWizardRoot)
             {
                 Layer = layer;
                 Name = name;

@@ -12,7 +12,7 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ExpressionItem))]
-    public class ExpressionItemDrawer : PropertyDrawerWithContext<ExpressionItemDrawer.Context>
+    public class ExpressionItemDrawer : PropertyDrawerWithContext<ExpressionItemDrawer.DrawerContext>
     {
         static readonly string[][] SubParameterLabels = {
             null,
@@ -22,7 +22,7 @@ namespace EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
-        public static Context StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<Context>.StartContext(new Context(emoteWizardRoot));
+        public static DrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<DrawerContext>.StartContext(new DrawerContext(emoteWizardRoot));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -137,10 +137,10 @@ namespace EmoteWizard.DataObjects
             return BoxHeight(LineHeight(lineHeight));
         }
         
-        public class Context : ContextBase
+        public class DrawerContext : DrawerContextBase
         {
-            public Context() : base(null) { }
-            public Context(EmoteWizardRoot emoteWizardRoot) : base(emoteWizardRoot) { }
+            public DrawerContext() : base(null) { }
+            public DrawerContext(EmoteWizardRoot emoteWizardRoot) : base(emoteWizardRoot) { }
         }
     }
 }

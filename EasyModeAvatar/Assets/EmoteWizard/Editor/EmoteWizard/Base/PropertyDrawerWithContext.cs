@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 namespace EmoteWizard.Base
 {
     public abstract class PropertyDrawerWithContext<T> : PropertyDrawer
-    where T : PropertyDrawerWithContext<T>.ContextBase, new()
+    where T : PropertyDrawerWithContext<T>.DrawerContextBase, new()
     {
         static T _context;
 
@@ -26,11 +26,11 @@ namespace EmoteWizard.Base
             return _context;
         }
 
-        public abstract class ContextBase : IDisposable
+        public abstract class DrawerContextBase : IDisposable
         {
             readonly EmoteWizardRoot _emoteWizardRoot;
 
-            protected ContextBase(EmoteWizardRoot emoteWizardRoot)
+            protected DrawerContextBase(EmoteWizardRoot emoteWizardRoot)
             {
                 _emoteWizardRoot = emoteWizardRoot;
             }
