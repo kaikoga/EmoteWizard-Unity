@@ -1,4 +1,5 @@
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects.DrawerContexts;
 using EmoteWizard.Extensions;
 using EmoteWizard.UI;
 using UnityEditor;
@@ -8,9 +9,9 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(EmoteParameter))]
-    public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameterDrawer.DrawerContext>
+    public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameterDrawerContext>
     {
-        public static DrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, bool isEditing) => PropertyDrawerWithContext<DrawerContext>.StartContext(new DrawerContext(emoteWizardRoot, isEditing));
+        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, bool isEditing) => PropertyDrawerWithContext<EmoteParameterDrawerContext>.StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, isEditing));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -56,14 +57,6 @@ namespace EmoteWizard.DataObjects
                 return LineHeight(1f);
             }
             return LineHeight(0f);
-        }
-        
-        public class DrawerContext : DrawerContextBase
-        {
-            public readonly bool IsEditing;
-
-            public DrawerContext() : base(null) { }
-            public DrawerContext(EmoteWizardRoot emoteWizardRoot, bool isEditing) : base(emoteWizardRoot) => IsEditing = isEditing;
         }
     }
 }

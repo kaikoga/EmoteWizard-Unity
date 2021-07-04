@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects.DrawerContexts;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
 using EmoteWizard.UI;
@@ -12,7 +13,7 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ExpressionItem))]
-    public class ExpressionItemDrawer : PropertyDrawerWithContext<ExpressionItemDrawer.DrawerContext>
+    public class ExpressionItemDrawer : PropertyDrawerWithContext<ExpressionItemDrawerContext>
     {
         static readonly string[][] SubParameterLabels = {
             null,
@@ -22,7 +23,7 @@ namespace EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
-        public static DrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<DrawerContext>.StartContext(new DrawerContext(emoteWizardRoot));
+        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<ExpressionItemDrawerContext>.StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -135,12 +136,6 @@ namespace EmoteWizard.DataObjects
                     throw new ArgumentOutOfRangeException();
             }
             return BoxHeight(LineHeight(lineHeight));
-        }
-        
-        public class DrawerContext : DrawerContextBase
-        {
-            public DrawerContext() : base(null) { }
-            public DrawerContext(EmoteWizardRoot emoteWizardRoot) : base(emoteWizardRoot) { }
         }
     }
 }

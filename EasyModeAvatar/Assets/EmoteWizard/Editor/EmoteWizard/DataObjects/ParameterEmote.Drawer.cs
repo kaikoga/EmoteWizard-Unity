@@ -1,4 +1,5 @@
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects.DrawerContexts;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
 using UnityEditor;
@@ -8,11 +9,11 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ParameterEmote))]
-    public class ParameterEmoteDrawer : PropertyDrawerWithContext<ParameterEmoteDrawer.DrawerContext>
+    public class ParameterEmoteDrawer : PropertyDrawerWithContext<ParameterEmoteDrawerContext>
     {
         public static bool EditTargets = true; // FIXME
 
-        public static DrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, bool editTargets) => PropertyDrawerWithContext<DrawerContext>.StartContext(new DrawerContext(emoteWizardRoot, layer, editTargets));
+        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteDrawerContext>.StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, layer, editTargets));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -53,19 +54,6 @@ namespace EmoteWizard.DataObjects
             if (context.EditTargets) statesLines += 1f;
             if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets ? 2f : 1f);
             return BoxHeight(LineHeight(2f + statesLines));
-        }
-
-        public class DrawerContext : DrawerContextBase
-        {
-            public readonly string Layer;
-            public readonly bool EditTargets;
-
-            public DrawerContext() : base(null) { }
-            public DrawerContext(EmoteWizardRoot emoteWizardRoot, string layer, bool editTargets) : base(emoteWizardRoot)
-            {
-                Layer = layer;
-                EditTargets = editTargets;
-            }
         }
     }
 }

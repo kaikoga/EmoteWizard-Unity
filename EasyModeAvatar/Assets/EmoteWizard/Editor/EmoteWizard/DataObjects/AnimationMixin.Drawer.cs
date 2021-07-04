@@ -1,5 +1,6 @@
 using System;
 using EmoteWizard.Base;
+using EmoteWizard.DataObjects.DrawerContexts;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
 using EmoteWizard.UI;
@@ -11,9 +12,9 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(AnimationMixin))]
-    public class AnimationMixinDrawer : PropertyDrawerWithContext<AnimationMixinDrawer.DrawerContext>
+    public class AnimationMixinDrawer : PropertyDrawerWithContext<AnimationMixinDrawerContext>
     {
-        public static DrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string relativePath) => PropertyDrawerWithContext<DrawerContext>.StartContext(new DrawerContext(emoteWizardRoot, relativePath));
+        public static AnimationMixinDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string relativePath) => PropertyDrawerWithContext<AnimationMixinDrawerContext>.StartContext(new AnimationMixinDrawerContext(emoteWizardRoot, relativePath));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -101,14 +102,6 @@ namespace EmoteWizard.DataObjects
             }
 
             return BoxHeight(innerHeight);
-        }
-        
-        public class DrawerContext : DrawerContextBase
-        {
-            public readonly string RelativePath;
-
-            public DrawerContext() : base(null) { }
-            public DrawerContext(EmoteWizardRoot emoteWizardRoot, string relativePath) : base(emoteWizardRoot) => RelativePath = relativePath;
         }
     }
 }

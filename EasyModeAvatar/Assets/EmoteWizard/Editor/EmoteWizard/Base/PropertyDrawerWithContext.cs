@@ -1,12 +1,11 @@
-using System;
+using EmoteWizard.Base.DrawerContexts;
 using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace EmoteWizard.Base
 {
     public abstract class PropertyDrawerWithContext<T> : PropertyDrawer
-    where T : PropertyDrawerWithContext<T>.DrawerContextBase, new()
+    where T : DrawerContextBase<T>, new()
     {
         static T _context;
 
@@ -16,7 +15,7 @@ namespace EmoteWizard.Base
             return _context = context;
         }
 
-        static void EndContext() => _context = null;
+        protected internal static void EndContext() => _context = null;
 
         protected T EnsureContext(SerializedProperty property)
         {
@@ -24,20 +23,6 @@ namespace EmoteWizard.Base
             Debug.LogWarning("Internal: context is null", property.serializedObject.targetObject);
             _context = new T();
             return _context;
-        }
-
-        public abstract class DrawerContextBase : IDisposable
-        {
-            readonly EmoteWizardRoot _emoteWizardRoot;
-
-            protected DrawerContextBase(EmoteWizardRoot emoteWizardRoot)
-            {
-                _emoteWizardRoot = emoteWizardRoot;
-            }
-
-            public EmoteWizardRoot EmoteWizardRoot => _emoteWizardRoot ? _emoteWizardRoot : Object.FindObjectOfType<EmoteWizardRoot>();
-
-            public void Dispose() => EndContext();
         }
     }
 }
