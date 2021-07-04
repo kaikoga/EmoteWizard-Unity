@@ -19,14 +19,16 @@ namespace EmoteWizard.DataObjects
             {
                 new ParameterItem
                 {
+                    // for default Action controller "vrc_AvatarV3ActionLayer"
                     defaultValue = 0,
                     name = "VRCEmote",
                     saved = false,
                     valueType = VRCExpressionParameters.ValueType.Int,
                     defaultParameter = true
-                },
+                }/*,
                 new ParameterItem
                 {
+                    // for default FX controller "vrc_AvatarV3FaceLayer", unused because we overwrite FX layer
                     defaultValue = 0,
                     name = "VRCFaceBlendH",
                     saved = false,
@@ -35,12 +37,13 @@ namespace EmoteWizard.DataObjects
                 },
                 new ParameterItem
                 {
+                    // for default FX controller 
                     defaultValue = 0,
                     name = "VRCFaceBlendV",
                     saved = false,
                     valueType = VRCExpressionParameters.ValueType.Float,
                     defaultParameter = true
-                }
+                }*/
             };
 
         public VRCExpressionParameters.Parameter ToParameter()

@@ -22,7 +22,6 @@ namespace EmoteWizard.Base
             parameters = 
                 Enumerable.Empty<ParameterEmote>()
                     .Concat(parameterItems
-                        .Where(parameterItem => !parameterItem.defaultParameter)
                         .Select(parameterItem =>
                         {
                             var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
