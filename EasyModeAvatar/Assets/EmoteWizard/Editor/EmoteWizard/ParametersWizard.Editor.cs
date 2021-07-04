@@ -33,14 +33,14 @@ namespace EmoteWizard
                 if (GUILayout.Button("Repopulate Parameters"))
                 {
                     parametersWizard.parameterItems.Clear();
-                    parametersWizard.RefreshParameters();
+                    parametersWizard.ForceRefreshParameters();
                 }
             });
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
             if (GUILayout.Button("Collect Parameters (auto)"))
             {
-                parametersWizard.RefreshParameters();
+                parametersWizard.ForceRefreshParameters();
             }
 
             parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);

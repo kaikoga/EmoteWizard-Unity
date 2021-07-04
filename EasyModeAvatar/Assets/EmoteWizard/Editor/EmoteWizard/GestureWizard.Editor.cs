@@ -50,7 +50,7 @@ namespace EmoteWizard
                 }
                 if (GUILayout.Button("Repopulate Parameters"))
                 {
-                    gestureWizard.ParametersWizard.RefreshParameters();
+                    gestureWizard.ParametersWizard.TryRefreshParameters();
                     gestureWizard.parameters.Clear();
                     gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
                 }
@@ -72,7 +72,7 @@ namespace EmoteWizard
             }
             if (GUILayout.Button("Collect Parameters"))
             {
-                gestureWizard.ParametersWizard.RefreshParameters();
+                gestureWizard.ParametersWizard.TryRefreshParameters();
                 gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
             }
 

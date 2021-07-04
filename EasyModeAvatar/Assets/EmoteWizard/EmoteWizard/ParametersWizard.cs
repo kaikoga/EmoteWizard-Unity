@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.Base;
@@ -9,17 +10,36 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 namespace EmoteWizard
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(ExpressionWizard))]
     public class ParametersWizard : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
         [SerializeField] public bool vrcDefaultParameters = true;
         [SerializeField] public List<ParameterItem> parameterItems;
 
-        ExpressionWizard ExpressionWizard => GetComponent<ExpressionWizard>();
         public IEnumerable<ParameterItem> CustomParameterItems => parameterItems.Where(parameter => !parameter.defaultParameter);
 
-        public void RefreshParameters()
+        public void TryRefreshParameters()
+        {
+            var expressionWizard = GetComponent<ExpressionWizard>();
+            if (expressionWizard == null)
+            {
+                Debug.LogWarning("ExpressionWizard not found. Parameters are unchanged.");
+                return;
+            }
+            DoRefreshParameters(expressionWizard);
+        }
+
+        public void ForceRefreshParameters()
+        {
+            var expressionWizard = GetComponent<ExpressionWizard>();
+            if (expressionWizard == null)
+            {
+                throw new Exception("ExpressionWizard not found. Parameters are unchanged.");
+            }
+            DoRefreshParameters(expressionWizard);
+        }
+
+        void DoRefreshParameters(ExpressionWizard expressionWizard)
         {
             var customOnly = !vrcDefaultParameters;
             var vrcDefaultParametersStub = ParameterItem.VrcDefaultParameters;
@@ -30,7 +50,7 @@ namespace EmoteWizard
 
             if (parameterItems != null) builder.Import(parameterItems);
 
-            foreach (var expressionItem in ExpressionWizard.expressionItems)
+            foreach (var expressionItem in expressionWizard.expressionItems)
             {
                 builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
                 if (!expressionItem.IsPuppet) continue;
@@ -47,7 +67,7 @@ namespace EmoteWizard
 
         public VRCExpressionParameters.Parameter[] ToParameters()
         {
-            RefreshParameters(); 
+            TryRefreshParameters(); 
             return parameterItems.Select(parameter => parameter.ToParameter()).ToArray();
         }
     }
