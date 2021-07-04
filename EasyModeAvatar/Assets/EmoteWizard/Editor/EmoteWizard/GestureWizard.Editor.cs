@@ -106,6 +106,7 @@ namespace EmoteWizard
                         {
                             var parameterEmote = gestureWizard.parameters.FirstOrDefault(emote => emote.parameter == parameterItem.name);
                             if (parameterEmote == null) continue;
+                            if (!parameterEmote.enabled) continue;
                             var expressionLayer = PopulateLayer(animatorController, parameterItem.name);
                             
                             BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, parameterEmote);

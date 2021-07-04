@@ -8,6 +8,7 @@ namespace EmoteWizard.DataObjects
     [Serializable]
     public class ParameterEmote
     {
+        [SerializeField] public bool enabled = true;
         [SerializeField] public string name;
         [SerializeField] public string parameter;
         [SerializeField] public List<ParameterEmoteState> states = new List<ParameterEmoteState>();

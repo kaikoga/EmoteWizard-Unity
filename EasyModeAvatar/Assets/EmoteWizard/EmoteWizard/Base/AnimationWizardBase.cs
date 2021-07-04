@@ -28,13 +28,18 @@ namespace EmoteWizard.Base
                                 name = parameterItem.name,
                                 parameter = parameterItem.name,
                             };
+                            parameter.enabled = true;
                             parameter.CollectStates(parameterItem);
                             return parameter;
                         }))
                     .Concat(oldParameters.Where(oldParameter =>
-                    {
-                        return parameterItems.All(parameterItem => oldParameter.parameter != parameterItem.name);
-                    }))
+                        {
+                            return parameterItems.All(parameterItem => oldParameter.parameter != parameterItem.name);
+                        }).Select(oldParameter =>
+                        {
+                            oldParameter.enabled = false;
+                            return oldParameter;
+                        }))
                     .ToList();
         }
     }
