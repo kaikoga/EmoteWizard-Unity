@@ -52,9 +52,12 @@ namespace EmoteWizard
 
             foreach (var expressionItem in expressionWizard.expressionItems)
             {
-                builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                if (!string.IsNullOrEmpty(expressionItem.parameter))
+                {
+                    builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                }
                 if (!expressionItem.IsPuppet) continue;
-                foreach (var subParameter in expressionItem.subParameters)
+                foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
                 {
                     builder.FindOrCreate(subParameter).AddPuppetUsage();
                 }
