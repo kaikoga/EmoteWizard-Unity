@@ -1,3 +1,5 @@
+using EmoteWizard.Base;
+using EmoteWizard.DataObjects.DrawerContexts;
 using EmoteWizard.Extensions;
 using EmoteWizard.Scopes;
 using UnityEditor;
@@ -7,14 +9,18 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 namespace EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(Emote))]
-    public class EmoteDrawer : PropertyDrawer
+    public class EmoteDrawer : PropertyDrawerWithContext<EmoteDrawerContext>
     {
         public static bool EditConditions = true;
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
 
+        public static EmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, bool advancedAnimations) => PropertyDrawerWithContext<EmoteDrawerContext>.StartContext(new EmoteDrawerContext(emoteWizardRoot, advancedAnimations));
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var context = EnsureContext(property);
+
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
             var cursor = position.UISliceV(0, 1);
@@ -50,10 +56,18 @@ namespace EmoteWizard.DataObjects
 
                 if (EditAnimations)
                 {
-                    EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipLeft"));
-                    cursor.y += LineTop(1f);
-                    EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipRight"));
-                    cursor.y += LineTop(1f);
+                    if (context.AdvancedAnimations)
+                    {
+                        EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipLeft"));
+                        cursor.y += LineTop(1f);
+                        EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipRight"));
+                        cursor.y += LineTop(1f);
+                    }
+                    else
+                    {
+                        EditorGUI.PropertyField(cursor, property.FindPropertyRelative("clipLeft"), new GUIContent("Clip"));
+                        cursor.y += LineTop(1f);
+                    }
                 }
 
                 using (EmoteParameterDrawer.StartContext(null, EditParameters))
@@ -66,6 +80,8 @@ namespace EmoteWizard.DataObjects
         
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
+            var context = EnsureContext(property);
+            
             var h = 0f;
             if (EditConditions)
             {
@@ -77,7 +93,7 @@ namespace EmoteWizard.DataObjects
             }
             if (EditAnimations)
             {
-                h += LineHeight(2f) + EditorGUIUtility.standardVerticalSpacing;
+                h += LineHeight(context.AdvancedAnimations ? 2f : 1f) + EditorGUIUtility.standardVerticalSpacing;
             }
 
             using (EmoteParameterDrawer.StartContext(null, EditParameters))

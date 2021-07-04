@@ -7,6 +7,8 @@ namespace EmoteWizard.Base
 {
     public abstract class AnimationWizardBase : EmoteWizardBase
     {
+        [SerializeField] public bool advancedAnimations;
+
         [SerializeField] public List<Emote> emotes;
         [SerializeField] public List<ParameterEmote> parameters;
         [SerializeField] public List<AnimationMixin> mixins;

@@ -66,7 +66,7 @@ namespace EmoteWizard.Base
             stateMachine.defaultState = state;
         }
 
-        protected void BuildGestureStateMachine(AnimatorStateMachine stateMachine, bool isLeft)
+        protected void BuildGestureStateMachine(AnimatorStateMachine stateMachine, bool isLeft, bool isAdvanced)
         {
             var emotes = AnimationWizardBase.emotes;
 
@@ -80,7 +80,7 @@ namespace EmoteWizard.Base
                 var gesture1 = emote.gesture1;
                 var gesture2 = emote.gesture2;
                 
-                var clip = isLeft ? emote.clipLeft : emote.clipRight;
+                var clip = isLeft || !isAdvanced ? emote.clipLeft : emote.clipRight;
                 var state = stateMachine.AddState(emote.ToStateName(), position);
                 state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
                 state.writeDefaultValues = false;

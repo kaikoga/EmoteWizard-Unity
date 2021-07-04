@@ -64,10 +64,16 @@ namespace EmoteWizard
                 }
             });
 
+            var advancedAnimations = serializedObj.FindProperty("advancedAnimations");
+            EditorGUILayout.PropertyField(advancedAnimations);
+
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
-            
-            emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+
+            using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
+            {
+                emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, "FX", ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
@@ -106,10 +112,10 @@ namespace EmoteWizard
                         BuildStaticStateMachine(ambienceLayer.stateMachine, "Global", fxWizard.ambienceClip);
 
                         var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                        BuildGestureStateMachine(leftHandLayer.stateMachine, true);
+                        BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
                 
                         var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
-                        BuildGestureStateMachine(rightHandLayer.stateMachine, false);
+                        BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
 
                         foreach (var parameterEmote in fxWizard.ActiveParameters)
                         {

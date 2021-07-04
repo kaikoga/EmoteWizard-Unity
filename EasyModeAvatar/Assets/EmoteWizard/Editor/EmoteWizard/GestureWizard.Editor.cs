@@ -60,6 +60,9 @@ namespace EmoteWizard
                 }
             });
 
+            var advancedAnimations = serializedObj.FindProperty("advancedAnimations");
+            EditorGUILayout.PropertyField(advancedAnimations);
+
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
 
@@ -69,7 +72,10 @@ namespace EmoteWizard
                 return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
             });
 
-            emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
+            {
+                emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, "Gesture", ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
@@ -105,10 +111,10 @@ namespace EmoteWizard
                         BuildStaticStateMachine(ambienceLayer.stateMachine, "Ambient", gestureWizard.ambienceClip);
 
                         var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                        BuildGestureStateMachine(leftHandLayer.stateMachine, true);
+                        BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
             
                         var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
-                        BuildGestureStateMachine(rightHandLayer.stateMachine, false);
+                        BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
 
                         foreach (var parameterEmote in gestureWizard.ActiveParameters)
                         {
