@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.Tools
+namespace EmoteWizard.Utils
 {
     public static class VrcSdkAssetLocator
     {

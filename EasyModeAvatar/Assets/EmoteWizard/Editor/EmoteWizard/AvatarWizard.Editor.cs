@@ -1,7 +1,7 @@
 using System;
 using EmoteWizard.Extensions;
-using EmoteWizard.Tools;
 using EmoteWizard.UI;
+using EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;

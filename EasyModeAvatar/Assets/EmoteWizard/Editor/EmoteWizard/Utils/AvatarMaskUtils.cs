@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace EmoteWizard.Tools
+namespace EmoteWizard.Utils
 {
-    public static class AvatarMaskTools
+    public static class AvatarMaskUtils
     {
         public static AvatarMask SetupAsGestureDefault(AvatarMask avatarMask)
         {

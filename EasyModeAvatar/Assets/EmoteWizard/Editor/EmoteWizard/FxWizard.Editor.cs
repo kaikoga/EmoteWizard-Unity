@@ -3,8 +3,8 @@ using EmoteWizard.Base;
 using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
-using EmoteWizard.Tools;
 using EmoteWizard.UI;
+using EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 

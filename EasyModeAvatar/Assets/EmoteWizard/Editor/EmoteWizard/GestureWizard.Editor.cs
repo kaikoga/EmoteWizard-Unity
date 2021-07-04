@@ -3,8 +3,8 @@ using EmoteWizard.Base;
 using EmoteWizard.Collections;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
-using EmoteWizard.Tools;
 using EmoteWizard.UI;
+using EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -62,7 +62,7 @@ namespace EmoteWizard
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
             {
                 var avatarMask = emoteWizardRoot.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
-                return AvatarMaskTools.SetupAsGestureDefault(avatarMask);
+                return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
             });
 
             emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);

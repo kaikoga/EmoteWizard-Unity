@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.DataObjects;
 using EmoteWizard.DataObjects.Internal;
-using EmoteWizard.Tools;
+using EmoteWizard.Utils;
 
 namespace EmoteWizard.Extensions
 {
