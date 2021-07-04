@@ -12,12 +12,12 @@ namespace EmoteWizard.Collections
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                GUI.Label(position.Slice(0.00f, 0.40f, 0), "Name");
-                GUI.Label(position.Slice(0.40f, 0.25f, 0), "Type");
-                GUI.Label(position.Slice(0.65f, 0.20f, 0), "Default");
-                GUI.Label(position.Slice(0.85f, 0.15f, 0), "Saved");
+                GUI.Label(position.UISlice(0.00f, 0.40f, 0), "Name");
+                GUI.Label(position.UISlice(0.40f, 0.25f, 0), "Type");
+                GUI.Label(position.UISlice(0.65f, 0.20f, 0), "Default");
+                GUI.Label(position.UISlice(0.85f, 0.15f, 0), "Saved");
 
-                GUI.Label(position.Slice(0.00f, 0.20f, 1), "Value");
+                GUI.Label(position.UISlice(0.00f, 0.20f, 1), "Value");
             }
         }
 

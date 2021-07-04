@@ -17,7 +17,7 @@ namespace EmoteWizard.DataObjects
         {
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
-            var cursor = position.SliceV(0, 1);
+            var cursor = position.UISliceV(0, 1);
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 var gesture1 = property.FindPropertyRelative("gesture1");

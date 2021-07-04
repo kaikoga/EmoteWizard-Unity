@@ -34,12 +34,12 @@ namespace EmoteWizard.DataObjects
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {
-                EditorGUI.PropertyField(position.Slice(0.0f, 0.4f, 0), property.FindPropertyRelative("icon"), new GUIContent(" "));
-                EditorGUI.PropertyField(position.Slice(0.4f, 0.6f, 0), property.FindPropertyRelative("path"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISlice(0.0f, 0.4f, 0), property.FindPropertyRelative("icon"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISlice(0.4f, 0.6f, 0), property.FindPropertyRelative("path"), new GUIContent(" "));
 
-                EditorGUI.PropertyField(position.Slice(0.0f, 0.4f, 1), property.FindPropertyRelative("parameter"), new GUIContent(" "));
-                EditorGUI.PropertyField(position.Slice(0.4f, 0.2f, 1), property.FindPropertyRelative("value"), new GUIContent(" "));
-                EditorGUI.PropertyField(position.Slice(0.6f, 0.4f, 1), property.FindPropertyRelative("controlType"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISlice(0.0f, 0.4f, 1), property.FindPropertyRelative("parameter"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISlice(0.4f, 0.2f, 1), property.FindPropertyRelative("value"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISlice(0.6f, 0.4f, 1), property.FindPropertyRelative("controlType"), new GUIContent(" "));
 
                 var y = 2;
                 void DrawSubParameters(int subParametersCount, int labelsCount)
@@ -51,11 +51,11 @@ namespace EmoteWizard.DataObjects
                     subParameters.arraySize = subParametersCount;
                     if (subParametersCount > 0)
                     {
-                        GUI.Label(position.SliceV(y++), "Puppet Parameters");
+                        GUI.Label(position.UISliceV(y++), "Puppet Parameters");
                         for (var i = 0; i < subParametersCount; i++)
                         {
-                            GUI.Label(position.Slice(0.1f, 0.3f, y), SubParameterLabels[subParametersCount][i]);
-                            EditorGUI.PropertyField(position.Slice(0.4f, 0.6f, y++), subParameters.GetArrayElementAtIndex(i));
+                            GUI.Label(position.UISlice(0.1f, 0.3f, y), SubParameterLabels[subParametersCount][i]);
+                            EditorGUI.PropertyField(position.UISlice(0.4f, 0.6f, y++), subParameters.GetArrayElementAtIndex(i));
                         }
                     }
                     
@@ -63,12 +63,12 @@ namespace EmoteWizard.DataObjects
                     labelIcons.arraySize = labelsCount;
                     if (labelsCount > 0)
                     {
-                        GUI.Label(position.SliceV(y++), "Puppet Labels");
+                        GUI.Label(position.UISliceV(y++), "Puppet Labels");
                         for (var i = 0; i < labelsCount; i++)
                         {
-                            GUI.Label(position.Slice(0.1f, 0.4f, y), SubParameterLabels[labelsCount][i]);
-                            EditorGUI.PropertyField(position.Slice(0.4f, 0.3f, y), labels.GetArrayElementAtIndex(i));
-                            EditorGUI.PropertyField(position.Slice(0.7f, 0.3f, y++), labelIcons.GetArrayElementAtIndex(i));
+                            GUI.Label(position.UISlice(0.1f, 0.4f, y), SubParameterLabels[labelsCount][i]);
+                            EditorGUI.PropertyField(position.UISlice(0.4f, 0.3f, y), labels.GetArrayElementAtIndex(i));
+                            EditorGUI.PropertyField(position.UISlice(0.7f, 0.3f, y++), labelIcons.GetArrayElementAtIndex(i));
                         }
                     }
                 }
@@ -80,7 +80,7 @@ namespace EmoteWizard.DataObjects
                         break;
                     case VRCExpressionsMenu.Control.ControlType.SubMenu:
                         EmoteWizardGUI.PropertyFieldWithGenerate(
-                            position.SliceV(y),
+                            position.UISliceV(y),
                             property.FindPropertyRelative("subMenu"),
                             () =>
                             {

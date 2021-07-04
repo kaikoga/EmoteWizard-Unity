@@ -22,8 +22,8 @@ namespace EmoteWizard.DataObjects
                 using (new HideLabelsScope())
                 {
                     var value = property.FindPropertyRelative("value");
-                    EditorGUI.PropertyField(position.Slice(0.0f, 0.2f, 0), value);
-                    EmoteWizardGUI.PropertyFieldWithGenerate(position.Slice(0.2f, 0.75f, 0),
+                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.2f, 0), value);
+                    EmoteWizardGUI.PropertyFieldWithGenerate(position.UISlice(0.2f, 0.75f, 0),
                         property.FindPropertyRelative("clip"),
                         () =>
                         {
@@ -40,7 +40,7 @@ namespace EmoteWizard.DataObjects
                 }
                 if (context.EditTargets)
                 {
-                    EmoteWizardGUI.HorizontalListPropertyField(position.SliceV(1), property.FindPropertyRelative("targets"));
+                    EmoteWizardGUI.HorizontalListPropertyField(position.UISliceV(1), property.FindPropertyRelative("targets"));
                 }
             }
         }

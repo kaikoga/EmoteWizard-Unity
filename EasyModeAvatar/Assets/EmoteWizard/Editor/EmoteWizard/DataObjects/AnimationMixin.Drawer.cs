@@ -27,8 +27,8 @@ namespace EmoteWizard.DataObjects
                 var name = property.FindPropertyRelative("name");
                 using (new HideLabelsScope())
                 {
-                    EditorGUI.PropertyField(position.Slice(0.0f, 0.3f, 0), name);
-                    EditorGUI.PropertyField(position.Slice(0.3f, 0.3f, 0), kind);
+                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.3f, 0), name);
+                    EditorGUI.PropertyField(position.UISlice(0.3f, 0.3f, 0), kind);
                 }
                 
                 switch ((AnimationMixin.AnimationMixinKind) kind.intValue)
@@ -37,7 +37,7 @@ namespace EmoteWizard.DataObjects
                         using (new HideLabelsScope())
                         {
                             EmoteWizardGUI.PropertyFieldWithGenerate(
-                                position.Slice(0.6f, 0.4f, 0),
+                                position.UISlice(0.6f, 0.4f, 0),
                                 property.FindPropertyRelative("animationClip"),
                                 () =>
                                 {
@@ -54,17 +54,17 @@ namespace EmoteWizard.DataObjects
                         }
 
                         var normalizedTimeEnabled = property.FindPropertyRelative("normalizedTimeEnabled");
-                        EditorGUI.PropertyField(position.SliceV(1), normalizedTimeEnabled, new GUIContent("Normalized Time"));
+                        EditorGUI.PropertyField(position.UISliceV(1), normalizedTimeEnabled, new GUIContent("Normalized Time"));
                         if (normalizedTimeEnabled.boolValue)
                         {
-                            EditorGUI.PropertyField(position.SliceV(2), property.FindPropertyRelative("normalizedTime"), new GUIContent("Parameter Name"));
+                            EditorGUI.PropertyField(position.UISliceV(2), property.FindPropertyRelative("normalizedTime"), new GUIContent("Parameter Name"));
                         }
                         break;
                     case AnimationMixin.AnimationMixinKind.BlendTree:
                         using (new HideLabelsScope())
                         {
                             EmoteWizardGUI.PropertyFieldWithGenerate(
-                                position.Slice(0.6f, 0.4f, 0),
+                                position.UISlice(0.6f, 0.4f, 0),
                                 property.FindPropertyRelative("blendTree"),
                                 () =>
                                 {

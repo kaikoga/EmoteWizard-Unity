@@ -20,7 +20,7 @@ namespace EmoteWizard.Collections
 
             drawHeaderCallback += rect =>
             {
-                var isExpanded = EditorGUI.Foldout(rect.SliceV(0), serializedProperty.isExpanded, headerName);
+                var isExpanded = EditorGUI.Foldout(rect.UISliceV(0), serializedProperty.isExpanded, headerName);
                 serializedProperty.isExpanded = isExpanded;
                 draggable = isExpanded;
                 displayAdd = isExpanded;
@@ -28,7 +28,7 @@ namespace EmoteWizard.Collections
 
                 if (isExpanded)
                 {
-                    _listHeaderDrawer?.OnGUI(rect.SliceV(1, -1), true);
+                    _listHeaderDrawer?.OnGUI(rect.UISliceV(1, -1), true);
                 }
                 else
                 {

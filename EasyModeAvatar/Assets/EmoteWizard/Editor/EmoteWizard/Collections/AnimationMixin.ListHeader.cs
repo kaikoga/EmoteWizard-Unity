@@ -12,9 +12,9 @@ namespace EmoteWizard.Collections
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                GUI.Label(position.Slice(0.0f, 0.3f, 0), "Name");
-                GUI.Label(position.Slice(0.3f, 0.3f, 0), "Kind");
-                GUI.Label(position.Slice(0.6f, 0.4f, 0), "Asset");
+                GUI.Label(position.UISlice(0.0f, 0.3f, 0), "Name");
+                GUI.Label(position.UISlice(0.3f, 0.3f, 0), "Kind");
+                GUI.Label(position.UISlice(0.6f, 0.4f, 0), "Asset");
             }
         }
 

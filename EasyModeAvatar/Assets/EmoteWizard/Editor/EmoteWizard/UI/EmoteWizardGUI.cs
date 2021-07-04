@@ -30,7 +30,7 @@ namespace EmoteWizard.UI
             {
                 var arraySize = EditorGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", serializedProperty.arraySize);
                 serializedProperty.arraySize = arraySize;
-                position = position.InsetAbs(labelWidth + sizeWidth, 0f, 0f, 0f);
+                position = position.Inset(labelWidth + sizeWidth, 0f, 0f, 0f);
                 if (arraySize > 0)
                 {
                     EditorGUI.MultiPropertyField(position, Enumerable.Repeat(GUIContent.none, serializedProperty.arraySize).ToArray(), serializedProperty.GetArrayElementAtIndex(0));

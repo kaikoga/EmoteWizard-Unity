@@ -13,10 +13,10 @@ namespace EmoteWizard.Collections
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                GUI.Label(position.Slice(0.0f, 0.2f, 0), "Name");
-                GUI.Label(position.Slice(0.2f, 0.8f, 0), "Motion");
+                GUI.Label(position.UISlice(0.0f, 0.2f, 0), "Name");
+                GUI.Label(position.UISlice(0.2f, 0.8f, 0), "Motion");
                 
-                ParameterEmoteDrawer.EditTargets = EditorGUI.ToggleLeft(position.SliceV(1), "Edit Targets", ParameterEmoteDrawer.EditTargets);
+                ParameterEmoteDrawer.EditTargets = EditorGUI.ToggleLeft(position.UISliceV(1), "Edit Targets", ParameterEmoteDrawer.EditTargets);
             }
         }
 

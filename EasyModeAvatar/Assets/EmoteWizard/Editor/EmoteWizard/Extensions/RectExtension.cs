@@ -5,7 +5,7 @@ namespace EmoteWizard.Extensions
 {
     public static class RectExtension
     {
-        public static Rect InsetAbs(this Rect rect, float left, float top, float right, float bottom)
+        public static Rect Inset(this Rect rect, float left, float top, float right, float bottom)
         {
             return Rect.MinMaxRect(rect.xMin + left, rect.yMin + top, rect.xMax - right, rect.yMax - bottom);
         }
@@ -20,17 +20,17 @@ namespace EmoteWizard.Extensions
             return lineHeight >= 0 ? LineHeight(lineHeight) : position.height - LineTop(-lineHeight);
         }
 
-        public static Rect SliceH(this Rect position, float x, float width)
+        public static Rect UISliceH(this Rect position, float x, float width)
         {
             return new Rect(position.x + position.width * x, position.y, position.width * width, position.height);
         }
 
-        public static Rect SliceV(this Rect position, int lineY, int lineHeight = 1)
+        public static Rect UISliceV(this Rect position, int lineY, int lineHeight = 1)
         {
             return new Rect(position.x, ParseLineY(position, lineY), position.width, ParseLineHeight(position, lineHeight));
         }
 
-        public static Rect Slice(this Rect position, float x, float width, int lineY, int lineHeight = 1)
+        public static Rect UISlice(this Rect position, float x, float width, int lineY, int lineHeight = 1)
         {
             return new Rect(position.x + position.width * x, ParseLineY(position, lineY), position.width * width, ParseLineHeight(position, lineHeight));
         }

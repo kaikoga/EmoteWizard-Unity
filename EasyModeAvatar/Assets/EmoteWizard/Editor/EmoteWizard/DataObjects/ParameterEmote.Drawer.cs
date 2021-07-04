@@ -24,22 +24,22 @@ namespace EmoteWizard.DataObjects
             {
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
-                    EditorGUI.PropertyField(position.SliceV(0), property.FindPropertyRelative("name"));
-                    EditorGUI.PropertyField(position.Slice(0.0f, 0.8f, 1), property.FindPropertyRelative("parameter"));
+                    EditorGUI.PropertyField(position.UISliceV(0), property.FindPropertyRelative("name"));
+                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 1), property.FindPropertyRelative("parameter"));
                     using (new HideLabelsScope())
                     {
-                        EditorGUI.PropertyField(position.Slice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueType"));
+                        EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueType"));
                     }
                 }
 
                 using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, property.FindPropertyRelative("name").stringValue, context.EditTargets))
                 {
-                    EditorGUI.PropertyField(position.SliceV(2, -2), property.FindPropertyRelative("states"), true);
+                    EditorGUI.PropertyField(position.UISliceV(2, -2), property.FindPropertyRelative("states"), true);
                 }
 
                 if (context.EditTargets)
                 {
-                    GUI.Button(position.SliceV(-1), "Generate clips from targets");
+                    GUI.Button(position.UISliceV(-1), "Generate clips from targets");
                 }
             }
         }
