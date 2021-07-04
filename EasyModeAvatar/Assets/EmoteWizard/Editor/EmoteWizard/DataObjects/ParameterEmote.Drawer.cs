@@ -1,5 +1,6 @@
 using EmoteWizard.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Tools.PropertyDrawerUITools;
@@ -22,7 +23,11 @@ namespace EmoteWizard.DataObjects
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
                     EditorGUI.PropertyField(position.SliceV(0), property.FindPropertyRelative("name"));
-                    EditorGUI.PropertyField(position.SliceV(1), property.FindPropertyRelative("parameter"));
+                    EditorGUI.PropertyField(position.Slice(0.0f, 0.8f, 1), property.FindPropertyRelative("parameter"));
+                    using (new HideLabelsScope())
+                    {
+                        EditorGUI.PropertyField(position.Slice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueType"));
+                    }
                 }
 
                 using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, property.FindPropertyRelative("name").stringValue))

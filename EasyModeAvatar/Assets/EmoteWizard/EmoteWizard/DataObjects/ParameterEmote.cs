@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace EmoteWizard.DataObjects
 {
@@ -11,6 +12,7 @@ namespace EmoteWizard.DataObjects
         [SerializeField] public bool enabled = true;
         [SerializeField] public string name;
         [SerializeField] public string parameter;
+        [SerializeField] public VRCExpressionParameters.ValueType valueType;
         [SerializeField] public List<ParameterEmoteState> states = new List<ParameterEmoteState>();
 
         public void CollectStates(ParameterItem parameterItem)

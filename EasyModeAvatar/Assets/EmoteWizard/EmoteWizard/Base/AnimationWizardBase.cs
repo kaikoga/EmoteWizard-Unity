@@ -13,6 +13,8 @@ namespace EmoteWizard.Base
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
+        public IEnumerable<ParameterEmote> ActiveParameters => parameters.Where(parameter => parameter.enabled);
+
         public void RefreshParameters(List<ParameterItem> parameterItems)
         {
             parameterItems = parameterItems.ToList();
@@ -26,8 +28,9 @@ namespace EmoteWizard.Base
                             var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
                             {
                                 name = parameterItem.name,
-                                parameter = parameterItem.name,
+                                parameter = parameterItem.name
                             };
+                            parameter.valueType = parameterItem.valueType;
                             parameter.enabled = true;
                             parameter.CollectStates(parameterItem);
                             return parameter;

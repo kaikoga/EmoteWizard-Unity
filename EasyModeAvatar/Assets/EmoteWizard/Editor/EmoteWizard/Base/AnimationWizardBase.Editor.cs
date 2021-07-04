@@ -107,12 +107,12 @@ namespace EmoteWizard.Base
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
         }
 
-        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterItem parameterItem, ParameterEmote parameterEmote)
+        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
             void AddTransition(AnimatorState state, string parameterName, float value)
             {
                 AnimatorStateTransition transition;
-                switch (parameterItem.valueType)
+                switch (parameterEmote.valueType)
                 {
                     case VRCExpressionParameters.ValueType.Int:
                         transition = stateMachine.AddAnyStateTransition(state);

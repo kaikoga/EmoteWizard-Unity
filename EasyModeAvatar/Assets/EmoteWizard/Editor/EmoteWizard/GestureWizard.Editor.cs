@@ -102,14 +102,10 @@ namespace EmoteWizard
                         var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
                         BuildGestureStateMachine(rightHandLayer.stateMachine, false);
 
-                        foreach (var parameterItem in gestureWizard.ParametersWizard.CustomParameterItems)
+                        foreach (var parameterEmote in gestureWizard.ActiveParameters)
                         {
-                            var parameterEmote = gestureWizard.parameters.FirstOrDefault(emote => emote.parameter == parameterItem.name);
-                            if (parameterEmote == null) continue;
-                            if (!parameterEmote.enabled) continue;
-                            var expressionLayer = PopulateLayer(animatorController, parameterItem.name);
-                            
-                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterItem, parameterEmote);
+                            var expressionLayer = PopulateLayer(animatorController, parameterEmote.name);
+                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterEmote);
                         }
 
                         foreach (var mixin in gestureWizard.mixins)
