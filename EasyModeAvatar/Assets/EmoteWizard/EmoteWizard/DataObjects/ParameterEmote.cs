@@ -18,11 +18,13 @@ namespace EmoteWizard.DataObjects
         public void CollectStates(ParameterItem parameterItem)
         {
             var oldStates = states;
-            states = parameterItem.states.Select(state => new ParameterEmoteState
-            {
-                value = state.value,
-                clip = states.FirstOrDefault(s => s.value == state.value)?.clip
-            }).ToList();
+            states = Enumerable.Empty<ParameterEmoteState>()
+                .Concat(parameterItem.states.Select(state => new ParameterEmoteState
+                {
+                    value = state.value,
+                    clip = states.FirstOrDefault(s => s.value == state.value)?.clip
+                })).Concat(oldStates.Where(oldState => parameterItem.states.All(state => state.value != oldState.value)))
+                .ToList();
         }
     }
 }
