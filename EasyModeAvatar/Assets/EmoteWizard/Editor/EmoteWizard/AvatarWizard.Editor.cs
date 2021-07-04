@@ -48,6 +48,10 @@ namespace EmoteWizard
 
                 var avatarDescriptor = avatarWizard.avatarDescriptor;
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("avatarDescriptor"));
+                if (avatarDescriptor == null)
+                {
+                    EditorGUILayout.HelpBox("VRCAvatarDescriptor is missing. Some functions might not work.", MessageType.Error);
+                }
                 var gestureController = emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset as AnimatorController;
                 var fxController = emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset as AnimatorController;
 
