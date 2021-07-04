@@ -41,6 +41,7 @@ namespace EmoteWizard
         {
             var serializedObj = serializedObject;
             var emoteWizardRoot = fxWizard.EmoteWizardRoot;
+            var parametersWizard = fxWizard.GetComponent<ParametersWizard>();
 
             EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
             {
@@ -52,11 +53,14 @@ namespace EmoteWizard
                 {
                     RepopulateDefaultFxEmotes14();
                 }
-                if (GUILayout.Button("Repopulate Parameters"))
+                if (parametersWizard != null)
                 {
-                    fxWizard.ParametersWizard.TryRefreshParameters();
-                    fxWizard.parameters.Clear();
-                    fxWizard.RefreshParameters(fxWizard.ParametersWizard != null ? fxWizard.ParametersWizard.parameterItems : null);
+                    if (GUILayout.Button("Repopulate Parameters"))
+                    {
+                        parametersWizard.TryRefreshParameters();
+                        fxWizard.parameters.Clear();
+                        fxWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
+                    }
                 }
             });
 
@@ -68,11 +72,15 @@ namespace EmoteWizard
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
-            if (GUILayout.Button("Collect Parameters"))
+
+            EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
             {
-                fxWizard.ParametersWizard.TryRefreshParameters();
-                fxWizard.RefreshParameters(fxWizard.ParametersWizard != null ? fxWizard.ParametersWizard.parameterItems : null);
-            }
+                if (GUILayout.Button("Collect Parameters"))
+                {
+                    parametersWizard.TryRefreshParameters();
+                    fxWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
+                }
+            });
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "FX/Mixin/"))
             {
@@ -115,7 +123,7 @@ namespace EmoteWizard
                             BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
                         
-                        BuildParameters(animatorController, fxWizard.ParametersWizard.CustomParameterItems);
+                        BuildParameters(animatorController, parametersWizard.CustomParameterItems);
                     });
                 }
 

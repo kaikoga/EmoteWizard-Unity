@@ -27,21 +27,29 @@ namespace EmoteWizard
         {
             var serializedObj = serializedObject;
             var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
+            var expressionWizard = parametersWizard.GetComponent<ExpressionWizard>();
 
             EmoteWizardGUILayout.SetupOnlyUI(parametersWizard, () =>
             {
-                if (GUILayout.Button("Repopulate Parameters"))
+                if (expressionWizard)
                 {
-                    parametersWizard.parameterItems.Clear();
-                    parametersWizard.ForceRefreshParameters();
+                    if (GUILayout.Button("Repopulate Parameters"))
+                    {
+                        parametersWizard.parameterItems.Clear();
+                        parametersWizard.ForceRefreshParameters();
+                    }
                 }
             });
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
-            if (GUILayout.Button("Collect Parameters (auto)"))
-            {
-                parametersWizard.ForceRefreshParameters();
-            }
+            EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
+                () =>
+                {
+                    if (GUILayout.Button("Collect Parameters (auto)"))
+                    {
+                        parametersWizard.ForceRefreshParameters();
+                    }
+                });
 
             parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
 

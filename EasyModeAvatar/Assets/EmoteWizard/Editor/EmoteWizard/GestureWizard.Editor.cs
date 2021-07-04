@@ -41,6 +41,7 @@ namespace EmoteWizard
         {
             var serializedObj = serializedObject;
             var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
+            var parametersWizard = gestureWizard.GetComponent<ParametersWizard>();
 
             EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
             {
@@ -48,11 +49,14 @@ namespace EmoteWizard
                 {
                     RepopulateDefaultGestureEmotes(gestureWizard);
                 }
-                if (GUILayout.Button("Repopulate Parameters"))
+                if (parametersWizard != null)
                 {
-                    gestureWizard.ParametersWizard.TryRefreshParameters();
-                    gestureWizard.parameters.Clear();
-                    gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
+                    if (GUILayout.Button("Repopulate Parameters"))
+                    {
+                        parametersWizard.TryRefreshParameters();
+                        gestureWizard.parameters.Clear();
+                        gestureWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
+                    }
                 }
             });
 
@@ -70,11 +74,15 @@ namespace EmoteWizard
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
-            if (GUILayout.Button("Collect Parameters"))
+
+            EmoteWizardGUILayout.RequireAnotherWizard(gestureWizard, parametersWizard, () =>
             {
-                gestureWizard.ParametersWizard.TryRefreshParameters();
-                gestureWizard.RefreshParameters(gestureWizard.ParametersWizard != null ? gestureWizard.ParametersWizard.parameterItems : null);
-            }
+                if (GUILayout.Button("Collect Parameters"))
+                {
+                    parametersWizard.TryRefreshParameters();
+                    gestureWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
+                }
+            });
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "Gesture/Mixin/"))
             {
@@ -114,7 +122,7 @@ namespace EmoteWizard
                             BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
 
-                        BuildParameters(animatorController, gestureWizard.ParametersWizard.CustomParameterItems);
+                        BuildParameters(animatorController, parametersWizard.CustomParameterItems);
                     });
                 }
 

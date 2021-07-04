@@ -19,6 +19,7 @@ namespace EmoteWizard.UI
             }
         }
         
+
         public static void ConfigUIArea(Action action)
         {
             using (new BoxLayoutScope(Color.yellow))
@@ -36,7 +37,26 @@ namespace EmoteWizard.UI
             }
         }
 
-        
+        public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, T anotherWizard, Action action)
+            where T : EmoteWizardBase
+        {
+            if (anotherWizard)
+            {
+                action();
+                return;
+            }
+
+            var typeName = typeof(T).Name;
+            EditorGUILayout.HelpBox($"{typeName} not found. Some functions might not work.", MessageType.Error);
+            using (new BoxLayoutScope(Color.magenta))
+            {
+                if (GUILayout.Button($"Add {typeName}"))
+                {
+                    emoteWizardBase.gameObject.AddComponent<T>();
+                }
+            }
+        }
+
         public static void PropertyFieldWithGenerate(SerializedProperty serializedProperty, Func<UnityEngine.Object> generate)
         {
             using (new GUILayout.HorizontalScope())
