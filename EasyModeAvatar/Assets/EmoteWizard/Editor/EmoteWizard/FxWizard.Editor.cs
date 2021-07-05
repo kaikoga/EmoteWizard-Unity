@@ -120,7 +120,7 @@ namespace EmoteWizard
                         foreach (var parameterEmote in fxWizard.ActiveParameters)
                         {
                             var expressionLayer = PopulateLayer(animatorController, parameterEmote.name);
-                            BuildExpressionStateMachine(expressionLayer.stateMachine, parameterEmote);
+                            BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
                         }
                         
                         foreach (var mixin in fxWizard.mixins)

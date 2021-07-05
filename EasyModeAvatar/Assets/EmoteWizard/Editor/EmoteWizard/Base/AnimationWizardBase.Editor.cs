@@ -46,68 +46,98 @@ namespace EmoteWizard.Base
                 stateMachine = new AnimatorStateMachine
                 {
                     name = layerName,
-                    hideFlags = HideFlags.HideInHierarchy
+                    hideFlags = HideFlags.HideInHierarchy,
+                    anyStatePosition = new Vector3(0, 0, 0),
+                    entryPosition = new Vector3(0, 100, 0),
+                    exitPosition = new Vector3(0, 200, 0)
                 }
             };
+
             AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(animatorController));
             animatorController.AddLayer(layer);
             return layer;
         }
 
+        static IEnumerable<Vector3> Positions()
+        {
+            var position = new Vector3(300, 0, 0);
+            for (;;)
+            {
+                yield return position;
+                position.y += 60;
+            }
+        }
+
         protected void BuildStaticStateMachine(AnimatorStateMachine stateMachine, string stateName, Motion clip)
         {
-            stateMachine.anyStatePosition = new Vector2(0, 0);
-            stateMachine.entryPosition = new Vector2(0, 100);
-            stateMachine.exitPosition = new Vector2(0, 200);
-
-            var state = stateMachine.AddState(stateName, new Vector2(300, 0));
-            state.motion = clip;
-            state.writeDefaultValues = false;
-            stateMachine.defaultState = state;
+            using (var positions = Positions().GetEnumerator())
+            {
+                var state = stateMachine.AddState(stateName, positions.Current);
+                state.motion = clip;
+                state.writeDefaultValues = false;
+                stateMachine.defaultState = state;
+                positions.MoveNext();
+            }
         }
 
         protected void BuildGestureStateMachine(AnimatorStateMachine stateMachine, bool isLeft, bool isAdvanced)
         {
             var emotes = AnimationWizardBase.emotes;
 
-            stateMachine.anyStatePosition = new Vector2(0, 0);
-            stateMachine.entryPosition = new Vector2(0, 100);
-            stateMachine.exitPosition = new Vector2(0, 200);
-
-            var position = new Vector2(300, 0);
-            foreach (var emote in emotes)
+            using (var positions = Positions().GetEnumerator())
             {
-                var gesture1 = emote.gesture1;
-                var gesture2 = emote.gesture2;
-                
-                var clip = isLeft || !isAdvanced ? emote.clipLeft : emote.clipRight;
-                var state = stateMachine.AddState(emote.ToStateName(), position);
-                state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
-                state.writeDefaultValues = false;
-                if (clip != null && emote.parameter != null && emote.parameter.normalizedTimeEnabled)
+                foreach (var emote in emotes)
                 {
-                    state.timeParameterActive = true;
-                    state.timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
-                    clip.SetLoopTimeRec(false);
-                    EditorUtility.SetDirty(clip);
-                }
+                    var gesture1 = emote.gesture1;
+                    var gesture2 = emote.gesture2;
+                    
+                    var clip = isLeft || !isAdvanced ? emote.clipLeft : emote.clipRight;
+                    var state = stateMachine.AddState(emote.ToStateName(), positions.Current);
+                    state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
+                    state.writeDefaultValues = false;
+                    if (clip != null && emote.parameter != null && emote.parameter.normalizedTimeEnabled)
+                    {
+                        state.timeParameterActive = true;
+                        state.timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
+                        clip.SetLoopTimeRec(false);
+                        EditorUtility.SetDirty(clip);
+                    }
 
-                var transition = stateMachine.AddAnyStateTransition(state);
-                transition.AddCondition(gesture1.ResolveMode(), gesture1.ResolveThreshold(), gesture1.ResolveParameter(isLeft));
-                if (gesture2.mode != GestureConditionMode.Ignore)
-                {
-                    transition.AddCondition(gesture2.ResolveMode(), gesture2.ResolveThreshold(), gesture2.ResolveParameter(isLeft));
+                    var transition = stateMachine.AddAnyStateTransition(state);
+                    transition.AddCondition(gesture1.ResolveMode(), gesture1.ResolveThreshold(), gesture1.ResolveParameter(isLeft));
+                    if (gesture2.mode != GestureConditionMode.Ignore)
+                    {
+                        transition.AddCondition(gesture2.ResolveMode(), gesture2.ResolveThreshold(), gesture2.ResolveParameter(isLeft));
+                    }
+                    transition.hasExitTime = false;
+                    transition.duration = 0.1f;
+                    transition.canTransitionToSelf = false;
+                    positions.MoveNext();
                 }
-                transition.hasExitTime = false;
-                transition.duration = 0.1f;
-                transition.canTransitionToSelf = false;
-                position.y += 60;
             }
             
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
         }
 
-        protected void BuildExpressionStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
+        protected void BuildParameterStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
+        {
+            switch (parameterEmote.emoteKind)
+            {
+                case ParameterEmoteKind.Transition:
+                    BuildTransitionStateMachine(stateMachine, parameterEmote);
+                    break;
+                case ParameterEmoteKind.NormalizedTime:
+                    BuildNormalizedTimeStateMachine(stateMachine, parameterEmote);
+                    break;
+                case ParameterEmoteKind.BlendTree:
+                    BuildBlendTreeStateMachine(stateMachine, parameterEmote);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        void BuildTransitionStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
             void AddTransition(AnimatorState state, string parameterName, float value)
             {
@@ -127,43 +157,68 @@ namespace EmoteWizard.Base
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+
                 transition.hasExitTime = false;
                 transition.duration = 0.1f;
                 transition.canTransitionToSelf = false;
             }
 
-            stateMachine.anyStatePosition = new Vector2(0, 0);
-            stateMachine.entryPosition = new Vector2(0, 100);
-            stateMachine.exitPosition = new Vector2(0, 200);
-
-            var position = new Vector2(300, 0);
-            foreach (var parameterEmoteState in parameterEmote.states)
+            using (var positions = Positions().GetEnumerator())
             {
-                var state = stateMachine.AddState($"{parameterEmote.parameter} = {parameterEmoteState.value}", position);
-                state.motion = parameterEmoteState.clip;
-                state.writeDefaultValues = false;
-                AddTransition(state, parameterEmote.parameter, parameterEmoteState.value);
-                position.y += 60;
+                foreach (var parameterEmoteState in parameterEmote.states)
+                {
+                    var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
+                    var state = stateMachine.AddState(stateName, positions.Current);
+                    state.motion = parameterEmoteState.clip;
+                    state.writeDefaultValues = false;
+                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value);
+                    positions.MoveNext();
+                }
             }
         }
-        
+
+        void BuildNormalizedTimeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
+        {
+            using (var positions = Positions().GetEnumerator())
+            {
+                var state = stateMachine.AddState(parameterEmote.name, positions.Current);
+                state.motion = parameterEmote.states
+                    .Select(emoteState => emoteState.clip)
+                    .FirstOrDefault(clip => clip != null);
+                state.writeDefaultValues = false;
+
+            }
+            throw new NotImplementedException();
+        }
+
+        void BuildBlendTreeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
+        {
+            using (var positions = Positions().GetEnumerator())
+            {
+                var state = stateMachine.AddState(parameterEmote.name, positions.Current);
+                state.motion = null;
+                state.writeDefaultValues = false;
+            }
+
+            throw new NotImplementedException();
+        }
+
         protected void BuildMixinLayerStateMachine(AnimatorStateMachine stateMachine, AnimationMixin mixin)
         {
-            stateMachine.anyStatePosition = new Vector2(0, 0);
-            stateMachine.entryPosition = new Vector2(0, 100);
-            stateMachine.exitPosition = new Vector2(0, 200);
-
-            var position = new Vector2(300, 0);
-            var state = stateMachine.AddState(mixin.name, position);
-            state.motion = mixin.Motion;
-            state.writeDefaultValues = false;
-
-            if (mixin.kind == AnimationMixin.AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
+            using (var positions = Positions().GetEnumerator())
             {
-                state.timeParameterActive = true;
-                state.timeParameter = mixin.normalizedTime;
-                mixin.Motion.SetLoopTimeRec(false);
-                EditorUtility.SetDirty(mixin.Motion);
+                var position = new Vector2(300, 0);
+                var state = stateMachine.AddState(mixin.name, positions.Current);
+                state.motion = mixin.Motion;
+                state.writeDefaultValues = false;
+
+                if (mixin.kind == AnimationMixin.AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
+                {
+                    state.timeParameterActive = true;
+                    state.timeParameter = mixin.normalizedTime;
+                    mixin.Motion.SetLoopTimeRec(false);
+                    EditorUtility.SetDirty(mixin.Motion);
+                }
             }
         }
 

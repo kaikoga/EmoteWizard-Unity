@@ -32,11 +32,6 @@ namespace EmoteWizard.DataObjects.Internal
 
         public void AddUsage(float value)
         {
-            if (usages.All(state => state.value != 0))
-            {
-                usages.Add(new ParameterUsage(ParameterUsageKind.Default, 0));
-            }
-
             if (value > 1)
             {
                 usages.Add(new ParameterUsage(ParameterUsageKind.Int, value));

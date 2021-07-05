@@ -32,11 +32,12 @@ namespace EmoteWizard.DataObjects
                     {
                         EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueKind"));
                     }
+                    EditorGUI.PropertyField(position.UISliceV(2), property.FindPropertyRelative("emoteKind"));
                 }
 
                 using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, context.EditTargets))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(2, -2), property.FindPropertyRelative("states"), true);
+                    EditorGUI.PropertyField(position.UISliceV(3, -3), property.FindPropertyRelative("states"), true);
                 }
 
                 if (context.EditTargets)
@@ -57,7 +58,7 @@ namespace EmoteWizard.DataObjects
             var statesLines = 1f;
             if (context.EditTargets) statesLines += 1f;
             if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets ? 2f : 1f);
-            return BoxHeight(LineHeight(2f + statesLines));
+            return BoxHeight(LineHeight(3f + statesLines));
         }
     }
 }
