@@ -112,15 +112,15 @@ namespace EmoteWizard.Base
             void AddTransition(AnimatorState state, string parameterName, float value)
             {
                 AnimatorStateTransition transition;
-                switch (parameterEmote.valueType)
+                switch (parameterEmote.valueKind)
                 {
-                    case VRCExpressionParameters.ValueType.Int:
+                    case ParameterValueKind.Int:
                         transition = stateMachine.AddAnyStateTransition(state);
                         transition.AddCondition(AnimatorConditionMode.Equals, value, parameterName);
                         break;
-                    case VRCExpressionParameters.ValueType.Float:
+                    case ParameterValueKind.Float:
                         return; // TODO
-                    case VRCExpressionParameters.ValueType.Bool:
+                    case ParameterValueKind.Bool:
                         transition = stateMachine.AddAnyStateTransition(state);
                         transition.AddCondition(value != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, value, parameterName);
                         break;
@@ -175,7 +175,7 @@ namespace EmoteWizard.Base
 
                 var parameterName = parameter.name;
                 AnimatorControllerParameterType parameterType;
-                switch (parameter.valueType)
+                switch (parameter.VrcValueType)
                 {
                     case VRCExpressionParameters.ValueType.Int:
                         parameterType = AnimatorControllerParameterType.Int;

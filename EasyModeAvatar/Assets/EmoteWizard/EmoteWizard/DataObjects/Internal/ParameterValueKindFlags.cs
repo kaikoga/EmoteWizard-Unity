@@ -3,7 +3,7 @@ using System;
 namespace EmoteWizard.DataObjects.Internal
 {
     [Flags]
-    public enum ParameterValueTypeFlags
+    public enum ParameterValueKindFlags
     {
         Bool = 1,
         Int = 2,

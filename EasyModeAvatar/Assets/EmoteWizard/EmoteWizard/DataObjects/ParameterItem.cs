@@ -8,11 +8,32 @@ namespace EmoteWizard.DataObjects
     public class ParameterItem
     {
         public string name;
-        public VRCExpressionParameters.ValueType valueType;
+        public ParameterValueKind valueKind;
         public bool saved = true;
         public float defaultValue;
         public bool defaultParameter;
         public List<ParameterState> states;
+
+        public VRCExpressionParameters.ValueType VrcValueType
+        {
+            get
+            {
+                switch (valueKind)
+                {
+                    case ParameterValueKind.Bool:
+                        return VRCExpressionParameters.ValueType.Bool;
+                        break;
+                    case ParameterValueKind.Int:
+                        return VRCExpressionParameters.ValueType.Int;
+                        break;
+                    case ParameterValueKind.Float:
+                        return VRCExpressionParameters.ValueType.Float;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         public static List<ParameterItem> VrcDefaultParameters =>
             new List<ParameterItem>
@@ -23,7 +44,7 @@ namespace EmoteWizard.DataObjects
                     defaultValue = 0,
                     name = "VRCEmote",
                     saved = false,
-                    valueType = VRCExpressionParameters.ValueType.Int,
+                    valueKind = ParameterValueKind.Int,
                     defaultParameter = true
                 }/*,
                 new ParameterItem
@@ -53,7 +74,7 @@ namespace EmoteWizard.DataObjects
                 name = name,
                 saved = saved,
                 defaultValue = defaultValue,
-                valueType = valueType
+                valueType = VrcValueType
             };
         }
     }

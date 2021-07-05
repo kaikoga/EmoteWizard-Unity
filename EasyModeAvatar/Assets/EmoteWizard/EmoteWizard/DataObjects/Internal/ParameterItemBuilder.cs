@@ -9,34 +9,55 @@ namespace EmoteWizard.DataObjects.Internal
     public class ParameterItemBuilder
     {
         public string name;
-        ParameterValueTypeFlags valueTypeFlags;
+        ParameterValueKindFlags _valueKindFlags;
         bool saved = true;
         float defaultValue;
         float usageValue;
         bool defaultParameter;
         readonly List<ParameterState> states = new List<ParameterState>();
 
-        VRCExpressionParameters.ValueType ConvertValueType
+        ParameterValueKind ConvertValueKind
         {
             get
             {
-                if (valueTypeFlags.HasFlag(ParameterValueTypeFlags.Bool)) return VRCExpressionParameters.ValueType.Bool;
-                if (valueTypeFlags.HasFlag(ParameterValueTypeFlags.Int)) return VRCExpressionParameters.ValueType.Int;
-                if (valueTypeFlags.HasFlag(ParameterValueTypeFlags.Float)) return VRCExpressionParameters.ValueType.Float;
-                return VRCExpressionParameters.ValueType.Int;
+                if (_valueKindFlags.HasFlag(ParameterValueKindFlags.Bool)) return ParameterValueKind.Bool;
+                if (_valueKindFlags.HasFlag(ParameterValueKindFlags.Int)) return ParameterValueKind.Int;
+                if (_valueKindFlags.HasFlag(ParameterValueKindFlags.Float)) return ParameterValueKind.Float;
+                return ParameterValueKind.Int;
             }
             set
             {
                 switch (value)
                 {
+                    case ParameterValueKind.Int:
+                        _valueKindFlags = ParameterValueKindFlags.Int;
+                        break;
+                    case ParameterValueKind.Float:
+                        _valueKindFlags = ParameterValueKindFlags.Float;
+                        break;
+                    case ParameterValueKind.Bool:
+                        _valueKindFlags = ParameterValueKindFlags.Bool | ParameterValueKindFlags.Int | ParameterValueKindFlags.Float;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        VRCExpressionParameters.ValueType ConvertVrcValueType
+        {
+            set
+            {
+                switch (value)
+                {
                     case VRCExpressionParameters.ValueType.Int:
-                        valueTypeFlags = ParameterValueTypeFlags.Int;
+                        ConvertValueKind = ParameterValueKind.Int; 
                         break;
                     case VRCExpressionParameters.ValueType.Float:
-                        valueTypeFlags = ParameterValueTypeFlags.Float;
+                        ConvertValueKind = ParameterValueKind.Float; 
                         break;
                     case VRCExpressionParameters.ValueType.Bool:
-                        valueTypeFlags = ParameterValueTypeFlags.Bool | ParameterValueTypeFlags.Int | ParameterValueTypeFlags.Float;
+                        ConvertValueKind = ParameterValueKind.Bool; 
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -49,7 +70,7 @@ namespace EmoteWizard.DataObjects.Internal
             return new ParameterItemBuilder
             {
                 name = name,
-                valueTypeFlags = ParameterValueTypeFlags.Bool | ParameterValueTypeFlags.Int | ParameterValueTypeFlags.Float,
+                _valueKindFlags = ParameterValueKindFlags.Bool | ParameterValueKindFlags.Int | ParameterValueKindFlags.Float,
                 saved = false,
                 defaultValue = 0,
                 usageValue = 0,
@@ -62,15 +83,15 @@ namespace EmoteWizard.DataObjects.Internal
             const float epsilon = 0.00001f;
             if (usageValue != 0 && Mathf.Abs(usageValue - value) > epsilon)
             {
-                valueTypeFlags &= ~ParameterValueTypeFlags.Bool;
+                _valueKindFlags &= ~ParameterValueKindFlags.Bool;
             }
             if (value > 1)
             {
-                valueTypeFlags &= ~ParameterValueTypeFlags.Float;
+                _valueKindFlags &= ~ParameterValueKindFlags.Float;
             }
             if (Mathf.Abs(value % 1f) > 0f)
             {
-                valueTypeFlags &= ~ParameterValueTypeFlags.Int;
+                _valueKindFlags &= ~ParameterValueKindFlags.Int;
             }
             usageValue = value;
             if (states.All(state => state.value != 0))
@@ -82,8 +103,8 @@ namespace EmoteWizard.DataObjects.Internal
 
         public void AddPuppetUsage()
         {
-            valueTypeFlags &= ~ParameterValueTypeFlags.Bool;
-            valueTypeFlags &= ~ParameterValueTypeFlags.Int;
+            _valueKindFlags &= ~ParameterValueKindFlags.Bool;
+            _valueKindFlags &= ~ParameterValueKindFlags.Int;
             usageValue = 0.5f;
         }
 
@@ -92,7 +113,7 @@ namespace EmoteWizard.DataObjects.Internal
             name = parameter.name;
             saved = parameter.saved;
             defaultValue = parameter.defaultValue;
-            ConvertValueType = parameter.valueType;
+            ConvertVrcValueType = parameter.valueType;
             usageValue = 0f;
         }
 
@@ -101,7 +122,7 @@ namespace EmoteWizard.DataObjects.Internal
             name = parameter.name;
             saved = parameter.saved;
             defaultValue = parameter.defaultValue;
-            ConvertValueType = parameter.valueType;
+            ConvertValueKind = parameter.valueKind;
             usageValue = 0f;
             defaultParameter |= parameter.defaultParameter;
             if (parameter.states != null) states.AddRange(parameter.states);
@@ -114,7 +135,7 @@ namespace EmoteWizard.DataObjects.Internal
                 name = name,
                 saved = saved,
                 defaultValue = defaultValue,
-                valueType = ConvertValueType,
+                valueKind = ConvertValueKind,
                 defaultParameter = defaultParameter,
                 states = states.Where(_ => !defaultParameter)
                     .GroupBy(state => state.value)

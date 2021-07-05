@@ -31,7 +31,7 @@ namespace EmoteWizard.Base
                                 name = parameterItem.name,
                                 parameter = parameterItem.name
                             };
-                            parameter.valueType = parameterItem.valueType;
+                            parameter.valueKind = parameterItem.valueKind;
                             parameter.enabled = true;
                             parameter.CollectStates(parameterItem);
                             return parameter;
