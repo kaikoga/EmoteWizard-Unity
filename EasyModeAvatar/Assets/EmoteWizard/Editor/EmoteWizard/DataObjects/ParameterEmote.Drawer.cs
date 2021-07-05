@@ -30,7 +30,7 @@ namespace EmoteWizard.DataObjects
                     EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 1), property.FindPropertyRelative("parameter"));
                     using (new HideLabelsScope())
                     {
-                        EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueType"));
+                        EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueKind"));
                     }
                 }
 

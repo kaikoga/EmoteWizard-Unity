@@ -12,7 +12,7 @@ namespace EmoteWizard.DataObjects
         public bool saved = true;
         public float defaultValue;
         public bool defaultParameter;
-        public List<ParameterState> states;
+        public List<ParameterUsage> usages;
 
         public VRCExpressionParameters.ValueType VrcValueType
         {
@@ -22,13 +22,10 @@ namespace EmoteWizard.DataObjects
                 {
                     case ParameterValueKind.Bool:
                         return VRCExpressionParameters.ValueType.Bool;
-                        break;
                     case ParameterValueKind.Int:
                         return VRCExpressionParameters.ValueType.Int;
-                        break;
                     case ParameterValueKind.Float:
                         return VRCExpressionParameters.ValueType.Float;
-                        break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
