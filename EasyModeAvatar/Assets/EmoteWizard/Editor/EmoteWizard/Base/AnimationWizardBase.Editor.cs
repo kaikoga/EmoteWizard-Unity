@@ -72,11 +72,11 @@ namespace EmoteWizard.Base
         {
             using (var positions = Positions().GetEnumerator())
             {
+                positions.MoveNext();
                 var state = stateMachine.AddState(stateName, positions.Current);
                 state.motion = clip;
                 state.writeDefaultValues = false;
                 stateMachine.defaultState = state;
-                positions.MoveNext();
             }
         }
 
@@ -88,6 +88,7 @@ namespace EmoteWizard.Base
             {
                 foreach (var emote in emotes)
                 {
+                    positions.MoveNext();
                     var gesture1 = emote.gesture1;
                     var gesture2 = emote.gesture2;
                     
@@ -112,7 +113,6 @@ namespace EmoteWizard.Base
                     transition.hasExitTime = false;
                     transition.duration = 0.1f;
                     transition.canTransitionToSelf = false;
-                    positions.MoveNext();
                 }
             }
             
@@ -161,45 +161,56 @@ namespace EmoteWizard.Base
                 transition.hasExitTime = false;
                 transition.duration = 0.1f;
                 transition.canTransitionToSelf = false;
+
             }
 
             using (var positions = Positions().GetEnumerator())
             {
-                foreach (var parameterEmoteState in parameterEmote.states)
+                foreach (var (parameterEmoteState, value) in parameterEmote.states.Zip(parameterEmote.states.Skip(1).Select(state => (float?)state.value).Concat(Enumerable.Repeat((float?)null, 1)), (s, v) => (s, v)))
                 {
+                    positions.MoveNext();
                     var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
                     var state = stateMachine.AddState(stateName, positions.Current);
                     state.motion = parameterEmoteState.clip;
                     state.writeDefaultValues = false;
                     AddTransition(state, parameterEmote.parameter, parameterEmoteState.value);
-                    positions.MoveNext();
                 }
             }
+            stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
         }
 
         void BuildNormalizedTimeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
             using (var positions = Positions().GetEnumerator())
             {
+                positions.MoveNext();
                 var state = stateMachine.AddState(parameterEmote.name, positions.Current);
-                state.motion = parameterEmote.states
+                var clip = parameterEmote.states
                     .Select(emoteState => emoteState.clip)
-                    .FirstOrDefault(clip => clip != null);
+                    .FirstOrDefault(c => c != null);
+                state.motion = clip;
                 state.writeDefaultValues = false;
 
+                state.timeParameterActive = true;
+                state.timeParameter = parameterEmote.parameter;
+                clip.SetLoopTimeRec(false);
+                EditorUtility.SetDirty(clip);
             }
-            throw new NotImplementedException();
+
+            stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
         }
 
         void BuildBlendTreeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
             using (var positions = Positions().GetEnumerator())
             {
+                positions.MoveNext();
                 var state = stateMachine.AddState(parameterEmote.name, positions.Current);
                 state.motion = null;
                 state.writeDefaultValues = false;
             }
 
+            stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
             throw new NotImplementedException();
         }
 
@@ -207,7 +218,7 @@ namespace EmoteWizard.Base
         {
             using (var positions = Positions().GetEnumerator())
             {
-                var position = new Vector2(300, 0);
+                positions.MoveNext();
                 var state = stateMachine.AddState(mixin.name, positions.Current);
                 state.motion = mixin.Motion;
                 state.writeDefaultValues = false;
