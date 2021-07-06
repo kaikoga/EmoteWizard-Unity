@@ -23,10 +23,7 @@ namespace EmoteWizard.Collections.Base
             DrawHeaderContent(position);
         }
 
-        protected virtual void DrawHeaderContent(Rect position)
-        {
-            
-        }
+        protected abstract void DrawHeaderContent(Rect position);
 
         public virtual float GetHeaderHeight()
         {
