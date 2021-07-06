@@ -15,6 +15,7 @@ namespace EmoteWizard.Base
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
+        public abstract string LayerName { get; }
         public IEnumerable<ParameterEmote> ActiveParameters => parameters.Where(parameter => parameter.enabled);
 
         public void RefreshParameters(List<ParameterItem> parameterItems)

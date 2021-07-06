@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
+using EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -202,16 +203,32 @@ namespace EmoteWizard.Base
 
         void BuildBlendTreeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
+            var path = GeneratedAssetLocator.ParameterEmoteBlendTreePath(AnimationWizardBase.LayerName, parameterEmote.name);
+            var blendTree = AnimationWizardBase.EmoteWizardRoot.EnsureAsset<BlendTree>(path);
+
+            blendTree.blendParameter = parameterEmote.parameter;
+            blendTree.blendType = BlendTreeType.Simple1D;
+            blendTree.useAutomaticThresholds = false;
+            blendTree.children = parameterEmote.states.Select(state => new ChildMotion
+            {
+                cycleOffset = 0,
+                directBlendParameter = null,
+                mirror = false,
+                motion = state.clip,
+                position = default,
+                threshold = state.value,
+                timeScale = 1
+            }).ToArray();
+
             using (var positions = Positions().GetEnumerator())
             {
                 positions.MoveNext();
                 var state = stateMachine.AddState(parameterEmote.name, positions.Current);
-                state.motion = null;
+                state.motion = blendTree;
                 state.writeDefaultValues = false;
             }
 
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
-            throw new NotImplementedException();
         }
 
         protected void BuildMixinLayerStateMachine(AnimatorStateMachine stateMachine, AnimationMixin mixin)

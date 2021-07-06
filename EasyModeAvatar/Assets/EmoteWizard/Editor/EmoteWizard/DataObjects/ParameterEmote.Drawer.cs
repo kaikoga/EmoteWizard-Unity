@@ -24,6 +24,7 @@ namespace EmoteWizard.DataObjects
             using (new EditorGUI.PropertyScope(position, label, property))
             {
                 var name = property.FindPropertyRelative("name");
+                var emoteKind = property.FindPropertyRelative("emoteKind");
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
                     EditorGUI.PropertyField(position.UISliceV(0), name);
@@ -32,15 +33,17 @@ namespace EmoteWizard.DataObjects
                     {
                         EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueKind"));
                     }
-                    EditorGUI.PropertyField(position.UISliceV(2), property.FindPropertyRelative("emoteKind"));
+
+                    EditorGUI.PropertyField(position.UISliceV(2), emoteKind);
                 }
 
-                using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, context.EditTargets))
+                var editTargets = context.EditTargets && emoteKind.intValue == (int) ParameterEmoteKind.Transition;
+                using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, editTargets))
                 {
                     EditorGUI.PropertyField(position.UISliceV(3, -3), property.FindPropertyRelative("states"), true);
                 }
 
-                if (context.EditTargets)
+                if (editTargets)
                 {
                     if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
                     {
@@ -55,9 +58,11 @@ namespace EmoteWizard.DataObjects
             var context = EnsureContext(property);
 
             var states = property.FindPropertyRelative("states");
+            var emoteKind = property.FindPropertyRelative("emoteKind");
+            var editTargets = context.EditTargets && emoteKind.intValue == (int) ParameterEmoteKind.Transition;
             var statesLines = 1f;
-            if (context.EditTargets) statesLines += 1f;
-            if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets ? 2f : 1f);
+            if (editTargets) statesLines += 1f;
+            if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets && editTargets ? 2f : 1f);
             return BoxHeight(LineHeight(3f + statesLines));
         }
     }

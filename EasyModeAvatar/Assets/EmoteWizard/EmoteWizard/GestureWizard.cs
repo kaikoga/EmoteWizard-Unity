@@ -10,5 +10,7 @@ namespace EmoteWizard
 
         [SerializeField] public Motion globalClip;
         [SerializeField] public Motion ambienceClip;
+
+        public override string LayerName => "Gesture";
     }
 }

@@ -74,10 +74,6 @@ namespace EmoteWizard
             {
                 emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, "FX", ParameterEmoteDrawer.EditTargets))
-            {
-                parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
-            }
 
             EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
             {
@@ -87,8 +83,12 @@ namespace EmoteWizard
                     fxWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
                 }
             });
+            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, fxWizard.LayerName, ParameterEmoteDrawer.EditTargets))
+            {
+                parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            }
 
-            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, "FX/Mixin/"))
+            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
             {
                 mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
             }
