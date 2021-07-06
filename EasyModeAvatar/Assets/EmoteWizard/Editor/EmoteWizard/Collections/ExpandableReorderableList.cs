@@ -16,19 +16,15 @@ namespace EmoteWizard.Collections
 
         public int pagerIndex = 0;
 
-        readonly string _headerName;
         readonly ListDrawerBase _listDrawer;
-        readonly Func<SerializedProperty, int, string> _pagerNameGenerator = (_, i) => $"Item {i + 1}";
 
-        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListDrawerBase listDrawer, Func<SerializedProperty, int, string> pagerNameGenerator) : base(serializedObject, elements)
+        public ExpandableReorderableList(ListDrawerBase listDrawer, SerializedProperty elements) : base(elements.serializedObject, elements)
         {
-            _headerName = headerName;
             _listDrawer = listDrawer;
-            if (pagerNameGenerator != null) _pagerNameGenerator = pagerNameGenerator;
 
             drawHeaderCallback += rect =>
             {
-                var isExpanded = EditorGUI.Foldout(rect.UISliceV(0), serializedProperty.isExpanded, headerName);
+                var isExpanded = EditorGUI.Foldout(rect.UISliceV(0), serializedProperty.isExpanded, _listDrawer.HeaderName);
                 serializedProperty.isExpanded = isExpanded;
                 draggable = isExpanded;
                 displayAdd = isExpanded;
@@ -89,7 +85,7 @@ namespace EmoteWizard.Collections
 
         void DrawAsList()
         {
-            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _headerName);
+            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _listDrawer.HeaderName);
             serializedProperty.isExpanded = isExpanded;
             if (!isExpanded) return;
 
@@ -125,7 +121,7 @@ namespace EmoteWizard.Collections
         
         void DrawAsPager()
         {
-            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _headerName);
+            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _listDrawer.HeaderName);
             serializedProperty.isExpanded = isExpanded;
 
             using (new EditorGUI.IndentLevelScope())
@@ -136,7 +132,9 @@ namespace EmoteWizard.Collections
                 using (new GUILayout.HorizontalScope())
                 using (new HideLabelsScope())
                 {
-                    var pagerOptions = Enumerable.Range(0, arraySize).Select(i => _pagerNameGenerator(serializedProperty.GetArrayElementAtIndex(i), i)).ToArray();
+                    var pagerOptions = Enumerable.Range(0, arraySize)
+                        .Select(i => _listDrawer.PagerItemName(serializedProperty.GetArrayElementAtIndex(i), i))
+                        .ToArray();
                     using (new EditorGUI.DisabledScope(arraySize == 0))
                     {
                         pagerIndex = EditorGUILayout.Popup("", pagerIndex, pagerOptions, GUILayout.MinWidth(80f), GUILayout.ExpandWidth(true));

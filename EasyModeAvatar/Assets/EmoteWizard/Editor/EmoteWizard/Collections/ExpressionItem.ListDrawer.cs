@@ -8,6 +8,9 @@ namespace EmoteWizard.Collections
 {
     public class ExpressionItemListDrawerBase : ListDrawerBase
     {
+        public override string HeaderName => "Expression Items";
+        public override string PagerItemName(SerializedProperty property, int index) => property.FindPropertyRelative("path").stringValue;
+
         protected override void DrawHeaderContent(Rect position)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))

@@ -9,6 +9,9 @@ namespace EmoteWizard.Collections
 {
     public class ParameterEmoteListDrawerBase : ListDrawerBase
     {
+        public override string HeaderName => "Parameter Emotes";
+        public override string PagerItemName(SerializedProperty property, int index) => property.FindPropertyRelative("name").stringValue;
+
         protected override void DrawHeaderContent(Rect position)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))

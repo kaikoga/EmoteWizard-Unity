@@ -23,21 +23,9 @@ namespace EmoteWizard
         {
             gestureWizard = target as GestureWizard;
             
-            emotesList = new ExpandableReorderableList(serializedObject,
-                serializedObject.FindProperty("emotes"),
-                "Emotes",
-                new EmoteListDrawerBase(),
-                PagerNameGeneratorUtils.AsEmoteName);
-            parametersList = new ExpandableReorderableList(serializedObject,
-                serializedObject.FindProperty("parameters"),
-                "Parameters",
-                new ParameterEmoteListDrawerBase(),
-                (property, index) => property.FindPropertyRelative("name").stringValue);
-            mixinsList = new ExpandableReorderableList(serializedObject,
-                serializedObject.FindProperty("mixins"),
-                "Mixins",
-                new AnimationMixinListDrawerBase(),
-                (property, index) => property.FindPropertyRelative("name").stringValue);
+            emotesList = new ExpandableReorderableList(new EmoteListDrawerBase(), serializedObject.FindProperty("emotes"));
+            parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameters"));
+            mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("mixins"));
         }
 
         public override void OnInspectorGUI()

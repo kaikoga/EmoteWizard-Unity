@@ -17,11 +17,7 @@ namespace EmoteWizard
         {
             parametersWizard = target as ParametersWizard;
             
-            parameterItemsList = new ExpandableReorderableList(serializedObject,
-                serializedObject.FindProperty("parameterItems"),
-                "Parameter Items",
-                new ParameterItemListDrawerBase(),
-                (property, index) => property.FindPropertyRelative("name").stringValue);
+            parameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("parameterItems"));
         }
 
         public override void OnInspectorGUI()

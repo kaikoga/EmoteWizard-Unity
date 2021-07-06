@@ -1,6 +1,7 @@
 using EmoteWizard.Collections.Base;
 using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
+using EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 using static EmoteWizard.Tools.PropertyDrawerUITools;
@@ -9,6 +10,10 @@ namespace EmoteWizard.Collections
 {
     public class EmoteListDrawerBase : ListDrawerBase
     {
+        public override string HeaderName => "Emotes";
+
+        public override string PagerItemName(SerializedProperty property, int index) => PagerNameGeneratorUtils.AsEmoteName(property, index);
+
         protected override void DrawHeaderContent(Rect position)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
