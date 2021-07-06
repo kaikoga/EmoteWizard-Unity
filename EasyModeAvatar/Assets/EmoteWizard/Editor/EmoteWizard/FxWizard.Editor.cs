@@ -26,15 +26,18 @@ namespace EmoteWizard
             emotesList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("emotes"),
                 "Emotes",
-                new EmoteListHeaderDrawer());
+                new EmoteListHeaderDrawer(),
+                PagerNameGeneratorUtils.AsEmoteName);
             parametersList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("parameters"),
                 "Parameters",
-                new ParameterEmoteListHeaderDrawer());
+                new ParameterEmoteListHeaderDrawer(),
+                (property, index) => property.FindPropertyRelative("name").stringValue);
             mixinsList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("mixins"),
                 "Mixins",
-                new AnimationMixinListHeaderDrawer());
+                new AnimationMixinListHeaderDrawer(),
+                (property, index) => property.FindPropertyRelative("name").stringValue);
         }
 
         public override void OnInspectorGUI()

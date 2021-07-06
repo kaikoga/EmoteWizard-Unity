@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using EmoteWizard.Collections.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.Scopes;
 using EmoteWizard.UI;
 using UnityEditor;
 using UnityEditorInternal;
@@ -11,14 +13,18 @@ namespace EmoteWizard.Collections
     public class ExpandableReorderableList : ReorderableList
     {
         public static bool Enabled = true;
-        
+
+        public int pagerIndex = 0;
+
         readonly string _headerName;
         readonly ListHeaderDrawer _listHeaderDrawer;
+        readonly Func<SerializedProperty, int, string> _pagerNameGenerator = (_, i) => $"Item {i + 1}";
 
-        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListHeaderDrawer headerDrawer) : base(serializedObject, elements)
+        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListHeaderDrawer headerDrawer, Func<SerializedProperty, int, string> pagerNameGenerator) : base(serializedObject, elements)
         {
             _headerName = headerName;
             _listHeaderDrawer = headerDrawer;
+            if (pagerNameGenerator != null) _pagerNameGenerator = pagerNameGenerator;
 
             drawHeaderCallback += rect =>
             {
@@ -72,6 +78,9 @@ namespace EmoteWizard.Collections
                     case ListDisplayMode.ReorderList:
                         DrawAsReorderList();
                         break;
+                    case ListDisplayMode.Pager:
+                        DrawAsPager();
+                        break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(displayMode), displayMode, null);
                 }
@@ -91,7 +100,7 @@ namespace EmoteWizard.Collections
                 if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                 serializedProperty.arraySize = arraySize;
 
-                if (serializedProperty.isExpanded) _listHeaderDrawer?.OnGUI(false);
+                _listHeaderDrawer?.OnGUI(false);
                 for (var i = 0; i < arraySize; i++)
                 {
                     EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
@@ -112,6 +121,54 @@ namespace EmoteWizard.Collections
                 footerHeight = 0f;
             }
             using (new EditorGUI.IndentLevelScope()) DoLayoutList();
+        }
+        
+        void DrawAsPager()
+        {
+            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _headerName);
+            serializedProperty.isExpanded = isExpanded;
+
+            using (new EditorGUI.IndentLevelScope())
+            {
+                const int arraySizeMax = 100;
+                var arraySize = serializedProperty.arraySize;
+
+                using (new GUILayout.HorizontalScope())
+                using (new HideLabelsScope())
+                {
+                    var pagerOptions = Enumerable.Range(0, arraySize).Select(i => _pagerNameGenerator(serializedProperty.GetArrayElementAtIndex(i), i)).ToArray();
+                    using (new EditorGUI.DisabledScope(arraySize == 0))
+                    {
+                        pagerIndex = EditorGUILayout.Popup("", pagerIndex, pagerOptions, GUILayout.MinWidth(80f), GUILayout.ExpandWidth(true));
+                        pagerIndex = EditorGUILayout.IntField("", pagerIndex + 1, GUILayout.Width(50f)) - 1;
+                    }
+                    GUILayout.Label("/", GUILayout.Width(10f));
+                    arraySize = EditorGUILayout.DelayedIntField("", arraySize, GUILayout.Width(50f));
+                    if (arraySize > arraySizeMax) arraySize = arraySizeMax;
+                    serializedProperty.arraySize = arraySize;
+
+                    using (new EditorGUI.DisabledScope(arraySize == 0))
+                    {
+                        if (GUILayout.Button("<<", GUILayout.Width(24f))) pagerIndex = 0;
+                        if (GUILayout.Button("<", GUILayout.Width(24f))) pagerIndex--;
+                        if (GUILayout.Button(">", GUILayout.Width(24f))) pagerIndex++;
+                        if (GUILayout.Button(">>", GUILayout.Width(24f))) pagerIndex = int.MaxValue;
+                    }
+
+                    if (pagerIndex >= arraySize) pagerIndex = arraySize - 1;
+                    if (pagerIndex < 0) pagerIndex = 0;
+                }
+
+                if (serializedProperty.isExpanded)
+                {
+                    _listHeaderDrawer?.OnGUI(false);
+                }
+
+                if (pagerIndex < arraySize)
+                {
+                    EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(pagerIndex));
+                }
+            }
         }
     }
 }
