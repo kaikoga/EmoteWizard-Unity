@@ -140,7 +140,7 @@ namespace EmoteWizard.Base
 
         void BuildTransitionStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
-            void AddTransition(AnimatorState state, string parameterName, float value)
+            void AddTransition(AnimatorState state, string parameterName, float value, float? nextValue)
             {
                 AnimatorStateTransition transition;
                 switch (parameterEmote.valueKind)
@@ -150,7 +150,16 @@ namespace EmoteWizard.Base
                         transition.AddCondition(AnimatorConditionMode.Equals, value, parameterName);
                         break;
                     case ParameterValueKind.Float:
-                        return; // TODO
+                        transition = stateMachine.AddAnyStateTransition(state);
+                        if (nextValue is float nextVal)
+                        {
+                            transition.AddCondition(AnimatorConditionMode.Less, nextVal, parameterName);
+                        }
+                        else
+                        {
+                            transition.AddCondition(AnimatorConditionMode.Greater, value - 1f, parameterName);
+                        }
+                        return;
                     case ParameterValueKind.Bool:
                         transition = stateMachine.AddAnyStateTransition(state);
                         transition.AddCondition(value != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, value, parameterName);
@@ -162,19 +171,18 @@ namespace EmoteWizard.Base
                 transition.hasExitTime = false;
                 transition.duration = 0.1f;
                 transition.canTransitionToSelf = false;
-
             }
 
             using (var positions = Positions().GetEnumerator())
             {
-                foreach (var (parameterEmoteState, value) in parameterEmote.states.Zip(parameterEmote.states.Skip(1).Select(state => (float?)state.value).Concat(Enumerable.Repeat((float?)null, 1)), (s, v) => (s, v)))
+                foreach (var (parameterEmoteState, nextValue) in parameterEmote.states.Zip(parameterEmote.states.Skip(1).Select(state => (float?)state.value).Concat(Enumerable.Repeat((float?)null, 1)), (s, v) => (s, v)))
                 {
                     positions.MoveNext();
                     var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
                     var state = stateMachine.AddState(stateName, positions.Current);
                     state.motion = parameterEmoteState.clip;
                     state.writeDefaultValues = false;
-                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value);
+                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value, nextValue);
                 }
             }
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;
