@@ -248,7 +248,7 @@ namespace EmoteWizard.Base
                 state.motion = mixin.Motion;
                 state.writeDefaultValues = false;
 
-                if (mixin.kind == AnimationMixin.AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
+                if (mixin.kind == AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
                 {
                     state.timeParameterActive = true;
                     state.timeParameter = mixin.normalizedTime;

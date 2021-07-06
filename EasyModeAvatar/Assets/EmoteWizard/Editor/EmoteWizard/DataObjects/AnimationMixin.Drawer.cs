@@ -32,9 +32,9 @@ namespace EmoteWizard.DataObjects
                     EditorGUI.PropertyField(position.UISlice(0.3f, 0.3f, 0), kind);
                 }
                 
-                switch ((AnimationMixin.AnimationMixinKind) kind.intValue)
+                switch ((AnimationMixinKind) kind.intValue)
                 {
-                    case AnimationMixin.AnimationMixinKind.AnimationClip:
+                    case AnimationMixinKind.AnimationClip:
                         using (new HideLabelsScope())
                         {
                             EmoteWizardGUI.PropertyFieldWithGenerate(
@@ -61,7 +61,7 @@ namespace EmoteWizard.DataObjects
                             EditorGUI.PropertyField(position.UISliceV(2), property.FindPropertyRelative("normalizedTime"), new GUIContent("Parameter Name"));
                         }
                         break;
-                    case AnimationMixin.AnimationMixinKind.BlendTree:
+                    case AnimationMixinKind.BlendTree:
                         using (new HideLabelsScope())
                         {
                             EmoteWizardGUI.PropertyFieldWithGenerate(
@@ -90,9 +90,9 @@ namespace EmoteWizard.DataObjects
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var innerHeight = LineHeight(1f);
-            switch ((AnimationMixin.AnimationMixinKind) property.FindPropertyRelative("kind").intValue)
+            switch ((AnimationMixinKind) property.FindPropertyRelative("kind").intValue)
             {
-                case AnimationMixin.AnimationMixinKind.AnimationClip:
+                case AnimationMixinKind.AnimationClip:
                     innerHeight = LineHeight(2f);
                     if (property.FindPropertyRelative("normalizedTimeEnabled").boolValue)
                     {
