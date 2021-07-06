@@ -1,4 +1,5 @@
 using System.IO;
+using EmoteWizard.UI;
 using UnityEngine;
 
 namespace EmoteWizard
@@ -10,7 +11,7 @@ namespace EmoteWizard
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
         
         [SerializeField] public AnimationClip emptyClip;
-        [SerializeField] public bool useReorderUI;
+        [SerializeField] public ListDisplayMode listDisplayMode;
 
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
     }

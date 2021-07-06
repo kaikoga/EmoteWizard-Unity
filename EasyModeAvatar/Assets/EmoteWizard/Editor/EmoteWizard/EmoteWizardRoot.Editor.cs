@@ -32,7 +32,7 @@ namespace EmoteWizard
             EditorGUILayout.PropertyField(serializedObj.FindProperty("generatedAssetPrefix"));
             EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
 
-            EmoteWizardGUILayout.ConfigUIArea(() => { emoteWizardRoot.useReorderUI = EditorGUILayout.ToggleLeft("Use Reorder UI", emoteWizardRoot.useReorderUI); });
+            EmoteWizardGUILayout.ConfigUIArea(() => { emoteWizardRoot.listDisplayMode = (ListDisplayMode)EditorGUILayout.EnumPopup("List Display", emoteWizardRoot.listDisplayMode); });
 
             if (!emoteWizardRoot.GetComponent<SetupWizard>())
             {

@@ -1,5 +1,7 @@
+using System;
 using EmoteWizard.Collections.Base;
 using EmoteWizard.Extensions;
+using EmoteWizard.UI;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
@@ -8,7 +10,7 @@ namespace EmoteWizard.Collections
 {
     public class ExpandableReorderableList : ReorderableList
     {
-        public static bool UseDefaultUI = false;
+        public static bool Enabled = true;
         
         readonly string _headerName;
         readonly ListHeaderDrawer _listHeaderDrawer;
@@ -54,47 +56,62 @@ namespace EmoteWizard.Collections
             showDefaultBackground = false;
         }
 
-        public void DrawAsProperty(bool useReorderUI)
+        public void DrawAsProperty(ListDisplayMode displayMode)
         {
-            if (UseDefaultUI)
+            if (!Enabled)
             {
                 EditorGUILayout.PropertyField(serializedProperty, true);
             }
-            else if (useReorderUI)
+            else
             {
-                if (serializedProperty.isExpanded)
+                switch (displayMode)
                 {
-                    headerHeight = 16f + (_listHeaderDrawer?.GetHeaderHeight() ?? 0f);
-                    footerHeight = 12f;
+                    case ListDisplayMode.List:
+                        DrawAsList();
+                        break;
+                    case ListDisplayMode.ReorderList:
+                        DrawAsReorderList();
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(displayMode), displayMode, null);
                 }
-                else
-                {
-                    headerHeight = 16f;
-                    footerHeight = 0f;
-                }
+            }
+        }
 
-                using (new EditorGUI.IndentLevelScope()) DoLayoutList();
+        void DrawAsList()
+        {
+            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _headerName);
+            serializedProperty.isExpanded = isExpanded;
+            if (!isExpanded) return;
+
+            using (new EditorGUI.IndentLevelScope())
+            {
+                const int arraySizeMax = 100;
+                var arraySize = EditorGUILayout.DelayedIntField("Size", serializedProperty.arraySize);
+                if (arraySize > arraySizeMax) arraySize = arraySizeMax;
+                serializedProperty.arraySize = arraySize;
+
+                if (serializedProperty.isExpanded) _listHeaderDrawer?.OnGUI(false);
+                for (var i = 0; i < arraySize; i++)
+                {
+                    EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
+                }
+            }
+        }
+
+        void DrawAsReorderList()
+        {
+            if (serializedProperty.isExpanded)
+            {
+                headerHeight = 16f + (_listHeaderDrawer?.GetHeaderHeight() ?? 0f);
+                footerHeight = 12f;
             }
             else
             {
-                var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _headerName);
-                serializedProperty.isExpanded = isExpanded;
-                if (!isExpanded) return;
-                
-                using (new EditorGUI.IndentLevelScope())
-                {
-                    const int arraySizeMax = 100;
-                    var arraySize = EditorGUILayout.DelayedIntField("Size", serializedProperty.arraySize);
-                    if (arraySize > arraySizeMax) arraySize = arraySizeMax;
-                    serializedProperty.arraySize = arraySize;
-
-                    if (serializedProperty.isExpanded) _listHeaderDrawer?.OnGUI(false);
-                    for (var i = 0; i < arraySize; i++)
-                    {
-                        EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
-                    }
-                }
+                headerHeight = 16f;
+                footerHeight = 0f;
             }
+            using (new EditorGUI.IndentLevelScope()) DoLayoutList();
         }
     }
 }

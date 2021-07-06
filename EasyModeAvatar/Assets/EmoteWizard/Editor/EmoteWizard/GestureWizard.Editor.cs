@@ -74,7 +74,7 @@ namespace EmoteWizard
 
             using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
             {
-                emotesList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+                emotesList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
             EmoteWizardGUILayout.RequireAnotherWizard(gestureWizard, parametersWizard, () =>
@@ -87,12 +87,12 @@ namespace EmoteWizard
             });
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, gestureWizard.LayerName, ParameterEmoteDrawer.EditTargets))
             {
-                parametersList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+                parametersList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
             {
-                mixinsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+                mixinsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
             EmoteWizardGUILayout.OutputUIArea(() =>

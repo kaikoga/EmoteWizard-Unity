@@ -51,7 +51,7 @@ namespace EmoteWizard
                     }
                 });
 
-            parameterItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+            parameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {

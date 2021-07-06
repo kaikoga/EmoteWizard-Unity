@@ -44,7 +44,7 @@ namespace EmoteWizard
 
             using (ExpressionItemDrawer.StartContext(emoteWizardRoot))
             {
-                expressionItemsList.DrawAsProperty(emoteWizardRoot.useReorderUI);
+                expressionItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
