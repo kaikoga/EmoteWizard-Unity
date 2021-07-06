@@ -5,7 +5,7 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.Collections.Base
 {
-    public abstract class ListHeaderDrawer
+    public abstract class ListDrawerBase
     {
         public void OnGUI(bool useReorderUI)
         {

@@ -26,17 +26,17 @@ namespace EmoteWizard
             emotesList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("emotes"),
                 "Emotes",
-                new EmoteListHeaderDrawer(),
+                new EmoteListDrawerBase(),
                 PagerNameGeneratorUtils.AsEmoteName);
             parametersList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("parameters"),
                 "Parameters",
-                new ParameterEmoteListHeaderDrawer(),
+                new ParameterEmoteListDrawerBase(),
                 (property, index) => property.FindPropertyRelative("name").stringValue);
             mixinsList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("mixins"),
                 "Mixins",
-                new AnimationMixinListHeaderDrawer(),
+                new AnimationMixinListDrawerBase(),
                 (property, index) => property.FindPropertyRelative("name").stringValue);
         }
 

@@ -17,13 +17,13 @@ namespace EmoteWizard.Collections
         public int pagerIndex = 0;
 
         readonly string _headerName;
-        readonly ListHeaderDrawer _listHeaderDrawer;
+        readonly ListDrawerBase _listDrawer;
         readonly Func<SerializedProperty, int, string> _pagerNameGenerator = (_, i) => $"Item {i + 1}";
 
-        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListHeaderDrawer headerDrawer, Func<SerializedProperty, int, string> pagerNameGenerator) : base(serializedObject, elements)
+        public ExpandableReorderableList(SerializedObject serializedObject, SerializedProperty elements, string headerName, ListDrawerBase listDrawer, Func<SerializedProperty, int, string> pagerNameGenerator) : base(serializedObject, elements)
         {
             _headerName = headerName;
-            _listHeaderDrawer = headerDrawer;
+            _listDrawer = listDrawer;
             if (pagerNameGenerator != null) _pagerNameGenerator = pagerNameGenerator;
 
             drawHeaderCallback += rect =>
@@ -36,7 +36,7 @@ namespace EmoteWizard.Collections
 
                 if (isExpanded)
                 {
-                    _listHeaderDrawer?.OnGUI(rect.UISliceV(1, -1), true);
+                    _listDrawer?.OnGUI(rect.UISliceV(1, -1), true);
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace EmoteWizard.Collections
                 if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                 serializedProperty.arraySize = arraySize;
 
-                _listHeaderDrawer?.OnGUI(false);
+                _listDrawer?.OnGUI(false);
                 for (var i = 0; i < arraySize; i++)
                 {
                     EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
@@ -112,7 +112,7 @@ namespace EmoteWizard.Collections
         {
             if (serializedProperty.isExpanded)
             {
-                headerHeight = 16f + (_listHeaderDrawer?.GetHeaderHeight() ?? 0f);
+                headerHeight = 16f + (_listDrawer?.GetHeaderHeight() ?? 0f);
                 footerHeight = 12f;
             }
             else
@@ -161,7 +161,7 @@ namespace EmoteWizard.Collections
 
                 if (serializedProperty.isExpanded)
                 {
-                    _listHeaderDrawer?.OnGUI(false);
+                    _listDrawer?.OnGUI(false);
                 }
 
                 if (pagerIndex < arraySize)

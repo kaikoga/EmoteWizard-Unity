@@ -26,7 +26,7 @@ namespace EmoteWizard
             expressionItemsList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("expressionItems"),
                 "Expression Items",
-                new ExpressionItemListHeaderDrawer(),
+                new ExpressionItemListDrawerBase(),
                 (property, index) => property.FindPropertyRelative("path").stringValue);
         }
 

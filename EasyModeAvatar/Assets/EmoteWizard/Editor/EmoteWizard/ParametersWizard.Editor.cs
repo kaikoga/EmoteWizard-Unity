@@ -20,7 +20,7 @@ namespace EmoteWizard
             parameterItemsList = new ExpandableReorderableList(serializedObject,
                 serializedObject.FindProperty("parameterItems"),
                 "Parameter Items",
-                new ParameterItemListHeaderDrawer(),
+                new ParameterItemListDrawerBase(),
                 (property, index) => property.FindPropertyRelative("name").stringValue);
         }
 

@@ -6,7 +6,7 @@ using static EmoteWizard.Tools.PropertyDrawerUITools;
 
 namespace EmoteWizard.Collections
 {
-    public class ExpressionItemListHeaderDrawer : ListHeaderDrawer
+    public class ExpressionItemListDrawerBase : ListDrawerBase
     {
         protected override void DrawHeaderContent(Rect position)
         {
