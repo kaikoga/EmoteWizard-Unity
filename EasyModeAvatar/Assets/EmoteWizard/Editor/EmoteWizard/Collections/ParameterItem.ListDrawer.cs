@@ -1,4 +1,5 @@
 using EmoteWizard.Collections.Base;
+using EmoteWizard.DataObjects;
 using EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -9,7 +10,12 @@ namespace EmoteWizard.Collections
     public class ParameterItemListDrawerBase : ListDrawerBase
     {
         public override string HeaderName => "Parameter Items";
-        public override string PagerItemName(SerializedProperty property, int index) => property.FindPropertyRelative("name").stringValue;
+        public override string PagerItemName(SerializedProperty property, int index)
+        {
+            var name = property.FindPropertyRelative("name").stringValue;
+            var kind = (ParameterValueKind)property.FindPropertyRelative("valueKind").intValue;
+            return $"{name} ({kind})";
+        }
 
         protected override void DrawHeaderContent(Rect position)
         {

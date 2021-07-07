@@ -16,7 +16,7 @@ namespace EmoteWizard.Base
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
         public abstract string LayerName { get; }
-        public IEnumerable<ParameterEmote> ActiveParameters => parameters.Where(parameter => parameter.enabled);
+        public IEnumerable<ParameterEmote> ActiveParameters => parameters.Where(parameter => parameter.enabled && parameter.emoteKind != ParameterEmoteKind.Unused);
 
         public void RefreshParameters(List<ParameterItem> parameterItems)
         {
@@ -30,7 +30,8 @@ namespace EmoteWizard.Base
                             var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
                             {
                                 name = parameterItem.name,
-                                parameter = parameterItem.name
+                                parameter = parameterItem.name,
+                                emoteKind = ParameterEmoteKind.Transition
                             };
                             parameter.valueKind = parameterItem.valueKind;
                             parameter.enabled = true;

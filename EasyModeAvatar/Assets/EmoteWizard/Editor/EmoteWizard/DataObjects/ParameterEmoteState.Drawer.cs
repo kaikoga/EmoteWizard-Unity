@@ -49,11 +49,7 @@ namespace EmoteWizard.DataObjects
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var context = EnsureContext(property);
-            var result = LineHeight(1f);
-            if (!context.EditTargets) return result;
-            result += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("targets"), true);
-            result += EditorGUIUtility.standardVerticalSpacing;
-            return result;
+            return LineHeight(context.EditTargets ? 2f : 1f);
         }
     }
 }

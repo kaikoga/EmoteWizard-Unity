@@ -27,20 +27,24 @@ namespace EmoteWizard.DataObjects
                 var emoteKind = property.FindPropertyRelative("emoteKind");
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(0), name);
-                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 1), property.FindPropertyRelative("parameter"));
+                    EditorGUI.PropertyField(position.UISliceV(0), property.FindPropertyRelative("enabled"));
+                    EditorGUI.PropertyField(position.UISliceV(1), name);
+                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 2), property.FindPropertyRelative("parameter"));
                     using (new HideLabelsScope())
                     {
-                        EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 1), property.FindPropertyRelative("valueKind"));
+                        EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 2), property.FindPropertyRelative("valueKind"));
                     }
 
-                    EditorGUI.PropertyField(position.UISliceV(2), emoteKind);
+                    EditorGUI.PropertyField(position.UISliceV(3), emoteKind);
                 }
 
-                var editTargets = context.EditTargets && emoteKind.intValue == (int) ParameterEmoteKind.Transition;
+                var emoteKindValue = (ParameterEmoteKind) emoteKind.intValue;
+                if (emoteKindValue == ParameterEmoteKind.Unused) return;
+
+                var editTargets = context.EditTargets && emoteKindValue == ParameterEmoteKind.Transition;
                 using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, editTargets))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(3, -3), property.FindPropertyRelative("states"), true);
+                    EditorGUI.PropertyField(position.UISliceV(4, -4), property.FindPropertyRelative("states"), true);
                 }
 
                 if (editTargets)
@@ -58,12 +62,16 @@ namespace EmoteWizard.DataObjects
             var context = EnsureContext(property);
 
             var states = property.FindPropertyRelative("states");
-            var emoteKind = property.FindPropertyRelative("emoteKind");
-            var editTargets = context.EditTargets && emoteKind.intValue == (int) ParameterEmoteKind.Transition;
-            var statesLines = 1f;
-            if (editTargets) statesLines += 1f;
-            if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets && editTargets ? 2f : 1f);
-            return BoxHeight(LineHeight(3f + statesLines));
+            var emoteKind = (ParameterEmoteKind) property.FindPropertyRelative("emoteKind").intValue;
+            var editTargets = context.EditTargets && emoteKind == ParameterEmoteKind.Transition;
+            var statesLines = 0f;
+            if (emoteKind != ParameterEmoteKind.Unused)
+            {
+                if (editTargets) statesLines += 1f;
+                if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets && editTargets ? 2f : 1f);
+                statesLines += 1f;
+            }
+            return BoxHeight(LineHeight(4f + statesLines));
         }
     }
 }
