@@ -1,9 +1,9 @@
-using EmoteWizard.Extensions;
-using EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(EmoteCondition))]
     public class EmoteConditionDrawer : PropertyDrawer

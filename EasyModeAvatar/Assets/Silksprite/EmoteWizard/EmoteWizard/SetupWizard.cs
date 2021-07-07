@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     public class SetupWizard : MonoBehaviour

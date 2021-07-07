@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace EmoteWizard.DataObjects.Internal
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ExpressionItemSet
     {

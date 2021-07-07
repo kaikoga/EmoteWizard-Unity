@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.Utils
+namespace Silksprite.EmoteWizard.Utils
 {
     public static class VrcSdkAssetLocator
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
     public class ParameterEmote

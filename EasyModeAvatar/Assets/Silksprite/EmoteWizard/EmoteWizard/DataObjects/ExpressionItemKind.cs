@@ -1,4 +1,4 @@
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     public enum ExpressionItemKind
     {

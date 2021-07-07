@@ -1,8 +1,8 @@
-using EmoteWizard.Base.DrawerContexts;
+using Silksprite.EmoteWizard.Base.DrawerContexts;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.Base
+namespace Silksprite.EmoteWizard.Base
 {
     public abstract class PropertyDrawerWithContext<T> : PropertyDrawer
     where T : DrawerContextBase<T>, new()

@@ -1,11 +1,11 @@
 using System.Linq;
-using EmoteWizard.Base;
-using EmoteWizard.DataObjects.DrawerContexts;
-using EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimationWizardBaseExtension
     {

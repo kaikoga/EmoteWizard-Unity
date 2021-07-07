@@ -1,7 +1,7 @@
-using EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEditor;
 
-namespace EmoteWizard.Utils
+namespace Silksprite.EmoteWizard.Utils
 {
     public static class PagerNameGeneratorUtils
     {

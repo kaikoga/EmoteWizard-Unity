@@ -1,8 +1,8 @@
-using EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(SetupWizard))]
     public class SetupWizardEditor : Editor

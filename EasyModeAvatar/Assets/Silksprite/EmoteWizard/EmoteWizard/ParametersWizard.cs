@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EmoteWizard.Base;
-using EmoteWizard.DataObjects;
-using EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     public class ParametersWizard : EmoteWizardBase

@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
-using EmoteWizard.Base;
-using EmoteWizard.Extensions;
-using EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.UI
+namespace Silksprite.EmoteWizard.UI
 {
     public static class EmoteWizardGUI
     {

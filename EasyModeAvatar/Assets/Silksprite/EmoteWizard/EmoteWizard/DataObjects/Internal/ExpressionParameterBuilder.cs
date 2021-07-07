@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace EmoteWizard.DataObjects.Internal
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ExpressionParameterBuilder
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
     public class ParameterEmoteState

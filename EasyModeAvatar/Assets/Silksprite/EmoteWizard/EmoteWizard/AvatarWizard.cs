@@ -1,8 +1,8 @@
-using EmoteWizard.Base;
+using Silksprite.EmoteWizard.Base;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     public class AvatarWizard : EmoteWizardBase

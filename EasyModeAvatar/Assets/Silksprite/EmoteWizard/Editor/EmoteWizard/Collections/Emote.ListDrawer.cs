@@ -1,12 +1,12 @@
-using EmoteWizard.Collections.Base;
-using EmoteWizard.DataObjects;
-using EmoteWizard.Extensions;
-using EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Collections.Base;
+using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
 
-namespace EmoteWizard.Collections
+namespace Silksprite.EmoteWizard.Collections
 {
     public class EmoteListDrawerBase : ListDrawerBase
     {

@@ -1,8 +1,8 @@
 using System;
-using EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEditor.Animations;
 
-namespace EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Extensions
 {
     public static class EmoteGestureConditionExtension
     {

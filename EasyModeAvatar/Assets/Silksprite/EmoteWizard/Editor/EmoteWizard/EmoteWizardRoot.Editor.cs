@@ -1,10 +1,10 @@
-using EmoteWizard.Extensions;
-using EmoteWizard.UI;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Tools.EmoteWizardEditorTools;
+using static Silksprite.EmoteWizard.Tools.EmoteWizardEditorTools;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(EmoteWizardRoot))]
     public class EmoteWizardRootEditor : Editor

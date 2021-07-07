@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
     public class Emote

@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using EmoteWizard.DataObjects;
-using EmoteWizard.Extensions;
-using EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace EmoteWizard.Base
+namespace Silksprite.EmoteWizard.Base
 {
     public abstract class AnimationWizardBaseEditor : Editor
     {

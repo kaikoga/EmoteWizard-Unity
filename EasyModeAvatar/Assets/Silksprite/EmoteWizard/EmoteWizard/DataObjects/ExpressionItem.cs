@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Tools.EmoteWizardTools;
+using static Silksprite.EmoteWizard.Tools.EmoteWizardTools;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
     public class ExpressionItem

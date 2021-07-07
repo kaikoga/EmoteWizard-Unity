@@ -1,13 +1,13 @@
 using System;
-using EmoteWizard.Extensions;
-using EmoteWizard.UI;
-using EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(AvatarWizard))]
     public class AvatarWizardEditor : Editor 

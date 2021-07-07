@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EmoteWizard.Base
+namespace Silksprite.EmoteWizard.Base
 {
     [RequireComponent(typeof(EmoteWizardRoot))]
     public abstract class EmoteWizardBase : MonoBehaviour

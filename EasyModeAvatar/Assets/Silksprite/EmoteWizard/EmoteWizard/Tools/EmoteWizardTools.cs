@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace EmoteWizard.Tools
+namespace Silksprite.EmoteWizard.Tools
 {
     public static class EmoteWizardTools
     {

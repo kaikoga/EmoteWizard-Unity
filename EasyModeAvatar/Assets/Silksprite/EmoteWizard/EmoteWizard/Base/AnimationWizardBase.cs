@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace EmoteWizard.Base
+namespace Silksprite.EmoteWizard.Base
 {
     public abstract class AnimationWizardBase : EmoteWizardBase
     {

@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using EmoteWizard.DataObjects;
-using EmoteWizard.DataObjects.Internal;
-using EmoteWizard.Utils;
+using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Utils;
 
-namespace EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ExpressionWizardExtension
     {

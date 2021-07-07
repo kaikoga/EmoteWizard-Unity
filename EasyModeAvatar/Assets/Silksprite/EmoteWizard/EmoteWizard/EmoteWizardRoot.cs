@@ -1,8 +1,8 @@
 using System.IO;
-using EmoteWizard.UI;
+using Silksprite.EmoteWizard.UI;
 using UnityEngine;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     public class EmoteWizardRoot : MonoBehaviour

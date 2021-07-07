@@ -1,11 +1,11 @@
-using EmoteWizard.Extensions;
-using EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ParameterItem))]
     public class ParameterItemDrawer : PropertyDrawer

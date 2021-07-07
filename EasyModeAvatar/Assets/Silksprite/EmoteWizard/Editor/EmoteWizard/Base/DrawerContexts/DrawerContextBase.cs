@@ -1,7 +1,7 @@
 using System;
 using Object = UnityEngine.Object;
 
-namespace EmoteWizard.Base.DrawerContexts
+namespace Silksprite.EmoteWizard.Base.DrawerContexts
 {
     public abstract class DrawerContextBase<T> : IDisposable where T : DrawerContextBase<T>, new()
     {

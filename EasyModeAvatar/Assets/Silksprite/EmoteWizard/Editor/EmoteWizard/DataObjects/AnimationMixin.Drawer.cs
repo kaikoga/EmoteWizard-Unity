@@ -1,15 +1,15 @@
 using System;
-using EmoteWizard.Base;
-using EmoteWizard.DataObjects.DrawerContexts;
-using EmoteWizard.Extensions;
-using EmoteWizard.Scopes;
-using EmoteWizard.UI;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using static EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(AnimationMixin))]
     public class AnimationMixinDrawer : PropertyDrawerWithContext<AnimationMixinDrawerContext>

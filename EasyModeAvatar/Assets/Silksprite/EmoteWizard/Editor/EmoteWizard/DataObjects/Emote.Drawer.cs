@@ -1,12 +1,12 @@
-using EmoteWizard.Base;
-using EmoteWizard.DataObjects.DrawerContexts;
-using EmoteWizard.Extensions;
-using EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(Emote))]
     public class EmoteDrawer : PropertyDrawerWithContext<EmoteDrawerContext>

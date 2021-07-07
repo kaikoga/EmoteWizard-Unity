@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace EmoteWizard.DataObjects.Internal
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ParameterItemBuilder
     {

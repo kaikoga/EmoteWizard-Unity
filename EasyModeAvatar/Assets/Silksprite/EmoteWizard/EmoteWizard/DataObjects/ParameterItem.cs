@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
     public class ParameterItem

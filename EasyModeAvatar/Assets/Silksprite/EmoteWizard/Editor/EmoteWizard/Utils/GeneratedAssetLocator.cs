@@ -1,4 +1,4 @@
-namespace EmoteWizard.Utils
+namespace Silksprite.EmoteWizard.Utils
 {
     public static class GeneratedAssetLocator
     {

@@ -1,7 +1,7 @@
-using EmoteWizard.Base;
+using Silksprite.EmoteWizard.Base;
 using UnityEngine;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     public class FxWizard : AnimationWizardBase

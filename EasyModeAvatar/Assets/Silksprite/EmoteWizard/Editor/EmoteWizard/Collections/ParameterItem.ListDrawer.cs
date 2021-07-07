@@ -1,11 +1,11 @@
-using EmoteWizard.Collections.Base;
-using EmoteWizard.DataObjects;
-using EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Collections.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEditor;
 using UnityEngine;
-using static EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
 
-namespace EmoteWizard.Collections
+namespace Silksprite.EmoteWizard.Collections
 {
     public class ParameterItemListDrawerBase : ListDrawerBase
     {

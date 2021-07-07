@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 
-using static EmoteWizard.Tools.EmoteWizardEditorTools;
+using static Silksprite.EmoteWizard.Tools.EmoteWizardEditorTools;
 
-namespace EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Extensions
 {
     public static partial class EmoteWizardRootExtension
     {

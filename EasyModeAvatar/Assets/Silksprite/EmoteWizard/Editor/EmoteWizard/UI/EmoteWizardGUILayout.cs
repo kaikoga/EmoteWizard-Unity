@@ -1,10 +1,10 @@
 using System;
-using EmoteWizard.Base;
-using EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.UI
+namespace Silksprite.EmoteWizard.UI
 {
     public static class EmoteWizardGUILayout
     {

@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard.Tools
+namespace Silksprite.EmoteWizard.Tools
 {
     public static class PropertyDrawerUITools
     {

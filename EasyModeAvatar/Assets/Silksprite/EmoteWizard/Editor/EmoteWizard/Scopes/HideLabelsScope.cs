@@ -1,7 +1,7 @@
 using System;
 using UnityEditor;
 
-namespace EmoteWizard.Scopes
+namespace Silksprite.EmoteWizard.Scopes
 {
     public class HideLabelsScope : IDisposable
     {

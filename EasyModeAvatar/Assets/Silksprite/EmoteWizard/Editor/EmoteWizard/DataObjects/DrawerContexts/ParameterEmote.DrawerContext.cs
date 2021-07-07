@@ -1,7 +1,7 @@
-using EmoteWizard.Base;
-using EmoteWizard.Base.DrawerContexts;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Base.DrawerContexts;
 
-namespace EmoteWizard.DataObjects.DrawerContexts
+namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
     public class ParameterEmoteDrawerContext : DrawerContextBase<ParameterEmoteDrawerContext>
     {

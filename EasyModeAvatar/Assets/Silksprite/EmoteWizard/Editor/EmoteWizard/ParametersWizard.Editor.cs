@@ -1,11 +1,11 @@
-using EmoteWizard.Base;
-using EmoteWizard.Collections;
-using EmoteWizard.Extensions;
-using EmoteWizard.UI;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Collections;
+using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace EmoteWizard
+namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(ParametersWizard))]
     public class ParametersWizardEditor : AnimationWizardBaseEditor
