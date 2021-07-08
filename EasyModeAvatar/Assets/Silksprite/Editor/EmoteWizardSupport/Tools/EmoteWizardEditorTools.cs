@@ -1,9 +1,8 @@
 using System.IO;
 using UnityEditor;
+using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardTools;
 
-using static Silksprite.EmoteWizard.Tools.EmoteWizardTools;
-
-namespace Silksprite.EmoteWizard.Tools
+namespace Silksprite.EmoteWizardSupport.Tools
 {
     public static class EmoteWizardEditorTools
     {

@@ -1,5 +1,5 @@
 using System.IO;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard

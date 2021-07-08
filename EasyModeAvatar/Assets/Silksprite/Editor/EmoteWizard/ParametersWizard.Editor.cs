@@ -2,6 +2,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Collections;
 using UnityEditor;
 using UnityEngine;
 

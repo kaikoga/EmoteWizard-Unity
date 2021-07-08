@@ -1,9 +1,10 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using static Silksprite.EmoteWizard.Tools.EmoteWizardEditorTools;
+using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
 namespace Silksprite.EmoteWizard.Extensions
 {

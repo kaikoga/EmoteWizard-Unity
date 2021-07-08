@@ -1,8 +1,9 @@
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Collections.Base;
+using Silksprite.EmoteWizardSupport.Collections.Base;
+using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
-using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.Collections
 {

@@ -1,4 +1,4 @@
-namespace Silksprite.EmoteWizard.UI
+namespace Silksprite.EmoteWizardSupport.UI
 {
     public enum ListDisplayMode
     {

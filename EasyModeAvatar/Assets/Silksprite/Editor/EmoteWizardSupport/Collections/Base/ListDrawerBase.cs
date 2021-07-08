@@ -1,10 +1,10 @@
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
-using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
-namespace Silksprite.EmoteWizard.Collections.Base
+namespace Silksprite.EmoteWizardSupport.Collections.Base
 {
     public abstract class ListDrawerBase
     {

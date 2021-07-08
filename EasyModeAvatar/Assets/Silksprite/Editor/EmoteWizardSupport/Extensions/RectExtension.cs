@@ -1,7 +1,7 @@
 using UnityEngine;
-using static Silksprite.EmoteWizard.Tools.PropertyDrawerUITools;
+using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizardSupport.Extensions
 {
     public static class RectExtension
     {

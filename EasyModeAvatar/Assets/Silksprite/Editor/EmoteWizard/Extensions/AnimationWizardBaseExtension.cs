@@ -2,6 +2,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
 

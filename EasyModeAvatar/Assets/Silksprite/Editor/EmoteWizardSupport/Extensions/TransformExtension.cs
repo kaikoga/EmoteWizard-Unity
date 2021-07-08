@@ -1,7 +1,7 @@
 using System.IO;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizardSupport.Extensions
 {
     public static class TransformExtension
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Scopes
+namespace Silksprite.EmoteWizardSupport.Scopes
 {
     public class BoxLayoutScope : IDisposable
     {

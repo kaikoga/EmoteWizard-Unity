@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Scopes;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.UI
+namespace Silksprite.EmoteWizardSupport.UI
 {
     public static class EmoteWizardGUI
     {

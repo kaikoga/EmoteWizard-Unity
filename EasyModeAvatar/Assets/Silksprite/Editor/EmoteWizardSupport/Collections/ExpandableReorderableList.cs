@@ -1,14 +1,14 @@
 using System;
 using System.Linq;
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Collections.Base;
-using Silksprite.EmoteWizard.Scopes;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Collections.Base;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Collections
+namespace Silksprite.EmoteWizardSupport.Collections
 {
     public class ExpandableReorderableList : ReorderableList
     {
