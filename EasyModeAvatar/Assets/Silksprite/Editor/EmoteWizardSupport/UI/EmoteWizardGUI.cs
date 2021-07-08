@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using UnityEditor;
