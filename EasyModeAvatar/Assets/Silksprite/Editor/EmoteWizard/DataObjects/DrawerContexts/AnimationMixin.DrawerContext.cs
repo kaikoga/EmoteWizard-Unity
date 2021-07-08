@@ -2,7 +2,7 @@ using Silksprite.EmoteWizard.Base.DrawerContexts;
 
 namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
-    public class AnimationMixinDrawerContext : DrawerContextBase<AnimationMixinDrawerContext>
+    public class AnimationMixinDrawerContext : EmoteWizardDrawerContextBase<AnimationMixinDrawerContext>
     {
         public readonly string RelativePath;
 

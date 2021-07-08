@@ -1,11 +1,10 @@
-using Silksprite.EmoteWizard.Base.DrawerContexts;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Base
+namespace Silksprite.EmoteWizardSupport.Base
 {
     public abstract class PropertyDrawerWithContext<T> : PropertyDrawer
-    where T : DrawerContextBase<T>, new()
+    where T : class, new()
     {
         static T _context;
 
@@ -15,7 +14,7 @@ namespace Silksprite.EmoteWizard.Base
             return _context = context;
         }
 
-        protected internal static void EndContext() => _context = null;
+        internal static void EndContext() => _context = null;
 
         protected T EnsureContext(SerializedProperty property)
         {

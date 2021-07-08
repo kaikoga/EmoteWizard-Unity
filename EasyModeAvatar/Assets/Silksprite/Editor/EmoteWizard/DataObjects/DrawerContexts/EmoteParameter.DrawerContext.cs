@@ -2,7 +2,7 @@ using Silksprite.EmoteWizard.Base.DrawerContexts;
 
 namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
-    public class EmoteParameterDrawerContext : DrawerContextBase<EmoteParameterDrawerContext>
+    public class EmoteParameterDrawerContext : EmoteWizardDrawerContextBase<EmoteParameterDrawerContext>
     {
         public readonly bool IsEditing;
 

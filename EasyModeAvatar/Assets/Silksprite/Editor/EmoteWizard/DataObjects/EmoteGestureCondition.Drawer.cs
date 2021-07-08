@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
