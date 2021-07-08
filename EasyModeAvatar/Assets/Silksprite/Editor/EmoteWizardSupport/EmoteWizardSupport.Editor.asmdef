@@ -1,9 +1,7 @@
 {
-    "name": "EmoteWizard.Editor",
+    "name": "EmoteWizardSupport.Editor",
     "references": [
-        "EmoteWizard",
-        "EmoteWizardSupport",
-        "EmoteWizardSupport.Editor"
+        "EmoteWizardSupport"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
@@ -12,10 +10,7 @@
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
-    "precompiledReferences": [
-        "VRCSDKBase.dll",
-        "VRCSDK3A.dll"
-    ],
+    "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": []
 }
