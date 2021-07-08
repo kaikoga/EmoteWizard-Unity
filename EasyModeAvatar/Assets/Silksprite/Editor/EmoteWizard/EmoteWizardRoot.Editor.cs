@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard
             }
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("generatedAssetPrefix"));
-            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
+            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("emptyClip"), () => emoteWizardRoot.ProvideEmptyClip());
 
             EmoteWizardGUILayout.ConfigUIArea(() => { emoteWizardRoot.listDisplayMode = (ListDisplayMode)EditorGUILayout.EnumPopup("List Display", emoteWizardRoot.listDisplayMode); });
 

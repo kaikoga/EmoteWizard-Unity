@@ -1,9 +1,8 @@
 using System;
 using System.IO;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -25,7 +24,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
-        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => PropertyDrawerWithContext<ExpressionItemDrawerContext>.StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
+        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -33,8 +32,8 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
-            using (new EditorGUI.PropertyScope(position, label, property))
-            using (new EditorGUI.IndentLevelScope())
+            using (new UnityEditor.EditorGUI.PropertyScope(position, label, property))
+            using (new UnityEditor.EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {
                 EditorGUI.PropertyField(position.UISlice(0.0f, 0.4f, 0), property.FindPropertyRelative("icon"), new GUIContent(" "));
@@ -82,7 +81,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     case VRCExpressionsMenu.Control.ControlType.Toggle:
                         break;
                     case VRCExpressionsMenu.Control.ControlType.SubMenu:
-                        EmoteWizardGUI.PropertyFieldWithGenerate(
+                        CustomEditorGUI.PropertyFieldWithGenerate(
                             position.UISliceV(y),
                             property.FindPropertyRelative("subMenu"),
                             () =>

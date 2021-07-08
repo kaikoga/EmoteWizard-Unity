@@ -1,8 +1,7 @@
 using System;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -16,7 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(AnimationMixin))]
     public class AnimationMixinDrawer : PropertyDrawerWithContext<AnimationMixinDrawerContext>
     {
-        public static AnimationMixinDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string relativePath) => PropertyDrawerWithContext<AnimationMixinDrawerContext>.StartContext(new AnimationMixinDrawerContext(emoteWizardRoot, relativePath));
+        public static AnimationMixinDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string relativePath) => StartContext(new AnimationMixinDrawerContext(emoteWizardRoot, relativePath));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -39,7 +38,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     case AnimationMixinKind.AnimationClip:
                         using (new HideLabelsScope())
                         {
-                            EmoteWizardGUI.PropertyFieldWithGenerate(
+                            CustomEditorGUI.PropertyFieldWithGenerate(
                                 position.UISlice(0.6f, 0.4f, 0),
                                 property.FindPropertyRelative("animationClip"),
                                 () =>
@@ -66,7 +65,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     case AnimationMixinKind.BlendTree:
                         using (new HideLabelsScope())
                         {
-                            EmoteWizardGUI.PropertyFieldWithGenerate(
+                            CustomEditorGUI.PropertyFieldWithGenerate(
                                 position.UISlice(0.6f, 0.4f, 0),
                                 property.FindPropertyRelative("blendTree"),
                                 () =>

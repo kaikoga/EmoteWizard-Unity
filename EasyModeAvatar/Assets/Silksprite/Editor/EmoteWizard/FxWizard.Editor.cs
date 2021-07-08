@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,8 +60,8 @@ namespace Silksprite.EmoteWizard
             var advancedAnimations = serializedObj.FindProperty("advancedAnimations");
             EditorGUILayout.PropertyField(advancedAnimations);
 
-            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
-            EmoteWizardGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
+            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
+            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
 
             using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
             {

@@ -1,7 +1,6 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -21,13 +20,13 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             var context = EnsureContext(property);
 
-            using (new EditorGUI.IndentLevelScope())
+            using (new UnityEditor.EditorGUI.IndentLevelScope())
             {
                 using (new HideLabelsScope())
                 {
                     var value = property.FindPropertyRelative("value");
-                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.2f, 0), value);
-                    EmoteWizardGUI.PropertyFieldWithGenerate(position.UISlice(0.2f, 0.75f, 0),
+                    UnityEditor.EditorGUI.PropertyField(position.UISlice(0.0f, 0.2f, 0), value);
+                    CustomEditorGUI.PropertyFieldWithGenerate(position.UISlice(0.2f, 0.75f, 0),
                         property.FindPropertyRelative("clip"),
                         () =>
                         {
@@ -43,7 +42,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
                 if (context.EditTargets)
                 {
-                    EmoteWizardGUI.HorizontalListPropertyField(position.UISliceV(1), property.FindPropertyRelative("targets"));
+                    CustomEditorGUI.HorizontalListPropertyField(position.UISliceV(1), property.FindPropertyRelative("targets"));
                 }
             }
         }

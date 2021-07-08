@@ -56,17 +56,5 @@ namespace Silksprite.EmoteWizard.UI
                 }
             }
         }
-
-        public static void PropertyFieldWithGenerate(SerializedProperty serializedProperty, Func<UnityEngine.Object> generate)
-        {
-            using (new GUILayout.HorizontalScope())
-            {
-                EditorGUILayout.PropertyField(serializedProperty);
-                if (serializedProperty.objectReferenceValue == null && GUILayout.Button("Generate", GUILayout.Width(60f)))
-                {
-                    serializedProperty.objectReferenceValue = generate();
-                }
-            }
-        }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizardSupport.UI
 {
-    public static class EmoteWizardGUI
+    public static class CustomEditorGUI
     {
         public static void ColoredBox(Rect position, Color color)
         {
@@ -27,12 +27,12 @@ namespace Silksprite.EmoteWizardSupport.UI
             GUI.Label(new Rect(position.x, position.y, labelWidth, EditorGUIUtility.singleLineHeight), label);
             using (new HideLabelsScope())
             {
-                var arraySize = EditorGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", serializedProperty.arraySize);
+                var arraySize = UnityEditor.EditorGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", serializedProperty.arraySize);
                 serializedProperty.arraySize = arraySize;
                 position = position.Inset(labelWidth + sizeWidth, 0f, 0f, 0f);
                 if (arraySize > 0)
                 {
-                    EditorGUI.MultiPropertyField(position, Enumerable.Repeat(GUIContent.none, serializedProperty.arraySize).ToArray(), serializedProperty.GetArrayElementAtIndex(0));
+                    UnityEditor.EditorGUI.MultiPropertyField(position, Enumerable.Repeat(GUIContent.none, serializedProperty.arraySize).ToArray(), serializedProperty.GetArrayElementAtIndex(0));
                 }
             }
         }
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             var fieldPosition = position;
             if (serializedProperty.objectReferenceValue == null) fieldPosition.width -= buttonWidth;
 
-            EditorGUI.PropertyField(fieldPosition, serializedProperty);
+            UnityEditor.EditorGUI.PropertyField(fieldPosition, serializedProperty);
             if (serializedProperty.objectReferenceValue != null) return;
             var buttonPosition = new Rect(position.xMax - buttonWidth, position.y, buttonWidth, position.height);
             if (GUI.Button(buttonPosition, "Generate"))
