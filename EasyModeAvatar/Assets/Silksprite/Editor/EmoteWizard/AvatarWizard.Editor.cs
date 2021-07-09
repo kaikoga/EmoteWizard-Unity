@@ -87,14 +87,22 @@ namespace Silksprite.EmoteWizard
                 {
                     using (new GUILayout.HorizontalScope())
                     {
-                        if (GUILayout.Button("Edit Gesture"))
+                        using (new EditorGUI.DisabledScope(gestureController == null))
                         {
-                            EditAnimator(gestureController);
+                            if (GUILayout.Button("Edit Gesture"))
+                            {
+                                EditAnimator(gestureController);
+                            }
                         }
-                        if (GUILayout.Button("Edit FX"))
+
+                        using (new EditorGUI.DisabledScope(fxController == null))
                         {
-                            EditAnimator(fxController);
+                            if (GUILayout.Button("Edit FX"))
+                            {
+                                EditAnimator(fxController);
+                            }
                         }
+
                         if (GUILayout.Button("Remove Controller"))
                         {
                             EditAnimator(null);
@@ -126,7 +134,12 @@ namespace Silksprite.EmoteWizard
                         throw new ArgumentOutOfRangeException();
                 }
             }
-        
+
+            RuntimeAnimatorController SelectFxController()
+            {
+                return emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset;
+            }
+
             RuntimeAnimatorController SelectSittingController()
             {
                 switch (avatarWizard.overrideSitting)
@@ -143,6 +156,7 @@ namespace Silksprite.EmoteWizard
             }
 
             var gestureController = SelectGestureController();
+            var fxController = SelectFxController();
             var sittingController = SelectSittingController();
 
             avatarDescriptor.customizeAnimationLayers = true;
@@ -167,7 +181,7 @@ namespace Silksprite.EmoteWizard
                 new VRCAvatarDescriptor.CustomAnimLayer
                 {
                     animatorController = gestureController,
-                    isDefault = false,
+                    isDefault = gestureController == null,
                     isEnabled = false,
                     mask = VrcSdkAssetLocator.HandsOnly(),
                     type = VRCAvatarDescriptor.AnimLayerType.Gesture
@@ -182,8 +196,8 @@ namespace Silksprite.EmoteWizard
                 },
                 new VRCAvatarDescriptor.CustomAnimLayer
                 {
-                    animatorController = emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset,
-                    isDefault = false,
+                    animatorController = fxController,
+                    isDefault = fxController == null,
                     isEnabled = false,
                     mask = null,
                     type = VRCAvatarDescriptor.AnimLayerType.FX
