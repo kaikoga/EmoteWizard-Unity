@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard
             EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
             EditorGUILayout.PropertyField(serializedObj.FindProperty("defaultPrefix"));
 
-            if (GUILayout.Button("Populate Expression Items"))
+            if (GUILayout.Button("Populate Default Expression Items"))
             {
                 PopulateDefaultExpressionItems();
             }
@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard
 
             serializedObj.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。");
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
         }
 
         void RepopulateDefaultExpressionItems()
