@@ -131,6 +131,8 @@ namespace Silksprite.EmoteWizard
             });
 
             serializedObj.ApplyModifiedProperties();
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
         }
 
         void RepopulateDefaultFxEmotes()

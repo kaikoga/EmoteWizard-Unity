@@ -15,6 +15,17 @@ namespace Silksprite.EmoteWizard.Base
     {
         AnimationWizardBase AnimationWizardBase => target as AnimationWizardBase;
 
+        protected static string Tutorial =>
+            string.Join("\n",
+                "Reset: 常時再生でシェイプキーを元に戻す（自動生成）",
+                "AllParts: 常時再生で上書きしたいシェイプキーの値（任意）",
+                "Ambience: 常時再生したい低優先度のアニメーション（任意）",
+                "Left Hand / RightHand: ハンドサイン",
+                "",
+                "Emotes: ハンドサインに基づくアニメーションの設定",
+                "Parameter Emotes: パラメーターに基づくアニメーションの設定",
+                "Mixins: 追加で設定したいBlendTreeなどの設定");
+
         protected void BuildResetClip(AnimationClip clip)
         {
             var allEmoteClips = AnimationWizardBase.emotes.SelectMany(e => e.AllClips());

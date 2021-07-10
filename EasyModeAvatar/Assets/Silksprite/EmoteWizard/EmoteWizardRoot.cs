@@ -12,6 +12,7 @@ namespace Silksprite.EmoteWizard
         
         [SerializeField] public AnimationClip emptyClip;
         [SerializeField] public ListDisplayMode listDisplayMode;
+        [SerializeField] public bool showTutorial;
 
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
     }

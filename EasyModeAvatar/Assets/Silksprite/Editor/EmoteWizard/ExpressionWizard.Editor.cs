@@ -63,6 +63,8 @@ namespace Silksprite.EmoteWizard
             });
 
             serializedObj.ApplyModifiedProperties();
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。");
         }
 
         void RepopulateDefaultExpressionItems()

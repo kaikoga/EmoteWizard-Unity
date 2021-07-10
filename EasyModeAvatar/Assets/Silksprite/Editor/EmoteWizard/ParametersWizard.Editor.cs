@@ -61,6 +61,8 @@ namespace Silksprite.EmoteWizard
             });
 
             serializedObj.ApplyModifiedProperties();
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
         }
 
         void BuildExpressionParameters()

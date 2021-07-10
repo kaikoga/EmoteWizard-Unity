@@ -129,6 +129,8 @@ namespace Silksprite.EmoteWizard
             });
 
             serializedObj.ApplyModifiedProperties();
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Gesture Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
         }
 
         static void RepopulateDefaultGestureEmotes(AnimationWizardBase wizard)

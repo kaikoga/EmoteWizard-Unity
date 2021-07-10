@@ -56,5 +56,16 @@ namespace Silksprite.EmoteWizard.UI
                 }
             }
         }
+
+        public static void Tutorial(EmoteWizardRoot emoteWizardRoot, Action action)
+        {
+            if (!emoteWizardRoot.showTutorial) return;
+            using (new BoxLayoutScope()) action();
+        }
+        
+        public static void Tutorial(EmoteWizardRoot emoteWizardRoot, string message)
+        {
+            Tutorial(emoteWizardRoot, () => EditorGUILayout.HelpBox(message, MessageType.Info));
+        }
     }
 }

@@ -23,13 +23,18 @@ namespace Silksprite.EmoteWizard
         public override void OnInspectorGUI()
         {
             var serializedObj = serializedObject;
-            
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideGesture"));
+            var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
+
+            var overrideGesture = serializedObj.FindProperty("overrideGesture");
+            const string overrideGestureTooltip = "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）";
+            EditorGUILayout.PropertyField(overrideGesture, new GUIContent(overrideGesture.displayName, overrideGestureTooltip));
             if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)
             {
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideGestureController"));
             }
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideSitting"));
+            var overrideSitting = serializedObj.FindProperty("overrideSitting");
+            const string overrideSittingTooltip = "Sittingレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）";
+            EditorGUILayout.PropertyField(overrideSitting, new GUIContent(overrideSitting.displayName, overrideSittingTooltip));
             if (avatarWizard.overrideSitting == AvatarWizard.OverrideControllerType2.Override)
             {
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideSittingController"));
@@ -45,10 +50,10 @@ namespace Silksprite.EmoteWizard
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
                 }
 
-                var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
-
                 var avatarDescriptor = avatarWizard.avatarDescriptor;
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("avatarDescriptor"));
+                var avatarDescriptorProperty = serializedObj.FindProperty("avatarDescriptor");
+                const string avatarDescriptorTooltip = "ここで指定したアバターの設定が上書きされます。";
+                EditorGUILayout.PropertyField(avatarDescriptorProperty, new GUIContent(avatarDescriptorProperty.displayName, avatarDescriptorTooltip));
                 if (avatarDescriptor == null)
                 {
                     EditorGUILayout.HelpBox("VRCAvatarDescriptor is missing. Some functions might not work.", MessageType.Error);
@@ -82,7 +87,10 @@ namespace Silksprite.EmoteWizard
                         EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
                     }
                 }
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("proxyAnimator"));
+
+                var proxyAnimator = serializedObj.FindProperty("proxyAnimator");
+                const string proxyAnimatorTooltip = "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。";
+                EditorGUILayout.PropertyField(proxyAnimator, new GUIContent(proxyAnimator.displayName, proxyAnimatorTooltip));
                 if (avatarDescriptor)
                 {
                     using (new GUILayout.HorizontalScope())
@@ -112,6 +120,8 @@ namespace Silksprite.EmoteWizard
             });
 
             serializedObj.ApplyModifiedProperties();
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "VRCAvatarDescriptorの更新を行います。\nAnimatorコンポーネントが存在するなら、それを使ってアバターのアニメーションの編集を開始することができます。");
         }
 
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)
