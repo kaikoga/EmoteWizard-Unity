@@ -122,6 +122,13 @@ namespace Silksprite.EmoteWizard.Base
                     {
                         transition.AddCondition(gesture2.ResolveMode(), gesture2.ResolveThreshold(), gesture2.ResolveParameter(isLeft));
                     }
+
+                    foreach (var condition in emote.conditions)
+                    {
+                        // TODO: validate parameter type
+                        transition.AddCondition(condition.AnimatorConditionMode, condition.threshold, condition.parameter);
+                    }
+
                     transition.hasExitTime = false;
                     transition.duration = 0.1f;
                     transition.canTransitionToSelf = false;
