@@ -40,16 +40,19 @@ namespace Silksprite.EmoteWizard
             });
 
             EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
-            EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
-                () =>
-                {
-                    if (GUILayout.Button("Collect Parameters (auto)"))
-                    {
-                        parametersWizard.ForceRefreshParameters();
-                    }
-                });
 
             parameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
+            if (parameterItemsList.serializedProperty.isExpanded)
+            {
+                EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
+                    () =>
+                    {
+                        if (GUILayout.Button("Collect Parameters (auto)"))
+                        {
+                            parametersWizard.ForceRefreshParameters();
+                        }
+                    });
+            }
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {

@@ -70,17 +70,22 @@ namespace Silksprite.EmoteWizard
                 emotesList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
-            EmoteWizardGUILayout.RequireAnotherWizard(gestureWizard, parametersWizard, () =>
-            {
-                if (GUILayout.Button("Collect Parameters"))
-                {
-                    parametersWizard.TryRefreshParameters();
-                    gestureWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
-                }
-            });
             using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, gestureWizard.LayerName, ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
+            }
+            if (parametersList.serializedProperty.isExpanded)
+            {
+                EmoteWizardGUILayout.RequireAnotherWizard(gestureWizard, parametersWizard, () =>
+                {
+                    if (GUILayout.Button("Collect Parameters"))
+                    {
+                        parametersWizard.TryRefreshParameters();
+                        gestureWizard.RefreshParameters(parametersWizard != null
+                            ? parametersWizard.parameterItems
+                            : null);
+                    }
+                });
             }
 
             using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
