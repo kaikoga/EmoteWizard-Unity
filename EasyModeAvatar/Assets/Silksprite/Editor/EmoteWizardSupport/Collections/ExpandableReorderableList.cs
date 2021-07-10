@@ -123,6 +123,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
         {
             var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _listDrawer.HeaderName);
             serializedProperty.isExpanded = isExpanded;
+            if (!isExpanded) return;
 
             using (new EditorGUI.IndentLevelScope())
             {
@@ -157,11 +158,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
                     if (pagerIndex < 0) pagerIndex = 0;
                 }
 
-                if (serializedProperty.isExpanded)
-                {
-                    _listDrawer?.OnGUI(false);
-                }
-
+                _listDrawer?.OnGUI(false);
                 if (pagerIndex < arraySize)
                 {
                     EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(pagerIndex));
