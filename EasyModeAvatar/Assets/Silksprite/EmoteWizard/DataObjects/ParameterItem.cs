@@ -11,7 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         public ParameterValueKind valueKind;
         public bool saved = true;
         public float defaultValue;
-        public bool defaultParameter;
         public List<ParameterUsage> usages;
 
         public VRCExpressionParameters.ValueType VrcValueType
@@ -41,8 +40,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     defaultValue = 0,
                     name = "VRCEmote",
                     saved = false,
-                    valueKind = ParameterValueKind.Int,
-                    defaultParameter = true
+                    valueKind = ParameterValueKind.Int
                 }/*,
                 new ParameterItem
                 {
@@ -50,8 +48,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     defaultValue = 0,
                     name = "VRCFaceBlendH",
                     saved = false,
-                    valueType = VRCExpressionParameters.ValueType.Float,
-                    defaultParameter = true
+                    valueType = VRCExpressionParameters.ValueType.Float
                 },
                 new ParameterItem
                 {
@@ -59,8 +56,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     defaultValue = 0,
                     name = "VRCFaceBlendV",
                     saved = false,
-                    valueType = VRCExpressionParameters.ValueType.Float,
-                    defaultParameter = true
+                    valueType = VRCExpressionParameters.ValueType.Float
                 }*/
             };
 

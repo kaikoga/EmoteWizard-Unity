@@ -39,8 +39,6 @@ namespace Silksprite.EmoteWizard
                 }
             });
 
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("vrcDefaultParameters"));
-
             parameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             if (parameterItemsList.serializedProperty.isExpanded)
             {

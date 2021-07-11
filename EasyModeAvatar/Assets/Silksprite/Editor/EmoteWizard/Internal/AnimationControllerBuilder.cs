@@ -260,10 +260,8 @@ namespace Silksprite.EmoteWizard.Internal
         
         public void BuildParameters()
         {
-            foreach (var parameter in ParametersWizard.CustomParameterItems)
+            foreach (var parameter in (IEnumerable<ParameterItem>) ParametersWizard.parameterItems)
             {
-                if (parameter.defaultParameter) continue;
-
                 var parameterName = parameter.name;
                 AnimatorControllerParameterType parameterType;
                 switch (parameter.VrcValueType)

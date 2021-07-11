@@ -11,7 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            var defaultParameter = property.FindPropertyRelative("defaultParameter").boolValue; 
             // GUI.backgroundColor = defaultParameter ? Color.gray : Color.white;  
             GUI.Box(position, GUIContent.none);
             // GUI.backgroundColor = Color.white;
@@ -22,13 +21,10 @@ namespace Silksprite.EmoteWizard.DataObjects
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 using (new HideLabelsScope())
                 {
-                    using (new EditorGUI.DisabledScope(defaultParameter))
-                    {
-                        EditorGUI.PropertyField(position.UISlice(0.00f, 0.40f, 0), property.FindPropertyRelative("name"), new GUIContent(" "));
-                        EditorGUI.PropertyField(position.UISlice(0.40f, 0.25f, 0), property.FindPropertyRelative("valueKind"), new GUIContent(" "));
-                        EditorGUI.PropertyField(position.UISlice(0.65f, 0.20f, 0), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
-                        EditorGUI.PropertyField(position.UISlice(0.85f, 0.15f, 0), property.FindPropertyRelative("saved"));
-                    }
+                    EditorGUI.PropertyField(position.UISlice(0.00f, 0.40f, 0), property.FindPropertyRelative("name"), new GUIContent(" "));
+                    EditorGUI.PropertyField(position.UISlice(0.40f, 0.25f, 0), property.FindPropertyRelative("valueKind"), new GUIContent(" "));
+                    EditorGUI.PropertyField(position.UISlice(0.65f, 0.20f, 0), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
+                    EditorGUI.PropertyField(position.UISlice(0.85f, 0.15f, 0), property.FindPropertyRelative("saved"));
                 }
 
                 EditorGUI.PropertyField(position.UISliceV(1, -1), property.FindPropertyRelative("usages"), true);

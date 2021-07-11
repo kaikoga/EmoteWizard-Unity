@@ -10,7 +10,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public string name;
         bool saved = true;
         float defaultValue;
-        bool defaultParameter;
         readonly List<ParameterUsage> usages = new List<ParameterUsage>();
 
         ParameterValueKind GuessValueKind()
@@ -26,7 +25,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 name = name,
                 saved = false,
                 defaultValue = 0,
-                defaultParameter = false
             };
         }
 
@@ -65,7 +63,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             name = parameter.name;
             saved = parameter.saved;
             defaultValue = parameter.defaultValue;
-            defaultParameter |= parameter.defaultParameter;
             if (parameter.usages != null) usages.AddRange(parameter.usages);
         }
 
@@ -77,9 +74,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 saved = saved,
                 defaultValue = defaultValue,
                 valueKind = GuessValueKind(),
-                defaultParameter = defaultParameter,
-                usages = usages.Where(_ => !defaultParameter)
-                    .Select(state => (valueKind: state.usageKind, state.value))
+                usages = usages.Select(state => (valueKind: state.usageKind, state.value))
                     .Distinct()
                     .Select(usageValue => new ParameterUsage(usageValue.valueKind, usageValue.value))
                     .OrderBy(usage => usage.value)
