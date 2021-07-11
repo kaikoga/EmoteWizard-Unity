@@ -27,6 +27,11 @@ namespace Silksprite.EmoteWizard.Internal
             }
         }
 
+        bool AssertParameterExists(string parameterName)
+        {
+            return ParametersWizard == null || ParametersWizard.AssertParameterExists(parameterName);
+        }
+
         public AnimatorControllerLayer PopulateLayer(string layerName, AvatarMask avatarMask = null)
         {
             layerName = AnimatorController.MakeUniqueLayerName(layerName);
@@ -90,10 +95,14 @@ namespace Silksprite.EmoteWizard.Internal
                     state.writeDefaultValues = false;
                     if (clip != null && emote.parameter != null && emote.parameter.normalizedTimeEnabled)
                     {
-                        state.timeParameterActive = true;
-                        state.timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
-                        clip.SetLoopTimeRec(false);
-                        EditorUtility.SetDirty(clip);
+                        var timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
+                        if (AssertParameterExists(timeParameter))
+                        {
+                            state.timeParameterActive = true;
+                            state.timeParameter = timeParameter;
+                            clip.SetLoopTimeRec(false);
+                            EditorUtility.SetDirty(clip);
+                        }
                     }
 
                     var transition = stateMachine.AddAnyStateTransition(state);
@@ -104,7 +113,7 @@ namespace Silksprite.EmoteWizard.Internal
                     }
 
                     var validConditions = emote.conditions
-                        .Where(condition => ParametersWizard.parameterItems.Any(item => item.name == condition.parameter));
+                        .Where(condition => AssertParameterExists(condition.parameter));
                     foreach (var condition in validConditions)
                     {
                         transition.AddCondition(condition.AnimatorConditionMode, condition.threshold, condition.parameter);
@@ -121,6 +130,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameterStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
+            if (!AssertParameterExists(parameterEmote.parameter)) return;
             switch (parameterEmote.emoteKind)
             {
                 case ParameterEmoteKind.Transition:

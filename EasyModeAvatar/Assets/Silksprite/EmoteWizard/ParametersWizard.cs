@@ -15,6 +15,13 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public VRCExpressionParameters outputAsset;
         [SerializeField] public List<ParameterItem> parameterItems;
 
+        public bool AssertParameterExists(string parameterName)
+        {
+            var result = parameterItems.Any(item => item.name == parameterName);
+            if (!result) Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
+            return result;
+        }
+
         public void TryRefreshParameters()
         {
             var expressionWizard = GetComponent<ExpressionWizard>();
