@@ -20,13 +20,14 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             var context = EnsureContext(property);
 
-            using (new UnityEditor.EditorGUI.IndentLevelScope())
+            using (new EditorGUI.IndentLevelScope())
             {
                 using (new HideLabelsScope())
                 {
+                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.1f, 0), property.FindPropertyRelative("enabled"));
                     var value = property.FindPropertyRelative("value");
-                    UnityEditor.EditorGUI.PropertyField(position.UISlice(0.0f, 0.2f, 0), value);
-                    CustomEditorGUI.PropertyFieldWithGenerate(position.UISlice(0.2f, 0.75f, 0),
+                    EditorGUI.PropertyField(position.UISlice(0.1f, 0.2f, 0), value);
+                    CustomEditorGUI.PropertyFieldWithGenerate(position.UISlice(0.3f, 0.7f, 0),
                         property.FindPropertyRelative("clip"),
                         () =>
                         {

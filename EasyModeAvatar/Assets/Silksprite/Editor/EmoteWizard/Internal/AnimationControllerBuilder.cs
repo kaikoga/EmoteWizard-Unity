@@ -174,7 +174,7 @@ namespace Silksprite.EmoteWizard.Internal
 
             using (var positions = Positions().GetEnumerator())
             {
-                var validStates = parameterEmote.states.Where(state => state.clip != null).ToList();
+                var validStates = parameterEmote.states.Where(state => state.enabled).ToList();
                 var stateAndNextValue = validStates.Zip(
                     validStates.Skip(1).Select(state => (float?) state.value).Concat(Enumerable.Repeat((float?) null, 1)),
                     (s, v) => (s, v));
@@ -194,7 +194,8 @@ namespace Silksprite.EmoteWizard.Internal
         void BuildNormalizedTimeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
             var clip = parameterEmote.states
-                .Select(emoteState => emoteState.clip)
+                .Where(state => state.enabled)
+                .Select(state => state.clip)
                 .FirstOrDefault(c => c != null);
             if (clip == null) return;
 
@@ -222,7 +223,7 @@ namespace Silksprite.EmoteWizard.Internal
             blendTree.blendParameter = parameterEmote.parameter;
             blendTree.blendType = BlendTreeType.Simple1D;
             blendTree.useAutomaticThresholds = false;
-            var validStates = parameterEmote.states.Where(state => state.clip != null);
+            var validStates = parameterEmote.states.Where(state => state.enabled);
             blendTree.children = validStates.Select(state => new ChildMotion
             {
                 cycleOffset = 0,

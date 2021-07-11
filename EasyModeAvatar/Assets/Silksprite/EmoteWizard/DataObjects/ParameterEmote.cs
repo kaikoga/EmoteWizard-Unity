@@ -19,10 +19,15 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             var oldStates = states;
             states = Enumerable.Empty<ParameterEmoteState>()
-                .Concat(parameterItem.usages.Select(state => new ParameterEmoteState
+                .Concat(parameterItem.usages.Select(state =>
                 {
-                    value = state.value,
-                    clip = states.FirstOrDefault(s => s.value == state.value)?.clip
+                    var oldState = states.FirstOrDefault(s => s.value == state.value);
+                    return new ParameterEmoteState
+                    {
+                        enabled = oldState?.enabled ?? true,
+                        value = state.value,
+                        clip = oldState?.clip
+                    };
                 })).Concat(oldStates.Where(oldState => parameterItem.usages.All(state => state.value != oldState.value)))
                 .ToList();
         }
