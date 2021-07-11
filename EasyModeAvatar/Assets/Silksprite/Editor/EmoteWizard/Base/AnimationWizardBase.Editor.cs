@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Base
         protected static string Tutorial =>
             string.Join("\n",
                 "Write Defaultsはオフになります。",
-                "EmotesとParameter Emotesで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。",
+                "各アニメーションで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。",
                 "",
                 "BaseMixins: 常時再生したいBlendTreeなどの設定",
                 "Emotes: ハンドサインに基づくアニメーションの設定",
@@ -22,8 +22,11 @@ namespace Silksprite.EmoteWizard.Base
         protected AnimationClip BuildResetClip(AnimationClip clip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
+                .Concat(AnimationWizardBase.baseMixins.SelectMany(e => e.AllClips()))
                 .Concat(AnimationWizardBase.emotes.SelectMany(e => e.AllClips()))
-                .Concat(AnimationWizardBase.parameterEmotes.SelectMany(p => p.AllClips()));
+                .Concat(AnimationWizardBase.parameterEmotes.SelectMany(p => p.AllClips()))
+                .Concat(AnimationWizardBase.mixins.SelectMany(p => p.AllClips()))
+                .Where(c => c != null);
             var allParameters = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
                 .Distinct().OrderBy(x => x);

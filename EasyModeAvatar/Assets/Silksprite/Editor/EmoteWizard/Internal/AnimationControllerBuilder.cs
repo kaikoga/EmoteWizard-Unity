@@ -8,7 +8,6 @@ using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Internal
 {
@@ -194,13 +193,15 @@ namespace Silksprite.EmoteWizard.Internal
 
         void BuildNormalizedTimeStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
+            var clip = parameterEmote.states
+                .Select(emoteState => emoteState.clip)
+                .FirstOrDefault(c => c != null);
+            if (clip == null) return;
+
             using (var positions = Positions().GetEnumerator())
             {
                 positions.MoveNext();
                 var state = stateMachine.AddState(parameterEmote.name, positions.Current);
-                var clip = parameterEmote.states
-                    .Select(emoteState => emoteState.clip)
-                    .FirstOrDefault(c => c != null);
                 state.motion = clip;
                 state.writeDefaultValues = false;
 
