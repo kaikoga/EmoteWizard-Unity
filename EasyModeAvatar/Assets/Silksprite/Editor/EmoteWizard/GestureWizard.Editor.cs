@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard
     {
         GestureWizard gestureWizard;
 
+        ExpandableReorderableList baseMixinsList;
         ExpandableReorderableList emotesList;
         ExpandableReorderableList parametersList;
         ExpandableReorderableList mixinsList;
@@ -25,6 +26,7 @@ namespace Silksprite.EmoteWizard
         {
             gestureWizard = target as GestureWizard;
             
+            baseMixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("baseMixins"));
             emotesList = new ExpandableReorderableList(new EmoteListDrawerBase(), serializedObject.FindProperty("emotes"));
             parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameters"));
             mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("mixins"));
@@ -56,14 +58,16 @@ namespace Silksprite.EmoteWizard
             var advancedAnimations = serializedObj.FindProperty("advancedAnimations");
             EditorGUILayout.PropertyField(advancedAnimations);
 
-            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@GlobalGesture.anim"));
-            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("Gesture/@@@Generated@@@AmbienceGesture.anim"));
-
             CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("defaultAvatarMask"), () =>
             {
                 var avatarMask = emoteWizardRoot.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
                 return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
             });
+
+            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
+            {
+                baseMixinsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
+            }
 
             using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
             {
@@ -102,11 +106,11 @@ namespace Silksprite.EmoteWizard
                         var resetLayer = PopulateLayer(animatorController, "Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly()); 
                         BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
-                        var allPartsLayer = PopulateLayer(animatorController, "AllParts");
-                        BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", gestureWizard.globalClip);
-
-                        var ambienceLayer = PopulateLayer(animatorController, "Ambience");
-                        BuildStaticStateMachine(ambienceLayer.stateMachine, "Ambient", gestureWizard.ambienceClip);
+                        foreach (var mixin in gestureWizard.baseMixins)
+                        {
+                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
+                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                        }
 
                         var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
                         BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);

@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard
     {
         FxWizard fxWizard;
 
+        ExpandableReorderableList baseMixinsList;
         ExpandableReorderableList emotesList;
         ExpandableReorderableList parametersList;
         ExpandableReorderableList mixinsList;
@@ -25,6 +26,7 @@ namespace Silksprite.EmoteWizard
         {
             fxWizard = target as FxWizard;
 
+            baseMixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("baseMixins"));
             emotesList = new ExpandableReorderableList(new EmoteListDrawerBase(), serializedObject.FindProperty("emotes"));
             parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameters"));
             mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("mixins"));
@@ -60,8 +62,10 @@ namespace Silksprite.EmoteWizard
             var advancedAnimations = serializedObj.FindProperty("advancedAnimations");
             EditorGUILayout.PropertyField(advancedAnimations);
 
-            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("globalClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@GlobalFX.anim"));
-            CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindProperty("ambienceClip"), () => emoteWizardRoot.EnsureAsset<AnimationClip>("FX/@@@Generated@@@AmbienceFX.anim"));
+            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
+            {
+                baseMixinsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
+            }
 
             using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
             {
@@ -101,12 +105,12 @@ namespace Silksprite.EmoteWizard
                         var resetLayer = PopulateLayer(animatorController, "Reset");
                         BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
 
-                        var allPartsLayer = PopulateLayer(animatorController, "AllParts");
-                        BuildStaticStateMachine(allPartsLayer.stateMachine, "Global", fxWizard.globalClip);
-
-                        var ambienceLayer = PopulateLayer(animatorController, "Ambience");
-                        BuildStaticStateMachine(ambienceLayer.stateMachine, "Global", fxWizard.ambienceClip);
-
+                        foreach (var mixin in fxWizard.baseMixins)
+                        {
+                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
+                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                        }
+                        
                         var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
                         BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
                 

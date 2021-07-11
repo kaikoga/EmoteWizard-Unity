@@ -9,6 +9,7 @@ namespace Silksprite.EmoteWizard.Base
     {
         [SerializeField] public bool advancedAnimations;
 
+        [SerializeField] public List<AnimationMixin> baseMixins;
         [SerializeField] public List<Emote> emotes;
         [SerializeField] public List<ParameterEmote> parameters;
         [SerializeField] public List<AnimationMixin> mixins;

@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
 
             drawHeaderCallback += rect =>
             {
-                var isExpanded = EditorGUI.Foldout(rect.UISliceV(0), serializedProperty.isExpanded, _listDrawer.HeaderName);
+                var isExpanded = EditorGUI.Foldout(rect.UISliceV(0), serializedProperty.isExpanded, serializedProperty.displayName);
                 serializedProperty.isExpanded = isExpanded;
                 draggable = isExpanded;
                 displayAdd = isExpanded;
@@ -85,7 +85,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
 
         void DrawAsList()
         {
-            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _listDrawer.HeaderName);
+            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, serializedProperty.displayName);
             serializedProperty.isExpanded = isExpanded;
             if (!isExpanded) return;
 
@@ -121,7 +121,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
         
         void DrawAsPager()
         {
-            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, _listDrawer.HeaderName);
+            var isExpanded = EditorGUILayout.Foldout(serializedProperty.isExpanded, serializedProperty.displayName);
             serializedProperty.isExpanded = isExpanded;
             if (!isExpanded) return;
 

@@ -17,14 +17,12 @@ namespace Silksprite.EmoteWizard.Base
 
         protected static string Tutorial =>
             string.Join("\n",
-                "Reset: 常時再生でシェイプキーを元に戻す（自動生成）",
-                "AllParts: 常時再生で上書きしたいシェイプキーの値（任意）",
-                "Ambience: 常時再生したい低優先度のアニメーション（任意）",
-                "Left Hand / RightHand: ハンドサイン",
+                "Write Defaultsはオフになります。Emotesで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。",
                 "",
+                "BaseMixins: 常時再生したいBlendTreeなどの設定",
                 "Emotes: ハンドサインに基づくアニメーションの設定",
                 "Parameter Emotes: パラメーターに基づくアニメーションの設定",
-                "Mixins: 追加で設定したいBlendTreeなどの設定");
+                "Mixins: 上書きして再生したいBlendTreeなどの設定");
 
         protected void BuildResetClip(AnimationClip clip)
         {
