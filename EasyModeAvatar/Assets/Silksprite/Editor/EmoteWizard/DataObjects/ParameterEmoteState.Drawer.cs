@@ -24,7 +24,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 using (new HideLabelsScope())
                 {
-                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.1f, 0), property.FindPropertyRelative("enabled"));
+                    var enabled = property.FindPropertyRelative("enabled");
+                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.1f, 0), enabled);
+                    EditorGUI.BeginDisabledGroup(!enabled.boolValue);
                     var value = property.FindPropertyRelative("value");
                     EditorGUI.PropertyField(position.UISlice(0.1f, 0.2f, 0), value);
                     CustomEditorGUI.PropertyFieldWithGenerate(position.UISlice(0.3f, 0.7f, 0),
@@ -45,6 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 {
                     CustomEditorGUI.HorizontalListPropertyField(position.UISliceV(1), property.FindPropertyRelative("targets"));
                 }
+                EditorGUI.EndDisabledGroup();
             }
         }
 
