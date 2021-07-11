@@ -10,7 +10,6 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class ExpressionItem
     {
-        [SerializeField] public ExpressionItemKind kind;
         [SerializeField] public Texture2D icon;
         [SerializeField] public string path;
         [SerializeField] public string parameter;
@@ -87,7 +86,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new ExpressionItem
             {
-                kind = ExpressionItemKind.Default,
                 icon = icon,
                 path = $"{prefix}{NameForDefaultEmote(value)}",
                 parameter = "VRCEmote",
@@ -100,7 +98,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new ExpressionItem
             {
-                kind = ExpressionItemKind.Folder,
                 icon = icon,
                 path = path,
                 controlType = VRCExpressionsMenu.Control.ControlType.SubMenu
@@ -130,6 +127,12 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             }
 
+            VRCExpressionsMenu ToSubMenu()
+            {
+                if (controlType != VRCExpressionsMenu.Control.ControlType.SubMenu) return null;
+                return subMenuResolver(path) ?? subMenu;
+            }
+
             VRCExpressionsMenu.Control.Label[] ToLabels()
             {
                 switch (controlType)
@@ -151,37 +154,18 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
             }
 
-            switch (kind)
+            return new VRCExpressionsMenu.Control
             {
-                case ExpressionItemKind.Default:
-                    return new VRCExpressionsMenu.Control
-                    {
-                        icon = icon,
-                        labels = ToLabels(), 
-                        name = Name,
-                        parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
-                        style = VRCExpressionsMenu.Control.Style.Style1,
-                        subMenu = controlType == VRCExpressionsMenu.Control.ControlType.SubMenu ? subMenu : null,
-                        subParameters = ToSubParameters(),
-                        type = controlType,
-                        value = value
-                    };
-                case ExpressionItemKind.Folder:
-                    return new VRCExpressionsMenu.Control
-                    {
-                        icon = icon,
-                        labels = new VRCExpressionsMenu.Control.Label[] { },
-                        name = Name,
-                        parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
-                        style = VRCExpressionsMenu.Control.Style.Style1,
-                        subMenu = subMenuResolver(path),
-                        subParameters = new VRCExpressionsMenu.Control.Parameter[] { },
-                        type = controlType,
-                        value = value
-                    };
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                icon = icon,
+                labels = ToLabels(),
+                name = Name,
+                parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
+                style = VRCExpressionsMenu.Control.Style.Style1,
+                subMenu = ToSubMenu(),
+                subParameters = ToSubParameters(),
+                type = controlType,
+                value = value
+            };
         }
     }
 }

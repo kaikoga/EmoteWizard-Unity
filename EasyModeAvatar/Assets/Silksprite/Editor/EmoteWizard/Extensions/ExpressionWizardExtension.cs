@@ -3,6 +3,8 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Utils;
+using Unity.Collections;
+using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
@@ -26,7 +28,13 @@ namespace Silksprite.EmoteWizard.Extensions
                 .Select(folder => ExpressionItem.PopulateFolder(itemFolderIcon, folder))
                 .ToList();
 
-            foreach (var item in folders.Concat(expressionWizard.expressionItems))
+            var allItems = Enumerable.Empty<ExpressionItem>()
+                .Concat(expressionWizard.expressionItems.Where(item => item.controlType == VRCExpressionsMenu.Control.ControlType.SubMenu))
+                .Concat(folders)
+                .Concat(expressionWizard.expressionItems.Where(item => item.controlType != VRCExpressionsMenu.Control.ControlType.SubMenu))
+                .DistinctBy(item => item.path);
+
+            foreach (var item in allItems)
             {
                 groups.First(f => f.Path == item.Folder).Items.Add(item);
             }

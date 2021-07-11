@@ -79,9 +79,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 valueKind = GuessValueKind(),
                 defaultParameter = defaultParameter,
                 usages = usages.Where(_ => !defaultParameter)
-                    .GroupBy(state => (valueKind: state.usageKind, state.value))
-                    .Select(group => new ParameterUsage(group.Key.valueKind, group.Key.value))
-                    .OrderBy(state => state.value)
+                    .Select(state => (valueKind: state.usageKind, state.value))
+                    .Distinct()
+                    .Select(usageValue => new ParameterUsage(usageValue.valueKind, usageValue.value))
+                    .OrderBy(usage => usage.value)
                     .ToList()
             };
         }

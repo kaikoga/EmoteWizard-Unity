@@ -80,8 +80,7 @@ namespace Silksprite.EmoteWizard
                 .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, i));
             expressionWizard.expressionItems.AddRange(expressionItems);
             expressionWizard.expressionItems = expressionWizard.expressionItems
-                .GroupBy(item => item.path)
-                .Select(g => g.First())
+                .DistinctBy(item => item.path)
                 .ToList();
         }
 
@@ -122,7 +121,9 @@ namespace Silksprite.EmoteWizard
             
             foreach (var group in groups)
             {
-                var controls = group.Items.Select(item => item.ToControl(path => menus[path])).ToList();
+                var controls = group.Items
+                    .Select(item => item.ToControl(path => menus.TryGetValue(path, out var v) ? v : null))
+                    .ToList();
                 menus[group.Path].controls = controls;
             }
 
