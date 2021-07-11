@@ -49,10 +49,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             }
         }
 
-        public void AddPuppetUsage()
+        public void AddPuppetUsage(bool hasNegativeRange)
         {
+            if (hasNegativeRange) usages.Add(new ParameterUsage(ParameterUsageKind.Float, -1f));
             AddDefaultUsage();
-
             usages.Add(new ParameterUsage(ParameterUsageKind.Float, 1f));
         }
 

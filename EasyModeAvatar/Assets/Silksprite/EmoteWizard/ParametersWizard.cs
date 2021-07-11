@@ -55,7 +55,7 @@ namespace Silksprite.EmoteWizard
                 if (!expressionItem.IsPuppet) continue;
                 foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
                 {
-                    builder.FindOrCreate(subParameter).AddPuppetUsage();
+                    builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
                 }
             }
 
