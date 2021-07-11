@@ -112,7 +112,7 @@ namespace Silksprite.EmoteWizard
                     var resetLayer = builder.PopulateLayer("Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly()); 
                     builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
-                    foreach (var mixin in gestureWizard.baseMixins)
+                    foreach (var mixin in gestureWizard.baseMixins.Where(mixin => mixin.Motion != null))
                     {
                         var mixinLayer = builder.PopulateLayer(mixin.name); 
                         builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
@@ -130,7 +130,7 @@ namespace Silksprite.EmoteWizard
                         builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
                     }
 
-                    foreach (var mixin in gestureWizard.mixins)
+                    foreach (var mixin in gestureWizard.mixins.Where(mixin => mixin.Motion != null))
                     {
                         var mixinLayer = builder.PopulateLayer(mixin.name); 
                         builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);

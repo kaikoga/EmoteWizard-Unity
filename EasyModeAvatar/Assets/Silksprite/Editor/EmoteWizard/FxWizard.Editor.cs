@@ -110,7 +110,7 @@ namespace Silksprite.EmoteWizard
                     var resetLayer = builder.PopulateLayer("Reset");
                     builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
 
-                    foreach (var mixin in fxWizard.baseMixins)
+                    foreach (var mixin in fxWizard.baseMixins.Where(mixin => mixin.Motion != null))
                     {
                         var mixinLayer = builder.PopulateLayer(mixin.name); 
                         builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
@@ -128,7 +128,7 @@ namespace Silksprite.EmoteWizard
                         builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
                     }
                     
-                    foreach (var mixin in fxWizard.mixins)
+                    foreach (var mixin in fxWizard.mixins.Where(mixin => mixin.Motion != null))
                     {
                         var mixinLayer = builder.PopulateLayer(mixin.name); 
                         builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
