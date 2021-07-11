@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections;
@@ -101,37 +102,41 @@ namespace Silksprite.EmoteWizard
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    BuildAnimatorController("Gesture/@@@Generated@@@Gesture.controller", animatorController =>
+                    var builder = new AnimationControllerBuilder
                     {
-                        var resetLayer = PopulateLayer(animatorController, "Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly()); 
-                        BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
+                        AnimationWizardBase = gestureWizard,
+                        ParametersWizard = parametersWizard,
+                        DefaultRelativePath = "Gesture/@@@Generated@@@Gesture.controller"
+                    };
 
-                        foreach (var mixin in gestureWizard.baseMixins)
-                        {
-                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
-                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
+                    var resetLayer = builder.PopulateLayer("Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly()); 
+                    builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
 
-                        var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                        BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
-            
-                        var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
-                        BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
+                    foreach (var mixin in gestureWizard.baseMixins)
+                    {
+                        var mixinLayer = builder.PopulateLayer(mixin.name); 
+                        builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                    }
 
-                        foreach (var parameterEmote in gestureWizard.ActiveParameters)
-                        {
-                            var expressionLayer = PopulateLayer(animatorController, parameterEmote.name);
-                            BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                        }
+                    var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft()); 
+                    builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
+        
+                    var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight()); 
+                    builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
 
-                        foreach (var mixin in gestureWizard.mixins)
-                        {
-                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
-                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
+                    foreach (var parameterEmote in gestureWizard.ActiveParameters)
+                    {
+                        var expressionLayer = builder.PopulateLayer(parameterEmote.name);
+                        builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
+                    }
 
-                        BuildParameters(animatorController, parametersWizard.CustomParameterItems);
-                    });
+                    foreach (var mixin in gestureWizard.mixins)
+                    {
+                        var mixinLayer = builder.PopulateLayer(mixin.name); 
+                        builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                    }
+
+                    builder.BuildParameters();
                 }
 
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));

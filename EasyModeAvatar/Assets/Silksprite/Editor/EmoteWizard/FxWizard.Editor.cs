@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections;
@@ -97,40 +98,43 @@ namespace Silksprite.EmoteWizard
             {
                 if (GUILayout.Button("Generate Animation Controller"))
                 {
-                    BuildAnimatorController("FX/@@@Generated@@@FX.controller", animatorController =>
+                    var builder = new AnimationControllerBuilder
                     {
-                        var resetClip = fxWizard.ProvideResetClip();
-                        BuildResetClip(resetClip);
-                        
-                        var resetLayer = PopulateLayer(animatorController, "Reset");
-                        BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
+                        AnimationWizardBase = fxWizard,
+                        ParametersWizard = parametersWizard,
+                        DefaultRelativePath = "FX/@@@Generated@@@FX.controller"
+                    };
 
-                        foreach (var mixin in fxWizard.baseMixins)
-                        {
-                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
-                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-                        
-                        var leftHandLayer = PopulateLayer(animatorController, "Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                        BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
-                
-                        var rightHandLayer = PopulateLayer(animatorController, "Right Hand", VrcSdkAssetLocator.HandRight()); 
-                        BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
+                    var resetClip = BuildResetClip(fxWizard.ProvideResetClip());
+                    
+                    var resetLayer = builder.PopulateLayer("Reset");
+                    builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
 
-                        foreach (var parameterEmote in fxWizard.ActiveParameters)
-                        {
-                            var expressionLayer = PopulateLayer(animatorController, parameterEmote.name);
-                            BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                        }
-                        
-                        foreach (var mixin in fxWizard.mixins)
-                        {
-                            var mixinLayer = PopulateLayer(animatorController, mixin.name); 
-                            BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-                        
-                        BuildParameters(animatorController, parametersWizard.CustomParameterItems);
-                    });
+                    foreach (var mixin in fxWizard.baseMixins)
+                    {
+                        var mixinLayer = builder.PopulateLayer(mixin.name); 
+                        builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                    }
+                    
+                    var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft()); 
+                    builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
+            
+                    var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight()); 
+                    builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
+
+                    foreach (var parameterEmote in fxWizard.ActiveParameters)
+                    {
+                        var expressionLayer = builder.PopulateLayer(parameterEmote.name);
+                        builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
+                    }
+                    
+                    foreach (var mixin in fxWizard.mixins)
+                    {
+                        var mixinLayer = builder.PopulateLayer(mixin.name); 
+                        builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                    }
+                    
+                    builder.BuildParameters();
                 }
 
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));
