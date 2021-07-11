@@ -52,6 +52,10 @@ namespace Silksprite.EmoteWizard
             {
                 PopulateDefaultExpressionItems();
             }
+            if (GUILayout.Button("Group by Folder"))
+            {
+                GroupItemsByFolder();
+            }
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
@@ -128,6 +132,14 @@ namespace Silksprite.EmoteWizard
             }
 
             AssetDatabase.SaveAssets();
+        }
+
+        void GroupItemsByFolder()
+        {
+            expressionWizard.expressionItems = expressionWizard.expressionItems
+                .GroupBy(item => item.Folder)
+                .SelectMany(group => group)
+                .ToList();
         }
     }
 }
