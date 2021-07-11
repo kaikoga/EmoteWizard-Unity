@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 EditorGUI.PropertyField(position.UISliceH(0.00f, 0.50f), property.FindPropertyRelative("parameter"), new GUIContent(" "));
                 EditorGUI.PropertyField(position.UISliceH(0.50f, 0.25f), property.FindPropertyRelative("mode"), new GUIContent(" "));
-                EditorGUI.PropertyField(position.UISliceH(0.75f, 0.50f), property.FindPropertyRelative("threshold"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISliceH(0.75f, 0.25f), property.FindPropertyRelative("threshold"), new GUIContent(" "));
             }
         }
     }
