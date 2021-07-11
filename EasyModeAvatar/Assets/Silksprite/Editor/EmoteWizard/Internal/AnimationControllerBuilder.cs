@@ -264,15 +264,15 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 var parameterName = parameter.name;
                 AnimatorControllerParameterType parameterType;
-                switch (parameter.VrcValueType)
+                switch (parameter.ValueKind)
                 {
-                    case VRCExpressionParameters.ValueType.Int:
+                    case ParameterValueKind.Int:
                         parameterType = AnimatorControllerParameterType.Int;
                         break;
-                    case VRCExpressionParameters.ValueType.Float:
+                    case ParameterValueKind.Float:
                         parameterType = AnimatorControllerParameterType.Float;
                         break;
-                    case VRCExpressionParameters.ValueType.Bool:
+                    case ParameterValueKind.Bool:
                         parameterType = AnimatorControllerParameterType.Bool;
                         break;
                     default:

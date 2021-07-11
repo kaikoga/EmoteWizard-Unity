@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -8,16 +9,37 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class ParameterItem
     {
         public string name;
-        public ParameterValueKind valueKind;
+        public ParameterItemKind itemKind;
         public bool saved = true;
         public float defaultValue;
         public List<ParameterUsage> usages;
+
+        public ParameterValueKind ValueKind
+        {
+            get
+            {
+                switch (itemKind)
+                {
+                    case ParameterItemKind.Auto:
+                        if (usages.Any(usage => usage.usageKind == ParameterUsageKind.Float)) return ParameterValueKind.Float;
+                        return usages.Count(usage => usage.usageKind != ParameterUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
+                    case ParameterItemKind.Bool:
+                        return ParameterValueKind.Bool;
+                    case ParameterItemKind.Int:
+                        return ParameterValueKind.Int;
+                    case ParameterItemKind.Float:
+                        return ParameterValueKind.Float;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         public VRCExpressionParameters.ValueType VrcValueType
         {
             get
             {
-                switch (valueKind)
+                switch (ValueKind)
                 {
                     case ParameterValueKind.Bool:
                         return VRCExpressionParameters.ValueType.Bool;
@@ -40,7 +62,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     defaultValue = 0,
                     name = "VRCEmote",
                     saved = false,
-                    valueKind = ParameterValueKind.Int
+                    itemKind = ParameterItemKind.Int
                 }/*,
                 new ParameterItem
                 {

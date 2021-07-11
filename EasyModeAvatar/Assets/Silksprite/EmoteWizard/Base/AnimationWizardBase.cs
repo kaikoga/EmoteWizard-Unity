@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Base
                                 parameter = parameterItem.name,
                                 emoteKind = ParameterEmoteKind.Transition
                             };
-                            parameter.valueKind = parameterItem.valueKind;
+                            parameter.valueKind = parameterItem.ValueKind;
                             parameter.enabled = true;
                             parameter.CollectStates(parameterItem);
                             return parameter;

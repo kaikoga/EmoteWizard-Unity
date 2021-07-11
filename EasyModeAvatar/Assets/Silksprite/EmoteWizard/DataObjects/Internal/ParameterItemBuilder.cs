@@ -8,28 +8,33 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     public class ParameterItemBuilder
     {
         public string name;
+        ParameterItemKind itemKind;
         bool saved = true;
         float defaultValue;
         readonly List<ParameterUsage> usages = new List<ParameterUsage>();
-
-        ParameterValueKind GuessValueKind()
-        {
-            if (usages.Any(usage => usage.usageKind == ParameterUsageKind.Float)) return ParameterValueKind.Float;
-            return usages.Count(usage => usage.usageKind != ParameterUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
-        }
 
         public static ParameterItemBuilder Populate(string name)
         {
             return new ParameterItemBuilder
             {
                 name = name,
+                itemKind = ParameterItemKind.Auto,
                 saved = false,
                 defaultValue = 0,
             };
         }
 
+        void AddDefaultUsage()
+        {
+            if (usages.All(state => state.value != 0))
+            {
+                usages.Add(new ParameterUsage(ParameterUsageKind.Default, 0));
+            }
+        }
+
         public void AddUsage(float value)
         {
+            AddDefaultUsage();
             if (value > 1)
             {
                 usages.Add(new ParameterUsage(ParameterUsageKind.Int, value));
@@ -38,14 +43,15 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             {
                 usages.Add(new ParameterUsage(ParameterUsageKind.Float, value));
             }
+            else
+            {
+                usages.Add(new ParameterUsage(ParameterUsageKind.Int, value));
+            }
         }
 
         public void AddPuppetUsage()
         {
-            if (usages.All(state => state.value != 0))
-            {
-                usages.Add(new ParameterUsage(ParameterUsageKind.Default, 0));
-            }
+            AddDefaultUsage();
 
             usages.Add(new ParameterUsage(ParameterUsageKind.Float, 1f));
         }
@@ -61,6 +67,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public void Import(ParameterItem parameter)
         {
             name = parameter.name;
+            itemKind = parameter.itemKind;
             saved = parameter.saved;
             defaultValue = parameter.defaultValue;
             if (parameter.usages != null) usages.AddRange(parameter.usages);
@@ -73,7 +80,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 name = name,
                 saved = saved,
                 defaultValue = defaultValue,
-                valueKind = GuessValueKind(),
+                itemKind = itemKind,
                 usages = usages.Select(state => (valueKind: state.usageKind, state.value))
                     .Distinct()
                     .Select(usageValue => new ParameterUsage(usageValue.valueKind, usageValue.value))

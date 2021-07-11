@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 using (new HideLabelsScope())
                 {
                     EditorGUI.PropertyField(position.UISlice(0.00f, 0.40f, 0), property.FindPropertyRelative("name"), new GUIContent(" "));
-                    EditorGUI.PropertyField(position.UISlice(0.40f, 0.25f, 0), property.FindPropertyRelative("valueKind"), new GUIContent(" "));
+                    EditorGUI.PropertyField(position.UISlice(0.40f, 0.25f, 0), property.FindPropertyRelative("itemKind"), new GUIContent(" "));
                     EditorGUI.PropertyField(position.UISlice(0.65f, 0.20f, 0), property.FindPropertyRelative("defaultValue"), new GUIContent(" "));
                     EditorGUI.PropertyField(position.UISlice(0.85f, 0.15f, 0), property.FindPropertyRelative("saved"));
                 }
