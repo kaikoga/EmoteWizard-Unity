@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public string path;
         [SerializeField] public string parameter;
         [SerializeField] public float value;
-        [SerializeField] public VRCExpressionsMenu.Control.ControlType controlType;
+        [SerializeField] public ExpressionItemKind itemKind;
         [SerializeField] public VRCExpressionsMenu subMenu;
         [SerializeField] public string[] subParameters;
         [SerializeField] public string[] labels;
@@ -27,15 +27,15 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             get
             {
-                switch (controlType)
+                switch (itemKind)
                 {
-                    case VRCExpressionsMenu.Control.ControlType.Button:
-                    case VRCExpressionsMenu.Control.ControlType.Toggle:
-                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                    case ExpressionItemKind.Button:
+                    case ExpressionItemKind.Toggle:
+                    case ExpressionItemKind.SubMenu:
                         return false;
-                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
-                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
-                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                    case ExpressionItemKind.TwoAxisPuppet:
+                    case ExpressionItemKind.FourAxisPuppet:
+                    case ExpressionItemKind.RadialPuppet:
                         return true;
                     default: throw new ArgumentOutOfRangeException();
                 }
@@ -68,7 +68,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        static VRCExpressionsMenu.Control.ControlType ControlTypeForDefaultEmote(int value)
+        static ExpressionItemKind ItemKindForDefaultEmote(int value)
         {
             switch (value)
             {
@@ -76,9 +76,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                 case 4:
                 case 5:
                 case 8:
-                    return VRCExpressionsMenu.Control.ControlType.Toggle;
+                    return ExpressionItemKind.Toggle;
                 default:
-                    return VRCExpressionsMenu.Control.ControlType.Button;
+                    return ExpressionItemKind.Button;
             }
         }
 
@@ -90,7 +90,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 path = $"{prefix}{NameForDefaultEmote(value)}",
                 parameter = "VRCEmote",
                 value = value,
-                controlType = ControlTypeForDefaultEmote(value),
+                itemKind = ItemKindForDefaultEmote(value),
             };
         }
         
@@ -100,7 +100,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 icon = icon,
                 path = path,
-                controlType = VRCExpressionsMenu.Control.ControlType.SubMenu
+                itemKind = ExpressionItemKind.SubMenu
             };
         }
         
@@ -108,15 +108,15 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             VRCExpressionsMenu.Control.Parameter[] ToSubParameters()
             {
-                switch (controlType)
+                switch (itemKind)
                 {
-                    case VRCExpressionsMenu.Control.ControlType.Button:
-                    case VRCExpressionsMenu.Control.ControlType.Toggle:
-                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                    case ExpressionItemKind.Button:
+                    case ExpressionItemKind.Toggle:
+                    case ExpressionItemKind.SubMenu:
                         return new VRCExpressionsMenu.Control.Parameter[] { };
-                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
-                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
-                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                    case ExpressionItemKind.TwoAxisPuppet:
+                    case ExpressionItemKind.FourAxisPuppet:
+                    case ExpressionItemKind.RadialPuppet:
                         return subParameters.Select(subParameter => new VRCExpressionsMenu.Control.Parameter
                         {
                             name = subParameter
@@ -129,26 +129,47 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             VRCExpressionsMenu ToSubMenu()
             {
-                if (controlType != VRCExpressionsMenu.Control.ControlType.SubMenu) return null;
+                if (itemKind != ExpressionItemKind.SubMenu) return null;
                 return subMenuResolver(path) ?? subMenu;
             }
 
             VRCExpressionsMenu.Control.Label[] ToLabels()
             {
-                switch (controlType)
+                switch (itemKind)
                 {
-                    case VRCExpressionsMenu.Control.ControlType.Button:
-                    case VRCExpressionsMenu.Control.ControlType.Toggle:
-                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
-                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                    case ExpressionItemKind.Button:
+                    case ExpressionItemKind.Toggle:
+                    case ExpressionItemKind.SubMenu:
+                    case ExpressionItemKind.RadialPuppet:
                         return new VRCExpressionsMenu.Control.Label[] { };
-                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
-                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                    case ExpressionItemKind.TwoAxisPuppet:
+                    case ExpressionItemKind.FourAxisPuppet:
                         return labels.Zip(labelIcons, (label, labelIcon) => new VRCExpressionsMenu.Control.Label
                         {
                             icon = labelIcon,
                             name = label
                         }).ToArray();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
+            VRCExpressionsMenu.Control.ControlType ToType()
+            {
+                switch (itemKind)
+                {
+                    case ExpressionItemKind.Button:
+                        return VRCExpressionsMenu.Control.ControlType.Button;
+                    case ExpressionItemKind.Toggle:
+                        return VRCExpressionsMenu.Control.ControlType.Toggle;
+                    case ExpressionItemKind.SubMenu:
+                        return VRCExpressionsMenu.Control.ControlType.SubMenu;
+                    case ExpressionItemKind.TwoAxisPuppet:
+                        return VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet;
+                    case ExpressionItemKind.FourAxisPuppet:
+                        return VRCExpressionsMenu.Control.ControlType.FourAxisPuppet;
+                    case ExpressionItemKind.RadialPuppet:
+                        return VRCExpressionsMenu.Control.ControlType.RadialPuppet;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -163,7 +184,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 style = VRCExpressionsMenu.Control.Style.Style1,
                 subMenu = ToSubMenu(),
                 subParameters = ToSubParameters(),
-                type = controlType,
+                type = ToType(),
                 value = value
             };
         }

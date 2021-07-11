@@ -29,9 +29,9 @@ namespace Silksprite.EmoteWizard.Extensions
                 .ToList();
 
             var allItems = Enumerable.Empty<ExpressionItem>()
-                .Concat(expressionWizard.expressionItems.Where(item => item.controlType == VRCExpressionsMenu.Control.ControlType.SubMenu))
+                .Concat(expressionWizard.expressionItems.Where(item => item.itemKind == ExpressionItemKind.SubMenu))
                 .Concat(folders)
-                .Concat(expressionWizard.expressionItems.Where(item => item.controlType != VRCExpressionsMenu.Control.ControlType.SubMenu))
+                .Concat(expressionWizard.expressionItems.Where(item => item.itemKind != ExpressionItemKind.SubMenu))
                 .DistinctBy(item => item.path);
 
             foreach (var item in allItems)

@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
                 EditorGUI.PropertyField(position.UISlice(0.0f, 0.4f, 1), property.FindPropertyRelative("parameter"), new GUIContent(" "));
                 EditorGUI.PropertyField(position.UISlice(0.4f, 0.2f, 1), property.FindPropertyRelative("value"), new GUIContent(" "));
-                EditorGUI.PropertyField(position.UISlice(0.6f, 0.4f, 1), property.FindPropertyRelative("controlType"), new GUIContent(" "));
+                EditorGUI.PropertyField(position.UISlice(0.6f, 0.4f, 1), property.FindPropertyRelative("itemKind"), new GUIContent(" "));
 
                 var y = 2;
                 void DrawSubParameters(int subParametersCount, int labelsCount)
@@ -75,12 +75,12 @@ namespace Silksprite.EmoteWizard.DataObjects
                     }
                 }
 
-                switch ((VRCExpressionsMenu.Control.ControlType)property.FindPropertyRelative("controlType").intValue)
+                switch ((ExpressionItemKind)property.FindPropertyRelative("itemKind").intValue)
                 {
-                    case VRCExpressionsMenu.Control.ControlType.Button:
-                    case VRCExpressionsMenu.Control.ControlType.Toggle:
+                    case ExpressionItemKind.Button:
+                    case ExpressionItemKind.Toggle:
                         break;
-                    case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                    case ExpressionItemKind.SubMenu:
                         CustomEditorGUI.PropertyFieldWithGenerate(
                             position.UISliceV(y),
                             property.FindPropertyRelative("subMenu"),
@@ -98,13 +98,13 @@ namespace Silksprite.EmoteWizard.DataObjects
                                 return context.EmoteWizardRoot.EnsureAsset<VRCExpressionsMenu>(relativePath);
                             });
                         break;
-                    case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
+                    case ExpressionItemKind.TwoAxisPuppet:
                         DrawSubParameters(2, 4);
                         break;
-                    case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                    case ExpressionItemKind.FourAxisPuppet:
                         DrawSubParameters(4, 4);
                         break;
-                    case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                    case ExpressionItemKind.RadialPuppet:
                         DrawSubParameters(1, 0);
                         break;
                     default:
@@ -116,21 +116,21 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var lineHeight = 2f;
-            switch ((VRCExpressionsMenu.Control.ControlType)property.FindPropertyRelative("controlType").intValue)
+            switch ((ExpressionItemKind)property.FindPropertyRelative("itemKind").intValue)
             {
-                case VRCExpressionsMenu.Control.ControlType.Button:
-                case VRCExpressionsMenu.Control.ControlType.Toggle:
+                case ExpressionItemKind.Button:
+                case ExpressionItemKind.Toggle:
                     break;
-                case VRCExpressionsMenu.Control.ControlType.SubMenu:
+                case ExpressionItemKind.SubMenu:
                     lineHeight += 1f;
                     break;
-                case VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet:
+                case ExpressionItemKind.TwoAxisPuppet:
                     lineHeight += 8f;
                     break;
-                case VRCExpressionsMenu.Control.ControlType.FourAxisPuppet:
+                case ExpressionItemKind.FourAxisPuppet:
                     lineHeight += 10f;
                     break;
-                case VRCExpressionsMenu.Control.ControlType.RadialPuppet:
+                case ExpressionItemKind.RadialPuppet:
                     lineHeight += 2f;
                     break;
                 default:
