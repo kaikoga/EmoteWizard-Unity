@@ -175,7 +175,11 @@ namespace Silksprite.EmoteWizard.Internal
 
             using (var positions = Positions().GetEnumerator())
             {
-                foreach (var (parameterEmoteState, nextValue) in parameterEmote.states.Zip(parameterEmote.states.Skip(1).Select(state => (float?)state.value).Concat(Enumerable.Repeat((float?)null, 1)), (s, v) => (s, v)))
+                var validStates = parameterEmote.states.Where(state => state.clip != null).ToList();
+                var stateAndNextValue = validStates.Zip(
+                    validStates.Skip(1).Select(state => (float?) state.value).Concat(Enumerable.Repeat((float?) null, 1)),
+                    (s, v) => (s, v));
+                foreach (var (parameterEmoteState, nextValue) in stateAndNextValue)
                 {
                     positions.MoveNext();
                     var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
@@ -217,7 +221,8 @@ namespace Silksprite.EmoteWizard.Internal
             blendTree.blendParameter = parameterEmote.parameter;
             blendTree.blendType = BlendTreeType.Simple1D;
             blendTree.useAutomaticThresholds = false;
-            blendTree.children = parameterEmote.states.Select(state => new ChildMotion
+            var validStates = parameterEmote.states.Where(state => state.clip != null);
+            blendTree.children = validStates.Select(state => new ChildMotion
             {
                 cycleOffset = 0,
                 directBlendParameter = null,
