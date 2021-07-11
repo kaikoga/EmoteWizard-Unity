@@ -11,19 +11,19 @@ namespace Silksprite.EmoteWizard.Base
 
         [SerializeField] public List<AnimationMixin> baseMixins;
         [SerializeField] public List<Emote> emotes;
-        [SerializeField] public List<ParameterEmote> parameters;
+        [SerializeField] public List<ParameterEmote> parameterEmotes;
         [SerializeField] public List<AnimationMixin> mixins;
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
         public abstract string LayerName { get; }
-        public IEnumerable<ParameterEmote> ActiveParameters => parameters.Where(parameter => parameter.enabled && parameter.emoteKind != ParameterEmoteKind.Unused);
+        public IEnumerable<ParameterEmote> ActiveParameters => parameterEmotes.Where(parameter => parameter.enabled && parameter.emoteKind != ParameterEmoteKind.Unused);
 
         public void RefreshParameters(List<ParameterItem> parameterItems)
         {
             parameterItems = parameterItems.ToList();
-            var oldParameters = parameters;
-            parameters = 
+            var oldParameters = parameterEmotes;
+            parameterEmotes = 
                 Enumerable.Empty<ParameterEmote>()
                     .Concat(parameterItems
                         .Select(parameterItem =>

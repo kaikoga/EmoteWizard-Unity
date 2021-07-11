@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard
 
             baseMixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("baseMixins"));
             emotesList = new ExpandableReorderableList(new EmoteListDrawerBase(), serializedObject.FindProperty("emotes"));
-            parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameters"));
+            parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameterEmotes"));
             mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("mixins"));
         }
 
@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard
                     if (GUILayout.Button("Repopulate Parameters"))
                     {
                         parametersWizard.TryRefreshParameters();
-                        fxWizard.parameters.Clear();
+                        fxWizard.parameterEmotes.Clear();
                         fxWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
                     }
                 }

@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             var animatorRoot = proxyAnimator.transform;
             
-            var parameterEmote = animationWizardBase.parameters.First(parameter => parameter.name == emoteName);
+            var parameterEmote = animationWizardBase.parameterEmotes.First(parameter => parameter.name == emoteName);
             var targets = parameterEmote.states.SelectMany(state => state.targets).Distinct().ToList();
             foreach (var state in parameterEmote.states)
             {
