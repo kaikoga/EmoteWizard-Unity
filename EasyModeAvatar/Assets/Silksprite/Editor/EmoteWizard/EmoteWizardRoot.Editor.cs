@@ -40,7 +40,7 @@ namespace Silksprite.EmoteWizard
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("listDisplayMode"));
             });
 
-            if (!emoteWizardRoot.GetComponent<SetupWizard>())
+            if (!emoteWizardRoot.GetWizard<SetupWizard>())
             {
                 if (GUILayout.Button("Setup"))
                 {

@@ -1,4 +1,5 @@
 using System.IO;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public AnimationClip emptyClip;
         [SerializeField] public ListDisplayMode listDisplayMode;
         [SerializeField] public bool showTutorial;
+
+        public T GetWizard<T>() where T : EmoteWizardBase => GetComponent<T>();
 
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
     }

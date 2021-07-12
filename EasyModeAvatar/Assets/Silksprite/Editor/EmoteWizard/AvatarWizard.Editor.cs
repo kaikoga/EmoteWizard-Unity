@@ -58,8 +58,8 @@ namespace Silksprite.EmoteWizard
                 {
                     EditorGUILayout.HelpBox("VRCAvatarDescriptor is missing. Some functions might not work.", MessageType.Error);
                 }
-                var gestureController = emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset as AnimatorController;
-                var fxController = emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset as AnimatorController;
+                var gestureController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset as AnimatorController;
+                var fxController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset as AnimatorController;
 
                 if (avatarDescriptor)
                 {
@@ -133,7 +133,7 @@ namespace Silksprite.EmoteWizard
                 switch (avatarWizard.overrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return emoteWizardRoot.GetComponent<GestureWizard>()?.outputAsset;
+                        return emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset;
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return avatarWizard.overrideGestureController;
                     case AvatarWizard.OverrideGeneratedControllerType2.Default1:
@@ -147,7 +147,7 @@ namespace Silksprite.EmoteWizard
 
             RuntimeAnimatorController SelectFxController()
             {
-                return emoteWizardRoot.GetComponent<FxWizard>()?.outputAsset;
+                return emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset;
             }
 
             RuntimeAnimatorController SelectSittingController()
@@ -242,8 +242,8 @@ namespace Silksprite.EmoteWizard
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetComponent<ExpressionWizard>()?.outputAsset;
-            avatarDescriptor.expressionParameters = emoteWizardRoot.GetComponent<ParametersWizard>()?.outputAsset;
+            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetWizard<ExpressionWizard>()?.outputAsset;
+            avatarDescriptor.expressionParameters = emoteWizardRoot.GetWizard<ParametersWizard>()?.outputAsset;
         }
     }
 }

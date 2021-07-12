@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static void GenerateParameterEmoteClipsFromTargets(this AnimationWizardBase animationWizardBase, ParameterEmoteDrawerContext context, string emoteName)
         {
-            var proxyAnimator = context.EmoteWizardRoot.GetComponent<AvatarWizard>()?.ProvideProxyAnimator();
+            var proxyAnimator = context.EmoteWizardRoot.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
             if (proxyAnimator == null)
             {
                 Debug.LogError("Requires AvatarWizard.proxyAnimator to find relative path of targets.");

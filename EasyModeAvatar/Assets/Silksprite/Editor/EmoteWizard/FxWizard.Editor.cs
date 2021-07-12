@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard
         {
             var serializedObj = serializedObject;
             var emoteWizardRoot = fxWizard.EmoteWizardRoot;
-            var parametersWizard = fxWizard.GetComponent<ParametersWizard>();
+            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
 
             EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
             {

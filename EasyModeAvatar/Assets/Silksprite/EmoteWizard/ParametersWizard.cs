@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard
 
         public void TryRefreshParameters()
         {
-            var expressionWizard = GetComponent<ExpressionWizard>();
+            var expressionWizard = GetWizard<ExpressionWizard>();
             if (expressionWizard == null)
             {
                 Debug.LogWarning("ExpressionWizard not found. Parameters are unchanged.");
@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard
 
         public void ForceRefreshParameters()
         {
-            var expressionWizard = GetComponent<ExpressionWizard>();
+            var expressionWizard = GetWizard<ExpressionWizard>();
             if (expressionWizard == null)
             {
                 throw new Exception("ExpressionWizard not found. Parameters are unchanged.");

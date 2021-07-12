@@ -6,12 +6,13 @@ namespace Silksprite.EmoteWizard.Base
     public abstract class EmoteWizardBase : MonoBehaviour
     {
         public EmoteWizardRoot EmoteWizardRoot => GetComponent<EmoteWizardRoot>();
+        protected T GetWizard<T>() where T : EmoteWizardBase => EmoteWizardRoot.GetComponent<T>();
 
         public bool IsSetupMode
         {
             get
             {
-                var setupWizard = GetComponent<SetupWizard>();
+                var setupWizard = GetWizard<SetupWizard>();
                 return setupWizard != null && setupWizard.isSetupMode;
             }
         }
