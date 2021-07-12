@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -14,7 +13,7 @@ namespace Silksprite.EmoteWizard.Collections
         public override string PagerItemName(SerializedProperty property, int index)
         {
             var name = property.FindPropertyRelative("name").stringValue;
-            var kind = (ParameterValueKind)property.FindPropertyRelative("valueKind").intValue;
+            var kind = (ParameterItemKind)property.FindPropertyRelative("itemKind").intValue;
             return $"{name} ({kind})";
         }
 
