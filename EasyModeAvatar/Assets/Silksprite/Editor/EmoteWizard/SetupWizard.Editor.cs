@@ -20,22 +20,30 @@ namespace Silksprite.EmoteWizard
         {
             EditorGUILayout.PropertyField(serializedObject.FindProperty("isSetupMode"), new GUIContent("Enable Setup Only UI"));
             serializedObject.ApplyModifiedProperties();
+            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
 
             if (GUILayout.Button("Generate Wizards"))
             {
-                setupWizard.EnsureComponent<AvatarWizard>();
-                setupWizard.EnsureComponent<ExpressionWizard>();
-                setupWizard.EnsureComponent<ParametersWizard>();
-                setupWizard.EnsureComponent<GestureWizard>();
-                setupWizard.EnsureComponent<FxWizard>();
+                emoteWizardRoot.EnsureWizard<AvatarWizard>();
+                emoteWizardRoot.EnsureWizard<ExpressionWizard>();
+                emoteWizardRoot.EnsureWizard<ParametersWizard>();
+                emoteWizardRoot.EnsureWizard<GestureWizard>();
+                emoteWizardRoot.EnsureWizard<FxWizard>();
             }
             if (GUILayout.Button("Complete setup and remove me"))
             {
-                DestroyImmediate(setupWizard);
+                if (setupWizard.gameObject != emoteWizardRoot.gameObject)
+                {
+                    DestroyImmediate(setupWizard.gameObject);
+                }
+                else
+                {
+                    DestroyImmediate(setupWizard);
+                }
                 return;
             }
             
-            EmoteWizardGUILayout.Tutorial(setupWizard.EmoteWizardRoot, "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。\nセットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。\nセットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
         }
     }
 }

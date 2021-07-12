@@ -38,13 +38,14 @@ namespace Silksprite.EmoteWizard
             {
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("showTutorial"));
                 EditorGUILayout.PropertyField(serializedObj.FindProperty("listDisplayMode"));
+                EditorGUILayout.PropertyField(serializedObj.FindProperty("lowSpecMode"));
             });
 
             if (!emoteWizardRoot.GetWizard<SetupWizard>())
             {
                 if (GUILayout.Button("Setup"))
                 {
-                    emoteWizardRoot.EnsureComponent<SetupWizard>();
+                    emoteWizardRoot.EnsureWizard<SetupWizard>();
                 }
             }
 

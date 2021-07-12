@@ -2,11 +2,10 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
 {
-    [RequireComponent(typeof(EmoteWizardRoot))]
     public abstract class EmoteWizardBase : MonoBehaviour
     {
-        public EmoteWizardRoot EmoteWizardRoot => GetComponent<EmoteWizardRoot>();
-        protected T GetWizard<T>() where T : EmoteWizardBase => EmoteWizardRoot.GetComponent<T>();
+        public EmoteWizardRoot EmoteWizardRoot => GetComponentInParent<EmoteWizardRoot>();
+        protected T GetWizard<T>() where T : EmoteWizardBase => EmoteWizardRoot.GetWizard<T>();
 
         public bool IsSetupMode
         {
