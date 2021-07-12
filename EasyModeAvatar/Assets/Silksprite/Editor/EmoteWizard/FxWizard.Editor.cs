@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
@@ -54,7 +55,7 @@ namespace Silksprite.EmoteWizard
                     if (GUILayout.Button("Repopulate Parameters"))
                     {
                         parametersWizard.TryRefreshParameters();
-                        fxWizard.parameterEmotes.Clear();
+                        fxWizard.parameterEmotes = new List<ParameterEmote>();
                         fxWizard.RefreshParameters(parametersWizard);
                     }
                 }
