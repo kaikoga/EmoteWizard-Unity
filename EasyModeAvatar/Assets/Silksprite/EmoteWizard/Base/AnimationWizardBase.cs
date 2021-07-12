@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Base
                 .Concat(defaultParameterItems.Select(p => (p, true)))
                 .Where(tuple => tuple.p.enabled)
                 .ToList();
-            var oldParameters = parameterEmotes;
+            var oldParameters = parameterEmotes ?? new List<ParameterEmote>();
             parameterEmotes = 
                 Enumerable.Empty<ParameterEmote>()
                     .Concat(allParameterItems
