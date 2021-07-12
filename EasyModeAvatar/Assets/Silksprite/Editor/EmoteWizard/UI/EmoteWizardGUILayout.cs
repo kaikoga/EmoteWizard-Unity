@@ -1,5 +1,6 @@
 using System;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -65,7 +66,7 @@ namespace Silksprite.EmoteWizard.UI
         
         public static void Tutorial(EmoteWizardRoot emoteWizardRoot, string message)
         {
-            Tutorial(emoteWizardRoot, () => EditorGUILayout.HelpBox(message, MessageType.Info));
+            Tutorial(emoteWizardRoot, () => EditorGUILayout.HelpBox(message.Nowrap(), MessageType.Info));
         }
     }
 }
