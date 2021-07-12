@@ -19,29 +19,36 @@ namespace Silksprite.EmoteWizard.Base
         public abstract string LayerName { get; }
         public IEnumerable<ParameterEmote> ActiveParameters => parameterEmotes.Where(parameter => parameter.enabled && parameter.emoteKind != ParameterEmoteKind.Unused);
 
-        public void RefreshParameters(List<ParameterItem> parameterItems)
+        public void RefreshParameters(ParametersWizard parametersWizard) => RefreshParameters(parametersWizard.parameterItems, parametersWizard.defaultParameterItems);
+
+        void RefreshParameters(IEnumerable<ParameterItem> parameterItems, IEnumerable<ParameterItem> defaultParameterItems)
         {
-            parameterItems = parameterItems.ToList();
+            var allParameterItems = parameterItems.Select(p => (p, false))
+                .Concat(defaultParameterItems.Select(p => (p, true)))
+                .Where(tuple => tuple.p.enabled)
+                .ToList();
             var oldParameters = parameterEmotes;
             parameterEmotes = 
                 Enumerable.Empty<ParameterEmote>()
-                    .Concat(parameterItems
-                        .Select(parameterItem =>
+                    .Concat(allParameterItems
+                        .Select(tuple =>
                         {
+                            var (parameterItem, isDefault) = tuple;
                             var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
                             {
                                 name = parameterItem.name,
                                 parameter = parameterItem.name,
-                                emoteKind = ParameterEmoteKind.Transition
+                                emoteKind = isDefault ? ParameterEmoteKind.Unused : ParameterEmoteKind.Transition,
+                                enabled = !isDefault
                             };
                             parameter.valueKind = parameterItem.ValueKind;
-                            parameter.enabled = true;
+                            parameter.enabled = parameter.enabled;
                             parameter.CollectStates(parameterItem);
                             return parameter;
                         }))
                     .Concat(oldParameters.Where(oldParameter =>
                         {
-                            return parameterItems.All(parameterItem => oldParameter.parameter != parameterItem.name);
+                            return allParameterItems.Select(tuple => tuple.p).All(parameterItem => oldParameter.parameter != parameterItem.name);
                         }).Select(oldParameter =>
                         {
                             oldParameter.enabled = false;

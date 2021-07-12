@@ -1,6 +1,8 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
+using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections;
 using UnityEditor;
@@ -13,12 +15,14 @@ namespace Silksprite.EmoteWizard
     {
         ParametersWizard parametersWizard;
         ExpandableReorderableList parameterItemsList;
+        ExpandableReorderableList defaultParameterItemsList;
 
         void OnEnable()
         {
             parametersWizard = target as ParametersWizard;
             
             parameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("parameterItems"));
+            defaultParameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("defaultParameterItems"));
         }
 
         public override void OnInspectorGUI()
@@ -39,7 +43,10 @@ namespace Silksprite.EmoteWizard
                 }
             });
 
-            parameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
+            using (ParameterItemDrawer.StartContext(emoteWizardRoot, false))
+            {
+                parameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
+            }
             if (parameterItemsList.serializedProperty.isExpanded)
             {
                 EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
@@ -50,6 +57,11 @@ namespace Silksprite.EmoteWizard
                             parametersWizard.ForceRefreshParameters();
                         }
                     });
+            }
+
+            using (ParameterItemDrawer.StartContext(emoteWizardRoot, true))
+            {
+                defaultParameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
             EmoteWizardGUILayout.OutputUIArea(() =>

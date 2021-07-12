@@ -8,6 +8,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class ParameterItem
     {
+        public bool enabled;
         public string name;
         public ParameterItemKind itemKind;
         public bool saved = true;
@@ -53,34 +54,44 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public static List<ParameterItem> VrcDefaultParameters =>
-            new List<ParameterItem>
+        static int[] _empty = {};
+        static (string, ParameterItemKind Int, int[])[] _defaultParameters = {
+            ("IsLocal", ParameterItemKind.Bool, _empty),
+            ("Viseme", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
+            ("GestureLeft", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+            ("GestureRight", ParameterItemKind.Float, _empty),
+            ("GestureLeftWeight", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+            ("GestureRightWeight", ParameterItemKind.Float, _empty),
+            ("AngularY", ParameterItemKind.Float, _empty),
+            ("VelocityX", ParameterItemKind.Float, _empty),
+            ("VelocityY", ParameterItemKind.Float, _empty),
+            ("VelocityX", ParameterItemKind.Float, _empty),
+            ("Upright", ParameterItemKind.Float, _empty),
+            ("Grounded", ParameterItemKind.Bool, _empty),
+            ("Seated", ParameterItemKind.Bool, _empty),
+            ("AFK", ParameterItemKind.Bool, _empty),
+            ("TrackingType", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 6}),
+            ("VRMode", ParameterItemKind.Int, _empty),
+            ("MuteSelf", ParameterItemKind.Bool, _empty),
+            ("InStation", ParameterItemKind.Bool, _empty)
+        };
+
+        public static List<ParameterItem> PopulateDefaultParameters(List<ParameterItem> oldItems)
+        {
+            return _defaultParameters.Select(tuple =>
             {
-                new ParameterItem
+                var (name, kind, states) = tuple;
+                return new ParameterItem
                 {
-                    // for default Action controller "vrc_AvatarV3ActionLayer"
+                    enabled = oldItems.FirstOrDefault(item => item.name == name)?.enabled ?? false,
                     defaultValue = 0,
-                    name = "VRCEmote",
+                    name = name,
                     saved = false,
-                    itemKind = ParameterItemKind.Int
-                }/*,
-                new ParameterItem
-                {
-                    // for default FX controller "vrc_AvatarV3FaceLayer", unused because we overwrite FX layer
-                    defaultValue = 0,
-                    name = "VRCFaceBlendH",
-                    saved = false,
-                    valueType = VRCExpressionParameters.ValueType.Float
-                },
-                new ParameterItem
-                {
-                    // for default FX controller 
-                    defaultValue = 0,
-                    name = "VRCFaceBlendV",
-                    saved = false,
-                    valueType = VRCExpressionParameters.ValueType.Float
-                }*/
-            };
+                    itemKind = kind,
+                    usages = states.Select(state => new ParameterUsage(ParameterUsageKind.Int, state)).ToList()
+                };
+            }).ToList();
+        }
 
         public VRCExpressionParameters.Parameter ToParameter()
         {

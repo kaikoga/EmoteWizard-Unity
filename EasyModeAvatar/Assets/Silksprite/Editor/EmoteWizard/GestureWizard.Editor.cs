@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard
                     {
                         parametersWizard.TryRefreshParameters();
                         gestureWizard.parameterEmotes.Clear();
-                        gestureWizard.RefreshParameters(parametersWizard != null ? parametersWizard.parameterItems : null);
+                        gestureWizard.RefreshParameters(parametersWizard);
                     }
                 }
             });
@@ -86,9 +86,7 @@ namespace Silksprite.EmoteWizard
                     if (GUILayout.Button("Collect Parameters"))
                     {
                         parametersWizard.TryRefreshParameters();
-                        gestureWizard.RefreshParameters(parametersWizard != null
-                            ? parametersWizard.parameterItems
-                            : null);
+                        gestureWizard.RefreshParameters(parametersWizard);
                     }
                 });
             }

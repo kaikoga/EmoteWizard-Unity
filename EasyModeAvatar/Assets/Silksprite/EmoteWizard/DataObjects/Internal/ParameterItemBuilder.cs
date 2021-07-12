@@ -7,6 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ParameterItemBuilder
     {
+        bool enabled = true;
         public string name;
         ParameterItemKind itemKind;
         bool saved = true;
@@ -17,6 +18,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             return new ParameterItemBuilder
             {
+                enabled = true,
                 name = name,
                 itemKind = ParameterItemKind.Auto,
                 saved = false,
@@ -58,6 +60,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public void Import(VRCExpressionParameters.Parameter parameter)
         {
+            enabled = true;
             name = parameter.name;
             saved = parameter.saved;
             defaultValue = parameter.defaultValue;
@@ -66,6 +69,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public void Import(ParameterItem parameter)
         {
+            enabled = parameter.enabled;
             name = parameter.name;
             itemKind = parameter.itemKind;
             saved = parameter.saved;
@@ -77,6 +81,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             return new ParameterItem
             {
+                enabled = enabled,
                 name = name,
                 saved = saved,
                 defaultValue = defaultValue,

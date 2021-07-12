@@ -14,10 +14,11 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
         [SerializeField] public List<ParameterItem> parameterItems;
+        [SerializeField] public List<ParameterItem> defaultParameterItems;
 
         public bool AssertParameterExists(string parameterName)
         {
-            var result = parameterItems.Any(item => item.name == parameterName);
+            var result = parameterItems.Concat(defaultParameterItems).Any(item => item.name == parameterName);
             if (!result) Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
             return result;
         }
@@ -45,11 +46,7 @@ namespace Silksprite.EmoteWizard
 
         void DoRefreshParameters(ExpressionWizard expressionWizard)
         {
-            var vrcDefaultParametersStub = ParameterItem.VrcDefaultParameters;
-
             var builder = new ExpressionParameterBuilder();
-
-            builder.Import(vrcDefaultParametersStub); // create VRC default parameters entry
 
             if (parameterItems != null) builder.Import(parameterItems);
 
@@ -66,9 +63,8 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            builder.Import(vrcDefaultParametersStub); // override VRC default parameters with default values
-
             parameterItems = builder.ParameterItems.ToList();
+            defaultParameterItems = ParameterItem.PopulateDefaultParameters(defaultParameterItems ?? new List<ParameterItem>());
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()

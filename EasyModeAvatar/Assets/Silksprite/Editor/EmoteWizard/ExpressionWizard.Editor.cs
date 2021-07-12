@@ -82,6 +82,7 @@ namespace Silksprite.EmoteWizard
             var icon = VrcSdkAssetLocator.PersonDance();
             var expressionItems = Enumerable.Range(1, 8)
                 .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, i));
+            if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
             expressionWizard.expressionItems.AddRange(expressionItems);
             expressionWizard.expressionItems = expressionWizard.expressionItems
                 .DistinctBy(item => item.path)

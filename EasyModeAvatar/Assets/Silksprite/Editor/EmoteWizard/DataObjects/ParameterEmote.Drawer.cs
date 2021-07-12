@@ -48,12 +48,12 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (emoteKindValue == ParameterEmoteKind.Unused) return;
 
                 var editTargets = context.EditTargets && emoteKindValue == ParameterEmoteKind.Transition;
+                var states = property.FindPropertyRelative("states");
                 using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, editTargets))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(4, -4), property.FindPropertyRelative("states"), true);
+                    EditorGUI.PropertyField(position.UISliceV(4, -4), states, true);
                 }
-
-                if (editTargets)
+                if (editTargets && states.isExpanded)
                 {
                     if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
                     {
@@ -73,8 +73,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var statesLines = 0f;
             if (emoteKind != ParameterEmoteKind.Unused)
             {
-                if (editTargets) statesLines += 1f;
-                if (states.isExpanded) statesLines += 1f + states.arraySize * (context.EditTargets && editTargets ? 2f : 1f);
+                if (states.isExpanded) statesLines += (editTargets ? 2f : 1f) + states.arraySize * (editTargets ? 2f : 1f);
                 statesLines += 1f;
             }
             return BoxHeight(LineHeight(4f + statesLines));
