@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
 
-        public static EmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, bool advancedAnimations) => PropertyDrawerWithContext<EmoteDrawerContext>.StartContext(new EmoteDrawerContext(emoteWizardRoot, advancedAnimations));
+        public static EmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations) => PropertyDrawerWithContext<EmoteDrawerContext>.StartContext(new EmoteDrawerContext(emoteWizardRoot, parametersWizard, advancedAnimations));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -38,8 +38,11 @@ namespace Silksprite.EmoteWizard.DataObjects
                         EditorGUI.PropertyField(cursor, gesture2, new GUIContent(" "));
                         cursor.y += LineTop(1f);
                     }
-                    EditorGUI.PropertyField(cursor, conditions, true);
-                    cursor.y += EditorGUI.GetPropertyHeight(conditions, true) + EditorGUIUtility.standardVerticalSpacing;    
+                    using (EmoteConditionDrawer.StartContext(context.EmoteWizardRoot, context.ParametersWizard))
+                    {
+                        EditorGUI.PropertyField(cursor, conditions, true);
+                        cursor.y += EditorGUI.GetPropertyHeight(conditions, true) + EditorGUIUtility.standardVerticalSpacing;    
+                    }
                 }
                 else
                 {
@@ -70,7 +73,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     }
                 }
 
-                using (EmoteParameterDrawer.StartContext(null, EditParameters))
+                using (EmoteParameterDrawer.StartContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters))
                 {
                     var parameter = property.FindPropertyRelative("parameter");
                     EditorGUI.PropertyField(cursor, parameter, true);
@@ -96,7 +99,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 h += LineHeight(context.AdvancedAnimations ? 2f : 1f) + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            using (EmoteParameterDrawer.StartContext(null, EditParameters))
+            using (EmoteParameterDrawer.StartContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters))
             {
                 h += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("parameter"), true) + EditorGUIUtility.standardVerticalSpacing;
             }

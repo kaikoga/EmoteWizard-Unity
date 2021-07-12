@@ -70,12 +70,12 @@ namespace Silksprite.EmoteWizard
                 baseMixinsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
-            using (EmoteDrawer.StartContext(emoteWizardRoot, advancedAnimations.boolValue))
+            using (EmoteDrawer.StartContext(emoteWizardRoot, parametersWizard, advancedAnimations.boolValue))
             {
                 emotesList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }
 
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, gestureWizard.LayerName, ParameterEmoteDrawer.EditTargets))
+            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName, ParameterEmoteDrawer.EditTargets))
             {
                 parametersList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
             }

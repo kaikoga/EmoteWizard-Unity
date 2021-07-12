@@ -1,6 +1,8 @@
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
@@ -10,7 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(EmoteParameter))]
     public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameterDrawerContext>
     {
-        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, bool isEditing) => PropertyDrawerWithContext<EmoteParameterDrawerContext>.StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, isEditing));
+        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool isEditing) => PropertyDrawerWithContext<EmoteParameterDrawerContext>.StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, parametersWizard, isEditing));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -27,8 +29,15 @@ namespace Silksprite.EmoteWizard.DataObjects
                     using (new EditorGUI.IndentLevelScope())
                     using (new EditorGUI.DisabledScope(!normalizedTimeEnabled.boolValue))
                     {
-                        EditorGUI.PropertyField(position.UISliceV( 1), normalizedTimeLeft, new GUIContent("Parameter Left"));
-                        EditorGUI.PropertyField(position.UISliceV(2), normalizedTimeRight, new GUIContent("Parameter Right"));
+                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(normalizedTimeLeft.stringValue)))
+                        {
+                            EditorGUI.PropertyField(position.UISliceV(1), normalizedTimeLeft, new GUIContent("Parameter Left"));
+                        }
+
+                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(normalizedTimeRight.stringValue)))
+                        {
+                            EditorGUI.PropertyField(position.UISliceV(2), normalizedTimeRight, new GUIContent("Parameter Right"));
+                        }
                     }
                 }
                 else

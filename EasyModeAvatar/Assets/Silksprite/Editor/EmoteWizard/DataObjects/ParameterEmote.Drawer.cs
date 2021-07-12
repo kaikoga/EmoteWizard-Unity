@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         public static bool EditTargets = true; // FIXME
 
-        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, string layer, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteDrawerContext>.StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, layer, editTargets));
+        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteDrawerContext>.StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer, editTargets));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -27,11 +27,15 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 var name = property.FindPropertyRelative("name");
                 var emoteKind = property.FindPropertyRelative("emoteKind");
+                var parameter = property.FindPropertyRelative("parameter");
                 using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
                 {
                     EditorGUI.PropertyField(position.UISliceV(0), property.FindPropertyRelative("enabled"));
                     EditorGUI.PropertyField(position.UISliceV(1), name);
-                    EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 2), property.FindPropertyRelative("parameter"));
+                    using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(parameter.stringValue)))
+                    {
+                        EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 2), parameter);
+                    }
                     using (new HideLabelsScope())
                     {
                         EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 2), property.FindPropertyRelative("valueKind"));
