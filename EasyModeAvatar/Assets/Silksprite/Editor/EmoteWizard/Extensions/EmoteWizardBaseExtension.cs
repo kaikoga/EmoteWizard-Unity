@@ -58,10 +58,6 @@ namespace Silksprite.EmoteWizard.Extensions
                 animatorController.RemoveLayer(0); // Remove Base Layer
                 outputAsset = animatorController;
             }
-            animatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
-            animatorController.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);
-            animatorController.AddParameter("GestureRight", AnimatorControllerParameterType.Int);
-            animatorController.AddParameter("GestureRightWeight", AnimatorControllerParameterType.Float);
             EditorUtility.SetDirty(emoteWizardBase);
             EditorUtility.SetDirty(animatorController);
             return animatorController;

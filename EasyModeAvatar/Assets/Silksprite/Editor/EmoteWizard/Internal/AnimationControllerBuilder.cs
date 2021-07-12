@@ -277,6 +277,11 @@ namespace Silksprite.EmoteWizard.Internal
         
         public void BuildParameters()
         {
+            AnimatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
+            AnimatorController.AddParameter("GestureLeftWeight", AnimatorControllerParameterType.Float);
+            AnimatorController.AddParameter("GestureRight", AnimatorControllerParameterType.Int);
+            AnimatorController.AddParameter("GestureRightWeight", AnimatorControllerParameterType.Float);
+
             foreach (var parameter in (IEnumerable<ParameterItem>) ParametersWizard.parameterItems)
             {
                 var parameterName = parameter.name;
