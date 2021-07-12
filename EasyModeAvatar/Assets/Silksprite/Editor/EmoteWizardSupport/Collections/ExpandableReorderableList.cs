@@ -97,9 +97,9 @@ namespace Silksprite.EmoteWizardSupport.Collections
                 serializedProperty.arraySize = arraySize;
 
                 _listDrawer?.OnGUI(false);
-                for (var i = 0; i < arraySize; i++)
-                {
-                    EditorGUILayout.PropertyField(serializedProperty.GetArrayElementAtIndex(i));
+                foreach (var child in serializedProperty) 
+                { 
+                    EditorGUILayout.PropertyField((SerializedProperty) child);
                 }
             }
         }
