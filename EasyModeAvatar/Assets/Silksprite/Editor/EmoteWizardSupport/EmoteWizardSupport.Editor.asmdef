@@ -1,0 +1,16 @@
+{
+    "name": "EmoteWizardSupport.Editor",
+    "references": [
+        "EmoteWizardSupport"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
