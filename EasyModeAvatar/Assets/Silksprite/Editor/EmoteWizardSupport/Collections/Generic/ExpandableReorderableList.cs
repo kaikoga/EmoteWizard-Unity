@@ -16,12 +16,13 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
     public class ExpandableReorderableList<T> : ReorderableList
     {
         public int pagerIndex = 0;
-        public bool isExpanded;
 
         readonly ListDrawerBase _listDrawer;
         readonly ITypedDrawer<T> _typedDrawer;
         readonly string _headerName;
         Action<int> _repopulate;
+
+        bool IsExpanded => IsExpandedTracker.GetIsExpanded(list);
 
         public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, T[] elements) : this(listDrawer, typedDrawer, headerName, elements, true)
         {
@@ -51,7 +52,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
             drawHeaderCallback += rect =>
             {
-                isExpanded = TypedGUI.Foldout(rect.UISliceV(0), list, _headerName);
+                var isExpanded = TypedGUI.Foldout(rect.UISliceV(0), list, _headerName);
                 draggable = isExpanded;
                 displayAdd = isExpanded;
                 displayRemove = isExpanded;
@@ -69,15 +70,15 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
             drawNoneElementCallback += _ => { };
             drawElementCallback += (rect, index, selected, focused) =>
             {
-                if (isExpanded)
+                if (IsExpanded)
                 {
                     _typedDrawer.OnGUI(rect, (T) list[index], GUIContent.none);
                 }
             };
-            elementHeightCallback += index => isExpanded ? _typedDrawer.GetPropertyHeight((T) list[index], GUIContent.none) : 0f;
+            elementHeightCallback += index => IsExpanded ? _typedDrawer.GetPropertyHeight((T) list[index], GUIContent.none) : 0f;
 
-            onCanAddCallback += list => isExpanded;
-            onCanRemoveCallback += list => isExpanded;
+            onCanAddCallback += list => IsExpanded;
+            onCanRemoveCallback += list => IsExpanded;
             showDefaultBackground = false;
         }
 
@@ -109,7 +110,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
         void DrawAsList()
         {
-            isExpanded = TypedGUILayout.Foldout(list, _headerName);
+            var isExpanded = TypedGUILayout.Foldout(list, _headerName);
             if (!isExpanded) return;
 
             using (new EditorGUI.IndentLevelScope())
@@ -131,7 +132,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
         void DrawAsReorderList()
         {
-            if (isExpanded)
+            if (IsExpanded)
             {
                 headerHeight = 16f + (_listDrawer?.GetHeaderHeight() ?? 0f);
                 footerHeight = 12f;
@@ -146,7 +147,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
         
         void DrawAsPager()
         {
-            isExpanded = TypedGUILayout.Foldout(list, _headerName);
+            var isExpanded = TypedGUILayout.Foldout(list, _headerName);
             if (!isExpanded) return;
 
             using (new EditorGUI.IndentLevelScope())
