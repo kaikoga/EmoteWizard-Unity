@@ -6,7 +6,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.Collections
 {
-    public class ExpressionItemListDrawerBase : ListDrawerBase
+    public class ExpressionItemListDrawer : ListDrawerBase
     {
         public override string PagerItemName(SerializedProperty property, int index) => property.FindPropertyRelative("path").stringValue;
 

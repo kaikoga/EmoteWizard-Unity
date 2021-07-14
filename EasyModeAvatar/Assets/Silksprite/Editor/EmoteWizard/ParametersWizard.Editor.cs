@@ -22,8 +22,8 @@ namespace Silksprite.EmoteWizard
         {
             parametersWizard = target as ParametersWizard;
             
-            parameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("parameterItems"));
-            defaultParameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("defaultParameterItems"));
+            parameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawer(), serializedObject.FindProperty("parameterItems"));
+            defaultParameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawer(), serializedObject.FindProperty("defaultParameterItems"));
         }
 
         public override void OnInspectorGUI()

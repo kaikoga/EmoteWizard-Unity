@@ -7,7 +7,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.Collections
 {
-    public class ParameterItemListDrawerBase : ListDrawerBase
+    public class ParameterItemListDrawer : ListDrawerBase
     {
         public override string PagerItemName(SerializedProperty property, int index)
         {

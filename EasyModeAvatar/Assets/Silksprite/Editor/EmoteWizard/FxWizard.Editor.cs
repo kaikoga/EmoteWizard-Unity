@@ -28,10 +28,10 @@ namespace Silksprite.EmoteWizard
         {
             fxWizard = target as FxWizard;
 
-            baseMixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("baseMixins"));
-            emotesList = new ExpandableReorderableList(new EmoteListDrawerBase(), serializedObject.FindProperty("emotes"));
-            parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameterEmotes"));
-            mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("mixins"));
+            baseMixinsList = new ExpandableReorderableList(new AnimationMixinListDrawer(), serializedObject.FindProperty("baseMixins"));
+            emotesList = new ExpandableReorderableList(new EmoteListDrawer(), serializedObject.FindProperty("emotes"));
+            parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawer(), serializedObject.FindProperty("parameterEmotes"));
+            mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawer(), serializedObject.FindProperty("mixins"));
         }
 
         public override void OnInspectorGUI()
