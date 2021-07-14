@@ -17,12 +17,12 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
     {
         public int pagerIndex = 0;
 
+        public bool IsExpanded => IsExpandedTracker.GetIsExpanded(list);
+
         readonly ListDrawerBase _listDrawer;
         readonly ITypedDrawer<T> _typedDrawer;
         readonly string _headerName;
-        Action<int> _repopulate;
-
-        bool IsExpanded => IsExpandedTracker.GetIsExpanded(list);
+        readonly Action<int> _repopulate;
 
         public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, T[] elements) : this(listDrawer, typedDrawer, headerName, elements, true)
         {

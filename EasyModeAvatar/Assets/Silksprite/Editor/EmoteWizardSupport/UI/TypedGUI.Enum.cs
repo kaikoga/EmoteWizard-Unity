@@ -11,5 +11,11 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             return value = (T) EditorGUI.EnumPopup(position, label, value);
         }
+
+        public static T EnumPopup<T>(Rect position, GUIContent label, ref T value)
+            where T : Enum
+        {
+            return value = (T) EditorGUI.EnumPopup(position, label, value);
+        }
     }
 }

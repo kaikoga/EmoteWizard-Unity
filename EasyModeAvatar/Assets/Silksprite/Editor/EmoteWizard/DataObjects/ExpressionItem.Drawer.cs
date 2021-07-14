@@ -15,7 +15,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ExpressionItem))]
-    public class ExpressionItemDrawer : TypedDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>
+    public class ExpressionItemDrawer : HybridDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>
     {
         static readonly string[][] SubParameterLabels = {
             null,

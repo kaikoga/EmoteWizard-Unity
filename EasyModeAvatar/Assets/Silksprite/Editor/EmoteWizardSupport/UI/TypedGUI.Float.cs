@@ -9,5 +9,10 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             return value = EditorGUI.FloatField(position, label, value);
         }
+
+        public static float FloatField(Rect position, GUIContent label, ref float value)
+        {
+            return value = EditorGUI.FloatField(position, label, value);
+        }
     }
 }

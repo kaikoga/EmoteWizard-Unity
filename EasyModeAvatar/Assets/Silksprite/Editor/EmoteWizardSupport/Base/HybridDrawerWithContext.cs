@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Silksprite.EmoteWizardSupport.Base
 {
-    public abstract class TypedDrawerWithContext<T, TContext> : TypedDrawerBase<T>
+    public abstract class HybridDrawerWithContext<T, TContext> : HybridDrawerBase<T>
     where TContext : DrawerContextBase<T, TContext>
     {
         protected static TContext StartContext(TContext context) => DrawerContext<T, TContext>.StartContext(context);

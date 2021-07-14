@@ -10,7 +10,17 @@ namespace Silksprite.EmoteWizardSupport.UI
             return value = EditorGUI.Toggle(position, label, value);
         }
 
+        public static bool Toggle(Rect position, GUIContent label, ref bool value)
+        {
+            return value = EditorGUI.Toggle(position, label, value);
+        }
+
         public static bool ToggleLeft(Rect position, string label, ref bool value)
+        {
+            return value = EditorGUI.ToggleLeft(position, label, value);
+        }
+
+        public static bool ToggleLeft(Rect position, GUIContent label, ref bool value)
         {
             return value = EditorGUI.ToggleLeft(position, label, value);
         }
