@@ -25,6 +25,14 @@ namespace Silksprite.EmoteWizardSupport.Base
             return _context;
         }
 
+        protected T EnsureContext()
+        {
+            if (_context != null) return _context;
+            Debug.LogWarning("Internal: context is null");
+            _context = CreateContext();
+            return _context;
+        }
+
         static T CreateContext()
         {
             var type = typeof(T);
