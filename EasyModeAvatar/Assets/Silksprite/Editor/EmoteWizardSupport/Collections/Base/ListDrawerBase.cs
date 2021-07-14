@@ -8,7 +8,6 @@ namespace Silksprite.EmoteWizardSupport.Collections.Base
 {
     public abstract class ListDrawerBase
     {
-        public abstract string HeaderName { get; }
         public abstract string PagerItemName(SerializedProperty property, int index);
 
         public virtual float GetHeaderHeight()

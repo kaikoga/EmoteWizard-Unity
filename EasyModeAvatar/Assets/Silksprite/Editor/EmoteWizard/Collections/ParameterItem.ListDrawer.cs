@@ -9,7 +9,6 @@ namespace Silksprite.EmoteWizard.Collections
 {
     public class ParameterItemListDrawerBase : ListDrawerBase
     {
-        public override string HeaderName => "Parameter Items";
         public override string PagerItemName(SerializedProperty property, int index)
         {
             var name = property.FindPropertyRelative("name").stringValue;

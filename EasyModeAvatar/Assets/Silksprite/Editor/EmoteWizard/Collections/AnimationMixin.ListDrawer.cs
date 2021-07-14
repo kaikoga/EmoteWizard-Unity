@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
@@ -9,7 +8,6 @@ namespace Silksprite.EmoteWizard.Collections
 {
     public class AnimationMixinListDrawerBase : ListDrawerBase
     {
-        public override string HeaderName => "Mixins";
         public override string PagerItemName(SerializedProperty property, int index) => property.FindPropertyRelative("name").stringValue;
 
         protected override void DrawHeaderContent(Rect position)

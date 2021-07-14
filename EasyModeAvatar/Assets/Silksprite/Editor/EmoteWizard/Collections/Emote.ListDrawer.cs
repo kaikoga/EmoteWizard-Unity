@@ -11,8 +11,6 @@ namespace Silksprite.EmoteWizard.Collections
 {
     public class EmoteListDrawerBase : ListDrawerBase
     {
-        public override string HeaderName => "Emotes";
-
         public override string PagerItemName(SerializedProperty property, int index) => PagerNameGeneratorUtils.AsEmoteName(property, index);
 
         protected override void DrawHeaderContent(Rect position)
