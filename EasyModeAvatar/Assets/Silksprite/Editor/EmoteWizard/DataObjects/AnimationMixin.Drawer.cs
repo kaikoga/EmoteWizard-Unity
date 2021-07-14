@@ -13,7 +13,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(AnimationMixin))]
-    public class AnimationMixinDrawer : PropertyDrawerWithContext<AnimationMixinDrawerContext>
+    public class AnimationMixinDrawer : PropertyDrawerWithContext<AnimationMixin, AnimationMixinDrawerContext>
     {
         public static AnimationMixinDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string relativePath) => StartContext(new AnimationMixinDrawerContext(emoteWizardRoot, relativePath));
 

@@ -10,9 +10,9 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(EmoteParameter))]
-    public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameterDrawerContext>
+    public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameter, EmoteParameterDrawerContext>
     {
-        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool isEditing) => PropertyDrawerWithContext<EmoteParameterDrawerContext>.StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, parametersWizard, isEditing));
+        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool isEditing) => PropertyDrawerWithContext<EmoteParameter, EmoteParameterDrawerContext>.StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, parametersWizard, isEditing));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

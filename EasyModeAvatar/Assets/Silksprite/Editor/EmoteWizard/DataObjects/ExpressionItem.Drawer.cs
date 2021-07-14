@@ -3,7 +3,6 @@ using System.IO;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -16,7 +15,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(ExpressionItem))]
-    public class ExpressionItemDrawer : PropertyDrawerWithContext<ExpressionItemDrawerContext>, ITypedDrawer<ExpressionItem>
+    public class ExpressionItemDrawer : TypedDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>
     {
         static readonly string[][] SubParameterLabels = {
             null,
@@ -26,7 +25,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
-        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
+        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => TypedDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>.StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -141,9 +140,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             return BoxHeight(LineHeight(lineHeight));
         }
 
-        public string PagerItemName(ExpressionItem property, int index) => property.path;
+        public override string PagerItemName(ExpressionItem property, int index) => property.path;
 
-        public void OnGUI(Rect position, ExpressionItem expressionItem, GUIContent label)
+        public override void OnGUI(Rect position, ExpressionItem expressionItem, GUIContent label)
         {
             var context = EnsureContext();
 
@@ -230,7 +229,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public float GetPropertyHeight(ExpressionItem expressionItem, GUIContent label)
+        public override float GetPropertyHeight(ExpressionItem expressionItem, GUIContent label)
         {
             var lineHeight = 2f;
             switch (expressionItem.itemKind)

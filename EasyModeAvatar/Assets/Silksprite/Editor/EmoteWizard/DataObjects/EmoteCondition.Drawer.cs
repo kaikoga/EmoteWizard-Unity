@@ -9,9 +9,9 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [CustomPropertyDrawer(typeof(EmoteCondition))]
-    public class EmoteConditionDrawer : PropertyDrawerWithContext<EmoteConditionDrawerContext>
+    public class EmoteConditionDrawer : PropertyDrawerWithContext<EmoteCondition, EmoteConditionDrawerContext>
     {
-        public static EmoteConditionDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard) => PropertyDrawerWithContext<EmoteConditionDrawerContext>.StartContext(new EmoteConditionDrawerContext(emoteWizardRoot, parametersWizard));
+        public static EmoteConditionDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard) => PropertyDrawerWithContext<EmoteCondition, EmoteConditionDrawerContext>.StartContext(new EmoteConditionDrawerContext(emoteWizardRoot, parametersWizard));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

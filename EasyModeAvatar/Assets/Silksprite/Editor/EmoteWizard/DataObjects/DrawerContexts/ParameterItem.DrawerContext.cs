@@ -1,9 +1,8 @@
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Base.DrawerContexts;
 
 namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
-    public class ParameterItemDrawerContext : EmoteWizardDrawerContextBase<ParameterItemDrawerContext>
+    public class ParameterItemDrawerContext : EmoteWizardDrawerContextBase<ParameterItem, ParameterItemDrawerContext>
     {
         public readonly bool DefaultParameters;
 

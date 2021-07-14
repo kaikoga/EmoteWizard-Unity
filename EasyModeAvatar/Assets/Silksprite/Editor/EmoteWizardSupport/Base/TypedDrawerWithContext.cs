@@ -1,14 +1,15 @@
+using Silksprite.EmoteWizardSupport.Collections.Generic.Base;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizardSupport.Base
 {
-    public abstract class PropertyDrawerWithContext<T, TContext> : PropertyDrawer
+    public abstract class TypedDrawerWithContext<T, TContext> : TypedDrawerBase<T>
     where TContext : DrawerContextBase<T, TContext>
     {
         protected static TContext StartContext(TContext context) => DrawerContext<T, TContext>.StartContext(context);
 
-        internal static void EndContext() => DrawerContext<T, TContext>.EndContext();
-
         protected TContext EnsureContext(SerializedProperty property) => DrawerContext<T, TContext>.EnsureContext(property);
+
+        protected TContext EnsureContext() => DrawerContext<T, TContext>.EnsureContext();
     }
 }

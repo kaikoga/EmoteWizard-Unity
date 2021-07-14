@@ -3,7 +3,7 @@ using Silksprite.EmoteWizard.Base.DrawerContexts;
 
 namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
-    public class ParameterEmoteDrawerContext : EmoteWizardDrawerContextBase<ParameterEmoteDrawerContext>
+    public class ParameterEmoteDrawerContext : EmoteWizardDrawerContextBase<ParameterEmote, ParameterEmoteDrawerContext>
     {
         public readonly AnimationWizardBase AnimationWizardBase;
         public readonly ParametersWizard ParametersWizard;
