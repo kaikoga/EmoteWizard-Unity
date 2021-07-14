@@ -1,6 +1,8 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -18,10 +20,12 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("isSetupMode"), new GUIContent("Enable Setup Only UI"));
-            serializedObject.ApplyModifiedProperties();
-            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
+            using (new ObjectChangeScope(setupWizard))
+            {
+                TypedGUILayout.Toggle(new GUIContent("Enable Setup Only UI"), ref setupWizard.isSetupMode);
+            }
 
+            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
             if (GUILayout.Button("Generate Wizards"))
             {
                 emoteWizardRoot.EnsureWizard<AvatarWizard>();

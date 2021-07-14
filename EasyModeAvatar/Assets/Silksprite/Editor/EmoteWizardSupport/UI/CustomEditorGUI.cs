@@ -27,7 +27,8 @@ namespace Silksprite.EmoteWizardSupport.UI
             GUI.Label(new Rect(position.x, position.y, labelWidth, EditorGUIUtility.singleLineHeight), label);
             using (new HideLabelsScope())
             {
-                var arraySize = UnityEditor.EditorGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", serializedProperty.arraySize);
+                var arraySize = serializedProperty.arraySize;
+                TypedGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", ref arraySize);
                 serializedProperty.arraySize = arraySize;
                 position = position.Inset(labelWidth + sizeWidth, 0f, 0f, 0f);
                 if (arraySize > 0)
