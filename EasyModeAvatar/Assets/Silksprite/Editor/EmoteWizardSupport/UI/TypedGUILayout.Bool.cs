@@ -19,5 +19,11 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             return value = EditorGUILayout.Foldout(value, label);
         }
+
+        public static bool Foldout(object target, string label)
+        {
+            var value = IsExpandedTracker.GetIsExpanded(target);
+            return EditorGUILayout.Foldout(value, label) == value ? value : IsExpandedTracker.SetIsExpanded(target, !value);
+        }
     }
 }

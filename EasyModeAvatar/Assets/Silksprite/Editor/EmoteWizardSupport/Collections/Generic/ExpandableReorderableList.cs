@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
             drawHeaderCallback += rect =>
             {
-                TypedGUI.Foldout(rect.UISliceV(0), ref isExpanded, _headerName);
+                isExpanded = TypedGUI.Foldout(rect.UISliceV(0), list, _headerName);
                 draggable = isExpanded;
                 displayAdd = isExpanded;
                 displayRemove = isExpanded;
@@ -109,7 +109,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
         void DrawAsList()
         {
-            TypedGUILayout.Foldout(ref isExpanded, _headerName);
+            isExpanded = TypedGUILayout.Foldout(list, _headerName);
             if (!isExpanded) return;
 
             using (new EditorGUI.IndentLevelScope())
@@ -146,7 +146,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
         
         void DrawAsPager()
         {
-            TypedGUILayout.Foldout(ref isExpanded, _headerName);
+            isExpanded = TypedGUILayout.Foldout(list, _headerName);
             if (!isExpanded) return;
 
             using (new EditorGUI.IndentLevelScope())
