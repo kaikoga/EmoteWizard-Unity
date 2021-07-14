@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizardSupport.Base
     where TContext : DrawerContextBase<T, TContext>
     {
         protected static TContext StartContext(TContext context) => DrawerContext<T, TContext>.StartContext(context);
-
+        
         protected TContext EnsureContext(SerializedProperty property) => DrawerContext<T, TContext>.EnsureContext(property);
 
         protected TContext EnsureContext() => DrawerContext<T, TContext>.EnsureContext();

@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             new[] { "Up", "Right", "Down", "Left" }
         };
 
-        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => TypedDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>.StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
+        public static ExpressionItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot) => StartContext(new ExpressionItemDrawerContext(emoteWizardRoot));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

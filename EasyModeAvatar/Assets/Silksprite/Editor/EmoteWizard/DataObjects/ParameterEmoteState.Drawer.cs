@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(ParameterEmoteState))]
     public class ParameterEmoteStateDrawer : PropertyDrawerWithContext<ParameterEmoteState, ParameterEmoteStateDrawerContext>
     {
-        public static ParameterEmoteStateDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteState, ParameterEmoteStateDrawerContext>.StartContext(new ParameterEmoteStateDrawerContext(emoteWizardRoot, layer, name, editTargets));
+        public static ParameterEmoteStateDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => StartContext(new ParameterEmoteStateDrawerContext(emoteWizardRoot, layer, name, editTargets));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

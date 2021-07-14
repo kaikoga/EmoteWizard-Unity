@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
 
-        public static EmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations) => PropertyDrawerWithContext<Emote, EmoteDrawerContext>.StartContext(new EmoteDrawerContext(emoteWizardRoot, parametersWizard, advancedAnimations));
+        public static EmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations) => StartContext(new EmoteDrawerContext(emoteWizardRoot, parametersWizard, advancedAnimations));
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
