@@ -16,10 +16,10 @@ namespace Silksprite.EmoteWizardSupport.UI
                 {
                     _untypedDrawers = new Dictionary<Type, UntypedDrawer>
                     {
-                        {typeof(int), new UntypedDrawer<int>(new IntDrawer(), true)},
-                        {typeof(float), new UntypedDrawer<float>(new FloatDrawer(), true)},
-                        {typeof(bool), new UntypedDrawer<bool>(new BoolDrawer(), true)},
-                        {typeof(string), new UntypedDrawer<string>(new StringDrawer(), true)},
+                        {typeof(int), new UntypedDrawer<int>(new IntDrawer())},
+                        {typeof(float), new UntypedDrawer<float>(new FloatDrawer())},
+                        {typeof(bool), new UntypedDrawer<bool>(new BoolDrawer())},
+                        {typeof(string), new UntypedDrawer<string>(new StringDrawer())},
                         {typeof(IList), new UntypedDrawer<IList>(new ListDrawer())}
                     };
                 }
@@ -27,11 +27,8 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
-        static readonly UntypedDrawer Invalid = new UntypedDrawer<object>(new InvalidDrawer(), true);
-        public static void AddDrawer<T>(ITypedDrawer<T> typedDrawer, bool simplePropertyHeight = false)
-        {
-            UntypedDrawers[typeof(T)] = new UntypedDrawer<T>(typedDrawer, simplePropertyHeight);
-        }
+        static readonly UntypedDrawer Invalid = new UntypedDrawer<object>(new InvalidDrawer());
+        public static void AddDrawer<T>(ITypedDrawer<T> typedDrawer) => UntypedDrawers[typeof(T)] = new UntypedDrawer<T>(typedDrawer);
 
         public static UntypedDrawer Drawer(Type type)
         {

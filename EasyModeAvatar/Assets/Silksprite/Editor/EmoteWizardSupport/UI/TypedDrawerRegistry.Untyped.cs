@@ -8,7 +8,7 @@ namespace Silksprite.EmoteWizardSupport.UI
         public abstract class UntypedDrawer
         {
             public abstract ITypedDrawer typed { get; }
-            public abstract bool FixedPropertyHeight { get; }
+            public virtual bool UntypedFixedPropertyHeight => true;
 
             public virtual string UntypedPagerItemName(object property, int index) => $"Item {index + 1}";
             public abstract void UntypedOnGUI(Rect position, ref object property, GUIContent label);
@@ -20,13 +20,9 @@ namespace Silksprite.EmoteWizardSupport.UI
             readonly ITypedDrawer<T> _drawer;
 
             public override ITypedDrawer typed => _drawer;
-            public override bool FixedPropertyHeight { get; }
+            public override bool UntypedFixedPropertyHeight => _drawer.FixedPropertyHeight;
 
-            public UntypedDrawer(ITypedDrawer<T> drawer, bool fixedPropertyHeight = false)
-            {
-                _drawer = drawer;
-                FixedPropertyHeight = fixedPropertyHeight;
-            }
+            public UntypedDrawer(ITypedDrawer<T> drawer) => _drawer = drawer;
 
             public override string UntypedPagerItemName(object property, int index) => _drawer.PagerItemName((T) property, index);
 

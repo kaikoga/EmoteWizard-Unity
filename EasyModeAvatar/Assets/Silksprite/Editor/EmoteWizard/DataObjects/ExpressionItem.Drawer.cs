@@ -140,6 +140,8 @@ namespace Silksprite.EmoteWizard.DataObjects
             return BoxHeight(LineHeight(lineHeight));
         }
 
+        public override bool FixedPropertyHeight => false;
+
         public override string PagerItemName(ExpressionItem property, int index) => property.path;
 
         public override void OnGUI(Rect position, ref ExpressionItem property, GUIContent label)

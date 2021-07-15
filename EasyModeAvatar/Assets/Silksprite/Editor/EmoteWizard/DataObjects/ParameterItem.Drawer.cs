@@ -49,6 +49,8 @@ namespace Silksprite.EmoteWizard.DataObjects
             return BoxHeight(LineHeight(1f + usagesLines));
         }
 
+        public override bool FixedPropertyHeight => false;
+
         public override void OnGUI(Rect position, ref ParameterItem item, GUIContent label)
         {
             var context = EnsureContext();
