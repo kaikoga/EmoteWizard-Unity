@@ -72,7 +72,9 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
             {
                 if (IsExpanded)
                 {
-                    _typedDrawer.OnGUI(rect, (T) list[index], GUIContent.none);
+                    var item = (T) list[index];
+                    _typedDrawer.OnGUI(rect, ref item, GUIContent.none);
+                    list[index] = item;
                 }
             };
             elementHeightCallback += index => IsExpanded ? _typedDrawer.GetPropertyHeight((T) list[index], GUIContent.none) : 0f;
@@ -122,10 +124,12 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
                 _repopulate(arraySize);
 
                 _listDrawer?.OnGUI(false);
-                foreach (var child in list)
+                for (var i = 0; i < list.Count; i++)
                 {
+                    var child = (T) list[i];
                     var height = _typedDrawer.GetPropertyHeight((T) child, GUIContent.none);
-                    _typedDrawer.OnGUI(EditorGUILayout.GetControlRect(false, height), (T) child, GUIContent.none);
+                    _typedDrawer.OnGUI(EditorGUILayout.GetControlRect(false, height), ref child, GUIContent.none);
+                    list[i] = child;
                 }
             }
         }
@@ -190,7 +194,8 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
                 {
                     var child = (T) list[pagerIndex];
                     var height = _typedDrawer.GetPropertyHeight(child, GUIContent.none);
-                    _typedDrawer.OnGUI(EditorGUILayout.GetControlRect(false, height), child, GUIContent.none);
+                    _typedDrawer.OnGUI(EditorGUILayout.GetControlRect(false, height), ref child, GUIContent.none);
+                    list[pagerIndex] = child;
                 }
             }
         }

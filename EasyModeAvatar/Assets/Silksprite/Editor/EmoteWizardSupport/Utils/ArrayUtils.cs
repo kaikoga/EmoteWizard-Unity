@@ -6,7 +6,7 @@ namespace Silksprite.EmoteWizardSupport.Utils
     {
         public static void ResizeAndPopulate<T>(ref T[] array, int size)
         {
-            ResizeAndPopulate(ref array, size, v => v);
+            ResizeAndPopulate(ref array, size, TypeUtils.Duplicator<T>());
         }
 
         public static void ResizeAndPopulate<T>(ref T[] array, int size, Func<T, T> generator)

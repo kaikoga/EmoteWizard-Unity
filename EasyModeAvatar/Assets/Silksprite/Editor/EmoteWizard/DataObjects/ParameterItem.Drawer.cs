@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             return BoxHeight(LineHeight(1f + usagesLines));
         }
 
-        public override void OnGUI(Rect position, ParameterItem item, GUIContent label)
+        public override void OnGUI(Rect position, ref ParameterItem item, GUIContent label)
         {
             var context = EnsureContext();
 
@@ -69,7 +69,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                 TypedGUI.Toggle(position.UISlice(0.85f, 0.15f, 0), new GUIContent(" "), ref item.saved);
             }
 
-            TypedGUI.ListField(position.UISliceV(1, -1), "Usages", ref item.usages, new ParameterUsageDrawer());
+            TypedDrawerRegistry.AddDrawer(new ParameterUsageDrawer());
+            // TypedGUI.ListField(position.UISliceV(1, -1), "Usages", ref item.usages);
+            TypedGUI.TypedField(position.UISliceV(1, -1), ref item.usages, "Usages");
             EditorGUI.EndDisabledGroup();
         }
 

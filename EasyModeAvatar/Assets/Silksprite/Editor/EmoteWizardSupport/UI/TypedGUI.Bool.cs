@@ -35,5 +35,11 @@ namespace Silksprite.EmoteWizardSupport.UI
             var value = IsExpandedTracker.GetIsExpanded(target);
             return EditorGUI.Foldout(position, value, label) == value ? value : IsExpandedTracker.SetIsExpanded(target, !value);
         }
+
+        public static bool Foldout(Rect position, object target, GUIContent label)
+        {
+            var value = IsExpandedTracker.GetIsExpanded(target);
+            return EditorGUI.Foldout(position, value, label) == value ? value : IsExpandedTracker.SetIsExpanded(target, !value);
+        }
     }
 }

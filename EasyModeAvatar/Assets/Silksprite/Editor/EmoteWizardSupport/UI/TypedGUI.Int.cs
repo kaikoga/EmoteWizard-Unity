@@ -10,6 +10,11 @@ namespace Silksprite.EmoteWizardSupport.UI
             return value = EditorGUI.IntField(position, label, value);
         }
 
+        public static int IntField(Rect position, GUIContent label, ref int value)
+        {
+            return value = EditorGUI.IntField(position, label, value);
+        }
+
         public static int DelayedIntField(Rect position, string label, ref int value)
         {
             return value = EditorGUI.DelayedIntField(position, label, value);

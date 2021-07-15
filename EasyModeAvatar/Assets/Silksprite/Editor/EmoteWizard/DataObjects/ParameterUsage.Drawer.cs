@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public override void OnGUI(Rect position, ParameterUsage item, GUIContent label)
+        public override void OnGUI(Rect position, ref ParameterUsage item, GUIContent label)
         {
             using (new EditorGUI.IndentLevelScope())
             {

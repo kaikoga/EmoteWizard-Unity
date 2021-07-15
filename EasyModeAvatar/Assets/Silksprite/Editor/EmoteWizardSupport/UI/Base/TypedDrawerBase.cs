@@ -1,10 +1,9 @@
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizardSupport.Collections.Generic.Base
+namespace Silksprite.EmoteWizardSupport.UI.Base
 {
-    public abstract class HybridDrawerBase<T> : PropertyDrawer, ITypedDrawer<T>
+    public abstract class TypedDrawerBase<T> : ITypedDrawer<T>
     {
         public virtual string PagerItemName(T property, int index) => $"Item {index + 1}";
 

@@ -142,9 +142,10 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public override string PagerItemName(ExpressionItem property, int index) => property.path;
 
-        public override void OnGUI(Rect position, ExpressionItem expressionItem, GUIContent label)
+        public override void OnGUI(Rect position, ref ExpressionItem property, GUIContent label)
         {
             var context = EnsureContext();
+            var expressionItem = property;
 
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();

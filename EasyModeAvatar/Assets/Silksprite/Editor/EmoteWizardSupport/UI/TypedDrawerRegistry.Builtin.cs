@@ -1,0 +1,84 @@
+using System.Collections;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Tools;
+using Silksprite.EmoteWizardSupport.UI.Base;
+using Silksprite.EmoteWizardSupport.Utils;
+using UnityEditor;
+using UnityEngine;
+
+namespace Silksprite.EmoteWizardSupport.UI
+{
+    public static partial class TypedDrawerRegistry
+    {
+        class InvalidDrawer : TypedDrawerBase<object>
+        {
+            public override void OnGUI(Rect position, ref object property, GUIContent label)
+            {
+                EditorGUI.LabelField(position, label, new GUIContent($"{property?.GetType().Name} Drawer"));
+            }
+        }
+
+        class IntDrawer : TypedDrawerBase<int>
+        {
+            public override void OnGUI(Rect position, ref int property, GUIContent label)
+            {
+                TypedGUI.IntField(position, label, ref property);
+            }
+        }
+
+        class FloatDrawer : TypedDrawerBase<float>
+        {
+            public override void OnGUI(Rect position, ref float property, GUIContent label)
+            {
+                TypedGUI.FloatField(position, label, ref property);
+            }
+        }
+
+        class BoolDrawer : TypedDrawerBase<bool>
+        {
+            public override void OnGUI(Rect position, ref bool property, GUIContent label)
+            {
+                TypedGUI.Toggle(position, label, ref property);
+            }
+        }
+
+        class StringDrawer : TypedDrawerBase<string>
+        {
+            public override void OnGUI(Rect position, ref string property, GUIContent label)
+            {
+                TypedGUI.TextField(position, label, ref property);
+            }
+        }
+
+        class ListDrawer : TypedDrawerBase<IList>
+        {
+            public override void OnGUI(Rect position, ref IList property, GUIContent label)
+            {
+                if (!TypedGUI.Foldout(position.UISliceV(0), property, label)) return;
+
+                const int arraySizeMax = 100;
+                var arraySize = property.Count;
+                TypedGUI.DelayedIntField(position.UISliceV(1), "Size", ref arraySize);
+                if (arraySize > arraySizeMax) arraySize = arraySizeMax;
+                ListUtils.ResizeAndPopulate(ref property, arraySize);
+                for (var i = 0; i < property.Count; i++)
+                {
+                    var item = property[i];
+                    var drawer = Drawer(item?.GetType());
+                    TypedGUI.UntypedField(position.UISliceV(i + 2), ref item, drawer.UntypedPagerItemName(item, i));
+                    property[i] = item;
+                }
+            }
+
+            public override float GetPropertyHeight(IList property, GUIContent label)
+            {
+                if (!IsExpandedTracker.GetIsExpanded(property))
+                {
+                    return EditorGUIUtility.singleLineHeight;                    
+                }
+
+                return PropertyDrawerUITools.LineHeight(2f + property.Count);
+            }
+        }
+    }
+}
