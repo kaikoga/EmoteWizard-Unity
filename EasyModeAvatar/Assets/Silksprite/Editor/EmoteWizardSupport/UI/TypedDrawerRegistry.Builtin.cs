@@ -61,12 +61,17 @@ namespace Silksprite.EmoteWizardSupport.UI
                 TypedGUI.DelayedIntField(position.UISliceV(1), "Size", ref arraySize);
                 if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                 ListUtils.ResizeAndPopulate(ref property, arraySize);
+                position = position.UISliceV(2, -2);
                 for (var i = 0; i < property.Count; i++)
                 {
                     var item = property[i];
                     var drawer = Drawer(item?.GetType());
-                    TypedGUI.UntypedField(position.UISliceV(i + 2), ref item, drawer.UntypedPagerItemName(item, i));
+                    var itemLabel = drawer.UntypedPagerItemName(item, i);
+                    var itemHeight = drawer.UntypedGetPropertyHeight(item, new GUIContent(itemLabel));
+                    TypedGUI.UntypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
                     property[i] = item;
+                    itemHeight += EditorGUIUtility.standardVerticalSpacing;
+                    position = position.SliceV(itemHeight, -itemHeight);
                 }
             }
 
