@@ -1,7 +1,7 @@
-using Silksprite.EmoteWizardSupport.Collections.Generic.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.EmoteWizardSupport.UI.Base.Legacy;
 using UnityEditor;
 using UnityEngine;
 

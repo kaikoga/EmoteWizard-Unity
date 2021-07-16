@@ -1,4 +1,4 @@
-using Silksprite.EmoteWizardSupport.Collections.Generic.Base;
+using Silksprite.EmoteWizardSupport.UI.Base.Legacy;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizardSupport.Base

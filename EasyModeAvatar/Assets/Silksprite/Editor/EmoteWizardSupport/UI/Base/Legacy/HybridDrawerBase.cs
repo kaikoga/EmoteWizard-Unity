@@ -1,8 +1,7 @@
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizardSupport.Collections.Generic.Base
+namespace Silksprite.EmoteWizardSupport.UI.Base.Legacy
 {
     public abstract class HybridDrawerBase<T> : PropertyDrawer, ITypedDrawer<T>
     {
