@@ -5,7 +5,7 @@ namespace Silksprite.EmoteWizardSupport.UI.Base
 {
     public abstract class TypedDrawerBase<T> : ITypedDrawer<T>
     {
-        public bool FixedPropertyHeight => true;
+        public virtual bool FixedPropertyHeight => true;
 
         public virtual string PagerItemName(T property, int index) => $"Item {index + 1}";
 
