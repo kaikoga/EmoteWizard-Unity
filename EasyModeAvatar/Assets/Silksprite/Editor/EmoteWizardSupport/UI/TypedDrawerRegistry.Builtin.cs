@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Tools;
@@ -47,6 +48,14 @@ namespace Silksprite.EmoteWizardSupport.UI
             public override void OnGUI(Rect position, ref string property, GUIContent label)
             {
                 TypedGUI.TextField(position, label, ref property);
+            }
+        }
+
+        class EnumDrawer : TypedDrawerBase<Enum>
+        {
+            public override void OnGUI(Rect position, ref Enum property, GUIContent label)
+            {
+                TypedGUI.EnumPopup(position, label, ref property);
             }
         }
 

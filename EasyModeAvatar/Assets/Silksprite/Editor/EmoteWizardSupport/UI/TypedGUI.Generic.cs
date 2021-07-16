@@ -25,17 +25,17 @@ namespace Silksprite.EmoteWizardSupport.UI
             return value = (T) o;
         }
 
-        public static float UntypedGetPropertyHeight(ref object value, string label) => UntypedGetPropertyHeight(ref value, new GUIContent(label));
+        public static float UntypedGetPropertyHeight(object value, string label) => UntypedGetPropertyHeight(value, new GUIContent(label));
 
-        public static float UntypedGetPropertyHeight(ref object value, GUIContent label)
+        public static float UntypedGetPropertyHeight(object value, GUIContent label)
         {
             var drawer = TypedDrawerRegistry.Drawer(value?.GetType());
             return drawer?.UntypedGetPropertyHeight(value, label) ?? EditorGUIUtility.singleLineHeight;
         }
 
-        public static float GetPropertyHeight<T>(ref T value, string label) => GetPropertyHeight(ref value, new GUIContent(label));
+        public static float GetPropertyHeight<T>(T value, string label) => GetPropertyHeight(value, new GUIContent(label));
 
-        public static float GetPropertyHeight<T>(ref T value, GUIContent label)
+        public static float GetPropertyHeight<T>(T value, GUIContent label)
         {
             var drawer = TypedDrawerRegistry.Drawer(typeof(T));
             return drawer?.UntypedGetPropertyHeight(value, label) ?? EditorGUIUtility.singleLineHeight;

@@ -20,6 +20,7 @@ namespace Silksprite.EmoteWizardSupport.UI
                         {typeof(float), new UntypedDrawer<float>(new FloatDrawer())},
                         {typeof(bool), new UntypedDrawer<bool>(new BoolDrawer())},
                         {typeof(string), new UntypedDrawer<string>(new StringDrawer())},
+                        {typeof(Enum), new UntypedDrawer<Enum>(new EnumDrawer())},
                         {typeof(IList), new UntypedDrawer<IList>(new ListDrawer())}
                     };
                 }

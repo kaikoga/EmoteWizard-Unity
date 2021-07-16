@@ -51,6 +51,8 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public override bool FixedPropertyHeight => false;
 
+        public override string PagerItemName(ParameterItem property, int index) => $"{property.name} ({property.itemKind})";
+
         public override void OnGUI(Rect position, ref ParameterItem item, GUIContent label)
         {
             var context = EnsureContext();
