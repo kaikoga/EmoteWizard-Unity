@@ -8,6 +8,7 @@ using Silksprite.EmoteWizardSupport.UI.Base;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.UI
 {
@@ -17,7 +18,7 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             public override void OnGUI(Rect position, ref object property, GUIContent label)
             {
-                EditorGUI.LabelField(position, label, new GUIContent($"{property?.GetType().Name ?? "Null"} Drawer"));
+                EditorGUI.LabelField(position, label, new GUIContent($"???{property?.GetType().Name ?? "Null"} Drawer???"));
             }
         }
 
@@ -66,6 +67,16 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
+        class ObjectDrawer<T> : TypedDrawerBase<T>
+        where T : Object
+        {
+            public override void OnGUI(Rect position, ref T property, GUIContent label)
+            {
+                TypedGUI.ReferenceField(position, label, ref property);
+            }
+        }
+
         abstract class CollectionDrawerBase<TList, TDrawer> : TypedDrawerBase<TList>
             where TList : IList
         {
@@ -104,7 +115,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
                 if (FixedPropertyHeight(drawer))
                 {
-                    height += PropertyDrawerUITools.LineTop(property.Count * GetPropertyHeight(drawer, property, 0));
+                    height += property.Count * (GetPropertyHeight(drawer, property, 0) + EditorGUIUtility.standardVerticalSpacing);
                 }
                 else
                 {
@@ -112,7 +123,7 @@ namespace Silksprite.EmoteWizardSupport.UI
                     {
                         height += GetPropertyHeight(drawer, property, i) + EditorGUIUtility.standardVerticalSpacing;
                     }
-                } 
+                }
 
                 return height;
             }

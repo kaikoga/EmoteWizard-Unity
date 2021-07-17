@@ -18,24 +18,33 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
-                .Where(type => type.IsClass && !type.IsAbstract && !type.IsGenericType)
+                .Where(type => type.IsClass)
                 .Where(type => typeof(ITypedDrawer).IsAssignableFrom(type))
                 .Where(type => !typeof(IInvalidTypedDrawer).IsAssignableFrom(type))
                 .ToArray();
             foreach (var type in types)
             {
+                if (type.IsAbstract) continue;
                 var typedDrawerInterfaces = type.FindInterfaces((t, _) => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(ITypedDrawer<>), null);
-                foreach (var @interface in typedDrawerInterfaces)
+                if (type.IsGenericTypeDefinition)
                 {
-                    var targetType = @interface.GenericTypeArguments[0];
-                    // Expression<Action> a = () => AddDrawer(new IntDrawer());
-                    var e = Expression.Lambda<Action>(Expression.Call(
-                        typeof(TypedDrawerRegistry)
-                            .GetMethod("AddDrawer", BindingFlags.Public | BindingFlags.Static)
-                            .MakeGenericMethod(targetType),
-                        Expression.New(type)
-                    )).Compile();
-                    e();
+                    // TODO: Use some more information?
+                    AddDrawerGenerator(type);
+                }
+                else
+                {
+                    foreach (var @interface in typedDrawerInterfaces)
+                    {
+                        var targetType = @interface.GenericTypeArguments[0];
+                        // Expression<Action> a = () => AddDrawer(new IntDrawer());
+                        var e = Expression.Lambda<Action>(Expression.Call(
+                            typeof(TypedDrawerRegistry)
+                                .GetMethod("AddDrawer", BindingFlags.Public | BindingFlags.Static)
+                                .MakeGenericMethod(targetType),
+                            Expression.New(type)
+                        )).Compile();
+                        e();
+                    }
                 }
             }
         }

@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,7 +8,8 @@ namespace Silksprite.EmoteWizardSupport.UI
     {
         public abstract class UntypedDrawer
         {
-            public abstract ITypedDrawer typed { get; }
+            public abstract UntypedDrawer Subtype(Type type);  
+            public abstract ITypedDrawer Typed { get; }
             public virtual bool UntypedFixedPropertyHeight => true;
 
             public virtual string UntypedPagerItemName(object property, int index) => $"Item {index + 1}";
@@ -19,7 +21,19 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             readonly ITypedDrawer<T> _drawer;
 
-            public override ITypedDrawer typed => _drawer;
+            public override UntypedDrawer Subtype(Type type)
+            {
+                object drawer = _drawer;
+                if (!drawer.GetType().IsGenericType) return this;
+                    
+                var drawerType = drawer.GetType().GetGenericTypeDefinition().MakeGenericType(type);
+                drawer = Activator.CreateInstance(drawerType);
+                var untypedDrawerType = typeof(UntypedDrawer<>).MakeGenericType(type);
+                return (UntypedDrawer) untypedDrawerType.GetConstructor(new []{typeof(ITypedDrawer<>).MakeGenericType(type)})
+                    .Invoke(new []{drawer});
+            }
+
+            public override ITypedDrawer Typed => _drawer;
             public override bool UntypedFixedPropertyHeight => _drawer.FixedPropertyHeight;
 
             public UntypedDrawer(ITypedDrawer<T> drawer) => _drawer = drawer;

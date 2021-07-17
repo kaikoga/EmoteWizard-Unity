@@ -19,10 +19,9 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static T TypedField<T>(Rect position, ref T value, GUIContent label)
         {
-            var drawer = TypedDrawerRegistry.Drawer(typeof(T));
-            var o = (object) value;
-            drawer.UntypedOnGUI(position, ref o, label);
-            return value = (T) o;
+            var drawer = TypedDrawerRegistry<T>.Drawer;
+            drawer.OnGUI(position, ref value, label);
+            return value;
         }
 
         public static float UntypedGetPropertyHeight(object value, string label) => UntypedGetPropertyHeight(value, new GUIContent(label));

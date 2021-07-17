@@ -26,11 +26,11 @@ namespace Silksprite.EmoteWizardSupport.UI
                 position = position.Inset(labelWidth + sizeWidth, 0f, 0f, 0f);
                 if (arraySize > 0)
                 {
+                    var normalizedWidth = 1f / arraySize;
                     for (var i = 0; i < arraySize; i++)
                     {
-                        var width = position.width;
                         var item = list[i];
-                        TypedGUI.TypedField(position.SliceH(width * i, width), ref item, GUIContent.none);
+                        TypedGUI.TypedField(position.SliceH(normalizedWidth * i, normalizedWidth), ref item, new GUIContent(" "));
                         list[i] = item;
                     }
                 }
