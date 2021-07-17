@@ -59,7 +59,12 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
                 if (isExpanded)
                 {
-                    _listDrawer?.OnGUI(rect.UISliceV(1, -1), true);
+                    var customHeaderRect = rect.UISliceV(1, -1);
+                    if (Event.current.type == EventType.Repaint)
+                    {
+                        ((GUIStyle) "RL Background").Draw(customHeaderRect.Inset(-6, -1, -6, -4), false, false, true, false);
+                    }
+                    _listDrawer?.OnGUI(customHeaderRect, true);
                 }
                 else
                 {
@@ -81,7 +86,6 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
             onCanAddCallback += list => IsExpanded;
             onCanRemoveCallback += list => IsExpanded;
-            showDefaultBackground = false;
         }
 
         public void DrawAsProperty(IList elements, ListDisplayMode displayMode)
