@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 {
     public static class CustomTypedGUI
     {
-        public static void HorizontalListUntypedField(Rect position, GUIContent label, IList list)
+        public static void HorizontalListField<T>(Rect position, GUIContent label, List<T> list)
         {
             var labelWidth = EditorGUIUtility.labelWidth;
             var sizeWidth = labelWidth * 0.25f;
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizardSupport.UI
                     {
                         var width = position.width;
                         var item = list[i];
-                        TypedGUI.UntypedField(position.SliceH(width * i, width), ref item, GUIContent.none);
+                        TypedGUI.TypedField(position.SliceH(width * i, width), ref item, GUIContent.none);
                         list[i] = item;
                     }
                 }

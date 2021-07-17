@@ -13,6 +13,7 @@ namespace Silksprite.EmoteWizardSupport.Utils
 
         public static void ResizeAndPopulate<T>(ref List<T> list, int size, Func<T, T> generator)
         {
+            if (list == null) list = new List<T>();
             var i = list.Count;
             var lastElement = i == 0 ? default : list[i - 1];
             if (size < i)

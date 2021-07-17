@@ -37,8 +37,8 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static float GetPropertyHeight<T>(T value, GUIContent label)
         {
-            var drawer = TypedDrawerRegistry.Drawer(typeof(T));
-            return drawer?.UntypedGetPropertyHeight(value, label) ?? EditorGUIUtility.singleLineHeight;
+            var drawer = TypedDrawerRegistry<T>.Drawer;
+            return drawer?.GetPropertyHeight(value, label) ?? EditorGUIUtility.singleLineHeight;
         }
     }
 }

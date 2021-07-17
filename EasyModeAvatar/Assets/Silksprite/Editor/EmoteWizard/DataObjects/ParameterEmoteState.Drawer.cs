@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Utils;
@@ -46,7 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
                 if (context.EditTargets)
                 {
-                    CustomTypedGUI.HorizontalListUntypedField(position.UISliceV(1), new GUIContent("Targets"), property.targets);
+                    CustomTypedGUI.HorizontalListField(position.UISliceV(1), new GUIContent("Targets"), property.targets);
                 }
                 EditorGUI.EndDisabledGroup();
             }

@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             public override void OnGUI(Rect position, ref object property, GUIContent label)
             {
-                EditorGUI.LabelField(position, label, new GUIContent($"{property?.GetType().Name} Drawer"));
+                EditorGUI.LabelField(position, label, new GUIContent($"{property?.GetType().Name ?? "Null"} Drawer"));
             }
         }
 
@@ -78,6 +78,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
             public sealed override void OnGUI(Rect position, ref TList property, GUIContent label)
             {
+                if (property == null) ResizeAndPopulate(ref property, 0);
                 if (!TypedGUI.Foldout(position.UISliceV(0), property, label)) return;
 
                 const int arraySizeMax = 100;

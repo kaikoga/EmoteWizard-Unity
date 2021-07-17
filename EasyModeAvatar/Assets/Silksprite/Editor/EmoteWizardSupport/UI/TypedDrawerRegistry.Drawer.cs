@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using Silksprite.EmoteWizardSupport.Base;
+using Silksprite.EmoteWizardSupport.UI.Base;
+using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizardSupport.UI
@@ -57,6 +57,14 @@ namespace Silksprite.EmoteWizardSupport.UI
     {
         static ITypedDrawer<T> _drawer;
 
-        internal static ITypedDrawer<T> Drawer => _drawer = _drawer ?? (ITypedDrawer<T>) TypedDrawerRegistry.Drawer(typeof(T)).typed;
+        internal static ITypedDrawer<T> Drawer => _drawer = _drawer ?? TypedDrawerRegistry.Drawer(typeof(T)).typed as ITypedDrawer<T> ?? new InvalidDrawer();
+
+        class InvalidDrawer : TypedDrawerBase<T>
+        {
+            public override void OnGUI(Rect position, ref T property, GUIContent label)
+            {
+                EditorGUI.LabelField(position, label, new GUIContent($"{typeof(T).Name} Drawer"));
+            }
+        }
     }
 }
