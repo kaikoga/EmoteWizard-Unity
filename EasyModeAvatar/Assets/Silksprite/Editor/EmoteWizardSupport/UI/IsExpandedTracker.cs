@@ -8,7 +8,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static bool GetIsExpanded(object item)
         {
-            return !CollapsedItems.TryGetValue(item.GetHashCode(), out _);
+            return item != null && !CollapsedItems.TryGetValue(item.GetHashCode(), out _);
         }
 
         public static bool SetIsExpanded(object item, bool value)

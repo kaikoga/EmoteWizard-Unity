@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            emoteWizardRoot = target as EmoteWizardRoot;
+            emoteWizardRoot = (EmoteWizardRoot) target;
         }
 
         public override void OnInspectorGUI()

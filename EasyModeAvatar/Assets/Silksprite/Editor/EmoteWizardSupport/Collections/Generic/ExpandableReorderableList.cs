@@ -24,8 +24,9 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
         readonly string _headerName;
         readonly Action<int> _repopulate;
 
-        public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, T[] elements) : this(listDrawer, typedDrawer, headerName, elements, true)
+        public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, ref T[] elements) : this(listDrawer, typedDrawer, headerName, elements, true)
         {
+            if (elements == null) elements = new T[]{};
             _repopulate = size =>
             {
                 var l = (T[]) list;
@@ -34,8 +35,9 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
             };
         }
         
-        public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, List<T> elements) : this(listDrawer, typedDrawer, headerName, elements, true)
+        public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, ref List<T> elements) : this(listDrawer, typedDrawer, headerName, elements, true)
         {
+            if (elements == null) elements = new List<T>();
             _repopulate = size =>
             {
                 var l = (List<T>) list;
@@ -91,6 +93,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
         public void DrawAsProperty(IList elements, ListDisplayMode displayMode)
         {
             list = elements;
+            if (list == null) return;
             if (!ExpandableReorderableList.Enabled)
             {
                 DrawAsList();

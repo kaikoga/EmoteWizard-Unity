@@ -23,10 +23,10 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            parametersWizard = target as ParametersWizard;
+            parametersWizard = (ParametersWizard) target;
             
-            parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListDrawer(), new ParameterItemDrawer(), "Parameter Items", parametersWizard.parameterItems);
-            defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListDrawer(), new ParameterItemDrawer(), "Default Parameter Items", parametersWizard.defaultParameterItems);
+            parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
+            defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
         }
 
         public override void OnInspectorGUI()

@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            avatarWizard = target as AvatarWizard;
+            avatarWizard = (AvatarWizard) target;
         }
 
         public override void OnInspectorGUI()

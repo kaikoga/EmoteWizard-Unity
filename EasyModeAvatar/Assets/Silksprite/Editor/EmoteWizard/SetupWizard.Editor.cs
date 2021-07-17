@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            setupWizard = target as SetupWizard;
+            setupWizard = (SetupWizard) target;
         }
 
         public override void OnInspectorGUI()

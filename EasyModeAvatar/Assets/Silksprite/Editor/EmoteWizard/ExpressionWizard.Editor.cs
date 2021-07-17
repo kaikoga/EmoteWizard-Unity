@@ -24,9 +24,9 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            expressionWizard = target as ExpressionWizard;
+            expressionWizard = (ExpressionWizard) target;
             
-            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListDrawer(), new ExpressionItemDrawer(), "Expression Items", expressionWizard.expressionItems);
+            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListDrawer(), new ExpressionItemDrawer(), "Expression Items", ref expressionWizard.expressionItems);
         }
 
         public override void OnInspectorGUI()
