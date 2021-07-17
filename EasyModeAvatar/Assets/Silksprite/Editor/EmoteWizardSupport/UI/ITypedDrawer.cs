@@ -6,6 +6,10 @@ namespace Silksprite.EmoteWizardSupport.UI
     {
     }
 
+    public interface IInvalidTypedDrawer
+    {
+    }
+
     public interface ITypedDrawer<T> : ITypedDrawer
     {
         bool FixedPropertyHeight { get; }

@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 {
     public static partial class TypedDrawerRegistry
     {
-        class InvalidDrawer : TypedDrawerBase<object>
+        class InvalidDrawer : TypedDrawerBase<object>, IInvalidTypedDrawer
         {
             public override void OnGUI(Rect position, ref object property, GUIContent label)
             {

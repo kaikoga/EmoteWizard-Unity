@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         internal static ITypedDrawer<T> Drawer => _drawer = _drawer ?? TypedDrawerRegistry.Drawer(typeof(T)).typed as ITypedDrawer<T> ?? new InvalidDrawer();
 
-        class InvalidDrawer : TypedDrawerBase<T>
+        class InvalidDrawer : TypedDrawerBase<T>, IInvalidTypedDrawer
         {
             public override void OnGUI(Rect position, ref T property, GUIContent label)
             {

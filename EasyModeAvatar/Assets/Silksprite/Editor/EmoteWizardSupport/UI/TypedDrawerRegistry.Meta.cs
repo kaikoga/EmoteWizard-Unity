@@ -19,9 +19,8 @@ namespace Silksprite.EmoteWizardSupport.UI
             var types = AppDomain.CurrentDomain.GetAssemblies()
                 .SelectMany(assembly => assembly.GetTypes())
                 .Where(type => type.IsClass && !type.IsAbstract && !type.IsGenericType)
-                .Where(type => type.FullName != "Silksprite.EmoteWizardSupport.UI.TypedDrawerRegistry+InvalidDrawer")
-                .Where(type => type.FullName != "Silksprite.EmoteWizardSupport.UI.TypedDrawerRegistry`1+InvalidDrawer")
                 .Where(type => typeof(ITypedDrawer).IsAssignableFrom(type))
+                .Where(type => !typeof(IInvalidTypedDrawer).IsAssignableFrom(type))
                 .ToArray();
             foreach (var type in types)
             {
