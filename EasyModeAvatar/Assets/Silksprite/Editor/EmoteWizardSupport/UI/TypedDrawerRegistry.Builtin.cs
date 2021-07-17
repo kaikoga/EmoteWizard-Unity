@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Tools;
 using Silksprite.EmoteWizardSupport.UI.Base;
@@ -19,6 +20,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
         class IntDrawer : TypedDrawerBase<int>
         {
             public override void OnGUI(Rect position, ref int property, GUIContent label)
@@ -27,6 +29,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
         class FloatDrawer : TypedDrawerBase<float>
         {
             public override void OnGUI(Rect position, ref float property, GUIContent label)
@@ -35,6 +38,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
         class BoolDrawer : TypedDrawerBase<bool>
         {
             public override void OnGUI(Rect position, ref bool property, GUIContent label)
@@ -43,6 +47,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
         class StringDrawer : TypedDrawerBase<string>
         {
             public override void OnGUI(Rect position, ref string property, GUIContent label)
@@ -51,6 +56,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
         class EnumDrawer : TypedDrawerBase<Enum>
         {
             public override void OnGUI(Rect position, ref Enum property, GUIContent label)
@@ -59,6 +65,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
+        [UsedImplicitly]
         class ListDrawer : TypedDrawerBase<IList>
         {
             public override void OnGUI(Rect position, ref IList property, GUIContent label)

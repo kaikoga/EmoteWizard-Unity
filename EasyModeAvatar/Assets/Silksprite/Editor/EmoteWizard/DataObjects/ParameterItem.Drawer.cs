@@ -37,7 +37,6 @@ namespace Silksprite.EmoteWizard.DataObjects
                 TypedGUI.Toggle(position.UISlice(0.85f, 0.15f, 0), new GUIContent(" "), ref item.saved);
             }
 
-            TypedDrawerRegistry.AddDrawer(new ParameterUsageDrawer());
             // TypedGUI.ListField(position.UISliceV(1, -1), "Usages", ref item.usages);
             TypedGUI.TypedField(position.UISliceV(1, -1), ref item.usages, "Usages");
             EditorGUI.EndDisabledGroup();

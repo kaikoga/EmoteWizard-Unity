@@ -33,11 +33,6 @@ namespace Silksprite.EmoteWizard
             emotesList = new ExpandableReorderableList<Emote>(new EmoteListDrawer(), new EmoteDrawer(), "Emotes", fxWizard.emotes);
             parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", fxWizard.parameterEmotes);
             mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListDrawer(), new AnimationMixinDrawer(), "Mixins", fxWizard.mixins);
-
-            TypedDrawerRegistry.AddDrawer(new EmoteConditionDrawer());
-            TypedDrawerRegistry.AddDrawer(new EmoteGestureConditionDrawer());
-            TypedDrawerRegistry.AddDrawer(new EmoteParameterDrawer());
-            TypedDrawerRegistry.AddDrawer(new ParameterEmoteStateDrawer());
         }
 
         public override void OnInspectorGUI()

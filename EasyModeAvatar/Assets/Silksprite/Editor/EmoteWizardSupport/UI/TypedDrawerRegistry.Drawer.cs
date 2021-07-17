@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizardSupport.UI
 {
@@ -14,21 +16,16 @@ namespace Silksprite.EmoteWizardSupport.UI
             {
                 if (_untypedDrawers == null)
                 {
-                    _untypedDrawers = new Dictionary<Type, UntypedDrawer>
-                    {
-                        {typeof(int), new UntypedDrawer<int>(new IntDrawer())},
-                        {typeof(float), new UntypedDrawer<float>(new FloatDrawer())},
-                        {typeof(bool), new UntypedDrawer<bool>(new BoolDrawer())},
-                        {typeof(string), new UntypedDrawer<string>(new StringDrawer())},
-                        {typeof(Enum), new UntypedDrawer<Enum>(new EnumDrawer())},
-                        {typeof(IList), new UntypedDrawer<IList>(new ListDrawer())}
-                    };
+                    _untypedDrawers = new Dictionary<Type, UntypedDrawer>();
+                    CollectFromAssembly();
                 }
                 return _untypedDrawers;
             }
         }
 
         static readonly UntypedDrawer Invalid = new UntypedDrawer<object>(new InvalidDrawer());
+
+        [UsedImplicitly]
         public static void AddDrawer<T>(ITypedDrawer<T> typedDrawer) => UntypedDrawers[typeof(T)] = new UntypedDrawer<T>(typedDrawer);
 
         public static UntypedDrawer Drawer(Type type)
