@@ -8,7 +8,14 @@ namespace Silksprite.EmoteWizardSupport.UI
     {
         public static List<T> ListField<T>(string label, ref List<T> value, params GUILayoutOption[] options)
         {
-            EditorGUILayout.LabelField(label, "Not Implemented");
+            return ListField(new GUIContent(label), ref value, options);
+        }
+        
+        public static List<T> ListField<T>(GUIContent label, ref List<T> value, params GUILayoutOption[] options)
+        {
+            var drawer = TypedDrawerRegistry<List<T>>.Drawer;
+            var position = EditorGUILayout.GetControlRect(true, drawer.GetPropertyHeight(value, label));
+            drawer.OnGUI(position, ref value, label);
             return value;
         }
     }

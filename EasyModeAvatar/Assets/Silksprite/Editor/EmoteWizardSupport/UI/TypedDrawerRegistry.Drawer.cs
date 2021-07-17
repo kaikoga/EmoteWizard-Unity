@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Silksprite.EmoteWizardSupport.Base;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizardSupport.UI
@@ -50,10 +51,12 @@ namespace Silksprite.EmoteWizardSupport.UI
 
             return UntypedDrawers[type] = Invalid;
         }
+    }
 
-        public static ITypedDrawer<T> Drawer<T>()
-        {
-            return (ITypedDrawer<T>) Drawer(typeof(T)).typed;
-        }
+    public static class TypedDrawerRegistry<T>
+    {
+        static ITypedDrawer<T> _drawer;
+
+        internal static ITypedDrawer<T> Drawer => _drawer = _drawer ?? (ITypedDrawer<T>) TypedDrawerRegistry.Drawer(typeof(T)).typed;
     }
 }

@@ -6,11 +6,12 @@ namespace Silksprite.EmoteWizardSupport.Utils
     {
         public static Func<object, object> Duplicator()
         {
-            return v => null;
+            return a => Duplicator(a.GetType())(a);
         }
 
         public static Func<object, object> Duplicator(Type type)
         {
+            if (type == null) return null;
             if (type.IsValueType) return v => v;
             if (type == typeof(string)) return v => v;
             return v => default;
