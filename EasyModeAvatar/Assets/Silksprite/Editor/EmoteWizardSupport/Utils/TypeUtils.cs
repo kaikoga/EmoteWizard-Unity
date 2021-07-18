@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizardSupport.Utils
 {
@@ -24,7 +25,23 @@ namespace Silksprite.EmoteWizardSupport.Utils
             if (type == typeof(string)) return v => v;
             if (typeof(UnityEngine.Object).IsAssignableFrom(type)) return v => v;
             var constructor = type.GetConstructor(new Type[] { });
-            if (constructor != null) { return v => constructor.Invoke(new object[]{}); }
+            if (constructor != null)
+            {
+                return v =>
+                {
+                    var o = constructor.Invoke(new object[] { });
+                    if (v == null) return o;
+                    try
+                    {
+                        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(v), o);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                    return o;
+                };
+            }
             return v => default;
         }
 
@@ -44,7 +61,23 @@ namespace Silksprite.EmoteWizardSupport.Utils
             if (type == typeof(string)) return v => v;
             if (typeof(UnityEngine.Object).IsAssignableFrom(type)) return v => v;
             var constructor = type.GetConstructor(new Type[] { });
-            if (constructor != null) { return v => Activator.CreateInstance<T>(); }
+            if (constructor != null)
+            {
+                return v =>
+                {
+                    var o = Activator.CreateInstance<T>();
+                    if (v == null) return o;
+                    try
+                    {
+                        JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(v), o);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                    return o;
+                };
+            }
             return v => default;
         }
     }
