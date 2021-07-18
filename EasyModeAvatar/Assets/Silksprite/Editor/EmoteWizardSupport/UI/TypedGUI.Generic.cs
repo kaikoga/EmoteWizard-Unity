@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static object UntypedField(Rect position, ref object value, GUIContent label)
         {
+            if (value == null) value = TypeUtils.Duplicator()(default);
             var drawer = TypedDrawerRegistry.Drawer(value?.GetType());
             var o = value;
             drawer.UntypedOnGUI(position, ref o, label);
@@ -19,6 +21,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static T TypedField<T>(Rect position, ref T value, GUIContent label)
         {
+            if (value == null) value = TypeUtils.Duplicator<T>()(default);
             var drawer = TypedDrawerRegistry<T>.Drawer;
             drawer.OnGUI(position, ref value, label);
             return value;
@@ -28,6 +31,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static float UntypedGetPropertyHeight(object value, GUIContent label)
         {
+            if (value == null) return EditorGUIUtility.singleLineHeight;
             var drawer = TypedDrawerRegistry.Drawer(value?.GetType());
             return drawer?.UntypedGetPropertyHeight(value, label) ?? EditorGUIUtility.singleLineHeight;
         }
@@ -36,6 +40,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static float GetPropertyHeight<T>(T value, GUIContent label)
         {
+            if (value == null) return EditorGUIUtility.singleLineHeight;
             var drawer = TypedDrawerRegistry<T>.Drawer;
             return drawer?.GetPropertyHeight(value, label) ?? EditorGUIUtility.singleLineHeight;
         }
