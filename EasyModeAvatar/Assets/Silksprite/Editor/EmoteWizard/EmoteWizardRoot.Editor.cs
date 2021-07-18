@@ -55,21 +55,21 @@ namespace Silksprite.EmoteWizard
                 {
                     TypedGUILayout.Toggle("Show Tutorial", ref emoteWizardRoot.showTutorial);
                     TypedGUILayout.EnumPopup("List Display Mode", ref emoteWizardRoot.listDisplayMode);
-                    TypedGUILayout.Toggle("Low Spec Mode", ref emoteWizardRoot.lowSpecMode);
+                    TypedGUILayout.Toggle("Low Spec UI", ref emoteWizardRoot.lowSpecUI);
                 });
 
                 if (!emoteWizardRoot.GetWizard<SetupWizard>())
                 {
                     using (new GUILayout.HorizontalScope())
                     {
-                        if (GUILayout.Button("Setup Low Spec"))
+                        if (GUILayout.Button("Setup Low Spec UI"))
                         {
-                            emoteWizardRoot.lowSpecMode = true;
+                            emoteWizardRoot.lowSpecUI = true;
                             emoteWizardRoot.EnsureWizard<SetupWizard>();
                         }
-                        if (GUILayout.Button("Setup High Spec"))
+                        if (GUILayout.Button("Setup High Spec UI"))
                         {
-                            emoteWizardRoot.lowSpecMode = false;
+                            emoteWizardRoot.lowSpecUI = false;
                             emoteWizardRoot.EnsureWizard<SetupWizard>();
                         }
                     }
