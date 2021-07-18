@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
                 if (context.EditTargets)
                 {
-                    CustomTypedGUI.HorizontalListField(position.UISliceV(1), new GUIContent("Targets"), property.targets);
+                    CustomTypedGUI.HorizontalListField(position.UISliceV(1), new GUIContent("Targets"), ref property.targets);
                 }
                 EditorGUI.EndDisabledGroup();
             }

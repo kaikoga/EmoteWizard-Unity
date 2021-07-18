@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 {
     public static class CustomTypedGUI
     {
-        public static void HorizontalListField<T>(Rect position, GUIContent label, List<T> list)
+        public static void HorizontalListField<T>(Rect position, GUIContent label, ref List<T> list)
         {
             var labelWidth = EditorGUIUtility.labelWidth;
             var sizeWidth = labelWidth * 0.25f;
@@ -20,6 +20,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             GUI.Label(new Rect(position.x, position.y, labelWidth, EditorGUIUtility.singleLineHeight), label);
             using (new HideLabelsScope())
             {
+                if (list == null) ListUtils.ResizeAndPopulate(ref list, 0);
                 var arraySize = list.Count;
                 TypedGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", ref arraySize);
                 ListUtils.ResizeAndPopulate(ref list, arraySize);
