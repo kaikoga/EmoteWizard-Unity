@@ -77,15 +77,19 @@ namespace Silksprite.EmoteWizardSupport.UI
             }
         }
 
-        abstract class CollectionDrawerBase<TList, TDrawer> : TypedDrawerBase<TList>
-            where TList : IList
+        abstract class CollectionDrawerBase<T, TList, TDrawer> : TypedDrawerBase<TList>
+            where TList : class, IList
         {
             protected abstract void ResizeAndPopulate(ref TList property, int arraySize);
             protected abstract TDrawer SharedDrawer(TList property);
-            protected abstract void ItemDrawer(ref TDrawer drawer, TList property, int index);
-            protected abstract float DrawItem(Rect position, TDrawer drawer, ref TList property, int index);
+            protected abstract void ItemDrawer(ref TDrawer drawer, T property);
+
+            protected abstract T Item(TList property, int index);
+            protected abstract void Item(TList property, int index, T value);
+            protected abstract float DrawItem(Rect position, TDrawer drawer, ref T property, int index);
+
             protected abstract bool FixedPropertyHeight(TDrawer drawer);
-            protected abstract float GetPropertyHeight(TDrawer drawer, TList property, int index);
+            protected abstract float GetPropertyHeight(TDrawer drawer, T property);
 
             public sealed override void OnGUI(Rect position, ref TList property, GUIContent label)
             {
@@ -101,8 +105,10 @@ namespace Silksprite.EmoteWizardSupport.UI
                 var drawer = SharedDrawer(property);
                 for (var i = 0; i < property.Count; i++)
                 {
-                    ItemDrawer(ref drawer, property, i);
-                    var height = DrawItem(position, drawer, ref property, i) + EditorGUIUtility.standardVerticalSpacing;
+                    var item = Item(property, i);
+                    ItemDrawer(ref drawer, item);
+                    var height = DrawItem(position, drawer, ref item, i) + EditorGUIUtility.standardVerticalSpacing;
+                    Item(property, i, item);
                     position = position.SliceV(height, -height);
                 }
             }
@@ -115,13 +121,13 @@ namespace Silksprite.EmoteWizardSupport.UI
 
                 if (FixedPropertyHeight(drawer))
                 {
-                    height += property.Count * (GetPropertyHeight(drawer, property, 0) + EditorGUIUtility.standardVerticalSpacing);
+                    height += property.Count * (GetPropertyHeight(drawer, default) + EditorGUIUtility.standardVerticalSpacing);
                 }
                 else
                 {
                     for (var i = 0; i < property.Count; i++)
                     {
-                        height += GetPropertyHeight(drawer, property, i) + EditorGUIUtility.standardVerticalSpacing;
+                        height += GetPropertyHeight(drawer, Item(property, i)) + EditorGUIUtility.standardVerticalSpacing;
                     }
                 }
 
@@ -130,74 +136,82 @@ namespace Silksprite.EmoteWizardSupport.UI
         }
 
         [UsedImplicitly]
-        class ListDrawer : CollectionDrawerBase<IList, UntypedDrawer>
+        class ListDrawer : CollectionDrawerBase<object, IList, UntypedDrawer>
         {
             protected override void ResizeAndPopulate(ref IList property, int arraySize) => ListUtils.ResizeAndPopulate(ref property, arraySize);
             protected override UntypedDrawer SharedDrawer(IList property) => null;
-            protected override void ItemDrawer(ref UntypedDrawer drawer, IList property, int index) => drawer = Drawer(property[index]?.GetType());
+            protected override void ItemDrawer(ref UntypedDrawer drawer, object item) => drawer = Drawer(item?.GetType());
 
-            protected override float DrawItem(Rect position, UntypedDrawer drawer, ref IList property, int index)
+            protected override object Item(IList property, int index) => property[index];
+            protected override void Item(IList property, int index, object value) => property[index] = value;
+
+            protected override float DrawItem(Rect position, UntypedDrawer drawer, ref object item, int index)
             {
-                var item = property[index];
+                if (item == null) return EditorGUIUtility.singleLineHeight;
                 var itemLabel = drawer.UntypedPagerItemName(item, index);
                 var itemHeight = drawer.UntypedGetPropertyHeight(item, new GUIContent(itemLabel));
                 TypedGUI.UntypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
-                property[index] = item;
                 return itemHeight;
             }
 
             protected override bool FixedPropertyHeight(UntypedDrawer drawer) => false;
-            protected override float GetPropertyHeight(UntypedDrawer drawer, IList property, int index)
+            protected override float GetPropertyHeight(UntypedDrawer drawer, object item)
             {
-                return drawer.UntypedGetPropertyHeight(property.Count > 0 ? property[index] : default, GUIContent.none);
+                if (item == null) return EditorGUIUtility.singleLineHeight;
+                return drawer.UntypedGetPropertyHeight(item, GUIContent.none);
             }
         }
 
         [UsedImplicitly]
-        class ArrayDrawer<T> : CollectionDrawerBase<T[], ITypedDrawer<T>>
+        class ArrayDrawer<T> : CollectionDrawerBase<T, T[], ITypedDrawer<T>>
         {
             protected override void ResizeAndPopulate(ref T[] property, int arraySize) => ArrayUtils.ResizeAndPopulate(ref property, arraySize);
             protected override ITypedDrawer<T> SharedDrawer(T[] property) => TypedDrawerRegistry<T>.Drawer;
-            protected override void ItemDrawer(ref ITypedDrawer<T> drawer, T[] property, int index) { }
+            protected override void ItemDrawer(ref ITypedDrawer<T> drawer, T item) { }
+            protected override T Item(T[] property, int index) => property[index];
+            protected override void Item(T[] property, int index, T value) => property[index] = value;
 
-            protected override float DrawItem(Rect position, ITypedDrawer<T> drawer, ref T[] property, int index)
+            protected override float DrawItem(Rect position, ITypedDrawer<T> drawer, ref T item, int index)
             {
-                var item = property[index];
+                if (item == null) return EditorGUIUtility.singleLineHeight;
                 var itemLabel = drawer.PagerItemName(item, index);
                 var itemHeight = drawer.GetPropertyHeight(item, new GUIContent(itemLabel));
                 TypedGUI.TypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
-                property[index] = item;
                 return itemHeight;
             }
 
             protected override bool FixedPropertyHeight(ITypedDrawer<T> drawer) => drawer.FixedPropertyHeight;
-            protected override float GetPropertyHeight(ITypedDrawer<T> drawer, T[] property, int index)
+            protected override float GetPropertyHeight(ITypedDrawer<T> drawer, T item)
             {
-                return drawer.GetPropertyHeight(property.Length > 0 ? property[index] : default, GUIContent.none);
+                if (item == null) return EditorGUIUtility.singleLineHeight;
+                return drawer.GetPropertyHeight(item, GUIContent.none);
             }
         }
         
         [UsedImplicitly]
-        class ListDrawer<T> : CollectionDrawerBase<List<T>, ITypedDrawer<T>>
+        class ListDrawer<T> : CollectionDrawerBase<T, List<T>, ITypedDrawer<T>>
         {
             protected override void ResizeAndPopulate(ref List<T> property, int arraySize) => ListUtils.ResizeAndPopulate(ref property, arraySize);
             protected override ITypedDrawer<T> SharedDrawer(List<T> property) => TypedDrawerRegistry<T>.Drawer;
-            protected override void ItemDrawer(ref ITypedDrawer<T> drawer, List<T> property, int index) { }
+            protected override void ItemDrawer(ref ITypedDrawer<T> drawer, T item) { }
 
-            protected override float DrawItem(Rect position, ITypedDrawer<T> drawer, ref List<T> property, int index)
+            protected override T Item(List<T> property, int index) => property[index];
+            protected override void Item(List<T> property, int index, T value) => property[index] = value;
+
+            protected override float DrawItem(Rect position, ITypedDrawer<T> drawer, ref T item, int index)
             {
-                var item = property[index];
+                if (item == null) return EditorGUIUtility.singleLineHeight;
                 var itemLabel = drawer.PagerItemName(item, index);
                 var itemHeight = drawer.GetPropertyHeight(item, new GUIContent(itemLabel));
                 TypedGUI.TypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
-                property[index] = item;
                 return itemHeight;
             }
 
             protected override bool FixedPropertyHeight(ITypedDrawer<T> drawer) => drawer.FixedPropertyHeight;
-            protected override float GetPropertyHeight(ITypedDrawer<T> drawer, List<T> property, int index)
+            protected override float GetPropertyHeight(ITypedDrawer<T> drawer, T item)
             {
-                return drawer.GetPropertyHeight(property.Count > 0 ? property[index] : default, GUIContent.none);
+                if (item == null) return EditorGUIUtility.singleLineHeight;
+                return drawer.GetPropertyHeight(item, GUIContent.none);
             }
         }
     }
