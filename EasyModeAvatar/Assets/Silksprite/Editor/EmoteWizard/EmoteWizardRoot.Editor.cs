@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -63,15 +64,25 @@ namespace Silksprite.EmoteWizard
                 {
                     using (new GUILayout.HorizontalScope())
                     {
-                        if (GUILayout.Button("Setup Low Spec UI"))
+                        if (emoteWizardRoot.GetWizard<EmoteWizardBase>())
                         {
-                            emoteWizardRoot.lowSpecUI = true;
-                            emoteWizardRoot.EnsureWizard<SetupWizard>();
+                            if (GUILayout.Button("Setup"))
+                            {
+                                emoteWizardRoot.EnsureWizard<SetupWizard>();
+                            }
                         }
-                        if (GUILayout.Button("Setup High Spec UI"))
+                        else
                         {
-                            emoteWizardRoot.lowSpecUI = false;
-                            emoteWizardRoot.EnsureWizard<SetupWizard>();
+                            if (GUILayout.Button("Setup Low Spec UI"))
+                            {
+                                emoteWizardRoot.lowSpecUI = true;
+                                emoteWizardRoot.EnsureWizard<SetupWizard>();
+                            }
+                            if (GUILayout.Button("Setup High Spec UI"))
+                            {
+                                emoteWizardRoot.lowSpecUI = false;
+                                emoteWizardRoot.EnsureWizard<SetupWizard>();
+                            }
                         }
                     }
                 }
