@@ -11,6 +11,23 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(EmoteWizardRoot))]
     public class EmoteWizardRootEditor : Editor
     {
+        protected static string Tutorial =>
+            string.Join("\n",
+                "EmoteWizardの全体的な設定を行うコンポーネントです。",
+                "EmoteWizardが生成したアセットはGenerated Assets Rootで指定したディレクトリの中に入ります。",
+                "Low Spec Modeを無効にするとGameObjectが1つにまとまります（とても重い）",
+                "",
+                "基本的な使い方：",
+                "1. Setup Wizardから必要なコンポーネントを生成する",
+                "2. 各WizardのSetup only zoneのボタンを全部押して入力欄を生成する",
+                "3. Avatar Wizardを設定する",
+                "4. Expression Wizardからアクションメニューを設定する",
+                "5. Parameter Wizardの設定値を確認する",
+                "6. ハンドサインを差し替える場合はGesture Wizardから設定する",
+                "7. FX Wizardから表情や着せ替えのアニメーションを設定する",
+                "8. 必要に応じてAvatar Wizardから各アニメーションを編集する",
+                "9. 全て終わったらAvatar WizardのUpdate Avatarを押す");
+
         EmoteWizardRoot emoteWizardRoot;
 
         void OnEnable()
@@ -43,13 +60,22 @@ namespace Silksprite.EmoteWizard
 
                 if (!emoteWizardRoot.GetWizard<SetupWizard>())
                 {
-                    if (GUILayout.Button("Setup"))
+                    using (new GUILayout.HorizontalScope())
                     {
-                        emoteWizardRoot.EnsureWizard<SetupWizard>();
+                        if (GUILayout.Button("Setup Low Spec"))
+                        {
+                            emoteWizardRoot.lowSpecMode = true;
+                            emoteWizardRoot.EnsureWizard<SetupWizard>();
+                        }
+                        if (GUILayout.Button("Setup High Spec"))
+                        {
+                            emoteWizardRoot.lowSpecMode = false;
+                            emoteWizardRoot.EnsureWizard<SetupWizard>();
+                        }
                     }
                 }
 
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "EmoteWizardの全体的な設定を行うコンポーネントです。\nEmoteWizardが生成したアセットはGenerated Assets Rootで指定したディレクトリの中に入ります。\nLow Spec Modeを無効にするとGameObjectが1つにまとまります（とても重い）\n\n基本的な使い方：\n1. Setup Wizardから必要なコンポーネントを生成する\n2. Avatar Wizardを設定する\n3. Expression Wizardからアクションメニューを設定する\n4. Parameter Wizardの設定値を確認する\n5. ハンドサインを差し替える場合はGesture Wizardから設定する\n6. FX Wizardから表情や着せ替えのアニメーションを設定する\n7. 必要に応じてAvatar Wizardから各アニメーションを編集する\n8. 全て終わったらAvatar WizardのUpdate Avatarを押す");
+                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
             }
         }
     }
