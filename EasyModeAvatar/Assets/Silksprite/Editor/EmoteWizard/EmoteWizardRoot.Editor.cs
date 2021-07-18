@@ -15,18 +15,19 @@ namespace Silksprite.EmoteWizard
             string.Join("\n",
                 "EmoteWizardの全体的な設定を行うコンポーネントです。",
                 "EmoteWizardが生成したアセットはGenerated Assets Rootで指定したディレクトリの中に入ります。",
-                "Low Spec Modeを無効にするとGameObjectが1つにまとまります（とても重い）",
+                "Low Spec UIを無効にするとGameObjectが1つにまとまります（とても重い）",
                 "",
                 "基本的な使い方：",
-                "1. Setup Wizardから必要なコンポーネントを生成する",
-                "2. 各WizardのSetup only zoneのボタンを全部押して入力欄を生成する",
+                "（上から順番に操作するのがお勧めです）",
+                "1. Emote Wizard RootのSetupボタンを押す",
+                "2. Setup WizardのQuick Setupから必要なコンポーネントを生成する",
                 "3. Avatar Wizardを設定する",
                 "4. Expression Wizardからアクションメニューを設定する",
                 "5. Parameter Wizardの設定値を確認する",
                 "6. ハンドサインを差し替える場合はGesture Wizardから設定する",
                 "7. FX Wizardから表情や着せ替えのアニメーションを設定する",
                 "8. 必要に応じてAvatar Wizardから各アニメーションを編集する",
-                "9. 全て終わったらAvatar WizardのUpdate Avatarを押す");
+                "9. 全てのOutput zoneが埋まったらAvatar WizardのUpdate Avatarを押す");
 
         EmoteWizardRoot emoteWizardRoot;
 

@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Reset Expression Items"))
                     {
-                        RepopulateDefaultExpressionItems();
+                        SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
                     }
                 });
 
@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard
 
                 if (GUILayout.Button("Populate Default Expression Items"))
                 {
-                    PopulateDefaultExpressionItems();
+                    SetupWizardUtils.PopulateDefaultExpressionItems(expressionWizard);
                 }
 
                 if (GUILayout.Button("Group by Folder"))
@@ -73,24 +73,6 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
             }
-        }
-
-        void RepopulateDefaultExpressionItems()
-        {
-            expressionWizard.expressionItems = new List<ExpressionItem>();
-            PopulateDefaultExpressionItems();
-        }
-
-        void PopulateDefaultExpressionItems()
-        {
-            var icon = VrcSdkAssetLocator.PersonDance();
-            var expressionItems = Enumerable.Range(1, 8)
-                .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, i));
-            if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
-            expressionWizard.expressionItems.AddRange(expressionItems);
-            expressionWizard.expressionItems = expressionWizard.expressionItems
-                .DistinctBy(item => item.path)
-                .ToList();
         }
 
         void BuildExpressionMenu()

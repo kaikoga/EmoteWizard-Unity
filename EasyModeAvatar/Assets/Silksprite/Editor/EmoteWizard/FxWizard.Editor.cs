@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
@@ -46,21 +45,19 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate Emotes: 7 items"))
                     {
-                        RepopulateDefaultFxEmotes();
+                        SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
                     }
 
                     if (GUILayout.Button("Repopulate Emotes: 14 items"))
                     {
-                        RepopulateDefaultFxEmotes14();
+                        SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
                     }
 
                     if (parametersWizard != null)
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            parametersWizard.TryRefreshParameters();
-                            fxWizard.parameterEmotes = new List<ParameterEmote>();
-                            fxWizard.RefreshParameters(parametersWizard);
+                            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
                         }
                     }
                 });
@@ -149,35 +146,6 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
-        }
-
-        void RepopulateDefaultFxEmotes()
-        {
-            var newEmotes = Emote.HandSigns
-                .Select(Emote.Populate)
-                .ToList();
-            fxWizard.emotes = newEmotes;
-        }
-
-        void RepopulateDefaultFxEmotes14()
-        {
-            var newEmotes = Enumerable.Empty<Emote>()
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
-                    {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
-                        parameter = EmoteParameter.Populate(handSign)
-                    }))
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
-                    {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
-                        parameter = EmoteParameter.Populate(handSign)
-                    }))
-                .ToList();
-            fxWizard.emotes = newEmotes;
         }
     }
 }

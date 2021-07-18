@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
@@ -46,16 +45,14 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate Emotes"))
                     {
-                        RepopulateDefaultGestureEmotes(gestureWizard);
+                        SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
                     }
 
                     if (parametersWizard != null)
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            parametersWizard.TryRefreshParameters();
-                            gestureWizard.parameterEmotes = new List<ParameterEmote>();
-                            gestureWizard.RefreshParameters(parametersWizard);
+                            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
                         }
                     }
                 });
@@ -146,14 +143,6 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Gesture Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
-        }
-
-        static void RepopulateDefaultGestureEmotes(AnimationWizardBase wizard)
-        {
-            var newEmotes = Emote.HandSigns
-                .Select(Emote.Populate)
-                .ToList();
-            wizard.emotes = newEmotes;
         }
     }
 }

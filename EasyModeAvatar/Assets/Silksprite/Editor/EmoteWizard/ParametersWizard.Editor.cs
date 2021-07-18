@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Collections;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -42,8 +40,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            parametersWizard.parameterItems = new List<ParameterItem>();
-                            parametersWizard.ForceRefreshParameters();
+                            SetupWizardUtils.RepopulateParameters(parametersWizard);
                         }
                     }
                 });

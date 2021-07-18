@@ -1,6 +1,5 @@
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -34,20 +33,69 @@ namespace Silksprite.EmoteWizard
                 emoteWizardRoot.EnsureWizard<GestureWizard>();
                 emoteWizardRoot.EnsureWizard<FxWizard>();
             }
+
+            EmoteWizardGUILayout.SetupOnlyUI(setupWizard, () =>
+            {
+                if (GUILayout.Button("Quick Setup 7 Emotes"))
+                {
+                    QuickSetup(emoteWizardRoot);
+                }
+
+                if (GUILayout.Button("Quick Setup 14 Emotes"))
+                {
+                    QuickSetup14(emoteWizardRoot);
+                }
+            });
+
             if (GUILayout.Button("Complete setup and remove me"))
             {
-                if (setupWizard.gameObject != emoteWizardRoot.gameObject)
-                {
-                    DestroyImmediate(setupWizard.gameObject);
-                }
-                else
-                {
-                    DestroyImmediate(setupWizard);
-                }
+                DestroySelf(emoteWizardRoot);
                 return;
             }
             
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。\nセットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
+        }
+
+        void DestroySelf(EmoteWizardRoot emoteWizardRoot)
+        {
+            if (setupWizard.gameObject != emoteWizardRoot.gameObject)
+            {
+                DestroyImmediate(setupWizard.gameObject);
+            }
+            else
+            {
+                DestroyImmediate(setupWizard);
+            }
+        }
+
+        static void QuickSetup(EmoteWizardRoot emoteWizardRoot)
+        {
+            emoteWizardRoot.EnsureWizard<AvatarWizard>();
+            var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
+            var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
+            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
+            var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
+            SetupWizardUtils.RepopulateParameters(parametersWizard);
+            SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
+            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
+            SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
+            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
+        }
+
+        static void QuickSetup14(EmoteWizardRoot emoteWizardRoot)
+        {
+            emoteWizardRoot.EnsureWizard<AvatarWizard>();
+            var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
+            var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
+            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
+            var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
+            SetupWizardUtils.RepopulateParameters(parametersWizard);
+            SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
+            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
+            SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
+            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
         }
     }
 }
