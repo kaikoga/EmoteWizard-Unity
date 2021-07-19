@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
@@ -7,11 +6,8 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.Collections
 {
-    public class ExpressionItemListDrawerBase : ListDrawerBase
+    public class ExpressionItemListHeaderDrawer : ListHeaderDrawerBase
     {
-        public override string HeaderName => "Expression Items";
-        public override string PagerItemName(SerializedProperty property, int index) => property.FindPropertyRelative("path").stringValue;
-
         protected override void DrawHeaderContent(Rect position)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))

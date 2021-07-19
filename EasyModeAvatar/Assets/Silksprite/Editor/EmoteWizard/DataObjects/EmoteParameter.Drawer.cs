@@ -3,64 +3,61 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [CustomPropertyDrawer(typeof(EmoteParameter))]
-    public class EmoteParameterDrawer : PropertyDrawerWithContext<EmoteParameterDrawerContext>
+    public class EmoteParameterDrawer : TypedDrawerWithContext<EmoteParameter, EmoteParameterDrawerContext>
     {
-        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool isEditing) => PropertyDrawerWithContext<EmoteParameterDrawerContext>.StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, parametersWizard, isEditing));
+        public static EmoteParameterDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool isEditing) => StartContext(new EmoteParameterDrawerContext(emoteWizardRoot, parametersWizard, isEditing));
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public override bool FixedPropertyHeight => false;
+
+        public override void OnGUI(Rect position, ref EmoteParameter property, GUIContent label)
         {
-            var context = EnsureContext(property);
+            var context = EnsureContext();
 
-            using (new EditorGUI.PropertyScope(position, label, property))
+            if (context.IsEditing)
             {
-                var normalizedTimeEnabled = property.FindPropertyRelative("normalizedTimeEnabled");
-                var normalizedTimeLeft = property.FindPropertyRelative("normalizedTimeLeft");
-                var normalizedTimeRight = property.FindPropertyRelative("normalizedTimeRight");
-                if (context.IsEditing)
+                TypedGUI.Toggle(position.UISliceV(0), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
+                using (new EditorGUI.IndentLevelScope())
+                using (new EditorGUI.DisabledScope(!property.normalizedTimeEnabled))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(0), normalizedTimeEnabled, new GUIContent("Normalized Time"));
-                    using (new EditorGUI.IndentLevelScope())
-                    using (new EditorGUI.DisabledScope(!normalizedTimeEnabled.boolValue))
+                    using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
                     {
-                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(normalizedTimeLeft.stringValue)))
-                        {
-                            EditorGUI.PropertyField(position.UISliceV(1), normalizedTimeLeft, new GUIContent("Parameter Left"));
-                        }
+                        TypedGUI.TextField(position.UISliceV(1), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
+                    }
 
-                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(normalizedTimeRight.stringValue)))
-                        {
-                            EditorGUI.PropertyField(position.UISliceV(2), normalizedTimeRight, new GUIContent("Parameter Right"));
-                        }
-                    }
-                }
-                else
-                {
-                    var parameterLabel = "";
-                    if (normalizedTimeEnabled.boolValue)
+                    using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeRight)))
                     {
-                        parameterLabel += $"Normalized Time:{normalizedTimeLeft.stringValue}/{normalizedTimeRight.stringValue})";
+                        TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
                     }
-                    GUI.Label(position, parameterLabel);
                 }
+            }
+            else
+            {
+                var parameterLabel = "";
+                if (property.normalizedTimeEnabled)
+                {
+                    parameterLabel += $"Normalized Time:{property.normalizedTimeLeft}/{property.normalizedTimeRight})";
+                }
+
+                GUI.Label(position, parameterLabel);
             }
         }
         
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        public override float GetPropertyHeight(EmoteParameter property, GUIContent label)
         {
-            var context = EnsureContext(property);
+            var context = EnsureContext();
 
             if (context.IsEditing)
             {
                 return LineHeight(3f);
             }
-            if (property.FindPropertyRelative("normalizedTimeEnabled").boolValue)
+            if (property.normalizedTimeEnabled)
             {
                 return LineHeight(1f);
             }

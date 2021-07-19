@@ -3,6 +3,8 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -17,111 +19,108 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            avatarWizard = target as AvatarWizard;
+            avatarWizard = (AvatarWizard) target;
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = serializedObject;
-            var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
+            using (new ObjectChangeScope(avatarWizard))
+            {
+                var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
 
-            var overrideGesture = serializedObj.FindProperty("overrideGesture");
-            const string overrideGestureTooltip = "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）";
-            EditorGUILayout.PropertyField(overrideGesture, new GUIContent(overrideGesture.displayName, overrideGestureTooltip));
-            if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)
-            {
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideGestureController"));
-            }
-            var overrideSitting = serializedObj.FindProperty("overrideSitting");
-            const string overrideSittingTooltip = "Sittingレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）";
-            EditorGUILayout.PropertyField(overrideSitting, new GUIContent(overrideSitting.displayName, overrideSittingTooltip));
-            if (avatarWizard.overrideSitting == AvatarWizard.OverrideControllerType2.Override)
-            {
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("overrideSittingController"));
-            }
-
-            EmoteWizardGUILayout.OutputUIArea(() =>
-            {
-                void EditAnimator(AnimatorController animatorController)
+                var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
+                TypedGUILayout.EnumPopup(overrideGestureLabel, ref avatarWizard.overrideGesture);
+                if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)
                 {
-                    var animator = avatarWizard.ProvideProxyAnimator();
-                    animator.runtimeAnimatorController = animatorController;
-                    if (!animatorController) return;
-                    Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
+                    TypedGUILayout.AssetField("Override Gesture Controller", ref avatarWizard.overrideGestureController);
+                }
+                var overrideSittingLabel = new GUIContent("Override Sitting", "Sittingレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
+                TypedGUILayout.EnumPopup(overrideSittingLabel, ref avatarWizard.overrideSitting);
+                if (avatarWizard.overrideSitting == AvatarWizard.OverrideControllerType2.Override)
+                {
+                    TypedGUILayout.AssetField("Override Sitting Controller", ref avatarWizard.overrideSittingController);
                 }
 
-                var avatarDescriptor = avatarWizard.avatarDescriptor;
-                var avatarDescriptorProperty = serializedObj.FindProperty("avatarDescriptor");
-                const string avatarDescriptorTooltip = "ここで指定したアバターの設定が上書きされます。";
-                EditorGUILayout.PropertyField(avatarDescriptorProperty, new GUIContent(avatarDescriptorProperty.displayName, avatarDescriptorTooltip));
-                if (avatarDescriptor == null)
+                EmoteWizardGUILayout.OutputUIArea(() =>
                 {
-                    EditorGUILayout.HelpBox("VRCAvatarDescriptor is missing. Some functions might not work.", MessageType.Error);
-                }
-                var gestureController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset as AnimatorController;
-                var fxController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset as AnimatorController;
-
-                if (avatarDescriptor)
-                {
-                    var avatarAnimator = avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
-                    if (GUILayout.Button("Update Avatar"))
+                    void EditAnimator(AnimatorController animatorController)
                     {
-                        avatarAnimator.runtimeAnimatorController = null;
-                        UpdateAvatar(avatarDescriptor);
+                        var animator = avatarWizard.ProvideProxyAnimator();
+                        animator.runtimeAnimatorController = animatorController;
+                        if (!animatorController) return;
+                        Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
                     }
 
-                    if (avatarAnimator.runtimeAnimatorController == null)
-                    {
-                        // do nothing
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == gestureController)
-                    {
-                        EditorGUILayout.HelpBox("Editing Gesture Controller on avatar.", MessageType.Warning);
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == fxController)
-                    {
-                        EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
-                    }
-                    else
-                    {
-                        EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
-                    }
-                }
+                    var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
+                    TypedGUILayout.ReferenceField(avatarDescriptorLabel, ref avatarWizard.avatarDescriptor);
 
-                var proxyAnimator = serializedObj.FindProperty("proxyAnimator");
-                const string proxyAnimatorTooltip = "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。";
-                EditorGUILayout.PropertyField(proxyAnimator, new GUIContent(proxyAnimator.displayName, proxyAnimatorTooltip));
-                if (avatarDescriptor)
-                {
-                    using (new GUILayout.HorizontalScope())
+                    var avatarDescriptor = avatarWizard.avatarDescriptor;
+                    if (avatarDescriptor == null)
                     {
-                        using (new EditorGUI.DisabledScope(gestureController == null))
+                        EditorGUILayout.HelpBox("VRCAvatarDescriptor is missing. Some functions might not work.", MessageType.Error);
+                    }
+                    var gestureController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset as AnimatorController;
+                    var fxController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset as AnimatorController;
+
+                    if (avatarDescriptor)
+                    {
+                        var avatarAnimator = avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
+                        if (GUILayout.Button("Update Avatar"))
                         {
-                            if (GUILayout.Button("Edit Gesture"))
+                            avatarAnimator.runtimeAnimatorController = null;
+                            UpdateAvatar(avatarDescriptor);
+                        }
+
+                        if (avatarAnimator.runtimeAnimatorController == null)
+                        {
+                            // do nothing
+                        }
+                        else if (avatarAnimator.runtimeAnimatorController == gestureController)
+                        {
+                            EditorGUILayout.HelpBox("Editing Gesture Controller on avatar.", MessageType.Warning);
+                        }
+                        else if (avatarAnimator.runtimeAnimatorController == fxController)
+                        {
+                            EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
+                        }
+                        else
+                        {
+                            EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
+                        }
+                    }
+
+                    var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
+                    TypedGUILayout.ReferenceField(proxyAnimatorLabel, ref avatarWizard.proxyAnimator);
+
+                    if (avatarDescriptor)
+                    {
+                        using (new GUILayout.HorizontalScope())
+                        {
+                            using (new EditorGUI.DisabledScope(gestureController == null))
                             {
-                                EditAnimator(gestureController);
+                                if (GUILayout.Button("Edit Gesture"))
+                                {
+                                    EditAnimator(gestureController);
+                                }
+                            }
+
+                            using (new EditorGUI.DisabledScope(fxController == null))
+                            {
+                                if (GUILayout.Button("Edit FX"))
+                                {
+                                    EditAnimator(fxController);
+                                }
+                            }
+
+                            if (GUILayout.Button("Remove Controller"))
+                            {
+                                EditAnimator(null);
                             }
                         }
-
-                        using (new EditorGUI.DisabledScope(fxController == null))
-                        {
-                            if (GUILayout.Button("Edit FX"))
-                            {
-                                EditAnimator(fxController);
-                            }
-                        }
-
-                        if (GUILayout.Button("Remove Controller"))
-                        {
-                            EditAnimator(null);
-                        }
                     }
-                }
-            });
-
-            serializedObj.ApplyModifiedProperties();
-
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "VRCAvatarDescriptorの更新を行います。\nAnimatorコンポーネントが存在するなら、それを使ってアバターのアニメーションの編集を開始することができます。");
+                });
+                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "VRCAvatarDescriptorの更新を行います。\nAnimatorコンポーネントが存在するなら、それを使ってアバターのアニメーションの編集を開始することができます。");
+            }
         }
 
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)

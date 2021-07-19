@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
@@ -7,7 +6,8 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Collections;
+using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
@@ -19,161 +19,133 @@ namespace Silksprite.EmoteWizard
     {
         FxWizard fxWizard;
 
-        ExpandableReorderableList baseMixinsList;
-        ExpandableReorderableList emotesList;
-        ExpandableReorderableList parametersList;
-        ExpandableReorderableList mixinsList;
+        ExpandableReorderableList<AnimationMixin> baseMixinsList;
+        ExpandableReorderableList<Emote> emotesList;
+        ExpandableReorderableList<ParameterEmote> parametersList;
+        ExpandableReorderableList<AnimationMixin> mixinsList;
 
         void OnEnable()
         {
-            fxWizard = target as FxWizard;
+            fxWizard = (FxWizard) target;
 
-            baseMixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("baseMixins"));
-            emotesList = new ExpandableReorderableList(new EmoteListDrawerBase(), serializedObject.FindProperty("emotes"));
-            parametersList = new ExpandableReorderableList(new ParameterEmoteListDrawerBase(), serializedObject.FindProperty("parameterEmotes"));
-            mixinsList = new ExpandableReorderableList(new AnimationMixinListDrawerBase(), serializedObject.FindProperty("mixins"));
+            baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref fxWizard.baseMixins);
+            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref fxWizard.emotes);
+            parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref fxWizard.parameterEmotes);
+            mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref fxWizard.mixins);
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = serializedObject;
-            var emoteWizardRoot = fxWizard.EmoteWizardRoot;
-            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-
-            EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
+            using (new ObjectChangeScope(fxWizard))
             {
-                if (GUILayout.Button("Repopulate Emotes: 7 items"))
+                var emoteWizardRoot = fxWizard.EmoteWizardRoot;
+                var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
+
+                EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
                 {
-                    RepopulateDefaultFxEmotes();
-                }
-                if (GUILayout.Button("Repopulate Emotes: 14 items"))
-                {
-                    RepopulateDefaultFxEmotes14();
-                }
-                if (parametersWizard != null)
-                {
-                    if (GUILayout.Button("Repopulate Parameters"))
+                    if (GUILayout.Button("Repopulate Emotes: 7 items"))
                     {
-                        parametersWizard.TryRefreshParameters();
-                        fxWizard.parameterEmotes = new List<ParameterEmote>();
-                        fxWizard.RefreshParameters(parametersWizard);
+                        SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
                     }
-                }
-            });
 
-            var advancedAnimations = serializedObj.FindProperty("advancedAnimations");
-            EditorGUILayout.PropertyField(advancedAnimations);
-
-            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
-            {
-                baseMixinsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
-
-            using (EmoteDrawer.StartContext(emoteWizardRoot, parametersWizard, advancedAnimations.boolValue))
-            {
-                emotesList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
-
-            using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, ParameterEmoteDrawer.EditTargets))
-            {
-                parametersList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
-            if (parametersList.serializedProperty.isExpanded)
-            {
-                EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
-                {
-                    if (GUILayout.Button("Collect Parameters"))
+                    if (GUILayout.Button("Repopulate Emotes: 14 items"))
                     {
-                        parametersWizard.TryRefreshParameters();
-                        fxWizard.RefreshParameters(parametersWizard);
+                        SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
+                    }
+
+                    if (parametersWizard != null)
+                    {
+                        if (GUILayout.Button("Repopulate Parameters"))
+                        {
+                            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
+                        }
                     }
                 });
-            }
 
-            using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
-            {
-                mixinsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
+                TypedGUILayout.Toggle("Advanced Animations", ref fxWizard.advancedAnimations);
 
-            EmoteWizardGUILayout.OutputUIArea(() =>
-            {
-                if (GUILayout.Button("Generate Animation Controller"))
+                using (AnimationMixinDrawer.StartContext(emoteWizardRoot,
+                    GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
                 {
-                    var builder = new AnimationControllerBuilder
-                    {
-                        AnimationWizardBase = fxWizard,
-                        ParametersWizard = parametersWizard,
-                        DefaultRelativePath = "FX/@@@Generated@@@FX.controller"
-                    };
-
-                    var resetClip = BuildResetClip(fxWizard.ProvideResetClip());
-                    
-                    var resetLayer = builder.PopulateLayer("Reset");
-                    builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
-
-                    foreach (var mixin in fxWizard.baseMixins.Where(mixin => mixin.Motion != null))
-                    {
-                        var mixinLayer = builder.PopulateLayer(mixin.name); 
-                        builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                    }
-                    
-                    var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft()); 
-                    builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, advancedAnimations.boolValue);
-            
-                    var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight()); 
-                    builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, advancedAnimations.boolValue);
-
-                    foreach (var parameterEmote in fxWizard.ActiveParameters)
-                    {
-                        var expressionLayer = builder.PopulateLayer(parameterEmote.name);
-                        builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                    }
-                    
-                    foreach (var mixin in fxWizard.mixins.Where(mixin => mixin.Motion != null))
-                    {
-                        var mixinLayer = builder.PopulateLayer(mixin.name); 
-                        builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                    }
-                    
-                    builder.BuildParameters();
+                    baseMixinsList.DrawAsProperty(fxWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("resetClip"));
-            });
+                using (EmoteDrawer.StartContext(emoteWizardRoot, parametersWizard, fxWizard.advancedAnimations))
+                {
+                    emotesList.DrawAsProperty(fxWizard.emotes, emoteWizardRoot.listDisplayMode);
+                }
 
-            serializedObj.ApplyModifiedProperties();
-            
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
-        }
+                using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName))
+                {
+                    parametersList.DrawAsProperty(fxWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
+                }
 
-        void RepopulateDefaultFxEmotes()
-        {
-            var newEmotes = Emote.HandSigns
-                .Select(Emote.Populate)
-                .ToList();
-            fxWizard.emotes = newEmotes;
-        }
-
-        void RepopulateDefaultFxEmotes14()
-        {
-            var newEmotes = Enumerable.Empty<Emote>()
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
+                if (IsExpandedTracker.GetIsExpanded(fxWizard.parameterEmotes))
+                {
+                    EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
                     {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
-                        parameter = EmoteParameter.Populate(handSign)
-                    }))
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
+                        if (GUILayout.Button("Collect Parameters"))
+                        {
+                            parametersWizard.TryRefreshParameters();
+                            fxWizard.RefreshParameters(parametersWizard);
+                        }
+                    });
+                }
+
+                using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
+                {
+                    mixinsList.DrawAsProperty(fxWizard.mixins, emoteWizardRoot.listDisplayMode);
+                }
+
+                EmoteWizardGUILayout.OutputUIArea(() =>
+                {
+                    if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
-                        parameter = EmoteParameter.Populate(handSign)
-                    }))
-                .ToList();
-            fxWizard.emotes = newEmotes;
+                        var builder = new AnimationControllerBuilder
+                        {
+                            AnimationWizardBase = fxWizard,
+                            ParametersWizard = parametersWizard,
+                            DefaultRelativePath = "FX/@@@Generated@@@FX.controller"
+                        };
+
+                        var resetClip = BuildResetClip(fxWizard.ProvideResetClip());
+
+                        var resetLayer = builder.PopulateLayer("Reset");
+                        builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
+
+                        foreach (var mixin in fxWizard.baseMixins.Where(mixin => mixin.Motion != null))
+                        {
+                            var mixinLayer = builder.PopulateLayer(mixin.name);
+                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                        }
+
+                        var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft());
+                        builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, fxWizard.advancedAnimations);
+
+                        var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight());
+                        builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, fxWizard.advancedAnimations);
+
+                        foreach (var parameterEmote in fxWizard.ActiveParameters)
+                        {
+                            var expressionLayer = builder.PopulateLayer(parameterEmote.name);
+                            builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
+                        }
+
+                        foreach (var mixin in fxWizard.mixins.Where(mixin => mixin.Motion != null))
+                        {
+                            var mixinLayer = builder.PopulateLayer(mixin.name);
+                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                        }
+
+                        builder.BuildParameters();
+                    }
+
+                    TypedGUILayout.AssetField("Output Asset", ref fxWizard.outputAsset);
+                    TypedGUILayout.AssetField("Reset Clip", ref fxWizard.resetClip);
+                });
+
+                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
+            }
         }
     }
 }

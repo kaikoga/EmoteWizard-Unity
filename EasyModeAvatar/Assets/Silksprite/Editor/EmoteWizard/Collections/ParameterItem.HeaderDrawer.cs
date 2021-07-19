@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
@@ -7,16 +6,8 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.Collections
 {
-    public class ParameterItemListDrawerBase : ListDrawerBase
+    public class ParameterItemListHeaderDrawer : ListHeaderDrawerBase
     {
-        public override string HeaderName => "Parameter Items";
-        public override string PagerItemName(SerializedProperty property, int index)
-        {
-            var name = property.FindPropertyRelative("name").stringValue;
-            var kind = (ParameterItemKind)property.FindPropertyRelative("itemKind").intValue;
-            return $"{name} ({kind})";
-        }
-
         protected override void DrawHeaderContent(Rect position)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))

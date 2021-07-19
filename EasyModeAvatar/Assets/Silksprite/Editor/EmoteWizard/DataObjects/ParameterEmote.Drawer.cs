@@ -4,76 +4,73 @@ using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [CustomPropertyDrawer(typeof(ParameterEmote))]
-    public class ParameterEmoteDrawer : PropertyDrawerWithContext<ParameterEmoteDrawerContext>
+    public class ParameterEmoteDrawer : TypedDrawerWithContext<ParameterEmote, ParameterEmoteDrawerContext>
     {
-        public static bool EditTargets = true; // FIXME
+        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer) => StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer));
 
-        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer, bool editTargets) => PropertyDrawerWithContext<ParameterEmoteDrawerContext>.StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer, editTargets));
+        public override bool FixedPropertyHeight => false;
 
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public override string PagerItemName(ParameterEmote property, int index) => $"{property.name} ({property.emoteKind})";
+
+        public override void OnGUI(Rect position, ref ParameterEmote property, GUIContent label)
         {
-            var context = EnsureContext(property);
+            var context = EnsureContext();
 
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
-            using (new EditorGUI.PropertyScope(position, label, property))
+
+            using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                var name = property.FindPropertyRelative("name");
-                var emoteKind = property.FindPropertyRelative("emoteKind");
-                var parameter = property.FindPropertyRelative("parameter");
-                using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
+                TypedGUI.Toggle(position.UISliceV(0), "Enabled", ref property.enabled);
+                TypedGUI.TextField(position.UISliceV(1), "Name", ref property.name);
+                using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.parameter)))
                 {
-                    EditorGUI.PropertyField(position.UISliceV(0), property.FindPropertyRelative("enabled"));
-                    EditorGUI.PropertyField(position.UISliceV(1), name);
-                    using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(parameter.stringValue)))
-                    {
-                        EditorGUI.PropertyField(position.UISlice(0.0f, 0.8f, 2), parameter);
-                    }
-                    using (new HideLabelsScope())
-                    {
-                        EditorGUI.PropertyField(position.UISlice(0.8f, 0.2f, 2), property.FindPropertyRelative("valueKind"));
-                    }
-
-                    EditorGUI.PropertyField(position.UISliceV(3), emoteKind);
+                    TypedGUI.TextField(position.UISlice(0.0f, 0.8f, 2), "Parameter", ref property.parameter);
                 }
 
-                var emoteKindValue = (ParameterEmoteKind) emoteKind.intValue;
-                if (emoteKindValue == ParameterEmoteKind.Unused) return;
-
-                var editTargets = context.EditTargets && emoteKindValue == ParameterEmoteKind.Transition;
-                var states = property.FindPropertyRelative("states");
-                using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, name.stringValue, editTargets))
+                using (new HideLabelsScope())
                 {
-                    EditorGUI.PropertyField(position.UISliceV(4, -4), states, true);
+                    TypedGUI.EnumPopup(position.UISlice(0.8f, 0.2f, 2), "Value Kind", ref property.valueKind);
                 }
-                if (editTargets && states.isExpanded)
+
+                TypedGUI.EnumPopup(position.UISliceV(3), "Emote Kind", ref property.emoteKind);
+            }
+
+            if (property.emoteKind == ParameterEmoteKind.Unused) return;
+
+            var editTargets = context.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
+            using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, property.name, editTargets))
+            {
+                TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
+            }
+
+            if (editTargets && IsExpandedTracker.GetIsExpanded(property.states))
+            {
+                if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
                 {
-                    if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
-                    {
-                        context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, name.stringValue);
-                    }
+                    context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
                 }
             }
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        public override float GetPropertyHeight(ParameterEmote property, GUIContent label)
         {
-            var context = EnsureContext(property);
+            var context = EnsureContext();
 
-            var states = property.FindPropertyRelative("states");
-            var emoteKind = (ParameterEmoteKind) property.FindPropertyRelative("emoteKind").intValue;
+            var states = property.states;
+            var emoteKind = property.emoteKind;
             var editTargets = context.EditTargets && emoteKind == ParameterEmoteKind.Transition;
             var statesLines = 0f;
             if (emoteKind != ParameterEmoteKind.Unused)
             {
-                if (states.isExpanded) statesLines += (editTargets ? 2f : 1f) + states.arraySize * (editTargets ? 2f : 1f);
+                if (IsExpandedTracker.GetIsExpanded(states)) statesLines += (editTargets ? 2f : 1f) + states.Count * (editTargets ? 2f : 1f);
                 statesLines += 1f;
             }
             return BoxHeight(LineHeight(4f + statesLines));

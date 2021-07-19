@@ -1,11 +1,12 @@
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Collections;
+using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -15,68 +16,69 @@ namespace Silksprite.EmoteWizard
     public class ParametersWizardEditor : AnimationWizardBaseEditor
     {
         ParametersWizard parametersWizard;
-        ExpandableReorderableList parameterItemsList;
-        ExpandableReorderableList defaultParameterItemsList;
+        ExpandableReorderableList<ParameterItem> parameterItemsList;
+        ExpandableReorderableList<ParameterItem> defaultParameterItemsList;
 
         void OnEnable()
         {
-            parametersWizard = target as ParametersWizard;
+            parametersWizard = (ParametersWizard) target;
             
-            parameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("parameterItems"));
-            defaultParameterItemsList = new ExpandableReorderableList(new ParameterItemListDrawerBase(), serializedObject.FindProperty("defaultParameterItems"));
+            parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
+            defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = serializedObject;
-            var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
-            var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
-
-            EmoteWizardGUILayout.SetupOnlyUI(parametersWizard, () =>
+            using (new ObjectChangeScope(parametersWizard))
             {
-                if (expressionWizard)
+                var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
+                var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
+
+                EmoteWizardGUILayout.SetupOnlyUI(parametersWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate Parameters"))
+                    if (expressionWizard)
                     {
-                        parametersWizard.parameterItems = new List<ParameterItem>();
-                        parametersWizard.ForceRefreshParameters();
-                    }
-                }
-            });
-
-            using (ParameterItemDrawer.StartContext(emoteWizardRoot, false))
-            {
-                parameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
-            if (parameterItemsList.serializedProperty.isExpanded)
-            {
-                EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
-                    () =>
-                    {
-                        if (GUILayout.Button("Collect Parameters (auto)"))
+                        if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            parametersWizard.ForceRefreshParameters();
+                            SetupWizardUtils.RepopulateParameters(parametersWizard);
                         }
-                    });
-            }
+                    }
+                });
 
-            using (ParameterItemDrawer.StartContext(emoteWizardRoot, true))
-            {
-                defaultParameterItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
-
-            EmoteWizardGUILayout.OutputUIArea(() =>
-            {
-                if (GUILayout.Button("Generate Expression Parameters"))
+                using (ParameterItemDrawer.StartContext(emoteWizardRoot, false))
                 {
-                    BuildExpressionParameters();
+                    parameterItemsList.DrawAsProperty(parametersWizard.parameterItems, emoteWizardRoot.listDisplayMode);
                 }
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));
-            });
 
-            serializedObj.ApplyModifiedProperties();
-            
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
+                if (parameterItemsList.IsExpanded)
+                {
+                    EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
+                        () =>
+                        {
+                            if (GUILayout.Button("Collect Parameters (auto)"))
+                            {
+                                parametersWizard.ForceRefreshParameters();
+                            }
+                        });
+                }
+
+                using (ParameterItemDrawer.StartContext(emoteWizardRoot, true))
+                {
+                    defaultParameterItemsList.DrawAsProperty(parametersWizard.defaultParameterItems, emoteWizardRoot.listDisplayMode);
+                }
+
+                EmoteWizardGUILayout.OutputUIArea(() =>
+                {
+                    if (GUILayout.Button("Generate Expression Parameters"))
+                    {
+                        BuildExpressionParameters();
+                    }
+
+                    TypedGUILayout.AssetField("Output Asset", ref parametersWizard.outputAsset);
+                });
+
+                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
+            }
         }
 
         void BuildExpressionParameters()

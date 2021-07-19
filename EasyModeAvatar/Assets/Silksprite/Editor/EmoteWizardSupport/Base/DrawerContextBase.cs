@@ -2,9 +2,9 @@ using System;
 
 namespace Silksprite.EmoteWizardSupport.Base
 {
-    public abstract class DrawerContextBase<T> : IDisposable
-        where T : DrawerContextBase<T>
+    public abstract class DrawerContextBase<T, TContext> : IDisposable
+        where TContext : DrawerContextBase<T, TContext>
     {
-        public void Dispose() => PropertyDrawerWithContext<T>.EndContext();
+        public void Dispose() => DrawerContext<T, TContext>.EndContext();
     }
 }

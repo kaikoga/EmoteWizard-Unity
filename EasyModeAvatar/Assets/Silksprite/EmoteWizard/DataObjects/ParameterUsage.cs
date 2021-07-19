@@ -8,7 +8,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         public ParameterUsageKind usageKind;
         public float value;
 
-        ParameterUsage()
+        public ParameterUsage()
         {
         }
 

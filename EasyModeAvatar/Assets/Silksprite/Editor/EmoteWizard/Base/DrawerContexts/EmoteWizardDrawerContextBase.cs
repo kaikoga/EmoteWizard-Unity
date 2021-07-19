@@ -3,8 +3,8 @@ using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Base.DrawerContexts
 {
-    public abstract class EmoteWizardDrawerContextBase<T> : DrawerContextBase<T>
-        where T : DrawerContextBase<T>
+    public abstract class EmoteWizardDrawerContextBase<T, TContext> : DrawerContextBase<T, TContext>
+        where TContext : DrawerContextBase<T, TContext>
     {
         readonly EmoteWizardRoot _emoteWizardRoot;
 

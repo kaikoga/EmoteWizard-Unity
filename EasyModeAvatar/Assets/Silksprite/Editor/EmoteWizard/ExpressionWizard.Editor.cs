@@ -6,7 +6,9 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Collections;
+using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -18,75 +20,59 @@ namespace Silksprite.EmoteWizard
     {
         ExpressionWizard expressionWizard;
 
-        ExpandableReorderableList expressionItemsList;
+        ExpandableReorderableList<ExpressionItem> expressionItemsList;
 
         void OnEnable()
         {
-            expressionWizard = target as ExpressionWizard;
+            expressionWizard = (ExpressionWizard) target;
             
-            expressionItemsList = new ExpandableReorderableList(new ExpressionItemListDrawerBase(), serializedObject.FindProperty("expressionItems"));
+            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Expression Items", ref expressionWizard.expressionItems);
         }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = serializedObject;
-            var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
-
-            EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
+            using (new ObjectChangeScope(expressionWizard))
             {
-                if (GUILayout.Button("Reset Expression Items"))
+                var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
+
+                EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
                 {
-                    RepopulateDefaultExpressionItems();
-                }
-            });
+                    if (GUILayout.Button("Reset Expression Items"))
+                    {
+                        SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
+                    }
+                });
 
-            using (ExpressionItemDrawer.StartContext(emoteWizardRoot))
-            {
-                expressionItemsList.DrawAsProperty(emoteWizardRoot.listDisplayMode);
-            }
-
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("buildAsSubAsset"));
-            EditorGUILayout.PropertyField(serializedObj.FindProperty("defaultPrefix"));
-
-            if (GUILayout.Button("Populate Default Expression Items"))
-            {
-                PopulateDefaultExpressionItems();
-            }
-            if (GUILayout.Button("Group by Folder"))
-            {
-                GroupItemsByFolder();
-            }
-
-            EmoteWizardGUILayout.OutputUIArea(() =>
-            {
-                if (GUILayout.Button("Generate Expression Menu"))
+                using (ExpressionItemDrawer.StartContext(emoteWizardRoot))
                 {
-                    BuildExpressionMenu();
+                    expressionItemsList.DrawAsProperty(expressionWizard.expressionItems, emoteWizardRoot.listDisplayMode);
                 }
-                EditorGUILayout.PropertyField(serializedObj.FindProperty("outputAsset"));
-            });
 
-            serializedObj.ApplyModifiedProperties();
+                TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
+                TypedGUILayout.TextField("Default Prefix", ref expressionWizard.defaultPrefix);
 
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
-        }
+                if (GUILayout.Button("Populate Default Expression Items"))
+                {
+                    SetupWizardUtils.PopulateDefaultExpressionItems(expressionWizard);
+                }
 
-        void RepopulateDefaultExpressionItems()
-        {
-            expressionWizard.expressionItems = new List<ExpressionItem>();
-            PopulateDefaultExpressionItems();
-        }
+                if (GUILayout.Button("Group by Folder"))
+                {
+                    GroupItemsByFolder();
+                }
 
-        void PopulateDefaultExpressionItems()
-        {
-            var icon = VrcSdkAssetLocator.PersonDance();
-            var expressionItems = Enumerable.Range(1, 8)
-                .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, i));
-            if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
-            expressionWizard.expressionItems.AddRange(expressionItems);
-            expressionWizard.expressionItems = expressionWizard.expressionItems
-                .DistinctBy(item => item.path)
-                .ToList();
+                EmoteWizardGUILayout.OutputUIArea(() =>
+                {
+                    if (GUILayout.Button("Generate Expression Menu"))
+                    {
+                        BuildExpressionMenu();
+                    }
+
+                    TypedGUILayout.AssetField("Output Asset", ref expressionWizard.outputAsset);
+                });
+
+                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
+            }
         }
 
         void BuildExpressionMenu()
