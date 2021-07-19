@@ -75,7 +75,7 @@ namespace Silksprite.EmoteWizard
                     emotesList.DrawAsProperty(fxWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, ParameterEmoteDrawer.EditTargets))
+                using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName))
                 {
                     parametersList.DrawAsProperty(fxWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }

@@ -13,9 +13,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class ParameterEmoteDrawer : TypedDrawerWithContext<ParameterEmote, ParameterEmoteDrawerContext>
     {
-        public static bool EditTargets = true; // FIXME
-
-        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer, bool editTargets) => StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer, editTargets));
+        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer) => StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer));
 
         public override bool FixedPropertyHeight => false;
 

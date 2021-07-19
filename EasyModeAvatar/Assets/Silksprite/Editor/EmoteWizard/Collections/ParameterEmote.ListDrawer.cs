@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
@@ -24,7 +25,7 @@ namespace Silksprite.EmoteWizard.Collections
                 GUI.Label(position.UISlice(0.1f, 0.2f, 0), "Value");
                 GUI.Label(position.UISlice(0.3f, 0.7f, 0), "Motion");
                 
-                TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Targets (Transition only)", ref ParameterEmoteDrawer.EditTargets);
+                TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Targets (Transition only)", ref ParameterEmoteDrawerContext.EditTargetsGlobal);
             }
         }
 
