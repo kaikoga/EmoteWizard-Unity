@@ -59,9 +59,10 @@ namespace Silksprite.EmoteWizardSupport.UI
         }
 
         [UsedImplicitly]
-        class EnumDrawer : TypedDrawerBase<Enum>
+        class EnumDrawer<T> : TypedDrawerBase<T>
+        where T : Enum
         {
-            public override void OnGUI(Rect position, ref Enum property, GUIContent label)
+            public override void OnGUI(Rect position, ref T property, GUIContent label)
             {
                 TypedGUI.EnumPopup(position, label, ref property);
             }
