@@ -28,10 +28,10 @@ namespace Silksprite.EmoteWizard
         {
             fxWizard = (FxWizard) target;
 
-            baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref fxWizard.baseMixins);
-            emotesList = new ExpandableReorderableList<Emote>(new EmoteListDrawer(), new EmoteDrawer(), "Emotes", ref fxWizard.emotes);
-            parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref fxWizard.parameterEmotes);
-            mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListDrawer(), new AnimationMixinDrawer(), "Mixins", ref fxWizard.mixins);
+            baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref fxWizard.baseMixins);
+            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref fxWizard.emotes);
+            parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref fxWizard.parameterEmotes);
+            mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref fxWizard.mixins);
         }
 
         public override void OnInspectorGUI()

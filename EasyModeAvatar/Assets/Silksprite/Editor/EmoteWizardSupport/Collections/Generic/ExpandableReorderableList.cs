@@ -19,12 +19,12 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
 
         public bool IsExpanded => IsExpandedTracker.GetIsExpanded(list);
 
-        readonly ListDrawerBase _listDrawer;
+        readonly ListHeaderDrawerBase _headerDrawer;
         readonly ITypedDrawer<T> _typedDrawer;
         readonly string _headerName;
         readonly Action<int> _repopulate;
 
-        public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, ref T[] elements) : this(listDrawer, typedDrawer, headerName, elements, true)
+        public ExpandableReorderableList(ListHeaderDrawerBase headerDrawer, ITypedDrawer<T> typedDrawer, string headerName, ref T[] elements) : this(headerDrawer, typedDrawer, headerName, elements, true)
         {
             if (elements == null) elements = new T[]{};
             _repopulate = size =>
@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
             };
         }
         
-        public ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, ref List<T> elements) : this(listDrawer, typedDrawer, headerName, elements, true)
+        public ExpandableReorderableList(ListHeaderDrawerBase headerDrawer, ITypedDrawer<T> typedDrawer, string headerName, ref List<T> elements) : this(headerDrawer, typedDrawer, headerName, elements, true)
         {
             if (elements == null) elements = new List<T>();
             _repopulate = size =>
@@ -46,9 +46,9 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
             };
         }
         
-        ExpandableReorderableList(ListDrawerBase listDrawer, ITypedDrawer<T> typedDrawer, string headerName, IList elements, bool ignored) : base(elements, typeof(T))
+        ExpandableReorderableList(ListHeaderDrawerBase headerDrawer, ITypedDrawer<T> typedDrawer, string headerName, IList elements, bool ignored) : base(elements, typeof(T))
         {
-            _listDrawer = listDrawer;
+            _headerDrawer = headerDrawer;
             _typedDrawer = typedDrawer;
             _headerName = headerName;
 
@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
                     {
                         ((GUIStyle) "RL Background").Draw(customHeaderRect.Inset(-6, -1, -6, -4), false, false, true, false);
                     }
-                    _listDrawer?.OnGUI(customHeaderRect, true);
+                    _headerDrawer?.OnGUI(customHeaderRect, true);
                 }
                 else
                 {
@@ -130,7 +130,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
                 if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                 _repopulate(arraySize);
 
-                _listDrawer?.OnGUI(false);
+                _headerDrawer?.OnGUI(false);
                 for (var i = 0; i < list.Count; i++)
                 {
                     var child = (T) list[i];
@@ -145,7 +145,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
         {
             if (IsExpanded)
             {
-                headerHeight = 16f + (_listDrawer?.GetHeaderHeight() ?? 0f);
+                headerHeight = 16f + (_headerDrawer?.GetHeaderHeight() ?? 0f);
                 footerHeight = 12f;
             }
             else
@@ -196,7 +196,7 @@ namespace Silksprite.EmoteWizardSupport.Collections.Generic
                     if (pagerIndex < 0) pagerIndex = 0;
                 }
 
-                _listDrawer?.OnGUI(false);
+                _headerDrawer?.OnGUI(false);
                 if (pagerIndex < arraySize)
                 {
                     var child = (T) list[pagerIndex];

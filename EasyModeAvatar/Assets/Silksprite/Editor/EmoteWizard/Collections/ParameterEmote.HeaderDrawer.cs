@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -9,15 +8,8 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.Collections
 {
-    public class ParameterEmoteListDrawer : ListDrawerBase
+    public class ParameterEmoteListHeaderDrawer : ListHeaderDrawerBase
     {
-        public override string PagerItemName(SerializedProperty property, int index)
-        {
-            var name = property.FindPropertyRelative("name").stringValue;
-            var kind = (ParameterEmoteKind)property.FindPropertyRelative("emoteKind").intValue;
-            return $"{name} ({kind})";                    
-        }
-
         protected override void DrawHeaderContent(Rect position)
         {
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
