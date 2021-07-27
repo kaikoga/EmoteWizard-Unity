@@ -188,7 +188,7 @@ namespace Silksprite.EmoteWizard.Internal
                         }
                         else
                         {
-                            transition.AddCondition(AnimatorConditionMode.Greater, value - 1f, parameterName);
+                            transition.AddAlwaysTrueCondition();
                         }
                         return;
                     case ParameterValueKind.Bool:
