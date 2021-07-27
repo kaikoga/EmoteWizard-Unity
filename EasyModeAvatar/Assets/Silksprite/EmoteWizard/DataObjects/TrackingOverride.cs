@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
@@ -8,7 +7,6 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class TrackingOverride
     {
         [SerializeField] public TrackingTarget target;
-        [SerializeField] public TrackingType type;
 
         public enum TrackingTarget
         {
@@ -22,13 +20,6 @@ namespace Silksprite.EmoteWizard.DataObjects
             RightFingers,
             Eyes,
             Mouth
-        }
-
-        public enum TrackingType
-        {
-            NoChange,
-            Tracking,
-            Animation,
         }
     }
 }

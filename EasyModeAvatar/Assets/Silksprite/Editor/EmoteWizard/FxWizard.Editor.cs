@@ -146,6 +146,12 @@ namespace Silksprite.EmoteWizard
                             builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
                         }
 
+                        foreach (var trackingTarget in builder.TrackingTargets)
+                        {
+                            var trackingControlLayer = builder.PopulateLayer($"TrackingControl {trackingTarget}");
+                            builder.BuildTrackingControlLayerStateMachine(trackingControlLayer.stateMachine, trackingTarget);
+                        }
+
                         builder.BuildParameters();
                     }
 

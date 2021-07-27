@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
@@ -144,6 +143,12 @@ namespace Silksprite.EmoteWizard
                         {
                             var mixinLayer = builder.PopulateLayer(mixin.name);
                             builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
+                        }
+
+                        foreach (var trackingTarget in builder.TrackingTargets)
+                        {
+                            var trackingControlLayer = builder.PopulateLayer($"TrackingControl {trackingTarget}");
+                            builder.BuildTrackingControlLayerStateMachine(trackingControlLayer.stateMachine, trackingTarget);
                         }
 
                         builder.BuildParameters();

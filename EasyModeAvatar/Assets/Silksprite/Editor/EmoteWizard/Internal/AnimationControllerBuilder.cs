@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
@@ -8,6 +9,8 @@ using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using VRC.SDK3.Avatars.Components;
+using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Internal
 {
@@ -16,7 +19,21 @@ namespace Silksprite.EmoteWizard.Internal
         public AnimationWizardBase AnimationWizardBase;
         public ParametersWizard ParametersWizard;
         public string DefaultRelativePath;
-        
+
+        readonly Dictionary<TrackingOverride.TrackingTarget, List<AnimatorStateTransition>> _overriders = new Dictionary<TrackingOverride.TrackingTarget, List<AnimatorStateTransition>>();
+
+        public IEnumerable<TrackingOverride.TrackingTarget> TrackingTargets => _overriders.Keys;
+
+        void RegisterOverrider(TrackingOverride.TrackingTarget target, AnimatorStateTransition transition)
+        {
+            if (!_overriders.TryGetValue(target, out var transitions))
+            {
+                transitions = new List<AnimatorStateTransition>();
+                _overriders[target] = transitions;
+            }
+            transitions.Add(transition);
+        }
+
         AnimatorController _animatorController;
         AnimatorController AnimatorController
         {
@@ -122,6 +139,11 @@ namespace Silksprite.EmoteWizard.Internal
                     transition.hasExitTime = false;
                     transition.duration = 0.1f;
                     transition.canTransitionToSelf = false;
+
+                    foreach (var enforcer in emote.trackingOverrides)
+                    {
+                        RegisterOverrider(enforcer.target, transition);
+                    }
                 }
             }
             
@@ -274,7 +296,87 @@ namespace Silksprite.EmoteWizard.Internal
                 }
             }
         }
-        
+
+        public void BuildTrackingControlLayerStateMachine(AnimatorStateMachine stateMachine, TrackingOverride.TrackingTarget target)
+        {
+            using (var positions = Positions().GetEnumerator())
+            {
+                foreach (var sourceTransition in _overriders[target])
+                {
+                    var sourceState = sourceTransition.destinationState;
+                    positions.MoveNext();
+
+                    var state = stateMachine.AddState(sourceState.name, positions.Current);
+                    PopulateTrackingControl(state, VRC_AnimatorTrackingControl.TrackingType.Animation);
+                    
+                    var transition = stateMachine.AddAnyStateTransition(state);
+                    foreach (var sourceCondition in sourceTransition.conditions)
+                    {
+                        transition.AddCondition(sourceCondition.mode, sourceCondition.threshold, sourceCondition.parameter);
+                    }
+
+                    transition.hasExitTime = sourceTransition.hasExitTime;
+                    transition.duration = sourceTransition.duration;
+                    transition.canTransitionToSelf = sourceTransition.canTransitionToSelf;
+                }
+                {
+                    positions.MoveNext();
+
+                    var state = stateMachine.AddState("Default", positions.Current);
+                    PopulateTrackingControl(state, VRC_AnimatorTrackingControl.TrackingType.Tracking);
+
+                    var transition = stateMachine.AddAnyStateTransition(state);
+                    transition.AddAlwaysTrueCondition();
+
+                    transition.hasExitTime = false;
+                    transition.duration = 0.1f;
+                    transition.canTransitionToSelf = false;
+
+                    stateMachine.defaultState = state;
+                }
+            }
+
+            void PopulateTrackingControl(AnimatorState state, VRC_AnimatorTrackingControl.TrackingType value)
+            {
+                var trackingControl = state.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
+                switch (target)
+                {
+                    case TrackingOverride.TrackingTarget.Head:
+                        trackingControl.trackingHead = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.LeftHand:
+                        trackingControl.trackingLeftHand = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.RightHand:
+                        trackingControl.trackingRightHand = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.Hip:
+                        trackingControl.trackingHip = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.LeftFoot:
+                        trackingControl.trackingLeftFoot = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.RightFoot:
+                        trackingControl.trackingRightFoot = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.LeftFingers:
+                        trackingControl.trackingLeftFingers = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.RightFingers:
+                        trackingControl.trackingRightFingers = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.Eyes:
+                        trackingControl.trackingEyes = value; 
+                        break;
+                    case TrackingOverride.TrackingTarget.Mouth:
+                        trackingControl.trackingMouth = value; 
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
         public void BuildParameters()
         {
             AnimatorController.AddParameter("GestureLeft", AnimatorControllerParameterType.Int);
