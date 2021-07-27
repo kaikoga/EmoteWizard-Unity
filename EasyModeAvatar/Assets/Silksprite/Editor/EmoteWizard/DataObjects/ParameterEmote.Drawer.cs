@@ -1,6 +1,4 @@
-using System;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -44,7 +42,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (property.emoteKind == ParameterEmoteKind.Unused) return;
 
-            var editTargets = context.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
+            var editTargets = context.State.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
             using (new ParameterEmoteStateDrawerContext(context.EmoteWizardRoot, context.Layer, property.name, editTargets).StartContext())
             {
                 TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
@@ -65,7 +63,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             var states = property.states;
             var emoteKind = property.emoteKind;
-            var editTargets = context.EditTargets && emoteKind == ParameterEmoteKind.Transition;
+            var editTargets = context.State.EditTargets && emoteKind == ParameterEmoteKind.Transition;
             var statesLines = 0f;
             if (emoteKind != ParameterEmoteKind.Unused)
             {

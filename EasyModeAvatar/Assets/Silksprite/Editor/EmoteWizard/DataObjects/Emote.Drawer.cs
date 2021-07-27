@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -12,10 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class EmoteDrawer : TypedDrawerWithContext<Emote, EmoteDrawerContext>
     {
-        public static bool EditConditions = true;
-        public static bool EditAnimations = true;
-        public static bool EditParameters = false;
-
         public override bool FixedPropertyHeight => false;
 
         public override string PagerItemName(Emote property, int index) => property.ToStateName();
@@ -27,7 +22,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
             var cursor = position.UISliceV(0, 1);
-            if (EditConditions)
+            if (context.State.EditConditions)
             {
                 using (new HideLabelsScope())
                 {
@@ -52,7 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 cursor.y += LineTop(1f);
             }
 
-            if (EditAnimations)
+            if (context.State.EditAnimations)
             {
                 if (context.AdvancedAnimations)
                 {
@@ -68,7 +63,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
             }
 
-            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters).StartContext())
+            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.State.EditParameters).StartContext())
             {
                 TypedGUI.TypedField(cursor, ref property.parameter, "Parameter");
             }
@@ -79,7 +74,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var context = EnsureContext();
             
             var h = 0f;
-            if (EditConditions)
+            if (context.State.EditConditions)
             {
                 h += LineHeight(2f) + TypedGUI.GetPropertyHeight(property.conditions, "Conditions") + EditorGUIUtility.standardVerticalSpacing;
             }
@@ -87,12 +82,12 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 h += LineHeight(1f) + EditorGUIUtility.standardVerticalSpacing;
             }
-            if (EditAnimations)
+            if (context.State.EditAnimations)
             {
                 h += LineHeight(context.AdvancedAnimations ? 2f : 1f) + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters).StartContext())
+            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.State.EditParameters).StartContext())
             {
                 h += TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
             }

@@ -1,10 +1,10 @@
-using System;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -21,6 +21,9 @@ namespace Silksprite.EmoteWizard
     {
         FxWizard fxWizard;
 
+        EmoteDrawerState emotesState;
+        ParameterEmoteDrawerState parametersState;
+
         ExpandableReorderableList<AnimationMixin> baseMixinsList;
         ExpandableReorderableList<Emote> emotesList;
         ExpandableReorderableList<ParameterEmote> parametersList;
@@ -29,6 +32,9 @@ namespace Silksprite.EmoteWizard
         void OnEnable()
         {
             fxWizard = (FxWizard) target;
+
+            emotesState = new EmoteDrawerState();
+            parametersState = new ParameterEmoteDrawerState();
 
             baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref fxWizard.baseMixins);
             emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref fxWizard.emotes);
@@ -72,12 +78,12 @@ namespace Silksprite.EmoteWizard
                     baseMixinsList.DrawAsProperty(fxWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.advancedAnimations).StartContext())
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.advancedAnimations, emotesState).StartContext())
                 {
                     emotesList.DrawAsProperty(fxWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName).StartContext())
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, parametersState).StartContext())
                 {
                     parametersList.DrawAsProperty(fxWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }

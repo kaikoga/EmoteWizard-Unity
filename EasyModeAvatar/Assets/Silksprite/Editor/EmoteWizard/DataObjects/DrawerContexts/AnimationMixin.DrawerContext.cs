@@ -1,7 +1,9 @@
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base.DrawerContexts;
 
 namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
+    [UsedImplicitly]
     public class AnimationMixinDrawerContext : EmoteWizardDrawerContextBase<AnimationMixin, AnimationMixinDrawerContext>
     {
         public readonly string RelativePath;

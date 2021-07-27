@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Utils;

@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -21,6 +22,9 @@ namespace Silksprite.EmoteWizard
     {
         GestureWizard gestureWizard;
 
+        EmoteDrawerState emotesState;
+        ParameterEmoteDrawerState parametersState;
+
         ExpandableReorderableList<AnimationMixin> baseMixinsList;
         ExpandableReorderableList<Emote> emotesList;
         ExpandableReorderableList<ParameterEmote> parametersList;
@@ -30,6 +34,9 @@ namespace Silksprite.EmoteWizard
         {
             gestureWizard = (GestureWizard) target;
             
+            emotesState = new EmoteDrawerState();
+            parametersState = new ParameterEmoteDrawerState();
+
             baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref gestureWizard.baseMixins);
             emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref gestureWizard.emotes);
             parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref gestureWizard.parameterEmotes);
@@ -73,12 +80,12 @@ namespace Silksprite.EmoteWizard
                     baseMixinsList.DrawAsProperty(gestureWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, gestureWizard.advancedAnimations).StartContext())
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, gestureWizard.advancedAnimations, emotesState).StartContext())
                 {
                     emotesList.DrawAsProperty(gestureWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName).StartContext())
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName, parametersState).StartContext())
                 {
                     parametersList.DrawAsProperty(gestureWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }

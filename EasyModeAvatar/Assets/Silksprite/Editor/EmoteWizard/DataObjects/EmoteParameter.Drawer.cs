@@ -1,4 +1,5 @@
 using System;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
@@ -11,6 +12,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [UsedImplicitly]
     public class EmoteParameterDrawer : TypedDrawerWithContext<EmoteParameter, EmoteParameterDrawerContext>
     {
         public override bool FixedPropertyHeight => false;

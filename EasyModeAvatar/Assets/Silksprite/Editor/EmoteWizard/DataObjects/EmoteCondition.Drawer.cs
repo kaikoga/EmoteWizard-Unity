@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;

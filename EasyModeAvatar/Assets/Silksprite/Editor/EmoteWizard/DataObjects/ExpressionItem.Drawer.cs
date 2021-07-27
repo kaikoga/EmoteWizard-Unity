@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
@@ -14,6 +15,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [UsedImplicitly]
     public class ExpressionItemDrawer : TypedDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>
     {
         static readonly string[][] SubParameterLabels = {
