@@ -15,8 +15,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class ParameterEmoteStateDrawer : TypedDrawerWithContext<ParameterEmoteState, ParameterEmoteStateDrawerContext>
     {
-        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => StartContext(new ParameterEmoteStateDrawerContext(emoteWizardRoot, layer, name, editTargets));
-
         public override bool FixedPropertyHeight => false;
         
         public override void OnGUI(Rect position, ref ParameterEmoteState property, GUIContent label)

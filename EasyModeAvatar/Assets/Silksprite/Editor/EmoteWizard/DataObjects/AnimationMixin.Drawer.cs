@@ -13,8 +13,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class AnimationMixinDrawer : TypedDrawerWithContext<AnimationMixin, AnimationMixinDrawerContext>
     {
-        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, string relativePath) => StartContext(new AnimationMixinDrawerContext(emoteWizardRoot, relativePath));
-
         public override bool FixedPropertyHeight => false;
 
         public override string PagerItemName(AnimationMixin property, int index) => property.name;

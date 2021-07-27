@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -65,17 +67,18 @@ namespace Silksprite.EmoteWizard
                     return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
                 });
 
-                using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
+                string relativePath = GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName);
+                using (new AnimationMixinDrawerContext(emoteWizardRoot, relativePath).StartContext())
                 {
                     baseMixinsList.DrawAsProperty(gestureWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (EmoteDrawer.StartContext(emoteWizardRoot, parametersWizard, gestureWizard.advancedAnimations))
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, gestureWizard.advancedAnimations).StartContext())
                 {
                     emotesList.DrawAsProperty(gestureWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName))
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName).StartContext())
                 {
                     parametersList.DrawAsProperty(gestureWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -92,7 +95,8 @@ namespace Silksprite.EmoteWizard
                     });
                 }
 
-                using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
+                string relativePath1 = GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName);
+                using (new AnimationMixinDrawerContext(emoteWizardRoot, relativePath1).StartContext())
                 {
                     mixinsList.DrawAsProperty(gestureWizard.mixins, emoteWizardRoot.listDisplayMode);
                 }

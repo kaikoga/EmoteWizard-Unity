@@ -16,8 +16,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
 
-        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations) => StartContext(new EmoteDrawerContext(emoteWizardRoot, parametersWizard, advancedAnimations));
-
         public override bool FixedPropertyHeight => false;
 
         public override string PagerItemName(Emote property, int index) => property.ToStateName();
@@ -39,7 +37,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     cursor.y += LineTop(1f);
                 }
 
-                using (EmoteConditionDrawer.StartContext(context.EmoteWizardRoot, context.ParametersWizard))
+                using (new EmoteConditionDrawerContext(context.EmoteWizardRoot, context.ParametersWizard).StartContext())
                 {
                     TypedGUI.TypedField(cursor, ref property.conditions, "Conditions");
                     cursor.y += TypedGUI.GetPropertyHeight(property.conditions, "Conditions") + EditorGUIUtility.standardVerticalSpacing;
@@ -70,7 +68,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
             }
 
-            using (EmoteParameterDrawer.StartContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters))
+            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters).StartContext())
             {
                 TypedGUI.TypedField(cursor, ref property.parameter, "Parameter");
             }
@@ -94,7 +92,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 h += LineHeight(context.AdvancedAnimations ? 2f : 1f) + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            using (EmoteParameterDrawer.StartContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters))
+            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, EditParameters).StartContext())
             {
                 h += TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
             }

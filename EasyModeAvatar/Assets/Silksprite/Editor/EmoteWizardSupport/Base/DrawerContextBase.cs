@@ -11,9 +11,17 @@ namespace Silksprite.EmoteWizardSupport.Base
 
         public void Dispose() => DoEndContext();
 
-        internal static IDisposable StartContext(TContext context)
+        public IDisposable StartContext()
         {
-            DoStartContext(context);
+            if (this is TContext context)
+            {
+                DoStartContext(context);
+            }
+            else
+            {
+                Debug.LogWarning($"Internal: Failed to start context {typeof(TContext)}");
+            }
+            
             return new DrawerContextDisposer<T, TContext>();
         }
 
@@ -61,8 +69,8 @@ namespace Silksprite.EmoteWizardSupport.Base
             throw new InvalidOperationException("Internal: could not instantiate context");
         }
     }
-    
-    class DrawerContextDisposer<T, TContext> : IDisposable
+
+    internal class DrawerContextDisposer<T, TContext> : IDisposable
         where TContext : DrawerContextBase<T, TContext>
     {
         public void Dispose() => DrawerContextBase<T, TContext>.DoEndContext();

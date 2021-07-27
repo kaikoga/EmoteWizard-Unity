@@ -14,8 +14,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class ParameterEmoteDrawer : TypedDrawerWithContext<ParameterEmote, ParameterEmoteDrawerContext>
     {
-        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer) => StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer));
-
         public override bool FixedPropertyHeight => false;
 
         public override string PagerItemName(ParameterEmote property, int index) => $"{property.name} ({property.emoteKind})";
@@ -47,7 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             if (property.emoteKind == ParameterEmoteKind.Unused) return;
 
             var editTargets = context.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
-            using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, property.name, editTargets))
+            using (new ParameterEmoteStateDrawerContext(context.EmoteWizardRoot, context.Layer, property.name, editTargets).StartContext())
             {
                 TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
             }
