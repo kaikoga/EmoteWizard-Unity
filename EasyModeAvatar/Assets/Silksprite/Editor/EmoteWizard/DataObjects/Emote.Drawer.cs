@@ -66,6 +66,12 @@ namespace Silksprite.EmoteWizard.DataObjects
             using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.State.EditParameters).StartContext())
             {
                 TypedGUI.TypedField(cursor, ref property.parameter, "Parameter");
+                cursor.y += TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+            }
+
+            if (context.State.EditParameters)
+            {
+                TypedGUI.TypedField(cursor, ref property.trackingOverrides, "Tracking Overrides");
             }
         }
         
@@ -90,6 +96,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.State.EditParameters).StartContext())
             {
                 h += TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+            }
+            if (context.State.EditParameters)
+            {
+                h += TypedGUI.GetPropertyHeight(property.trackingOverrides, "Tracking") + EditorGUIUtility.standardVerticalSpacing;
             }
 
             return BoxHeight(h);
