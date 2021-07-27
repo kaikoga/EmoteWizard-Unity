@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -73,6 +75,11 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 TypedGUI.TypedField(cursor, ref property.trackingOverrides, "Tracking Overrides");
             }
+            else if (property.trackingOverrides.Count > 0)
+            {
+                var overridesString = string.Join(", ", property.trackingOverrides.Select(o => o.target));
+                GUI.Label(cursor, $"Tracking Overrides: {overridesString}");
+            }
         }
         
         public override float GetPropertyHeight(Emote property, GUIContent label)
@@ -100,6 +107,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             if (context.State.EditParameters)
             {
                 h += TypedGUI.GetPropertyHeight(property.trackingOverrides, "Tracking") + EditorGUIUtility.standardVerticalSpacing;
+            }
+            else if (property.trackingOverrides.Count > 0)
+            {
+                h += LineHeight(1f) + EditorGUIUtility.standardVerticalSpacing;
             }
 
             return BoxHeight(h);
