@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizardSupport.Base
@@ -5,8 +6,8 @@ namespace Silksprite.EmoteWizardSupport.Base
     public abstract class PropertyDrawerWithContext<T, TContext> : PropertyDrawer
     where TContext : DrawerContextBase<T, TContext>
     {
-        protected static TContext StartContext(TContext context) => DrawerContext<T, TContext>.StartContext(context);
+        protected static IDisposable StartContext(TContext context) => DrawerContextBase<T, TContext>.StartContext(context);
 
-        protected TContext EnsureContext(SerializedProperty property) => DrawerContext<T, TContext>.EnsureContext(property);
+        protected TContext EnsureContext(SerializedProperty property) => DrawerContextBase<T, TContext>.EnsureContext(property);
     }
 }

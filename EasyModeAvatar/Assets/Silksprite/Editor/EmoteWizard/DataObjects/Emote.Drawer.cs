@@ -1,3 +1,4 @@
+using System;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -15,7 +16,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         public static bool EditAnimations = true;
         public static bool EditParameters = false;
 
-        public static EmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations) => StartContext(new EmoteDrawerContext(emoteWizardRoot, parametersWizard, advancedAnimations));
+        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations) => StartContext(new EmoteDrawerContext(emoteWizardRoot, parametersWizard, advancedAnimations));
 
         public override bool FixedPropertyHeight => false;
 

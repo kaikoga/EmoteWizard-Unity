@@ -1,3 +1,4 @@
+using System;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
@@ -11,7 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class EmoteConditionDrawer : TypedDrawerWithContext<EmoteCondition, EmoteConditionDrawerContext>
     {
-        public static EmoteConditionDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard) => StartContext(new EmoteConditionDrawerContext(emoteWizardRoot, parametersWizard));
+        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard) => StartContext(new EmoteConditionDrawerContext(emoteWizardRoot, parametersWizard));
 
         public override void OnGUI(Rect position, ref EmoteCondition property, GUIContent label)
         {

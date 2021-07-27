@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -14,7 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class ParameterEmoteStateDrawer : TypedDrawerWithContext<ParameterEmoteState, ParameterEmoteStateDrawerContext>
     {
-        public static ParameterEmoteStateDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => StartContext(new ParameterEmoteStateDrawerContext(emoteWizardRoot, layer, name, editTargets));
+        public static IDisposable StartContext(EmoteWizardRoot emoteWizardRoot, string layer, string name, bool editTargets) => StartContext(new ParameterEmoteStateDrawerContext(emoteWizardRoot, layer, name, editTargets));
 
         public override bool FixedPropertyHeight => false;
         
