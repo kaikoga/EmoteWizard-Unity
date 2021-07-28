@@ -5,6 +5,7 @@ using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
@@ -52,11 +53,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                                 return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                             });
                     }
-
-                    TypedGUI.Toggle(position.UISliceV(1), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
-                    if (property.normalizedTimeEnabled)
+                    using (context.EmoteControlDrawerContext().StartContext())
                     {
-                        TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Name"), ref property.normalizedTime);
+                        TypedGUI.TypedField(position.UISliceV(1, -1), ref property.control, new GUIContent("Control"));
                     }
 
                     break;
@@ -89,14 +88,14 @@ namespace Silksprite.EmoteWizard.DataObjects
         
         public override float GetPropertyHeight(AnimationMixin property, GUIContent label)
         {
+            var context = EnsureContext();
             var innerHeight = LineHeight(1f);
             switch (property.kind)
             {
                 case AnimationMixinKind.AnimationClip:
-                    innerHeight = LineHeight(2f);
-                    if (property.normalizedTimeEnabled)
+                    using (context.EmoteControlDrawerContext().StartContext())
                     {
-                        innerHeight = LineHeight(3f);
+                        innerHeight += TypedGUI.GetPropertyHeight(property.control, new GUIContent("Control")) + EditorGUIUtility.standardVerticalSpacing; 
                     }
                     break;
             }

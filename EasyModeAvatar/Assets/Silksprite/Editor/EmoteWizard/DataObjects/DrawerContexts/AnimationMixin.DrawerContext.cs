@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 
 namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
 {
@@ -7,8 +8,20 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
     public class AnimationMixinDrawerContext : EmoteWizardDrawerContextBase<AnimationMixin, AnimationMixinDrawerContext>
     {
         public readonly string RelativePath;
+        public readonly ParametersWizard ParametersWizard;
+        public readonly AnimationMixinDrawerState State;
 
         public AnimationMixinDrawerContext() : base(null) { }
-        public AnimationMixinDrawerContext(EmoteWizardRoot emoteWizardRoot, string relativePath) : base(emoteWizardRoot) => RelativePath = relativePath;
+        public AnimationMixinDrawerContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, string relativePath, AnimationMixinDrawerState state) : base(emoteWizardRoot)
+        {
+            ParametersWizard = parametersWizard;
+            RelativePath = relativePath;
+            State = state;
+        }
+
+        public EmoteControlDrawerContext EmoteControlDrawerContext()
+        {
+            return new EmoteControlDrawerContext(EmoteWizardRoot, ParametersWizard, false, State.EditControls);
+        }
     }
 }

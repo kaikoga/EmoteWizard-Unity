@@ -1,8 +1,6 @@
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
-using UnityEditor;
 using UnityEditor.Animations;
 
 namespace Silksprite.EmoteWizard.Internal.LayerBuilders
@@ -15,14 +13,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             var transition = AddStateAsTransition(mixin.name, mixin.Motion);
 
-            if (mixin.kind == AnimationMixinKind.AnimationClip && mixin.normalizedTimeEnabled)
+            if (mixin.kind == AnimationMixinKind.AnimationClip)
             {
-                ApplyEmoteControl(transition, true, new EmoteControl
-                {
-                    normalizedTimeEnabled = mixin.normalizedTimeEnabled,
-                    normalizedTimeLeft = mixin.normalizedTime,
-                    normalizedTimeRight = mixin.normalizedTime
-                });
+                ApplyEmoteControl(transition, true, mixin.control);
             }
 
             StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;

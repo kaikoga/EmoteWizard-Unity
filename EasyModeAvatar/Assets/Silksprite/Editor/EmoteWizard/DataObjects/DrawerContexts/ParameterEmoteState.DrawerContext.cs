@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
             EditParameters = editParameters;
         }
 
-        public EmoteControlDrawerContext EmoteParameterDrawerContext()
+        public EmoteControlDrawerContext EmoteControlDrawerContext()
         {
             return new EmoteControlDrawerContext(EmoteWizardRoot, ParametersWizard, false, EditParameters);
         }
