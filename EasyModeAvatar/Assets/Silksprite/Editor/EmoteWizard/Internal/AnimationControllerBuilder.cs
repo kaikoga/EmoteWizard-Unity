@@ -18,9 +18,9 @@ namespace Silksprite.EmoteWizard.Internal
         public ParametersWizard ParametersWizard;
         public string DefaultRelativePath;
 
-        readonly Dictionary<TrackingOverride.TrackingTarget, List<AnimatorStateTransition>> _overriders = new Dictionary<TrackingOverride.TrackingTarget, List<AnimatorStateTransition>>();
+        readonly Dictionary<TrackingTarget, List<AnimatorStateTransition>> _overriders = new Dictionary<TrackingTarget, List<AnimatorStateTransition>>();
 
-        public void RegisterOverrider(TrackingOverride.TrackingTarget target, AnimatorStateTransition transition)
+        public void RegisterOverrider(TrackingTarget target, AnimatorStateTransition transition)
         {
             if (!_overriders.TryGetValue(target, out var transitions))
             {
@@ -100,7 +100,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildTrackingControlLayers()
         {
-            foreach (var kv in _overriders)
+            foreach (var kv in _overriders.Where(kv => kv.Key != TrackingTarget.None))
             {
                 var trackingTarget = kv.Key;
                 var trackingControlLayer = PopulateLayer($"TrackingControl {trackingTarget}");

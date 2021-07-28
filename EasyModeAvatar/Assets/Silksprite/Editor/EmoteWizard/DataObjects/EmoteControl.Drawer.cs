@@ -63,7 +63,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 
                 if (property.trackingOverrides.Count > 0)
                 {
-                    var overridesString = string.Join(", ", property.trackingOverrides.Select(o => o.target));
+                    var overridesString = string.Join(", ", property.trackingOverrides.Where(t => t.target != TrackingTarget.None).Select(o => o.target));
                     GUI.Label(position.UISliceV(y++), $"Tracking Overrides: {overridesString}");
                 }
             }

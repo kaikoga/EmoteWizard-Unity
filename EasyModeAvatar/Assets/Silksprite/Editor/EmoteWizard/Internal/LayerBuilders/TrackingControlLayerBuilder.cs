@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
     {
         public TrackingControlLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
 
-        public void Build(TrackingOverride.TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders)
+        public void Build(TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders)
         {
             foreach (var sourceTransition in overriders)
             {
@@ -42,39 +42,39 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
         }
         
-        static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingOverride.TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
+        static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
         {
             var trackingControl = transition.destinationState.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
             switch (target)
             {
-                case TrackingOverride.TrackingTarget.Head:
+                case TrackingTarget.Head:
                     trackingControl.trackingHead = value; 
                     break;
-                case TrackingOverride.TrackingTarget.LeftHand:
+                case TrackingTarget.LeftHand:
                     trackingControl.trackingLeftHand = value; 
                     break;
-                case TrackingOverride.TrackingTarget.RightHand:
+                case TrackingTarget.RightHand:
                     trackingControl.trackingRightHand = value; 
                     break;
-                case TrackingOverride.TrackingTarget.Hip:
+                case TrackingTarget.Hip:
                     trackingControl.trackingHip = value; 
                     break;
-                case TrackingOverride.TrackingTarget.LeftFoot:
+                case TrackingTarget.LeftFoot:
                     trackingControl.trackingLeftFoot = value; 
                     break;
-                case TrackingOverride.TrackingTarget.RightFoot:
+                case TrackingTarget.RightFoot:
                     trackingControl.trackingRightFoot = value; 
                     break;
-                case TrackingOverride.TrackingTarget.LeftFingers:
+                case TrackingTarget.LeftFingers:
                     trackingControl.trackingLeftFingers = value; 
                     break;
-                case TrackingOverride.TrackingTarget.RightFingers:
+                case TrackingTarget.RightFingers:
                     trackingControl.trackingRightFingers = value; 
                     break;
-                case TrackingOverride.TrackingTarget.Eyes:
+                case TrackingTarget.Eyes:
                     trackingControl.trackingEyes = value; 
                     break;
-                case TrackingOverride.TrackingTarget.Mouth:
+                case TrackingTarget.Mouth:
                     trackingControl.trackingMouth = value; 
                     break;
                 default:

@@ -7,19 +7,5 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class TrackingOverride
     {
         [SerializeField] public TrackingTarget target;
-
-        public enum TrackingTarget
-        {
-            Head,
-            LeftHand,
-            RightHand,
-            Hip,
-            LeftFoot,
-            RightFoot,
-            LeftFingers,
-            RightFingers,
-            Eyes,
-            Mouth
-        }
     }
 }
