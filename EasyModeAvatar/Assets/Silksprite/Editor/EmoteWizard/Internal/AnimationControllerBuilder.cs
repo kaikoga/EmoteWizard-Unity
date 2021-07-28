@@ -199,6 +199,18 @@ namespace Silksprite.EmoteWizard.Internal
                         throw new ArgumentOutOfRangeException();
                 }
 
+                if (state.motion != null && parameter != null && parameter.normalizedTimeEnabled)
+                {
+                    var timeParameter = parameter.normalizedTimeLeft;
+                    if (AssertParameterExists(timeParameter))
+                    {
+                        state.timeParameterActive = true;
+                        state.timeParameter = timeParameter;
+                        state.motion.SetLoopTimeRec(false);
+                        EditorUtility.SetDirty(state.motion);
+                    }
+                }
+
                 transition.hasExitTime = false;
                 transition.duration = parameter?.transitionDuration ?? 0.1f;
                 transition.canTransitionToSelf = false;
