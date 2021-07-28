@@ -24,11 +24,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 ApplyEmoteConditions(transition, emote);
 
                 ApplyEmoteControl(transition, isLeft, emote.control);
-
-                foreach (var enforcer in emote.trackingOverrides)
-                {
-                    Builder.RegisterOverrider(enforcer.target, transition);
-                }
             }
             
             StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;

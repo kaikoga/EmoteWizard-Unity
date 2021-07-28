@@ -59,22 +59,17 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             var context = EnsureContext();
 
-            var states = property.states;
-            var emoteKind = property.emoteKind;
-            var editTargets = context.State.EditTargets && emoteKind == ParameterEmoteKind.Transition;
-            var statesLines = 0f;
-            if (emoteKind != ParameterEmoteKind.Unused)
+            var statesHeight = 0f;
+            if (property.emoteKind != ParameterEmoteKind.Unused)
             {
-                statesLines += 1f;
-                if (IsExpandedTracker.GetIsExpanded(states))
+                using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
                 {
-                    statesLines += editTargets ? 2f : 1f;
-                    var linePerState = 1f + (editTargets ? 1f : 0f) + (context.State.EditControls ? 3f : 0f); 
-                    statesLines += states.Count * linePerState;
+                    if (sub.Context.EditTargets) statesHeight += LineTop(1f);
+                    statesHeight += TypedGUI.GetPropertyHeight(property.states, "States");
                 }
             }
 
-            return BoxHeight(LineHeight(4f + statesLines));
+            return BoxHeight(LineTop(4f) + statesHeight);
         }
     }
 }

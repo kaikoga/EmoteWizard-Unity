@@ -27,7 +27,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public Motion clipLeft;
         [SerializeField] public Motion clipRight;
         [SerializeField] public EmoteControl control;
-        [SerializeField] public List<TrackingOverride> trackingOverrides;
 
         public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);
 

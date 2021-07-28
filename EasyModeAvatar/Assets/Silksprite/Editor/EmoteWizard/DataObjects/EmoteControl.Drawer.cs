@@ -1,3 +1,4 @@
+using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
@@ -20,10 +21,11 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             var context = EnsureContext();
 
+            var y = 0;
             if (context.IsEditing)
             {
-                TypedGUI.FloatField(position.UISliceV(0), new GUIContent("Duration"), ref property.transitionDuration);
-                TypedGUI.Toggle(position.UISliceV(1), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
+                TypedGUI.FloatField(position.UISliceV(y++), new GUIContent("Duration"), ref property.transitionDuration);
+                TypedGUI.Toggle(position.UISliceV(y++), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(!property.normalizedTimeEnabled))
                 {
@@ -31,22 +33,24 @@ namespace Silksprite.EmoteWizard.DataObjects
                     {
                         using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
                         {
-                            TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
+                            TypedGUI.TextField(position.UISliceV(y++), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
                         }
 
                         using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeRight)))
                         {
-                            TypedGUI.TextField(position.UISliceV(3), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
+                            TypedGUI.TextField(position.UISliceV(y++), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
                         }
                     }
                     else
                     {
                         using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
                         {
-                            TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter"), ref property.normalizedTimeLeft);
+                            TypedGUI.TextField(position.UISliceV(y++), new GUIContent("Parameter"), ref property.normalizedTimeLeft);
                         }
                     }
                 }
+
+                TypedGUI.TypedField(position.UISliceV(y), ref property.trackingOverrides, "Tracking Overrides");
             }
             else
             {
@@ -54,9 +58,14 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (property.normalizedTimeEnabled)
                 {
                     parameterLabel += $"Normalized Time:{property.normalizedTimeLeft}/{property.normalizedTimeRight})";
+                    GUI.Label(position.UISliceV(y++), parameterLabel);
                 }
-
-                GUI.Label(position, parameterLabel);
+                
+                if (property.trackingOverrides.Count > 0)
+                {
+                    var overridesString = string.Join(", ", property.trackingOverrides.Select(o => o.target));
+                    GUI.Label(position.UISliceV(y++), $"Tracking Overrides: {overridesString}");
+                }
             }
         }
         
@@ -66,13 +75,10 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (context.IsEditing)
             {
-                return LineHeight(context.AsGesture ? 4f : 3f);
+                return LineHeight(context.AsGesture ? 4f : 3f) + TypedGUI.GetPropertyHeight(property.trackingOverrides, "Tracking") + EditorGUIUtility.standardVerticalSpacing;;
             }
-            if (property.normalizedTimeEnabled)
-            {
-                return LineHeight(1f);
-            }
-            return LineHeight(0f);
+
+            return LineHeight((property.normalizedTimeEnabled ? 1f : 0f) + (property.trackingOverrides.Count > 0 ? 1f : 0f));
         }
     }
 }

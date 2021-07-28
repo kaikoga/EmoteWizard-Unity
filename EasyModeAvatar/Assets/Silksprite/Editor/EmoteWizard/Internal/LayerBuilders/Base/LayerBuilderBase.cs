@@ -62,16 +62,21 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             }
         }
 
-        protected void ApplyEmoteControl(AnimatorStateTransition transition, bool isLeft, EmoteControl emoteControl)
+        protected void ApplyEmoteControl(AnimatorStateTransition transition, bool isLeft, EmoteControl control)
         {
+            foreach (var enforcer in control.trackingOverrides)
+            {
+                Builder.RegisterOverrider(enforcer.target, transition);
+            }
+
             transition.hasExitTime = false;
-            transition.duration = emoteControl?.transitionDuration ?? 0.1f;
+            transition.duration = control.transitionDuration;
             transition.canTransitionToSelf = false;
 
             var state = transition.destinationState;
-            if (state.motion == null || emoteControl == null || !emoteControl.normalizedTimeEnabled) return;
+            if (state.motion == null || !control.normalizedTimeEnabled) return;
 
-            var timeParameter = isLeft ? emoteControl.normalizedTimeLeft : emoteControl.normalizedTimeRight;
+            var timeParameter = isLeft ? control.normalizedTimeLeft : control.normalizedTimeRight;
             if (!AssertParameterExists(timeParameter)) return;
 
             state.timeParameterActive = true;

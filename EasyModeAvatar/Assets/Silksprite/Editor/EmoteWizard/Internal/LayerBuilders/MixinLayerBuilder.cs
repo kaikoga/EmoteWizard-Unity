@@ -19,7 +19,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             {
                 ApplyEmoteControl(transition, true, new EmoteControl
                 {
-                    transitionDuration = 0.1f,
                     normalizedTimeEnabled = mixin.normalizedTimeEnabled,
                     normalizedTimeLeft = mixin.normalizedTime,
                     normalizedTimeRight = mixin.normalizedTime

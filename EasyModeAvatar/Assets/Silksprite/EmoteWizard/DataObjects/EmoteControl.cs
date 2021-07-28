@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -8,17 +9,15 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         [SerializeField] public float transitionDuration = 0.1f;
         [SerializeField] public bool normalizedTimeEnabled;
-        [SerializeField] public string normalizedTimeLeft;
-        [SerializeField] public string normalizedTimeRight;
-        
+        [SerializeField] public string normalizedTimeLeft = "GestureLeftWeight";
+        [SerializeField] public string normalizedTimeRight = "GestureRightWeight";
+        [SerializeField] public List<TrackingOverride> trackingOverrides = new List<TrackingOverride>();
+
         public static EmoteControl Populate(HandSign handSign)
         {
             return new EmoteControl
             {
-                transitionDuration = 0.1f,
                 normalizedTimeEnabled = handSign == HandSign.Fist,
-                normalizedTimeLeft = "GestureLeftWeight",
-                normalizedTimeRight = "GestureRightWeight"
             };
         }
     }
