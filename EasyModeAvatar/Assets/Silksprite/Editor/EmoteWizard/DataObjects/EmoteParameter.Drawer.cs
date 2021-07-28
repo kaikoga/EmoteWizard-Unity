@@ -28,14 +28,24 @@ namespace Silksprite.EmoteWizard.DataObjects
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(!property.normalizedTimeEnabled))
                 {
-                    using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
+                    if (context.AsGesture)
                     {
-                        TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
-                    }
+                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
+                        {
+                            TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
+                        }
 
-                    using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeRight)))
+                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeRight)))
+                        {
+                            TypedGUI.TextField(position.UISliceV(3), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
+                        }
+                    }
+                    else
                     {
-                        TypedGUI.TextField(position.UISliceV(3), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
+                        using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
+                        {
+                            TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter"), ref property.normalizedTimeLeft);
+                        }
                     }
                 }
             }
@@ -57,7 +67,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (context.IsEditing)
             {
-                return LineHeight(4f);
+                return LineHeight(context.AsGesture ? 4f : 3f);
             }
             if (property.normalizedTimeEnabled)
             {

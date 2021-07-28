@@ -51,9 +51,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                     CustomTypedGUI.HorizontalListField(position.UISliceV(y), new GUIContent("Targets"), ref property.targets);
                     y++;
                 }
-                using (context.EmoteParameterDrawerContext().StartContext())
+                using (var sub = context.EmoteParameterDrawerContext().StartContext())
                 {
-                    TypedGUI.TypedField(position.UISliceV(y, 4), ref property.parameter, new GUIContent("Parameter"));
+                    TypedGUI.TypedField(position.UISliceV(y, sub.Context.AsGesture ? 4 : 3), ref property.parameter, new GUIContent("Parameter"));
                     
                 }
                 EditorGUI.EndDisabledGroup();

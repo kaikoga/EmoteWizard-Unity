@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (IsExpandedTracker.GetIsExpanded(states))
                 {
                     statesLines += editTargets ? 2f : 1f;
-                    var linePerState = 1f + (editTargets ? 1f : 0f) + (context.State.EditParameters ? 4f : 0f); 
+                    var linePerState = 1f + (editTargets ? 1f : 0f) + (context.State.EditParameters ? 3f : 0f); 
                     statesLines += states.Count * linePerState;
                 }
             }
