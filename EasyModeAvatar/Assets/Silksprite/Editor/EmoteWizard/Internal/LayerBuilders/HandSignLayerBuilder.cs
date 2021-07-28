@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture2);
-                ApplyEmoteConditions(transition, emote);
+                ApplyEmoteConditions(transition, emote.conditions);
 
                 ApplyEmoteControl(transition, isLeft, emote.control);
             }

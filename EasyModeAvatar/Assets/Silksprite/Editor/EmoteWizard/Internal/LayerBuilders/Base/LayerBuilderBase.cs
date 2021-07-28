@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
@@ -13,7 +14,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         readonly AnimatorControllerLayer _layer;
         protected AnimatorStateMachine StateMachine => _layer.stateMachine;
 
-        Vector3 _position = new Vector3(300, -60, 0);
+        Vector3 _position = new Vector3(300, 0, 0);
         Vector3 NextStatePosition()
         {
             var result = _position;
@@ -40,9 +41,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             return StateMachine.AddAnyStateTransition(state);
         }
 
-        protected void ApplyEmoteConditions(AnimatorStateTransition transition, Emote emote)
+        protected void ApplyEmoteConditions(AnimatorStateTransition transition, IEnumerable<EmoteCondition> conditions)
         {
-            var validConditions = emote.conditions
+            var validConditions = conditions
                 .Where(condition => AssertParameterExists(condition.parameter));
             foreach (var condition in validConditions)
             {

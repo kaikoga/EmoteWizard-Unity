@@ -20,13 +20,14 @@ namespace Silksprite.EmoteWizard.Collections
                 GUI.Label(position.UISlice(0.3f, 0.3f, 0), "Kind");
                 GUI.Label(position.UISlice(0.6f, 0.4f, 0), "Asset");
 
-                TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Controls", ref context.State.EditControls);
+                TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Conditions", ref context.State.EditConditions);
+                TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Controls", ref context.State.EditControls);
             }
         }
 
         public override float GetHeaderHeight()
         {
-            return BoxHeight(LineHeight(2f));
+            return BoxHeight(LineHeight(3f));
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public EmoteControl control;
 
         [SerializeField] public BlendTree blendTree;
+
+        [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
 
         public Motion Motion
         {

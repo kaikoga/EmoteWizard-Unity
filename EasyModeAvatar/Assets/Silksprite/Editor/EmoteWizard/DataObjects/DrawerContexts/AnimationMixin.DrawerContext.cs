@@ -19,6 +19,11 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
             State = state;
         }
 
+        public EmoteConditionDrawerContext EmoteConditionDrawerContext()
+        {
+            return new EmoteConditionDrawerContext(EmoteWizardRoot, ParametersWizard);
+        }
+        
         public EmoteControlDrawerContext EmoteControlDrawerContext()
         {
             return new EmoteControlDrawerContext(EmoteWizardRoot, ParametersWizard, false, State.EditControls);

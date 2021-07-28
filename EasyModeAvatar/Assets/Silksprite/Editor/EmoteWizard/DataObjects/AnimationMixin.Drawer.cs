@@ -53,11 +53,21 @@ namespace Silksprite.EmoteWizard.DataObjects
                                 return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                             });
                     }
+
+                    position = position.UISliceV(1, -1);
+                    if (context.State.EditConditions)
+                    {
+                        using (context.EmoteConditionDrawerContext().StartContext())
+                        {
+                            var height = TypedGUI.GetPropertyHeight(property.conditions, new GUIContent("Conditions"));
+                            TypedGUI.TypedField(position.SliceV(0, height), ref property.conditions, new GUIContent("Conditions"));
+                            position = position.Inset(0, height + EditorGUIUtility.standardVerticalSpacing, 0, 0);
+                        }
+                    }
                     using (context.EmoteControlDrawerContext().StartContext())
                     {
-                        TypedGUI.TypedField(position.UISliceV(1, -1), ref property.control, new GUIContent("Control"));
+                        TypedGUI.TypedField(position, ref property.control, new GUIContent("Control"));
                     }
-
                     break;
                 case AnimationMixinKind.BlendTree:
                     using (new HideLabelsScope())
@@ -79,7 +89,6 @@ namespace Silksprite.EmoteWizard.DataObjects
                                 return context.EmoteWizardRoot.EnsureAsset<BlendTree>(relativePath);
                             });
                     }
-
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -93,6 +102,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             switch (property.kind)
             {
                 case AnimationMixinKind.AnimationClip:
+                    if (context.State.EditConditions)
+                    {
+                        innerHeight += TypedGUI.GetPropertyHeight(property.conditions, new GUIContent("Conditions")) + EditorGUIUtility.standardVerticalSpacing;
+                    }
                     using (context.EmoteControlDrawerContext().StartContext())
                     {
                         innerHeight += TypedGUI.GetPropertyHeight(property.control, new GUIContent("Control")) + EditorGUIUtility.standardVerticalSpacing; 
