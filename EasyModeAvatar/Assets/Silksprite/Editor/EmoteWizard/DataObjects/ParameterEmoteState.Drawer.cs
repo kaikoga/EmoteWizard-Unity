@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Utils;
@@ -11,6 +12,7 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [UsedImplicitly]
     public class ParameterEmoteStateDrawer : TypedDrawerWithContext<ParameterEmoteState, ParameterEmoteStateDrawerContext>
     {
         public override bool FixedPropertyHeight => false;
@@ -42,9 +44,17 @@ namespace Silksprite.EmoteWizard.DataObjects
                             return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
                 }
+
+                var y = 1;
                 if (context.EditTargets)
                 {
-                    CustomTypedGUI.HorizontalListField(position.UISliceV(1), new GUIContent("Targets"), ref property.targets);
+                    CustomTypedGUI.HorizontalListField(position.UISliceV(y), new GUIContent("Targets"), ref property.targets);
+                    y++;
+                }
+                using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.EditParameters).StartContext())
+                {
+                    TypedGUI.TypedField(position.UISliceV(y, 4), ref property.parameter, new GUIContent("Parameter"));
+                    
                 }
                 EditorGUI.EndDisabledGroup();
             }
@@ -53,7 +63,13 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override float GetPropertyHeight(ParameterEmoteState property, GUIContent label)
         {
             var context = EnsureContext();
-            return LineHeight(context.EditTargets ? 2f : 1f);
+            var lines = 1f;
+            if (context.EditTargets) lines += 1f;
+
+            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.EditParameters).StartContext())
+            {
+                return LineHeight(lines) + TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+            }
         }
     }
 }

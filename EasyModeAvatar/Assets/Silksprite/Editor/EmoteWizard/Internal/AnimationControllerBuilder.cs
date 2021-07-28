@@ -171,7 +171,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         void BuildTransitionStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
-            void AddTransition(AnimatorState state, string parameterName, float value, float? nextValue)
+            void AddTransition(AnimatorState state, string parameterName, float value, float? nextValue, EmoteParameter parameter)
             {
                 AnimatorStateTransition transition;
                 switch (parameterEmote.valueKind)
@@ -200,7 +200,7 @@ namespace Silksprite.EmoteWizard.Internal
                 }
 
                 transition.hasExitTime = false;
-                transition.duration = 0.1f;
+                transition.duration = parameter?.transitionDuration ?? 0.1f;
                 transition.canTransitionToSelf = false;
             }
 
@@ -217,7 +217,7 @@ namespace Silksprite.EmoteWizard.Internal
                     var state = stateMachine.AddState(stateName, positions.Current);
                     state.motion = parameterEmoteState.clip;
                     state.writeDefaultValues = false;
-                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value, nextValue);
+                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value, nextValue, parameterEmoteState.parameter);
                 }
             }
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;

@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             if (property.emoteKind == ParameterEmoteKind.Unused) return;
 
             var editTargets = context.State.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
-            using (new ParameterEmoteStateDrawerContext(context.EmoteWizardRoot, context.Layer, property.name, editTargets).StartContext())
+            using (new ParameterEmoteStateDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.Layer, property.name, editTargets, context.State.EditParameters).StartContext())
             {
                 TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
             }
@@ -67,9 +67,15 @@ namespace Silksprite.EmoteWizard.DataObjects
             var statesLines = 0f;
             if (emoteKind != ParameterEmoteKind.Unused)
             {
-                if (IsExpandedTracker.GetIsExpanded(states)) statesLines += (editTargets ? 2f : 1f) + states.Count * (editTargets ? 2f : 1f);
                 statesLines += 1f;
+                if (IsExpandedTracker.GetIsExpanded(states))
+                {
+                    statesLines += editTargets ? 2f : 1f;
+                    var linePerState = 1f + (editTargets ? 1f : 0f) + (context.State.EditParameters ? 4f : 0f); 
+                    statesLines += states.Count * linePerState;
+                }
             }
+
             return BoxHeight(LineHeight(4f + statesLines));
         }
     }
