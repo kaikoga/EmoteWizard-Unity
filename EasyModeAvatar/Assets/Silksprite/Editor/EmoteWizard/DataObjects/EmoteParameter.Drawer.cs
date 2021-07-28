@@ -23,18 +23,19 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (context.IsEditing)
             {
-                TypedGUI.Toggle(position.UISliceV(0), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
+                TypedGUI.FloatField(position.UISliceV(0), new GUIContent("Duration"), ref property.transitionDuration);
+                TypedGUI.Toggle(position.UISliceV(1), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(!property.normalizedTimeEnabled))
                 {
                     using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeLeft)))
                     {
-                        TypedGUI.TextField(position.UISliceV(1), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
+                        TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Left"), ref property.normalizedTimeLeft);
                     }
 
                     using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.normalizedTimeRight)))
                     {
-                        TypedGUI.TextField(position.UISliceV(2), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
+                        TypedGUI.TextField(position.UISliceV(3), new GUIContent("Parameter Right"), ref property.normalizedTimeRight);
                     }
                 }
             }
@@ -56,7 +57,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (context.IsEditing)
             {
-                return LineHeight(3f);
+                return LineHeight(4f);
             }
             if (property.normalizedTimeEnabled)
             {

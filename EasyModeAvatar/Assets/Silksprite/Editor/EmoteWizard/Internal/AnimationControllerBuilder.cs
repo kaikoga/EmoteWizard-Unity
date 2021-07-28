@@ -137,7 +137,7 @@ namespace Silksprite.EmoteWizard.Internal
                     }
 
                     transition.hasExitTime = false;
-                    transition.duration = 0.1f;
+                    transition.duration = emote.parameter?.transitionDuration ?? 0.1f;
                     transition.canTransitionToSelf = false;
 
                     foreach (var enforcer in emote.trackingOverrides)

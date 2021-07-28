@@ -6,6 +6,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class EmoteParameter
     {
+        [SerializeField] public float transitionDuration = 0.1f;
         [SerializeField] public bool normalizedTimeEnabled;
         [SerializeField] public string normalizedTimeLeft;
         [SerializeField] public string normalizedTimeRight;
@@ -14,6 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new EmoteParameter
             {
+                transitionDuration = 0.1f,
                 normalizedTimeEnabled = handSign == HandSign.Fist,
                 normalizedTimeLeft = "GestureLeftWeight",
                 normalizedTimeRight = "GestureRightWeight"
