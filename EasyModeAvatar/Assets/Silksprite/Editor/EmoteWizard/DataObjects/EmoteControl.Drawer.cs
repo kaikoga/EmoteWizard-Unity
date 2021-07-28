@@ -1,4 +1,3 @@
-using System;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
@@ -13,11 +12,11 @@ using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [UsedImplicitly]
-    public class EmoteParameterDrawer : TypedDrawerWithContext<EmoteParameter, EmoteParameterDrawerContext>
+    public class EmoteControlDrawer : TypedDrawerWithContext<EmoteControl, EmoteControlDrawerContext>
     {
         public override bool FixedPropertyHeight => false;
 
-        public override void OnGUI(Rect position, ref EmoteParameter property, GUIContent label)
+        public override void OnGUI(Rect position, ref EmoteControl property, GUIContent label)
         {
             var context = EnsureContext();
 
@@ -61,7 +60,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
         
-        public override float GetPropertyHeight(EmoteParameter property, GUIContent label)
+        public override float GetPropertyHeight(EmoteControl property, GUIContent label)
         {
             var context = EnsureContext();
 

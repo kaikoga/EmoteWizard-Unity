@@ -67,11 +67,11 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             using (context.EmoteParameterDrawerContext().StartContext())
             {
-                TypedGUI.TypedField(cursor, ref property.parameter, "Parameter");
-                cursor.y += TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+                TypedGUI.TypedField(cursor, ref property.control, "Control");
+                cursor.y += TypedGUI.GetPropertyHeight(property.control, "Control") + EditorGUIUtility.standardVerticalSpacing;
             }
 
-            if (context.State.EditParameters)
+            if (context.State.EditControls)
             {
                 TypedGUI.TypedField(cursor, ref property.trackingOverrides, "Tracking Overrides");
             }
@@ -102,9 +102,9 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             using (context.EmoteParameterDrawerContext().StartContext())
             {
-                h += TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+                h += TypedGUI.GetPropertyHeight(property.control, "Control") + EditorGUIUtility.standardVerticalSpacing;
             }
-            if (context.State.EditParameters)
+            if (context.State.EditControls)
             {
                 h += TypedGUI.GetPropertyHeight(property.trackingOverrides, "Tracking") + EditorGUIUtility.standardVerticalSpacing;
             }

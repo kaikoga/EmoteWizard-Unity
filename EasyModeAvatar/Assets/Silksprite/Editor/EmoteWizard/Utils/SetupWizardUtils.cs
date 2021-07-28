@@ -48,14 +48,14 @@ namespace Silksprite.EmoteWizard.Utils
                     {
                         gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
-                        parameter = EmoteParameter.Populate(handSign)
+                        control = EmoteControl.Populate(handSign)
                     }))
                 .Concat(Emote.HandSigns
                     .Select(handSign => new Emote
                     {
                         gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                         gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
-                        parameter = EmoteParameter.Populate(handSign)
+                        control = EmoteControl.Populate(handSign)
                     }))
                 .ToList();
             animationWizardBase.emotes = newEmotes;

@@ -4,16 +4,16 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
-    public class EmoteParameter
+    public class EmoteControl
     {
         [SerializeField] public float transitionDuration = 0.1f;
         [SerializeField] public bool normalizedTimeEnabled;
         [SerializeField] public string normalizedTimeLeft;
         [SerializeField] public string normalizedTimeRight;
         
-        public static EmoteParameter Populate(HandSign handSign)
+        public static EmoteControl Populate(HandSign handSign)
         {
-            return new EmoteParameter
+            return new EmoteControl
             {
                 transitionDuration = 0.1f,
                 normalizedTimeEnabled = handSign == HandSign.Fist,

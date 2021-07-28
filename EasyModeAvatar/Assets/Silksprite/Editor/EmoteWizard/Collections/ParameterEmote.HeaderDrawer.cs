@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Collections
                 GUI.Label(position.UISlice(0.3f, 0.7f, 0), "Motion");
                 
                 TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Transition Targets", ref context.State.EditTargets);
-                TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Transition Parameters", ref context.State.EditParameters);
+                TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Transition Controls", ref context.State.EditControls);
             }
         }
 

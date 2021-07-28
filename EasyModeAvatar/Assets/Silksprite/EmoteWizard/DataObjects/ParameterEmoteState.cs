@@ -11,6 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public float value;
         [SerializeField] public AnimationClip clip;
         [SerializeField] public List<GameObject> targets;
-        [SerializeField] public EmoteParameter parameter;
+        [SerializeField] public EmoteControl control;
     }
 }

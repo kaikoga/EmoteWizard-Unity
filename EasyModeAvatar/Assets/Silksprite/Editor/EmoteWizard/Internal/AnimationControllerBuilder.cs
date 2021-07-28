@@ -110,9 +110,9 @@ namespace Silksprite.EmoteWizard.Internal
                     var state = stateMachine.AddState(emote.ToStateName(), positions.Current);
                     state.motion = clip ? clip : AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
                     state.writeDefaultValues = false;
-                    if (clip != null && emote.parameter != null && emote.parameter.normalizedTimeEnabled)
+                    if (clip != null && emote.control != null && emote.control.normalizedTimeEnabled)
                     {
-                        var timeParameter = isLeft ? emote.parameter.normalizedTimeLeft : emote.parameter.normalizedTimeRight;
+                        var timeParameter = isLeft ? emote.control.normalizedTimeLeft : emote.control.normalizedTimeRight;
                         if (AssertParameterExists(timeParameter))
                         {
                             state.timeParameterActive = true;
@@ -137,7 +137,7 @@ namespace Silksprite.EmoteWizard.Internal
                     }
 
                     transition.hasExitTime = false;
-                    transition.duration = emote.parameter?.transitionDuration ?? 0.1f;
+                    transition.duration = emote.control?.transitionDuration ?? 0.1f;
                     transition.canTransitionToSelf = false;
 
                     foreach (var enforcer in emote.trackingOverrides)
@@ -171,7 +171,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         void BuildTransitionStateMachine(AnimatorStateMachine stateMachine, ParameterEmote parameterEmote)
         {
-            void AddTransition(AnimatorState state, string parameterName, float value, float? nextValue, EmoteParameter parameter)
+            void AddTransition(AnimatorState state, string parameterName, float value, float? nextValue, EmoteControl control)
             {
                 AnimatorStateTransition transition;
                 switch (parameterEmote.valueKind)
@@ -199,9 +199,9 @@ namespace Silksprite.EmoteWizard.Internal
                         throw new ArgumentOutOfRangeException();
                 }
 
-                if (state.motion != null && parameter != null && parameter.normalizedTimeEnabled)
+                if (state.motion != null && control != null && control.normalizedTimeEnabled)
                 {
-                    var timeParameter = parameter.normalizedTimeLeft;
+                    var timeParameter = control.normalizedTimeLeft;
                     if (AssertParameterExists(timeParameter))
                     {
                         state.timeParameterActive = true;
@@ -212,7 +212,7 @@ namespace Silksprite.EmoteWizard.Internal
                 }
 
                 transition.hasExitTime = false;
-                transition.duration = parameter?.transitionDuration ?? 0.1f;
+                transition.duration = control?.transitionDuration ?? 0.1f;
                 transition.canTransitionToSelf = false;
             }
 
@@ -229,7 +229,7 @@ namespace Silksprite.EmoteWizard.Internal
                     var state = stateMachine.AddState(stateName, positions.Current);
                     state.motion = parameterEmoteState.clip;
                     state.writeDefaultValues = false;
-                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value, nextValue, parameterEmoteState.parameter);
+                    AddTransition(state, parameterEmote.parameter, parameterEmoteState.value, nextValue, parameterEmoteState.control);
                 }
             }
             stateMachine.defaultState = stateMachine.states.FirstOrDefault().state;

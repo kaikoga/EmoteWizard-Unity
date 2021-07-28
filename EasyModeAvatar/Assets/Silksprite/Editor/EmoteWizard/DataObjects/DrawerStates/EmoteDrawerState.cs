@@ -4,6 +4,6 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerStates
     {
         public bool EditConditions = true;
         public bool EditAnimations = true;
-        public bool EditParameters = false;
+        public bool EditControls = false;
     }
 }

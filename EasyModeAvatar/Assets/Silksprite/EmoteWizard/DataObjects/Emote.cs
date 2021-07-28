@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
                 gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.Ignore),
-                parameter = EmoteParameter.Populate(handSign)
+                control = EmoteControl.Populate(handSign)
             };
         }
         
@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
         [SerializeField] public Motion clipLeft;
         [SerializeField] public Motion clipRight;
-        [SerializeField] public EmoteParameter parameter;
+        [SerializeField] public EmoteControl control;
         [SerializeField] public List<TrackingOverride> trackingOverrides;
 
         public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);

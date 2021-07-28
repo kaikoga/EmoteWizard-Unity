@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
                 using (var sub = context.EmoteParameterDrawerContext().StartContext())
                 {
-                    TypedGUI.TypedField(position.UISliceV(y, sub.Context.AsGesture ? 4 : 3), ref property.parameter, new GUIContent("Parameter"));
+                    TypedGUI.TypedField(position.UISliceV(y, sub.Context.AsGesture ? 4 : 3), ref property.control, new GUIContent("Parameter"));
                     
                 }
                 EditorGUI.EndDisabledGroup();
@@ -68,7 +68,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             using (context.EmoteParameterDrawerContext().StartContext())
             {
-                return LineHeight(lines) + TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+                return LineHeight(lines) + TypedGUI.GetPropertyHeight(property.control, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
             }
         }
     }

@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Collections
             {
                 TypedGUI.ToggleLeft(position.UISliceV(0), "Edit Conditions", ref context.State.EditConditions);
                 TypedGUI.ToggleLeft(position.UISlice(0.0f, 0.5f, 1), "Edit Animations", ref context.State.EditAnimations);
-                TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Parameters", ref context.State.EditParameters);
+                TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Controls", ref context.State.EditControls);
             }
         }
 
