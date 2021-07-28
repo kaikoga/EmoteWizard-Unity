@@ -1,4 +1,3 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
@@ -118,39 +117,16 @@ namespace Silksprite.EmoteWizard
                             DefaultRelativePath = "Gesture/@@@Generated@@@Gesture.controller"
                         };
 
-                        var resetLayer = builder.PopulateLayer("Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly());
-                        builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
+                        var defaultAvatarMask = gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly();
 
-                        foreach (var mixin in gestureWizard.baseMixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
+                        builder.BuildStaticLayer("Reset", null, defaultAvatarMask);
+                        builder.BuildMixinLayers(gestureWizard.baseMixins);
+                        builder.BuildHandSignLayer("Left Hand", true, gestureWizard.advancedAnimations);
+                        builder.BuildHandSignLayer("Right Hand", false, gestureWizard.advancedAnimations);
+                        builder.BuildParameterLayers(gestureWizard.ActiveParameters);
+                        builder.BuildMixinLayers(gestureWizard.mixins);
 
-                        var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft());
-                        builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, gestureWizard.advancedAnimations);
-
-                        var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight());
-                        builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, gestureWizard.advancedAnimations);
-
-                        foreach (var parameterEmote in gestureWizard.ActiveParameters)
-                        {
-                            var expressionLayer = builder.PopulateLayer(parameterEmote.name);
-                            builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                        }
-
-                        foreach (var mixin in gestureWizard.mixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-
-                        foreach (var trackingTarget in builder.TrackingTargets)
-                        {
-                            var trackingControlLayer = builder.PopulateLayer($"TrackingControl {trackingTarget}");
-                            builder.BuildTrackingControlLayerStateMachine(trackingControlLayer.stateMachine, trackingTarget);
-                        }
-
+                        builder.BuildTrackingControlLayers();
                         builder.BuildParameters();
                     }
 

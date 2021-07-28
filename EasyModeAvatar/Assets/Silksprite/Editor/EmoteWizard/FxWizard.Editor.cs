@@ -119,39 +119,14 @@ namespace Silksprite.EmoteWizard
 
                         var resetClip = BuildResetClip(fxWizard.ProvideResetClip());
 
-                        var resetLayer = builder.PopulateLayer("Reset");
-                        builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
+                        builder.BuildStaticLayer("Reset", resetClip, null);
+                        builder.BuildMixinLayers(fxWizard.baseMixins);
+                        builder.BuildHandSignLayer("Left Hand", true, fxWizard.advancedAnimations);
+                        builder.BuildHandSignLayer("Right Hand", false, fxWizard.advancedAnimations);
+                        builder.BuildParameterLayers(fxWizard.ActiveParameters);
+                        builder.BuildMixinLayers(fxWizard.mixins);
 
-                        foreach (var mixin in fxWizard.baseMixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-
-                        var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft());
-                        builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, fxWizard.advancedAnimations);
-
-                        var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight());
-                        builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, fxWizard.advancedAnimations);
-
-                        foreach (var parameterEmote in fxWizard.ActiveParameters)
-                        {
-                            var expressionLayer = builder.PopulateLayer(parameterEmote.name);
-                            builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                        }
-
-                        foreach (var mixin in fxWizard.mixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-
-                        foreach (var trackingTarget in builder.TrackingTargets)
-                        {
-                            var trackingControlLayer = builder.PopulateLayer($"TrackingControl {trackingTarget}");
-                            builder.BuildTrackingControlLayerStateMachine(trackingControlLayer.stateMachine, trackingTarget);
-                        }
-
+                        builder.BuildTrackingControlLayers();
                         builder.BuildParameters();
                     }
 

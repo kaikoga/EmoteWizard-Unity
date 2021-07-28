@@ -16,9 +16,11 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public List<ParameterItem> parameterItems;
         [SerializeField] public List<ParameterItem> defaultParameterItems;
 
+        public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Concat(defaultParameterItems);
+
         public bool AssertParameterExists(string parameterName)
         {
-            var result = parameterItems.Concat(defaultParameterItems).Any(item => item.name == parameterName);
+            var result = AllParameterItems.Any(item => item.name == parameterName);
             if (!result) Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
             return result;
         }
