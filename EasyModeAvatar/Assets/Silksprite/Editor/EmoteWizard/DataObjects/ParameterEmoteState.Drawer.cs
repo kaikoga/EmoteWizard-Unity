@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     CustomTypedGUI.HorizontalListField(position.UISliceV(y), new GUIContent("Targets"), ref property.targets);
                     y++;
                 }
-                using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.EditParameters).StartContext())
+                using (context.EmoteParameterDrawerContext().StartContext())
                 {
                     TypedGUI.TypedField(position.UISliceV(y, 4), ref property.parameter, new GUIContent("Parameter"));
                     
@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var lines = 1f;
             if (context.EditTargets) lines += 1f;
 
-            using (new EmoteParameterDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.EditParameters).StartContext())
+            using (context.EmoteParameterDrawerContext().StartContext())
             {
                 return LineHeight(lines) + TypedGUI.GetPropertyHeight(property.parameter, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
             }

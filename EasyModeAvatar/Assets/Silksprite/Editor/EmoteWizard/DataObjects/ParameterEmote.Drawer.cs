@@ -42,17 +42,15 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (property.emoteKind == ParameterEmoteKind.Unused) return;
 
-            var editTargets = context.State.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
-            using (new ParameterEmoteStateDrawerContext(context.EmoteWizardRoot, context.ParametersWizard, context.Layer, property.name, editTargets, context.State.EditParameters).StartContext())
+            using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
             {
                 TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
-            }
-
-            if (editTargets && IsExpandedTracker.GetIsExpanded(property.states))
-            {
-                if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                if (sub.Context.EditTargets && IsExpandedTracker.GetIsExpanded(property.states))
                 {
-                    context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                    if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                    {
+                        context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                    }
                 }
             }
         }

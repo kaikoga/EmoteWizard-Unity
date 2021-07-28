@@ -21,5 +21,10 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
             EditTargets = editTargets;
             EditParameters = editParameters;
         }
+
+        public EmoteParameterDrawerContext EmoteParameterDrawerContext()
+        {
+            return new EmoteParameterDrawerContext(EmoteWizardRoot, ParametersWizard, EditParameters);
+        }
     }
 }

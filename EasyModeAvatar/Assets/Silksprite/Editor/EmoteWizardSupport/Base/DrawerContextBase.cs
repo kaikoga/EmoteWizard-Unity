@@ -11,18 +11,16 @@ namespace Silksprite.EmoteWizardSupport.Base
 
         public void Dispose() => DoEndContext();
 
-        public IDisposable StartContext()
+        public DrawerContextDisposable<T, TContext> StartContext()
         {
             if (this is TContext context)
             {
                 DoStartContext(context);
+                return new DrawerContextDisposable<T, TContext>(context);
             }
-            else
-            {
-                Debug.LogWarning($"Internal: Failed to start context {typeof(TContext)}");
-            }
-            
-            return new DrawerContextDisposer<T, TContext>();
+
+            Debug.LogWarning($"Internal: Failed to start context {typeof(TContext)}");
+            return new DrawerContextDisposable<T, TContext>(null);
         }
 
         static void DoStartContext(TContext context)
@@ -70,9 +68,16 @@ namespace Silksprite.EmoteWizardSupport.Base
         }
     }
 
-    internal class DrawerContextDisposer<T, TContext> : IDisposable
+    public class DrawerContextDisposable<T, TContext> : IDisposable
         where TContext : DrawerContextBase<T, TContext>
     {
+        public TContext Context { get; }
+
+        public DrawerContextDisposable(TContext context)
+        {
+            Context = context;
+        }
+
         public void Dispose() => DrawerContextBase<T, TContext>.DoEndContext();
     }
 }

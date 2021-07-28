@@ -18,5 +18,15 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
             AdvancedAnimations = advancedAnimations;
             State = state;
         }
+
+        public EmoteConditionDrawerContext EmoteConditionDrawerContext()
+        {
+            return new EmoteConditionDrawerContext(EmoteWizardRoot, ParametersWizard);
+        }
+        
+        public EmoteParameterDrawerContext EmoteParameterDrawerContext()
+        {
+            return new EmoteParameterDrawerContext(EmoteWizardRoot, ParametersWizard, State.EditParameters);
+        }
     }
 }
