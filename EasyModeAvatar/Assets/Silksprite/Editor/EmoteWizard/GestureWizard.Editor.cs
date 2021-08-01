@@ -40,7 +40,7 @@ namespace Silksprite.EmoteWizard
             mixinsState = new AnimationMixinDrawerState();
 
             baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref gestureWizard.baseMixins);
-            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref gestureWizard.emotes);
+            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref gestureWizard.emotes);
             parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref gestureWizard.parameterEmotes);
             mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref gestureWizard.mixins);
         }
@@ -54,7 +54,7 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate Emotes"))
+                    if (GUILayout.Button("Repopulate HandSigns"))
                     {
                         SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
                     }

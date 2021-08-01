@@ -36,12 +36,12 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.SetupOnlyUI(setupWizard, () =>
             {
-                if (GUILayout.Button("Quick Setup 7 Emotes"))
+                if (GUILayout.Button("Quick Setup 7 HandSigns"))
                 {
                     QuickSetup(emoteWizardRoot);
                 }
 
-                if (GUILayout.Button("Quick Setup 14 Emotes"))
+                if (GUILayout.Button("Quick Setup 14 HandSigns"))
                 {
                     QuickSetup14(emoteWizardRoot);
                 }
