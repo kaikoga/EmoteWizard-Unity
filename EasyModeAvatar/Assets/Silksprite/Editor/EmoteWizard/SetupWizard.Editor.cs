@@ -76,12 +76,14 @@ namespace Silksprite.EmoteWizard
             var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
             SetupWizardUtils.RepopulateParameters(parametersWizard);
             SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
             SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
             SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
             SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
+            SetupWizardUtils.RepopulateDefaultActionEmotes(actionWizard);
         }
 
         static void QuickSetup14(EmoteWizardRoot emoteWizardRoot)
@@ -91,12 +93,14 @@ namespace Silksprite.EmoteWizard
             var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
             SetupWizardUtils.RepopulateParameters(parametersWizard);
             SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
             SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
             SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
             SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
+            SetupWizardUtils.RepopulateDefaultActionEmotes(actionWizard);
         }
     }
 }

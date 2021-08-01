@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -42,6 +43,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate Default Actions"))
                     {
+                        SetupWizardUtils.RepopulateDefaultActionEmotes(actionWizard);
                     }
                 });
 
