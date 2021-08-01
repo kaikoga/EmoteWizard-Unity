@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [UsedImplicitly]
     public class ParameterUsageDrawer : TypedDrawerBase<ParameterUsage>
     {
         public override void OnGUI(Rect position, ref ParameterUsage item, GUIContent label)

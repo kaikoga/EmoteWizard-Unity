@@ -10,6 +10,8 @@ using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
+using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
+
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(AvatarWizard))]
@@ -24,6 +26,15 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            RuntimeAnimatorController GenerateOverrideController(RuntimeAnimatorController source, string layer)
+            {
+                var path = AssetDatabase.GetAssetPath(source);
+                var newPath = avatarWizard.EmoteWizardRoot.GeneratedAssetPath(GeneratedAssetLocator.GeneratedOverrideControllerPath(layer));
+                EnsureDirectory(newPath);
+                AssetDatabase.CopyAsset(path, newPath);
+                return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(newPath);
+            }
+
             using (new ObjectChangeScope(avatarWizard))
             {
                 var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
@@ -32,13 +43,19 @@ namespace Silksprite.EmoteWizard
                 TypedGUILayout.EnumPopup(overrideGestureLabel, ref avatarWizard.overrideGesture);
                 if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)
                 {
-                    TypedGUILayout.AssetField("Override Gesture Controller", ref avatarWizard.overrideGestureController);
+                    CustomTypedGUILayout.AssetFieldWithGenerate("Override Gesture Controller", ref avatarWizard.overrideGestureController, () => GenerateOverrideController(VrcSdkAssetLocator.HandsLayerController1(), "Gesture"));
+                }
+                var overrideActionLabel = new GUIContent("Override Action", "Actionレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault: デフォルトを使用");
+                TypedGUILayout.EnumPopup(overrideActionLabel, ref avatarWizard.overrideAction);
+                if (avatarWizard.overrideAction == AvatarWizard.OverrideControllerType1.Override)
+                {
+                    CustomTypedGUILayout.AssetFieldWithGenerate("Override Action Controller", ref avatarWizard.overrideActionController, () => GenerateOverrideController(VrcSdkAssetLocator.ActionLayerController(), "Action"));
                 }
                 var overrideSittingLabel = new GUIContent("Override Sitting", "Sittingレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
                 TypedGUILayout.EnumPopup(overrideSittingLabel, ref avatarWizard.overrideSitting);
                 if (avatarWizard.overrideSitting == AvatarWizard.OverrideControllerType2.Override)
                 {
-                    TypedGUILayout.AssetField("Override Sitting Controller", ref avatarWizard.overrideSittingController);
+                    CustomTypedGUILayout.AssetFieldWithGenerate("Override Sitting Controller", ref avatarWizard.overrideSittingController, () => GenerateOverrideController(VrcSdkAssetLocator.SittingLayerController1(), "Sitting"));
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
@@ -144,6 +161,19 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
+            RuntimeAnimatorController SelectActionController()
+            {
+                switch (avatarWizard.overrideAction)
+                {
+                    case AvatarWizard.OverrideControllerType1.Override:
+                        return avatarWizard.overrideActionController;
+                    case AvatarWizard.OverrideControllerType1.Default:
+                        return VrcSdkAssetLocator.ActionLayerController();
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+
             RuntimeAnimatorController SelectFxController()
             {
                 return emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset;
@@ -165,6 +195,7 @@ namespace Silksprite.EmoteWizard
             }
 
             var gestureController = SelectGestureController();
+            var actionController = SelectActionController();
             var fxController = SelectFxController();
             var sittingController = SelectSittingController();
 
@@ -197,8 +228,8 @@ namespace Silksprite.EmoteWizard
                 },
                 new VRCAvatarDescriptor.CustomAnimLayer
                 {
-                    animatorController = null,
-                    isDefault = true,
+                    animatorController = actionController,
+                    isDefault = actionController == null,
                     isEnabled = false,
                     mask = null,
                     type = VRCAvatarDescriptor.AnimLayerType.Action

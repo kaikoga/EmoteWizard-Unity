@@ -1,8 +1,9 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -19,6 +20,11 @@ namespace Silksprite.EmoteWizard
     {
         FxWizard fxWizard;
 
+        AnimationMixinDrawerState baseMixinsState;
+        EmoteDrawerState emotesState;
+        ParameterEmoteDrawerState parametersState;
+        AnimationMixinDrawerState mixinsState;
+
         ExpandableReorderableList<AnimationMixin> baseMixinsList;
         ExpandableReorderableList<Emote> emotesList;
         ExpandableReorderableList<ParameterEmote> parametersList;
@@ -28,8 +34,13 @@ namespace Silksprite.EmoteWizard
         {
             fxWizard = (FxWizard) target;
 
+            baseMixinsState = new AnimationMixinDrawerState();
+            emotesState = new EmoteDrawerState();
+            parametersState = new ParameterEmoteDrawerState();
+            mixinsState = new AnimationMixinDrawerState();
+
             baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref fxWizard.baseMixins);
-            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref fxWizard.emotes);
+            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref fxWizard.emotes);
             parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref fxWizard.parameterEmotes);
             mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref fxWizard.mixins);
         }
@@ -43,12 +54,12 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate Emotes: 7 items"))
+                    if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
                         SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
                     }
 
-                    if (GUILayout.Button("Repopulate Emotes: 14 items"))
+                    if (GUILayout.Button("Repopulate HandSigns: 14 items"))
                     {
                         SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
                     }
@@ -64,18 +75,18 @@ namespace Silksprite.EmoteWizard
 
                 TypedGUILayout.Toggle("Advanced Animations", ref fxWizard.advancedAnimations);
 
-                using (AnimationMixinDrawer.StartContext(emoteWizardRoot,
-                    GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
+                string relativePath = GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName);
+                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())
                 {
                     baseMixinsList.DrawAsProperty(fxWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (EmoteDrawer.StartContext(emoteWizardRoot, parametersWizard, fxWizard.advancedAnimations))
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.advancedAnimations, emotesState).StartContext())
                 {
                     emotesList.DrawAsProperty(fxWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName))
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, parametersState).StartContext())
                 {
                     parametersList.DrawAsProperty(fxWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -92,7 +103,7 @@ namespace Silksprite.EmoteWizard
                     });
                 }
 
-                using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName)))
+                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, mixinsState).StartContext())
                 {
                     mixinsList.DrawAsProperty(fxWizard.mixins, emoteWizardRoot.listDisplayMode);
                 }
@@ -110,33 +121,14 @@ namespace Silksprite.EmoteWizard
 
                         var resetClip = BuildResetClip(fxWizard.ProvideResetClip());
 
-                        var resetLayer = builder.PopulateLayer("Reset");
-                        builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", resetClip);
+                        builder.BuildStaticLayer("Reset", resetClip, null);
+                        builder.BuildMixinLayers(fxWizard.baseMixins);
+                        builder.BuildHandSignLayer("Left Hand", true, fxWizard.advancedAnimations);
+                        builder.BuildHandSignLayer("Right Hand", false, fxWizard.advancedAnimations);
+                        builder.BuildParameterLayers(fxWizard.ActiveParameters);
+                        builder.BuildMixinLayers(fxWizard.mixins);
 
-                        foreach (var mixin in fxWizard.baseMixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-
-                        var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft());
-                        builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, fxWizard.advancedAnimations);
-
-                        var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight());
-                        builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, fxWizard.advancedAnimations);
-
-                        foreach (var parameterEmote in fxWizard.ActiveParameters)
-                        {
-                            var expressionLayer = builder.PopulateLayer(parameterEmote.name);
-                            builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                        }
-
-                        foreach (var mixin in fxWizard.mixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-
+                        builder.BuildTrackingControlLayers();
                         builder.BuildParameters();
                     }
 

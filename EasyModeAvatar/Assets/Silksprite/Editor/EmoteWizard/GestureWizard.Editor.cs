@@ -1,8 +1,9 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -19,6 +20,11 @@ namespace Silksprite.EmoteWizard
     {
         GestureWizard gestureWizard;
 
+        AnimationMixinDrawerState baseMixinsState;
+        EmoteDrawerState emotesState;
+        ParameterEmoteDrawerState parametersState;
+        AnimationMixinDrawerState mixinsState;
+
         ExpandableReorderableList<AnimationMixin> baseMixinsList;
         ExpandableReorderableList<Emote> emotesList;
         ExpandableReorderableList<ParameterEmote> parametersList;
@@ -28,8 +34,13 @@ namespace Silksprite.EmoteWizard
         {
             gestureWizard = (GestureWizard) target;
             
+            baseMixinsState = new AnimationMixinDrawerState();
+            emotesState = new EmoteDrawerState();
+            parametersState = new ParameterEmoteDrawerState();
+            mixinsState = new AnimationMixinDrawerState();
+
             baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref gestureWizard.baseMixins);
-            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "Emotes", ref gestureWizard.emotes);
+            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref gestureWizard.emotes);
             parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref gestureWizard.parameterEmotes);
             mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref gestureWizard.mixins);
         }
@@ -43,7 +54,7 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate Emotes"))
+                    if (GUILayout.Button("Repopulate HandSigns"))
                     {
                         SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
                     }
@@ -65,17 +76,18 @@ namespace Silksprite.EmoteWizard
                     return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
                 });
 
-                using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
+                string relativePath = GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName);
+                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())
                 {
                     baseMixinsList.DrawAsProperty(gestureWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (EmoteDrawer.StartContext(emoteWizardRoot, parametersWizard, gestureWizard.advancedAnimations))
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, gestureWizard.advancedAnimations, emotesState).StartContext())
                 {
                     emotesList.DrawAsProperty(gestureWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (ParameterEmoteDrawer.StartContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName))
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName, parametersState).StartContext())
                 {
                     parametersList.DrawAsProperty(gestureWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -92,7 +104,7 @@ namespace Silksprite.EmoteWizard
                     });
                 }
 
-                using (AnimationMixinDrawer.StartContext(emoteWizardRoot, GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName)))
+                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, mixinsState).StartContext())
                 {
                     mixinsList.DrawAsProperty(gestureWizard.mixins, emoteWizardRoot.listDisplayMode);
                 }
@@ -108,33 +120,16 @@ namespace Silksprite.EmoteWizard
                             DefaultRelativePath = "Gesture/@@@Generated@@@Gesture.controller"
                         };
 
-                        var resetLayer = builder.PopulateLayer("Reset", gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly());
-                        builder.BuildStaticStateMachine(resetLayer.stateMachine, "Reset", null);
+                        var defaultAvatarMask = gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly();
 
-                        foreach (var mixin in gestureWizard.baseMixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
+                        builder.BuildStaticLayer("Reset", null, defaultAvatarMask);
+                        builder.BuildMixinLayers(gestureWizard.baseMixins);
+                        builder.BuildHandSignLayer("Left Hand", true, gestureWizard.advancedAnimations);
+                        builder.BuildHandSignLayer("Right Hand", false, gestureWizard.advancedAnimations);
+                        builder.BuildParameterLayers(gestureWizard.ActiveParameters);
+                        builder.BuildMixinLayers(gestureWizard.mixins);
 
-                        var leftHandLayer = builder.PopulateLayer("Left Hand", VrcSdkAssetLocator.HandLeft());
-                        builder.BuildGestureStateMachine(leftHandLayer.stateMachine, true, gestureWizard.advancedAnimations);
-
-                        var rightHandLayer = builder.PopulateLayer("Right Hand", VrcSdkAssetLocator.HandRight());
-                        builder.BuildGestureStateMachine(rightHandLayer.stateMachine, false, gestureWizard.advancedAnimations);
-
-                        foreach (var parameterEmote in gestureWizard.ActiveParameters)
-                        {
-                            var expressionLayer = builder.PopulateLayer(parameterEmote.name);
-                            builder.BuildParameterStateMachine(expressionLayer.stateMachine, parameterEmote);
-                        }
-
-                        foreach (var mixin in gestureWizard.mixins.Where(mixin => mixin.Motion != null))
-                        {
-                            var mixinLayer = builder.PopulateLayer(mixin.name);
-                            builder.BuildMixinLayerStateMachine(mixinLayer.stateMachine, mixin);
-                        }
-
+                        builder.BuildTrackingControlLayers();
                         builder.BuildParameters();
                     }
 

@@ -1,7 +1,9 @@
+using System;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -45,7 +47,7 @@ namespace Silksprite.EmoteWizard
                     }
                 });
 
-                using (ParameterItemDrawer.StartContext(emoteWizardRoot, false))
+                using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
                     parameterItemsList.DrawAsProperty(parametersWizard.parameterItems, emoteWizardRoot.listDisplayMode);
                 }
@@ -62,7 +64,7 @@ namespace Silksprite.EmoteWizard
                         });
                 }
 
-                using (ParameterItemDrawer.StartContext(emoteWizardRoot, true))
+                using (new ParameterItemDrawerContext(emoteWizardRoot, true).StartContext())
                 {
                     defaultParameterItemsList.DrawAsProperty(parametersWizard.defaultParameterItems, emoteWizardRoot.listDisplayMode);
                 }

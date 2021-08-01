@@ -82,13 +82,13 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public static ExpressionItem PopulateDefault(Texture2D icon, string prefix, int value)
+        public static ExpressionItem PopulateDefault(Texture2D icon, string prefix, string parameter, int value)
         {
             return new ExpressionItem
             {
                 icon = icon,
                 path = $"{prefix}{NameForDefaultEmote(value)}",
-                parameter = "VRCEmote",
+                parameter = parameter,
                 value = value,
                 itemKind = ItemKindForDefaultEmote(value),
             };

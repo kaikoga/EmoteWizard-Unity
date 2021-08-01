@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -13,8 +12,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class ParameterEmoteDrawer : TypedDrawerWithContext<ParameterEmote, ParameterEmoteDrawerContext>
     {
-        public static ParameterEmoteDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard, string layer) => StartContext(new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, layer));
-
         public override bool FixedPropertyHeight => false;
 
         public override string PagerItemName(ParameterEmote property, int index) => $"{property.name} ({property.emoteKind})";
@@ -45,17 +42,15 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (property.emoteKind == ParameterEmoteKind.Unused) return;
 
-            var editTargets = context.EditTargets && property.emoteKind == ParameterEmoteKind.Transition;
-            using (ParameterEmoteStateDrawer.StartContext(context.EmoteWizardRoot, context.Layer, property.name, editTargets))
+            using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
             {
                 TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
-            }
-
-            if (editTargets && IsExpandedTracker.GetIsExpanded(property.states))
-            {
-                if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                if (sub.Context.EditTargets && IsExpandedTracker.GetIsExpanded(property.states))
                 {
-                    context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                    if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                    {
+                        context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                    }
                 }
             }
         }
@@ -64,16 +59,17 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             var context = EnsureContext();
 
-            var states = property.states;
-            var emoteKind = property.emoteKind;
-            var editTargets = context.EditTargets && emoteKind == ParameterEmoteKind.Transition;
-            var statesLines = 0f;
-            if (emoteKind != ParameterEmoteKind.Unused)
+            var statesHeight = 0f;
+            if (property.emoteKind != ParameterEmoteKind.Unused)
             {
-                if (IsExpandedTracker.GetIsExpanded(states)) statesLines += (editTargets ? 2f : 1f) + states.Count * (editTargets ? 2f : 1f);
-                statesLines += 1f;
+                using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
+                {
+                    if (sub.Context.EditTargets) statesHeight += LineTop(1f);
+                    statesHeight += TypedGUI.GetPropertyHeight(property.states, "States");
+                }
             }
-            return BoxHeight(LineHeight(4f + statesLines));
+
+            return BoxHeight(LineTop(4f) + statesHeight);
         }
     }
 }

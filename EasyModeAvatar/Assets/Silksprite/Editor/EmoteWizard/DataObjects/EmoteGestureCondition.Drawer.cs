@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -7,6 +8,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [UsedImplicitly]
     public class EmoteGestureConditionDrawer : TypedDrawerBase<EmoteGestureCondition>
     {
         public override void OnGUI(Rect position, ref EmoteGestureCondition property, GUIContent label)

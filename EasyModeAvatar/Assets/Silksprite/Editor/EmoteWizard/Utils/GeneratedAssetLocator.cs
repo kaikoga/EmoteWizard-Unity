@@ -2,6 +2,11 @@ namespace Silksprite.EmoteWizard.Utils
 {
     public static class GeneratedAssetLocator
     {
+        public static string GeneratedOverrideControllerPath(string layer)
+        {
+            return $"{layer}/@@@Generated@@@Override{layer}.controller";
+        }
+
         public static string ParameterEmoteBlendTreePath(string layer, string name)
         {
             return $"{layer}/@@@Generated@@@{layer}_{name}_BlendTree.asset";

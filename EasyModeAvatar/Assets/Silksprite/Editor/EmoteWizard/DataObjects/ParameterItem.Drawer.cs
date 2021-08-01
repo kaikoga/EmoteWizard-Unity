@@ -11,8 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class ParameterItemDrawer : TypedDrawerWithContext<ParameterItem, ParameterItemDrawerContext>
     {
-        public static ParameterItemDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, bool defaultParameters) => StartContext(new ParameterItemDrawerContext(emoteWizardRoot, defaultParameters));
-
         public override bool FixedPropertyHeight => false;
 
         public override string PagerItemName(ParameterItem property, int index) => $"{property.name} ({property.itemKind})";

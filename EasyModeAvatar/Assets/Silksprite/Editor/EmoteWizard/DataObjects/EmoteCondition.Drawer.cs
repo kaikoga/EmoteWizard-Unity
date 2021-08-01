@@ -11,8 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public class EmoteConditionDrawer : TypedDrawerWithContext<EmoteCondition, EmoteConditionDrawerContext>
     {
-        public static EmoteConditionDrawerContext StartContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard) => StartContext(new EmoteConditionDrawerContext(emoteWizardRoot, parametersWizard));
-
         public override void OnGUI(Rect position, ref EmoteCondition property, GUIContent label)
         {
             var context = EnsureContext();
