@@ -32,6 +32,7 @@ namespace Silksprite.EmoteWizard
                 emoteWizardRoot.EnsureWizard<ParametersWizard>();
                 emoteWizardRoot.EnsureWizard<GestureWizard>();
                 emoteWizardRoot.EnsureWizard<FxWizard>();
+                emoteWizardRoot.EnsureWizard<ActionWizard>();
             }
 
             EmoteWizardGUILayout.SetupOnlyUI(setupWizard, () =>
