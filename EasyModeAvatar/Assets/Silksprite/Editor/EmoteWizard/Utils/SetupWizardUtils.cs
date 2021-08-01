@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Utils
         {
             var icon = VrcSdkAssetLocator.PersonDance();
             var expressionItems = Enumerable.Range(1, 8)
-                .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, i));
+                .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, "VRCEmote", i));
             if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
             expressionWizard.expressionItems.AddRange(expressionItems);
             expressionWizard.expressionItems = expressionWizard.expressionItems
