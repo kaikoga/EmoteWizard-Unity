@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Utils
         {
             if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
 
-            expressionWizard.expressionItems = DefaultActionEmotes.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
+            expressionWizard.expressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
         }
 
         public static void RepopulateDefaultEmotes(AnimationWizardBase animationWizardBase)
@@ -65,8 +65,8 @@ namespace Silksprite.EmoteWizard.Utils
 
         public static void RepopulateDefaultActionEmotes(ActionWizard actionWizard)
         {
-            actionWizard.actionEmotes = DefaultActionEmotes.PopulateDefaultActionEmotes();
-            actionWizard.afkEmotes = DefaultActionEmotes.PopulateDefaultAfkEmotes();
+            actionWizard.actionEmotes = DefaultActionEmote.PopulateDefaultActionEmotes();
+            actionWizard.afkEmotes = DefaultActionEmote.PopulateDefaultAfkEmotes();
         }
     }
 }
