@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using UnityEditor;
@@ -12,6 +13,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
     {
         protected readonly AnimationControllerBuilder Builder;
         readonly AnimatorControllerLayer _layer;
+
+        protected AnimationWizardBase AnimationWizardBase => Builder.AnimationWizardBase;
         protected AnimatorStateMachine StateMachine => _layer.stateMachine;
 
         Vector3 _position = new Vector3(300, 0, 0);
@@ -39,6 +42,14 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             state.motion = motion;
             state.writeDefaultValues = false;
             return StateMachine.AddAnyStateTransition(state);
+        }
+
+        protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion)
+        {
+            var state = StateMachine.AddState(stateName, NextStatePosition());
+            state.motion = motion;
+            state.writeDefaultValues = false;
+            return state;
         }
 
         protected void ApplyEmoteConditions(AnimatorStateTransition transition, IEnumerable<EmoteCondition> conditions)

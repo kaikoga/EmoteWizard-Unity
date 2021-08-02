@@ -65,6 +65,22 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
+            var gestureWizard = GetWizard<GestureWizard>();
+            if (gestureWizard != null && gestureWizard.handSignOverrideEnabled)
+            {
+                builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddIndexUsage();
+            }
+            var fxWizard = GetWizard<FxWizard>();
+            if (fxWizard != null && fxWizard.handSignOverrideEnabled)
+            {
+                builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddIndexUsage();
+            }
+            var actionWizard = GetWizard<ActionWizard>();
+            if (actionWizard != null && actionWizard.SelectableAfkEmotes)
+            {
+                builder.FindOrCreate(actionWizard.afkSelectParameter).AddIndexUsage();
+            }
+
             parameterItems = builder.ParameterItems.ToList();
             defaultParameterItems = ParameterItem.PopulateDefaultParameters(defaultParameterItems ?? new List<ParameterItem>());
         }

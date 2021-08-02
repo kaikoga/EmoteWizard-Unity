@@ -1,4 +1,5 @@
 using System.Linq;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
@@ -11,14 +12,31 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         public void Build(bool isLeft, bool isAdvanced)
         {
-            var emotes = Builder.AnimationWizardBase.emotes;
+            var emotes = AnimationWizardBase.emotes;
 
-            foreach (var emote in emotes)
+            var emoteStates = emotes.Select(emote =>
             {
                 var clip = isLeft || !isAdvanced ? emote.clipLeft : emote.clipRight;
-                if (clip == null) clip = Builder.AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip(); 
-                var transition = AddStateAsTransition(emote.ToStateName(), clip);
+                if (clip == null) clip = AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
+                var state = AddStateWithoutTransition(emote.ToStateName(), clip);
+                return (emote, state);
+            }).ToList();
 
+            if (AnimationWizardBase.handSignOverrideEnabled)
+            {
+                foreach (var (emote, state) in emoteStates)
+                {
+                    if (!emote.OverrideEnabled) continue;
+                    var transition = StateMachine.AddAnyStateTransition(state);
+                    transition.AddCondition(AnimatorConditionMode.Equals, emote.overrideIndex, AnimationWizardBase.HandSignOverrideParameter);
+
+                    ApplyEmoteControl(transition, isLeft, emote.control);
+                }
+            }
+
+            foreach (var (emote, state) in emoteStates)
+            {
+                var transition = StateMachine.AddAnyStateTransition(state);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture2);
                 ApplyEmoteConditions(transition, emote.conditions);

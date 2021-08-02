@@ -37,6 +37,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                     TypedGUI.TypedField(cursor, ref property.conditions, "Conditions");
                     cursor.y += TypedGUI.GetPropertyHeight(property.conditions, "Conditions") + EditorGUIUtility.standardVerticalSpacing;
                 }
+
+                TypedGUI.TypedField(cursor, ref property.overrideIndex, new GUIContent("HandSign Override"));
+                cursor.y += LineTop(1f);
             }
             else
             {
@@ -77,7 +80,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var h = 0f;
             if (context.State.EditConditions)
             {
-                h += LineHeight(2f) + TypedGUI.GetPropertyHeight(property.conditions, "Conditions") + EditorGUIUtility.standardVerticalSpacing;
+                h += LineHeight(3f) + TypedGUI.GetPropertyHeight(property.conditions, "Conditions") + EditorGUIUtility.standardVerticalSpacing;
             }
             else
             {

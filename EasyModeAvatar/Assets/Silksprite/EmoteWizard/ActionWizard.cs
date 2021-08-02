@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public bool fixedTransitionDuration = true;
         [SerializeField] public bool afkSelectEnabled = false;
-        [SerializeField] public string afkSelectParameter = "EmoteWizard_AFK";
+        [SerializeField] public string afkSelectParameter = "EmoteWizardAFK";
 
         [SerializeField] public List<ActionEmote> actionEmotes;
         [SerializeField] public List<ActionEmote> afkEmotes;

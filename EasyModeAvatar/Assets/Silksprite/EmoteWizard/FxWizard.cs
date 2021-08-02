@@ -8,6 +8,9 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public AnimationClip resetClip;
 
+        [SerializeField] public string handSignOverrideParameter = "EmoteWizardFX";
+
         public override string LayerName => "FX";
+        public override string HandSignOverrideParameter => handSignOverrideParameter;
     }
 }
