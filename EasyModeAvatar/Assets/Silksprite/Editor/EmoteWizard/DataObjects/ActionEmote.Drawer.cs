@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var y = 0;
 
             TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
-            TypedGUI.IntField(position.UISliceV(y++), "Index", ref property.emoteIndex);
+            TypedGUI.IntField(position.UISliceV(y++), "Select Value", ref property.emoteIndex);
             TypedGUI.Toggle(position.UISliceV(y++), "Has Exit Time", ref property.hasExitTime);
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             using (new LabelWidthScope(100f))
