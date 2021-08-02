@@ -21,50 +21,54 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
-            TypedGUI.TextField(position.UISliceV(0), "Name", ref property.name);
-            TypedGUI.IntField(position.UISliceV(1), "Index", ref property.emoteIndex);
-            TypedGUI.Toggle(position.UISliceV(2), "Has Exit Time", ref property.hasExitTime);
+            var y = 0;
+
+            TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
+            TypedGUI.IntField(position.UISliceV(y++), "Index", ref property.emoteIndex);
+            TypedGUI.Toggle(position.UISliceV(y++), "Has Exit Time", ref property.hasExitTime);
+            TypedGUI.FloatField(position.UISliceV(y++), "Blend In", ref property.blendIn);
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             using (new LabelWidthScope(100f))
             {
-                TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, 3), "Transition", ref property.entryTransitionDuration);
+                TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.entryTransitionDuration);
 
-                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, 4), "Entry", ref property.entryClip);
+                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Entry", ref property.entryClip);
                 using (new EditorGUI.DisabledScope(property.entryClip == null))
                 {
                     using (new LabelWidthScope(1f))
                     {
-                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, 4), " ", ref property.entryClipExitTime);
+                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.entryClipExitTime);
                     }
-                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, 5), "Transition", ref property.postEntryTransitionDuration);
+                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postEntryTransitionDuration);
                 }
 
-                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, 6), "Clip", ref property.clip);
+                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Clip", ref property.clip);
                 using (new LabelWidthScope(1f))
                 {
                     using (new EditorGUI.DisabledScope(!property.hasExitTime))
                     {
-                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, 6), " ", ref property.clipExitTime);
+                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.clipExitTime);
                     }
                 }
 
-                TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, 7), "Transition", ref property.exitTransitionDuration);
+                TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.exitTransitionDuration);
 
-                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, 8), "Exit", ref property.exitClip);
+                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Exit", ref property.exitClip);
                 using (new EditorGUI.DisabledScope(property.exitClip == null))
                 {
                     using (new LabelWidthScope(1f))
                     {
-                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, 8), " ", ref property.exitClipExitTime);
+                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.exitClipExitTime);
                     }
-                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, 9), "Transition", ref property.postExitTransitionDuration);
+                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postExitTransitionDuration);
                 }
             }
+            TypedGUI.FloatField(position.UISliceV(y), "Blend Out", ref property.blendOut);
         }
 
         public override float GetPropertyHeight(ActionEmote property, GUIContent label)
         {
-            return BoxHeight(LineHeight(10f));
+            return BoxHeight(LineHeight(12f));
         }
     }
 }

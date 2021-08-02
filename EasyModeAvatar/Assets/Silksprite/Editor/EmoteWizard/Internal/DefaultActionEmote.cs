@@ -129,7 +129,8 @@ namespace Silksprite.EmoteWizard.Internal
                     clip = def._clip,
                     exitClip = def._exitClip,
                     exitTransitionDuration = 0.25f,
-                    postExitTransitionDuration = def._exitClip ? 0.4f : 0.25f
+                    postExitTransitionDuration = def._exitClip ? 0.4f : 0.25f,
+                    blendIn = 0.5f
                 }).Concat(oldItems ?? Enumerable.Empty<ActionEmote>())
                 .DistinctBy(actionEmote => actionEmote.emoteIndex)
                 .OrderBy(actionEmote => actionEmote.emoteIndex)
@@ -147,7 +148,9 @@ namespace Silksprite.EmoteWizard.Internal
                     hasExitTime = false,
                     clip = VrcSdkAssetLocator.ProxyAfk(),
                     exitClip = VrcSdkAssetLocator.ProxyAfk(),
-                    postExitTransitionDuration = 0.2f
+                    postExitTransitionDuration = 0.2f,
+                    blendIn = 1f,
+                    blendOut = 0.5f
                 }
             };
         }

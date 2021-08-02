@@ -13,6 +13,9 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public Motion clip;
         [SerializeField] public Motion exitClip;
         
+        [SerializeField] public float blendIn = 0.25f;
+        [SerializeField] public float blendOut = 0.25f;
+        
         [SerializeField] public float entryTransitionDuration = 0.25f;
         [SerializeField] public float entryClipExitTime = 0.7f;
         [SerializeField] public float postEntryTransitionDuration = 0.25f;

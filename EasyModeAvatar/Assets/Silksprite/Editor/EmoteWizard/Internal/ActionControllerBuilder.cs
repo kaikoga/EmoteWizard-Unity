@@ -76,17 +76,6 @@ namespace Silksprite.EmoteWizard.Internal
             var stand = AddState("Stand", Position(1, 0), standClip);
             var sit = AddState("Sit", Position(1, sitY), sitClip);
             var afk = AddState("AFK Select", Position(2, afkY), afkClip);
-            var standRelease = AddState("Restore Standing", Position(7, 0), standClip);
-            var sitRelease = AddState("Restore Sitting", Position(7, sitY), sitClip);
-            var afkRelease = AddState("Restore AFK", Position(6, afkY), afkClip);
-
-            PopulateTrackingControl(standRelease, VRC_AnimatorTrackingControl.TrackingType.Tracking);
-            PopulateTrackingControl(sitRelease, VRC_AnimatorTrackingControl.TrackingType.Tracking);
-            PopulateTrackingControl(afkRelease, VRC_AnimatorTrackingControl.TrackingType.Tracking);
-
-            PopulatePlayableLayerControl(standRelease, VRC_PlayableLayerControl.BlendableLayer.Action, 0f, 0.25f);
-            PopulatePlayableLayerControl(sitRelease, VRC_PlayableLayerControl.BlendableLayer.Action, 0f, 0.25f);
-            PopulatePlayableLayerControl(afkRelease, VRC_PlayableLayerControl.BlendableLayer.Action, 0f, 0.5f);
 
             StateMachine.defaultState = stand;
             var standToSit = stand.AddTransition(sit);
@@ -97,36 +86,24 @@ namespace Silksprite.EmoteWizard.Internal
             standToAfk.AddCondition(AnimatorConditionMode.If, 0, "AFK");
             var sitToAfk = sit.AddTransition(afk);
             sitToAfk.AddCondition(AnimatorConditionMode.If, 0, "AFK");
-            var completeStand = standRelease.AddTransition(stand);
-            completeStand.AddCondition(AnimatorConditionMode.If, 0, "Seated");
-            completeStand = standRelease.AddTransition(stand);
-            completeStand.AddCondition(AnimatorConditionMode.IfNot, 0, "Seated");
-            var completeSit = sitRelease.AddTransition(sit);
-            completeSit.AddCondition(AnimatorConditionMode.If, 0, "Seated");
-            completeSit = sitRelease.AddTransition(sit);
-            completeSit.AddCondition(AnimatorConditionMode.IfNot, 0, "Seated");
-            var completeAfkStand = afkRelease.AddTransition(standRelease);
-            completeAfkStand.AddCondition(AnimatorConditionMode.IfNot, 0, "Seated");
-            var completeAfkSit = afkRelease.AddTransition(sitRelease);
-            completeAfkSit.AddCondition(AnimatorConditionMode.If, 0, "Seated");
 
             var y = 1;
             foreach (var actionEmote in ActionWizard.actionEmotes)
             {
-                PopulateEmoteFlow(actionEmote, false, "VRCEmote", y, stand, standRelease);
+                PopulateEmoteFlow(actionEmote, false, "VRCEmote", y, stand);
                 y++;
             }
 
             y = afkY + 1;
             foreach (var afkEmote in ActionWizard.afkEmotes)
             {
-                PopulateEmoteFlow(afkEmote, true, "VRCEmote", y, afk, afkRelease);
+                PopulateEmoteFlow(afkEmote, true, "VRCEmote", y, afk);
                 y++;
             }
 
         }
 
-        void PopulateEmoteFlow(ActionEmote actionEmote, bool isAfk, string parameter, int y, AnimatorState entry, AnimatorState release)
+        void PopulateEmoteFlow(ActionEmote actionEmote, bool isAfk, string parameter, int y, AnimatorState entry)
         {
             actionEmote.clip.SetLoopTimeRec(true);
 
@@ -141,16 +118,24 @@ namespace Silksprite.EmoteWizard.Internal
                 exitEntryTransition.exitTime = actionEmote.entryClipExitTime;
                 exitEntryTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
                 exitEntryTransition.duration = actionEmote.postEntryTransitionDuration;
-                PopulatePlayableLayerControl(clipEntry, VRC_PlayableLayerControl.BlendableLayer.Action, 1f, 0.5f);
+                PopulateTrackingControl(clipEntry, VRC_AnimatorTrackingControl.TrackingType.Animation);
+                PopulatePlayableLayerControl(clipEntry, 1f, actionEmote.blendIn);
             }
             else
             {
                 entryTransition = entry.AddTransition(clipMain);
-                PopulatePlayableLayerControl(clipMain, VRC_PlayableLayerControl.BlendableLayer.Action, 1f, 0.5f);
+                PopulateTrackingControl(clipMain, VRC_AnimatorTrackingControl.TrackingType.Animation);
+                PopulatePlayableLayerControl(clipMain, 1f, actionEmote.blendIn);
             }
             entryTransition.AddCondition(AnimatorConditionMode.Equals, actionEmote.emoteIndex, parameter);
             entryTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
             entryTransition.duration = actionEmote.entryTransitionDuration;
+
+            var release = AddState($"Release {actionEmote.name}", Position(6, y), null);
+            var releaseTransition = release.AddExitTransition();
+            PopulateTrackingControl(release, VRC_AnimatorTrackingControl.TrackingType.Tracking);
+            PopulatePlayableLayerControl(release, 0f, actionEmote.blendOut);
+            releaseTransition.AddAlwaysTrueCondition();
 
             AnimatorStateTransition exitTransition;
             if (actionEmote.exitClip)
@@ -183,7 +168,7 @@ namespace Silksprite.EmoteWizard.Internal
         static void PopulateTrackingControl(AnimatorState state, VRC_AnimatorTrackingControl.TrackingType value)
         {
             var trackingControl = state.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
-            // TODO
+            // FIXME: customize?
             trackingControl.trackingHead = value; 
             trackingControl.trackingLeftHand = value; 
             trackingControl.trackingRightHand = value; 
@@ -194,10 +179,10 @@ namespace Silksprite.EmoteWizard.Internal
             trackingControl.trackingRightFingers = value; 
         }
 
-        static void PopulatePlayableLayerControl(AnimatorState state, VRC_PlayableLayerControl.BlendableLayer layer, float goalWeight, float duration)
+        static void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
             var playableLayerControl = state.AddStateMachineBehaviour<VRCPlayableLayerControl>();
-            playableLayerControl.layer = layer;
+            playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;
             playableLayerControl.goalWeight = goalWeight;
             playableLayerControl.blendDuration = duration;
         }
@@ -212,6 +197,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameters()
         {
+            AnimatorController.AddParameter("Viseme", AnimatorControllerParameterType.Int); // dummy for AlwaysTrueTransition
             AnimatorController.AddParameter("VRCEmote", AnimatorControllerParameterType.Int);
             AnimatorController.AddParameter("AFK", AnimatorControllerParameterType.Bool);
             AnimatorController.AddParameter("Seated", AnimatorControllerParameterType.Bool);
