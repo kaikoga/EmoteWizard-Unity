@@ -26,20 +26,25 @@ namespace Silksprite.EmoteWizard.DataObjects
             TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
             TypedGUI.IntField(position.UISliceV(y++), "Index", ref property.emoteIndex);
             TypedGUI.Toggle(position.UISliceV(y++), "Has Exit Time", ref property.hasExitTime);
-            TypedGUI.FloatField(position.UISliceV(y++), "Blend In", ref property.blendIn);
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             using (new LabelWidthScope(100f))
             {
-                TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.entryTransitionDuration);
+                if (context.State.EditLayerBlend) TypedGUI.FloatField(position.UISliceV(y++), "Blend In", ref property.blendIn);
 
-                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Entry", ref property.entryClip);
-                using (new EditorGUI.DisabledScope(property.entryClip == null))
+                if (context.State.EditTransition)
                 {
-                    using (new LabelWidthScope(1f))
+                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.entryTransitionDuration);
+
+                    TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Entry", ref property.entryClip);
+                    using (new EditorGUI.DisabledScope(property.entryClip == null))
                     {
-                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.entryClipExitTime);
+                        using (new LabelWidthScope(1f))
+                        {
+                            TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.entryClipExitTime);
+                        }
+
+                        TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postEntryTransitionDuration);
                     }
-                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postEntryTransitionDuration);
                 }
 
                 TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Clip", ref property.clip);
@@ -51,24 +56,33 @@ namespace Silksprite.EmoteWizard.DataObjects
                     }
                 }
 
-                TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.exitTransitionDuration);
-
-                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Exit", ref property.exitClip);
-                using (new EditorGUI.DisabledScope(property.exitClip == null))
+                if (context.State.EditTransition)
                 {
-                    using (new LabelWidthScope(1f))
+                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.exitTransitionDuration);
+
+                    TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Exit", ref property.exitClip);
+                    using (new EditorGUI.DisabledScope(property.exitClip == null))
                     {
-                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.exitClipExitTime);
+                        using (new LabelWidthScope(1f))
+                        {
+                            TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.exitClipExitTime);
+                        }
+
+                        TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postExitTransitionDuration);
                     }
-                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postExitTransitionDuration);
                 }
+
+                if (context.State.EditLayerBlend) TypedGUI.FloatField(position.UISliceV(y), "Blend Out", ref property.blendOut);
             }
-            TypedGUI.FloatField(position.UISliceV(y), "Blend Out", ref property.blendOut);
         }
 
         public override float GetPropertyHeight(ActionEmote property, GUIContent label)
         {
-            return BoxHeight(LineHeight(12f));
+            var context = EnsureContext();
+            var lines = 4f;
+            if (context.State.EditLayerBlend) lines += 2f;
+            if (context.State.EditTransition) lines += 6f;
+            return BoxHeight(LineHeight(lines));
         }
     }
 }

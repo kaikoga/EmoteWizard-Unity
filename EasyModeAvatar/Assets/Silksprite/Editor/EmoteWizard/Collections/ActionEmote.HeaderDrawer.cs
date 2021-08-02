@@ -18,12 +18,14 @@ namespace Silksprite.EmoteWizard.Collections
             {
                 GUI.Label(position.UISlice(0.0f, 0.8f, 0), "Clip");
                 GUI.Label(position.UISlice(0.8f, 0.2f, 0), "ExitTime");
+                TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Layer Blend", ref context.State.EditLayerBlend);
+                TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Transition", ref context.State.EditTransition);
             }
         }
 
         public override float GetHeaderHeight()
         {
-            return BoxHeight(LineHeight(1f));
+            return BoxHeight(LineHeight(3f));
         }
     }
 }
