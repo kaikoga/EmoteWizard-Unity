@@ -69,16 +69,28 @@ namespace Silksprite.EmoteWizard
             if (gestureWizard != null && gestureWizard.handSignOverrideEnabled)
             {
                 builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddIndexUsage();
+                foreach (var gestureEmote in gestureWizard.emotes.Where(emote => emote.OverrideEnabled))
+                {
+                    builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddUsage(gestureEmote.overrideIndex);
+                }
             }
             var fxWizard = GetWizard<FxWizard>();
             if (fxWizard != null && fxWizard.handSignOverrideEnabled)
             {
                 builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddIndexUsage();
+                foreach (var fxEmote in fxWizard.emotes.Where(emote => emote.OverrideEnabled))
+                {
+                    builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddUsage(fxEmote.overrideIndex);
+                }
             }
             var actionWizard = GetWizard<ActionWizard>();
             if (actionWizard != null && actionWizard.SelectableAfkEmotes)
             {
                 builder.FindOrCreate(actionWizard.afkSelectParameter).AddIndexUsage();
+                foreach (var afkEmote in actionWizard.afkEmotes)
+                {
+                    builder.FindOrCreate(actionWizard.afkSelectParameter).AddUsage(afkEmote.emoteIndex);
+                }
             }
 
             parameterItems = builder.ParameterItems.ToList();
