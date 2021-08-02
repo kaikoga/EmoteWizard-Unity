@@ -91,7 +91,7 @@ namespace Silksprite.EmoteWizard.Internal
             var y = 1;
             foreach (var actionEmote in ActionWizard.actionEmotes)
             {
-                PopulateEmoteFlow(actionEmote, false, "VRCEmote", y, stand);
+                PopulateEmoteFlow(actionEmote, false, ActionWizard.actionSelectParameter, y, stand);
                 y++;
             }
 
@@ -208,7 +208,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameters()
         {
-            AnimatorController.AddParameter("VRCEmote", AnimatorControllerParameterType.Int);
+            AnimatorController.AddParameter(ActionWizard.actionSelectParameter, AnimatorControllerParameterType.Int);
             AnimatorController.AddParameter("AFK", AnimatorControllerParameterType.Bool);
             AnimatorController.AddParameter("Seated", AnimatorControllerParameterType.Bool);
 

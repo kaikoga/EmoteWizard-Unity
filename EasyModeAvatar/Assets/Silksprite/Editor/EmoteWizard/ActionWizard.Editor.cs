@@ -55,6 +55,10 @@ namespace Silksprite.EmoteWizard
 
                 TypedGUILayout.ToggleLeft("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
 
+                using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.actionSelectParameter)))
+                {
+                    TypedGUILayout.TextField("Action Select Parameter", ref actionWizard.actionSelectParameter);
+                }
                 using (new ActionEmoteDrawerContext(emoteWizardRoot).StartContext())
                 {
                     actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
