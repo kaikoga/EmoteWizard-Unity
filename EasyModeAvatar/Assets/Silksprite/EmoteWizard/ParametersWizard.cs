@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard
             if (gestureWizard != null && gestureWizard.handSignOverrideEnabled)
             {
                 builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var gestureEmote in gestureWizard.emotes.Where(emote => emote.OverrideEnabled))
+                foreach (var gestureEmote in gestureWizard.emotes.Where(emote => emote.OverrideAvailable))
                 {
                     builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddUsage(gestureEmote.overrideIndex);
                 }
@@ -78,7 +78,7 @@ namespace Silksprite.EmoteWizard
             if (fxWizard != null && fxWizard.handSignOverrideEnabled)
             {
                 builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var fxEmote in fxWizard.emotes.Where(emote => emote.OverrideEnabled))
+                foreach (var fxEmote in fxWizard.emotes.Where(emote => emote.OverrideAvailable))
                 {
                     builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddUsage(fxEmote.overrideIndex);
                 }

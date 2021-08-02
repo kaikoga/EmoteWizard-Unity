@@ -24,12 +24,13 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public EmoteGestureCondition gesture1;
         [SerializeField] public EmoteGestureCondition gesture2;
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
+        [SerializeField] public bool overrideEnabled;
         [SerializeField] public int overrideIndex;
         [SerializeField] public Motion clipLeft;
         [SerializeField] public Motion clipRight;
         [SerializeField] public EmoteControl control;
 
-        public bool OverrideEnabled => overrideIndex != 0;
+        [SerializeField] public bool OverrideAvailable => overrideEnabled && overrideIndex > 0;
 
         public string ToStateName()
         {
@@ -52,7 +53,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 if (gesture1.mode != GestureConditionMode.Ignore) yield return ToPart(gesture1.mode, gesture1.handSign);
                 if (gesture2.mode != GestureConditionMode.Ignore) yield return ToPart(gesture2.mode, gesture2.handSign);
-                if (overrideIndex > 0) yield return $"({overrideIndex})";
+                if (OverrideAvailable) yield return $"({overrideIndex})";
             }
 
             return string.Join(" ", ToParts());

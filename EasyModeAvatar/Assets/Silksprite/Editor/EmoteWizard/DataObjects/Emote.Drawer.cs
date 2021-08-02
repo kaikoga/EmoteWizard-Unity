@@ -24,7 +24,14 @@ namespace Silksprite.EmoteWizard.DataObjects
             var cursor = position.UISliceV(0, 1);
             if (context.State.EditConditions)
             {
-                TypedGUI.TypedField(cursor, ref property.overrideIndex, new GUIContent("HandSign Override"));
+                using (new HideLabelsScope())
+                {
+                    TypedGUI.Toggle(cursor.UISliceH(0.0f, 0.1f), new GUIContent(" "), ref property.overrideEnabled);
+                }
+                using (new EditorGUI.DisabledScope(!property.overrideEnabled))
+                {
+                    TypedGUI.TypedField(cursor.UISliceH(0.1f, 0.9f), ref property.overrideIndex, new GUIContent("HandSign Override"));
+                }
                 cursor.y += LineTop(1f);
 
                 using (new HideLabelsScope())
