@@ -8,7 +8,10 @@ namespace Silksprite.EmoteWizard
     [DisallowMultipleComponent]
     public class ActionWizard : EmoteWizardBase
     {
+        [SerializeField] public bool fixedTransitionDuration = true;
+
         [SerializeField] public List<ActionEmote> actionEmotes;
+        [SerializeField] public List<ActionEmote> afkEmotes;
         [SerializeField] public RuntimeAnimatorController outputAsset;
     }
 }

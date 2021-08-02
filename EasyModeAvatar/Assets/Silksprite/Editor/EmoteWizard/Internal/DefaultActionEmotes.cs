@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Internal
 {
@@ -39,6 +40,39 @@ namespace Silksprite.EmoteWizard.Internal
             }
         }
 
+        static Motion ClipForDefaultEmote(int value)
+        {
+            switch (value)
+            {
+                case 1: return VrcSdkAssetLocator.ProxyStandWave();
+                case 2: return VrcSdkAssetLocator.ProxyStandClap();
+                case 3: return VrcSdkAssetLocator.ProxyStandPoint();
+                case 4: return VrcSdkAssetLocator.ProxyStandCheer();
+                case 5: return VrcSdkAssetLocator.ProxyDance();
+                case 6: return VrcSdkAssetLocator.ProxyBackflip();
+                case 7: return VrcSdkAssetLocator.ProxyStandSadkick();
+                case 8: return VrcSdkAssetLocator.ProxyDie();
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        static Motion ExitClipForDefaultEmote(int value)
+        {
+            switch (value)
+            {
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7: return null;
+                case 8: return VrcSdkAssetLocator.ProxySupineWakeup();
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
+
+
         public static List<ExpressionItem> PopulateDefaultExpressionItems(string defaultPrefix, IEnumerable<ExpressionItem> oldItems)
         {
             var icon = VrcSdkAssetLocator.PersonDance();
@@ -62,11 +96,29 @@ namespace Silksprite.EmoteWizard.Internal
                 .Select(index => new ActionEmote
                 {
                     name = NameForDefaultEmote(index),
-                    emoteIndex = index
+                    emoteIndex = index,
+                    clip = ClipForDefaultEmote(index),
+                    exitClip = ExitClipForDefaultEmote(index)
                 }).Concat(oldItems ?? Enumerable.Empty<ActionEmote>())
                 .DistinctBy(actionEmote => actionEmote.emoteIndex)
                 .OrderBy(actionEmote => actionEmote.emoteIndex)
                 .ToList();
         }
+        
+        public static List<ActionEmote> PopulateDefaultAfkEmotes()
+        {
+            return new List<ActionEmote>
+            {
+                new ActionEmote
+                {
+                    name = "AFK",
+                    emoteIndex = 0,
+                    entryClip = VrcSdkAssetLocator.ProxyAfk(),
+                    clip = VrcSdkAssetLocator.ProxyAfk(),
+                    exitClip = VrcSdkAssetLocator.ProxyAfk()
+                }
+            };
+        }
+
     }
 }

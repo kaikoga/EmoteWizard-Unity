@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Silksprite.EmoteWizard.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -11,21 +8,17 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         [SerializeField] public string name;
         [SerializeField] public int emoteIndex;
-
-        internal static string NameForDefaultEmote(int value)
-        {
-            switch (value)
-            {
-                case 1: return "Wave";
-                case 2: return "Clap";
-                case 3: return "Point";
-                case 4: return "Cheer";
-                case 5: return "Dance";
-                case 6: return "Backflip";
-                case 7: return "SadKick";
-                case 8: return "Die";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
+        [SerializeField] public bool hasExitTime;
+        [SerializeField] public Motion entryClip;
+        [SerializeField] public Motion clip;
+        [SerializeField] public Motion exitClip;
+        
+        [SerializeField] public float entryTransitionDuration = 0.25f;
+        [SerializeField] public float entryClipExitTime = 0.7f;
+        [SerializeField] public float postEntryTransitionDuration = 0.25f;
+        [SerializeField] public float clipExitTime = 0.7f;
+        [SerializeField] public float exitTransitionDuration = 0.25f;
+        [SerializeField] public float exitClipExitTime = 0.7f;
+        [SerializeField] public float postExitTransitionDuration = 0.25f;
     }
 }

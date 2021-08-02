@@ -20,17 +20,20 @@ namespace Silksprite.EmoteWizard
         ActionWizard actionWizard;
 
         ActionEmoteDrawerState actionEmotesState;
+        ActionEmoteDrawerState afkEmotesState;
 
         ExpandableReorderableList<ActionEmote> actionEmotesList;
+        ExpandableReorderableList<ActionEmote> afkEmotesList;
 
         void OnEnable()
         {
             actionWizard = (ActionWizard) target;
             
             actionEmotesState = new ActionEmoteDrawerState();
+            afkEmotesState = new ActionEmoteDrawerState();
 
             actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref actionWizard.actionEmotes);
-
+            afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref actionWizard.afkEmotes);
         }
 
         public override void OnInspectorGUI()
@@ -47,23 +50,30 @@ namespace Silksprite.EmoteWizard
                     }
                 });
 
+                TypedGUILayout.ToggleLeft("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
+
                 using (new ActionEmoteDrawerContext(emoteWizardRoot).StartContext())
                 {
                     actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
+                }
+
+                using (new ActionEmoteDrawerContext(emoteWizardRoot).StartContext())
+                {
+                    afkEmotesList.DrawAsProperty(actionWizard.afkEmotes, emoteWizardRoot.listDisplayMode);
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
                     if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        var builder = new AnimationControllerBuilder
+                        var builder = new ActionControllerBuilder
                         {
-                            AnimationWizardBase = null,
-                            ParametersWizard = null,
-                            DefaultRelativePath = "FX/@@@Generated@@@FX.controller"
+                            ActionWizard = actionWizard,
+                            DefaultRelativePath = "Action/@@@Generated@@@Action.controller"
                         };
 
-                        // builder.BuildStaticLayer("Reset", resetClip, null);
+                        builder.BuildActionLayer();
+                        builder.BuildParameters();
                     }
 
                     TypedGUILayout.AssetField("Output Asset", ref actionWizard.outputAsset);

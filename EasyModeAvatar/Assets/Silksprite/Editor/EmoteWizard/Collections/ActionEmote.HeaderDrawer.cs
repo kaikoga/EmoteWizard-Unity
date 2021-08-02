@@ -16,6 +16,8 @@ namespace Silksprite.EmoteWizard.Collections
             var context = EnsureContext();
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
+                GUI.Label(position.UISlice(0.0f, 0.8f, 0), "Clip");
+                GUI.Label(position.UISlice(0.8f, 0.2f, 0), "ExitTime");
             }
         }
 

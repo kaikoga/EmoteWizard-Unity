@@ -15,6 +15,16 @@ namespace Silksprite.EmoteWizardSupport.UI
             return value = EditorGUILayout.Toggle(label, value, options);
         }
 
+        public static bool ToggleLeft(string label, ref bool value, params GUILayoutOption[] options)
+        {
+            return value = EditorGUILayout.ToggleLeft(label, value, options);
+        }
+
+        public static bool ToggleLeft(GUIContent label, ref bool value, params GUILayoutOption[] options)
+        {
+            return value = EditorGUILayout.ToggleLeft(label, value, options);
+        }
+
         public static bool Foldout(ref bool value, string label)
         {
             return value = EditorGUILayout.Foldout(value, label);
