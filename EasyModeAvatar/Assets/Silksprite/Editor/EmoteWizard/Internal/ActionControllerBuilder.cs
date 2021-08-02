@@ -96,9 +96,10 @@ namespace Silksprite.EmoteWizard.Internal
             }
 
             y = afkY + 1;
-            foreach (var afkEmote in ActionWizard.afkEmotes)
+            var afkEmotes = ActionWizard.SelectableAfkEmotes ? ActionWizard.afkEmotes : ActionWizard.afkEmotes.Take(1).ToList();
+            foreach (var afkEmote in afkEmotes)
             {
-                var isLast = afkEmote == ActionWizard.afkEmotes.LastOrDefault();
+                var isLast = afkEmote == afkEmotes.LastOrDefault();
                 PopulateEmoteFlow(afkEmote, true,  isLast ? null : ActionWizard.afkSelectParameter, y, afk);
                 y++;
             }
@@ -212,7 +213,7 @@ namespace Silksprite.EmoteWizard.Internal
             AnimatorController.AddParameter("Seated", AnimatorControllerParameterType.Bool);
 
             AnimatorController.AddParameter("Viseme", AnimatorControllerParameterType.Int); // dummy for AlwaysTrueTransition
-            if (ActionWizard.afkEmotes.Count > 1)
+            if (ActionWizard.SelectableAfkEmotes)
             {
                 AnimatorController.AddParameter(ActionWizard.afkSelectParameter, AnimatorControllerParameterType.Int);
             }

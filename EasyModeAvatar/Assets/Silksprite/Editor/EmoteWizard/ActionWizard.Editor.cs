@@ -1,3 +1,4 @@
+using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
@@ -52,15 +53,27 @@ namespace Silksprite.EmoteWizard
                     }
                 });
 
-                using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.afkSelectParameter)))
-                {
-                    TypedGUILayout.TextField("AFK Select Parameter", ref actionWizard.afkSelectParameter);
-                }
                 TypedGUILayout.ToggleLeft("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
 
                 using (new ActionEmoteDrawerContext(emoteWizardRoot).StartContext())
                 {
                     actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
+                }
+
+                TypedGUILayout.Toggle("AFK Select Enabled", ref actionWizard.afkSelectEnabled);
+                if (actionWizard.SelectableAfkEmotes)
+                {
+                    using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.afkSelectParameter)))
+                    {
+                        TypedGUILayout.TextField("AFK Select Parameter", ref actionWizard.afkSelectParameter);
+                    }
+                }
+                else
+                {
+                    using (new EditorGUI.DisabledScope(true))
+                    {
+                        TypedGUILayout.TextField("AFK Select Parameter", ref actionWizard.afkSelectParameter);
+                    }
                 }
 
                 using (new ActionEmoteDrawerContext(emoteWizardRoot).StartContext())
