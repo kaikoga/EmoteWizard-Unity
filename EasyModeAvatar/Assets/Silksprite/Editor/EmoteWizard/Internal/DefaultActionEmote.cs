@@ -11,7 +11,8 @@ namespace Silksprite.EmoteWizard.Internal
     {
         int _index;
         string _name;
-        ExpressionItemKind _itemKind;
+        bool _hasExitTime;
+        float _exitTime = 0.75f;
         Motion _clip;
         Motion _exitClip;
 
@@ -32,7 +33,8 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 1,
                     _name = "Wave",
-                    _itemKind = ExpressionItemKind.Button,
+                    _hasExitTime = true,
+                    _exitTime = 0.6f,
                     _clip = VrcSdkAssetLocator.ProxyStandWave(),
                     _exitClip = null
                 },
@@ -40,7 +42,7 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 2,
                     _name = "Clap",
-                    _itemKind = ExpressionItemKind.Toggle,
+                    _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyStandClap(),
                     _exitClip = null
                 },
@@ -48,7 +50,8 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 3,
                     _name = "Point",
-                    _itemKind = ExpressionItemKind.Button,
+                    _hasExitTime = true,
+                    _exitTime = 0.75f,
                     _clip = VrcSdkAssetLocator.ProxyStandPoint(),
                     _exitClip = null
                 },
@@ -56,7 +59,7 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 4,
                     _name = "Cheer",
-                    _itemKind = ExpressionItemKind.Toggle,
+                    _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyStandCheer(),
                     _exitClip = null
                 },
@@ -64,7 +67,7 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 5,
                     _name = "Dance",
-                    _itemKind = ExpressionItemKind.Toggle,
+                    _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyDance(),
                     _exitClip = null
                 },
@@ -72,7 +75,8 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 6,
                     _name = "Backflip",
-                    _itemKind = ExpressionItemKind.Button,
+                    _hasExitTime = true,
+                    _exitTime = 0.8f,
                     _clip = VrcSdkAssetLocator.ProxyBackflip(),
                     _exitClip = null
                 },
@@ -80,7 +84,8 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 7,
                     _name = "SadKick",
-                    _itemKind = ExpressionItemKind.Button,
+                    _hasExitTime = true,
+                    _exitTime = 0.75f,
                     _clip = VrcSdkAssetLocator.ProxyStandSadkick(),
                     _exitClip = null
                 },
@@ -88,7 +93,7 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     _index = 8,
                     _name = "Die",
-                    _itemKind = ExpressionItemKind.Toggle,
+                    _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyDie(),
                     _exitClip = VrcSdkAssetLocator.ProxySupineWakeup()
                 }
@@ -105,7 +110,7 @@ namespace Silksprite.EmoteWizard.Internal
                     path = $"{defaultPrefix}{def._name}",
                     parameter = "VRCEmote",
                     value = def._index,
-                    itemKind = def._itemKind,
+                    itemKind = def._hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle,
                 });
             return oldItems.Concat(expressionItems)
                 .DistinctBy(item => item.path)
@@ -119,8 +124,12 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     name = def._name,
                     emoteIndex = def._index,
+                    hasExitTime = def._hasExitTime,
+                    clipExitTime = def._exitTime,
                     clip = def._clip,
-                    exitClip = def._exitClip
+                    exitClip = def._exitClip,
+                    exitTransitionDuration = 0.25f,
+                    postExitTransitionDuration = def._exitClip ? 0.4f : 0.25f
                 }).Concat(oldItems ?? Enumerable.Empty<ActionEmote>())
                 .DistinctBy(actionEmote => actionEmote.emoteIndex)
                 .OrderBy(actionEmote => actionEmote.emoteIndex)
@@ -135,9 +144,10 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     name = "AFK",
                     emoteIndex = 0,
-                    entryClip = VrcSdkAssetLocator.ProxyAfk(),
+                    hasExitTime = false,
                     clip = VrcSdkAssetLocator.ProxyAfk(),
-                    exitClip = VrcSdkAssetLocator.ProxyAfk()
+                    exitClip = VrcSdkAssetLocator.ProxyAfk(),
+                    postExitTransitionDuration = 0.2f
                 }
             };
         }
