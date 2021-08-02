@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal;
 
 namespace Silksprite.EmoteWizard.Utils
 {
@@ -22,14 +22,9 @@ namespace Silksprite.EmoteWizard.Utils
 
         public static void PopulateDefaultExpressionItems(ExpressionWizard expressionWizard)
         {
-            var icon = VrcSdkAssetLocator.PersonDance();
-            var expressionItems = Enumerable.Range(1, 8)
-                .Select(i => ExpressionItem.PopulateDefault(icon, expressionWizard.defaultPrefix, "VRCEmote", i));
             if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
-            expressionWizard.expressionItems.AddRange(expressionItems);
-            expressionWizard.expressionItems = expressionWizard.expressionItems
-                .DistinctBy(item => item.path)
-                .ToList();
+
+            expressionWizard.expressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
         }
 
         public static void RepopulateDefaultEmotes(AnimationWizardBase animationWizardBase)
@@ -66,6 +61,12 @@ namespace Silksprite.EmoteWizard.Utils
             parametersWizard.TryRefreshParameters();
             animationWizardBase.parameterEmotes = new List<ParameterEmote>();
             animationWizardBase.RefreshParameters(parametersWizard);
+        }
+
+        public static void RepopulateDefaultActionEmotes(ActionWizard actionWizard)
+        {
+            actionWizard.actionEmotes = DefaultActionEmote.PopulateDefaultActionEmotes();
+            actionWizard.afkEmotes = DefaultActionEmote.PopulateDefaultAfkEmotes();
         }
     }
 }

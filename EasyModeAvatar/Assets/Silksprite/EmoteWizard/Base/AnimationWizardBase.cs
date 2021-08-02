@@ -8,6 +8,7 @@ namespace Silksprite.EmoteWizard.Base
     public abstract class AnimationWizardBase : EmoteWizardBase
     {
         [SerializeField] public bool advancedAnimations;
+        [SerializeField] public bool handSignOverrideEnabled;
 
         [SerializeField] public List<AnimationMixin> baseMixins;
         [SerializeField] public List<Emote> emotes;
@@ -17,6 +18,8 @@ namespace Silksprite.EmoteWizard.Base
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
         public abstract string LayerName { get; }
+        public abstract string HandSignOverrideParameter { get;  }
+
         public IEnumerable<ParameterEmote> ActiveParameters => parameterEmotes.Where(parameter => parameter.enabled && parameter.emoteKind != ParameterEmoteKind.Unused);
 
         public void RefreshParameters(ParametersWizard parametersWizard) => RefreshParameters(parametersWizard.parameterItems, parametersWizard.defaultParameterItems);

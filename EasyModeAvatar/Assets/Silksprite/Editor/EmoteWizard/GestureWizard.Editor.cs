@@ -69,6 +69,21 @@ namespace Silksprite.EmoteWizard
                 });
 
                 TypedGUILayout.Toggle("Advanced Animations", ref gestureWizard.advancedAnimations);
+                TypedGUILayout.Toggle("HandSign Override", ref gestureWizard.handSignOverrideEnabled);
+                if (gestureWizard.handSignOverrideEnabled)
+                {
+                    using (new InvalidValueScope(parametersWizard.IsInvalidParameter(gestureWizard.handSignOverrideParameter)))
+                    {
+                        TypedGUILayout.TextField("HandSign Override Parameter", ref gestureWizard.handSignOverrideParameter);
+                    }
+                }
+                else
+                {
+                    using (new EditorGUI.DisabledScope(true))
+                    {
+                        TypedGUILayout.TextField("HandSign Override Parameter", ref gestureWizard.handSignOverrideParameter);
+                    }
+                }
 
                 CustomTypedGUILayout.AssetFieldWithGenerate("Default Avatar Mask", ref gestureWizard.defaultAvatarMask, () =>
                 {

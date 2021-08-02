@@ -24,13 +24,15 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public EmoteGestureCondition gesture1;
         [SerializeField] public EmoteGestureCondition gesture2;
         [SerializeField] public List<EmoteCondition> conditions = new List<EmoteCondition>();
+        [SerializeField] public bool overrideEnabled;
+        [SerializeField] public int overrideIndex;
         [SerializeField] public Motion clipLeft;
         [SerializeField] public Motion clipRight;
         [SerializeField] public EmoteControl control;
 
-        public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);
+        [SerializeField] public bool OverrideAvailable => overrideEnabled && overrideIndex > 0;
 
-        public static string BuildStateName(GestureConditionMode mode1, HandSign handSign1, GestureConditionMode mode2, HandSign handSign2)
+        public string ToStateName()
         {
             string ToPart(GestureConditionMode mode, HandSign handSign)
             {
@@ -49,8 +51,9 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             IEnumerable<string> ToParts()
             {
-                if (mode1 != GestureConditionMode.Ignore) yield return ToPart(mode1, handSign1);
-                if (mode2 != GestureConditionMode.Ignore) yield return ToPart(mode2, handSign2);
+                if (gesture1.mode != GestureConditionMode.Ignore) yield return ToPart(gesture1.mode, gesture1.handSign);
+                if (gesture2.mode != GestureConditionMode.Ignore) yield return ToPart(gesture2.mode, gesture2.handSign);
+                if (OverrideAvailable) yield return $"({overrideIndex})";
             }
 
             return string.Join(" ", ToParts());

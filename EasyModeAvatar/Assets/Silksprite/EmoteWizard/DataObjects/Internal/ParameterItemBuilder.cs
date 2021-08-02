@@ -58,6 +58,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             usages.Add(new ParameterUsage(ParameterUsageKind.Float, 1f));
         }
 
+        public void AddIndexUsage()
+        {
+            AddDefaultUsage();
+            itemKind = ParameterItemKind.Int;
+        }
+
         public void Import(VRCExpressionParameters.Parameter parameter)
         {
             enabled = true;

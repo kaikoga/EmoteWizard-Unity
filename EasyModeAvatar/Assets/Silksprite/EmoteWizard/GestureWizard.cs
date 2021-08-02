@@ -8,6 +8,9 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public AvatarMask defaultAvatarMask;
 
+        [SerializeField] public string handSignOverrideParameter = "EmoteWizardGesture";
+
         public override string LayerName => "Gesture";
+        public override string HandSignOverrideParameter => handSignOverrideParameter;
     }
 }

@@ -74,6 +74,21 @@ namespace Silksprite.EmoteWizard
                 });
 
                 TypedGUILayout.Toggle("Advanced Animations", ref fxWizard.advancedAnimations);
+                TypedGUILayout.Toggle("HandSign Override", ref fxWizard.handSignOverrideEnabled);
+                if (fxWizard.handSignOverrideEnabled)
+                {
+                    using (new InvalidValueScope(parametersWizard.IsInvalidParameter(fxWizard.handSignOverrideParameter)))
+                    {
+                        TypedGUILayout.TextField("HandSign Override Parameter", ref fxWizard.handSignOverrideParameter);
+                    }
+                }
+                else
+                {
+                    using (new EditorGUI.DisabledScope(true))
+                    {
+                        TypedGUILayout.TextField("HandSign Override Parameter", ref fxWizard.handSignOverrideParameter);
+                    }
+                }
 
                 string relativePath = GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName);
                 using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())

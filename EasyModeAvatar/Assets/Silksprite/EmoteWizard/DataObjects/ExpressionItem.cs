@@ -52,48 +52,6 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        static string NameForDefaultEmote(int value)
-        {
-            switch (value)
-            {
-                case 1: return "Wave";
-                case 2: return "Clap";
-                case 3: return "Point";
-                case 4: return "Cheer";
-                case 5: return "Dance";
-                case 6: return "Backflip";
-                case 7: return "SadKick";
-                case 8: return "Die";
-                default: throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        static ExpressionItemKind ItemKindForDefaultEmote(int value)
-        {
-            switch (value)
-            {
-                case 2:
-                case 4:
-                case 5:
-                case 8:
-                    return ExpressionItemKind.Toggle;
-                default:
-                    return ExpressionItemKind.Button;
-            }
-        }
-
-        public static ExpressionItem PopulateDefault(Texture2D icon, string prefix, string parameter, int value)
-        {
-            return new ExpressionItem
-            {
-                icon = icon,
-                path = $"{prefix}{NameForDefaultEmote(value)}",
-                parameter = parameter,
-                value = value,
-                itemKind = ItemKindForDefaultEmote(value),
-            };
-        }
-        
         public static ExpressionItem PopulateFolder(Texture2D icon, string path)
         {
             return new ExpressionItem
