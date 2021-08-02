@@ -31,9 +31,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public bool OverrideEnabled => overrideIndex != 0;
 
-        public string ToStateName() => BuildStateName(gesture1.mode, gesture1.handSign, gesture2.mode, gesture2.handSign);
-
-        public static string BuildStateName(GestureConditionMode mode1, HandSign handSign1, GestureConditionMode mode2, HandSign handSign2)
+        public string ToStateName()
         {
             string ToPart(GestureConditionMode mode, HandSign handSign)
             {
@@ -52,8 +50,9 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             IEnumerable<string> ToParts()
             {
-                if (mode1 != GestureConditionMode.Ignore) yield return ToPart(mode1, handSign1);
-                if (mode2 != GestureConditionMode.Ignore) yield return ToPart(mode2, handSign2);
+                if (gesture1.mode != GestureConditionMode.Ignore) yield return ToPart(gesture1.mode, gesture1.handSign);
+                if (gesture2.mode != GestureConditionMode.Ignore) yield return ToPart(gesture2.mode, gesture2.handSign);
+                if (overrideIndex > 0) yield return $"({overrideIndex})";
             }
 
             return string.Join(" ", ToParts());

@@ -24,6 +24,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             var cursor = position.UISliceV(0, 1);
             if (context.State.EditConditions)
             {
+                TypedGUI.TypedField(cursor, ref property.overrideIndex, new GUIContent("HandSign Override"));
+                cursor.y += LineTop(1f);
+
                 using (new HideLabelsScope())
                 {
                     TypedGUI.TypedField(cursor, ref property.gesture1, new GUIContent(" "));
@@ -37,9 +40,6 @@ namespace Silksprite.EmoteWizard.DataObjects
                     TypedGUI.TypedField(cursor, ref property.conditions, "Conditions");
                     cursor.y += TypedGUI.GetPropertyHeight(property.conditions, "Conditions") + EditorGUIUtility.standardVerticalSpacing;
                 }
-
-                TypedGUI.TypedField(cursor, ref property.overrideIndex, new GUIContent("HandSign Override"));
-                cursor.y += LineTop(1f);
             }
             else
             {
