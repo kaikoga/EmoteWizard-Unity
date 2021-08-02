@@ -1,3 +1,4 @@
+using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
@@ -97,7 +98,8 @@ namespace Silksprite.EmoteWizard.Internal
             y = afkY + 1;
             foreach (var afkEmote in ActionWizard.afkEmotes)
             {
-                PopulateEmoteFlow(afkEmote, true, "VRCEmote", y, afk);
+                var isLast = afkEmote == ActionWizard.afkEmotes.LastOrDefault();
+                PopulateEmoteFlow(afkEmote, true,  isLast ? null : ActionWizard.afkSelectParameter, y, afk);
                 y++;
             }
 
@@ -127,7 +129,15 @@ namespace Silksprite.EmoteWizard.Internal
                 PopulateTrackingControl(clipMain, VRC_AnimatorTrackingControl.TrackingType.Animation);
                 PopulatePlayableLayerControl(clipMain, 1f, actionEmote.blendIn);
             }
-            entryTransition.AddCondition(AnimatorConditionMode.Equals, actionEmote.emoteIndex, parameter);
+
+            if (parameter == null)
+            {
+                entryTransition.AddAlwaysTrueCondition();
+            }
+            else
+            {
+                entryTransition.AddCondition(AnimatorConditionMode.Equals, actionEmote.emoteIndex, parameter);
+            }
             entryTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
             entryTransition.duration = actionEmote.entryTransitionDuration;
 
@@ -197,10 +207,15 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameters()
         {
-            AnimatorController.AddParameter("Viseme", AnimatorControllerParameterType.Int); // dummy for AlwaysTrueTransition
             AnimatorController.AddParameter("VRCEmote", AnimatorControllerParameterType.Int);
             AnimatorController.AddParameter("AFK", AnimatorControllerParameterType.Bool);
             AnimatorController.AddParameter("Seated", AnimatorControllerParameterType.Bool);
+
+            AnimatorController.AddParameter("Viseme", AnimatorControllerParameterType.Int); // dummy for AlwaysTrueTransition
+            if (ActionWizard.afkEmotes.Count > 1)
+            {
+                AnimatorController.AddParameter(ActionWizard.afkSelectParameter, AnimatorControllerParameterType.Int);
+            }
         }
     }
 }

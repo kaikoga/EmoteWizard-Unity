@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -38,6 +39,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var parametersWizard = actionWizard.EmoteWizardRoot.GetWizard<ParametersWizard>();
             using (new ObjectChangeScope(actionWizard))
             {
                 var emoteWizardRoot = actionWizard.EmoteWizardRoot;
@@ -50,6 +52,10 @@ namespace Silksprite.EmoteWizard
                     }
                 });
 
+                using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.afkSelectParameter)))
+                {
+                    TypedGUILayout.TextField("AFK Select Parameter", ref actionWizard.afkSelectParameter);
+                }
                 TypedGUILayout.ToggleLeft("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
 
                 using (new ActionEmoteDrawerContext(emoteWizardRoot).StartContext())
