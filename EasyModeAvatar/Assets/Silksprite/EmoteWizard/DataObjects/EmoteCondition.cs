@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -10,30 +9,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public string parameter;
         [SerializeField] public EmoteConditionMode mode;
         [SerializeField] public float threshold;
-
-        public AnimatorConditionMode AnimatorConditionMode
-        {
-            get
-            {
-                switch (mode)
-                {
-                    case EmoteConditionMode.If:
-                        return AnimatorConditionMode.If;
-                    case EmoteConditionMode.IfNot:
-                        return AnimatorConditionMode.IfNot;
-                    case EmoteConditionMode.Greater:
-                        return AnimatorConditionMode.Greater;
-                    case EmoteConditionMode.Less:
-                        return AnimatorConditionMode.Less;
-                    case EmoteConditionMode.Equals:
-                        return AnimatorConditionMode.Equals;
-                    case EmoteConditionMode.NotEqual:
-                        return AnimatorConditionMode.NotEqual;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
     }
 
     public enum EmoteConditionMode
