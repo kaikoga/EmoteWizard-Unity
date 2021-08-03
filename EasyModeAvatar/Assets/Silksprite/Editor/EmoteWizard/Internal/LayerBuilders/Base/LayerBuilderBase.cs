@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
                 .Where(condition => AssertParameterExists(condition.parameter));
             foreach (var condition in validConditions)
             {
-                transition.AddCondition(condition.AnimatorConditionMode, condition.threshold, condition.parameter);
+                transition.AddCondition(condition.ToAnimatorConditionMode(), condition.threshold, condition.parameter);
             }
         }
 
