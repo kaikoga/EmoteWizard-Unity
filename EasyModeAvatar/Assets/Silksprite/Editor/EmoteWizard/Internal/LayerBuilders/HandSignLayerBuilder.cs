@@ -39,6 +39,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 var transition = StateMachine.AddAnyStateTransition(state);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture2);
+                if (AnimationWizardBase.handSignOverrideEnabled)
+                {
+                    transition.AddCondition(AnimatorConditionMode.Equals, 0, AnimationWizardBase.HandSignOverrideParameter);
+                }
                 ApplyEmoteConditions(transition, emote.conditions);
 
                 ApplyEmoteControl(transition, isLeft, emote.control);

@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public Motion clipRight;
         [SerializeField] public EmoteControl control;
 
-        [SerializeField] public bool OverrideAvailable => overrideEnabled && overrideIndex > 0;
+        public bool OverrideAvailable => overrideEnabled && overrideIndex > 0;
 
         public string ToStateName()
         {
