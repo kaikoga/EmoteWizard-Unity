@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 }
                 transition.hasExitTime = sourceTransition.hasExitTime;
                 transition.duration = sourceTransition.duration;
-                transition.canTransitionToSelf = sourceTransition.canTransitionToSelf;
+                transition.canTransitionToSelf = true;
 
                 PopulateTrackingControl(transition, target, VRC_AnimatorTrackingControl.TrackingType.Animation);
             }
