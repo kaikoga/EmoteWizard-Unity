@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard
                 }
                 var overrideActionLabel = new GUIContent("Override Action", "Actionレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault: デフォルトを使用");
                 TypedGUILayout.EnumPopup(overrideActionLabel, ref avatarWizard.overrideAction);
-                if (avatarWizard.overrideAction == AvatarWizard.OverrideControllerType1.Override)
+                if (avatarWizard.overrideAction == AvatarWizard.OverrideGeneratedControllerType1.Override)
                 {
                     CustomTypedGUILayout.AssetFieldWithGenerate("Override Action Controller", ref avatarWizard.overrideActionController, () => GenerateOverrideController(VrcSdkAssetLocator.ActionLayerController(), "Action"));
                 }
@@ -165,9 +165,11 @@ namespace Silksprite.EmoteWizard
             {
                 switch (avatarWizard.overrideAction)
                 {
-                    case AvatarWizard.OverrideControllerType1.Override:
+                    case AvatarWizard.OverrideGeneratedControllerType1.Generate:
+                        return emoteWizardRoot.GetWizard<ActionWizard>()?.outputAsset;
+                    case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return avatarWizard.overrideActionController;
-                    case AvatarWizard.OverrideControllerType1.Default:
+                    case AvatarWizard.OverrideGeneratedControllerType1.Default:
                         return VrcSdkAssetLocator.ActionLayerController();
                     default:
                         throw new ArgumentOutOfRangeException();
