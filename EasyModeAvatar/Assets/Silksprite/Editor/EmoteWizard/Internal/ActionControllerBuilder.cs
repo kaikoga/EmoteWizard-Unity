@@ -168,6 +168,11 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 exitTransition.AddCondition(AnimatorConditionMode.IfNot, actionEmote.emoteIndex, "AFK");
             }
+            else if (actionEmote.hasExitTime)
+            {
+                exitTransition.hasExitTime = true;
+                exitTransition.exitTime = actionEmote.clipExitTime;
+            }
             else
             {
                 exitTransition.AddCondition(AnimatorConditionMode.NotEqual, actionEmote.emoteIndex, parameter);
