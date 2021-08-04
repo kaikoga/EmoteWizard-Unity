@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -39,7 +38,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Reset Expression Items"))
                     {
-                        SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
+                        expressionWizard.RepopulateDefaultExpressionItems();
                     }
                 });
 
@@ -53,7 +52,7 @@ namespace Silksprite.EmoteWizard
 
                 if (GUILayout.Button("Populate Default Expression Items"))
                 {
-                    SetupWizardUtils.PopulateDefaultExpressionItems(expressionWizard);
+                    expressionWizard.PopulateDefaultExpressionItems();
                 }
 
                 if (GUILayout.Button("Group by Folder"))

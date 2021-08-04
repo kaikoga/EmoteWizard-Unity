@@ -40,7 +40,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            SetupWizardUtils.RepopulateParameters(parametersWizard);
+                            parametersWizard.RepopulateParameters();
                         }
                     }
                 });

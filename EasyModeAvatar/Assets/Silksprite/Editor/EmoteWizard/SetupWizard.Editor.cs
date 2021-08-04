@@ -1,5 +1,5 @@
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -77,13 +77,13 @@ namespace Silksprite.EmoteWizard
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
-            SetupWizardUtils.RepopulateParameters(parametersWizard);
-            SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
-            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
-            SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
-            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
-            SetupWizardUtils.RepopulateDefaultActionEmotes(actionWizard);
+            expressionWizard.RepopulateDefaultExpressionItems();
+            parametersWizard.RepopulateParameters();
+            fxWizard.RepopulateDefaultEmotes();
+            fxWizard.RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.RepopulateDefaultEmotes();
+            gestureWizard.RepopulateParameterEmotes(parametersWizard);
+            actionWizard.RepopulateDefaultActionEmotes();
         }
 
         static void QuickSetup14(EmoteWizardRoot emoteWizardRoot)
@@ -94,13 +94,13 @@ namespace Silksprite.EmoteWizard
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            SetupWizardUtils.RepopulateDefaultExpressionItems(expressionWizard);
-            SetupWizardUtils.RepopulateParameters(parametersWizard);
-            SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
-            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
-            SetupWizardUtils.RepopulateDefaultEmotes(gestureWizard);
-            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, gestureWizard);
-            SetupWizardUtils.RepopulateDefaultActionEmotes(actionWizard);
+            expressionWizard.RepopulateDefaultExpressionItems();
+            parametersWizard.RepopulateParameters();
+            fxWizard.RepopulateDefaultEmotes14();
+            fxWizard.RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.RepopulateDefaultEmotes();
+            gestureWizard.RepopulateParameterEmotes(parametersWizard);
+            actionWizard.RepopulateDefaultActionEmotes();
         }
     }
 }

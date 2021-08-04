@@ -56,19 +56,19 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
-                        SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
+                        fxWizard.RepopulateDefaultEmotes();
                     }
 
                     if (GUILayout.Button("Repopulate HandSigns: 14 items"))
                     {
-                        SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
+                        fxWizard.RepopulateDefaultEmotes14();
                     }
 
                     if (parametersWizard != null)
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
+                            fxWizard.RepopulateParameterEmotes(parametersWizard);
                         }
                     }
                 });

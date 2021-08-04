@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Utils;
 using Unity.Collections;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -10,6 +11,19 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ExpressionWizardExtension
     {
+        public static void RepopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
+        {
+            expressionWizard.expressionItems = new List<ExpressionItem>();
+            PopulateDefaultExpressionItems(expressionWizard);
+        }
+
+        public static void PopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
+        {
+            if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
+
+            expressionWizard.expressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
+        }
+
         public static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
         {
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
