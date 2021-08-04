@@ -1,5 +1,3 @@
-using System;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -17,7 +15,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(ActionWizard))]
-    public class ActionWizardEditor : AnimationWizardBaseEditor
+    public class ActionWizardEditor : Editor
     {
         ActionWizard actionWizard;
 
@@ -105,5 +103,13 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Action Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
         }
+        static string Tutorial =>
+            string.Join("\n",
+                "Write Defaultsはオフになります。",
+                "Select Value: モーションを再生するために必要なAction Select ParameterかAFK Select Parameterの値。1以上である必要があります",
+                "Has Exit Time: オンの場合、一回再生のアニメーションとして適用されます。オフの場合、ループアニメーションとして適用されます",
+                "",
+                "Action Emotes: Action Select Parameterによって制御されるモーション",
+                "AFK Emotes: AFK Select Parameterによって制御されるAFKモーション。Select Valueが未設定の場合は、一番下のモーションが再生されます");
     }
 }

@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -18,7 +16,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(ExpressionWizard))]
-    public class ExpressionWizardEditor : AnimationWizardBaseEditor
+    public class ExpressionWizardEditor : Editor
     {
         ExpressionWizard expressionWizard;
 

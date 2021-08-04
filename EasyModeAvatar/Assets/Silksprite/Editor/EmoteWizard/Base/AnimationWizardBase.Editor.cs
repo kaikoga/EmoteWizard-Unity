@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Base
                 "Write Defaultsはオフになります。",
                 "各アニメーションで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。",
                 "",
-                "BaseMixins: 常時再生したいBlendTreeなどの設定",
+                "Base Mixins: 常時再生したいBlendTreeなどの設定",
                 "Emotes: ハンドサインに基づくアニメーションの設定",
                 "Parameter Emotes: パラメーターに基づくアニメーションの設定",
                 "Mixins: 上書きして再生したいBlendTreeなどの設定");

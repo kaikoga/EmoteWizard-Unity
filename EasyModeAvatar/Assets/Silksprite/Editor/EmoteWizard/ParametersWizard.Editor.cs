@@ -1,6 +1,4 @@
-using System;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -15,7 +13,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(ParametersWizard))]
-    public class ParametersWizardEditor : AnimationWizardBaseEditor
+    public class ParametersWizardEditor : Editor
     {
         ParametersWizard parametersWizard;
         ExpandableReorderableList<ParameterItem> parameterItemsList;
