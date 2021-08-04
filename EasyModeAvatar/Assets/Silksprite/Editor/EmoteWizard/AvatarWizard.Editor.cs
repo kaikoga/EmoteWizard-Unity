@@ -78,6 +78,7 @@ namespace Silksprite.EmoteWizard
                     }
                     var gestureController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset as AnimatorController;
                     var fxController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset as AnimatorController;
+                    var actionController = emoteWizardRoot.GetWizard<ActionWizard>()?.outputAsset as AnimatorController;
 
                     if (avatarDescriptor)
                     {
@@ -100,9 +101,13 @@ namespace Silksprite.EmoteWizard
                         {
                             EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
                         }
+                        else if (avatarAnimator.runtimeAnimatorController == actionController)
+                        {
+                            EditorGUILayout.HelpBox("Editing Action Controller on avatar.", MessageType.Warning);
+                        }
                         else
                         {
-                            EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
+                            EditorGUILayout.HelpBox("Unknown Animator Controller is present.", MessageType.Warning);
                         }
                     }
 
@@ -129,10 +134,18 @@ namespace Silksprite.EmoteWizard
                                 }
                             }
 
-                            if (GUILayout.Button("Remove Controller"))
+                            using (new EditorGUI.DisabledScope(actionController == null))
                             {
-                                EditAnimator(null);
+                                if (GUILayout.Button("Edit Action"))
+                                {
+                                    EditAnimator(actionController);
+                                }
                             }
+                        }
+
+                        if (GUILayout.Button("Remove Animator Controller"))
+                        {
+                            EditAnimator(null);
                         }
                     }
                 });
