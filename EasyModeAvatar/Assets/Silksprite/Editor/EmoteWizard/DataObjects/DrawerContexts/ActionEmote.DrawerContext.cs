@@ -8,11 +8,13 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
     public class ActionEmoteDrawerContext : EmoteWizardDrawerContextBase<ActionEmote, ActionEmoteDrawerContext>
     {
         public readonly ActionEmoteDrawerState State;
+        public readonly ActionEmote LastItem;
 
         public ActionEmoteDrawerContext() : base(null) { }
-        public ActionEmoteDrawerContext(EmoteWizardRoot emoteWizardRoot, ActionEmoteDrawerState state) : base(emoteWizardRoot)
+        public ActionEmoteDrawerContext(EmoteWizardRoot emoteWizardRoot, ActionEmoteDrawerState state, ActionEmote lastItem) : base(emoteWizardRoot)
         {
             State = state;
+            LastItem = lastItem;
         }
     }
 }

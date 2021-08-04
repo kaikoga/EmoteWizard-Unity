@@ -1,3 +1,4 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -57,7 +58,7 @@ namespace Silksprite.EmoteWizard
                 {
                     TypedGUILayout.TextField("Action Select Parameter", ref actionWizard.actionSelectParameter);
                 }
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState).StartContext())
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, null).StartContext())
                 {
                     actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -78,7 +79,7 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState).StartContext())
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.afkEmotes.LastOrDefault()).StartContext())
                 {
                     afkEmotesList.DrawAsProperty(actionWizard.afkEmotes, emoteWizardRoot.listDisplayMode);
                 }
