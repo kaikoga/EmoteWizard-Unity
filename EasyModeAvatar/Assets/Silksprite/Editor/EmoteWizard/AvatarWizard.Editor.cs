@@ -121,7 +121,7 @@ namespace Silksprite.EmoteWizard
                     {
                         using (new GUILayout.HorizontalScope())
                         {
-                            using (new EditorGUI.DisabledScope(gestureController == null))
+                            using (new EditorGUI.DisabledScope(gestureController == null || avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Default1 || avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Default2))
                             {
                                 if (GUILayout.Button("Edit Gesture"))
                                 {
@@ -137,7 +137,7 @@ namespace Silksprite.EmoteWizard
                                 }
                             }
 
-                            using (new EditorGUI.DisabledScope(actionController == null))
+                            using (new EditorGUI.DisabledScope(actionController == null || avatarWizard.overrideAction == AvatarWizard.OverrideGeneratedControllerType1.Default))
                             {
                                 if (GUILayout.Button("Edit Action"))
                                 {
