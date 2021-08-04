@@ -83,11 +83,14 @@ namespace Silksprite.EmoteWizard
                     if (avatarDescriptor)
                     {
                         var avatarAnimator = avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
-                        if (GUILayout.Button("Update Avatar"))
+                        EmoteWizardGUILayout.RequireAnotherWizard<ParametersWizard>(avatarWizard, () =>
                         {
-                            avatarAnimator.runtimeAnimatorController = null;
-                            UpdateAvatar(avatarDescriptor);
-                        }
+                            if (GUILayout.Button("Generate Everything and Update Avatar"))
+                            {
+                                avatarAnimator.runtimeAnimatorController = null;
+                                UpdateAvatar(avatarDescriptor);
+                            }
+                        });
 
                         if (avatarAnimator.runtimeAnimatorController == null)
                         {
@@ -156,13 +159,14 @@ namespace Silksprite.EmoteWizard
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)
         {
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
+            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
 
             RuntimeAnimatorController SelectGestureController()
             {
                 switch (avatarWizard.overrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset;
+                        return emoteWizardRoot.GetWizard<GestureWizard>()?.BuildOutputAsset(parametersWizard);
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return avatarWizard.overrideGestureController;
                     case AvatarWizard.OverrideGeneratedControllerType2.Default1:
@@ -179,7 +183,7 @@ namespace Silksprite.EmoteWizard
                 switch (avatarWizard.overrideAction)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType1.Generate:
-                        return emoteWizardRoot.GetWizard<ActionWizard>()?.outputAsset;
+                        return emoteWizardRoot.GetWizard<ActionWizard>()?.BuildOutputAsset();
                     case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return avatarWizard.overrideActionController;
                     case AvatarWizard.OverrideGeneratedControllerType1.Default:
@@ -191,7 +195,7 @@ namespace Silksprite.EmoteWizard
 
             RuntimeAnimatorController SelectFxController()
             {
-                return emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset;
+                return emoteWizardRoot.GetWizard<FxWizard>()?.BuildOutputAsset(parametersWizard);
             }
 
             RuntimeAnimatorController SelectSittingController()
@@ -287,8 +291,8 @@ namespace Silksprite.EmoteWizard
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetWizard<ExpressionWizard>()?.outputAsset;
-            avatarDescriptor.expressionParameters = emoteWizardRoot.GetWizard<ParametersWizard>()?.outputAsset;
+            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetWizard<ExpressionWizard>()?.BuildOutputAsset();
+            avatarDescriptor.expressionParameters = emoteWizardRoot.GetWizard<ParametersWizard>()?.BuildOutputAsset();
         }
     }
 }

@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Internal;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
@@ -10,7 +11,7 @@ namespace Silksprite.EmoteWizard.Extensions
             actionWizard.afkEmotes = DefaultActionEmote.PopulateDefaultAfkEmotes();
         }
 
-        public static void BuildOutputAsset(this ActionWizard actionWizard)
+        public static RuntimeAnimatorController BuildOutputAsset(this ActionWizard actionWizard)
         {
             var builder = new ActionControllerBuilder
             {
@@ -20,6 +21,8 @@ namespace Silksprite.EmoteWizard.Extensions
 
             builder.BuildActionLayer();
             builder.BuildParameters();
+
+            return actionWizard.outputAsset;
         }
     }
 }

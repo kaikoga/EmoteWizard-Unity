@@ -5,7 +5,7 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class FxWizardExtension
     {
-        public static void BuildOutputAsset(this FxWizard fxWizard, ParametersWizard parametersWizard)
+        public static RuntimeAnimatorController BuildOutputAsset(this FxWizard fxWizard, ParametersWizard parametersWizard)
         {
             var builder = new AnimationControllerBuilder
             {
@@ -26,6 +26,8 @@ namespace Silksprite.EmoteWizard.Extensions
 
             builder.BuildTrackingControlLayers();
             builder.BuildParameters();
+            
+            return fxWizard.outputAsset;
         }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEditor;
+using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
@@ -19,13 +20,15 @@ namespace Silksprite.EmoteWizard.Extensions
             return parametersWizard != null && parametersWizard.parameterItems.Concat(parametersWizard.defaultParameterItems).All(item => item.name != parameterName);
         }
 
-        public static void BuildOutputAsset(this ParametersWizard parametersWizard)
+        public static VRCExpressionParameters BuildOutputAsset(this ParametersWizard parametersWizard)
         {
             var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
 
             expressionParams.parameters = parametersWizard.ToParameters();
 
             AssetDatabase.SaveAssets();
+            
+            return expressionParams;
         }
     }
 }

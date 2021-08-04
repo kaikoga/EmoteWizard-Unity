@@ -1,11 +1,12 @@
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Utils;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
     public static class GestureWizardExtension
     {
-        public static void BuildOutputAsset(this GestureWizard gestureWizard, ParametersWizard parametersWizard)
+        public static RuntimeAnimatorController BuildOutputAsset(this GestureWizard gestureWizard, ParametersWizard parametersWizard)
         {
             var builder = new AnimationControllerBuilder
             {
@@ -25,6 +26,8 @@ namespace Silksprite.EmoteWizard.Extensions
 
             builder.BuildTrackingControlLayers();
             builder.BuildParameters();
+            
+            return gestureWizard.outputAsset;
         }
     }
 }

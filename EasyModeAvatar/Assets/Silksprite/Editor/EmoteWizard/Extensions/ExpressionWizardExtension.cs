@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Extensions
             return groups;
         }
 
-        public static void BuildOutputAsset(this ExpressionWizard expressionWizard)
+        public static VRCExpressionsMenu BuildOutputAsset(this ExpressionWizard expressionWizard)
         {
             var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
 
@@ -102,6 +102,8 @@ namespace Silksprite.EmoteWizard.Extensions
             }
 
             AssetDatabase.SaveAssets();
+
+            return expressionMenu;
         }
     }
 }
