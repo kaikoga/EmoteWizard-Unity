@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
+using UnityEditor;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
@@ -16,6 +17,15 @@ namespace Silksprite.EmoteWizard.Extensions
         {
             if (string.IsNullOrEmpty(parameterName)) return false;
             return parametersWizard != null && parametersWizard.parameterItems.Concat(parametersWizard.defaultParameterItems).All(item => item.name != parameterName);
+        }
+
+        public static void BuildOutputAsset(this ParametersWizard parametersWizard)
+        {
+            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
+
+            expressionParams.parameters = parametersWizard.ToParameters();
+
+            AssetDatabase.SaveAssets();
         }
     }
 }

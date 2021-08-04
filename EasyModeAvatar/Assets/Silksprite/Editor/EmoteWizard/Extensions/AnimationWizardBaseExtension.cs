@@ -12,7 +12,6 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimationWizardBaseExtension
     {
-
         public static void RepopulateDefaultEmotes(this AnimationWizardBase animationWizardBase)
         {
             var newEmotes = Emote.HandSigns
@@ -47,6 +46,27 @@ namespace Silksprite.EmoteWizard.Extensions
             parametersWizard.TryRefreshParameters();
             animationWizardBase.parameterEmotes = new List<ParameterEmote>();
             animationWizardBase.RefreshParameters(parametersWizard);
+        }
+
+
+        public static void BuildResetClip(this AnimationWizardBase animationWizardBase, AnimationClip targetClip)
+        {
+            var allClips = Enumerable.Empty<AnimationClip>()
+                .Concat(animationWizardBase.baseMixins.SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.emotes.SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.parameterEmotes.SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.mixins.SelectMany(p => p.AllClips()))
+                .Where(c => c != null);
+            var allParameters = allClips.SelectMany(AnimationUtility.GetCurveBindings)
+                .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
+                .Distinct().OrderBy(x => x);
+            
+            targetClip.ClearCurves();
+            targetClip.frameRate = 60f;
+            foreach (var (path, propertyName, type) in allParameters)
+            {
+                targetClip.SetCurve(path, type, propertyName, AnimationCurve.Constant(0f, 1 / 60f, 0f));
+            }
         }
 
         public static void GenerateParameterEmoteClipsFromTargets(this AnimationWizardBase animationWizardBase, ParameterEmoteDrawerContext context, string emoteName)

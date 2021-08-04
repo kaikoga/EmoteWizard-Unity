@@ -3,7 +3,6 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -71,7 +70,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Generate Expression Parameters"))
                     {
-                        BuildExpressionParameters();
+                        parametersWizard.BuildOutputAsset();
                     }
 
                     TypedGUILayout.AssetField("Output Asset", ref parametersWizard.outputAsset);
@@ -80,15 +79,5 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
             }
         }
-
-        void BuildExpressionParameters()
-        {
-            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
-
-            expressionParams.parameters = parametersWizard.ToParameters();
-
-            AssetDatabase.SaveAssets();
-        }
-
     }
 }

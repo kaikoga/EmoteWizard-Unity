@@ -4,7 +4,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -87,14 +86,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        var builder = new ActionControllerBuilder
-                        {
-                            ActionWizard = actionWizard,
-                            DefaultRelativePath = "Action/@@@Generated@@@Action.controller"
-                        };
-
-                        builder.BuildActionLayer();
-                        builder.BuildParameters();
+                        actionWizard.BuildOutputAsset();
                     }
 
                     TypedGUILayout.AssetField("Output Asset", ref actionWizard.outputAsset);
@@ -103,6 +95,7 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Action Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
         }
+
         static string Tutorial =>
             string.Join("\n",
                 "Write Defaultsはオフになります。",
