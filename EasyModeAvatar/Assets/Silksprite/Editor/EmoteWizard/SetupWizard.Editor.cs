@@ -61,11 +61,11 @@ namespace Silksprite.EmoteWizard
         {
             if (setupWizard.gameObject != emoteWizardRoot.gameObject)
             {
-                DestroyImmediate(setupWizard.gameObject);
+                DestroyImmediate(setupWizard.gameObject, true);
             }
             else
             {
-                DestroyImmediate(setupWizard);
+                DestroyImmediate(setupWizard, true);
             }
         }
 
