@@ -18,18 +18,20 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override void OnGUI(Rect position, ref ActionEmote property, GUIContent label)
         {
             var context = EnsureContext();
-            var isLastItem = property == context.LastItem;
 
             GUI.Box(position, GUIContent.none);
             position = position.InsideBox();
             var y = 0;
 
             TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
-            using (new EditorGUI.DisabledScope(isLastItem))
-            using (new InvalidValueScope(!isLastItem && property.emoteIndex == 0))
+            if (!context.IsDefaultAfk)
             {
-                TypedGUI.IntField(position.UISliceV(y++), "Select Value", ref property.emoteIndex);
+                using (new InvalidValueScope(property.emoteIndex == 0))
+                {
+                    TypedGUI.IntField(position.UISliceV(y++), "Select Value", ref property.emoteIndex);
+                }
             }
+
             TypedGUI.Toggle(position.UISliceV(y++), "Has Exit Time", ref property.hasExitTime);
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             using (new LabelWidthScope(80f))

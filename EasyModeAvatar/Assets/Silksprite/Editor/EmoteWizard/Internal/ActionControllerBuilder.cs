@@ -96,13 +96,14 @@ namespace Silksprite.EmoteWizard.Internal
             }
 
             y = afkY + 1;
-            var afkEmotes = ActionWizard.SelectableAfkEmotes ? ActionWizard.afkEmotes : ActionWizard.afkEmotes.Take(1).ToList();
-            foreach (var afkEmote in afkEmotes)
+            if (ActionWizard.afkSelectEnabled)
             {
-                var isLast = afkEmote == afkEmotes.LastOrDefault();
-                PopulateEmoteFlow(afkEmote, true,  isLast ? null : ActionWizard.afkSelectParameter, y, afk);
-                y++;
+                foreach (var afkEmote in ActionWizard.afkEmotes)
+                {
+                    PopulateEmoteFlow(afkEmote, true,  ActionWizard.afkSelectParameter, y++, afk);
+                }
             }
+            PopulateEmoteFlow(ActionWizard.defaultAfkEmote, true, null, y, afk);
 
         }
 

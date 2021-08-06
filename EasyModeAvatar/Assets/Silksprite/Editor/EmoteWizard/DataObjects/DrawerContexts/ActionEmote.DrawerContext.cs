@@ -9,14 +9,14 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
     {
         public readonly ActionEmoteDrawerState State;
         public readonly bool FixedTransitionDuration;
-        public readonly ActionEmote LastItem;
+        public readonly bool IsDefaultAfk;
 
         public ActionEmoteDrawerContext() : base(null) { }
-        public ActionEmoteDrawerContext(EmoteWizardRoot emoteWizardRoot, ActionEmoteDrawerState state, bool fixedTransitionDuration, ActionEmote lastItem) : base(emoteWizardRoot)
+        public ActionEmoteDrawerContext(EmoteWizardRoot emoteWizardRoot, ActionEmoteDrawerState state, bool fixedTransitionDuration, bool isDefaultAfk) : base(emoteWizardRoot)
         {
             State = state;
             FixedTransitionDuration = fixedTransitionDuration;
-            LastItem = lastItem;
+            IsDefaultAfk = isDefaultAfk;
         }
     }
 }

@@ -15,8 +15,9 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public List<ActionEmote> actionEmotes;
         [SerializeField] public List<ActionEmote> afkEmotes;
+        [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public bool SelectableAfkEmotes => afkSelectEnabled && afkEmotes.Count > 1;
+        public bool SelectableAfkEmotes => afkSelectEnabled && afkEmotes.Count > 0;
     }
 }
