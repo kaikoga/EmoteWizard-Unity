@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard
                 {
                     TypedGUILayout.TextField("Action Select Parameter", ref actionWizard.actionSelectParameter);
                 }
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, null).StartContext())
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, actionWizard.fixedTransitionDuration, null).StartContext())
                 {
                     actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -77,7 +77,7 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.afkEmotes.LastOrDefault()).StartContext())
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.fixedTransitionDuration, actionWizard.afkEmotes.LastOrDefault()).StartContext())
                 {
                     afkEmotesList.DrawAsProperty(actionWizard.afkEmotes, emoteWizardRoot.listDisplayMode);
                 }
