@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard
                 "5. Parameter Wizardの設定値を確認する",
                 "6. ハンドサインを差し替える場合はGesture Wizardから設定する",
                 "7. FX Wizardから表情や着せ替えのアニメーションを設定する",
-                "8. 必要に応じてAvatar Wizardから各アニメーションを編集する",
+                "8. 必要に応じてAction WizardからエモートとAFKモーションを編集する",
                 "9. 全てのOutput zoneが埋まったらAvatar WizardのUpdate Avatarを押す");
 
         EmoteWizardRoot emoteWizardRoot;

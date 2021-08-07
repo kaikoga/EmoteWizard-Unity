@@ -82,6 +82,10 @@ namespace Silksprite.EmoteWizard.Internal
         {
             foreach (var parameterEmote in parameterEmotes)
             {
+                if (!parameterEmote.enabled) continue;
+                if (parameterEmote.emoteKind == ParameterEmoteKind.Unused) continue;
+                if (parameterEmote.states.All(state => state.clip == null)) continue;
+
                 var parameterLayer = PopulateLayer(parameterEmote.name);
                 var layerBuilder = new ParameterLayerBuilder(this, parameterLayer);
                 layerBuilder.Build(parameterEmote);
@@ -90,8 +94,10 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildMixinLayers(IEnumerable<AnimationMixin> mixins)
         {
-            foreach (var mixin in mixins.Where(mixin => mixin.Motion != null))
+            foreach (var mixin in mixins)
             {
+                if (mixin.Motion == null) continue;
+
                 var mixinLayer = PopulateLayer(mixin.name);
                 var layerBuilder = new MixinLayerBuilder(this, mixinLayer);
                 layerBuilder.Build(mixin);

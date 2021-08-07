@@ -7,6 +7,16 @@ namespace Silksprite.EmoteWizard.Utils
             return $"{layer}/@@@Generated@@@Override{layer}.controller";
         }
 
+        public static string EmoteStateClipPath(string layer, string name)
+        {
+            return $"{layer}/@@@Generated@@@{layer}_{name}.anim";
+        }
+
+        public static string EmoteStateClipPath(string layer, string name, string side)
+        {
+            return $"{layer}/@@@Generated@@@{layer}_{name}_{side}.anim";
+        }
+
         public static string ParameterEmoteBlendTreePath(string layer, string name)
         {
             return $"{layer}/@@@Generated@@@{layer}_{name}_BlendTree.asset";

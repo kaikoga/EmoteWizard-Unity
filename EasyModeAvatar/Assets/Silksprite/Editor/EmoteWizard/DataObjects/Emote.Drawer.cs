@@ -1,4 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -59,16 +61,33 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (context.State.EditAnimations)
             {
+                var fileName = property.ToStateName(true);
                 if (context.AdvancedAnimations)
                 {
-                    TypedGUI.AssetField(cursor, "Clip Left", ref property.clipLeft);
+                    CustomTypedGUI.AssetFieldWithGenerate(cursor, "Clip Left", ref property.clipLeft,
+                        () =>
+                        {
+                            var relativePath = GeneratedAssetLocator.EmoteStateClipPath(context.Layer, fileName, "Left");
+                            return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
+                        });
                     cursor.y += LineTop(1f);
-                    TypedGUI.AssetField(cursor, "Clip Right", ref property.clipRight);
+
+                    CustomTypedGUI.AssetFieldWithGenerate(cursor, "Clip Right", ref property.clipRight,
+                        () =>
+                        {
+                            var relativePath = GeneratedAssetLocator.EmoteStateClipPath(context.Layer, fileName, "Right");
+                            return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
+                        });
                     cursor.y += LineTop(1f);
                 }
                 else
                 {
-                    TypedGUI.AssetField(cursor, "Clip", ref property.clipLeft);
+                    CustomTypedGUI.AssetFieldWithGenerate(cursor, "Clip Left", ref property.clipLeft,
+                        () =>
+                        {
+                            var relativePath = GeneratedAssetLocator.EmoteStateClipPath(context.Layer, fileName);
+                            return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
+                        });
                     cursor.y += LineTop(1f);
                 }
             }

@@ -1,11 +1,8 @@
-using System;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -15,7 +12,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(ParametersWizard))]
-    public class ParametersWizardEditor : AnimationWizardBaseEditor
+    public class ParametersWizardEditor : Editor
     {
         ParametersWizard parametersWizard;
         ExpandableReorderableList<ParameterItem> parameterItemsList;
@@ -27,6 +24,7 @@ namespace Silksprite.EmoteWizard
             
             parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
             defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
+            IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
         }
 
         public override void OnInspectorGUI()
@@ -42,7 +40,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            SetupWizardUtils.RepopulateParameters(parametersWizard);
+                            parametersWizard.RepopulateParameters();
                         }
                     }
                 });
@@ -73,7 +71,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Generate Expression Parameters"))
                     {
-                        BuildExpressionParameters();
+                        parametersWizard.BuildOutputAsset();
                     }
 
                     TypedGUILayout.AssetField("Output Asset", ref parametersWizard.outputAsset);
@@ -82,15 +80,5 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
             }
         }
-
-        void BuildExpressionParameters()
-        {
-            var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
-
-            expressionParams.parameters = parametersWizard.ToParameters();
-
-            AssetDatabase.SaveAssets();
-        }
-
     }
 }

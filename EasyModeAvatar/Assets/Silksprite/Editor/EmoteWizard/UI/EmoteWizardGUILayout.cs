@@ -42,6 +42,12 @@ namespace Silksprite.EmoteWizard.UI
             }
         }
 
+        public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, Action action)
+            where T : EmoteWizardBase
+        {
+            RequireAnotherWizard(emoteWizardBase, emoteWizardBase.EmoteWizardRoot.GetWizard<T>(), action);
+        }
+
         public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, T anotherWizard, Action action)
             where T : EmoteWizardBase
         {

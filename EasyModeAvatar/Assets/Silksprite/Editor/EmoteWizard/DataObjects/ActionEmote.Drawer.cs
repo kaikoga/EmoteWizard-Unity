@@ -24,55 +24,75 @@ namespace Silksprite.EmoteWizard.DataObjects
             var y = 0;
 
             TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
-            TypedGUI.IntField(position.UISliceV(y++), "Select Value", ref property.emoteIndex);
+            if (!context.IsDefaultAfk)
+            {
+                using (new InvalidValueScope(property.emoteIndex == 0))
+                {
+                    TypedGUI.IntField(position.UISliceV(y++), "Select Value", ref property.emoteIndex);
+                }
+            }
+
             TypedGUI.Toggle(position.UISliceV(y++), "Has Exit Time", ref property.hasExitTime);
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
-            using (new LabelWidthScope(100f))
+            using (new LabelWidthScope(80f))
             {
                 if (context.State.EditLayerBlend) TypedGUI.FloatField(position.UISliceV(y++), "Blend In", ref property.blendIn);
 
                 if (context.State.EditTransition)
                 {
-                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.entryTransitionDuration);
-
-                    TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Entry", ref property.entryClip);
+                    TransitionField(position, y++, context.FixedTransitionDuration, ref property.entryTransitionDuration);
+                    ClipField(position, y++, ref property.entryClip, ref property.entryClipExitTime);
                     using (new EditorGUI.DisabledScope(property.entryClip == null))
                     {
-                        using (new LabelWidthScope(1f))
-                        {
-                            TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.entryClipExitTime);
-                        }
-
-                        TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postEntryTransitionDuration);
+                        TransitionField(position, y++, context.FixedTransitionDuration, ref property.postEntryTransitionDuration);
                     }
                 }
 
-                TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Clip", ref property.clip);
-                using (new LabelWidthScope(1f))
-                {
-                    using (new EditorGUI.DisabledScope(!property.hasExitTime))
-                    {
-                        TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.clipExitTime);
-                    }
-                }
+                ClipField(position, y++, ref property.clip, ref property.clipExitTime);
 
                 if (context.State.EditTransition)
                 {
-                    TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.exitTransitionDuration);
-
-                    TypedGUI.AssetField(position.UISlice(0.0f, 0.8f, y), "Exit", ref property.exitClip);
+                    TransitionField(position, y++, context.FixedTransitionDuration, ref property.exitTransitionDuration);
+                    ClipField(position, y++, ref property.exitClip, ref property.exitClipExitTime);
                     using (new EditorGUI.DisabledScope(property.exitClip == null))
                     {
-                        using (new LabelWidthScope(1f))
-                        {
-                            TypedGUI.FloatField(position.UISlice(0.8f, 0.2f, y++), " ", ref property.exitClipExitTime);
-                        }
-
-                        TypedGUI.FloatField(position.UISlice(0.0f, 0.8f, y++), "Transition", ref property.postExitTransitionDuration);
+                        TransitionField(position, y++, context.FixedTransitionDuration, ref property.postExitTransitionDuration);
                     }
                 }
 
                 if (context.State.EditLayerBlend) TypedGUI.FloatField(position.UISliceV(y), "Blend Out", ref property.blendOut);
+            }
+        }
+
+        static void TransitionField(Rect position, int y, bool fixedTransitionDuration, ref float propertyField)
+        {
+            GUI.Label(position.UISliceV(y), "Transition");
+            using (new LabelWidthScope(1f))
+            {
+                if (fixedTransitionDuration)
+                {
+                    TypedGUI.FloatField(position.UISlice(0.6f, 0.3f, y), "Transition", ref propertyField);
+                    GUI.Label(position.UISlice(0.9f, 0.05f, y), "s");
+                }
+                else
+                {
+                    TypedGUI.FloatField(position.UISlice(0.6f, 0.3f, y), "Transition", ref propertyField);
+                }
+            }
+        }
+
+        static void ClipField(Rect position, int y, ref Motion propertyClipField, ref float propertyExitTimeField)
+        {
+            TypedGUI.AssetField(position.UISlice(0.0f, 0.65f, y), "Entry", ref propertyClipField);
+            using (new EditorGUI.DisabledScope(propertyClipField == null))
+            {
+                using (new LabelWidthScope(1f))
+                {
+                    TypedGUI.FloatField(position.UISlice(0.65f, 0.2f, y), " ", ref propertyExitTimeField);
+                    if (!propertyClipField) return;
+                    var realExitTime = propertyExitTimeField * propertyClipField.averageDuration;
+                    GUI.Label(position.UISlice(0.85f, 0.15f, y), $"{realExitTime:F2}s");
+                }
             }
         }
 

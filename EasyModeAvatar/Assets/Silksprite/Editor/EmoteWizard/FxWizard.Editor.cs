@@ -4,7 +4,6 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -56,19 +55,19 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
-                        SetupWizardUtils.RepopulateDefaultEmotes(fxWizard);
+                        fxWizard.RepopulateDefaultEmotes();
                     }
 
                     if (GUILayout.Button("Repopulate HandSigns: 14 items"))
                     {
-                        SetupWizardUtils.RepopulateDefaultEmotes14(fxWizard);
+                        fxWizard.RepopulateDefaultEmotes14();
                     }
 
                     if (parametersWizard != null)
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            SetupWizardUtils.RepopulateParameterEmotes(parametersWizard, fxWizard);
+                            fxWizard.RepopulateParameterEmotes(parametersWizard);
                         }
                     }
                 });
@@ -96,7 +95,7 @@ namespace Silksprite.EmoteWizard
                     baseMixinsList.DrawAsProperty(fxWizard.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.advancedAnimations, emotesState).StartContext())
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.LayerName, fxWizard.advancedAnimations, emotesState).StartContext())
                 {
                     emotesList.DrawAsProperty(fxWizard.emotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -127,24 +126,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        var builder = new AnimationControllerBuilder
-                        {
-                            AnimationWizardBase = fxWizard,
-                            ParametersWizard = parametersWizard,
-                            DefaultRelativePath = "FX/@@@Generated@@@FX.controller"
-                        };
-
-                        var resetClip = BuildResetClip(fxWizard.ProvideResetClip());
-
-                        builder.BuildStaticLayer("Reset", resetClip, null);
-                        builder.BuildMixinLayers(fxWizard.baseMixins);
-                        builder.BuildHandSignLayer("Left Hand", true, fxWizard.advancedAnimations);
-                        builder.BuildHandSignLayer("Right Hand", false, fxWizard.advancedAnimations);
-                        builder.BuildParameterLayers(fxWizard.ActiveParameters);
-                        builder.BuildMixinLayers(fxWizard.mixins);
-
-                        builder.BuildTrackingControlLayers();
-                        builder.BuildParameters();
+                        fxWizard.BuildOutputAsset(parametersWizard);
                     }
 
                     TypedGUILayout.AssetField("Output Asset", ref fxWizard.outputAsset);

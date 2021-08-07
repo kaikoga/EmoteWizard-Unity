@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             using (new GUILayout.HorizontalScope())
             {
                 TypedGUILayout.AssetField(label, ref value);
-                if (value == null && GUILayout.Button("Generate", GUILayout.Width(60f)))
+                if (value == null && GUILayout.Button("Generate", GUILayout.Width(CustomEditorGUI.GenerateButtonWidth)))
                 {
                     value = generate();
                 }

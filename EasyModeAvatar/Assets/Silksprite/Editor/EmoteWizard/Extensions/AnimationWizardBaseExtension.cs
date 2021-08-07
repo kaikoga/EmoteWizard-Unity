@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -10,6 +12,63 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimationWizardBaseExtension
     {
+        public static void RepopulateDefaultEmotes(this AnimationWizardBase animationWizardBase)
+        {
+            var newEmotes = Emote.HandSigns
+                .Select(Emote.Populate)
+                .ToList();
+            animationWizardBase.emotes = newEmotes;
+        }
+
+        public static void RepopulateDefaultEmotes14(this AnimationWizardBase animationWizardBase)
+        {
+            var newEmotes = Enumerable.Empty<Emote>()
+                .Concat(Emote.HandSigns
+                    .Select(handSign => new Emote
+                    {
+                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
+                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
+                        control = EmoteControl.Populate(handSign)
+                    }))
+                .Concat(Emote.HandSigns
+                    .Select(handSign => new Emote
+                    {
+                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
+                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
+                        control = EmoteControl.Populate(handSign)
+                    }))
+                .ToList();
+            animationWizardBase.emotes = newEmotes;
+        }
+
+        public static void RepopulateParameterEmotes(this AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard)
+        {
+            parametersWizard.TryRefreshParameters();
+            animationWizardBase.parameterEmotes = new List<ParameterEmote>();
+            animationWizardBase.RefreshParameters(parametersWizard);
+        }
+
+
+        public static void BuildResetClip(this AnimationWizardBase animationWizardBase, AnimationClip targetClip)
+        {
+            var allClips = Enumerable.Empty<AnimationClip>()
+                .Concat(animationWizardBase.baseMixins.SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.emotes.SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.parameterEmotes.SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.mixins.SelectMany(p => p.AllClips()))
+                .Where(c => c != null);
+            var allParameters = allClips.SelectMany(AnimationUtility.GetCurveBindings)
+                .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
+                .Distinct().OrderBy(x => x);
+            
+            targetClip.ClearCurves();
+            targetClip.frameRate = 60f;
+            foreach (var (path, propertyName, type) in allParameters)
+            {
+                targetClip.SetCurve(path, type, propertyName, AnimationCurve.Constant(0f, 1 / 60f, 0f));
+            }
+        }
+
         public static void GenerateParameterEmoteClipsFromTargets(this AnimationWizardBase animationWizardBase, ParameterEmoteDrawerContext context, string emoteName)
         {
             var proxyAnimator = context.EmoteWizardRoot.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();

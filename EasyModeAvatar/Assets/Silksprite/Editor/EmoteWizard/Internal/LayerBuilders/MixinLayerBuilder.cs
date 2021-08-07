@@ -14,15 +14,12 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             var transition = AddStateAsTransition(mixin.name, mixin.Motion);
 
-            if (mixin.kind == AnimationMixinKind.AnimationClip)
+            ApplyEmoteControl(transition, true, mixin.control);
+            if (mixin.conditions.Count > 0)
             {
-                ApplyEmoteControl(transition, true, mixin.control);
-                if (mixin.conditions.Count > 0)
-                {
-                    ApplyEmoteConditions(transition, mixin.conditions);
-                    var defaultTransition = AddStateAsTransition("Default", null);
-                    defaultTransition.AddAlwaysTrueCondition();
-                }
+                ApplyEmoteConditions(transition, mixin.conditions);
+                var defaultTransition = AddStateAsTransition("Default", null);
+                defaultTransition.AddAlwaysTrueCondition();
             }
 
             StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;

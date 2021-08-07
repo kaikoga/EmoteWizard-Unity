@@ -137,24 +137,21 @@ namespace Silksprite.EmoteWizard.Internal
                 .ToList();
         }
         
-        public static List<ActionEmote> PopulateDefaultAfkEmotes()
+        public static ActionEmote PopulateDefaultAfkEmote()
         {
-            return new List<ActionEmote>
+            return new ActionEmote
             {
-                new ActionEmote
-                {
-                    name = "AFK",
-                    emoteIndex = 0,
-                    hasExitTime = false,
-                    clip = VrcSdkAssetLocator.ProxyAfk(),
-                    exitClip = VrcSdkAssetLocator.ProxyAfk(),
-                    entryTransitionDuration = 1f,
-                    exitTransitionDuration = 0f,
-                    exitClipExitTime = 0.2f,
-                    postExitTransitionDuration = 0f,
-                    blendIn = 1f,
-                    blendOut = 0.5f
-                }
+                name = "AFK",
+                emoteIndex = 0,
+                hasExitTime = false,
+                clip = VrcSdkAssetLocator.ProxyAfk(),
+                exitClip = VrcSdkAssetLocator.ProxyAfk(),
+                entryTransitionDuration = 1f,
+                exitTransitionDuration = 0f,
+                exitClipExitTime = 0.2f,
+                postExitTransitionDuration = 0f,
+                blendIn = 1f,
+                blendOut = 0.5f
             };
         }
     }

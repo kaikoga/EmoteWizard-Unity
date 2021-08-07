@@ -16,8 +16,8 @@ namespace Silksprite.EmoteWizard.Collections
             var context = EnsureContext();
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                GUI.Label(position.UISlice(0.0f, 0.8f, 0), "Clip");
-                GUI.Label(position.UISlice(0.8f, 0.2f, 0), "ExitTime");
+                GUI.Label(position.UISlice(0.0f, 0.7f, 0), "Clip");
+                GUI.Label(position.UISlice(0.7f, 0.3f, 0), "ExitTime");
                 TypedGUI.ToggleLeft(position.UISliceV(1), "Edit Layer Blend", ref context.State.EditLayerBlend);
                 TypedGUI.ToggleLeft(position.UISliceV(2), "Edit Transition", ref context.State.EditTransition);
             }

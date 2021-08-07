@@ -1,10 +1,11 @@
+using System.Linq;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardBase : MonoBehaviour
     {
-        public EmoteWizardRoot EmoteWizardRoot => GetComponentInParent<EmoteWizardRoot>();
+        public EmoteWizardRoot EmoteWizardRoot => GetComponentsInParent<EmoteWizardRoot>(true).FirstOrDefault();
         protected T GetWizard<T>() where T : EmoteWizardBase => EmoteWizardRoot.GetWizard<T>();
 
         public bool IsSetupMode

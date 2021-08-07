@@ -20,8 +20,6 @@ namespace Silksprite.EmoteWizard.Base
         public abstract string LayerName { get; }
         public abstract string HandSignOverrideParameter { get;  }
 
-        public IEnumerable<ParameterEmote> ActiveParameters => parameterEmotes.Where(parameter => parameter.enabled && parameter.emoteKind != ParameterEmoteKind.Unused);
-
         public void RefreshParameters(ParametersWizard parametersWizard) => RefreshParameters(parametersWizard.parameterItems, parametersWizard.defaultParameterItems);
 
         void RefreshParameters(IEnumerable<ParameterItem> parameterItems, IEnumerable<ParameterItem> defaultParameterItems)

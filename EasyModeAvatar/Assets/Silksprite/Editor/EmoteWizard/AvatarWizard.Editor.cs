@@ -78,15 +78,19 @@ namespace Silksprite.EmoteWizard
                     }
                     var gestureController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset as AnimatorController;
                     var fxController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset as AnimatorController;
+                    var actionController = emoteWizardRoot.GetWizard<ActionWizard>()?.outputAsset as AnimatorController;
 
                     if (avatarDescriptor)
                     {
                         var avatarAnimator = avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
-                        if (GUILayout.Button("Update Avatar"))
+                        EmoteWizardGUILayout.RequireAnotherWizard<ParametersWizard>(avatarWizard, () =>
                         {
-                            avatarAnimator.runtimeAnimatorController = null;
-                            UpdateAvatar(avatarDescriptor);
-                        }
+                            if (GUILayout.Button("Generate Everything and Update Avatar"))
+                            {
+                                avatarAnimator.runtimeAnimatorController = null;
+                                UpdateAvatar(avatarDescriptor);
+                            }
+                        });
 
                         if (avatarAnimator.runtimeAnimatorController == null)
                         {
@@ -100,9 +104,13 @@ namespace Silksprite.EmoteWizard
                         {
                             EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
                         }
+                        else if (avatarAnimator.runtimeAnimatorController == actionController)
+                        {
+                            EditorGUILayout.HelpBox("Editing Action Controller on avatar.", MessageType.Warning);
+                        }
                         else
                         {
-                            EditorGUILayout.HelpBox("Animator Controller is present.", MessageType.Warning);
+                            EditorGUILayout.HelpBox("Unknown Animator Controller is present.", MessageType.Warning);
                         }
                     }
 
@@ -113,7 +121,7 @@ namespace Silksprite.EmoteWizard
                     {
                         using (new GUILayout.HorizontalScope())
                         {
-                            using (new EditorGUI.DisabledScope(gestureController == null))
+                            using (new EditorGUI.DisabledScope(gestureController == null || avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Default1 || avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Default2))
                             {
                                 if (GUILayout.Button("Edit Gesture"))
                                 {
@@ -129,10 +137,18 @@ namespace Silksprite.EmoteWizard
                                 }
                             }
 
-                            if (GUILayout.Button("Remove Controller"))
+                            using (new EditorGUI.DisabledScope(actionController == null || avatarWizard.overrideAction == AvatarWizard.OverrideGeneratedControllerType1.Default))
                             {
-                                EditAnimator(null);
+                                if (GUILayout.Button("Edit Action"))
+                                {
+                                    EditAnimator(actionController);
+                                }
                             }
+                        }
+
+                        if (GUILayout.Button("Remove Animator Controller"))
+                        {
+                            EditAnimator(null);
                         }
                     }
                 });
@@ -143,13 +159,14 @@ namespace Silksprite.EmoteWizard
         void UpdateAvatar(VRCAvatarDescriptor avatarDescriptor)
         {
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
+            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
 
             RuntimeAnimatorController SelectGestureController()
             {
                 switch (avatarWizard.overrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset;
+                        return emoteWizardRoot.GetWizard<GestureWizard>()?.BuildOutputAsset(parametersWizard);
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return avatarWizard.overrideGestureController;
                     case AvatarWizard.OverrideGeneratedControllerType2.Default1:
@@ -166,7 +183,7 @@ namespace Silksprite.EmoteWizard
                 switch (avatarWizard.overrideAction)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType1.Generate:
-                        return emoteWizardRoot.GetWizard<ActionWizard>()?.outputAsset;
+                        return emoteWizardRoot.GetWizard<ActionWizard>()?.BuildOutputAsset();
                     case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return avatarWizard.overrideActionController;
                     case AvatarWizard.OverrideGeneratedControllerType1.Default:
@@ -178,7 +195,7 @@ namespace Silksprite.EmoteWizard
 
             RuntimeAnimatorController SelectFxController()
             {
-                return emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset;
+                return emoteWizardRoot.GetWizard<FxWizard>()?.BuildOutputAsset(parametersWizard);
             }
 
             RuntimeAnimatorController SelectSittingController()
@@ -274,8 +291,8 @@ namespace Silksprite.EmoteWizard
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetWizard<ExpressionWizard>()?.outputAsset;
-            avatarDescriptor.expressionParameters = emoteWizardRoot.GetWizard<ParametersWizard>()?.outputAsset;
+            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetWizard<ExpressionWizard>()?.BuildOutputAsset();
+            avatarDescriptor.expressionParameters = emoteWizardRoot.GetWizard<ParametersWizard>()?.BuildOutputAsset();
         }
     }
 }

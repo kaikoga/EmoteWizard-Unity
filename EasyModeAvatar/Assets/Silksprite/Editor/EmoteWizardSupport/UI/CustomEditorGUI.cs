@@ -9,6 +9,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 {
     public static class CustomEditorGUI
     {
+        public const float GenerateButtonWidth = 64f; 
         public static void ColoredBox(Rect position, Color color)
         {
             var backgroundColor = GUI.backgroundColor;
@@ -40,7 +41,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static void PropertyFieldWithGenerate(Rect position, SerializedProperty serializedProperty, Func<UnityEngine.Object> generate)
         {
-            const float buttonWidth = 60;
+            const float buttonWidth = GenerateButtonWidth;
             var fieldPosition = position;
             if (serializedProperty.objectReferenceValue == null) fieldPosition.width -= buttonWidth;
 

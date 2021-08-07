@@ -8,14 +8,16 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
     public class EmoteDrawerContext : EmoteWizardDrawerContextBase<Emote, EmoteDrawerContext>
     {
         public readonly ParametersWizard ParametersWizard;
+        public readonly string Layer;
         public readonly bool AdvancedAnimations;
         public readonly EmoteDrawerState State;
 
         public EmoteDrawerContext() : base(null) { }
-        public EmoteDrawerContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, bool advancedAnimations, EmoteDrawerState state) : base(emoteWizardRoot)
+        public EmoteDrawerContext(EmoteWizardRoot emoteWizardRoot, ParametersWizard parametersWizard, string layer, bool advancedAnimations, EmoteDrawerState state) : base(emoteWizardRoot)
         {
             ParametersWizard = parametersWizard;
             AdvancedAnimations = advancedAnimations;
+            Layer = layer;
             State = state;
         }
 

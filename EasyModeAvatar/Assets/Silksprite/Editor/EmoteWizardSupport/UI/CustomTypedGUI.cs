@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizardSupport.UI
         public static void AssetFieldWithGenerate<T>(Rect position, string label, ref T value, Func<T> generate)
         where T : Object
         {
-            const float buttonWidth = 60;
+            const float buttonWidth = CustomEditorGUI.GenerateButtonWidth;
             var fieldPosition = position;
             if (value == null) fieldPosition.width -= buttonWidth;
 

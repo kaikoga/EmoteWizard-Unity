@@ -1,13 +1,9 @@
-using System;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -17,12 +13,13 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(ActionWizard))]
-    public class ActionWizardEditor : AnimationWizardBaseEditor
+    public class ActionWizardEditor : Editor
     {
         ActionWizard actionWizard;
 
         ActionEmoteDrawerState actionEmotesState;
         ActionEmoteDrawerState afkEmotesState;
+        ActionEmoteDrawerState defaultAfkEmoteState;
 
         ExpandableReorderableList<ActionEmote> actionEmotesList;
         ExpandableReorderableList<ActionEmote> afkEmotesList;
@@ -33,6 +30,7 @@ namespace Silksprite.EmoteWizard
             
             actionEmotesState = new ActionEmoteDrawerState();
             afkEmotesState = new ActionEmoteDrawerState();
+            defaultAfkEmoteState = new ActionEmoteDrawerState();
 
             actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref actionWizard.actionEmotes);
             afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref actionWizard.afkEmotes);
@@ -49,7 +47,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate Default Actions"))
                     {
-                        SetupWizardUtils.RepopulateDefaultActionEmotes(actionWizard);
+                        actionWizard.RepopulateDefaultActionEmotes();
                     }
                 });
 
@@ -59,7 +57,7 @@ namespace Silksprite.EmoteWizard
                 {
                     TypedGUILayout.TextField("Action Select Parameter", ref actionWizard.actionSelectParameter);
                 }
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState).StartContext())
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
                 {
                     actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -80,23 +78,27 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState).StartContext())
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
+                using (new EditorGUI.DisabledScope(!actionWizard.afkSelectEnabled))
                 {
                     afkEmotesList.DrawAsProperty(actionWizard.afkEmotes, emoteWizardRoot.listDisplayMode);
+                }
+
+                GUILayout.Label("Default AFK Emote");
+                using (new ActionEmoteDrawerContext(emoteWizardRoot, defaultAfkEmoteState, actionWizard.fixedTransitionDuration, true).StartContext())
+                {
+                    new ActionEmoteListHeaderDrawer().OnGUI(false);
+                    using (new EditorGUI.IndentLevelScope())
+                    {
+                        TypedGUILayout.TypedField(ref actionWizard.defaultAfkEmote, "Default AFK Emote");
+                    }
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
                     if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        var builder = new ActionControllerBuilder
-                        {
-                            ActionWizard = actionWizard,
-                            DefaultRelativePath = "Action/@@@Generated@@@Action.controller"
-                        };
-
-                        builder.BuildActionLayer();
-                        builder.BuildParameters();
+                        actionWizard.BuildOutputAsset();
                     }
 
                     TypedGUILayout.AssetField("Output Asset", ref actionWizard.outputAsset);
@@ -105,5 +107,18 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Action Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "Write Defaultsはオフになります。",
+                "Select Value: モーションを再生するために必要なAction Select ParameterかAFK Select Parameterの値。1以上である必要があります",
+                "Has Exit Time: オンの場合、一回再生のアニメーションとして適用されます。オフの場合、ループアニメーションとして適用されます",
+                "",
+                "Action Select Parameter: 再生されるAction Emotesを選択するパラメータ",
+                "Action Emotes: Action Select Parameterが変化したタイミングで再生されるエモートモーション",
+                "",
+                "AFK Select Parameter: 再生されるAFK Emotesを選択するパラメータ",
+                "AFK Emotes: AFK時に再生されるAFKモーション",
+                "Default AFK Emote: AFK Emotesが再生条件を満たさなかった場合に再生されるAFKモーション");
     }
 }
