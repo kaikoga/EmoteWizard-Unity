@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public bool OverrideAvailable => overrideEnabled && overrideIndex > 0;
 
-        public string ToStateName()
+        public string ToStateName(bool ascii = false)
         {
             string ToPart(GestureConditionMode mode, HandSign handSign)
             {
@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     case GestureConditionMode.Equals:
                         return $"{handSign}";
                     case GestureConditionMode.NotEqual:
-                        return $"¬{handSign}";
+                        return ascii ? $"Not-{handSign}" : $"¬{handSign}";
                     case GestureConditionMode.Ignore:
                         return "";
                     default:
@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (OverrideAvailable) yield return $"({overrideIndex})";
             }
 
-            return string.Join(" ", ToParts());
+            return string.Join(ascii ? "_" : " ", ToParts());
         }
     }
 }
