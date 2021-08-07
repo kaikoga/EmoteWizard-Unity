@@ -24,6 +24,7 @@ namespace Silksprite.EmoteWizard
             
             parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
             defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
+            IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
         }
 
         public override void OnInspectorGUI()

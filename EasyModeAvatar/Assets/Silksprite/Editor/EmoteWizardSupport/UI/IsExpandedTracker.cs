@@ -4,24 +4,24 @@ namespace Silksprite.EmoteWizardSupport.UI
 {
     public static class IsExpandedTracker
     {
-        static readonly Dictionary<int, bool> CollapsedItems = new Dictionary<int, bool>();
+        static readonly Dictionary<int, bool> ExpandedItems = new Dictionary<int, bool>();
 
         public static bool GetIsExpanded(object item)
         {
-            return item != null && !CollapsedItems.TryGetValue(item.GetHashCode(), out _);
+            return item != null && (!ExpandedItems.TryGetValue(item.GetHashCode(), out var value) || value);
         }
 
         public static bool SetIsExpanded(object item, bool value)
         {
-            if (!value)
-            {
-                CollapsedItems[item.GetHashCode()] = true;
-            }
-            else
-            {
-                CollapsedItems.Remove(item.GetHashCode());
-            }
-            return value;
+            return ExpandedItems[item.GetHashCode()] = value;
         }
+        
+        public static void SetDefaultExpanded(object item, bool value)
+        {
+            if (item == null) return;
+            var hashCode = item.GetHashCode();
+            if (!ExpandedItems.ContainsKey(hashCode)) ExpandedItems[hashCode] = value;
+        }
+
     }
 }
