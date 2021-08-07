@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             using (new GUILayout.HorizontalScope())
             {
                 EditorGUILayout.PropertyField(serializedProperty);
-                if (serializedProperty.objectReferenceValue == null && GUILayout.Button("Generate", GUILayout.Width(60f)))
+                if (serializedProperty.objectReferenceValue == null && GUILayout.Button("Generate", GUILayout.Width(CustomEditorGUI.GenerateButtonWidth)))
                 {
                     serializedProperty.objectReferenceValue = generate();
                 }
