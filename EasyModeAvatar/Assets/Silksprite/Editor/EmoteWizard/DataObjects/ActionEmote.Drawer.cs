@@ -41,19 +41,19 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (context.State.EditTransition)
                 {
                     TransitionField(position, y++, context.FixedTransitionDuration, ref property.entryTransitionDuration);
-                    ClipField(position, y++, ref property.entryClip, ref property.entryClipExitTime);
+                    ClipField(position, y++, "Entry Clip", ref property.entryClip, ref property.entryClipExitTime);
                     using (new EditorGUI.DisabledScope(property.entryClip == null))
                     {
                         TransitionField(position, y++, context.FixedTransitionDuration, ref property.postEntryTransitionDuration);
                     }
                 }
 
-                ClipField(position, y++, ref property.clip, ref property.clipExitTime);
+                ClipField(position, y++, "Clip", ref property.clip, ref property.clipExitTime);
 
                 if (context.State.EditTransition)
                 {
                     TransitionField(position, y++, context.FixedTransitionDuration, ref property.exitTransitionDuration);
-                    ClipField(position, y++, ref property.exitClip, ref property.exitClipExitTime);
+                    ClipField(position, y++, "Exit Clip", ref property.exitClip, ref property.exitClipExitTime);
                     using (new EditorGUI.DisabledScope(property.exitClip == null))
                     {
                         TransitionField(position, y++, context.FixedTransitionDuration, ref property.postExitTransitionDuration);
@@ -81,9 +81,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        static void ClipField(Rect position, int y, ref Motion propertyClipField, ref float propertyExitTimeField)
+        static void ClipField(Rect position, int y, string label, ref Motion propertyClipField, ref float propertyExitTimeField)
         {
-            TypedGUI.AssetField(position.UISlice(0.0f, 0.65f, y), "Entry", ref propertyClipField);
+            TypedGUI.AssetField(position.UISlice(0.0f, 0.65f, y), label, ref propertyClipField);
             using (new EditorGUI.DisabledScope(propertyClipField == null))
             {
                 using (new LabelWidthScope(1f))
