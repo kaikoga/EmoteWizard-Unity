@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Extensions
             builder.BuildMixinLayers(gestureWizard.baseMixins);
             builder.BuildHandSignLayer("Left Hand", true, gestureWizard.advancedAnimations);
             builder.BuildHandSignLayer("Right Hand", false, gestureWizard.advancedAnimations);
-            builder.BuildParameterLayers(gestureWizard.ActiveParameters);
+            builder.BuildParameterLayers(gestureWizard.parameterEmotes);
             builder.BuildMixinLayers(gestureWizard.mixins);
 
             builder.BuildTrackingControlLayers();
