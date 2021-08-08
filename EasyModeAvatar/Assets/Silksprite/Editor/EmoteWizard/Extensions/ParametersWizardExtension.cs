@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.Extensions
         public static bool IsInvalidParameter(this ParametersWizard parametersWizard, string parameterName)
         {
             if (string.IsNullOrEmpty(parameterName)) return false;
-            return parametersWizard != null && parametersWizard.parameterItems.Concat(parametersWizard.defaultParameterItems).All(item => item.name != parameterName);
+            return parametersWizard != null && parametersWizard.AllParameterItems.All(item => item.name != parameterName);
         }
 
         public static VRCExpressionParameters BuildOutputAsset(this ParametersWizard parametersWizard)
