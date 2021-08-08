@@ -57,15 +57,21 @@ namespace Silksprite.EmoteWizard.Extensions
                 .Concat(animationWizardBase.parameterEmotes.Where(e => e.enabled).SelectMany(p => p.AllClips()))
                 .Concat(animationWizardBase.mixins.Where(e => e.enabled).SelectMany(p => p.AllClips()))
                 .Where(c => c != null);
-            var allParameters = allClips.SelectMany(AnimationUtility.GetCurveBindings)
-                .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
-                .Distinct().OrderBy(x => x);
+            var curveBindings = allClips.SelectMany(AnimationUtility.GetCurveBindings)
+                .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
             targetClip.ClearCurves();
             targetClip.frameRate = 60f;
-            foreach (var (path, propertyName, type) in allParameters)
+            var vrcAvatarDescriptor = animationWizardBase.EmoteWizardRoot.GetWizard<AvatarWizard>()?.avatarDescriptor;
+            var avatar = vrcAvatarDescriptor != null ? vrcAvatarDescriptor.gameObject : null;
+            foreach (var curveBinding in curveBindings)
             {
-                targetClip.SetCurve(path, type, propertyName, AnimationCurve.Constant(0f, 1 / 60f, 0f));
+                var value = 0f;
+                if (avatar)
+                {
+                    AnimationUtility.GetFloatValue(avatar, curveBinding, out value);
+                }
+                targetClip.SetCurve(curveBinding.path, curveBinding.type, curveBinding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, value));
             }
         }
 
