@@ -23,7 +23,15 @@ namespace Silksprite.EmoteWizard.DataObjects
             position = position.InsideBox();
             var y = 0;
 
-            TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
+            using (new HideLabelsScope())
+            {
+                if (!context.IsDefaultAfk)
+                {
+                    TypedGUI.Toggle(position.UISlice(0.0f, 0.1f, y), " ", ref property.enabled);
+                }
+                EditorGUI.BeginDisabledGroup(!property.enabled);
+                TypedGUI.TextField(position.UISlice(0.1f, 0.9f, y++), " ", ref property.name);
+            }
             if (!context.IsDefaultAfk)
             {
                 using (new InvalidValueScope(property.emoteIndex == 0))
@@ -62,6 +70,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
                 if (context.State.EditLayerBlend) TypedGUI.FloatField(position.UISliceV(y), "Blend Out", ref property.blendOut);
             }
+            EditorGUI.EndDisabledGroup();
         }
 
         static void TransitionField(Rect position, int y, bool fixedTransitionDuration, ref float propertyField)
@@ -99,7 +108,8 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override float GetPropertyHeight(ActionEmote property, GUIContent label)
         {
             var context = EnsureContext();
-            var lines = 4f;
+            var lines = 3f;
+            if (!context.IsDefaultAfk) lines += 1f;
             if (context.State.EditLayerBlend) lines += 2f;
             if (context.State.EditTransition) lines += 6f;
             return BoxHeight(LineHeight(lines));

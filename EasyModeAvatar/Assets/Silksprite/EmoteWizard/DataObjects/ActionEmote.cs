@@ -6,6 +6,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class ActionEmote
     {
+        [SerializeField] public bool enabled = true;
         [SerializeField] public string name;
         [SerializeField] public int emoteIndex;
         [SerializeField] public bool hasExitTime;

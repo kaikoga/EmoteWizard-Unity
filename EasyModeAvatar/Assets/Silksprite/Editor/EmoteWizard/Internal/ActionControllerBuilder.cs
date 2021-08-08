@@ -12,8 +12,8 @@ namespace Silksprite.EmoteWizard.Internal
 {
     public class ActionControllerBuilder
     {
-        public ActionWizard ActionWizard;
-        public string DefaultRelativePath;
+        readonly ActionWizard _actionWizard;
+        readonly string _defaultRelativePath;
 
         AnimatorController _animatorController;
         AnimatorController AnimatorController
@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Internal
             get
             {
                 if (_animatorController) return _animatorController;
-                return _animatorController = ActionWizard.ReplaceOrCreateOutputAsset(ref ActionWizard.outputAsset, DefaultRelativePath);
+                return _animatorController = _actionWizard.ReplaceOrCreateOutputAsset(ref _actionWizard.outputAsset, _defaultRelativePath);
             }
         }
 
@@ -61,6 +61,12 @@ namespace Silksprite.EmoteWizard.Internal
             }
         }
 
+        public ActionControllerBuilder(ActionWizard actionWizard, string defaultRelativePath)
+        {
+            _actionWizard = actionWizard;
+            _defaultRelativePath = defaultRelativePath;
+        }
+
         Vector3 Position(int x, int y)
         {
             return new Vector3(x * 300, y * 60);
@@ -68,11 +74,14 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildActionLayer()
         {
+            var actionEmotes = _actionWizard.actionEmotes.Where(ae => ae.enabled).ToList();
+            var afkEmotes = _actionWizard.afkEmotes.Where(ae => ae.enabled).ToList();
+
             var standClip = VrcSdkAssetLocator.ProxyStandStill();
             var sitClip = VrcSdkAssetLocator.ProxySit();
             var afkClip = VrcSdkAssetLocator.ProxyAfk();
 
-            var sitY = ActionWizard.actionEmotes.Count + 2;
+            var sitY = actionEmotes.Count + 2;
             var afkY = sitY + 2;
             var stand = AddState("Stand", Position(1, 0), standClip);
             var sit = AddState("Sit", Position(1, sitY), sitClip);
@@ -89,21 +98,21 @@ namespace Silksprite.EmoteWizard.Internal
             sitToAfk.AddCondition(AnimatorConditionMode.If, 0, "AFK");
 
             var y = 1;
-            foreach (var actionEmote in ActionWizard.actionEmotes)
+            foreach (var actionEmote in actionEmotes)
             {
-                PopulateEmoteFlow(actionEmote, false, ActionWizard.actionSelectParameter, y, stand);
+                PopulateEmoteFlow(actionEmote, false, _actionWizard.actionSelectParameter, y, stand);
                 y++;
             }
 
             y = afkY + 1;
-            if (ActionWizard.afkSelectEnabled)
+            if (_actionWizard.afkSelectEnabled)
             {
-                foreach (var afkEmote in ActionWizard.afkEmotes)
+                foreach (var afkEmote in afkEmotes)
                 {
-                    PopulateEmoteFlow(afkEmote, true,  ActionWizard.afkSelectParameter, y++, afk);
+                    PopulateEmoteFlow(afkEmote, true,  _actionWizard.afkSelectParameter, y++, afk);
                 }
             }
-            PopulateEmoteFlow(ActionWizard.defaultAfkEmote, true, null, y, afk);
+            PopulateEmoteFlow(_actionWizard.defaultAfkEmote, true, null, y, afk);
 
         }
 
@@ -120,7 +129,7 @@ namespace Silksprite.EmoteWizard.Internal
                 var exitEntryTransition = clipEntry.AddTransition(clipMain);
                 exitEntryTransition.hasExitTime = true;
                 exitEntryTransition.exitTime = actionEmote.entryClipExitTime;
-                exitEntryTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
+                exitEntryTransition.hasFixedDuration = _actionWizard.fixedTransitionDuration;
                 exitEntryTransition.duration = actionEmote.postEntryTransitionDuration;
                 PopulateTrackingControl(clipEntry, VRC_AnimatorTrackingControl.TrackingType.Animation);
                 PopulatePlayableLayerControl(clipEntry, 1f, actionEmote.blendIn);
@@ -140,7 +149,7 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 entryTransition.AddCondition(AnimatorConditionMode.Equals, actionEmote.emoteIndex, parameter);
             }
-            entryTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
+            entryTransition.hasFixedDuration = _actionWizard.fixedTransitionDuration;
             entryTransition.duration = actionEmote.entryTransitionDuration;
 
             var release = AddState($"Release {actionEmote.name}", Position(6, y), null);
@@ -157,7 +166,7 @@ namespace Silksprite.EmoteWizard.Internal
                 var exitExitTransition = clipExit.AddTransition(release);
                 exitExitTransition.hasExitTime = true;
                 exitExitTransition.exitTime = actionEmote.exitClipExitTime;
-                exitExitTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
+                exitExitTransition.hasFixedDuration = _actionWizard.fixedTransitionDuration;
                 exitExitTransition.duration = actionEmote.postExitTransitionDuration;
             }
             else
@@ -178,7 +187,7 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 exitTransition.AddCondition(AnimatorConditionMode.NotEqual, actionEmote.emoteIndex, parameter);
             }
-            exitTransition.hasFixedDuration = ActionWizard.fixedTransitionDuration;
+            exitTransition.hasFixedDuration = _actionWizard.fixedTransitionDuration;
             exitTransition.duration = actionEmote.exitTransitionDuration;
         }
         
@@ -214,14 +223,14 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameters()
         {
-            AnimatorController.AddParameter(ActionWizard.actionSelectParameter, AnimatorControllerParameterType.Int);
+            AnimatorController.AddParameter(_actionWizard.actionSelectParameter, AnimatorControllerParameterType.Int);
             AnimatorController.AddParameter("AFK", AnimatorControllerParameterType.Bool);
             AnimatorController.AddParameter("Seated", AnimatorControllerParameterType.Bool);
 
             AnimatorController.AddParameter("Viseme", AnimatorControllerParameterType.Int); // dummy for AlwaysTrueTransition
-            if (ActionWizard.SelectableAfkEmotes)
+            if (_actionWizard.SelectableAfkEmotes)
             {
-                AnimatorController.AddParameter(ActionWizard.afkSelectParameter, AnimatorControllerParameterType.Int);
+                AnimatorController.AddParameter(_actionWizard.afkSelectParameter, AnimatorControllerParameterType.Int);
             }
         }
     }
