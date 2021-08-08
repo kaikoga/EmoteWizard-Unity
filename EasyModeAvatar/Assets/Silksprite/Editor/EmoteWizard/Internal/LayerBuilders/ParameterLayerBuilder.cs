@@ -16,6 +16,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         public void Build(ParameterEmote parameterEmote)
         {
             if (!AssertParameterExists(parameterEmote.parameter)) return;
+            Builder.MarkParameter(parameterEmote.parameter);
+
             switch (parameterEmote.emoteKind)
             {
                 case ParameterEmoteKind.Transition:
