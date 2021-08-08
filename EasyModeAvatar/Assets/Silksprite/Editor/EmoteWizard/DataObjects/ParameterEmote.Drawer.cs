@@ -28,9 +28,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                 using (new HideLabelsScope())
                 {
                     TypedGUI.Toggle(position.UISlice(0.0f, 0.1f, 0), " ", ref property.enabled);
-                    EditorGUI.BeginDisabledGroup(!property.enabled);
-                    TypedGUI.TextField(position.UISlice(0.1f, 0.9f, 0),  " ", ref property.name);
                 }
+                EditorGUI.BeginDisabledGroup(!property.enabled);
+                TypedGUI.TextField(position.UISlice(0.1f, 0.9f, 0),  "Name", ref property.name);
                 using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.parameter)))
                 {
                     TypedGUI.TextField(position.UISlice(0.0f, 0.8f, 1), "Parameter", ref property.parameter);

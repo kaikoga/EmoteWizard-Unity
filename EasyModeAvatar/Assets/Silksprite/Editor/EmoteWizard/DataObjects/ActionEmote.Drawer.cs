@@ -29,9 +29,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                 {
                     TypedGUI.Toggle(position.UISlice(0.0f, 0.1f, y), " ", ref property.enabled);
                 }
-                EditorGUI.BeginDisabledGroup(!property.enabled);
-                TypedGUI.TextField(position.UISlice(0.1f, 0.9f, y++), " ", ref property.name);
             }
+            EditorGUI.BeginDisabledGroup(!property.enabled);
+            TypedGUI.TextField(position.UISlice(0.1f, 0.9f, y++), "Name", ref property.name);
             if (!context.IsDefaultAfk)
             {
                 using (new InvalidValueScope(property.emoteIndex == 0))
