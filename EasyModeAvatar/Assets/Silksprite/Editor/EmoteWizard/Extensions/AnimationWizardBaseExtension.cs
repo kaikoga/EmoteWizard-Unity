@@ -52,10 +52,10 @@ namespace Silksprite.EmoteWizard.Extensions
         public static void BuildResetClip(this AnimationWizardBase animationWizardBase, AnimationClip targetClip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(animationWizardBase.baseMixins.SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.baseMixins.Where(e => e.enabled).SelectMany(e => e.AllClips()))
                 .Concat(animationWizardBase.emotes.SelectMany(e => e.AllClips()))
-                .Concat(animationWizardBase.parameterEmotes.SelectMany(p => p.AllClips()))
-                .Concat(animationWizardBase.mixins.SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.parameterEmotes.Where(e => e.enabled).SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.mixins.Where(e => e.enabled).SelectMany(p => p.AllClips()))
                 .Where(c => c != null);
             var allParameters = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Select(curve => (curve.path, curve.propertyName, curve.type) ) 
