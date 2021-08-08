@@ -23,7 +23,15 @@ namespace Silksprite.EmoteWizard.DataObjects
             position = position.InsideBox();
             var y = 0;
 
-            TypedGUI.TextField(position.UISliceV(y++), "Name", ref property.name);
+            using (new HideLabelsScope())
+            {
+                if (!context.IsDefaultAfk)
+                {
+                    TypedGUI.Toggle(position.UISlice(0.0f, 0.1f, y), " ", ref property.enabled);
+                }
+            }
+            EditorGUI.BeginDisabledGroup(!property.enabled);
+            TypedGUI.TextField(position.UISlice(0.1f, 0.9f, y++), "Name", ref property.name);
             if (!context.IsDefaultAfk)
             {
                 using (new InvalidValueScope(property.emoteIndex == 0))
@@ -41,19 +49,19 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (context.State.EditTransition)
                 {
                     TransitionField(position, y++, context.FixedTransitionDuration, ref property.entryTransitionDuration);
-                    ClipField(position, y++, ref property.entryClip, ref property.entryClipExitTime);
+                    ClipField(position, y++, "Entry Clip", ref property.entryClip, ref property.entryClipExitTime);
                     using (new EditorGUI.DisabledScope(property.entryClip == null))
                     {
                         TransitionField(position, y++, context.FixedTransitionDuration, ref property.postEntryTransitionDuration);
                     }
                 }
 
-                ClipField(position, y++, ref property.clip, ref property.clipExitTime);
+                ClipField(position, y++, "Clip", ref property.clip, ref property.clipExitTime);
 
                 if (context.State.EditTransition)
                 {
                     TransitionField(position, y++, context.FixedTransitionDuration, ref property.exitTransitionDuration);
-                    ClipField(position, y++, ref property.exitClip, ref property.exitClipExitTime);
+                    ClipField(position, y++, "Exit Clip", ref property.exitClip, ref property.exitClipExitTime);
                     using (new EditorGUI.DisabledScope(property.exitClip == null))
                     {
                         TransitionField(position, y++, context.FixedTransitionDuration, ref property.postExitTransitionDuration);
@@ -62,6 +70,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
                 if (context.State.EditLayerBlend) TypedGUI.FloatField(position.UISliceV(y), "Blend Out", ref property.blendOut);
             }
+            EditorGUI.EndDisabledGroup();
         }
 
         static void TransitionField(Rect position, int y, bool fixedTransitionDuration, ref float propertyField)
@@ -81,9 +90,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        static void ClipField(Rect position, int y, ref Motion propertyClipField, ref float propertyExitTimeField)
+        static void ClipField(Rect position, int y, string label, ref Motion propertyClipField, ref float propertyExitTimeField)
         {
-            TypedGUI.AssetField(position.UISlice(0.0f, 0.65f, y), "Entry", ref propertyClipField);
+            TypedGUI.AssetField(position.UISlice(0.0f, 0.65f, y), label, ref propertyClipField);
             using (new EditorGUI.DisabledScope(propertyClipField == null))
             {
                 using (new LabelWidthScope(1f))
@@ -99,7 +108,8 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override float GetPropertyHeight(ActionEmote property, GUIContent label)
         {
             var context = EnsureContext();
-            var lines = 4f;
+            var lines = 3f;
+            if (!context.IsDefaultAfk) lines += 1f;
             if (context.State.EditLayerBlend) lines += 2f;
             if (context.State.EditTransition) lines += 6f;
             return BoxHeight(LineHeight(lines));

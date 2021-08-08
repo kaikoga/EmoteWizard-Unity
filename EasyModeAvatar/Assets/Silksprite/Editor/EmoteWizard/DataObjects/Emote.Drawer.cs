@@ -82,7 +82,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
                 else
                 {
-                    CustomTypedGUI.AssetFieldWithGenerate(cursor, "Clip Left", ref property.clipLeft,
+                    CustomTypedGUI.AssetFieldWithGenerate(cursor, "Clip", ref property.clipLeft,
                         () =>
                         {
                             var relativePath = GeneratedAssetLocator.EmoteStateClipPath(context.Layer, fileName);

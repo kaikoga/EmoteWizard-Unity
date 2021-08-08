@@ -145,11 +145,8 @@ namespace Silksprite.EmoteWizard.Internal
                 emoteIndex = 0,
                 hasExitTime = false,
                 clip = VrcSdkAssetLocator.ProxyAfk(),
-                exitClip = VrcSdkAssetLocator.ProxyAfk(),
                 entryTransitionDuration = 1f,
-                exitTransitionDuration = 0f,
-                exitClipExitTime = 0.2f,
-                postExitTransitionDuration = 0f,
+                exitTransitionDuration = 0.2f,
                 blendIn = 1f,
                 blendOut = 0.5f
             };

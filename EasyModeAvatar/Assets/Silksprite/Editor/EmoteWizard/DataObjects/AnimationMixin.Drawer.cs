@@ -27,17 +27,18 @@ namespace Silksprite.EmoteWizard.DataObjects
             position = position.InsideBox();
             using (new HideLabelsScope())
             {
-                TypedGUI.TextField(position.UISlice(0.0f, 0.3f, 0), "name", ref property.name);
-                TypedGUI.EnumPopup(position.UISlice(0.3f, 0.3f, 0), "Kind", ref property.kind);
+                TypedGUI.Toggle(position.UISlice(0.0f, 0.1f, 0), " ", ref property.enabled);
             }
-
-            switch (property.kind)
+            using (new EditorGUI.DisabledScope(!property.enabled))
             {
-                case AnimationMixinKind.AnimationClip:
-                    using (new HideLabelsScope())
-                    {
+                TypedGUI.TextField(position.UISlice(0.1f, 0.9f, 0), "Name", ref property.name);
+                TypedGUI.EnumPopup(position.UISliceV(1), "Kind", ref property.kind);
+
+                switch (property.kind)
+                {
+                    case AnimationMixinKind.AnimationClip:
                         CustomTypedGUI.AssetFieldWithGenerate(
-                            position.UISlice(0.6f, 0.4f, 0),
+                            position.UISliceV(2),
                             "Animation Clip",
                             ref property.animationClip,
                             () =>
@@ -52,28 +53,10 @@ namespace Silksprite.EmoteWizard.DataObjects
                                     $"{context.RelativePath}@@@Generated@@@Mixin_{name}.anim";
                                 return context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                             });
-                    }
-
-                    position = position.UISliceV(1, -1);
-                    if (context.State.EditConditions)
-                    {
-                        using (context.EmoteConditionDrawerContext().StartContext())
-                        {
-                            var height = TypedGUI.GetPropertyHeight(property.conditions, new GUIContent("Conditions"));
-                            TypedGUI.TypedField(position.SliceV(0, height), ref property.conditions, new GUIContent("Conditions"));
-                            position = position.Inset(0, height + EditorGUIUtility.standardVerticalSpacing, 0, 0);
-                        }
-                    }
-                    using (context.EmoteControlDrawerContext().StartContext())
-                    {
-                        TypedGUI.TypedField(position, ref property.control, new GUIContent("Control"));
-                    }
-                    break;
-                case AnimationMixinKind.BlendTree:
-                    using (new HideLabelsScope())
-                    {
+                        break;
+                    case AnimationMixinKind.BlendTree:
                         CustomTypedGUI.AssetFieldWithGenerate(
-                            position.UISlice(0.6f, 0.4f, 0),
+                            position.UISliceV(2),
                             "Blend Tree",
                             ref property.blendTree,
                             () =>
@@ -88,17 +71,32 @@ namespace Silksprite.EmoteWizard.DataObjects
                                     $"{context.RelativePath}@@@Generated@@@Mixin_{name}.asset";
                                 return context.EmoteWizardRoot.EnsureAsset<BlendTree>(relativePath);
                             });
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                
+                position = position.UISliceV(3, -3);
+                if (context.State.EditConditions)
+                {
+                    using (context.EmoteConditionDrawerContext().StartContext())
+                    {
+                        var height = TypedGUI.GetPropertyHeight(property.conditions, new GUIContent("Conditions"));
+                        TypedGUI.TypedField(position.SliceV(0, height), ref property.conditions, new GUIContent("Conditions"));
+                        position = position.Inset(0, height + EditorGUIUtility.standardVerticalSpacing, 0, 0);
                     }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
+                }
+                using (context.EmoteControlDrawerContext().StartContext())
+                {
+                    TypedGUI.TypedField(position, ref property.control, new GUIContent("Control"));
+                }
             }
         }
         
         public override float GetPropertyHeight(AnimationMixin property, GUIContent label)
         {
             var context = EnsureContext();
-            var innerHeight = LineHeight(1f);
+            var innerHeight = LineHeight(3f);
             switch (property.kind)
             {
                 case AnimationMixinKind.AnimationClip:

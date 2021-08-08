@@ -26,11 +26,12 @@ namespace Silksprite.EmoteWizard.Extensions
             expressionWizard.expressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
         }
 
-        public static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
+        static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
         {
+            var activeExpressionItems = expressionWizard.expressionItems.Where(item => item.enabled).ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
 
-            var folderNames = expressionWizard.expressionItems.SelectMany(item => item.Folders()).Distinct().ToList();
+            var folderNames = activeExpressionItems.SelectMany(item => item.Folders()).Distinct().ToList();
 
             var groups = folderNames
                 .Select(folder => new ExpressionItemSet
@@ -45,9 +46,9 @@ namespace Silksprite.EmoteWizard.Extensions
                 .ToList();
 
             var allItems = Enumerable.Empty<ExpressionItem>()
-                .Concat(expressionWizard.expressionItems.Where(item => item.itemKind == ExpressionItemKind.SubMenu))
+                .Concat(activeExpressionItems.Where(item => item.itemKind == ExpressionItemKind.SubMenu))
                 .Concat(folders)
-                .Concat(expressionWizard.expressionItems.Where(item => item.itemKind != ExpressionItemKind.SubMenu))
+                .Concat(activeExpressionItems.Where(item => item.itemKind != ExpressionItemKind.SubMenu))
                 .DistinctBy(item => item.path);
 
             foreach (var item in allItems)

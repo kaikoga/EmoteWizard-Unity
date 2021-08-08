@@ -10,6 +10,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class ExpressionItem
     {
+        [SerializeField] public bool enabled = true;
         [SerializeField] public Texture2D icon;
         [SerializeField] public string path;
         [SerializeField] public string parameter;
