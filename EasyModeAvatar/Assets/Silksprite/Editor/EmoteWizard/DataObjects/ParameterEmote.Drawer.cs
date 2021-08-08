@@ -44,16 +44,17 @@ namespace Silksprite.EmoteWizard.DataObjects
                 TypedGUI.EnumPopup(position.UISliceV(2), "Emote Kind", ref property.emoteKind);
             }
 
-            if (property.emoteKind == ParameterEmoteKind.Unused) return;
-
-            using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
+            if (property.emoteKind != ParameterEmoteKind.Unused)
             {
-                TypedGUI.TypedField(position.UISliceV(3, -3), ref property.states, "States");
-                if (sub.Context.EditTargets && IsExpandedTracker.GetIsExpanded(property.states))
+                using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
                 {
-                    if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                    TypedGUI.TypedField(position.UISliceV(3, -3), ref property.states, "States");
+                    if (sub.Context.EditTargets && IsExpandedTracker.GetIsExpanded(property.states))
                     {
-                        context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                        if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
+                        {
+                            context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                        }
                     }
                 }
             }
