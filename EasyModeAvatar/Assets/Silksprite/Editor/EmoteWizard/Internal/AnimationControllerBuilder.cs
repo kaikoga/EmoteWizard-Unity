@@ -96,6 +96,7 @@ namespace Silksprite.EmoteWizard.Internal
         {
             foreach (var mixin in mixins)
             {
+                if (!mixin.enabled) continue;
                 if (mixin.Motion == null) continue;
 
                 var mixinLayer = PopulateLayer(mixin.name);

@@ -7,6 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class AnimationMixin
     {
+        [SerializeField] public bool enabled = true;
         [SerializeField] public string name;
         [SerializeField] public AnimationMixinKind kind = AnimationMixinKind.AnimationClip;
         [SerializeField] public AnimationClip animationClip;
