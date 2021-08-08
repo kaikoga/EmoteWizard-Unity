@@ -25,26 +25,30 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
-                TypedGUI.Toggle(position.UISliceV(0), "Enabled", ref property.enabled);
-                TypedGUI.TextField(position.UISliceV(1), "Name", ref property.name);
+                using (new HideLabelsScope())
+                {
+                    TypedGUI.Toggle(position.UISlice(0.0f, 0.1f, 0), " ", ref property.enabled);
+                    EditorGUI.BeginDisabledGroup(!property.enabled);
+                    TypedGUI.TextField(position.UISlice(0.1f, 0.9f, 0),  " ", ref property.name);
+                }
                 using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.parameter)))
                 {
-                    TypedGUI.TextField(position.UISlice(0.0f, 0.8f, 2), "Parameter", ref property.parameter);
+                    TypedGUI.TextField(position.UISlice(0.0f, 0.8f, 1), "Parameter", ref property.parameter);
                 }
 
                 using (new HideLabelsScope())
                 {
-                    TypedGUI.EnumPopup(position.UISlice(0.8f, 0.2f, 2), "Value Kind", ref property.valueKind);
+                    TypedGUI.EnumPopup(position.UISlice(0.8f, 0.2f, 1), "Value Kind", ref property.valueKind);
                 }
 
-                TypedGUI.EnumPopup(position.UISliceV(3), "Emote Kind", ref property.emoteKind);
+                TypedGUI.EnumPopup(position.UISliceV(2), "Emote Kind", ref property.emoteKind);
             }
 
             if (property.emoteKind == ParameterEmoteKind.Unused) return;
 
             using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
             {
-                TypedGUI.TypedField(position.UISliceV(4, -4), ref property.states, "States");
+                TypedGUI.TypedField(position.UISliceV(3, -3), ref property.states, "States");
                 if (sub.Context.EditTargets && IsExpandedTracker.GetIsExpanded(property.states))
                 {
                     if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
@@ -53,6 +57,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     }
                 }
             }
+            EditorGUI.EndDisabledGroup();
         }
 
         public override float GetPropertyHeight(ParameterEmote property, GUIContent label)
@@ -69,7 +74,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 }
             }
 
-            return BoxHeight(LineTop(4f) + statesHeight);
+            return BoxHeight(LineTop(3f) + statesHeight);
         }
     }
 }
