@@ -124,10 +124,13 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
-                    if (GUILayout.Button("Generate Animation Controller"))
+                    EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(fxWizard, () =>
                     {
-                        fxWizard.BuildOutputAsset(parametersWizard);
-                    }
+                        if (GUILayout.Button("Generate Animation Controller"))
+                        {
+                            fxWizard.BuildOutputAsset(parametersWizard);
+                        }
+                    });
 
                     TypedGUILayout.AssetField("Output Asset", ref fxWizard.outputAsset);
                     TypedGUILayout.AssetField("Reset Clip", ref fxWizard.resetClip);
