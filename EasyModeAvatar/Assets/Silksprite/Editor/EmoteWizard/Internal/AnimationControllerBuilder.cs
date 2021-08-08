@@ -18,6 +18,25 @@ namespace Silksprite.EmoteWizard.Internal
         public ParametersWizard ParametersWizard;
         public string DefaultRelativePath;
 
+        readonly HashSet<string> _referencedParameters = new HashSet<string>();
+
+        public void MarkParameter(string name)
+        {
+            _referencedParameters.Add(name);
+        }
+
+        public void MarkParameter(Motion motion)
+        {
+            if (!(motion is BlendTree blendTree)) return;
+            _referencedParameters.Add(blendTree.blendParameter);
+            _referencedParameters.Add(blendTree.blendParameterY);
+            foreach (var childMotion in blendTree.children)
+            {
+                _referencedParameters.Add(childMotion.directBlendParameter);
+                MarkParameter(childMotion.motion);
+            }
+        }
+
         readonly Dictionary<TrackingTarget, List<AnimatorStateTransition>> _overriders = new Dictionary<TrackingTarget, List<AnimatorStateTransition>>();
 
         public void RegisterOverrider(TrackingTarget target, AnimatorStateTransition transition)
@@ -118,9 +137,12 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameters()
         {
+            MarkParameter("Viseme"); // for AlwaysTrueCondition
             foreach (var parameter in ParametersWizard.AllParameterItems)
             {
                 var parameterName = parameter.name;
+                if (!_referencedParameters.Contains(parameterName)) continue;
+
                 AnimatorControllerParameterType parameterType;
                 switch (parameter.ValueKind)
                 {

@@ -24,6 +24,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
             if (AnimationWizardBase.handSignOverrideEnabled)
             {
+                Builder.MarkParameter(AnimationWizardBase.HandSignOverrideParameter);
                 foreach (var (emote, state) in emoteStates)
                 {
                     if (!emote.OverrideAvailable) continue;

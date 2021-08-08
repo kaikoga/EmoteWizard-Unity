@@ -100,7 +100,10 @@ namespace Silksprite.EmoteWizard
         public VRCExpressionParameters.Parameter[] ToParameters()
         {
             TryRefreshParameters(); 
-            return parameterItems.Select(parameter => parameter.ToParameter()).ToArray();
+            return parameterItems
+                .Where(parameter => parameter.enabled)
+                .Select(parameter => parameter.ToParameter())
+                .ToArray();
         }
     }
 }

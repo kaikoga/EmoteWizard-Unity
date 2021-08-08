@@ -41,6 +41,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             var state = StateMachine.AddState(stateName, NextStatePosition());
             state.motion = motion;
             state.writeDefaultValues = false;
+            Builder.MarkParameter(motion);
             return StateMachine.AddAnyStateTransition(state);
         }
 
@@ -49,6 +50,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             var state = StateMachine.AddState(stateName, NextStatePosition());
             state.motion = motion;
             state.writeDefaultValues = false;
+            Builder.MarkParameter(motion);
             return state;
         }
 
@@ -59,14 +61,17 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             foreach (var condition in validConditions)
             {
                 transition.AddCondition(condition.ToAnimatorConditionMode(), condition.threshold, condition.parameter);
+                Builder.MarkParameter(condition.parameter);
             }
         }
 
-        protected static void ApplyEmoteGestureConditions(AnimatorStateTransition transition, bool isLeft, EmoteGestureCondition gesture, bool mustEmitSomething = false)
+        protected void ApplyEmoteGestureConditions(AnimatorStateTransition transition, bool isLeft, EmoteGestureCondition gesture, bool mustEmitSomething = false)
         {
             if (gesture.mode != GestureConditionMode.Ignore)
             {
-                transition.AddCondition(gesture.ResolveMode(), gesture.ResolveThreshold(), gesture.ResolveParameter(isLeft));
+                var parameter = gesture.ResolveParameter(isLeft);
+                transition.AddCondition(gesture.ResolveMode(), gesture.ResolveThreshold(), parameter);
+                Builder.MarkParameter(parameter);
             }
             else if (mustEmitSomething)
             {
@@ -95,6 +100,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             state.timeParameter = timeParameter;
             state.motion.SetLoopTimeRec(false);
             EditorUtility.SetDirty(state.motion);
+            Builder.MarkParameter(timeParameter);
         }
     }
 }

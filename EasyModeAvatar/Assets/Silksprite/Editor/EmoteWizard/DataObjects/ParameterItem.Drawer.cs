@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             using (new HideLabelsScope())
             {
                 TypedGUI.ToggleLeft(position.UISlice(0.00f, 0.10f, 0), new GUIContent(" "), ref item.enabled);
-                EditorGUI.BeginDisabledGroup(context.DefaultParameters);
+                EditorGUI.BeginDisabledGroup(context.DefaultParameters || item.enabled);
                 TypedGUI.TextField(position.UISlice(0.10f, 0.35f, 0), new GUIContent(" "), ref item.name);
                 TypedGUI.EnumPopup(position.UISlice(0.45f, 0.20f, 0), new GUIContent(" "), ref item.itemKind);
                 TypedGUI.FloatField(position.UISlice(0.65f, 0.20f, 0), new GUIContent(" "), ref item.defaultValue);
