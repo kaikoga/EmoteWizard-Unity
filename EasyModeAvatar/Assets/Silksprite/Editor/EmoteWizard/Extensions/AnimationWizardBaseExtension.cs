@@ -56,14 +56,17 @@ namespace Silksprite.EmoteWizard.Extensions
                 .Concat(animationWizardBase.emotes.SelectMany(e => e.AllClips()))
                 .Concat(animationWizardBase.parameterEmotes.Where(e => e.enabled).SelectMany(p => p.AllClips()))
                 .Concat(animationWizardBase.mixins.Where(e => e.enabled).SelectMany(p => p.AllClips()))
-                .Where(c => c != null);
+                .Where(c => c != null).ToList();
             var curveBindings = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
+            var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
+                .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            targetClip.ClearCurves();
-            targetClip.frameRate = 60f;
             var vrcAvatarDescriptor = animationWizardBase.EmoteWizardRoot.GetWizard<AvatarWizard>()?.avatarDescriptor;
             var avatar = vrcAvatarDescriptor != null ? vrcAvatarDescriptor.gameObject : null;
+
+            targetClip.ClearCurves();
+            targetClip.frameRate = 60f;
             foreach (var curveBinding in curveBindings)
             {
                 var value = 0f;
@@ -72,6 +75,19 @@ namespace Silksprite.EmoteWizard.Extensions
                     AnimationUtility.GetFloatValue(avatar, curveBinding, out value);
                 }
                 targetClip.SetCurve(curveBinding.path, curveBinding.type, curveBinding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, value));
+            }
+            foreach (var curveBinding in objectReferenceCurveBindings)
+            {
+                Object value = null;
+                if (avatar)
+                {
+                    AnimationUtility.GetObjectReferenceValue(avatar, curveBinding, out value);
+                }
+                AnimationUtility.SetObjectReferenceCurve(targetClip, curveBinding, new []
+                {
+                    new ObjectReferenceKeyframe { time = 0, value = value },
+                    new ObjectReferenceKeyframe { time = 1 / 60f, value = value }
+                });
             }
         }
 
