@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var y = 0;
             if (context.IsEditing)
             {
-                TypedGUI.FloatField(position.UISliceV(y++), new GUIContent("Duration"), ref property.transitionDuration);
+                TypedGUI.FloatField(position.UISliceV(y++), new GUIContent("Transition Duration"), ref property.transitionDuration);
                 TypedGUI.Toggle(position.UISliceV(y++), new GUIContent("Normalized Time"), ref property.normalizedTimeEnabled);
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(!property.normalizedTimeEnabled))
