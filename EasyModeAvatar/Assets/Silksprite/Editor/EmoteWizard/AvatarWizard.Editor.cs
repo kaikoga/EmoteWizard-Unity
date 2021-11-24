@@ -39,6 +39,8 @@ namespace Silksprite.EmoteWizard
             {
                 var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
 
+                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
                 var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
                 TypedGUILayout.EnumPopup(overrideGestureLabel, ref avatarWizard.overrideGesture);
                 if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)

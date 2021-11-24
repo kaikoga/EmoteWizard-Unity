@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -41,6 +42,8 @@ namespace Silksprite.EmoteWizard
         {
             using (new ObjectChangeScope(emoteWizardRoot))
             {
+                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
                 using (new GUILayout.HorizontalScope())
                 {
                     TypedGUILayout.TextField("Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
@@ -56,6 +59,7 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.ConfigUIArea(() =>
                 {
                     TypedGUILayout.Toggle("Show Tutorial", ref emoteWizardRoot.showTutorial);
+                    TypedGUILayout.Toggle("Copy Paste JSON", ref emoteWizardRoot.showCopyPasteJsonButtons);
                     TypedGUILayout.EnumPopup("List Display Mode", ref emoteWizardRoot.listDisplayMode);
                     TypedGUILayout.Toggle("Low Spec UI", ref emoteWizardRoot.lowSpecUI);
                 });
