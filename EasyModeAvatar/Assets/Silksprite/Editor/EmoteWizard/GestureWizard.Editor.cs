@@ -8,6 +8,7 @@ using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -51,6 +52,8 @@ namespace Silksprite.EmoteWizard
             {
                 var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
+
+                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
                 EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
                 {

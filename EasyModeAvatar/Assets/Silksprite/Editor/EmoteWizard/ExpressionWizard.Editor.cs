@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -31,6 +32,8 @@ namespace Silksprite.EmoteWizard
             using (new ObjectChangeScope(expressionWizard))
             {
                 var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
+
+                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
                 EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
                 {
