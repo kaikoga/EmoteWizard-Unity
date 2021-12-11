@@ -26,7 +26,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                     {
                         enabled = oldState?.enabled ?? true,
                         value = state.value,
-                        clip = oldState?.clip
+                        clip = oldState?.clip,
+                        targets = oldState?.targets ?? new List<GameObject>(),
+                        control = oldState?.control ?? new EmoteControl()
                     };
                 })).Concat(oldStates.Where(oldState => parameterItem.usages.All(state => state.value != oldState.value)))
                 .ToList();
