@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public bool enabled = true;
         [SerializeField] public float value;
         [SerializeField] public AnimationClip clip;
-        [SerializeField] public List<GameObject> targets;
+        [SerializeField] public List<GameObject> targets = new List<GameObject>();
         [SerializeField] public EmoteControl control;
     }
 }

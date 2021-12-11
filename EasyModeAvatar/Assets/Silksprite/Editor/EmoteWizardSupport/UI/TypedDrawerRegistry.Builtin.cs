@@ -25,6 +25,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         [UsedImplicitly]
         class IntDrawer : TypedDrawerBase<int>
         {
+            public override bool DrawNullCollectionItem => true;
+
             public override void OnGUI(Rect position, ref int property, GUIContent label)
             {
                 TypedGUI.IntField(position, label, ref property);
@@ -34,6 +36,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         [UsedImplicitly]
         class FloatDrawer : TypedDrawerBase<float>
         {
+            public override bool DrawNullCollectionItem => true;
+
             public override void OnGUI(Rect position, ref float property, GUIContent label)
             {
                 TypedGUI.FloatField(position, label, ref property);
@@ -43,6 +47,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         [UsedImplicitly]
         class BoolDrawer : TypedDrawerBase<bool>
         {
+            public override bool DrawNullCollectionItem => true;
+
             public override void OnGUI(Rect position, ref bool property, GUIContent label)
             {
                 TypedGUI.Toggle(position, label, ref property);
@@ -52,6 +58,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         [UsedImplicitly]
         class StringDrawer : TypedDrawerBase<string>
         {
+            public override bool DrawNullCollectionItem => true;
+
             public override void OnGUI(Rect position, ref string property, GUIContent label)
             {
                 TypedGUI.TextField(position, label, ref property);
@@ -62,6 +70,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         class EnumDrawer<T> : TypedDrawerBase<T>
         where T : Enum
         {
+            public override bool DrawNullCollectionItem => true;
+
             public override void OnGUI(Rect position, ref T property, GUIContent label)
             {
                 TypedGUI.EnumPopup(position, label, ref property);
@@ -72,6 +82,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         class ObjectDrawer<T> : TypedDrawerBase<T>
         where T : Object
         {
+            public override bool DrawNullCollectionItem => true;
+
             public override void OnGUI(Rect position, ref T property, GUIContent label)
             {
                 TypedGUI.ReferenceField(position, label, ref property);
@@ -148,7 +160,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
             protected override float DrawItem(Rect position, UntypedDrawer drawer, ref object item, int index)
             {
-                if (item == null) return EditorGUIUtility.singleLineHeight;
+                if (item == null && !drawer.UntypedDrawNullCollectionItem) return EditorGUIUtility.singleLineHeight;
                 var itemLabel = drawer.UntypedPagerItemName(item, index);
                 var itemHeight = drawer.UntypedGetPropertyHeight(item, new GUIContent(itemLabel));
                 TypedGUI.UntypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
@@ -174,7 +186,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
             protected override float DrawItem(Rect position, ITypedDrawer<T> drawer, ref T item, int index)
             {
-                if (item == null) return EditorGUIUtility.singleLineHeight;
+                if (item == null && !drawer.DrawNullCollectionItem) return EditorGUIUtility.singleLineHeight;
                 var itemLabel = drawer.PagerItemName(item, index);
                 var itemHeight = drawer.GetPropertyHeight(item, new GUIContent(itemLabel));
                 TypedGUI.TypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
@@ -184,7 +196,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             protected override bool FixedPropertyHeight(ITypedDrawer<T> drawer) => drawer.FixedPropertyHeight;
             protected override float GetPropertyHeight(ITypedDrawer<T> drawer, T item)
             {
-                if (item == null) return EditorGUIUtility.singleLineHeight;
+                if (item == null && !drawer.DrawNullCollectionItem) return EditorGUIUtility.singleLineHeight;
                 return drawer.GetPropertyHeight(item, GUIContent.none);
             }
         }
@@ -201,7 +213,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
             protected override float DrawItem(Rect position, ITypedDrawer<T> drawer, ref T item, int index)
             {
-                if (item == null) return EditorGUIUtility.singleLineHeight;
+                if (item == null && !drawer.DrawNullCollectionItem) return EditorGUIUtility.singleLineHeight;
                 var itemLabel = drawer.PagerItemName(item, index);
                 var itemHeight = drawer.GetPropertyHeight(item, new GUIContent(itemLabel));
                 TypedGUI.TypedField(position.SliceV(0, itemHeight), ref item, itemLabel);
@@ -211,7 +223,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             protected override bool FixedPropertyHeight(ITypedDrawer<T> drawer) => drawer.FixedPropertyHeight;
             protected override float GetPropertyHeight(ITypedDrawer<T> drawer, T item)
             {
-                if (item == null) return EditorGUIUtility.singleLineHeight;
+                if (item == null && !drawer.DrawNullCollectionItem) return EditorGUIUtility.singleLineHeight;
                 return drawer.GetPropertyHeight(item, GUIContent.none);
             }
         }

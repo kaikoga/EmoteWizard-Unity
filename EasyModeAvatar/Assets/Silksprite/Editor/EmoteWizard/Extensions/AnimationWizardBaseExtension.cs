@@ -102,7 +102,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var animatorRoot = proxyAnimator.transform;
             
             var parameterEmote = animationWizardBase.parameterEmotes.First(parameter => parameter.name == emoteName);
-            var targets = parameterEmote.states.SelectMany(state => state.targets).Distinct().ToList();
+            var targets = parameterEmote.states.SelectMany(state => state.targets.Where(t => t != null)).Distinct().ToList();
             foreach (var state in parameterEmote.states)
             {
                 var relativePath = GeneratedAssetLocator.ParameterEmoteStateClipPath(context.Layer, emoteName, state.value);

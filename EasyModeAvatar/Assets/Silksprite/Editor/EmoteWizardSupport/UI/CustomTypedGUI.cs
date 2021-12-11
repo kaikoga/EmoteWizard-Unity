@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizardSupport.UI
                 var arraySize = list.Count;
                 TypedGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", ref arraySize);
                 ListUtils.ResizeAndPopulate(ref list, arraySize);
-                position = position.Inset(labelWidth + sizeWidth, 0f, 0f, 0f);
+                position = position.InsetLeft(labelWidth + sizeWidth);
                 if (arraySize > 0)
                 {
                     var normalizedWidth = 1f / arraySize;

@@ -9,6 +9,16 @@ namespace Silksprite.EmoteWizardSupport.Extensions
             return Rect.MinMaxRect(rect.xMin + left, rect.yMin + top, rect.xMax - right, rect.yMax - bottom);
         }
 
+        public static Rect InsetLeft(this Rect rect, float left)
+        {
+            return Rect.MinMaxRect(rect.xMin + left, rect.yMin, rect.xMax, rect.yMax);
+        }
+
+        public static Rect InsetTop(this Rect rect, float top)
+        {
+            return Rect.MinMaxRect(rect.xMin, rect.yMin + top, rect.xMax, rect.yMax);
+        }
+
         static float ParseY(Rect position, float y)
         {
             return y >= 0 ? position.y + y : position.yMax - y;

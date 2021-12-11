@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class ParameterEmoteStateDrawer : TypedDrawerWithContext<ParameterEmoteState, ParameterEmoteStateDrawerContext>
     {
         public override bool FixedPropertyHeight => false;
-        
+
         public override void OnGUI(Rect position, ref ParameterEmoteState property, GUIContent label)
         {
             var context = EnsureContext();
@@ -45,15 +45,23 @@ namespace Silksprite.EmoteWizard.DataObjects
                         });
                 }
 
-                var y = 1;
+                position = position.UISliceV(1);
                 if (context.EditTargets)
                 {
-                    CustomTypedGUI.HorizontalListField(position.UISliceV(y), new GUIContent("Targets"), ref property.targets);
-                    y++;
+                    var height = TargetListHeight(property);
+                    if (property.targets.Count < MinimumLargeTargetList)
+                    {
+                        CustomTypedGUI.HorizontalListField(position.SliceV(0f, height), new GUIContent("Targets"), ref property.targets);
+                    }
+                    else
+                    {
+                        TypedGUI.ListField(position.SliceV(0f, height), new GUIContent("Targets"), ref property.targets);
+                    }
+                    position = position.InsetTop(height + EditorGUIUtility.standardVerticalSpacing);
                 }
                 using (var sub = context.EmoteControlDrawerContext().StartContext())
                 {
-                    TypedGUI.TypedField(position.UISliceV(y, sub.Context.AsGesture ? 4 : 3), ref property.control, new GUIContent("Parameter"));
+                    TypedGUI.TypedField(position, ref property.control, new GUIContent("Parameter"));
                 }
                 EditorGUI.EndDisabledGroup();
             }
@@ -62,13 +70,23 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override float GetPropertyHeight(ParameterEmoteState property, GUIContent label)
         {
             var context = EnsureContext();
-            var lines = 1f;
-            if (context.EditTargets) lines += 1f;
 
             using (context.EmoteControlDrawerContext().StartContext())
             {
-                return LineHeight(lines) + TypedGUI.GetPropertyHeight(property.control, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+                var height = LineHeight(1f);
+                if (context.EditTargets)
+                {
+                    height += TargetListHeight(property) + EditorGUIUtility.standardVerticalSpacing;
+                }
+                height += TypedGUI.GetPropertyHeight(property.control, "Parameter") + EditorGUIUtility.standardVerticalSpacing;
+                return height;
             }
+        }
+
+        const int MinimumLargeTargetList = 4;
+        static float TargetListHeight(ParameterEmoteState property)
+        {
+            return property.targets.Count < MinimumLargeTargetList ? LineHeight(1f) : TypedGUI.GetPropertyHeight(property.targets, "Targets");
         }
     }
 }
