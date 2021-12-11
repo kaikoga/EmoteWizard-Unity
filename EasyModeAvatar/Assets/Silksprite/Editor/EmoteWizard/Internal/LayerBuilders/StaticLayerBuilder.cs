@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -10,7 +11,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         public void Build(string stateName, Motion clip)
         {
-            StateMachine.defaultState = AddStateAsTransition(stateName, clip).destinationState;
+            var defaultTransition = AddStateAsTransition(stateName, clip);
+            defaultTransition.AddAlwaysTrueCondition();
+            StateMachine.defaultState = defaultTransition.destinationState;
         }
     }
 }
