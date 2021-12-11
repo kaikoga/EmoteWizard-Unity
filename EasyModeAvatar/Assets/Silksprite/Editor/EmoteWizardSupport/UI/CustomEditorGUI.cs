@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizardSupport.UI
                 var arraySize = serializedProperty.arraySize;
                 TypedGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", ref arraySize);
                 serializedProperty.arraySize = arraySize;
-                position = position.Inset(labelWidth + sizeWidth, 0f, 0f, 0f);
+                position = position.InsetLeft(labelWidth + sizeWidth);
                 if (arraySize > 0)
                 {
                     UnityEditor.EditorGUI.MultiPropertyField(position, Enumerable.Repeat(GUIContent.none, serializedProperty.arraySize).ToArray(), serializedProperty.GetArrayElementAtIndex(0));

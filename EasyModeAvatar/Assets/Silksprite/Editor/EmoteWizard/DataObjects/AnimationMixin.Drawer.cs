@@ -83,7 +83,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     {
                         var height = TypedGUI.GetPropertyHeight(property.conditions, new GUIContent("Conditions"));
                         TypedGUI.TypedField(position.SliceV(0, height), ref property.conditions, new GUIContent("Conditions"));
-                        position = position.Inset(0, height + EditorGUIUtility.standardVerticalSpacing, 0, 0);
+                        position = position.InsetTop(height + EditorGUIUtility.standardVerticalSpacing);
                     }
                 }
                 using (context.EmoteControlDrawerContext().StartContext())
