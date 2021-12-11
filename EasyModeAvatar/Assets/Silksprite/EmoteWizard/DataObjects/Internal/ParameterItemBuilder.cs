@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             {
                 usages.Add(new ParameterUsage(ParameterUsageKind.Float, value));
             }
-            else
+            else if (value != 0)
             {
                 usages.Add(new ParameterUsage(ParameterUsageKind.Int, value));
             }
