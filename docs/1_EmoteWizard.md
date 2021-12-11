@@ -1,7 +1,10 @@
 ## Emote Wizardの基本設定
 
-ヒエラルキー上を右クリック、または `GameObject` → `Emote Wizard` で、ヒエラルキー上に `Emote Wizard` という名前のGameObjectが追加されます。
+ヒエラルキー上を右クリック、またはメニューバーの `GameObject` → `Emote Wizard` で、ヒエラルキー上に `Emote Wizard` という名前のGameObjectが追加されます。
 Emote Wizardを利用したアバターセットアップは、基本的に全てこのGameObjectを選択した状態でインスペクタから行うこととなります。
+
+Emote Wizardで行った設定の内容がアバターに直接組み込まれることはありません。
+Emote Wizardで設定を行ってから、設定内容をアバターに反映するという手順を踏みます。
 
 細かなカスタマイズが不要な場合は、 `Emote Wizard Root` コンポーネントの `Setup High Spec UI` をクリックして [次のステップ](2_SetupWizard.md) に進んでください。
 
