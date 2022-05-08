@@ -15,20 +15,20 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static void RepopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
         {
-            expressionWizard.expressionItems = new List<ExpressionItem>();
+            expressionWizard.legacyExpressionItems = new List<ExpressionItem>();
             PopulateDefaultExpressionItems(expressionWizard);
         }
 
         public static void PopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
         {
-            if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
+            if (expressionWizard.legacyExpressionItems == null) expressionWizard.legacyExpressionItems = new List<ExpressionItem>();
 
-            expressionWizard.expressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
+            expressionWizard.legacyExpressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.legacyExpressionItems);
         }
 
         static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
         {
-            var activeExpressionItems = expressionWizard.expressionItems.Where(item => item.enabled).ToList();
+            var activeExpressionItems = expressionWizard.CollectExpressionItems().ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
 
             var folderNames = activeExpressionItems.SelectMany(item => item.Folders()).Distinct().ToList();

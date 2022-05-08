@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard
 
             if (parameterItems != null) builder.Import(parameterItems);
 
-            foreach (var expressionItem in expressionWizard.expressionItems)
+            foreach (var expressionItem in expressionWizard.CollectExpressionItems())
             {
                 if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {

@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard
         {
             expressionWizard = (ExpressionWizard) target;
             
-            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Expression Items", ref expressionWizard.expressionItems);
+            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Legacy Expression Items", ref expressionWizard.legacyExpressionItems);
         }
 
         public override void OnInspectorGUI()
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard
 
                 using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
                 {
-                    expressionItemsList.DrawAsProperty(expressionWizard.expressionItems, emoteWizardRoot.listDisplayMode);
+                    expressionItemsList.DrawAsProperty(expressionWizard.legacyExpressionItems, emoteWizardRoot.listDisplayMode);
                 }
 
                 TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
@@ -77,7 +77,7 @@ namespace Silksprite.EmoteWizard
 
         void GroupItemsByFolder()
         {
-            expressionWizard.expressionItems = expressionWizard.expressionItems
+            expressionWizard.legacyExpressionItems = expressionWizard.legacyExpressionItems
                 .GroupBy(item => item.Folder)
                 .SelectMany(group => group)
                 .ToList();
