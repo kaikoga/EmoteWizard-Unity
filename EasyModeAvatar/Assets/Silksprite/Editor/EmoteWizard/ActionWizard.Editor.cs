@@ -33,8 +33,8 @@ namespace Silksprite.EmoteWizard
             afkEmotesState = new ActionEmoteDrawerState();
             defaultAfkEmoteState = new ActionEmoteDrawerState();
 
-            actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref actionWizard.actionEmotes);
-            afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref actionWizard.afkEmotes);
+            actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref actionWizard.legacyActionEmotes);
+            afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref actionWizard.legacyAfkEmotes);
         }
 
         public override void OnInspectorGUI()
@@ -62,7 +62,7 @@ namespace Silksprite.EmoteWizard
                 }
                 using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
                 {
-                    actionEmotesList.DrawAsProperty(actionWizard.actionEmotes, emoteWizardRoot.listDisplayMode);
+                    actionEmotesList.DrawAsProperty(actionWizard.legacyActionEmotes, emoteWizardRoot.listDisplayMode);
                 }
 
                 TypedGUILayout.Toggle("AFK Select Enabled", ref actionWizard.afkSelectEnabled);
@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard
                 using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
                 using (new EditorGUI.DisabledScope(!actionWizard.afkSelectEnabled))
                 {
-                    afkEmotesList.DrawAsProperty(actionWizard.afkEmotes, emoteWizardRoot.listDisplayMode);
+                    afkEmotesList.DrawAsProperty(actionWizard.legacyAfkEmotes, emoteWizardRoot.listDisplayMode);
                 }
 
                 GUILayout.Label("Default AFK Emote");

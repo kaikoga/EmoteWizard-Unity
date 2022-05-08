@@ -9,8 +9,8 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static void RepopulateDefaultActionEmotes(this ActionWizard actionWizard)
         {
-            actionWizard.actionEmotes = DefaultActionEmote.PopulateDefaultActionEmotes();
-            actionWizard.afkEmotes = new List<ActionEmote>();
+            actionWizard.legacyActionEmotes = DefaultActionEmote.PopulateDefaultActionEmotes();
+            actionWizard.legacyAfkEmotes = new List<ActionEmote>();
             actionWizard.defaultAfkEmote = DefaultActionEmote.PopulateDefaultAfkEmote();
         }
 

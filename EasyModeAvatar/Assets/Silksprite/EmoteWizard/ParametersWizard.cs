@@ -87,7 +87,7 @@ namespace Silksprite.EmoteWizard
             if (actionWizard != null && actionWizard.SelectableAfkEmotes)
             {
                 builder.FindOrCreate(actionWizard.afkSelectParameter).AddIndexUsage();
-                foreach (var afkEmote in actionWizard.afkEmotes)
+                foreach (var afkEmote in actionWizard.CollectAfkEmotes())
                 {
                     builder.FindOrCreate(actionWizard.afkSelectParameter).AddUsage(afkEmote.emoteIndex);
                 }

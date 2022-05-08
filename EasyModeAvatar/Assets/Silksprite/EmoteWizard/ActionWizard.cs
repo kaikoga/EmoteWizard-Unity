@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Silksprite.EmoteWizard
 {
@@ -13,11 +15,16 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public bool afkSelectEnabled = false;
         [SerializeField] public string afkSelectParameter = "EmoteWizardAFK";
 
-        [SerializeField] public List<ActionEmote> actionEmotes;
-        [SerializeField] public List<ActionEmote> afkEmotes;
+        [FormerlySerializedAs("actionEmotes")]
+        [SerializeField] public List<ActionEmote> legacyActionEmotes;
+        [FormerlySerializedAs("afkEmotes")]
+        [SerializeField] public List<ActionEmote> legacyAfkEmotes;
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public bool SelectableAfkEmotes => afkSelectEnabled && afkEmotes.Count > 0;
+        public IEnumerable<ActionEmote> CollectActionEmotes() => legacyActionEmotes.Where(item => item.enabled);
+        public IEnumerable<ActionEmote> CollectAfkEmotes() => legacyAfkEmotes.Where(item => item.enabled);
+
+        public bool SelectableAfkEmotes => afkSelectEnabled && CollectAfkEmotes().Any();
     }
 }

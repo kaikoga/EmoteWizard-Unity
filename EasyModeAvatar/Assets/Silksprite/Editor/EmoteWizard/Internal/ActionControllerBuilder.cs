@@ -74,8 +74,8 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildActionLayer()
         {
-            var actionEmotes = _actionWizard.actionEmotes.Where(ae => ae.enabled).ToList();
-            var afkEmotes = _actionWizard.afkEmotes.Where(ae => ae.enabled).ToList();
+            var actionEmotes = _actionWizard.CollectActionEmotes().ToList();
+            var afkEmotes = _actionWizard.CollectAfkEmotes().ToList();
 
             var standClip = VrcSdkAssetLocator.ProxyStandStill();
             var sitClip = VrcSdkAssetLocator.ProxySit();
