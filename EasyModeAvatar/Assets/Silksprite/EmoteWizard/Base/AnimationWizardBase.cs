@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Silksprite.EmoteWizard.Base
 {
@@ -10,12 +11,21 @@ namespace Silksprite.EmoteWizard.Base
         [SerializeField] public bool advancedAnimations;
         [SerializeField] public bool handSignOverrideEnabled;
 
-        [SerializeField] public List<AnimationMixin> baseMixins;
-        [SerializeField] public List<Emote> emotes;
-        [SerializeField] public List<ParameterEmote> parameterEmotes;
-        [SerializeField] public List<AnimationMixin> mixins;
+        [FormerlySerializedAs("baseMixins")]
+        [SerializeField] public List<AnimationMixin> legacyBaseMixins;
+        [FormerlySerializedAs("emotes")]
+        [SerializeField] public List<Emote> legacyEmotes;
+        [FormerlySerializedAs("parameterEmotes")]
+        [SerializeField] public List<ParameterEmote> legacyParameterEmotes;
+        [FormerlySerializedAs("mixins")]
+        [SerializeField] public List<AnimationMixin> legacyMixins;
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
+
+        public IEnumerable<AnimationMixin> CollectBaseMixins() => legacyBaseMixins.Where(m => m.enabled);
+        public IEnumerable<Emote> CollectEmotes() => legacyEmotes;
+        public IEnumerable<ParameterEmote> CollectParameterEmotes() => legacyParameterEmotes.Where(e => e.enabled);
+        public IEnumerable<AnimationMixin> CollectMixins() => legacyMixins.Where(m => m.enabled);
 
         public abstract string LayerName { get; }
         public abstract string HandSignOverrideParameter { get;  }
@@ -28,8 +38,8 @@ namespace Silksprite.EmoteWizard.Base
                 .Concat(defaultParameterItems.Select(p => (p, true)))
                 .Where(tuple => tuple.p.enabled)
                 .ToList();
-            var oldParameters = parameterEmotes ?? new List<ParameterEmote>();
-            parameterEmotes = 
+            var oldParameters = legacyParameterEmotes ?? new List<ParameterEmote>();
+            legacyParameterEmotes = 
                 Enumerable.Empty<ParameterEmote>()
                     .Concat(allParameterItems
                         .Select(tuple =>

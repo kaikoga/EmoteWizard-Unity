@@ -18,11 +18,11 @@ namespace Silksprite.EmoteWizard.Extensions
             var defaultAvatarMask = gestureWizard.defaultAvatarMask ? gestureWizard.defaultAvatarMask : VrcSdkAssetLocator.HandsOnly();
 
             builder.BuildStaticLayer("Reset", null, defaultAvatarMask);
-            builder.BuildMixinLayers(gestureWizard.baseMixins);
+            builder.BuildMixinLayers(gestureWizard.CollectBaseMixins());
             builder.BuildHandSignLayer("Left Hand", true, gestureWizard.advancedAnimations);
             builder.BuildHandSignLayer("Right Hand", false, gestureWizard.advancedAnimations);
-            builder.BuildParameterLayers(gestureWizard.parameterEmotes);
-            builder.BuildMixinLayers(gestureWizard.mixins);
+            builder.BuildParameterLayers(gestureWizard.CollectParameterEmotes());
+            builder.BuildMixinLayers(gestureWizard.CollectMixins());
 
             builder.BuildTrackingControlLayers();
             builder.BuildParameters();

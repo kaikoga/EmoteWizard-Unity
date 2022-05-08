@@ -18,11 +18,11 @@ namespace Silksprite.EmoteWizard.Extensions
             fxWizard.BuildResetClip(resetClip);
 
             builder.BuildStaticLayer("Reset", resetClip, null);
-            builder.BuildMixinLayers(fxWizard.baseMixins);
+            builder.BuildMixinLayers(fxWizard.CollectBaseMixins());
             builder.BuildHandSignLayer("Left Hand", true, fxWizard.advancedAnimations);
             builder.BuildHandSignLayer("Right Hand", false, fxWizard.advancedAnimations);
-            builder.BuildParameterLayers(fxWizard.parameterEmotes);
-            builder.BuildMixinLayers(fxWizard.mixins);
+            builder.BuildParameterLayers(fxWizard.CollectParameterEmotes());
+            builder.BuildMixinLayers(fxWizard.CollectMixins());
 
             builder.BuildTrackingControlLayers();
             builder.BuildParameters();

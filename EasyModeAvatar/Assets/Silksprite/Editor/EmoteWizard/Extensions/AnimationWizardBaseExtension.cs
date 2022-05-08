@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var newEmotes = Emote.HandSigns
                 .Select(Emote.Populate)
                 .ToList();
-            animationWizardBase.emotes = newEmotes;
+            animationWizardBase.legacyEmotes = newEmotes;
         }
 
         public static void RepopulateDefaultEmotes14(this AnimationWizardBase animationWizardBase)
@@ -38,13 +38,13 @@ namespace Silksprite.EmoteWizard.Extensions
                         control = EmoteControl.Populate(handSign)
                     }))
                 .ToList();
-            animationWizardBase.emotes = newEmotes;
+            animationWizardBase.legacyEmotes = newEmotes;
         }
 
         public static void RepopulateParameterEmotes(this AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard)
         {
             parametersWizard.TryRefreshParameters();
-            animationWizardBase.parameterEmotes = new List<ParameterEmote>();
+            animationWizardBase.legacyParameterEmotes = new List<ParameterEmote>();
             animationWizardBase.RefreshParameters(parametersWizard);
         }
 
@@ -52,10 +52,10 @@ namespace Silksprite.EmoteWizard.Extensions
         public static void BuildResetClip(this AnimationWizardBase animationWizardBase, AnimationClip targetClip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(animationWizardBase.baseMixins.Where(e => e.enabled).SelectMany(e => e.AllClips()))
-                .Concat(animationWizardBase.emotes.SelectMany(e => e.AllClips()))
-                .Concat(animationWizardBase.parameterEmotes.Where(e => e.enabled).SelectMany(p => p.AllClips()))
-                .Concat(animationWizardBase.mixins.Where(e => e.enabled).SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.CollectBaseMixins().SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.CollectEmotes().SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.CollectParameterEmotes().SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.CollectMixins().SelectMany(p => p.AllClips()))
                 .Where(c => c != null).ToList();
             var curveBindings = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
@@ -101,7 +101,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             var animatorRoot = proxyAnimator.transform;
             
-            var parameterEmote = animationWizardBase.parameterEmotes.First(parameter => parameter.name == emoteName);
+            var parameterEmote = animationWizardBase.legacyParameterEmotes.First(parameter => parameter.name == emoteName);
             var targets = parameterEmote.states.SelectMany(state => state.targets.Where(t => t != null)).Distinct().ToList();
             foreach (var state in parameterEmote.states)
             {
