@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -18,6 +19,11 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public string defaultPrefix = "Default/";
         [SerializeField] public bool buildAsSubAsset = true;
 
-        public IEnumerable<ExpressionItem> CollectExpressionItems() => legacyExpressionItems.Where(item => item.enabled);
+        public IEnumerable<ExpressionItem> CollectExpressionItems()
+        {
+            return legacyExpressionItems
+                .Concat(GetComponentsInChildren<ExpressionItemSource>().SelectMany(source => source.expressionItems))
+                .Where(item => item.enabled);
+        }
     }
 }

@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -43,22 +44,31 @@ namespace Silksprite.EmoteWizard
                     }
                 });
 
-                using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
-                {
-                    expressionItemsList.DrawAsProperty(expressionWizard.legacyExpressionItems, emoteWizardRoot.listDisplayMode);
-                }
-
                 TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
-                TypedGUILayout.TextField("Default Prefix", ref expressionWizard.defaultPrefix);
 
-                if (GUILayout.Button("Populate Default Expression Items"))
+                if (expressionWizard.legacyExpressionItems.Any())
                 {
-                    expressionWizard.PopulateDefaultExpressionItems();
+                    using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
+                    {
+                        expressionItemsList.DrawAsProperty(expressionWizard.legacyExpressionItems, emoteWizardRoot.listDisplayMode);
+                    }
+                    TypedGUILayout.TextField("Default Prefix", ref expressionWizard.defaultPrefix);
+                    if (GUILayout.Button("Populate Default Expression Items"))
+                    {
+                        expressionWizard.PopulateDefaultExpressionItems();
+                    }
+                    if (GUILayout.Button("Group by Folder"))
+                    {
+                        GroupItemsByFolder();
+                    }
+                    if (GUILayout.Button("Migrate to Data Source"))
+                    {
+                        MigrateToDataSource();
+                    }
                 }
-
-                if (GUILayout.Button("Group by Folder"))
+                if (GUILayout.Button("Add Expression Item Source"))
                 {
-                    GroupItemsByFolder();
+                    expressionWizard.AddChildComponentAndSelect<ExpressionItemSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
@@ -81,6 +91,14 @@ namespace Silksprite.EmoteWizard
                 .GroupBy(item => item.Folder)
                 .SelectMany(group => group)
                 .ToList();
+        }
+
+        void MigrateToDataSource()
+        {
+            var source = expressionWizard.AddChildComponent<ExpressionItemSource>();
+            source.expressionItems = expressionWizard.legacyExpressionItems.ToList();
+            expressionWizard.legacyExpressionItems.Clear();
+            source.defaultPrefix = expressionWizard.defaultPrefix;
         }
     }
 }
