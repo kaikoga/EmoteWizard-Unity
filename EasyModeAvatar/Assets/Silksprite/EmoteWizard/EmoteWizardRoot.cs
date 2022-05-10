@@ -15,20 +15,15 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public ListDisplayMode listDisplayMode;
         [SerializeField] public bool showTutorial;
         [SerializeField] public bool showCopyPasteJsonButtons;
-        [SerializeField] public bool lowSpecUI = true;
 
+        // NOTE: allows children setup for historical reasons(Low Spec UI), but it does not make sense in Source meta and not recommended
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 
         public T EnsureWizard<T>() where T : EmoteWizardBase
         {
             var wizard = GetComponentInChildren<T>();
             if (!(wizard is null)) return wizard;
-
-            if (!lowSpecUI) return gameObject.AddComponent<T>();
-
-            var childObject = new GameObject(typeof(T).Name);
-            childObject.transform.parent = gameObject.transform;
-            return childObject.AddComponent<T>();
+            return gameObject.AddComponent<T>();
         }
 
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
