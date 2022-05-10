@@ -1,12 +1,11 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -20,23 +19,13 @@ namespace Silksprite.EmoteWizard
     {
         ActionWizard actionWizard;
 
-        ActionEmoteDrawerState actionEmotesState;
-        ActionEmoteDrawerState afkEmotesState;
         ActionEmoteDrawerState defaultAfkEmoteState;
-
-        ExpandableReorderableList<ActionEmote> actionEmotesList;
-        ExpandableReorderableList<ActionEmote> afkEmotesList;
 
         void OnEnable()
         {
             actionWizard = (ActionWizard) target;
             
-            actionEmotesState = new ActionEmoteDrawerState();
-            afkEmotesState = new ActionEmoteDrawerState();
             defaultAfkEmoteState = new ActionEmoteDrawerState();
-
-            actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref actionWizard.legacyActionEmotes);
-            afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref actionWizard.legacyAfkEmotes);
         }
 
         public override void OnInspectorGUI()
@@ -52,7 +41,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate Default Actions"))
                     {
-                        actionWizard.RepopulateDefaultActionEmotes();
+                        actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
                     }
                 });
 
@@ -61,13 +50,6 @@ namespace Silksprite.EmoteWizard
                 using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.actionSelectParameter)))
                 {
                     TypedGUILayout.TextField("Action Select Parameter", ref actionWizard.actionSelectParameter);
-                }
-                if (actionWizard.HasLegacyData)
-                {
-                    using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
-                    {
-                        actionEmotesList.DrawAsProperty(actionWizard.legacyActionEmotes, emoteWizardRoot.listDisplayMode);
-                    }
                 }
 
                 TypedGUILayout.Toggle("AFK Select Enabled", ref actionWizard.afkSelectEnabled);
@@ -87,11 +69,7 @@ namespace Silksprite.EmoteWizard
                 }
                 if (actionWizard.HasLegacyData)
                 {
-                    using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
-                    using (new EditorGUI.DisabledScope(!actionWizard.afkSelectEnabled))
-                    {
-                        afkEmotesList.DrawAsProperty(actionWizard.legacyAfkEmotes, emoteWizardRoot.listDisplayMode);
-                    }
+                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
                     if (GUILayout.Button("Migrate to Data Source"))
                     {
                         MigrateToDataSource();

@@ -61,7 +61,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                         if (GUILayout.Button("Collect Parameters"))
                         {
                             parametersWizard.TryRefreshParameters();
-                            animationWizardBase.RefreshParameters(parametersWizard);
+                            animationWizardBase.RefreshParameters(parametersWizard); // FIXME
                         }
                     });
                 }

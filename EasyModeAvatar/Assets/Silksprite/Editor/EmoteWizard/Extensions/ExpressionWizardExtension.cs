@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -13,21 +11,6 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ExpressionWizardExtension
     {
-        [Obsolete]
-        public static void RepopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
-        {
-            expressionWizard.legacyExpressionItems = new List<ExpressionItem>();
-            PopulateDefaultExpressionItems(expressionWizard);
-        }
-
-        [Obsolete]
-        public static void PopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
-        {
-            if (expressionWizard.legacyExpressionItems == null) expressionWizard.legacyExpressionItems = new List<ExpressionItem>();
-
-            expressionWizard.legacyExpressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.legacyExpressionItems);
-        }
-
         static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
         {
             var activeExpressionItems = expressionWizard.CollectExpressionItems().ToList();

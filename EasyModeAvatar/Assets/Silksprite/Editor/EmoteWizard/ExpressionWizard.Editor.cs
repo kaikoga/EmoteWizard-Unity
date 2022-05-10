@@ -1,11 +1,8 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -19,13 +16,9 @@ namespace Silksprite.EmoteWizard
     {
         ExpressionWizard expressionWizard;
 
-        ExpandableReorderableList<ExpressionItem> expressionItemsList;
-
         void OnEnable()
         {
             expressionWizard = (ExpressionWizard) target;
-            
-            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Legacy Expression Items", ref expressionWizard.legacyExpressionItems);
         }
 
         public override void OnInspectorGUI()
@@ -40,7 +33,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Reset Expression Items"))
                     {
-                        expressionWizard.RepopulateDefaultExpressionItems();
+                        expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
                     }
                 });
 
@@ -48,19 +41,7 @@ namespace Silksprite.EmoteWizard
 
                 if (expressionWizard.HasLegacyData)
                 {
-                    using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
-                    {
-                        expressionItemsList.DrawAsProperty(expressionWizard.legacyExpressionItems, emoteWizardRoot.listDisplayMode);
-                    }
-                    TypedGUILayout.TextField("Default Prefix", ref expressionWizard.defaultPrefix);
-                    if (GUILayout.Button("Populate Default Expression Items"))
-                    {
-                        expressionWizard.PopulateDefaultExpressionItems();
-                    }
-                    if (GUILayout.Button("Group by Folder"))
-                    {
-                        GroupItemsByFolder();
-                    }
+                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
                     if (GUILayout.Button("Migrate to Data Source"))
                     {
                         MigrateToDataSource();
@@ -83,14 +64,6 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
             }
-        }
-
-        void GroupItemsByFolder()
-        {
-            expressionWizard.legacyExpressionItems = expressionWizard.legacyExpressionItems
-                .GroupBy(item => item.Folder)
-                .SelectMany(group => group)
-                .ToList();
         }
 
         void MigrateToDataSource()

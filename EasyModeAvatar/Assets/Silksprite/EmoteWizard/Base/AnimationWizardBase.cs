@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -63,8 +63,10 @@ namespace Silksprite.EmoteWizard.Base
 
         public bool HasLegacyData => legacyBaseMixins.Any() || legacyEmotes.Any() || legacyParameterEmotes.Any() || legacyMixins.Any();
 
+        [Obsolete]
         public void RefreshParameters(ParametersWizard parametersWizard) => RefreshParameters(parametersWizard.parameterItems, parametersWizard.defaultParameterItems);
 
+        [Obsolete]
         void RefreshParameters(IEnumerable<ParameterItem> parameterItems, IEnumerable<ParameterItem> defaultParameterItems)
         {
             var allParameterItems = parameterItems.Select(p => (p, false))

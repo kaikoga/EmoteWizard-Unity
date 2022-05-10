@@ -1,14 +1,9 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -22,29 +17,9 @@ namespace Silksprite.EmoteWizard
     {
         FxWizard fxWizard;
 
-        AnimationMixinDrawerState baseMixinsState;
-        EmoteDrawerState emotesState;
-        ParameterEmoteDrawerState parametersState;
-        AnimationMixinDrawerState mixinsState;
-
-        ExpandableReorderableList<AnimationMixin> baseMixinsList;
-        ExpandableReorderableList<Emote> emotesList;
-        ExpandableReorderableList<ParameterEmote> parametersList;
-        ExpandableReorderableList<AnimationMixin> mixinsList;
-
         void OnEnable()
         {
             fxWizard = (FxWizard) target;
-
-            baseMixinsState = new AnimationMixinDrawerState();
-            emotesState = new EmoteDrawerState();
-            parametersState = new ParameterEmoteDrawerState();
-            mixinsState = new AnimationMixinDrawerState();
-
-            baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref fxWizard.legacyBaseMixins);
-            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref fxWizard.legacyEmotes);
-            parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref fxWizard.legacyParameterEmotes);
-            mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref fxWizard.legacyMixins);
         }
 
         public override void OnInspectorGUI()
@@ -60,19 +35,19 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
-                        fxWizard.RepopulateDefaultEmotes();
+                        fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes();
                     }
 
                     if (GUILayout.Button("Repopulate HandSigns: 14 items"))
                     {
-                        fxWizard.RepopulateDefaultEmotes14();
+                        fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes14();
                     }
 
                     if (parametersWizard != null)
                     {
                         if (GUILayout.Button("Repopulate Parameters"))
                         {
-                            fxWizard.RepopulateParameterEmotes(parametersWizard);
+                            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
                         }
                     }
                 });
@@ -96,39 +71,7 @@ namespace Silksprite.EmoteWizard
 
                 if (fxWizard.HasLegacyData)
                 {
-                    var relativePath = GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName);
-                    using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())
-                    {
-                        baseMixinsList.DrawAsProperty(fxWizard.legacyBaseMixins, emoteWizardRoot.listDisplayMode);
-                    }
-
-                    using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.LayerName, fxWizard.advancedAnimations, emotesState).StartContext())
-                    {
-                        emotesList.DrawAsProperty(fxWizard.legacyEmotes, emoteWizardRoot.listDisplayMode);
-                    }
-
-                    using (new ParameterEmoteDrawerContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, parametersState).StartContext())
-                    {
-                        parametersList.DrawAsProperty(fxWizard.legacyParameterEmotes, emoteWizardRoot.listDisplayMode);
-                    }
-
-                    if (IsExpandedTracker.GetIsExpanded(fxWizard.legacyParameterEmotes))
-                    {
-                        EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
-                        {
-                            if (GUILayout.Button("Collect Parameters"))
-                            {
-                                parametersWizard.TryRefreshParameters();
-                                fxWizard.RefreshParameters(parametersWizard); // FIXME
-                            }
-                        });
-                    }
-
-                    using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, mixinsState).StartContext())
-                    {
-                        mixinsList.DrawAsProperty(fxWizard.legacyMixins, emoteWizardRoot.listDisplayMode);
-                    }
-
+                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
                     if (GUILayout.Button("Migrate to Data Source"))
                     {
                         MigrateToDataSource();
