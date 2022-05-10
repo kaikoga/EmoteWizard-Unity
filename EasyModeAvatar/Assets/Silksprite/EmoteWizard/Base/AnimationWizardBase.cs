@@ -15,28 +15,24 @@ namespace Silksprite.EmoteWizard.Base
     {
         public override IEnumerable<AnimationMixin> CollectBaseMixins()
         {
-            return legacyBaseMixins
-                .Concat(GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.baseMixins))
+            return GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.baseMixins)
                 .Where(m => m.enabled);
         }
 
         public override IEnumerable<Emote> CollectEmotes()
         {
-            return legacyEmotes
-                .Concat(GetComponentsInChildren<TEmoteSource>().SelectMany(source => source.emotes));
+            return GetComponentsInChildren<TEmoteSource>().SelectMany(source => source.emotes);
         }
 
         public override IEnumerable<ParameterEmote> CollectParameterEmotes()
         {
-            return legacyParameterEmotes
-                .Concat(GetComponentsInChildren<TParameterEmoteSource>().SelectMany(source => source.parameterEmotes))
+            return GetComponentsInChildren<TParameterEmoteSource>().SelectMany(source => source.parameterEmotes)
                 .Where(e => e.enabled);
         }
 
         public override IEnumerable<AnimationMixin> CollectMixins()
         {
-            return legacyMixins
-                .Concat(GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.mixins))
+            return GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.mixins)
                 .Where(m => m.enabled);
         }
     }

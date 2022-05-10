@@ -119,7 +119,7 @@ namespace Silksprite.EmoteWizard
                             if (GUILayout.Button("Collect Parameters"))
                             {
                                 parametersWizard.TryRefreshParameters();
-                                fxWizard.RefreshParameters(parametersWizard);
+                                fxWizard.RefreshParameters(parametersWizard); // FIXME
                             }
                         });
                     }
