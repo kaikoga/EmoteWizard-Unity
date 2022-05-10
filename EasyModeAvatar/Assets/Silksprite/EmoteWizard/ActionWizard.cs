@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -22,8 +23,21 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public IEnumerable<ActionEmote> CollectActionEmotes() => legacyActionEmotes.Where(item => item.enabled);
-        public IEnumerable<ActionEmote> CollectAfkEmotes() => legacyAfkEmotes.Where(item => item.enabled);
+        public bool HasLegacyData => legacyActionEmotes.Any() || legacyAfkEmotes.Any();
+
+        public IEnumerable<ActionEmote> CollectActionEmotes()
+        {
+            return legacyActionEmotes
+                .Concat(GetComponentsInChildren<ActionEmoteSource>().SelectMany(source => source.actionEmotes))
+                .Where(item => item.enabled);
+        }
+
+        public IEnumerable<ActionEmote> CollectAfkEmotes()
+        {
+            return legacyAfkEmotes
+                .Concat(GetComponentsInChildren<AfkEmoteSource>().SelectMany(source => source.afkEmotes))
+                .Where(item => item.enabled);
+        }
 
         public bool SelectableAfkEmotes => afkSelectEnabled && CollectAfkEmotes().Any();
     }

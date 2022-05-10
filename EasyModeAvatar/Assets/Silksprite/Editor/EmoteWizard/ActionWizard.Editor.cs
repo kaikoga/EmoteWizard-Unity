@@ -1,8 +1,10 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -60,9 +62,12 @@ namespace Silksprite.EmoteWizard
                 {
                     TypedGUILayout.TextField("Action Select Parameter", ref actionWizard.actionSelectParameter);
                 }
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
+                if (actionWizard.HasLegacyData)
                 {
-                    actionEmotesList.DrawAsProperty(actionWizard.legacyActionEmotes, emoteWizardRoot.listDisplayMode);
+                    using (new ActionEmoteDrawerContext(emoteWizardRoot, actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
+                    {
+                        actionEmotesList.DrawAsProperty(actionWizard.legacyActionEmotes, emoteWizardRoot.listDisplayMode);
+                    }
                 }
 
                 TypedGUILayout.Toggle("AFK Select Enabled", ref actionWizard.afkSelectEnabled);
@@ -80,11 +85,17 @@ namespace Silksprite.EmoteWizard
                         TypedGUILayout.TextField("AFK Select Parameter", ref actionWizard.afkSelectParameter);
                     }
                 }
-
-                using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
-                using (new EditorGUI.DisabledScope(!actionWizard.afkSelectEnabled))
+                if (actionWizard.HasLegacyData)
                 {
-                    afkEmotesList.DrawAsProperty(actionWizard.legacyAfkEmotes, emoteWizardRoot.listDisplayMode);
+                    using (new ActionEmoteDrawerContext(emoteWizardRoot, afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
+                    using (new EditorGUI.DisabledScope(!actionWizard.afkSelectEnabled))
+                    {
+                        afkEmotesList.DrawAsProperty(actionWizard.legacyAfkEmotes, emoteWizardRoot.listDisplayMode);
+                    }
+                    if (GUILayout.Button("Migrate to Data Source"))
+                    {
+                        MigrateToDataSource();
+                    }
                 }
 
                 GUILayout.Label("Default AFK Emote");
@@ -109,6 +120,17 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Action Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+        }
+
+        void MigrateToDataSource()
+        {
+            var actionEmoteSource = actionWizard.AddChildComponent<ActionEmoteSource>();
+            actionEmoteSource.actionEmotes = actionWizard.legacyActionEmotes.ToList();
+            actionWizard.legacyActionEmotes.Clear();
+
+            var afkEmoteSource = actionWizard.AddChildComponent<AfkEmoteSource>();
+            afkEmoteSource.afkEmotes = actionWizard.legacyAfkEmotes.ToList();
+            actionWizard.legacyAfkEmotes.Clear();
         }
 
         static string Tutorial =>
