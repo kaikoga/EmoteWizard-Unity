@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
@@ -7,11 +8,13 @@ using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimationWizardBaseExtension
     {
+        [Obsolete]
         public static void RepopulateDefaultEmotes(this AnimationWizardBase animationWizardBase)
         {
             var newEmotes = Emote.HandSigns
@@ -20,6 +23,7 @@ namespace Silksprite.EmoteWizard.Extensions
             animationWizardBase.legacyEmotes = newEmotes;
         }
 
+        [Obsolete]
         public static void RepopulateDefaultEmotes14(this AnimationWizardBase animationWizardBase)
         {
             var newEmotes = Enumerable.Empty<Emote>()
@@ -41,6 +45,7 @@ namespace Silksprite.EmoteWizard.Extensions
             animationWizardBase.legacyEmotes = newEmotes;
         }
 
+        [Obsolete]
         public static void RepopulateParameterEmotes(this AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard)
         {
             parametersWizard.TryRefreshParameters();

@@ -1,11 +1,46 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Silksprite.EmoteWizard.Base
 {
+    public abstract class AnimationWizardBase<TEmoteSource, TParameterEmoteSource, TAnimationMixinSource> : AnimationWizardBase
+        where TEmoteSource : EmoteSourceBase
+        where TParameterEmoteSource : ParameterEmoteSourceBase
+        where TAnimationMixinSource : AnimationMixinSourceBase
+    {
+        public override IEnumerable<AnimationMixin> CollectBaseMixins()
+        {
+            return legacyBaseMixins
+                .Concat(GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.baseMixins))
+                .Where(m => m.enabled);
+        }
+
+        public override IEnumerable<Emote> CollectEmotes()
+        {
+            return legacyEmotes
+                .Concat(GetComponentsInChildren<TEmoteSource>().SelectMany(source => source.emotes));
+        }
+
+        public override IEnumerable<ParameterEmote> CollectParameterEmotes()
+        {
+            return legacyParameterEmotes
+                .Concat(GetComponentsInChildren<TParameterEmoteSource>().SelectMany(source => source.parameterEmotes))
+                .Where(e => e.enabled);
+        }
+
+        public override IEnumerable<AnimationMixin> CollectMixins()
+        {
+            return legacyMixins
+                .Concat(GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.mixins))
+                .Where(m => m.enabled);
+        }
+    }
+    
     public abstract class AnimationWizardBase : EmoteWizardBase
     {
         [SerializeField] public bool advancedAnimations;
@@ -22,13 +57,15 @@ namespace Silksprite.EmoteWizard.Base
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public IEnumerable<AnimationMixin> CollectBaseMixins() => legacyBaseMixins.Where(m => m.enabled);
-        public IEnumerable<Emote> CollectEmotes() => legacyEmotes;
-        public IEnumerable<ParameterEmote> CollectParameterEmotes() => legacyParameterEmotes.Where(e => e.enabled);
-        public IEnumerable<AnimationMixin> CollectMixins() => legacyMixins.Where(m => m.enabled);
+        public abstract IEnumerable<AnimationMixin> CollectBaseMixins();
+        public abstract IEnumerable<Emote> CollectEmotes();
+        public abstract IEnumerable<ParameterEmote> CollectParameterEmotes();
+        public abstract IEnumerable<AnimationMixin> CollectMixins();
 
         public abstract string LayerName { get; }
         public abstract string HandSignOverrideParameter { get;  }
+
+        public bool HasLegacyData => legacyBaseMixins.Any() || legacyEmotes.Any() || legacyParameterEmotes.Any() || legacyMixins.Any();
 
         public void RefreshParameters(ParametersWizard parametersWizard) => RefreshParameters(parametersWizard.parameterItems, parametersWizard.defaultParameterItems);
 

@@ -19,6 +19,8 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public string defaultPrefix = "Default/";
         [SerializeField] public bool buildAsSubAsset = true;
 
+        public bool HasLegacyData => legacyExpressionItems.Any();
+
         public IEnumerable<ExpressionItem> CollectExpressionItems()
         {
             return legacyExpressionItems

@@ -1,3 +1,4 @@
+using System;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Base.DrawerContexts;
@@ -8,6 +9,7 @@ namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
     [UsedImplicitly]
     public class ParameterEmoteDrawerContext : EmoteWizardDrawerContextBase<ParameterEmote, ParameterEmoteDrawerContext>
     {
+        [Obsolete]
         public readonly AnimationWizardBase AnimationWizardBase;
         public readonly ParametersWizard ParametersWizard;
         public readonly string Layer;

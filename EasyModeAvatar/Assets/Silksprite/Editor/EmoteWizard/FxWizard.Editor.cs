@@ -1,9 +1,11 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -92,37 +94,57 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                string relativePath = GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName);
-                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())
+                if (fxWizard.HasLegacyData)
                 {
-                    baseMixinsList.DrawAsProperty(fxWizard.legacyBaseMixins, emoteWizardRoot.listDisplayMode);
-                }
-
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.LayerName, fxWizard.advancedAnimations, emotesState).StartContext())
-                {
-                    emotesList.DrawAsProperty(fxWizard.legacyEmotes, emoteWizardRoot.listDisplayMode);
-                }
-
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, parametersState).StartContext())
-                {
-                    parametersList.DrawAsProperty(fxWizard.legacyParameterEmotes, emoteWizardRoot.listDisplayMode);
-                }
-
-                if (IsExpandedTracker.GetIsExpanded(fxWizard.legacyParameterEmotes))
-                {
-                    EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
+                    var relativePath = GeneratedAssetLocator.MixinDirectoryPath(fxWizard.LayerName);
+                    using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())
                     {
-                        if (GUILayout.Button("Collect Parameters"))
-                        {
-                            parametersWizard.TryRefreshParameters();
-                            fxWizard.RefreshParameters(parametersWizard);
-                        }
-                    });
-                }
+                        baseMixinsList.DrawAsProperty(fxWizard.legacyBaseMixins, emoteWizardRoot.listDisplayMode);
+                    }
 
-                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, mixinsState).StartContext())
+                    using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.LayerName, fxWizard.advancedAnimations, emotesState).StartContext())
+                    {
+                        emotesList.DrawAsProperty(fxWizard.legacyEmotes, emoteWizardRoot.listDisplayMode);
+                    }
+
+                    using (new ParameterEmoteDrawerContext(emoteWizardRoot, fxWizard, parametersWizard, fxWizard.LayerName, parametersState).StartContext())
+                    {
+                        parametersList.DrawAsProperty(fxWizard.legacyParameterEmotes, emoteWizardRoot.listDisplayMode);
+                    }
+
+                    if (IsExpandedTracker.GetIsExpanded(fxWizard.legacyParameterEmotes))
+                    {
+                        EmoteWizardGUILayout.RequireAnotherWizard(fxWizard, parametersWizard, () =>
+                        {
+                            if (GUILayout.Button("Collect Parameters"))
+                            {
+                                parametersWizard.TryRefreshParameters();
+                                fxWizard.RefreshParameters(parametersWizard);
+                            }
+                        });
+                    }
+
+                    using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, mixinsState).StartContext())
+                    {
+                        mixinsList.DrawAsProperty(fxWizard.legacyMixins, emoteWizardRoot.listDisplayMode);
+                    }
+
+                    if (GUILayout.Button("Migrate to Data Source"))
+                    {
+                        MigrateToDataSource();
+                    }
+                }
+                if (GUILayout.Button("Add Emote Source"))
                 {
-                    mixinsList.DrawAsProperty(fxWizard.legacyMixins, emoteWizardRoot.listDisplayMode);
+                    fxWizard.AddChildComponentAndSelect<FxEmoteSource>();
+                }
+                if (GUILayout.Button("Add Parameter Emote Source"))
+                {
+                    fxWizard.AddChildComponentAndSelect<FxParameterEmoteSource>();
+                }
+                if (GUILayout.Button("Add Animation Mixin Source"))
+                {
+                    fxWizard.AddChildComponentAndSelect<FxAnimationMixinSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
@@ -141,6 +163,23 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+        }
+
+        void MigrateToDataSource()
+        {
+            var emoteSource = fxWizard.AddChildComponent<FxEmoteSource>();
+            emoteSource.emotes = fxWizard.legacyEmotes.ToList();
+            fxWizard.legacyEmotes.Clear();
+            
+            var parameterEmoteSource = fxWizard.AddChildComponent<FxParameterEmoteSource>();
+            parameterEmoteSource.parameterEmotes = fxWizard.legacyParameterEmotes.ToList();
+            fxWizard.legacyParameterEmotes.Clear();
+            
+            var mixinSource = fxWizard.AddChildComponent<FxAnimationMixinSource>();
+            mixinSource.baseMixins = fxWizard.legacyBaseMixins.ToList();
+            mixinSource.mixins = fxWizard.legacyMixins.ToList();
+            fxWizard.legacyBaseMixins.Clear();
+            fxWizard.legacyMixins.Clear();
         }
     }
 }

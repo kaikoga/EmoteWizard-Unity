@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
@@ -12,12 +13,14 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ExpressionWizardExtension
     {
+        [Obsolete]
         public static void RepopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
         {
             expressionWizard.legacyExpressionItems = new List<ExpressionItem>();
             PopulateDefaultExpressionItems(expressionWizard);
         }
 
+        [Obsolete]
         public static void PopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
         {
             if (expressionWizard.legacyExpressionItems == null) expressionWizard.legacyExpressionItems = new List<ExpressionItem>();

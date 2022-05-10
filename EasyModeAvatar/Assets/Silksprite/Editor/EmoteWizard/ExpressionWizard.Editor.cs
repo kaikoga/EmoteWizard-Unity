@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard
 
                 TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
 
-                if (expressionWizard.legacyExpressionItems.Any())
+                if (expressionWizard.HasLegacyData)
                 {
                     using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
                     {

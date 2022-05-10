@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal;
-using Silksprite.EmoteWizard.Sources;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Sources.Extensions
 {
     public static class ExpressionItemSourceExtension
     {
