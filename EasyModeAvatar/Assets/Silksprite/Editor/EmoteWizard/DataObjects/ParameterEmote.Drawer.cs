@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     {
                         if (GUI.Button(position.UISliceV(-1), "Generate clips from targets"))
                         {
-                            context.AnimationWizardBase.GenerateParameterEmoteClipsFromTargets(context, property.name);
+                            property.GenerateParameterEmoteClipsFromTargets(context.Component, context);
                         }
                     }
                 }

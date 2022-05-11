@@ -38,7 +38,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
             var animationWizardBase = _parameterEmoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
             using (new ObjectChangeScope(_parameterEmoteSource))
             {
-                EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
+                EmoteWizardGUILayout.SetupOnlyUI(_parameterEmoteSource, () =>
                 {
                     if (parametersWizard != null)
                     {
@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     }
                 });
 
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, animationWizardBase.LayerName, _parametersState).StartContext())
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, _parameterEmoteSource.LayerName, _parametersState).StartContext())
                 {
                     _parameterEmoteList.DrawAsProperty(_parameterEmoteSource.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }
@@ -58,10 +58,10 @@ namespace Silksprite.EmoteWizard.Sources.Base
                 {
                     EmoteWizardGUILayout.RequireAnotherWizard(animationWizardBase, parametersWizard, () =>
                     {
-                        if (GUILayout.Button("Collect Parameters"))
+                        if (GUILayout.Button("Generate Parameters"))
                         {
                             parametersWizard.TryRefreshParameters();
-                            animationWizardBase.RefreshParameters(parametersWizard); // FIXME
+                            _parameterEmoteSource.GenerateParameters(parametersWizard, animationWizardBase);
                         }
                     });
                 }
