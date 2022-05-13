@@ -21,8 +21,8 @@ namespace Silksprite.EmoteWizard.Extensions
             var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            var vrcAvatarDescriptor = animationWizardBase.EmoteWizardRoot.GetWizard<AvatarWizard>()?.avatarDescriptor;
-            var avatar = vrcAvatarDescriptor != null ? vrcAvatarDescriptor.gameObject : null;
+            var proxyAnimator = animationWizardBase.EmoteWizardRoot.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
+            var avatar = proxyAnimator != null ? proxyAnimator.gameObject : null;
 
             targetClip.ClearCurves();
             targetClip.frameRate = 60f;
