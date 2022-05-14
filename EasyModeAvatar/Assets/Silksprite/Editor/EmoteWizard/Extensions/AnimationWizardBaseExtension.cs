@@ -26,27 +26,47 @@ namespace Silksprite.EmoteWizard.Extensions
 
             targetClip.ClearCurves();
             targetClip.frameRate = 60f;
+            if (!avatar)
+            {
+                Debug.LogWarning("FXWizard: Failed to build reset clip because Avatar is not specified.\nProxyAnimator or AvatarDescriptor is required to build ResetClip.");
+                return;
+            }
+
+            void WarnBindingNotFound(EditorCurveBinding curveBinding)
+            {
+                Debug.LogWarning($@"FXWizard: ResetClip may be insufficient because animated property is not found in avatar.
+Object Path: {curveBinding.path}
+Property: {curveBinding.type} {curveBinding.propertyName}
+This property is not included in ResetClip.");
+            }
+
             foreach (var curveBinding in curveBindings)
             {
                 var value = 0f;
-                if (avatar)
+                if (AnimationUtility.GetFloatValue(avatar, curveBinding, out value))
                 {
-                    AnimationUtility.GetFloatValue(avatar, curveBinding, out value);
+                    targetClip.SetCurve(curveBinding.path, curveBinding.type, curveBinding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, value));
                 }
-                targetClip.SetCurve(curveBinding.path, curveBinding.type, curveBinding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, value));
+                else
+                {
+                    WarnBindingNotFound(curveBinding);
+                }
             }
             foreach (var curveBinding in objectReferenceCurveBindings)
             {
                 Object value = null;
-                if (avatar)
+                if (AnimationUtility.GetObjectReferenceValue(avatar, curveBinding, out value))
                 {
-                    AnimationUtility.GetObjectReferenceValue(avatar, curveBinding, out value);
+                    AnimationUtility.SetObjectReferenceCurve(targetClip, curveBinding, new []
+                    {
+                        new ObjectReferenceKeyframe { time = 0, value = value },
+                        new ObjectReferenceKeyframe { time = 1 / 60f, value = value }
+                    });
                 }
-                AnimationUtility.SetObjectReferenceCurve(targetClip, curveBinding, new []
+                else
                 {
-                    new ObjectReferenceKeyframe { time = 0, value = value },
-                    new ObjectReferenceKeyframe { time = 1 / 60f, value = value }
-                });
+                    WarnBindingNotFound(curveBinding);
+                }
             }
         }
     }
