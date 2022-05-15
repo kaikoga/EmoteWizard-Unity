@@ -23,6 +23,7 @@ namespace Silksprite.EmoteWizard.Extensions
             
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
             var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
+            parametersWizard.TryRefreshParameters();
 
             RuntimeAnimatorController SelectGestureController()
             {
