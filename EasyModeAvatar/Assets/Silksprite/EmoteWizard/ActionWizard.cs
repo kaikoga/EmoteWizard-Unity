@@ -27,13 +27,13 @@ namespace Silksprite.EmoteWizard
 
         public IEnumerable<ActionEmote> CollectActionEmotes()
         {
-            return GetComponentsInChildren<ActionEmoteSource>().SelectMany(source => source.actionEmotes)
+            return EmoteWizardRoot.GetComponentsInChildren<ActionEmoteSource>().SelectMany(source => source.actionEmotes)
                 .Where(item => item.enabled);
         }
 
         public IEnumerable<ActionEmote> CollectAfkEmotes()
         {
-            return GetComponentsInChildren<AfkEmoteSource>().SelectMany(source => source.afkEmotes)
+            return EmoteWizardRoot.GetComponentsInChildren<AfkEmoteSource>().SelectMany(source => source.afkEmotes)
                 .Where(item => item.enabled);
         }
 

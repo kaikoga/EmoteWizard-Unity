@@ -14,24 +14,24 @@ namespace Silksprite.EmoteWizard.Base
     {
         public override IEnumerable<AnimationMixin> CollectBaseMixins()
         {
-            return GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.baseMixins)
+            return EmoteWizardRoot.GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.baseMixins)
                 .Where(m => m.enabled);
         }
 
         public override IEnumerable<Emote> CollectEmotes()
         {
-            return GetComponentsInChildren<TEmoteSource>().SelectMany(source => source.emotes);
+            return EmoteWizardRoot.GetComponentsInChildren<TEmoteSource>().SelectMany(source => source.emotes);
         }
 
         public override IEnumerable<ParameterEmote> CollectParameterEmotes(bool includeInactive = false, bool includeDisabled = false)
         {
-            return GetComponentsInChildren<TParameterEmoteSource>(includeInactive).SelectMany(source => source.parameterEmotes)
+            return EmoteWizardRoot.GetComponentsInChildren<TParameterEmoteSource>(includeInactive).SelectMany(source => source.parameterEmotes)
                 .Where(e => e.enabled || includeDisabled);
         }
 
         public override IEnumerable<AnimationMixin> CollectMixins()
         {
-            return GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.mixins)
+            return EmoteWizardRoot.GetComponentsInChildren<TAnimationMixinSource>().SelectMany(source => source.mixins)
                 .Where(m => m.enabled);
         }
     }
