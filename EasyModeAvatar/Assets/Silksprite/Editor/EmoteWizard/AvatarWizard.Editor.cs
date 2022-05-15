@@ -86,7 +86,7 @@ namespace Silksprite.EmoteWizard
                         {
                             if (GUILayout.Button("Generate Everything and Update Avatar"))
                             {
-                                avatarWizard.BuildAvatar(avatarDescriptor);
+                                avatarWizard.BuildAvatar();
                             }
                         });
 

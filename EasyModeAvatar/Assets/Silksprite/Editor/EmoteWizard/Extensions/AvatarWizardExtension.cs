@@ -15,9 +15,10 @@ namespace Silksprite.EmoteWizard.Extensions
             return animator;
         }
 
-        public static void BuildAvatar(this AvatarWizard avatarWizard, VRCAvatarDescriptor avatarDescriptor)
+        public static void BuildAvatar(this AvatarWizard avatarWizard)
         {
-            var avatarAnimator = avatarWizard.avatarDescriptor.EnsureComponent<Animator>();
+            var avatarDescriptor = avatarWizard.avatarDescriptor;
+            var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
             avatarAnimator.runtimeAnimatorController = null;
             
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
