@@ -11,23 +11,28 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class ParameterLayerBuilder : LayerBuilderBase
     {
-        public ParameterLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly ParameterEmote _parameterEmote;
 
-        public void Build(ParameterEmote parameterEmote)
+        public ParameterLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, ParameterEmote parameterEmote) : base(builder, layer)
         {
-            if (!AssertParameterExists(parameterEmote.parameter)) return;
-            Builder.MarkParameter(parameterEmote.parameter);
+            _parameterEmote = parameterEmote;
+        }
 
-            switch (parameterEmote.emoteKind)
+        protected override void Process()
+        {
+            if (!AssertParameterExists(_parameterEmote.parameter)) return;
+            Builder.MarkParameter(_parameterEmote.parameter);
+
+            switch (_parameterEmote.emoteKind)
             {
                 case ParameterEmoteKind.Transition:
-                    BuildTransitionStateMachine(parameterEmote);
+                    BuildTransitionStateMachine(_parameterEmote);
                     break;
                 case ParameterEmoteKind.NormalizedTime:
-                    BuildNormalizedTimeStateMachine(parameterEmote);
+                    BuildNormalizedTimeStateMachine(_parameterEmote);
                     break;
                 case ParameterEmoteKind.BlendTree:
-                    BuildBlendTreeStateMachine(parameterEmote);
+                    BuildBlendTreeStateMachine(_parameterEmote);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

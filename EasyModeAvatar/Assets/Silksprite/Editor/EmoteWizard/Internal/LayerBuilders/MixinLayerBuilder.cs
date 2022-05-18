@@ -8,16 +8,21 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class MixinLayerBuilder : LayerBuilderBase
     {
-        public MixinLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly AnimationMixin _mixin;
 
-        public void Build(AnimationMixin mixin)
+        public MixinLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, AnimationMixin mixin) : base(builder, layer)
         {
-            var transition = AddStateAsTransition(mixin.name, mixin.Motion);
+            _mixin = mixin;
+        }
 
-            ApplyEmoteControl(transition, true, mixin.control);
-            if (mixin.conditions.Count > 0)
+        protected override void Process()
+        {
+            var transition = AddStateAsTransition(_mixin.name, _mixin.Motion);
+
+            ApplyEmoteControl(transition, true, _mixin.control);
+            if (_mixin.conditions.Count > 0)
             {
-                ApplyEmoteConditions(transition, mixin.conditions);
+                ApplyEmoteConditions(transition, _mixin.conditions);
                 var defaultTransition = AddStateAsTransition("Default", null);
                 defaultTransition.AddAlwaysTrueCondition();
             }

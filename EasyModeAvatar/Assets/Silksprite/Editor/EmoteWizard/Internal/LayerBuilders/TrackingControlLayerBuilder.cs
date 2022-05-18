@@ -12,11 +12,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class TrackingControlLayerBuilder : LayerBuilderBase
     {
-        public TrackingControlLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly TrackingTarget _target;
+        readonly IEnumerable<AnimatorStateTransition> _overriders;
 
-        public void Build(TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders)
+        public TrackingControlLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders) : base(builder, layer)
         {
-            foreach (var sourceTransition in overriders)
+            _target = target;
+            _overriders = overriders;
+        }
+
+        protected override void Process()
+        {
+            foreach (var sourceTransition in _overriders)
             {
                 var transition = AddStateAsTransition(sourceTransition.destinationState.name, null);
                 foreach (var sourceCondition in sourceTransition.conditions)
@@ -27,7 +34,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 transition.duration = sourceTransition.duration;
                 transition.canTransitionToSelf = true;
 
-                PopulateTrackingControl(transition, target, VRC_AnimatorTrackingControl.TrackingType.Animation);
+                PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
             }
 
             var defaultTransition = AddStateAsTransition("Default", null);
@@ -37,7 +44,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             defaultTransition.duration = 0.1f;
             defaultTransition.canTransitionToSelf = false;
 
-            PopulateTrackingControl(defaultTransition, target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
+            PopulateTrackingControl(defaultTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
 
             LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }

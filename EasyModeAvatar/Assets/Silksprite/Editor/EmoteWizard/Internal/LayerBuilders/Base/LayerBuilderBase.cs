@@ -40,6 +40,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             _layer = layer;
         }
 
+        public void Build() => Process();
+
+        protected abstract void Process();
+
         [Obsolete("Avoid AnyState")]
         protected AnimatorStateTransition AddStateAsTransition(string stateName, Motion motion)
         {

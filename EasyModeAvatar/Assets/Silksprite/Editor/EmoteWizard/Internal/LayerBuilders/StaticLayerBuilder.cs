@@ -7,11 +7,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class StaticLayerBuilder : LayerBuilderBase
     {
-        public StaticLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly string _stateName;
+        readonly Motion _clip;
 
-        public void Build(string stateName, Motion clip)
+        public StaticLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, string stateName, Motion clip) : base(builder, layer)
         {
-            var defaultTransition = AddStateAsTransition(stateName, clip);
+            _stateName = stateName;
+            _clip = clip;
+        }
+
+        protected override void Process()
+        {
+            var defaultTransition = AddStateAsTransition(_stateName, _clip);
             defaultTransition.AddAlwaysTrueCondition();
             LegacyStateMachine.defaultState = defaultTransition.destinationState;
         }
