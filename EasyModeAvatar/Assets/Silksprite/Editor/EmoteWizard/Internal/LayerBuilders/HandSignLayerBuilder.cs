@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 foreach (var (emote, state) in emoteStates)
                 {
                     if (!emote.OverrideAvailable) continue;
-                    var transition = LegacyStateMachine.AddAnyStateTransition(state);
+                    var transition = AddAnyStateTransition(state);
                     var condition = ConditionBuilder.EqualsCondition(AnimationWizardBase.HandSignOverrideParameter, emote.overrideIndex);
                     transition.AddCondition(condition);
 
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
             foreach (var (emote, state) in emoteStates)
             {
-                var transition = LegacyStateMachine.AddAnyStateTransition(state);
+                var transition = AddAnyStateTransition(state);
                 ApplyEmoteGestureConditions(transition, _isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(transition, _isLeft, emote.gesture2);
                 if (AnimationWizardBase.handSignOverrideEnabled)

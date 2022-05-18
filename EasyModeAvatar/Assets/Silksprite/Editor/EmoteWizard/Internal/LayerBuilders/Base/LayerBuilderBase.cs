@@ -19,9 +19,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected AnimationWizardBase AnimationWizardBase => Builder.AnimationWizardBase;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 
-        [Obsolete("Define helper methods instead of direct access LayerBuildBase.StateMachine")]
-        protected AnimatorStateMachine LegacyStateMachine => _layer.stateMachine;
-
         Vector3 _position = new Vector3(300, 0, 0);
         Vector3 NextStatePosition()
         {
@@ -55,10 +52,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         [Obsolete("Avoid AnyState")]
         protected AnimatorStateTransition AddStateAsTransition(string stateName, Motion motion)
         {
-            var state = StateMachine.AddState(stateName, NextStatePosition());
-            state.motion = motion;
-            state.writeDefaultValues = false;
-            Builder.MarkParameter(motion);
+            var state = AddStateWithoutTransition(stateName, motion);
             return StateMachine.AddAnyStateTransition(state);
         }
 
@@ -69,6 +63,12 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             state.writeDefaultValues = false;
             Builder.MarkParameter(motion);
             return state;
+        }
+
+        [Obsolete("Avoid AnyState")]
+        protected AnimatorStateTransition AddAnyStateTransition(AnimatorState state)
+        {
+            return StateMachine.AddAnyStateTransition(state);
         }
 
         protected void ApplyEmoteConditions(AnimatorStateTransition transition, IEnumerable<EmoteCondition> conditions)
