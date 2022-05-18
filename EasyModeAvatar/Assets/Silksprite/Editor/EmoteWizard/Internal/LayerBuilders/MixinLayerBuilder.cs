@@ -1,4 +1,3 @@
-using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
@@ -17,13 +16,15 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            var transition = AddStateAsTransition(_mixin.name, _mixin.Motion);
+            var state = AddStateWithoutTransition(_mixin.name, _mixin.Motion);
+            var transition = AddAnyStateTransition(state);
 
             ApplyEmoteControl(transition, true, _mixin.control);
             if (_mixin.conditions.Count > 0)
             {
                 ApplyEmoteConditions(transition, _mixin.conditions);
-                var defaultTransition = AddStateAsTransition("Default", null);
+                var defaultState = AddStateWithoutTransition("Default", null);
+                var defaultTransition = AddAnyStateTransition(defaultState);
                 defaultTransition.AddAlwaysTrueCondition();
             }
         }

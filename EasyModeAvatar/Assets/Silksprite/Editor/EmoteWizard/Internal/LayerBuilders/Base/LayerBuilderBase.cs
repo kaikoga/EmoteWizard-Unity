@@ -49,13 +49,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         protected abstract void Process();
 
-        [Obsolete("Avoid AnyState")]
-        protected AnimatorStateTransition AddStateAsTransition(string stateName, Motion motion)
-        {
-            var state = AddStateWithoutTransition(stateName, motion);
-            return StateMachine.AddAnyStateTransition(state);
-        }
-
         protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion)
         {
             var state = StateMachine.AddState(stateName, NextStatePosition());

@@ -7,6 +7,7 @@ using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
@@ -49,7 +50,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             foreach (var (parameterEmoteState, nextValue) in stateAndNextValue)
             {
                 var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
-                var transition = AddStateAsTransition(stateName, parameterEmoteState.clip);
+                var state = AddStateWithoutTransition(stateName, parameterEmoteState.clip);
+                var transition = AddAnyStateTransition(state);
                 switch (parameterEmote.valueKind)
                 {
                     case ParameterValueKind.Int:
@@ -91,7 +93,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 .FirstOrDefault(c => c != null);
             if (clip == null) return;
 
-            var state = AddStateAsTransition(parameterEmote.name, clip).destinationState;
+            var state = AddStateWithoutTransition(parameterEmote.name, clip);
+            AddAnyStateTransition(state);
 
             state.timeParameterActive = true;
             state.timeParameter = parameterEmote.parameter;
@@ -119,7 +122,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 timeScale = 1
             }).ToArray();
 
-            AddStateAsTransition(parameterEmote.name, blendTree);
+            var blendTreeState = AddStateWithoutTransition(parameterEmote.name, blendTree);
+            AddAnyStateTransition(blendTreeState);
         }
     }
 }

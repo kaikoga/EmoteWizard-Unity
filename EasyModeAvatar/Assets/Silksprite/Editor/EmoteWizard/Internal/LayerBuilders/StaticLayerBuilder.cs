@@ -18,7 +18,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            var defaultTransition = AddStateAsTransition(_stateName, _clip);
+            var state = AddStateWithoutTransition(_stateName, _clip);
+            var defaultTransition = AddAnyStateTransition(state);
             defaultTransition.AddAlwaysTrueCondition();
         }
     }

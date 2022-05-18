@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
+using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
@@ -25,7 +26,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             foreach (var sourceTransition in _overriders)
             {
-                var transition = AddStateAsTransition(sourceTransition.destinationState.name, null);
+                var state = AddStateWithoutTransition(sourceTransition.destinationState.name, null);
+                var transition = AddAnyStateTransition(state);
                 foreach (var sourceCondition in sourceTransition.conditions)
                 {
                     transition.AddCondition(sourceCondition.mode, sourceCondition.threshold, sourceCondition.parameter);
@@ -37,7 +39,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
             }
 
-            var defaultTransition = AddStateAsTransition("Default", null);
+            var defaultState = AddStateWithoutTransition("Default", null);
+            var defaultTransition = AddAnyStateTransition(defaultState);
             defaultTransition.AddAlwaysTrueCondition();
 
             defaultTransition.hasExitTime = false;
