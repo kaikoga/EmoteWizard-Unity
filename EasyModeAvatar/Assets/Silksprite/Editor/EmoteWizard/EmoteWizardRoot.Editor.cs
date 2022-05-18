@@ -71,6 +71,10 @@ namespace Silksprite.EmoteWizard
                         }
                     }
                 }
+                if (GUILayout.Button("Disconnect Output Assets"))
+                {
+                    emoteWizardRoot.DisconnectAllOutputAssets();
+                }
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
             }

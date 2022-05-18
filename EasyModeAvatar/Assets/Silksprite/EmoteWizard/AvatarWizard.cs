@@ -18,6 +18,12 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
         
+        public override void DisconnectOutputAssets()
+        {
+            avatarDescriptor = null;
+            proxyAnimator = null;
+        }
+
         public enum OverrideGeneratedControllerType1
         {
             Generate = 0x10,

@@ -52,6 +52,11 @@ namespace Silksprite.EmoteWizard.Base
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
+        public override void DisconnectOutputAssets()
+        {
+            outputAsset = null;
+        }
+
         public abstract IEnumerable<AnimationMixin> CollectBaseMixins();
         public abstract IEnumerable<Emote> CollectEmotes();
         public abstract IEnumerable<ParameterEmote> CollectParameterEmotes(bool includeInactive = false, bool includeDisabled = false);

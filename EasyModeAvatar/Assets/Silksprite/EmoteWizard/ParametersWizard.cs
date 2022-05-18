@@ -16,6 +16,11 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public List<ParameterItem> parameterItems;
         [SerializeField] public List<ParameterItem> defaultParameterItems;
 
+        public override void DisconnectOutputAssets()
+        {
+            outputAsset = null;
+        }
+
         public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Where(item => item.enabled).Concat(defaultParameterItems);
 
         public bool AssertParameterExists(string parameterName)

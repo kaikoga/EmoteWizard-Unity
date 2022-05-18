@@ -26,6 +26,11 @@ namespace Silksprite.EmoteWizard
             return gameObject.AddComponent<T>();
         }
 
+        public void DisconnectAllOutputAssets()
+        {
+            foreach (var wizard in GetComponentsInChildren<EmoteWizardBase>()) wizard.DisconnectOutputAssets();
+        }
+
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
     }
 }

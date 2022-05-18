@@ -23,6 +23,11 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
+        public override void DisconnectOutputAssets()
+        {
+            outputAsset = null;
+        }
+
         public bool HasLegacyData => legacyActionEmotes.Any() || legacyAfkEmotes.Any();
 
         public IEnumerable<ActionEmote> CollectActionEmotes()
