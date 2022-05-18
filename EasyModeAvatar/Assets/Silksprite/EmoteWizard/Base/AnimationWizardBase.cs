@@ -42,13 +42,13 @@ namespace Silksprite.EmoteWizard.Base
         [SerializeField] public bool handSignOverrideEnabled;
 
         [FormerlySerializedAs("baseMixins")]
-        [SerializeField] public List<AnimationMixin> legacyBaseMixins;
+        [SerializeField] public List<AnimationMixin> legacyBaseMixins = new List<AnimationMixin>();
         [FormerlySerializedAs("emotes")]
-        [SerializeField] public List<Emote> legacyEmotes;
+        [SerializeField] public List<Emote> legacyEmotes = new List<Emote>();
         [FormerlySerializedAs("parameterEmotes")]
-        [SerializeField] public List<ParameterEmote> legacyParameterEmotes;
+        [SerializeField] public List<ParameterEmote> legacyParameterEmotes = new List<ParameterEmote>();
         [FormerlySerializedAs("mixins")]
-        [SerializeField] public List<AnimationMixin> legacyMixins;
+        [SerializeField] public List<AnimationMixin> legacyMixins = new List<AnimationMixin>();
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
@@ -65,6 +65,6 @@ namespace Silksprite.EmoteWizard.Base
         public abstract string LayerName { get; }
         public abstract string HandSignOverrideParameter { get;  }
 
-        public bool HasLegacyData => legacyBaseMixins.Any() || legacyEmotes.Any() || legacyParameterEmotes.Any() || legacyMixins.Any();
+        public bool HasLegacyData => legacyBaseMixins?.Any() ?? legacyEmotes?.Any() ?? legacyParameterEmotes?.Any() ?? legacyMixins?.Any() ?? false;
     }
 }

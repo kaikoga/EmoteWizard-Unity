@@ -17,9 +17,9 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public string afkSelectParameter = "EmoteWizardAFK";
 
         [FormerlySerializedAs("actionEmotes")]
-        [SerializeField] public List<ActionEmote> legacyActionEmotes;
+        [SerializeField] public List<ActionEmote> legacyActionEmotes = new List<ActionEmote>();
         [FormerlySerializedAs("afkEmotes")]
-        [SerializeField] public List<ActionEmote> legacyAfkEmotes;
+        [SerializeField] public List<ActionEmote> legacyAfkEmotes = new List<ActionEmote>();
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard
             outputAsset = null;
         }
 
-        public bool HasLegacyData => legacyActionEmotes.Any() || legacyAfkEmotes.Any();
+        public bool HasLegacyData => legacyActionEmotes?.Any() ?? legacyAfkEmotes?.Any() ?? false;
 
         public IEnumerable<ActionEmote> CollectActionEmotes()
         {

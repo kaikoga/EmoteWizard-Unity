@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizard
     public class ExpressionWizard : EmoteWizardBase
     {
         [FormerlySerializedAs("expressionItems")]
-        [SerializeField] public List<ExpressionItem> legacyExpressionItems;
+        [SerializeField] public List<ExpressionItem> legacyExpressionItems = new List<ExpressionItem>();
 
         [SerializeField] public VRCExpressionsMenu outputAsset;
         [SerializeField] public string defaultPrefix = "Default/";
@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard
             outputAsset = null;
         }
 
-        public bool HasLegacyData => legacyExpressionItems.Any();
+        public bool HasLegacyData => legacyExpressionItems?.Any() ?? false;
 
         public IEnumerable<ExpressionItem> CollectExpressionItems()
         {
