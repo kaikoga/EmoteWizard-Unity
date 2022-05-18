@@ -1,10 +1,8 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -18,13 +16,9 @@ namespace Silksprite.EmoteWizard
     {
         ExpressionWizard expressionWizard;
 
-        ExpandableReorderableList<ExpressionItem> expressionItemsList;
-
         void OnEnable()
         {
             expressionWizard = (ExpressionWizard) target;
-            
-            expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Expression Items", ref expressionWizard.expressionItems);
         }
 
         public override void OnInspectorGUI()
@@ -37,28 +31,25 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
                 {
-                    if (GUILayout.Button("Reset Expression Items"))
+                    if (GUILayout.Button("Create Default Expression Items"))
                     {
-                        expressionWizard.RepopulateDefaultExpressionItems();
+                        expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
                     }
                 });
 
-                using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
-                {
-                    expressionItemsList.DrawAsProperty(expressionWizard.expressionItems, emoteWizardRoot.listDisplayMode);
-                }
-
                 TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
-                TypedGUILayout.TextField("Default Prefix", ref expressionWizard.defaultPrefix);
 
-                if (GUILayout.Button("Populate Default Expression Items"))
+                if (expressionWizard.HasLegacyData)
                 {
-                    expressionWizard.PopulateDefaultExpressionItems();
+                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
+                    if (GUILayout.Button("Migrate to Data Source"))
+                    {
+                        MigrateToDataSource();
+                    }
                 }
-
-                if (GUILayout.Button("Group by Folder"))
+                if (GUILayout.Button("Add Expression Item Source"))
                 {
-                    GroupItemsByFolder();
+                    expressionWizard.AddChildComponentAndSelect<ExpressionItemSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
@@ -75,12 +66,12 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        void GroupItemsByFolder()
+        void MigrateToDataSource()
         {
-            expressionWizard.expressionItems = expressionWizard.expressionItems
-                .GroupBy(item => item.Folder)
-                .SelectMany(group => group)
-                .ToList();
+            var source = expressionWizard.AddChildComponent<ExpressionItemSource>();
+            source.expressionItems = expressionWizard.legacyExpressionItems.ToList();
+            expressionWizard.legacyExpressionItems.Clear();
+            source.defaultPrefix = expressionWizard.defaultPrefix;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         public void Build(bool isLeft, bool isAdvanced)
         {
-            var emotes = AnimationWizardBase.emotes;
+            var emotes = AnimationWizardBase.CollectEmotes();
 
             var emoteStates = emotes.Select(emote =>
             {

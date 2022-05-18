@@ -1,10 +1,11 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class GestureWizard : AnimationWizardBase
+    public class GestureWizard : AnimationWizardBase<GestureEmoteSource, GestureParameterEmoteSource, GestureAnimationMixinSource>
     {
         [SerializeField] public AvatarMask defaultAvatarMask;
 

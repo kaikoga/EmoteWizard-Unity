@@ -101,7 +101,6 @@ namespace Silksprite.EmoteWizard.Internal
         {
             foreach (var parameterEmote in parameterEmotes)
             {
-                if (!parameterEmote.enabled) continue;
                 if (parameterEmote.emoteKind == ParameterEmoteKind.Unused) continue;
                 if (parameterEmote.states.All(state => state.clip == null)) continue;
 
@@ -115,7 +114,6 @@ namespace Silksprite.EmoteWizard.Internal
         {
             foreach (var mixin in mixins)
             {
-                if (!mixin.enabled) continue;
                 if (mixin.Motion == null) continue;
 
                 var mixinLayer = PopulateLayer(mixin.name);

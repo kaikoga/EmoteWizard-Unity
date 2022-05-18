@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -17,7 +16,6 @@ namespace Silksprite.EmoteWizard
             string.Join("\n",
                 "EmoteWizardの全体的な設定を行うコンポーネントです。",
                 "EmoteWizardが生成したアセットはGenerated Assets Rootで指定したディレクトリの中に入ります。",
-                "Low Spec UIを無効にするとGameObjectが1つにまとまります（とても重い）",
                 "",
                 "基本的な使い方：",
                 "（上から順番に操作するのがお勧めです）",
@@ -61,34 +59,21 @@ namespace Silksprite.EmoteWizard
                     TypedGUILayout.Toggle("Show Tutorial", ref emoteWizardRoot.showTutorial);
                     TypedGUILayout.Toggle("Copy Paste JSON", ref emoteWizardRoot.showCopyPasteJsonButtons);
                     TypedGUILayout.EnumPopup("List Display Mode", ref emoteWizardRoot.listDisplayMode);
-                    TypedGUILayout.Toggle("Low Spec UI", ref emoteWizardRoot.lowSpecUI);
                 });
 
                 if (!emoteWizardRoot.GetWizard<SetupWizard>())
                 {
                     using (new GUILayout.HorizontalScope())
                     {
-                        if (emoteWizardRoot.GetWizard<EmoteWizardBase>())
+                        if (GUILayout.Button("Setup"))
                         {
-                            if (GUILayout.Button("Setup"))
-                            {
-                                emoteWizardRoot.EnsureWizard<SetupWizard>();
-                            }
-                        }
-                        else
-                        {
-                            if (GUILayout.Button("Setup Low Spec UI"))
-                            {
-                                emoteWizardRoot.lowSpecUI = true;
-                                emoteWizardRoot.EnsureWizard<SetupWizard>();
-                            }
-                            if (GUILayout.Button("Setup High Spec UI"))
-                            {
-                                emoteWizardRoot.lowSpecUI = false;
-                                emoteWizardRoot.EnsureWizard<SetupWizard>();
-                            }
+                            emoteWizardRoot.EnsureWizard<SetupWizard>();
                         }
                     }
+                }
+                if (GUILayout.Button("Disconnect Output Assets"))
+                {
+                    emoteWizardRoot.DisconnectAllOutputAssets();
                 }
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);

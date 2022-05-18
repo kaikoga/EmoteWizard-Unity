@@ -1,13 +1,10 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -21,29 +18,9 @@ namespace Silksprite.EmoteWizard
     {
         GestureWizard gestureWizard;
 
-        AnimationMixinDrawerState baseMixinsState;
-        EmoteDrawerState emotesState;
-        ParameterEmoteDrawerState parametersState;
-        AnimationMixinDrawerState mixinsState;
-
-        ExpandableReorderableList<AnimationMixin> baseMixinsList;
-        ExpandableReorderableList<Emote> emotesList;
-        ExpandableReorderableList<ParameterEmote> parametersList;
-        ExpandableReorderableList<AnimationMixin> mixinsList;
-
         void OnEnable()
         {
             gestureWizard = (GestureWizard) target;
-            
-            baseMixinsState = new AnimationMixinDrawerState();
-            emotesState = new EmoteDrawerState();
-            parametersState = new ParameterEmoteDrawerState();
-            mixinsState = new AnimationMixinDrawerState();
-
-            baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref gestureWizard.baseMixins);
-            emotesList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref gestureWizard.emotes);
-            parametersList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref gestureWizard.parameterEmotes);
-            mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref gestureWizard.mixins);
         }
 
         public override void OnInspectorGUI()
@@ -57,16 +34,16 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate HandSigns"))
+                    if (GUILayout.Button("Create HandSigns"))
                     {
-                        gestureWizard.RepopulateDefaultEmotes();
+                        gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
                     }
 
                     if (parametersWizard != null)
                     {
-                        if (GUILayout.Button("Repopulate Parameters"))
+                        if (GUILayout.Button("Create Parameters"))
                         {
-                            gestureWizard.RepopulateParameterEmotes(parametersWizard);
+                            gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
                         }
                     }
                 });
@@ -94,37 +71,25 @@ namespace Silksprite.EmoteWizard
                     return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
                 });
 
-                string relativePath = GeneratedAssetLocator.MixinDirectoryPath(gestureWizard.LayerName);
-                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, baseMixinsState).StartContext())
+                if (gestureWizard.HasLegacyData)
                 {
-                    baseMixinsList.DrawAsProperty(gestureWizard.baseMixins, emoteWizardRoot.listDisplayMode);
-                }
-
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, gestureWizard.LayerName, gestureWizard.advancedAnimations, emotesState).StartContext())
-                {
-                    emotesList.DrawAsProperty(gestureWizard.emotes, emoteWizardRoot.listDisplayMode);
-                }
-
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, gestureWizard, parametersWizard, gestureWizard.LayerName, parametersState).StartContext())
-                {
-                    parametersList.DrawAsProperty(gestureWizard.parameterEmotes, emoteWizardRoot.listDisplayMode);
-                }
-
-                if (IsExpandedTracker.GetIsExpanded(gestureWizard.parameterEmotes))
-                {
-                    EmoteWizardGUILayout.RequireAnotherWizard(gestureWizard, parametersWizard, () =>
+                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
+                    if (GUILayout.Button("Migrate to Data Source"))
                     {
-                        if (GUILayout.Button("Collect Parameters"))
-                        {
-                            parametersWizard.TryRefreshParameters();
-                            gestureWizard.RefreshParameters(parametersWizard);
-                        }
-                    });
+                        MigrateToDataSource();
+                    }
                 }
-
-                using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, mixinsState).StartContext())
+                if (GUILayout.Button("Add Emote Source"))
                 {
-                    mixinsList.DrawAsProperty(gestureWizard.mixins, emoteWizardRoot.listDisplayMode);
+                    gestureWizard.AddChildComponentAndSelect<GestureEmoteSource>();
+                }
+                if (GUILayout.Button("Add Parameter Emote Source"))
+                {
+                    gestureWizard.AddChildComponentAndSelect<GestureParameterEmoteSource>();
+                }
+                if (GUILayout.Button("Add Animation Mixin Source"))
+                {
+                    gestureWizard.AddChildComponentAndSelect<GestureAnimationMixinSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
@@ -142,6 +107,23 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Gesture Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+        }
+
+        void MigrateToDataSource()
+        {
+            var emoteSource = gestureWizard.AddChildComponent<GestureEmoteSource>();
+            emoteSource.emotes = gestureWizard.legacyEmotes.ToList();
+            gestureWizard.legacyEmotes.Clear();
+            
+            var parameterEmoteSource = gestureWizard.AddChildComponent<GestureParameterEmoteSource>();
+            parameterEmoteSource.parameterEmotes = gestureWizard.legacyParameterEmotes.ToList();
+            gestureWizard.legacyParameterEmotes.Clear();
+            
+            var mixinSource = gestureWizard.AddChildComponent<GestureAnimationMixinSource>();
+            mixinSource.baseMixins = gestureWizard.legacyBaseMixins.ToList();
+            mixinSource.mixins = gestureWizard.legacyMixins.ToList();
+            gestureWizard.legacyBaseMixins.Clear();
+            gestureWizard.legacyMixins.Clear();
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Silksprite.EmoteWizard.UI
         public static readonly Color SetupUIColor = new Color(1.0f, 0.1f, 0.6f);
         public static readonly Color OutputUIColor = new Color(0.3f, 1.0f, 0.9f);
 
-        public static void SetupOnlyUI(EmoteWizardBase emoteWizardBase, Action action)
+        public static void SetupOnlyUI(EmoteWizardBehaviour emoteWizardBehaviour, Action action)
         {
-            if (!emoteWizardBase.IsSetupMode) return;
+            if (!emoteWizardBehaviour.IsSetupMode) return;
 
             using (new BoxLayoutScope(SetupUIColor))
             {

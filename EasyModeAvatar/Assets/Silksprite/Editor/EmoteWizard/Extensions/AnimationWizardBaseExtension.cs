@@ -1,125 +1,73 @@
-using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimationWizardBaseExtension
     {
-        public static void RepopulateDefaultEmotes(this AnimationWizardBase animationWizardBase)
-        {
-            var newEmotes = Emote.HandSigns
-                .Select(Emote.Populate)
-                .ToList();
-            animationWizardBase.emotes = newEmotes;
-        }
-
-        public static void RepopulateDefaultEmotes14(this AnimationWizardBase animationWizardBase)
-        {
-            var newEmotes = Enumerable.Empty<Emote>()
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
-                    {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther),
-                        control = EmoteControl.Populate(handSign)
-                    }))
-                .Concat(Emote.HandSigns
-                    .Select(handSign => new Emote
-                    {
-                        gesture1 = EmoteGestureCondition.Populate(handSign, GestureParameter.Gesture),
-                        gesture2 = EmoteGestureCondition.Populate(handSign, GestureParameter.GestureOther, GestureConditionMode.NotEqual),
-                        control = EmoteControl.Populate(handSign)
-                    }))
-                .ToList();
-            animationWizardBase.emotes = newEmotes;
-        }
-
-        public static void RepopulateParameterEmotes(this AnimationWizardBase animationWizardBase, ParametersWizard parametersWizard)
-        {
-            parametersWizard.TryRefreshParameters();
-            animationWizardBase.parameterEmotes = new List<ParameterEmote>();
-            animationWizardBase.RefreshParameters(parametersWizard);
-        }
-
-
         public static void BuildResetClip(this AnimationWizardBase animationWizardBase, AnimationClip targetClip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(animationWizardBase.baseMixins.Where(e => e.enabled).SelectMany(e => e.AllClips()))
-                .Concat(animationWizardBase.emotes.SelectMany(e => e.AllClips()))
-                .Concat(animationWizardBase.parameterEmotes.Where(e => e.enabled).SelectMany(p => p.AllClips()))
-                .Concat(animationWizardBase.mixins.Where(e => e.enabled).SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.CollectBaseMixins().SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.CollectEmotes().SelectMany(e => e.AllClips()))
+                .Concat(animationWizardBase.CollectParameterEmotes().SelectMany(p => p.AllClips()))
+                .Concat(animationWizardBase.CollectMixins().SelectMany(p => p.AllClips()))
                 .Where(c => c != null).ToList();
             var curveBindings = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            var vrcAvatarDescriptor = animationWizardBase.EmoteWizardRoot.GetWizard<AvatarWizard>()?.avatarDescriptor;
-            var avatar = vrcAvatarDescriptor != null ? vrcAvatarDescriptor.gameObject : null;
+            var proxyAnimator = animationWizardBase.EmoteWizardRoot.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
+            var avatar = proxyAnimator != null ? proxyAnimator.gameObject : null;
 
             targetClip.ClearCurves();
             targetClip.frameRate = 60f;
+            if (!avatar)
+            {
+                Debug.LogWarning("FXWizard: Failed to build reset clip because Avatar is not specified.\nProxyAnimator or AvatarDescriptor is required to build ResetClip.");
+                return;
+            }
+
+            void WarnBindingNotFound(EditorCurveBinding curveBinding)
+            {
+                Debug.LogWarning($@"FXWizard: ResetClip may be insufficient because animated property is not found in avatar.
+Object Path: {curveBinding.path}
+Property: {curveBinding.type} {curveBinding.propertyName}
+This property is not included in ResetClip.");
+            }
+
             foreach (var curveBinding in curveBindings)
             {
                 var value = 0f;
-                if (avatar)
+                if (AnimationUtility.GetFloatValue(avatar, curveBinding, out value))
                 {
-                    AnimationUtility.GetFloatValue(avatar, curveBinding, out value);
+                    targetClip.SetCurve(curveBinding.path, curveBinding.type, curveBinding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, value));
                 }
-                targetClip.SetCurve(curveBinding.path, curveBinding.type, curveBinding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, value));
+                else
+                {
+                    WarnBindingNotFound(curveBinding);
+                }
             }
             foreach (var curveBinding in objectReferenceCurveBindings)
             {
                 Object value = null;
-                if (avatar)
+                if (AnimationUtility.GetObjectReferenceValue(avatar, curveBinding, out value))
                 {
-                    AnimationUtility.GetObjectReferenceValue(avatar, curveBinding, out value);
+                    AnimationUtility.SetObjectReferenceCurve(targetClip, curveBinding, new []
+                    {
+                        new ObjectReferenceKeyframe { time = 0, value = value },
+                        new ObjectReferenceKeyframe { time = 1 / 60f, value = value }
+                    });
                 }
-                AnimationUtility.SetObjectReferenceCurve(targetClip, curveBinding, new []
+                else
                 {
-                    new ObjectReferenceKeyframe { time = 0, value = value },
-                    new ObjectReferenceKeyframe { time = 1 / 60f, value = value }
-                });
-            }
-        }
-
-        public static void GenerateParameterEmoteClipsFromTargets(this AnimationWizardBase animationWizardBase, ParameterEmoteDrawerContext context, string emoteName)
-        {
-            var proxyAnimator = context.EmoteWizardRoot.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
-            if (proxyAnimator == null)
-            {
-                Debug.LogError("Requires AvatarWizard.proxyAnimator to find relative path of targets.");
-                return;
-            }
-            var animatorRoot = proxyAnimator.transform;
-            
-            var parameterEmote = animationWizardBase.parameterEmotes.First(parameter => parameter.name == emoteName);
-            var targets = parameterEmote.states.SelectMany(state => state.targets.Where(t => t != null)).Distinct().ToList();
-            foreach (var state in parameterEmote.states)
-            {
-                var relativePath = GeneratedAssetLocator.ParameterEmoteStateClipPath(context.Layer, emoteName, state.value);
-                var clip = context.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
-                clip.ClearCurves();
-
-                foreach (var target in targets)
-                {
-                    var path = target.transform.GetRelativePathFrom(animatorRoot);
-                    var value = state.targets.Contains(target) ? 1f : 0f;
-                    clip.SetCurve(path, typeof(GameObject), "m_IsActive", AnimationCurve.Constant(0f, 1 / 60f, value));   
+                    WarnBindingNotFound(curveBinding);
                 }
-
-                state.clip = clip;
-                EditorUtility.SetDirty(clip);
             }
-            EditorUtility.SetDirty(animationWizardBase);
         }
     }
 }

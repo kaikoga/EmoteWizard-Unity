@@ -16,6 +16,11 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public List<ParameterItem> parameterItems;
         [SerializeField] public List<ParameterItem> defaultParameterItems;
 
+        public override void DisconnectOutputAssets()
+        {
+            outputAsset = null;
+        }
+
         public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Where(item => item.enabled).Concat(defaultParameterItems);
 
         public bool AssertParameterExists(string parameterName)
@@ -52,7 +57,7 @@ namespace Silksprite.EmoteWizard
 
             if (parameterItems != null) builder.Import(parameterItems);
 
-            foreach (var expressionItem in expressionWizard.expressionItems)
+            foreach (var expressionItem in expressionWizard.CollectExpressionItems())
             {
                 if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {
@@ -69,7 +74,7 @@ namespace Silksprite.EmoteWizard
             if (gestureWizard != null && gestureWizard.handSignOverrideEnabled)
             {
                 builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var gestureEmote in gestureWizard.emotes.Where(emote => emote.OverrideAvailable))
+                foreach (var gestureEmote in gestureWizard.CollectEmotes().Where(emote => emote.OverrideAvailable))
                 {
                     builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddUsage(gestureEmote.overrideIndex);
                 }
@@ -78,7 +83,7 @@ namespace Silksprite.EmoteWizard
             if (fxWizard != null && fxWizard.handSignOverrideEnabled)
             {
                 builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var fxEmote in fxWizard.emotes.Where(emote => emote.OverrideAvailable))
+                foreach (var fxEmote in fxWizard.CollectEmotes().Where(emote => emote.OverrideAvailable))
                 {
                     builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddUsage(fxEmote.overrideIndex);
                 }
@@ -87,7 +92,7 @@ namespace Silksprite.EmoteWizard
             if (actionWizard != null && actionWizard.SelectableAfkEmotes)
             {
                 builder.FindOrCreate(actionWizard.afkSelectParameter).AddIndexUsage();
-                foreach (var afkEmote in actionWizard.afkEmotes)
+                foreach (var afkEmote in actionWizard.CollectAfkEmotes())
                 {
                     builder.FindOrCreate(actionWizard.afkSelectParameter).AddUsage(afkEmote.emoteIndex);
                 }

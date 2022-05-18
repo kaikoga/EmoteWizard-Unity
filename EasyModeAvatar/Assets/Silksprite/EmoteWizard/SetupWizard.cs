@@ -7,5 +7,9 @@ namespace Silksprite.EmoteWizard
     public class SetupWizard : EmoteWizardBase
     {
         public bool isSetupMode = true;
+
+        public override void DisconnectOutputAssets()
+        {
+        }
     }
 }

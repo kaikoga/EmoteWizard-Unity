@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal;
 using UnityEngine;
 
@@ -7,10 +5,8 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ActionWizardExtension
     {
-        public static void RepopulateDefaultActionEmotes(this ActionWizard actionWizard)
+        public static void RepopulateDefaultAfkEmote(this ActionWizard actionWizard)
         {
-            actionWizard.actionEmotes = DefaultActionEmote.PopulateDefaultActionEmotes();
-            actionWizard.afkEmotes = new List<ActionEmote>();
             actionWizard.defaultAfkEmote = DefaultActionEmote.PopulateDefaultAfkEmote();
         }
 

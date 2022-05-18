@@ -2,9 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Utils;
-using Unity.Collections;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -13,22 +11,9 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ExpressionWizardExtension
     {
-        public static void RepopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
-        {
-            expressionWizard.expressionItems = new List<ExpressionItem>();
-            PopulateDefaultExpressionItems(expressionWizard);
-        }
-
-        public static void PopulateDefaultExpressionItems(this ExpressionWizard expressionWizard)
-        {
-            if (expressionWizard.expressionItems == null) expressionWizard.expressionItems = new List<ExpressionItem>();
-
-            expressionWizard.expressionItems = DefaultActionEmote.PopulateDefaultExpressionItems(expressionWizard.defaultPrefix, expressionWizard.expressionItems);
-        }
-
         static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
         {
-            var activeExpressionItems = expressionWizard.expressionItems.Where(item => item.enabled).ToList();
+            var activeExpressionItems = expressionWizard.CollectExpressionItems().ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
 
             var folderNames = activeExpressionItems.SelectMany(item => item.Folders()).Distinct().ToList();
