@@ -59,9 +59,11 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         }
 
         [Obsolete("Avoid AnyState")]
-        protected AnimatorStateTransition AddAnyStateTransition(AnimatorState state)
+        protected AnimatorStateTransition AddAnyStateTransition(AnimatorState state, ConditionBuilder conditions = null)
         {
-            return StateMachine.AddAnyStateTransition(state);
+            var transition = StateMachine.AddAnyStateTransition(state);
+            transition.conditions = conditions?.ToArray();
+            return transition;
         }
 
         protected void ApplyEmoteConditions(AnimatorStateTransition transition, IEnumerable<EmoteCondition> conditions)
@@ -85,7 +87,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             }
             else if (mustEmitSomething)
             {
-                transition.AddAlwaysTrueCondition();
+                var condition = new ConditionBuilder().AlwaysTrue();
+                transition.AddCondition(condition);
             }
         }
 

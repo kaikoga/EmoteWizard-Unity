@@ -52,34 +52,31 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
                 var state = AddStateWithoutTransition(stateName, parameterEmoteState.clip);
                 var transition = AddAnyStateTransition(state);
+                var condition = new ConditionBuilder();
                 switch (parameterEmote.valueKind)
                 {
                     case ParameterValueKind.Int:
-                        {
-                            var condition = ConditionBuilder.EqualsCondition(parameterEmote.parameter, (int)parameterEmoteState.value);
-                            transition.AddCondition(condition);
-                        }
+                        condition = condition.Equals(parameterEmote.parameter, (int)parameterEmoteState.value);
                         break;
                     case ParameterValueKind.Float:
                         if (nextValue is float nextVal)
                         {
-                            var condition = ConditionBuilder.LessCondition(parameterEmote.parameter, nextVal);
-                            transition.AddCondition(condition);
+                            condition = condition.Less(parameterEmote.parameter, nextVal);
                         }
                         else
                         {
-                            transition.AddAlwaysTrueCondition();
+                            condition = condition.AlwaysTrue();
                         }
                         break;
                     case ParameterValueKind.Bool:
                         {
-                            var condition = ConditionBuilder.IfCondition(parameterEmote.parameter, parameterEmoteState.value != 0);
-                            transition.AddCondition(condition);
+                            condition = condition.If(parameterEmote.parameter, parameterEmoteState.value != 0);
                         }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                transition.AddCondition(condition);
 
                 ApplyEmoteControl(transition, true, parameterEmoteState.control);
             }

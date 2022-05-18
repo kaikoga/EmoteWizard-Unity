@@ -1,6 +1,5 @@
 using System;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -43,6 +42,12 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
             }
 
             builder.AddCondition(type, mode, emoteCondition.parameter, emoteCondition.threshold);
+            return builder;
+        }
+
+        public static ConditionBuilder AlwaysTrue(this ConditionBuilder builder)
+        {
+            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, "Viseme", -1);
             return builder;
         }
     }

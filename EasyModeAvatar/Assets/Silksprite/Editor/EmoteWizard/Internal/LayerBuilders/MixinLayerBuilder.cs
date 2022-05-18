@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
@@ -24,8 +25,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             {
                 ApplyEmoteConditions(transition, _mixin.conditions);
                 var defaultState = AddStateWithoutTransition("Default", null);
-                var defaultTransition = AddAnyStateTransition(defaultState);
-                defaultTransition.AddAlwaysTrueCondition();
+                var condition = new ConditionBuilder().AlwaysTrue();
+                AddAnyStateTransition(defaultState, condition);
             }
         }
     }

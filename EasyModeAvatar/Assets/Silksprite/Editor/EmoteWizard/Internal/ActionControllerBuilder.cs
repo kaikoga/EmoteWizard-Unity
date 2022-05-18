@@ -1,6 +1,7 @@
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -143,7 +144,8 @@ namespace Silksprite.EmoteWizard.Internal
 
             if (parameter == null)
             {
-                entryTransition.AddAlwaysTrueCondition();
+                var condition = new ConditionBuilder().AlwaysTrue();
+                entryTransition.AddCondition(condition);
             }
             else
             {
@@ -156,7 +158,8 @@ namespace Silksprite.EmoteWizard.Internal
             var releaseTransition = release.AddExitTransition();
             PopulateTrackingControl(release, VRC_AnimatorTrackingControl.TrackingType.Tracking);
             PopulatePlayableLayerControl(release, 0f, actionEmote.blendOut);
-            releaseTransition.AddAlwaysTrueCondition();
+            var condition1 = new ConditionBuilder().AlwaysTrue();
+            releaseTransition.AddCondition(condition1);
 
             AnimatorStateTransition exitTransition;
             if (actionEmote.exitClip)

@@ -12,10 +12,5 @@ namespace Silksprite.EmoteWizard.Extensions
                 transition.AddCondition(cond.mode, cond.threshold, cond.parameter);
             }
         }
-
-        public static void AddAlwaysTrueCondition(this AnimatorStateTransition transition)
-        {
-            transition.AddCondition(AnimatorConditionMode.Greater, -1, "Viseme");
-        }
     }
 }

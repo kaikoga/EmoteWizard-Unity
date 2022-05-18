@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -40,8 +41,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             }
 
             var defaultState = AddStateWithoutTransition("Default", null);
-            var defaultTransition = AddAnyStateTransition(defaultState);
-            defaultTransition.AddAlwaysTrueCondition();
+            var condition = new ConditionBuilder().AlwaysTrue();
+            var defaultTransition = AddAnyStateTransition(defaultState, condition);
 
             defaultTransition.hasExitTime = false;
             defaultTransition.duration = 0.1f;
