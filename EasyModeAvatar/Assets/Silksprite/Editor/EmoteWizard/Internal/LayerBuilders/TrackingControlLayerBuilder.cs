@@ -45,8 +45,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             defaultTransition.canTransitionToSelf = false;
 
             PopulateTrackingControl(defaultTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
-
-            LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)

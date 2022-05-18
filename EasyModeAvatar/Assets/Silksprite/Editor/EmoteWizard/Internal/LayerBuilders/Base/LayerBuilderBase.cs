@@ -40,7 +40,14 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             _layer = layer;
         }
 
-        public void Build() => Process();
+        public void Build()
+        {
+            Process();
+            if (StateMachine.defaultState == null)
+            {
+                StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
+            }
+        }
 
         protected abstract void Process();
 

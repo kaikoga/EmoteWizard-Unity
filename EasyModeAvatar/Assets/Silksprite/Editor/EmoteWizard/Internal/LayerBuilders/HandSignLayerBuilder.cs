@@ -55,8 +55,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
                 ApplyEmoteControl(transition, _isLeft, emote.control);
             }
-            
-            LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }
     }
 }

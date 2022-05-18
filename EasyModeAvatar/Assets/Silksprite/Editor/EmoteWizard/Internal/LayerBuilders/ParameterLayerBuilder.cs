@@ -37,8 +37,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }
 
         void BuildTransitionStateMachine(ParameterEmote parameterEmote)
