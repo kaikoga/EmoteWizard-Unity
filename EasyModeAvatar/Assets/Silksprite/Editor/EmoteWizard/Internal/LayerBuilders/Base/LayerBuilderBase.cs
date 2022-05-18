@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -76,7 +77,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
                 .Where(condition => AssertParameterExists(condition.parameter));
             foreach (var condition in validConditions)
             {
-                transition.AddCondition(condition.ToAnimatorConditionMode(), condition.threshold, condition.parameter);
+                transition.AddCondition(new ConditionBuilder().EmoteCondition(condition));
                 Builder.MarkParameter(condition.parameter);
             }
         }

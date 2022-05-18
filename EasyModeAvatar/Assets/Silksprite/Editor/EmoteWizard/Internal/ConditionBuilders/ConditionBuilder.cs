@@ -61,6 +61,7 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
         public static ConditionBuilder IfCondition(string paramName, bool value) => new ConditionBuilder().If(paramName, value);
         public static ConditionBuilder NotEqualCondition(string paramName, int value) => new ConditionBuilder().NotEqual(paramName, value);
         public static ConditionBuilder EqualsCondition(string paramName, int value) => new ConditionBuilder().Equals(paramName, value);
+        public static ConditionBuilder LessCondition(string paramName, float value) => new ConditionBuilder().Less(paramName, value);
         public static ConditionBuilder ApproximateCondition(string paramName, float value) => new ConditionBuilder().Approximate(paramName, value);
         public static ConditionBuilder InclusiveRangeCondition(string paramName, int? min, int? max) => new ConditionBuilder().InclusiveRange(paramName, min, max);
         public static ConditionBuilder InclusiveRangeCondition(string paramName, float? min, float? max) => new ConditionBuilder().InclusiveRange(paramName, min, max);

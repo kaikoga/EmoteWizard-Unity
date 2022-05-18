@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
@@ -52,12 +53,16 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 switch (parameterEmote.valueKind)
                 {
                     case ParameterValueKind.Int:
-                        transition.AddCondition(AnimatorConditionMode.Equals, parameterEmoteState.value, parameterEmote.parameter);
+                        {
+                            var condition = ConditionBuilder.EqualsCondition(parameterEmote.parameter, (int)parameterEmoteState.value);
+                            transition.AddCondition(condition);
+                        }
                         break;
                     case ParameterValueKind.Float:
                         if (nextValue is float nextVal)
                         {
-                            transition.AddCondition(AnimatorConditionMode.Less, nextVal, parameterEmote.parameter);
+                            var condition = ConditionBuilder.LessCondition(parameterEmote.parameter, nextVal);
+                            transition.AddCondition(condition);
                         }
                         else
                         {
@@ -65,7 +70,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                         }
                         break;
                     case ParameterValueKind.Bool:
-                        transition.AddCondition(parameterEmoteState.value != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, parameterEmoteState.value, parameterEmote.parameter);
+                        {
+                            var condition = ConditionBuilder.IfCondition(parameterEmote.parameter, parameterEmoteState.value != 0);
+                            transition.AddCondition(condition);
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

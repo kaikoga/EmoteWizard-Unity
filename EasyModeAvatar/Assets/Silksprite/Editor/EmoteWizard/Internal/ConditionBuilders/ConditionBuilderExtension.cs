@@ -25,6 +25,12 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
             return builder;
         }
 
+        public static ConditionBuilder Less(this ConditionBuilder builder, string paramName, float value)
+        {
+            builder.AddCondition(AnimatorControllerParameterType.Float, AnimatorConditionMode.Less, paramName, value);
+            return builder;
+        }
+
         public static ConditionBuilder Approximate(this ConditionBuilder builder, string paramName, float value)
         {
             return InclusiveRange(builder, paramName, value, value);

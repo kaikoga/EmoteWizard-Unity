@@ -1,6 +1,7 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
@@ -36,7 +37,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 {
                     if (!emote.OverrideAvailable) continue;
                     var transition = LegacyStateMachine.AddAnyStateTransition(state);
-                    transition.AddCondition(AnimatorConditionMode.Equals, emote.overrideIndex, AnimationWizardBase.HandSignOverrideParameter);
+                    var condition = ConditionBuilder.EqualsCondition(AnimationWizardBase.HandSignOverrideParameter, emote.overrideIndex);
+                    transition.AddCondition(condition);
 
                     ApplyEmoteControl(transition, _isLeft, emote.control);
                 }
@@ -49,7 +51,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 ApplyEmoteGestureConditions(transition, _isLeft, emote.gesture2);
                 if (AnimationWizardBase.handSignOverrideEnabled)
                 {
-                    transition.AddCondition(AnimatorConditionMode.Equals, 0, AnimationWizardBase.HandSignOverrideParameter);
+                    var condition = ConditionBuilder.EqualsCondition(AnimationWizardBase.HandSignOverrideParameter, 0);
+                    transition.AddCondition(condition);
                 }
                 ApplyEmoteConditions(transition, emote.conditions);
 
