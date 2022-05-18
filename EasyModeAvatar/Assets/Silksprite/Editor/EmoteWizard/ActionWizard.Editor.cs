@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(actionWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate Default Actions"))
+                    if (GUILayout.Button("Create Default Actions"))
                     {
                         actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
                     }

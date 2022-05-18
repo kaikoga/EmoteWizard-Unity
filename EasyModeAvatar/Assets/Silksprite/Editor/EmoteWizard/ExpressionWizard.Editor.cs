@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
                 {
-                    if (GUILayout.Button("Reset Expression Items"))
+                    if (GUILayout.Button("Create Default Expression Items"))
                     {
                         expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
                     }

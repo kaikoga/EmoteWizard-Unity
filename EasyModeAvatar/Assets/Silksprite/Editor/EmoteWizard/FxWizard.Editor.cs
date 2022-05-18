@@ -33,19 +33,19 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate HandSigns: 7 items"))
+                    if (GUILayout.Button("Create HandSigns: 7 items"))
                     {
                         fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes();
                     }
 
-                    if (GUILayout.Button("Repopulate HandSigns: 14 items"))
+                    if (GUILayout.Button("Create HandSigns: 14 items"))
                     {
                         fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes14();
                     }
 
                     if (parametersWizard != null)
                     {
-                        if (GUILayout.Button("Repopulate Parameters"))
+                        if (GUILayout.Button("Create Parameters"))
                         {
                             fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
                         }

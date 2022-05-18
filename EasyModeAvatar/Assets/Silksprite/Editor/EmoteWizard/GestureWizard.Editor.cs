@@ -34,14 +34,14 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
                 {
-                    if (GUILayout.Button("Repopulate HandSigns"))
+                    if (GUILayout.Button("Create HandSigns"))
                     {
                         gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
                     }
 
                     if (parametersWizard != null)
                     {
-                        if (GUILayout.Button("Repopulate Parameters"))
+                        if (GUILayout.Button("Create Parameters"))
                         {
                             gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
                         }
