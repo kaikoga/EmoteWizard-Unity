@@ -66,29 +66,28 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             return transition;
         }
 
-        protected void ApplyEmoteConditions(AnimatorStateTransition transition, IEnumerable<EmoteCondition> conditions)
+        protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)
         {
-            var validConditions = conditions
-                .Where(condition => AssertParameterExists(condition.parameter));
+            var validConditions = emoteConditions
+                .Where(emoteCondition => AssertParameterExists(emoteCondition.parameter));
             foreach (var condition in validConditions)
             {
-                transition.AddCondition(new ConditionBuilder().EmoteCondition(condition));
+                conditions.EmoteCondition(condition);
                 Builder.MarkParameter(condition.parameter);
             }
         }
 
-        protected void ApplyEmoteGestureConditions(AnimatorStateTransition transition, bool isLeft, EmoteGestureCondition gesture, bool mustEmitSomething = false)
+        protected void ApplyEmoteGestureConditions(ConditionBuilder conditions, bool isLeft, EmoteGestureCondition gesture, bool mustEmitSomething = false)
         {
             if (gesture.mode != GestureConditionMode.Ignore)
             {
                 var parameter = gesture.ResolveParameter(isLeft);
-                transition.AddCondition(gesture.ResolveMode(), gesture.ResolveThreshold(), parameter);
+                conditions.AddCondition(AnimatorControllerParameterType.Int, gesture.ResolveMode(), parameter, gesture.ResolveThreshold());
                 Builder.MarkParameter(parameter);
             }
             else if (mustEmitSomething)
             {
-                var condition = new ConditionBuilder().AlwaysTrue();
-                transition.AddCondition(condition);
+                conditions.AlwaysTrue();
             }
         }
 
