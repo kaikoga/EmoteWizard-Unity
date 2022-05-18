@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
@@ -15,7 +16,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         readonly AnimatorControllerLayer _layer;
 
         protected AnimationWizardBase AnimationWizardBase => Builder.AnimationWizardBase;
-        protected AnimatorStateMachine StateMachine => _layer.stateMachine;
+        AnimatorStateMachine StateMachine => _layer.stateMachine;
+
+        [Obsolete("Define helper methods instead of direct access LayerBuildBase.StateMachine")]
+        protected AnimatorStateMachine LegacyStateMachine => _layer.stateMachine;
 
         Vector3 _position = new Vector3(300, 0, 0);
         Vector3 NextStatePosition()
@@ -36,6 +40,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             _layer = layer;
         }
 
+        [Obsolete("Avoid AnyState")]
         protected AnimatorStateTransition AddStateAsTransition(string stateName, Motion motion)
         {
             var state = StateMachine.AddState(stateName, NextStatePosition());

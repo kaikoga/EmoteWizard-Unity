@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             var defaultTransition = AddStateAsTransition(stateName, clip);
             defaultTransition.AddAlwaysTrueCondition();
-            StateMachine.defaultState = defaultTransition.destinationState;
+            LegacyStateMachine.defaultState = defaultTransition.destinationState;
         }
     }
 }

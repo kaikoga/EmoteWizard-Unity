@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 foreach (var (emote, state) in emoteStates)
                 {
                     if (!emote.OverrideAvailable) continue;
-                    var transition = StateMachine.AddAnyStateTransition(state);
+                    var transition = LegacyStateMachine.AddAnyStateTransition(state);
                     transition.AddCondition(AnimatorConditionMode.Equals, emote.overrideIndex, AnimationWizardBase.HandSignOverrideParameter);
 
                     ApplyEmoteControl(transition, isLeft, emote.control);
@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
             foreach (var (emote, state) in emoteStates)
             {
-                var transition = StateMachine.AddAnyStateTransition(state);
+                var transition = LegacyStateMachine.AddAnyStateTransition(state);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(transition, isLeft, emote.gesture2);
                 if (AnimationWizardBase.handSignOverrideEnabled)
@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 ApplyEmoteControl(transition, isLeft, emote.control);
             }
             
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
+            LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
             PopulateTrackingControl(defaultTransition, target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
 
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
+            LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)

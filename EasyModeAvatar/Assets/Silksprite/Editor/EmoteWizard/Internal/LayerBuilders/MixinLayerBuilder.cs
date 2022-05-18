@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 defaultTransition.AddAlwaysTrueCondition();
             }
 
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
+            LegacyStateMachine.defaultState = LegacyStateMachine.states.FirstOrDefault().state;
         }
     }
 }
