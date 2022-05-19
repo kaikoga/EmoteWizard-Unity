@@ -19,12 +19,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected AnimationWizardBase AnimationWizardBase => Builder.AnimationWizardBase;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 
-        Vector3 _position = new Vector3(300, 0, 0);
+        Vector3 _position = new Vector3(0f, 0f, 0f);
         Vector3 NextStatePosition()
         {
             var result = _position;
             _position.y += 60f;
             return result;
+        }
+
+        protected void NextStateColumn(int indent = 0)
+        {
+            _position.x += 300f;
+            _position.y = 75f * indent;
         }
 
         protected bool AssertParameterExists(string parameterName)

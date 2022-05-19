@@ -1,5 +1,3 @@
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -19,9 +17,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            var state = AddStateWithoutTransition(_stateName, _clip);
-            var condition = new ConditionBuilder().AlwaysTrue();
-            AddAnyStateTransition(state, condition);
+            AddStateWithoutTransition(_stateName, _clip);
         }
     }
 }
