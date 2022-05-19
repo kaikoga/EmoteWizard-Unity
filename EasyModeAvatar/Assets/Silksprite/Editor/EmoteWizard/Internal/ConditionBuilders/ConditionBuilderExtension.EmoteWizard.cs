@@ -7,6 +7,7 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
 {
     public static class ConditionBuilderEmoteWizardExtension
     {
+        [Obsolete("EmoteCondition should be typed")]
         public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteCondition emoteCondition)
         {
             AnimatorControllerParameterType type;

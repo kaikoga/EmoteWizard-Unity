@@ -25,7 +25,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             var emoteStates = emotes.Select(emote =>
             {
                 var clip = _isLeft || !_isAdvanced ? emote.clipLeft : emote.clipRight;
-                if (clip == null) clip = AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
                 var state = AddStateWithoutTransition(emote.ToStateName(), clip);
                 return (emote, state);
             }).ToList();

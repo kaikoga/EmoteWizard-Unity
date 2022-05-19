@@ -57,6 +57,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion)
         {
+            if (motion == null) motion = AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
             var state = StateMachine.AddState(stateName, NextStatePosition());
             state.motion = motion;
             state.writeDefaultValues = false;
@@ -70,6 +71,25 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             var transition = StateMachine.AddAnyStateTransition(state);
             transition.conditions = conditions?.ToArray();
             return transition;
+        }
+
+        protected AnimatorStateTransition AddTransition(AnimatorState fromState, AnimatorState toState, ConditionBuilder conditions = null)
+        {
+            var transition = fromState.AddTransition(toState);
+            transition.conditions = conditions?.ToArray();
+            return transition;
+        }
+
+        protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
+        {
+            var transition = fromState.AddExitTransition(false);
+            transition.conditions = conditions?.ToArray();
+            return transition;
+        }
+
+        protected void AddExitTransitions(AnimatorState fromState, IEnumerable<ConditionBuilder> conditions)
+        {
+            foreach (var cond in conditions) AddExitTransition(fromState, cond);
         }
 
         protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)

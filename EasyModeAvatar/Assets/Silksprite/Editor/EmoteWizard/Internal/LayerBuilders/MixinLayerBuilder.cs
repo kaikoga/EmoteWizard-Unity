@@ -17,20 +17,22 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
+            var defaultState = AddStateWithoutTransition("Default", null);
+            NextStateColumn();
             var state = AddStateWithoutTransition(_mixin.name, _mixin.Motion);
-            var conditions = new ConditionBuilder();
-            if (_mixin.conditions.Count > 0)
-            {
-                ApplyEmoteConditions(conditions, _mixin.conditions);
-            }
-            var transition = AddAnyStateTransition(state, conditions);
 
-            ApplyEmoteControl(transition, true, _mixin.control);
             if (_mixin.conditions.Count > 0)
             {
-                var defaultState = AddStateWithoutTransition("Default", null);
-                var condition = new ConditionBuilder().AlwaysTrue();
-                AddAnyStateTransition(defaultState, condition);
+                var conditions = new ConditionBuilder();
+                ApplyEmoteConditions(conditions, _mixin.conditions);
+                var transition = AddTransition(defaultState, state, conditions);
+                ApplyEmoteControl(transition, true, _mixin.control);
+                AddExitTransitions(state, conditions.Inverse());
+            }
+            else
+            {
+                var transition = AddTransition(defaultState, state, new ConditionBuilder().AlwaysTrue());
+                ApplyEmoteControl(transition, true, _mixin.control);
             }
         }
     }
