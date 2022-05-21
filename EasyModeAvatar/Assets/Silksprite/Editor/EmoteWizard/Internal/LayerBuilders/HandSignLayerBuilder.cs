@@ -19,10 +19,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            AnimatorState GenerateStateFromEmote(Emote emote)
+            AnimatorState GenerateStateFromEmote(Emote emote, bool isOverride)
             {
                 var clip = _isLeft || !_isAdvanced ? emote.clipLeft : emote.clipRight;
-                var state = AddStateWithoutTransition(emote.ToStateName(), clip);
+                var state = AddStateWithoutTransition(isOverride ? $"{AnimationWizardBase.HandSignOverrideParameter}={emote.overrideIndex}" : emote.ToStateName(false, true), clip);
                 return state;
             }
 
@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 foreach (var emote in emotes)
                 {
                     if (!emote.OverrideAvailable) continue;
-                    var state = GenerateStateFromEmote(emote);
+                    var state = GenerateStateFromEmote(emote, true);
                     var conditions = ConditionBuilder.EqualsCondition(AnimationWizardBase.HandSignOverrideParameter, emote.overrideIndex);
                     var transition = AddSelectTransition(defaultState, state, conditions);
 
@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             foreach (var emote in emotes)
             {
                 var conditions = new ConditionBuilder();
-                var state = GenerateStateFromEmote(emote);
+                var state = GenerateStateFromEmote(emote, false);
                 ApplyEmoteGestureConditions(conditions, _isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(conditions, _isLeft, emote.gesture2);
                 if (AnimationWizardBase.handSignOverrideEnabled)
