@@ -7,7 +7,6 @@ using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
@@ -43,6 +42,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         void BuildTransitionStateMachine(ParameterEmote parameterEmote)
         {
+            var defaultState = PopulateDefaultState();
+
             var validStates = parameterEmote.states.Where(state => state.enabled).ToList();
             var stateAndNextValue = validStates.Zip(
                 validStates.Skip(1).Select(state => (float?) state.value).Concat(Enumerable.Repeat((float?) null, 1)),
@@ -51,32 +52,31 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             {
                 var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
                 var state = AddStateWithoutTransition(stateName, parameterEmoteState.clip);
-                var transition = AddAnyStateTransition(state);
-                var condition = new ConditionBuilder();
+                var conditions = new ConditionBuilder();
                 switch (parameterEmote.valueKind)
                 {
                     case ParameterValueKind.Int:
-                        condition = condition.Equals(parameterEmote.parameter, (int)parameterEmoteState.value);
+                        conditions = conditions.Equals(parameterEmote.parameter, (int)parameterEmoteState.value);
                         break;
                     case ParameterValueKind.Float:
                         if (nextValue is float nextVal)
                         {
-                            condition = condition.Less(parameterEmote.parameter, nextVal);
+                            conditions = conditions.Less(parameterEmote.parameter, nextVal);
                         }
                         else
                         {
-                            condition = condition.AlwaysTrue();
+                            conditions = conditions.AlwaysTrue();
                         }
                         break;
                     case ParameterValueKind.Bool:
                         {
-                            condition = condition.If(parameterEmote.parameter, parameterEmoteState.value != 0);
+                            conditions = conditions.If(parameterEmote.parameter, parameterEmoteState.value != 0);
                         }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                transition.AddCondition(condition);
+                var transition = AddSelectTransition(defaultState, state, conditions);
 
                 ApplyEmoteControl(transition, true, parameterEmoteState.control);
             }

@@ -1,6 +1,5 @@
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
@@ -20,31 +19,35 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            var emotes = AnimationWizardBase.CollectEmotes();
-
-            var emoteStates = emotes.Select(emote =>
+            AnimatorState GenerateStateFromEmote(Emote emote)
             {
                 var clip = _isLeft || !_isAdvanced ? emote.clipLeft : emote.clipRight;
                 var state = AddStateWithoutTransition(emote.ToStateName(), clip);
-                return (emote, state);
-            }).ToList();
+                return state;
+            }
+
+            var defaultState = PopulateDefaultState();
+
+            var emotes = AnimationWizardBase.CollectEmotes().ToList();
 
             if (AnimationWizardBase.handSignOverrideEnabled)
             {
                 Builder.MarkParameter(AnimationWizardBase.HandSignOverrideParameter);
-                foreach (var (emote, state) in emoteStates)
+                foreach (var emote in emotes)
                 {
                     if (!emote.OverrideAvailable) continue;
+                    var state = GenerateStateFromEmote(emote);
                     var conditions = ConditionBuilder.EqualsCondition(AnimationWizardBase.HandSignOverrideParameter, emote.overrideIndex);
-                    var transition = AddAnyStateTransition(state, conditions);
+                    var transition = AddSelectTransition(defaultState, state, conditions);
 
                     ApplyEmoteControl(transition, _isLeft, emote.control);
                 }
             }
 
-            foreach (var (emote, state) in emoteStates)
+            foreach (var emote in emotes)
             {
                 var conditions = new ConditionBuilder();
+                var state = GenerateStateFromEmote(emote);
                 ApplyEmoteGestureConditions(conditions, _isLeft, emote.gesture1, true);
                 ApplyEmoteGestureConditions(conditions, _isLeft, emote.gesture2);
                 if (AnimationWizardBase.handSignOverrideEnabled)
@@ -52,7 +55,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                     conditions.Equals(AnimationWizardBase.HandSignOverrideParameter, 0);
                 }
                 ApplyEmoteConditions(conditions, emote.conditions);
-                var transition = AddAnyStateTransition(state, conditions);
+                var transition = AddSelectTransition(defaultState, state, conditions);
 
                 ApplyEmoteControl(transition, _isLeft, emote.control);
             }

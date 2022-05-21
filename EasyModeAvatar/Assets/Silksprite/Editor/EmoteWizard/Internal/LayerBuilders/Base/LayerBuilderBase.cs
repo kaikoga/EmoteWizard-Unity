@@ -55,15 +55,17 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         protected abstract void Process();
 
-        protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion)
+        AnimatorState AddStateWithoutTransition(string stateName, Motion motion, bool isReallyEmptyState)
         {
-            if (motion == null) motion = AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
+            if (motion == null && !isReallyEmptyState) motion = AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
             var state = StateMachine.AddState(stateName, NextStatePosition());
             state.motion = motion;
             state.writeDefaultValues = false;
             Builder.MarkParameter(motion);
             return state;
         }
+
+        protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion) => AddStateWithoutTransition(stateName, motion, false);
 
         [Obsolete("Avoid AnyState")]
         protected AnimatorStateTransition AddAnyStateTransition(AnimatorState state, ConditionBuilder conditions = null)
@@ -80,7 +82,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             return transition;
         }
 
-        protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
+        AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
         {
             var transition = fromState.AddExitTransition(false);
             transition.conditions = conditions?.ToArray();
@@ -90,6 +92,20 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected void AddExitTransitions(AnimatorState fromState, IEnumerable<ConditionBuilder> conditions)
         {
             foreach (var cond in conditions) AddExitTransition(fromState, cond);
+        }
+
+        protected AnimatorState PopulateDefaultState(string stateName = "Default", Motion clip = null)
+        {
+            var defaultState = AddStateWithoutTransition(stateName, clip, true);
+            NextStateColumn();
+            return defaultState;
+        }
+
+        protected AnimatorStateTransition AddSelectTransition(AnimatorState defaultState, AnimatorState state, ConditionBuilder conditions)
+        {
+            var transition = AddTransition(defaultState, state, conditions);
+            AddExitTransitions(state, conditions.Inverse());
+            return transition;
         }
 
         protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)

@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
@@ -17,8 +16,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            var defaultState = AddStateWithoutTransition("Default", null);
-            NextStateColumn();
+            var defaultState = PopulateDefaultState();
             var state = AddStateWithoutTransition(_mixin.name, _mixin.Motion);
 
             if (_mixin.conditions.Count > 0)
