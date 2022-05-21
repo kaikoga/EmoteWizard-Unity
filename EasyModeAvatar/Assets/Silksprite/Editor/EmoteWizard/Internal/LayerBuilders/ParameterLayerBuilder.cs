@@ -91,7 +91,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             if (clip == null) return;
 
             var state = AddStateWithoutTransition(parameterEmote.name, clip);
-            AddAnyStateTransition(state);
 
             state.timeParameterActive = true;
             state.timeParameter = parameterEmote.parameter;
@@ -120,7 +119,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             }).ToArray();
 
             var blendTreeState = AddStateWithoutTransition(parameterEmote.name, blendTree);
-            AddAnyStateTransition(blendTreeState);
         }
     }
 }
