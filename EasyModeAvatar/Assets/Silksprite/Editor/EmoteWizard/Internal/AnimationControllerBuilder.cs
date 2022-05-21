@@ -120,7 +120,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildTrackingControlLayers()
         {
-            foreach (var kv in _overriders.Where(kv => kv.Key != TrackingTarget.None))
+            foreach (var kv in _overriders)
             {
                 var trackingTarget = kv.Key;
                 var trackingControlLayer = PopulateLayer($"TrackingControl {trackingTarget}");
@@ -152,6 +152,11 @@ namespace Silksprite.EmoteWizard.Internal
                         throw new ArgumentOutOfRangeException();
                 }
                 AnimatorController.AddParameter(parameterName, parameterType);
+            }
+            foreach (var trackingTarget in _overriders.Keys)
+            {
+                AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(false), AnimatorControllerParameterType.Trigger);
+                AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(true), AnimatorControllerParameterType.Trigger);
             }
         }
     }

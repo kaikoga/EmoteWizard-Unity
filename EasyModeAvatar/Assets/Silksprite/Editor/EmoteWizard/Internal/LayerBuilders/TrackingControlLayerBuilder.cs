@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
@@ -22,30 +23,27 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
+            var defaultState = PopulateDefaultState();
+
             foreach (var sourceTransition in _overriders)
             {
                 var state = AddStateWithoutTransition(sourceTransition.destinationState.name, null);
-                var transition = AddAnyStateTransition(state);
-                foreach (var sourceCondition in sourceTransition.conditions)
-                {
-                    transition.AddCondition(sourceCondition.mode, sourceCondition.threshold, sourceCondition.parameter);
-                }
-                transition.hasExitTime = sourceTransition.hasExitTime;
+                var transition = AddTransitionAndCopyConditions(defaultState, state, sourceTransition.conditions);
+                transition.hasExitTime = false;
                 transition.duration = sourceTransition.duration;
-                transition.canTransitionToSelf = true;
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
+                AddExitTransition(state, new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true));
             }
 
-            var defaultState = AddStateWithoutTransition("Default", null);
-            var condition = new ConditionBuilder().AlwaysTrue();
-            var defaultTransition = AddAnyStateTransition(defaultState, condition);
+            var trackingState = AddStateWithoutTransition("Tracking", null);
+            var trackingTransition = AddTransition(defaultState, trackingState, new ConditionBuilder().AlwaysTrue());
 
-            defaultTransition.hasExitTime = false;
-            defaultTransition.duration = 0.1f;
-            defaultTransition.canTransitionToSelf = false;
+            trackingTransition.hasExitTime = false;
+            trackingTransition.duration = 0.1f;
 
-            PopulateTrackingControl(defaultTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
+            PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
+            AddExitTransition(trackingState, new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true));
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
@@ -79,9 +77,11 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                     break;
                 case TrackingTarget.Eyes:
                     trackingControl.trackingEyes = value; 
+                    // TODO: Reset blink blend shape states (if any)
                     break;
                 case TrackingTarget.Mouth:
                     trackingControl.trackingMouth = value; 
+                    // TODO: Reset lip sync blend shape states (if any) (should we?)
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

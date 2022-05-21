@@ -8,6 +8,8 @@ using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using VRC.SDK3.Avatars.Components;
+using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 {
@@ -82,7 +84,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             return transition;
         }
 
-        AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
+        protected AnimatorStateTransition AddTransitionAndCopyConditions(AnimatorState fromState, AnimatorState toState, AnimatorCondition[] rawConditions)
+        {
+            var transition = fromState.AddTransition(toState);
+            transition.conditions = new AnimatorCondition[] { };
+            foreach (var sourceCondition in rawConditions)
+            {
+                transition.AddCondition(sourceCondition.mode, sourceCondition.threshold, sourceCondition.parameter);
+            }
+            return transition;
+        }
+
+        protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
         {
             var transition = fromState.AddExitTransition(false);
             transition.conditions = conditions?.ToArray();
@@ -135,16 +148,34 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         protected void ApplyEmoteControl(AnimatorStateTransition transition, bool isLeft, EmoteControl control)
         {
-            foreach (var enforcer in control.trackingOverrides)
+            var state = transition.destinationState;
+
+            // FIXME: We also need _EW_XXX_Tracking_Off drivers, how?
+            var trackingOverrideKeys = control.trackingOverrides.Where(o => o.target != TrackingTarget.None).ToArray();
+            if (trackingOverrideKeys.Length > 0)
             {
-                Builder.RegisterOverrider(enforcer.target, transition);
+                foreach (var trackingOverride in trackingOverrideKeys)
+                {
+                    Builder.RegisterOverrider(trackingOverride.target, transition);
+                }
+
+                var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
+                avatarParameterDriver.localOnly = true;
+                avatarParameterDriver.parameters = control.trackingOverrides.Select(o => new VRC_AvatarParameterDriver.Parameter
+                {
+                    name = o.target.ToAnimatorParameterName(true),
+                    value = 0f,
+                    valueMin = 0f,
+                    valueMax = 0f,
+                    chance = 1f,
+                    type = VRC_AvatarParameterDriver.ChangeType.Set
+                }).ToList();
             }
 
             transition.hasExitTime = false;
             transition.duration = control.transitionDuration;
             transition.canTransitionToSelf = false;
 
-            var state = transition.destinationState;
             if (state.motion == null || !control.normalizedTimeEnabled) return;
 
             var timeParameter = isLeft ? control.normalizedTimeLeft : control.normalizedTimeRight;
