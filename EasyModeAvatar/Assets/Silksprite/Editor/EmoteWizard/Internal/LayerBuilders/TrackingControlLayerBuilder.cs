@@ -30,21 +30,22 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 var state = AddStateWithoutTransition(sourceTransition.destinationState.name, null);
                 var transition = AddTransitionAndCopyConditions(defaultState, state, sourceTransition.conditions);
                 transition.hasExitTime = false;
-                transition.duration = sourceTransition.duration;
+                transition.duration = 0f;
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
                 AddExitTransition(state, new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true));
+
+                // Consume On / Off triggers by self transition if current state is already On / Off
+                AddTransition(state, state, new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true));
             }
 
             var trackingState = AddStateWithoutTransition("Tracking", null);
             var trackingTransition = AddTransition(defaultState, trackingState, new ConditionBuilder().AlwaysTrue());
-
             trackingTransition.hasExitTime = false;
-            trackingTransition.duration = 0.1f;
+            trackingTransition.duration = 0f;
 
             PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
             AddExitTransition(trackingState, new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true));
-            // FIXME: consume On / Off triggers if if tracking override state is already On / Off
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
