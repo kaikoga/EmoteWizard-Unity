@@ -23,11 +23,19 @@ namespace Silksprite.EmoteWizard
 
         public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Where(item => item.enabled).Concat(defaultParameterItems);
 
-        public bool AssertParameterExists(string parameterName)
+        public bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
-            var result = AllParameterItems.Any(item => item.name == parameterName);
-            if (!result) Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
-            return result;
+            foreach (var item in AllParameterItems)
+            {
+                if (item.name != parameterName) continue;
+
+                if (itemKind == ParameterItemKind.Auto || itemKind == item.itemKind) return true;
+                Debug.LogWarning($"Ignored invalid parameter: {parameterName}, expected ${itemKind}, was ${item.itemKind}");
+                return false;
+            }
+
+            Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
+            return false;
         }
 
         public void TryRefreshParameters()

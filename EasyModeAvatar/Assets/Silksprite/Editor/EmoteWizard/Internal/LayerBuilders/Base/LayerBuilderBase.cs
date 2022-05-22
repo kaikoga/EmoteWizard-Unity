@@ -35,9 +35,12 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             _position.y = 75f * indent;
         }
 
-        protected bool AssertParameterExists(string parameterName)
+        [Obsolete("Please provide ParameterItemKind")]
+        bool AssertParameterExists(string parameterName) => AssertParameterExists(parameterName, ParameterItemKind.Auto);
+
+        protected bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
-            return Builder.ParametersWizard == null || Builder.ParametersWizard.AssertParameterExists(parameterName);
+            return Builder.ParametersWizard == null || Builder.ParametersWizard.AssertParameterExists(parameterName, itemKind);
         }
 
         protected LayerBuilderBase(AnimationControllerBuilder builder, AnimatorControllerLayer layer)
@@ -210,7 +213,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             if (state.motion == null || !control.normalizedTimeEnabled) return;
 
             var timeParameter = isLeft ? control.normalizedTimeLeft : control.normalizedTimeRight;
-            if (!AssertParameterExists(timeParameter)) return;
+            if (!AssertParameterExists(timeParameter, ParameterItemKind.Float)) return;
 
             state.timeParameterActive = true;
             state.timeParameter = timeParameter;
