@@ -18,6 +18,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             var defaultState = PopulateDefaultState();
             var state = AddStateWithoutTransition(_mixin.name, _mixin.Motion);
+            InitEmoteControl(_mixin.control.trackingOverrides);
 
             if (_mixin.conditions.Count > 0)
             {
@@ -26,6 +27,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 var transition = AddTransition(defaultState, state, conditions);
                 ApplyEmoteControl(transition, true, _mixin.control);
                 AddExitTransitions(state, conditions.Inverse());
+                ApplyDefaultEmoteControl(defaultState);
             }
             else
             {

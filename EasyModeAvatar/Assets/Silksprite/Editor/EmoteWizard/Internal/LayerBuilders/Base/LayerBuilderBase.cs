@@ -146,31 +146,70 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             }
         }
 
+        TrackingTarget[] _allTrackingTargets;
+
+        protected void InitEmoteControl(IEnumerable<TrackingOverride> trackingOverrides)
+        {
+            _allTrackingTargets = trackingOverrides.Select(o => o.target).Distinct().ToArray();
+        }
+
         protected void ApplyEmoteControl(AnimatorStateTransition transition, bool isLeft, EmoteControl control)
         {
-            var state = transition.destinationState;
+            ApplyEmoteTrackingControl(transition.destinationState, control, transition);
+            ApplyEmoteTransitionControl(transition, isLeft, control);
+        }
 
-            // FIXME: We also need _EW_XXX_Tracking_Off drivers, how?
-            var trackingOverrideKeys = control.trackingOverrides.Where(o => o.target != TrackingTarget.None).ToArray();
-            if (trackingOverrideKeys.Length > 0)
+        protected void ApplyDefaultEmoteControl(AnimatorState state)
+        {
+            ApplyEmoteTrackingControl(state);
+        }
+
+        void ApplyEmoteTrackingControl(AnimatorState state, EmoteControl control = null, AnimatorStateTransition transition = null)
+        {
+            if (_allTrackingTargets == null)
             {
-                foreach (var trackingOverride in trackingOverrideKeys)
-                {
-                    Builder.RegisterOverrider(trackingOverride.target, transition);
-                }
-
-                var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
-                avatarParameterDriver.localOnly = true;
-                avatarParameterDriver.parameters = control.trackingOverrides.Select(o => new VRC_AvatarParameterDriver.Parameter
-                {
-                    name = o.target.ToAnimatorParameterName(true),
-                    value = 0f,
-                    valueMin = 0f,
-                    valueMax = 0f,
-                    chance = 1f,
-                    type = VRC_AvatarParameterDriver.ChangeType.Set
-                }).ToList();
+                throw new InvalidOperationException("Please call InitEmoteControl()");
             }
+
+            if (_allTrackingTargets.Length == 0) return;
+
+            TrackingTarget[] currentTrackingTargets;
+            if (control == null)
+            {
+                currentTrackingTargets = new TrackingTarget[] { };
+            }
+            else
+            {
+                currentTrackingTargets = control.trackingOverrides
+                    .Select(o => o.target)
+                    .Where(target => target != TrackingTarget.None)
+                    .ToArray();
+            }
+
+            if (transition != null)
+            {
+                foreach (var target in currentTrackingTargets)
+                {
+                    Builder.RegisterOverrider(target, transition);
+                }
+            }
+
+            var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
+            avatarParameterDriver.localOnly = true;
+            avatarParameterDriver.parameters = _allTrackingTargets.Select(target => new VRC_AvatarParameterDriver.Parameter
+            {
+                name = target.ToAnimatorParameterName(currentTrackingTargets.Contains(target)),
+                value = 0f,
+                valueMin = 0f,
+                valueMax = 0f,
+                chance = 1f,
+                type = VRC_AvatarParameterDriver.ChangeType.Set
+            }).ToList();
+        }
+        
+        void ApplyEmoteTransitionControl(AnimatorStateTransition transition, bool isLeft, EmoteControl control)
+        {
+            var state = transition.destinationState;
 
             transition.hasExitTime = false;
             transition.duration = control.transitionDuration;

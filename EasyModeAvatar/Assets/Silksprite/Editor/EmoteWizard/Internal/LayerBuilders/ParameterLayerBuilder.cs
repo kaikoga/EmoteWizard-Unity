@@ -45,6 +45,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             var defaultState = PopulateDefaultState();
 
             var validStates = parameterEmote.states.Where(state => state.enabled).ToList();
+            InitEmoteControl(validStates.SelectMany(state => state.control.trackingOverrides));
             var stateAndNextValue = validStates.Zip(
                 validStates.Skip(1).Select(state => (float?) state.value).Concat(Enumerable.Repeat((float?) null, 1)),
                 (s, v) => (s, v));

@@ -26,9 +26,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 return state;
             }
 
-            var defaultState = PopulateDefaultState();
-
             var emotes = AnimationWizardBase.CollectEmotes().ToList();
+            InitEmoteControl(emotes.SelectMany(emote => emote.control.trackingOverrides));
+
+            var defaultState = PopulateDefaultState();
 
             if (AnimationWizardBase.handSignOverrideEnabled)
             {

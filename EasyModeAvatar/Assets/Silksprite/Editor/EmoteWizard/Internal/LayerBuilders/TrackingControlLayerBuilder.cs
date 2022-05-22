@@ -44,6 +44,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
             PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
             AddExitTransition(trackingState, new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true));
+            // FIXME: consume On / Off triggers if if tracking override state is already On / Off
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
