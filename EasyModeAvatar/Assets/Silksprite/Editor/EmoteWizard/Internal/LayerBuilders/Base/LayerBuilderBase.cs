@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         Vector3 NextStatePosition()
         {
             var result = _position;
-            _position.y += 60f;
+            _position.y += 75f;
             return result;
         }
 
