@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
@@ -11,62 +12,72 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class ParameterLayerBuilder : LayerBuilderBase
     {
-        public ParameterLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly ParameterEmote _parameterEmote;
 
-        public void Build(ParameterEmote parameterEmote)
+        public ParameterLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, ParameterEmote parameterEmote) : base(builder, layer)
         {
-            if (!AssertParameterExists(parameterEmote.parameter)) return;
-            Builder.MarkParameter(parameterEmote.parameter);
+            _parameterEmote = parameterEmote;
+        }
 
-            switch (parameterEmote.emoteKind)
+        protected override void Process()
+        {
+            if (!AssertParameterExists(_parameterEmote.parameter)) return;
+            Builder.MarkParameter(_parameterEmote.parameter);
+
+            switch (_parameterEmote.emoteKind)
             {
                 case ParameterEmoteKind.Transition:
-                    BuildTransitionStateMachine(parameterEmote);
+                    BuildTransitionStateMachine(_parameterEmote);
                     break;
                 case ParameterEmoteKind.NormalizedTime:
-                    BuildNormalizedTimeStateMachine(parameterEmote);
+                    BuildNormalizedTimeStateMachine(_parameterEmote);
                     break;
                 case ParameterEmoteKind.BlendTree:
-                    BuildBlendTreeStateMachine(parameterEmote);
+                    BuildBlendTreeStateMachine(_parameterEmote);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
         }
 
         void BuildTransitionStateMachine(ParameterEmote parameterEmote)
         {
+            var defaultState = PopulateDefaultState();
+
             var validStates = parameterEmote.states.Where(state => state.enabled).ToList();
+            InitEmoteControl(validStates.SelectMany(state => state.control.trackingOverrides));
             var stateAndNextValue = validStates.Zip(
                 validStates.Skip(1).Select(state => (float?) state.value).Concat(Enumerable.Repeat((float?) null, 1)),
                 (s, v) => (s, v));
             foreach (var (parameterEmoteState, nextValue) in stateAndNextValue)
             {
                 var stateName = $"{parameterEmote.parameter} = {parameterEmoteState.value}";
-                var transition = AddStateAsTransition(stateName, parameterEmoteState.clip);
+                var state = AddStateWithoutTransition(stateName, parameterEmoteState.clip);
+                var conditions = new ConditionBuilder();
                 switch (parameterEmote.valueKind)
                 {
                     case ParameterValueKind.Int:
-                        transition.AddCondition(AnimatorConditionMode.Equals, parameterEmoteState.value, parameterEmote.parameter);
+                        conditions = conditions.Equals(parameterEmote.parameter, (int)parameterEmoteState.value);
                         break;
                     case ParameterValueKind.Float:
                         if (nextValue is float nextVal)
                         {
-                            transition.AddCondition(AnimatorConditionMode.Less, nextVal, parameterEmote.parameter);
+                            conditions = conditions.Less(parameterEmote.parameter, nextVal);
                         }
                         else
                         {
-                            transition.AddAlwaysTrueCondition();
+                            conditions = conditions.AlwaysTrue();
                         }
                         break;
                     case ParameterValueKind.Bool:
-                        transition.AddCondition(parameterEmoteState.value != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot, parameterEmoteState.value, parameterEmote.parameter);
+                        {
+                            conditions = conditions.If(parameterEmote.parameter, parameterEmoteState.value != 0);
+                        }
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
+                var transition = AddSelectTransition(defaultState, state, conditions);
 
                 ApplyEmoteControl(transition, true, parameterEmoteState.control);
             }
@@ -80,7 +91,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 .FirstOrDefault(c => c != null);
             if (clip == null) return;
 
-            var state = AddStateAsTransition(parameterEmote.name, clip).destinationState;
+            var state = AddStateWithoutTransition(parameterEmote.name, clip);
 
             state.timeParameterActive = true;
             state.timeParameter = parameterEmote.parameter;
@@ -108,7 +119,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 timeScale = 1
             }).ToArray();
 
-            AddStateAsTransition(parameterEmote.name, blendTree);
+            var blendTreeState = AddStateWithoutTransition(parameterEmote.name, blendTree);
         }
     }
 }

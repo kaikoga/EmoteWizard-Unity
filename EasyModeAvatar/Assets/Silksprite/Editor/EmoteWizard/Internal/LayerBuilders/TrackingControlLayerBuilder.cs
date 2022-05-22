@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
@@ -12,34 +12,46 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class TrackingControlLayerBuilder : LayerBuilderBase
     {
-        public TrackingControlLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly TrackingTarget _target;
+        readonly IEnumerable<AnimatorStateTransition> _overriders;
 
-        public void Build(TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders)
+        public TrackingControlLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders) : base(builder, layer)
         {
-            foreach (var sourceTransition in overriders)
-            {
-                var transition = AddStateAsTransition(sourceTransition.destinationState.name, null);
-                foreach (var sourceCondition in sourceTransition.conditions)
-                {
-                    transition.AddCondition(sourceCondition.mode, sourceCondition.threshold, sourceCondition.parameter);
-                }
-                transition.hasExitTime = sourceTransition.hasExitTime;
-                transition.duration = sourceTransition.duration;
-                transition.canTransitionToSelf = true;
+            _target = target;
+            _overriders = overriders;
+        }
 
-                PopulateTrackingControl(transition, target, VRC_AnimatorTrackingControl.TrackingType.Animation);
+        protected override void Process()
+        {
+            var defaultState = PopulateDefaultState();
+
+            var offTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true);
+            var onTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true);
+
+            foreach (var sourceTransition in _overriders)
+            {
+                var state = AddStateWithoutTransition(sourceTransition.destinationState.name, null);
+                var transition = AddTransitionAndCopyConditions(defaultState, state, sourceTransition.conditions);
+                transition.hasExitTime = false;
+                transition.duration = 0f;
+
+                PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
+
+                AddExitTransition(state, offTriggerConditions);
+                // Consume triggers by self transition if current state is already On
+                AddTransition(state, state, onTriggerConditions);
             }
 
-            var defaultTransition = AddStateAsTransition("Default", null);
-            defaultTransition.AddAlwaysTrueCondition();
+            var trackingState = AddStateWithoutTransition("Tracking", null);
+            var trackingTransition = AddTransition(defaultState, trackingState, new ConditionBuilder().AlwaysTrue());
+            trackingTransition.hasExitTime = false;
+            trackingTransition.duration = 0f;
 
-            defaultTransition.hasExitTime = false;
-            defaultTransition.duration = 0.1f;
-            defaultTransition.canTransitionToSelf = false;
+            PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
 
-            PopulateTrackingControl(defaultTransition, target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
-
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
+            AddExitTransition(trackingState, onTriggerConditions);
+            // Consume triggers by self transition if current state is already Off
+            AddTransition(trackingState, trackingState, offTriggerConditions);
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
@@ -73,9 +85,11 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                     break;
                 case TrackingTarget.Eyes:
                     trackingControl.trackingEyes = value; 
+                    // TODO: Reset blink blend shape states (if any)
                     break;
                 case TrackingTarget.Mouth:
                     trackingControl.trackingMouth = value; 
+                    // TODO: Reset lip sync blend shape states (if any) (should we?)
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

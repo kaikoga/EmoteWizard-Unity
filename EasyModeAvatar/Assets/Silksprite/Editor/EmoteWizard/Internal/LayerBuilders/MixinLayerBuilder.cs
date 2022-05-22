@@ -1,6 +1,5 @@
-using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
@@ -8,21 +7,33 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class MixinLayerBuilder : LayerBuilderBase
     {
-        public MixinLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly AnimationMixin _mixin;
 
-        public void Build(AnimationMixin mixin)
+        public MixinLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, AnimationMixin mixin) : base(builder, layer)
         {
-            var transition = AddStateAsTransition(mixin.name, mixin.Motion);
+            _mixin = mixin;
+        }
 
-            ApplyEmoteControl(transition, true, mixin.control);
-            if (mixin.conditions.Count > 0)
+        protected override void Process()
+        {
+            var defaultState = PopulateDefaultState();
+            var state = AddStateWithoutTransition(_mixin.name, _mixin.Motion);
+            InitEmoteControl(_mixin.control.trackingOverrides);
+
+            if (_mixin.conditions.Count > 0)
             {
-                ApplyEmoteConditions(transition, mixin.conditions);
-                var defaultTransition = AddStateAsTransition("Default", null);
-                defaultTransition.AddAlwaysTrueCondition();
+                var conditions = new ConditionBuilder();
+                ApplyEmoteConditions(conditions, _mixin.conditions);
+                var transition = AddTransition(defaultState, state, conditions);
+                ApplyEmoteControl(transition, true, _mixin.control);
+                AddExitTransitions(state, conditions.Inverse());
+                ApplyDefaultEmoteControl(defaultState);
             }
-
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
+            else
+            {
+                var transition = AddTransition(defaultState, state, new ConditionBuilder().AlwaysTrue());
+                ApplyEmoteControl(transition, true, _mixin.control);
+            }
         }
     }
 }

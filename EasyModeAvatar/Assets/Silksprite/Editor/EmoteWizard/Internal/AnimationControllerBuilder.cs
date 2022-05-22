@@ -71,9 +71,9 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     name = layerName,
                     hideFlags = HideFlags.HideInHierarchy,
-                    anyStatePosition = new Vector3(0, 0, 0),
-                    entryPosition = new Vector3(0, 100, 0),
-                    exitPosition = new Vector3(0, 200, 0)
+                    anyStatePosition = new Vector3(-300f, 100f, 0f),
+                    entryPosition = new Vector3(-300f, 0f, 0f),
+                    exitPosition = new Vector3(600f, 0f, 0f)
                 }
             };
 
@@ -85,16 +85,14 @@ namespace Silksprite.EmoteWizard.Internal
         public void BuildStaticLayer(string layerName, AnimationClip clip, AvatarMask defaultAvatarMask)
         {
             var resetLayer = PopulateLayer(layerName, defaultAvatarMask);
-            var layerBuilder = new StaticLayerBuilder(this, resetLayer);
-            layerBuilder.Build(layerName, clip);
+            new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
         }
 
         public void BuildHandSignLayer(string layerName, bool isLeft, bool advancedAnimations)
         {
             var avatarMask = isLeft ? VrcSdkAssetLocator.HandLeft() : VrcSdkAssetLocator.HandRight(); 
             var handLayer = PopulateLayer(layerName, avatarMask);
-            var layerBuilder = new HandSignLayerBuilder(this, handLayer);
-            layerBuilder.Build(isLeft, advancedAnimations);
+            new HandSignLayerBuilder(this, handLayer, isLeft, advancedAnimations).Build();
         }
 
         public void BuildParameterLayers(IEnumerable<ParameterEmote> parameterEmotes)
@@ -105,8 +103,7 @@ namespace Silksprite.EmoteWizard.Internal
                 if (parameterEmote.states.All(state => state.clip == null)) continue;
 
                 var parameterLayer = PopulateLayer(parameterEmote.name);
-                var layerBuilder = new ParameterLayerBuilder(this, parameterLayer);
-                layerBuilder.Build(parameterEmote);
+                new ParameterLayerBuilder(this, parameterLayer, parameterEmote).Build();
             }
         }
 
@@ -117,19 +114,17 @@ namespace Silksprite.EmoteWizard.Internal
                 if (mixin.Motion == null) continue;
 
                 var mixinLayer = PopulateLayer(mixin.name);
-                var layerBuilder = new MixinLayerBuilder(this, mixinLayer);
-                layerBuilder.Build(mixin);
+                new MixinLayerBuilder(this, mixinLayer, mixin).Build();
             }
         }
 
         public void BuildTrackingControlLayers()
         {
-            foreach (var kv in _overriders.Where(kv => kv.Key != TrackingTarget.None))
+            foreach (var kv in _overriders)
             {
                 var trackingTarget = kv.Key;
                 var trackingControlLayer = PopulateLayer($"TrackingControl {trackingTarget}");
-                var layerBuilder = new TrackingControlLayerBuilder(this, trackingControlLayer);
-                layerBuilder.Build(trackingTarget, kv.Value);
+                new TrackingControlLayerBuilder(this, trackingControlLayer, trackingTarget, kv.Value).Build();
             }
         }
 
@@ -157,6 +152,11 @@ namespace Silksprite.EmoteWizard.Internal
                         throw new ArgumentOutOfRangeException();
                 }
                 AnimatorController.AddParameter(parameterName, parameterType);
+            }
+            foreach (var trackingTarget in _overriders.Keys)
+            {
+                AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(false), AnimatorControllerParameterType.Trigger);
+                AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(true), AnimatorControllerParameterType.Trigger);
             }
         }
     }

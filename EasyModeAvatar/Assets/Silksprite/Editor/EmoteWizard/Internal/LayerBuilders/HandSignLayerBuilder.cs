@@ -1,6 +1,6 @@
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
@@ -8,48 +8,58 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class HandSignLayerBuilder : LayerBuilderBase
     {
-        public HandSignLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly bool _isLeft;
+        readonly bool _isAdvanced;
 
-        public void Build(bool isLeft, bool isAdvanced)
+        public HandSignLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, bool isLeft, bool isAdvanced) : base(builder, layer)
         {
-            var emotes = AnimationWizardBase.CollectEmotes();
+            _isLeft = isLeft;
+            _isAdvanced = isAdvanced;
+        }
 
-            var emoteStates = emotes.Select(emote =>
+        protected override void Process()
+        {
+            AnimatorState GenerateStateFromEmote(Emote emote, bool isOverride)
             {
-                var clip = isLeft || !isAdvanced ? emote.clipLeft : emote.clipRight;
-                if (clip == null) clip = AnimationWizardBase.EmoteWizardRoot.ProvideEmptyClip();
-                var state = AddStateWithoutTransition(emote.ToStateName(), clip);
-                return (emote, state);
-            }).ToList();
+                var clip = _isLeft || !_isAdvanced ? emote.clipLeft : emote.clipRight;
+                var state = AddStateWithoutTransition(isOverride ? $"{AnimationWizardBase.HandSignOverrideParameter}={emote.overrideIndex}" : emote.ToStateName(false, true), clip);
+                return state;
+            }
+
+            var emotes = AnimationWizardBase.CollectEmotes().ToList();
+            InitEmoteControl(emotes.SelectMany(emote => emote.control.trackingOverrides));
+
+            var defaultState = PopulateDefaultState();
 
             if (AnimationWizardBase.handSignOverrideEnabled)
             {
                 Builder.MarkParameter(AnimationWizardBase.HandSignOverrideParameter);
-                foreach (var (emote, state) in emoteStates)
+                foreach (var emote in emotes)
                 {
                     if (!emote.OverrideAvailable) continue;
-                    var transition = StateMachine.AddAnyStateTransition(state);
-                    transition.AddCondition(AnimatorConditionMode.Equals, emote.overrideIndex, AnimationWizardBase.HandSignOverrideParameter);
+                    var state = GenerateStateFromEmote(emote, true);
+                    var conditions = ConditionBuilder.EqualsCondition(AnimationWizardBase.HandSignOverrideParameter, emote.overrideIndex);
+                    var transition = AddSelectTransition(defaultState, state, conditions);
 
-                    ApplyEmoteControl(transition, isLeft, emote.control);
+                    ApplyEmoteControl(transition, _isLeft, emote.control);
                 }
             }
 
-            foreach (var (emote, state) in emoteStates)
+            foreach (var emote in emotes)
             {
-                var transition = StateMachine.AddAnyStateTransition(state);
-                ApplyEmoteGestureConditions(transition, isLeft, emote.gesture1, true);
-                ApplyEmoteGestureConditions(transition, isLeft, emote.gesture2);
+                var conditions = new ConditionBuilder();
+                var state = GenerateStateFromEmote(emote, false);
+                ApplyEmoteGestureConditions(conditions, _isLeft, emote.gesture1, true);
+                ApplyEmoteGestureConditions(conditions, _isLeft, emote.gesture2);
                 if (AnimationWizardBase.handSignOverrideEnabled)
                 {
-                    transition.AddCondition(AnimatorConditionMode.Equals, 0, AnimationWizardBase.HandSignOverrideParameter);
+                    conditions.Equals(AnimationWizardBase.HandSignOverrideParameter, 0);
                 }
-                ApplyEmoteConditions(transition, emote.conditions);
+                ApplyEmoteConditions(conditions, emote.conditions);
+                var transition = AddSelectTransition(defaultState, state, conditions);
 
-                ApplyEmoteControl(transition, isLeft, emote.control);
+                ApplyEmoteControl(transition, _isLeft, emote.control);
             }
-            
-            StateMachine.defaultState = StateMachine.states.FirstOrDefault().state;
         }
     }
 }

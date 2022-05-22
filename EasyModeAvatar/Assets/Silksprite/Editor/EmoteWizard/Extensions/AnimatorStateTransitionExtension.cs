@@ -1,12 +1,16 @@
+using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using UnityEditor.Animations;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimatorStateTransitionExtension
     {
-        public static void AddAlwaysTrueCondition(this AnimatorStateTransition transition)
+        public static void AddCondition(this AnimatorStateTransition transition, ConditionBuilder builder)
         {
-            transition.AddCondition(AnimatorConditionMode.Greater, -1, "Viseme");
+            foreach (var cond in builder.ToArray())
+            {
+                transition.AddCondition(cond.mode, cond.threshold, cond.parameter);
+            }
         }
     }
 }

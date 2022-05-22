@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -7,13 +6,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class StaticLayerBuilder : LayerBuilderBase
     {
-        public StaticLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer) : base(builder, layer) { }
+        readonly string _stateName;
+        readonly Motion _clip;
 
-        public void Build(string stateName, Motion clip)
+        public StaticLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, string stateName, Motion clip) : base(builder, layer)
         {
-            var defaultTransition = AddStateAsTransition(stateName, clip);
-            defaultTransition.AddAlwaysTrueCondition();
-            StateMachine.defaultState = defaultTransition.destinationState;
+            _stateName = stateName;
+            _clip = clip;
+        }
+
+        protected override void Process()
+        {
+            AddStateWithoutTransition(_stateName, _clip);
         }
     }
 }
