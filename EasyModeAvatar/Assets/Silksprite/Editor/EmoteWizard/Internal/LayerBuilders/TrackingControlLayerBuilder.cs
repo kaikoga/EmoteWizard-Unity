@@ -25,6 +25,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             var defaultState = PopulateDefaultState();
 
+            var offTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true);
+            var onTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true);
+
             foreach (var sourceTransition in _overriders)
             {
                 var state = AddStateWithoutTransition(sourceTransition.destinationState.name, null);
@@ -33,10 +36,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 transition.duration = 0f;
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
-                AddExitTransition(state, new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true));
 
-                // Consume On / Off triggers by self transition if current state is already On / Off
-                AddTransition(state, state, new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true));
+                AddExitTransition(state, offTriggerConditions);
+                // Consume triggers by self transition if current state is already On
+                AddTransition(state, state, onTriggerConditions);
             }
 
             var trackingState = AddStateWithoutTransition("Tracking", null);
@@ -45,7 +48,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             trackingTransition.duration = 0f;
 
             PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
-            AddExitTransition(trackingState, new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true));
+
+            AddExitTransition(trackingState, onTriggerConditions);
+            // Consume triggers by self transition if current state is already Off
+            AddTransition(trackingState, trackingState, offTriggerConditions);
         }
         
         static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
