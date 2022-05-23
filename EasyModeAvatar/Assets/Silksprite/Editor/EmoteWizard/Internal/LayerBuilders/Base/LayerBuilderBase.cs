@@ -35,9 +35,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             _position.y = 75f * indent;
         }
 
-        [Obsolete("Please provide ParameterItemKind")]
-        bool AssertParameterExists(string parameterName) => AssertParameterExists(parameterName, ParameterItemKind.Auto);
-
         protected bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
             return Builder.ParametersWizard == null || Builder.ParametersWizard.AssertParameterExists(parameterName, itemKind);
@@ -119,7 +116,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)
         {
             var validConditions = emoteConditions
-                .Where(emoteCondition => AssertParameterExists(emoteCondition.parameter));
+                .Where(emoteCondition => AssertParameterExists(emoteCondition.parameter, ParameterItemKind.Auto));
             foreach (var condition in validConditions)
             {
                 conditions.EmoteCondition(condition);
