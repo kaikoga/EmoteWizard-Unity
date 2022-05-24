@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -33,10 +34,10 @@ namespace Silksprite.EmoteWizard.Sources.Base
         {
             var emoteWizardRoot = _emoteSource.EmoteWizardRoot;
             var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-            var fxWizard = emoteWizardRoot.GetWizard<FxWizard>();
+            var animationWizardBase = _emoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
             using (new ObjectChangeScope(_emoteSource))
             {
-                EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
+                EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
@@ -52,7 +53,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     }
                 });
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.LayerName, fxWizard.advancedAnimations, _emotesState).StartContext())
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, animationWizardBase.LayerName, animationWizardBase.advancedAnimations, _emotesState).StartContext())
                 {
                     _emoteList.DrawAsProperty(_emoteSource.emotes, emoteWizardRoot.listDisplayMode);
                 }
