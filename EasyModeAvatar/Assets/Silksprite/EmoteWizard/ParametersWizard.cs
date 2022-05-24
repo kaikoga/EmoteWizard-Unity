@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -19,6 +20,13 @@ namespace Silksprite.EmoteWizard
         public override void DisconnectOutputAssets()
         {
             outputAsset = null;
+        }
+
+        IEnumerable<ParameterItem> CollectSourceParameterItems()
+        {
+            return EmoteWizardRoot.GetComponentsInChildren<ParameterSource>()
+                .SelectMany(source => source.parameterItems)
+                .Where(item => item.enabled);
         }
 
         public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Where(item => item.enabled).Concat(defaultParameterItems);
@@ -63,8 +71,6 @@ namespace Silksprite.EmoteWizard
         {
             var builder = new ExpressionParameterBuilder();
 
-            if (parameterItems != null) builder.Import(parameterItems);
-
             foreach (var expressionItem in expressionWizard.CollectExpressionItems())
             {
                 if (!string.IsNullOrEmpty(expressionItem.parameter))
@@ -105,6 +111,8 @@ namespace Silksprite.EmoteWizard
                     builder.FindOrCreate(actionWizard.afkSelectParameter).AddUsage(afkEmote.emoteIndex);
                 }
             }
+
+            builder.Import(CollectSourceParameterItems());
 
             parameterItems = builder.ParameterItems.ToList();
             defaultParameterItems = ParameterItem.PopulateDefaultParameters(defaultParameterItems ?? new List<ParameterItem>());

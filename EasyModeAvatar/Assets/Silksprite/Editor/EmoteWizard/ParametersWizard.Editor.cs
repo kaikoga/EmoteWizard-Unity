@@ -25,6 +25,7 @@ namespace Silksprite.EmoteWizard
             
             parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
             defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
+            IsExpandedTracker.SetDefaultExpanded(parametersWizard.parameterItems, false);
             IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
         }
 
@@ -61,11 +62,12 @@ namespace Silksprite.EmoteWizard
                             if (GUILayout.Button("Collect Parameters (auto)"))
                             {
                                 parametersWizard.ForceRefreshParameters();
+                                IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
                             }
                         });
                 }
 
-                using (new ParameterItemDrawerContext(emoteWizardRoot, true).StartContext())
+                using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
                     defaultParameterItemsList.DrawAsProperty(parametersWizard.defaultParameterItems, emoteWizardRoot.listDisplayMode);
                 }
