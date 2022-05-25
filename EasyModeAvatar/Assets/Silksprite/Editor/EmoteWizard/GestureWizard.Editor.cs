@@ -32,22 +32,6 @@ namespace Silksprite.EmoteWizard
 
                 if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-                EmoteWizardGUILayout.SetupOnlyUI(gestureWizard, () =>
-                {
-                    if (GUILayout.Button("Create HandSigns"))
-                    {
-                        gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
-                    }
-
-                    if (parametersWizard != null)
-                    {
-                        if (GUILayout.Button("Create Parameters"))
-                        {
-                            gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-                        }
-                    }
-                });
-
                 TypedGUILayout.Toggle("Advanced Animations", ref gestureWizard.advancedAnimations);
                 TypedGUILayout.Toggle("HandSign Override", ref gestureWizard.handSignOverrideEnabled);
                 if (gestureWizard.handSignOverrideEnabled)
@@ -78,18 +62,6 @@ namespace Silksprite.EmoteWizard
                     {
                         MigrateToDataSource();
                     }
-                }
-                if (GUILayout.Button("Add Emote Source"))
-                {
-                    gestureWizard.AddChildComponentAndSelect<GestureEmoteSource>();
-                }
-                if (GUILayout.Button("Add Parameter Emote Source"))
-                {
-                    gestureWizard.AddChildComponentAndSelect<GestureParameterEmoteSource>();
-                }
-                if (GUILayout.Button("Add Animation Mixin Source"))
-                {
-                    gestureWizard.AddChildComponentAndSelect<GestureAnimationMixinSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>

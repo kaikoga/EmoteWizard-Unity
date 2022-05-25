@@ -29,14 +29,6 @@ namespace Silksprite.EmoteWizard
 
                 if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-                EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
-                {
-                    if (GUILayout.Button("Create Default Expression Items"))
-                    {
-                        expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
-                    }
-                });
-
                 TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
 
                 if (expressionWizard.HasLegacyData)
@@ -46,10 +38,6 @@ namespace Silksprite.EmoteWizard
                     {
                         MigrateToDataSource();
                     }
-                }
-                if (GUILayout.Button("Add Expression Item Source"))
-                {
-                    expressionWizard.AddChildComponentAndSelect<ExpressionItemSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>

@@ -38,17 +38,6 @@ namespace Silksprite.EmoteWizard
 
                 if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-                EmoteWizardGUILayout.SetupOnlyUI(parametersWizard, () =>
-                {
-                    if (expressionWizard)
-                    {
-                        if (GUILayout.Button("Repopulate Parameters"))
-                        {
-                            parametersWizard.RepopulateParameters();
-                        }
-                    }
-                });
-
                 using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
                     parameterItemsList.DrawAsProperty(parametersWizard.parameterItems, emoteWizardRoot.listDisplayMode);

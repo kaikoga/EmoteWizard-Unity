@@ -37,15 +37,7 @@ namespace Silksprite.EmoteWizard
 
                 if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-                EmoteWizardGUILayout.SetupOnlyUI(actionWizard, () =>
-                {
-                    if (GUILayout.Button("Create Default Actions"))
-                    {
-                        actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
-                    }
-                });
-
-                TypedGUILayout.ToggleLeft("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
+                TypedGUILayout.Toggle("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
 
                 using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.actionSelectParameter)))
                 {

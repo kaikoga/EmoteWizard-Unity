@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -33,6 +34,8 @@ namespace Silksprite.EmoteWizard.Sources.Base
         public override void OnInspectorGUI()
         {
             var emoteWizardRoot = _emoteSource.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
             var animationWizardBase = _emoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
             using (new ObjectChangeScope(_emoteSource))

@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 
@@ -31,6 +32,7 @@ namespace Silksprite.EmoteWizard.Sources
             using (new ObjectChangeScope(_afkEmoteSource))
             {
                 var emoteWizardRoot = _afkEmoteSource.EmoteWizardRoot;
+                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
                 var actionWizard = emoteWizardRoot.GetWizard<ActionWizard>();
 
                 using (new ActionEmoteDrawerContext(emoteWizardRoot, _afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())

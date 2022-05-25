@@ -31,27 +31,6 @@ namespace Silksprite.EmoteWizard
 
                 if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-                EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
-                {
-                    if (GUILayout.Button("Create HandSigns: 7 items"))
-                    {
-                        fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes();
-                    }
-
-                    if (GUILayout.Button("Create HandSigns: 14 items"))
-                    {
-                        fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes14();
-                    }
-
-                    if (parametersWizard != null)
-                    {
-                        if (GUILayout.Button("Create Parameters"))
-                        {
-                            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-                        }
-                    }
-                });
-
                 TypedGUILayout.Toggle("Advanced Animations", ref fxWizard.advancedAnimations);
                 TypedGUILayout.Toggle("HandSign Override", ref fxWizard.handSignOverrideEnabled);
                 if (fxWizard.handSignOverrideEnabled)
@@ -76,18 +55,6 @@ namespace Silksprite.EmoteWizard
                     {
                         MigrateToDataSource();
                     }
-                }
-                if (GUILayout.Button("Add Emote Source"))
-                {
-                    fxWizard.AddChildComponentAndSelect<FxEmoteSource>();
-                }
-                if (GUILayout.Button("Add Parameter Emote Source"))
-                {
-                    fxWizard.AddChildComponentAndSelect<FxParameterEmoteSource>();
-                }
-                if (GUILayout.Button("Add Animation Mixin Source"))
-                {
-                    fxWizard.AddChildComponentAndSelect<FxAnimationMixinSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
