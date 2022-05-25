@@ -80,13 +80,13 @@ namespace Silksprite.EmoteWizard
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
             parametersWizard.RepopulateParameters();
-            fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes();
-            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
-            gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
+            fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes();
+            fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
+            gestureWizard.FindOrCreateChildComponent<GestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
+            actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
 
@@ -98,13 +98,13 @@ namespace Silksprite.EmoteWizard
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
             parametersWizard.RepopulateParameters();
-            fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes14();
-            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
-            gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
+            fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes14();
+            fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
+            gestureWizard.FindOrCreateChildComponent<GestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
+            actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
     }
