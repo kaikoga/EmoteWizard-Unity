@@ -7,6 +7,6 @@ namespace Silksprite.EmoteWizard.Sources
 {
     public class ParameterSource : EmoteWizardDataSourceBase
     {
-        [SerializeField] public List<ParameterItem> parameterItems;
+        [SerializeField] public List<ParameterItem> parameterItems = new List<ParameterItem>();
     }
 }

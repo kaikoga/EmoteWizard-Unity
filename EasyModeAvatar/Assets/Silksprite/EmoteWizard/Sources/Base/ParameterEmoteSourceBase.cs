@@ -8,7 +8,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
 {
     public abstract class ParameterEmoteSourceBase : EmoteWizardDataSourceBase
     {
-        [SerializeField] public List<ParameterEmote> parameterEmotes;
+        [SerializeField] public List<ParameterEmote> parameterEmotes = new List<ParameterEmote>();
         
         public abstract string LayerName { get; }
 

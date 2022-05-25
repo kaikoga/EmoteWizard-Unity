@@ -7,6 +7,6 @@ namespace Silksprite.EmoteWizard.Sources
 {
     public class ActionEmoteSource : EmoteWizardDataSourceBase
     {
-        [SerializeField] public List<ActionEmote> actionEmotes; 
+        [SerializeField] public List<ActionEmote> actionEmotes = new List<ActionEmote>(); 
     }
 }

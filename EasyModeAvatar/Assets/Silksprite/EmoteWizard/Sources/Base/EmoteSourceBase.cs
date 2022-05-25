@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
 {
     public abstract class EmoteSourceBase : EmoteWizardDataSourceBase
     {
-        [SerializeField] public List<Emote> emotes;
+        [SerializeField] public List<Emote> emotes = new List<Emote>();
         
         public abstract string LayerName { get; }
     }
