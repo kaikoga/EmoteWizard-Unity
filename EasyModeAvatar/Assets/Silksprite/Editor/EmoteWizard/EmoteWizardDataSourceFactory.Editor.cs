@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard
 {
-    [CustomEditor(typeof(SourceFactory))]
-    public class SourceFactoryEditor : Editor
+    [CustomEditor(typeof(EmoteWizardDataSourceFactory))]
+    public class EmoteWizardDataSourceFactoryEditor : Editor
     {
         public override void OnInspectorGUI()
         {
-            var sourceFactory = (SourceFactory)target;
+            var sourceFactory = (EmoteWizardDataSourceFactory)target;
             using (new BoxLayoutScope())
             {
                 GUILayout.Label("Add Source", new GUIStyle { fontStyle = FontStyle.Bold });
