@@ -46,41 +46,25 @@ namespace Silksprite.EmoteWizard
             return false;
         }
 
-        public void TryRefreshParameters()
-        {
-            var expressionWizard = GetWizard<ExpressionWizard>();
-            if (expressionWizard == null)
-            {
-                Debug.LogWarning("ExpressionWizard not found. Parameters are unchanged.");
-                return;
-            }
-            DoRefreshParameters(expressionWizard);
-        }
-
-        public void ForceRefreshParameters()
-        {
-            var expressionWizard = GetWizard<ExpressionWizard>();
-            if (expressionWizard == null)
-            {
-                throw new Exception("ExpressionWizard not found. Parameters are unchanged.");
-            }
-            DoRefreshParameters(expressionWizard);
-        }
-
-        void DoRefreshParameters(ExpressionWizard expressionWizard)
+        public void RefreshParameters()
         {
             var builder = new ExpressionParameterBuilder();
 
-            foreach (var expressionItem in expressionWizard.CollectExpressionItems())
+            var expressionWizard = GetWizard<ExpressionWizard>();
+            if (expressionWizard != null)
             {
-                if (!string.IsNullOrEmpty(expressionItem.parameter))
+                foreach (var expressionItem in expressionWizard.CollectExpressionItems())
                 {
-                    builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
-                }
-                if (!expressionItem.IsPuppet) continue;
-                foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
-                {
-                    builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                    if (!string.IsNullOrEmpty(expressionItem.parameter))
+                    {
+                        builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                    }
+
+                    if (!expressionItem.IsPuppet) continue;
+                    foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
+                    {
+                        builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                    }
                 }
             }
 
@@ -120,7 +104,7 @@ namespace Silksprite.EmoteWizard
 
         public VRCExpressionParameters.Parameter[] ToParameters()
         {
-            TryRefreshParameters(); 
+            RefreshParameters(); 
             return parameterItems
                 .Where(parameter => parameter.enabled)
                 .Select(parameter => parameter.ToParameter())

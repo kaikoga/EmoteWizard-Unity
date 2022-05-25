@@ -50,7 +50,7 @@ namespace Silksprite.EmoteWizard
                         {
                             if (GUILayout.Button("Collect Parameters (auto)"))
                             {
-                                parametersWizard.ForceRefreshParameters();
+                                parametersWizard.RefreshParameters();
                                 IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
                             }
                         });

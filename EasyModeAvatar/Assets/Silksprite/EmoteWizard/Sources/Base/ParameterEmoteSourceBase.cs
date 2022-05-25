@@ -12,46 +12,36 @@ namespace Silksprite.EmoteWizard.Sources.Base
         
         public abstract string LayerName { get; }
 
-        public void GenerateParameters(ParametersWizard parametersWizard, AnimationWizardBase animationWizardBase) => GenerateParameters(parametersWizard.parameterItems, parametersWizard.defaultParameterItems, animationWizardBase);
-
-
-        void GenerateParameters(IEnumerable<ParameterItem> parameterItems, IEnumerable<ParameterItem> defaultParameterItems, AnimationWizardBase animationWizardBase)
+        public void GenerateParameters(ParametersWizard parametersWizard)
         {
-            var allParameterItems = parameterItems.Select(p => (p, false))
-                .Concat(defaultParameterItems.Select(p => (p, true)))
-                .Where(tuple => tuple.p.enabled)
-                .ToList();
-            var oldParameters = parameterEmotes ?? new List<ParameterEmote>();
-            parameterEmotes = new List<ParameterEmote>();
-            var existingParameters = animationWizardBase.CollectParameterEmotes(true, true).Select(p => p.parameter).ToList();
-            parameterEmotes = 
-                Enumerable.Empty<ParameterEmote>()
-                    .Concat(allParameterItems
-                        .Where(tuple => !existingParameters.Contains(tuple.p.name))
-                        .Select(tuple =>
-                        {
-                            var (parameterItem, isDefault) = tuple;
-                            var parameter = oldParameters.FirstOrDefault(oldParameter => oldParameter.parameter == parameterItem.name) ?? new ParameterEmote
-                            {
-                                name = parameterItem.name,
-                                parameter = parameterItem.name,
-                                emoteKind = isDefault ? ParameterEmoteKind.Unused : ParameterEmoteKind.Transition,
-                                enabled = !isDefault
-                            };
-                            parameter.valueKind = parameterItem.ValueKind;
-                            parameter.enabled = parameter.enabled;
-                            parameter.CollectStates(parameterItem);
-                            return parameter;
-                        }))
-                    .Concat(oldParameters.Where(oldParameter =>
-                        {
-                            return allParameterItems.Select(tuple => tuple.p).All(parameterItem => oldParameter.parameter != parameterItem.name);
-                        }).Select(oldParameter =>
-                        {
-                            oldParameter.enabled = false;
-                            return oldParameter;
-                        }))
-                    .ToList();
+            parametersWizard.RefreshParameters();
+
+            var allParameterItems = parametersWizard.AllParameterItems.ToArray();
+
+            var animationWizardBase = LayerName == "FX" ? (AnimationWizardBase)EmoteWizardRoot.GetWizard<FxWizard>() : EmoteWizardRoot.GetWizard<GestureWizard>();
+            var existingParameterNames = animationWizardBase.CollectParameterEmotes(true, true).Select(p => p.parameter).ToList();
+
+            foreach (var existingEmote in parameterEmotes)
+            {
+                existingEmote.CollectStates(allParameterItems.Single(p => p.name == existingEmote.parameter));
+            }
+
+            var parameterItemsToCreate = parametersWizard.parameterItems
+                .Where(p => p.enabled && !existingParameterNames.Contains(p.name));
+
+            foreach (var parameterItem in parameterItemsToCreate)
+            {
+                var parameter = new ParameterEmote
+                {
+                    enabled = true,
+                    name = parameterItem.name,
+                    valueKind = parameterItem.ValueKind,
+                    parameter = parameterItem.name,
+                    emoteKind = ParameterEmoteKind.Transition
+                };
+                parameter.CollectStates(parameterItem);
+                parameterEmotes.Add(parameter);
+            }
         }
     }
 }

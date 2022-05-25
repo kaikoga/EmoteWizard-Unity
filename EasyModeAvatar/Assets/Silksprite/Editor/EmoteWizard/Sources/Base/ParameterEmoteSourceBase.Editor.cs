@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -37,36 +36,28 @@ namespace Silksprite.EmoteWizard.Sources.Base
             var emoteWizardRoot = _parameterEmoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-            var animationWizardBase = _parameterEmoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
+            var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
             using (new ObjectChangeScope(_parameterEmoteSource))
             {
                 EmoteWizardGUILayout.SetupOnlyUI(_parameterEmoteSource, () =>
                 {
-                    if (parametersWizard != null)
+                    if (GUILayout.Button("Repopulate Parameters"))
                     {
-                        if (GUILayout.Button("Repopulate Parameters"))
-                        {
-                            _parameterEmoteSource.RepopulateParameterEmotes(parametersWizard);
-                        }
+                        _parameterEmoteSource.RepopulateParameterEmotes(parametersWizard);
                     }
                 });
 
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, animationWizardBase, parametersWizard, _parameterEmoteSource.LayerName, _parametersState).StartContext())
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, _parameterEmoteSource, parametersWizard, _parameterEmoteSource.LayerName, _parametersState).StartContext())
                 {
                     _parameterEmoteList.DrawAsProperty(_parameterEmoteSource.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }
 
                 if (IsExpandedTracker.GetIsExpanded(_parameterEmoteSource.parameterEmotes))
                 {
-                    EmoteWizardGUILayout.RequireAnotherWizard(animationWizardBase, parametersWizard, () =>
+                    if (GUILayout.Button("Generate Parameters"))
                     {
-                        if (GUILayout.Button("Generate Parameters"))
-                        {
-                            parametersWizard.TryRefreshParameters();
-                            _parameterEmoteSource.GenerateParameters(parametersWizard, animationWizardBase);
-                        }
-                    });
+                        _parameterEmoteSource.GenerateParameters(parametersWizard);
+                    }
                 }
             }
         }

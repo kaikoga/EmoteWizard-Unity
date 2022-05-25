@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.Extensions
         public static void RepopulateParameters(this ParametersWizard parametersWizard)
         {
             parametersWizard.parameterItems = new List<ParameterItem>();
-            parametersWizard.ForceRefreshParameters();
+            parametersWizard.RefreshParameters();
         }
 
         public static bool IsInvalidParameter(this ParametersWizard parametersWizard, string parameterName)
