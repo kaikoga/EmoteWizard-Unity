@@ -43,23 +43,20 @@ namespace Silksprite.EmoteWizard
                     parameterItemsList.DrawAsProperty(parametersWizard.parameterItems, emoteWizardRoot.listDisplayMode);
                 }
 
-                if (parameterItemsList.IsExpanded)
-                {
-                    EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
-                        () =>
-                        {
-                            if (GUILayout.Button("Collect Parameters (auto)"))
-                            {
-                                parametersWizard.RefreshParameters();
-                                IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
-                            }
-                        });
-                }
-
                 using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
                     defaultParameterItemsList.DrawAsProperty(parametersWizard.defaultParameterItems, emoteWizardRoot.listDisplayMode);
                 }
+
+                EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
+                    () =>
+                    {
+                        if (GUILayout.Button("Collect Parameters (auto)"))
+                        {
+                            parametersWizard.RefreshParameters();
+                            IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
+                        }
+                    });
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
