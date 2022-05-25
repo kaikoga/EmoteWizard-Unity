@@ -32,7 +32,6 @@ namespace Silksprite.EmoteWizard
 
                 if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-                TypedGUILayout.Toggle("Advanced Animations", ref gestureWizard.advancedAnimations);
                 TypedGUILayout.Toggle("HandSign Override", ref gestureWizard.handSignOverrideEnabled);
                 if (gestureWizard.handSignOverrideEnabled)
                 {

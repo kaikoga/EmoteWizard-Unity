@@ -19,8 +19,8 @@ namespace Silksprite.EmoteWizard.Extensions
 
             builder.BuildStaticLayer("Reset", null, defaultAvatarMask);
             builder.BuildMixinLayers(gestureWizard.CollectBaseMixins());
-            builder.BuildHandSignLayer("Left Hand", true, gestureWizard.advancedAnimations);
-            builder.BuildHandSignLayer("Right Hand", false, gestureWizard.advancedAnimations);
+            builder.BuildHandSignLayer("Left Hand", true);
+            builder.BuildHandSignLayer("Right Hand", false);
             builder.BuildParameterLayers(gestureWizard.CollectParameterEmotes());
             builder.BuildMixinLayers(gestureWizard.CollectMixins());
 

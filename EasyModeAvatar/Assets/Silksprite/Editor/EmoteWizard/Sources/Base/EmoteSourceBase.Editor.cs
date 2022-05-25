@@ -1,3 +1,4 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
@@ -8,6 +9,7 @@ using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -56,7 +58,17 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     }
                 });
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, animationWizardBase.LayerName, animationWizardBase.advancedAnimations, _emotesState).StartContext())
+                var advancedAnimations = _emoteSource.AdvancedAnimations;
+                using (new EditorGUI.DisabledScope(_emoteSource.HasComplexAnimations))
+                {
+                    TypedGUILayout.Toggle("Advanced Animations", ref advancedAnimations);
+                    if (advancedAnimations != _emoteSource.AdvancedAnimations)
+                    {
+                        _emoteSource.AdvancedAnimations = advancedAnimations;
+                    }
+                }
+
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, animationWizardBase.LayerName, _emoteSource.AdvancedAnimations, _emotesState).StartContext())
                 {
                     _emoteList.DrawAsProperty(_emoteSource.emotes, emoteWizardRoot.listDisplayMode);
                 }
