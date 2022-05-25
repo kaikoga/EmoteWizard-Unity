@@ -81,6 +81,7 @@ namespace Silksprite.EmoteWizard
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
             parametersWizard.RepopulateParameters();
             fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes();
             fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
@@ -99,6 +100,7 @@ namespace Silksprite.EmoteWizard
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
             parametersWizard.RepopulateParameters();
             fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes14();
             fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
