@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -33,6 +34,13 @@ namespace Silksprite.EmoteWizard.Sources
                     _parameterItemsList.DrawAsProperty(_parameterSource.parameterItems, emoteWizardRoot.listDisplayMode);
                 }
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "外部アセットが利用するExpression Parameterを追加したい場合、ここから登録してください。",
+                "（Emote Wizardで利用しているパラメータは自動で追加されるため、ここで登録する必要はありません。）");
     }
 }

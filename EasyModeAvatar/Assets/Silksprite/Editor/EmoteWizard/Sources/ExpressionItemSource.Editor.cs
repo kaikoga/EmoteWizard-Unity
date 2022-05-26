@@ -2,7 +2,6 @@ using System.Linq;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -30,12 +29,11 @@ namespace Silksprite.EmoteWizard.Sources
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = _expressionItemSource.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(_expressionItemSource))
             {
-                var emoteWizardRoot = _expressionItemSource.EmoteWizardRoot;
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
                 EmoteWizardGUILayout.SetupOnlyUI(_expressionItemSource, () =>
                 {
                     if (GUILayout.Button("Reset Expression Items"))
@@ -55,13 +53,13 @@ namespace Silksprite.EmoteWizard.Sources
                     _expressionItemSource.PopulateDefaultExpressionItems();
                 }
 
-                if (GUILayout.Button("Group by Folder"))
+                if (GUILayout.Button("Group by Folder (Sort)"))
                 {
                     GroupItemsByFolder();
                 }
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void GroupItemsByFolder()
@@ -71,5 +69,10 @@ namespace Silksprite.EmoteWizard.Sources
                 .SelectMany(group => group)
                 .ToList();
         }
+        
+        static string Tutorial => 
+            string.Join("\n",
+                "Expressions MenuとExpression Parameterに追加する項目を設定します。",
+                "項目名を半角スラッシュで区切るとサブメニューを作成できます。");
     }
 }

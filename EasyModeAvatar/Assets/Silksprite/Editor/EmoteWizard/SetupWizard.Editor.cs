@@ -22,12 +22,13 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
+
             using (new ObjectChangeScope(setupWizard))
             {
                 TypedGUILayout.Toggle(new GUIContent("Enable Setup Only UI"), ref setupWizard.isSetupMode);
             }
 
-            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
             if (GUILayout.Button("Generate Wizards"))
             {
                 emoteWizardRoot.EnsureWizard<AvatarWizard>();
@@ -57,7 +58,7 @@ namespace Silksprite.EmoteWizard
                 return;
             }
             
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。\nセットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void DestroySelf(EmoteWizardRoot emoteWizardRoot)
@@ -109,5 +110,10 @@ namespace Silksprite.EmoteWizard
             actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。",
+                "セットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
     }
 }

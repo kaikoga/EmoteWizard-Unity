@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Base;
@@ -14,7 +15,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(GestureWizard))]
-    public class GestureWizardEditor : AnimationWizardBaseEditor
+    public class GestureWizardEditor : Editor
     {
         GestureWizard gestureWizard;
 
@@ -25,12 +26,12 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(gestureWizard))
             {
-                var emoteWizardRoot = gestureWizard.EmoteWizardRoot;
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
                 TypedGUILayout.Toggle("HandSign Override", ref gestureWizard.handSignOverrideEnabled);
                 if (gestureWizard.handSignOverrideEnabled)
@@ -75,9 +76,9 @@ namespace Silksprite.EmoteWizard
 
                     TypedGUILayout.AssetField("Output Asset", ref gestureWizard.outputAsset);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Gesture Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void MigrateToDataSource()
@@ -96,5 +97,11 @@ namespace Silksprite.EmoteWizard
             gestureWizard.legacyBaseMixins.Clear();
             gestureWizard.legacyMixins.Clear();
         }
+        
+        static string Tutorial => 
+            string.Join("\n",
+                "Gesture Layerの設定を行い、AnimationControllerを生成します。",
+                "Write Defaultsはオフになります。",
+                "各アニメーションで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。");
     }
 }

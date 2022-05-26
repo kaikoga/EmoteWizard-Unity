@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(FxWizard))]
-    public class FxWizardEditor : AnimationWizardBaseEditor
+    public class FxWizardEditor : Editor
     {
         FxWizard fxWizard;
 
@@ -24,12 +24,12 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = fxWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(fxWizard))
             {
-                var emoteWizardRoot = fxWizard.EmoteWizardRoot;
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
                 TypedGUILayout.Toggle("HandSign Override", ref fxWizard.handSignOverrideEnabled);
                 if (fxWizard.handSignOverrideEnabled)
@@ -69,9 +69,9 @@ namespace Silksprite.EmoteWizard
                     TypedGUILayout.AssetField("Output Asset", ref fxWizard.outputAsset);
                     TypedGUILayout.AssetField("Reset Clip", ref fxWizard.resetClip);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void MigrateToDataSource()
@@ -90,5 +90,12 @@ namespace Silksprite.EmoteWizard
             fxWizard.legacyBaseMixins.Clear();
             fxWizard.legacyMixins.Clear();
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "FX Layerの設定を行い、AnimationControllerを生成します。",
+                "Write Defaultsはオフになります。",
+                "各アニメーションで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。");
+
     }
 }

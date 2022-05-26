@@ -2,11 +2,13 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
+using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Sources.Base
 {
@@ -37,9 +39,10 @@ namespace Silksprite.EmoteWizard.Sources.Base
             var emoteWizardRoot = _animationMixinSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
             using (new ObjectChangeScope(_animationMixinSource))
             {
+                var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
+
                 var relativePath = GeneratedAssetLocator.MixinDirectoryPath(_animationMixinSource.LayerName);
                 using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, _baseMixinsState).StartContext())
                 {
@@ -51,6 +54,16 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     _mixinsList.DrawAsProperty(_animationMixinSource.mixins, emoteWizardRoot.listDisplayMode);
                 }
             }
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "常時再生したいBlendTreeを登録します。",
+                "",
+                "Base Mixins: 他のレイヤーの上に追加されます。",
+                "Mixins: 他のレイヤーの下に追加されます。");
+
     }
 }

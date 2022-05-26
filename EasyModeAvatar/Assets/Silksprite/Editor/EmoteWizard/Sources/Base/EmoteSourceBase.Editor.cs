@@ -38,10 +38,11 @@ namespace Silksprite.EmoteWizard.Sources.Base
             var emoteWizardRoot = _emoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-            var animationWizardBase = _emoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
             using (new ObjectChangeScope(_emoteSource))
             {
+                var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
+                var animationWizardBase = _emoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
+
                 EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
@@ -73,6 +74,13 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     _emoteList.DrawAsProperty(_emoteSource.emotes, emoteWizardRoot.listDisplayMode);
                 }
             }
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "ハンドサインに基づくアニメーションの設定をします。",
+                "");
     }
 }

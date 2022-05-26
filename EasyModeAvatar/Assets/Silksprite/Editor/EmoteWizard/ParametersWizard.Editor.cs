@@ -31,12 +31,12 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(parametersWizard))
             {
-                var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
                 var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
                 using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
@@ -67,9 +67,15 @@ namespace Silksprite.EmoteWizard
 
                     TypedGUILayout.AssetField("Output Asset", ref parametersWizard.outputAsset);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "Expression Parametersの設定を行います。",
+                "ここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。",
+                "パラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
     }
 }

@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -72,6 +73,24 @@ namespace Silksprite.EmoteWizard
                     }
                 }
             }
+
+            EmoteWizardGUILayout.Tutorial(sourceFactory.EmoteWizardRoot, Tutorial);
         }
+        
+        static string Tutorial =>
+            string.Join("\n",
+                "Emote Wizardに登録するデータの入力欄を生成します。",
+                "GameObjectを非アクティブにした場合、データは無効化されます。",
+                "",
+                "Expression Item: Expression Menuのメニュー項目",
+                "Parameter: 外部アセットが利用するExpression Parameter",
+                "",
+                "FX / Gesture共通項目:",
+                "Emote: ハンドサインに基づくアニメーション",
+                "Parameter Emote: パラメーターに基づくアニメーション",
+                "Mixin: 常時再生したいアニメーションやブレンドツリー",
+                "",
+                "Action Emote: エモートモーション",
+                "Afk Emote: カスタムAFKモーション");
     }
 }

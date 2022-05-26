@@ -36,9 +36,10 @@ namespace Silksprite.EmoteWizard.Sources.Base
             var emoteWizardRoot = _parameterEmoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
             using (new ObjectChangeScope(_parameterEmoteSource))
             {
+                var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
+
                 EmoteWizardGUILayout.SetupOnlyUI(_parameterEmoteSource, () =>
                 {
                     if (GUILayout.Button("Repopulate Parameters"))
@@ -60,6 +61,13 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     }
                 }
             }
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "パラメーターに基づくアニメーションの設定をします。",
+                "");
     }
 }

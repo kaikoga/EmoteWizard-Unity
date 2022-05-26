@@ -32,12 +32,11 @@ namespace Silksprite.EmoteWizard
                 return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(newPath);
             }
 
+            var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(avatarWizard))
             {
-                var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
                 var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
                 TypedGUILayout.EnumPopup(overrideGestureLabel, ref avatarWizard.overrideGesture);
                 if (avatarWizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Override)
@@ -150,8 +149,14 @@ namespace Silksprite.EmoteWizard
                         }
                     }
                 });
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "VRCAvatarDescriptorの更新を行います。\nAnimatorコンポーネントが存在するなら、それを使ってアバターのアニメーションの編集を開始することができます。");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+        
+        static string Tutorial => 
+            string.Join("\n",
+                "VRCAvatarDescriptorの更新を行います。",
+                "Animatorコンポーネントが存在するなら、それを使ってアバターのアニメーションの編集を開始することができます。");
     }
 }
