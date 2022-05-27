@@ -3,7 +3,6 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Silksprite.EmoteWizard.Base
 {
@@ -40,15 +39,6 @@ namespace Silksprite.EmoteWizard.Base
     {
         [SerializeField] public bool handSignOverrideEnabled;
 
-        [FormerlySerializedAs("baseMixins")]
-        [SerializeField] public List<AnimationMixin> legacyBaseMixins = new List<AnimationMixin>();
-        [FormerlySerializedAs("emotes")]
-        [SerializeField] public List<Emote> legacyEmotes = new List<Emote>();
-        [FormerlySerializedAs("parameterEmotes")]
-        [SerializeField] public List<ParameterEmote> legacyParameterEmotes = new List<ParameterEmote>();
-        [FormerlySerializedAs("mixins")]
-        [SerializeField] public List<AnimationMixin> legacyMixins = new List<AnimationMixin>();
-
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
         public override void DisconnectOutputAssets()
@@ -63,7 +53,5 @@ namespace Silksprite.EmoteWizard.Base
 
         public abstract string LayerName { get; }
         public abstract string HandSignOverrideParameter { get;  }
-
-        public bool HasLegacyData => legacyBaseMixins?.Any() ?? legacyEmotes?.Any() ?? legacyParameterEmotes?.Any() ?? legacyMixins?.Any() ?? false;
     }
 }
