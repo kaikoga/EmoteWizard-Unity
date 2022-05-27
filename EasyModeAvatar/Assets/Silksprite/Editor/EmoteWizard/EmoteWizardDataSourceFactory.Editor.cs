@@ -17,11 +17,11 @@ namespace Silksprite.EmoteWizard
                 GUILayout.Label("Add Source", new GUIStyle { fontStyle = FontStyle.Bold });
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    if (GUILayout.Button("Expression Item"))
+                    if (GUILayout.Button(new GUIContent("Expression Item", "Expression Menuのメニュー項目")))
                     {
                         sourceFactory.gameObject.AddComponent<ExpressionItemSource>();
                     }
-                    if (GUILayout.Button("Parameter"))
+                    if (GUILayout.Button(new GUIContent("Parameter", "外部アセットが利用するExpression Parameter")))
                     {
                         sourceFactory.gameObject.AddComponent<ParameterSource>();
                     }
@@ -30,15 +30,15 @@ namespace Silksprite.EmoteWizard
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     GUILayout.Label("Gesture", GUILayout.Width(60f));
-                    if (GUILayout.Button("Emote"))
+                    if (GUILayout.Button(new GUIContent("Emote", "ハンドサインに基づくアニメーション(Gesture)")))
                     {
                         sourceFactory.gameObject.AddComponent<GestureEmoteSource>();
                     }
-                    if (GUILayout.Button("Parameter Emote"))
+                    if (GUILayout.Button(new GUIContent("Parameter Emote", "パラメーターに基づくアニメーション(Gesture)")))
                     {
                         sourceFactory.gameObject.AddComponent<GestureParameterEmoteSource>();
                     }
-                    if (GUILayout.Button("Mixin"))
+                    if (GUILayout.Button(new GUIContent("Mixin", "常時再生したいアニメーションやブレンドツリー(Gesture)")))
                     {
                         sourceFactory.gameObject.AddComponent<GestureAnimationMixinSource>();
                     }
@@ -46,16 +46,16 @@ namespace Silksprite.EmoteWizard
 
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    GUILayout.Label("Fx", GUILayout.Width(60f));
-                    if (GUILayout.Button("Emote"))
+                    GUILayout.Label("FX", GUILayout.Width(60f));
+                    if (GUILayout.Button(new GUIContent("Emote", "ハンドサインに基づくアニメーション(FX)")))
                     {
                         sourceFactory.gameObject.AddComponent<FxEmoteSource>();
                     }
-                    if (GUILayout.Button("Parameter Emote"))
+                    if (GUILayout.Button(new GUIContent("Parameter Emote", "パラメーターに基づくアニメーション(FX)")))
                     {
                         sourceFactory.gameObject.AddComponent<FxParameterEmoteSource>();
                     }
-                    if (GUILayout.Button("Mixin"))
+                    if (GUILayout.Button(new GUIContent("Mixin", "常時再生したいアニメーションやブレンドツリー(FX)")))
                     {
                         sourceFactory.gameObject.AddComponent<FxAnimationMixinSource>();
                     }
@@ -63,11 +63,11 @@ namespace Silksprite.EmoteWizard
 
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    if (GUILayout.Button("Action Emote"))
+                    if (GUILayout.Button(new GUIContent("Action Emote", "エモートモーション")))
                     {
                         sourceFactory.gameObject.AddComponent<ActionEmoteSource>();
                     }
-                    if (GUILayout.Button("Afk Emote"))
+                    if (GUILayout.Button(new GUIContent("Afk Emote", "カスタムAFKモーション")))
                     {
                         sourceFactory.gameObject.AddComponent<AfkEmoteSource>();
                     }
@@ -80,17 +80,6 @@ namespace Silksprite.EmoteWizard
         static string Tutorial =>
             string.Join("\n",
                 "Emote Wizardに登録するデータの入力欄を生成します。",
-                "GameObjectを非アクティブにした場合、データは無効化されます。",
-                "",
-                "Expression Item: Expression Menuのメニュー項目",
-                "Parameter: 外部アセットが利用するExpression Parameter",
-                "",
-                "FX / Gesture共通項目:",
-                "Emote: ハンドサインに基づくアニメーション",
-                "Parameter Emote: パラメーターに基づくアニメーション",
-                "Mixin: 常時再生したいアニメーションやブレンドツリー",
-                "",
-                "Action Emote: エモートモーション",
-                "Afk Emote: カスタムAFKモーション");
+                "GameObjectを非アクティブにした場合、データは無効化されます。");
     }
 }

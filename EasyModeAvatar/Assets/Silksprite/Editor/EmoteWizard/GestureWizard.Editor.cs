@@ -79,6 +79,7 @@ namespace Silksprite.EmoteWizard
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
         }
 
         void MigrateToDataSource()
@@ -100,8 +101,11 @@ namespace Silksprite.EmoteWizard
         
         static string Tutorial => 
             string.Join("\n",
-                "Gesture Layerの設定を行い、AnimationControllerを生成します。",
-                "Write Defaultsはオフになります。",
-                "各アニメーションで使われているシェイプキーなどをリセットするアニメーションがResetレイヤーに自動的に設定されます。");
+                "Gesture Layerの設定を行い、Animation Controllerを生成します。");
+
+        static string Tutorial2 => 
+            string.Join("\n",
+                "Write Defaultsオフでセットアップされます。",
+                "各アニメーションで使われているパラメータをリセットするアニメーションがGesture Layerの一番上に追加されます。");
     }
 }

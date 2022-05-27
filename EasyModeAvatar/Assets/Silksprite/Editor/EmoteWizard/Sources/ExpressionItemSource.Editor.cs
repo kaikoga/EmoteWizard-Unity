@@ -60,6 +60,7 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
         }
 
         void GroupItemsByFolder()
@@ -72,7 +73,9 @@ namespace Silksprite.EmoteWizard.Sources
         
         static string Tutorial => 
             string.Join("\n",
-                "Expressions MenuとExpression Parameterに追加する項目を設定します。",
+                "Expressions MenuとExpression Parameterに追加する項目を設定します。");
+        static string Tutorial2 => 
+            string.Join("\n",
                 "項目名を半角スラッシュで区切るとサブメニューを作成できます。");
     }
 }

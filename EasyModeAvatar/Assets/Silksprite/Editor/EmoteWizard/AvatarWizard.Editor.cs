@@ -72,7 +72,7 @@ namespace Silksprite.EmoteWizard
                     var avatarDescriptor = avatarWizard.avatarDescriptor;
                     if (avatarDescriptor == null)
                     {
-                        EditorGUILayout.HelpBox("VRCAvatarDescriptor is missing. Some functions might not work.", MessageType.Error);
+                        EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                     }
                     var gestureController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset as AnimatorController;
                     var fxController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset as AnimatorController;
@@ -96,18 +96,22 @@ namespace Silksprite.EmoteWizard
                         else if (avatarAnimator.runtimeAnimatorController == gestureController)
                         {
                             EditorGUILayout.HelpBox("Editing Gesture Controller on avatar.", MessageType.Warning);
+                            EditorGUILayout.HelpBox("選択されたAnimatorを利用して、Gestureレイヤーのアニメーションを編集中です。", MessageType.Warning);
                         }
                         else if (avatarAnimator.runtimeAnimatorController == fxController)
                         {
                             EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
+                            EditorGUILayout.HelpBox("選択されたAnimatorを利用して、FXレイヤーのアニメーションを編集中です。", MessageType.Warning);
                         }
                         else if (avatarAnimator.runtimeAnimatorController == actionController)
                         {
                             EditorGUILayout.HelpBox("Editing Action Controller on avatar.", MessageType.Warning);
+                            EditorGUILayout.HelpBox("選択されたAnimatorを利用して、Actionレイヤーのアニメーションを編集中です。", MessageType.Warning);
                         }
                         else
                         {
                             EditorGUILayout.HelpBox("Unknown Animator Controller is present.", MessageType.Warning);
+                            EditorGUILayout.HelpBox("選択されたAnimatorに不明なAnimator Controllerが刺さっています。", MessageType.Warning);
                         }
                     }
 
@@ -156,7 +160,7 @@ namespace Silksprite.EmoteWizard
         
         static string Tutorial => 
             string.Join("\n",
-                "VRCAvatarDescriptorの更新を行います。",
-                "Animatorコンポーネントが存在するなら、それを使ってアバターのアニメーションの編集を開始することができます。");
+                "VRCAvatarDescriptorのセットアップを行います。",
+                "Animatorコンポーネントが存在する場合、それを利用してアバターのアニメーションを編集できます。");
     }
 }

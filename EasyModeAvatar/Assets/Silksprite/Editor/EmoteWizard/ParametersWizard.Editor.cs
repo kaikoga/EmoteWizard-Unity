@@ -74,8 +74,6 @@ namespace Silksprite.EmoteWizard
 
         static string Tutorial =>
             string.Join("\n",
-                "Expression Parametersの設定を行います。",
-                "ここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。",
-                "パラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
+                "設定されたExpression Parametersを確認できます。");
     }
 }

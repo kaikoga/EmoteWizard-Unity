@@ -105,10 +105,6 @@ namespace Silksprite.EmoteWizard
 
         static string Tutorial =>
             string.Join("\n",
-                "Action Layerの設定を行い、AnimationControllerを生成します。",
-                "",
-                "Action Select Parameter: 再生されるAction Emotesを選択するパラメータ",
-                "AFK Select Parameter: 再生されるAFK Emotesを選択するパラメータ",
-                "Default AFK Emote: AFK Emotesが再生条件を満たさなかった場合に再生されるAFKモーション");
+                "Action Layerの設定を行い、AnimationControllerを生成します。");
     }
 }
