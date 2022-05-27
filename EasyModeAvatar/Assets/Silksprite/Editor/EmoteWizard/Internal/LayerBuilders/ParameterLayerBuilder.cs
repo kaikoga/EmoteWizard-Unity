@@ -21,9 +21,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         protected override void Process()
         {
-            if (!AssertParameterExists(_parameterEmote.parameter)) return;
-            Builder.MarkParameter(_parameterEmote.parameter);
-
             switch (_parameterEmote.emoteKind)
             {
                 case ParameterEmoteKind.Transition:
@@ -42,6 +39,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         void BuildTransitionStateMachine(ParameterEmote parameterEmote)
         {
+            if (!AssertParameterExists(_parameterEmote.parameter, ParameterItemKind.Auto)) return;
+            Builder.MarkParameter(_parameterEmote.parameter);
+
             var defaultState = PopulateDefaultState();
 
             var validStates = parameterEmote.states.Where(state => state.enabled).ToList();
@@ -85,13 +85,16 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         void BuildNormalizedTimeStateMachine(ParameterEmote parameterEmote)
         {
+            if (!AssertParameterExists(_parameterEmote.parameter, ParameterItemKind.Float)) return;
+            Builder.MarkParameter(_parameterEmote.parameter);
+
             var clip = parameterEmote.states
                 .Where(s => s.enabled)
                 .Select(s => s.clip)
                 .FirstOrDefault(c => c != null);
             if (clip == null) return;
 
-            var state = AddStateWithoutTransition(parameterEmote.name, clip);
+            var state = PopulateDefaultState(parameterEmote.name, clip);
 
             state.timeParameterActive = true;
             state.timeParameter = parameterEmote.parameter;
@@ -101,6 +104,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 
         void BuildBlendTreeStateMachine(ParameterEmote parameterEmote)
         {
+            if (!AssertParameterExists(_parameterEmote.parameter, ParameterItemKind.Float)) return;
+            Builder.MarkParameter(_parameterEmote.parameter);
+
             var path = GeneratedAssetLocator.ParameterEmoteBlendTreePath(Builder.AnimationWizardBase.LayerName, parameterEmote.name);
             var blendTree = Builder.AnimationWizardBase.EmoteWizardRoot.EnsureAsset<BlendTree>(path);
 
@@ -119,7 +125,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 timeScale = 1
             }).ToArray();
 
-            var blendTreeState = AddStateWithoutTransition(parameterEmote.name, blendTree);
+            PopulateDefaultState(parameterEmote.name, blendTree);
         }
     }
 }

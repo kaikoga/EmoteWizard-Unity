@@ -25,50 +25,38 @@ namespace Silksprite.EmoteWizard
             
             parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
             defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
+            IsExpandedTracker.SetDefaultExpanded(parametersWizard.parameterItems, false);
             IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
         }
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(parametersWizard))
             {
-                var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
                 var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
-                EmoteWizardGUILayout.SetupOnlyUI(parametersWizard, () =>
-                {
-                    if (expressionWizard)
-                    {
-                        if (GUILayout.Button("Repopulate Parameters"))
-                        {
-                            parametersWizard.RepopulateParameters();
-                        }
-                    }
-                });
 
                 using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
                     parameterItemsList.DrawAsProperty(parametersWizard.parameterItems, emoteWizardRoot.listDisplayMode);
                 }
 
-                if (parameterItemsList.IsExpanded)
-                {
-                    EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
-                        () =>
-                        {
-                            if (GUILayout.Button("Collect Parameters (auto)"))
-                            {
-                                parametersWizard.ForceRefreshParameters();
-                            }
-                        });
-                }
-
-                using (new ParameterItemDrawerContext(emoteWizardRoot, true).StartContext())
+                using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
                     defaultParameterItemsList.DrawAsProperty(parametersWizard.defaultParameterItems, emoteWizardRoot.listDisplayMode);
                 }
+
+                EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
+                    () =>
+                    {
+                        if (GUILayout.Button("Collect Parameters (auto)"))
+                        {
+                            parametersWizard.RefreshParameters();
+                            IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
+                        }
+                    });
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
@@ -79,9 +67,13 @@ namespace Silksprite.EmoteWizard
 
                     TypedGUILayout.AssetField("Output Asset", ref parametersWizard.outputAsset);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Parametersの設定を行います。\nここに登録されているパラメータはAnimator Controllerにも自動的に追加されます。\nパラメータを消費する他のアセットと連携する場合は、ここを調整して必要なパラメータを追加してください。");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "設定されたExpression Parametersを確認できます。");
     }
 }

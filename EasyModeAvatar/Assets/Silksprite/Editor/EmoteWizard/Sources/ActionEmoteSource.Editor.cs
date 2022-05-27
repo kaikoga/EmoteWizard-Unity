@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -31,9 +32,11 @@ namespace Silksprite.EmoteWizard.Sources
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = _actionEmoteSource.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(_actionEmoteSource))
             {
-                var emoteWizardRoot = _actionEmoteSource.EmoteWizardRoot;
                 var actionWizard = emoteWizardRoot.GetWizard<ActionWizard>();
 
                 EmoteWizardGUILayout.SetupOnlyUI(_actionEmoteSource, () =>
@@ -48,6 +51,15 @@ namespace Silksprite.EmoteWizard.Sources
                     _actionEmotesList.DrawAsProperty(_actionEmoteSource.actionEmotes, emoteWizardRoot.listDisplayMode);
                 }
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "エモートモーションを登録します。",
+                "",
+                "Select Value: Action Select Parameterの値",
+                "Has Exit Time: オンの場合、一回再生のアニメーションとして適用されます。オフの場合、ループアニメーションとして適用されます");
     }
 }

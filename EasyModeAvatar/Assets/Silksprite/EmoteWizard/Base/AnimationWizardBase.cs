@@ -38,7 +38,6 @@ namespace Silksprite.EmoteWizard.Base
     
     public abstract class AnimationWizardBase : EmoteWizardBase
     {
-        [SerializeField] public bool advancedAnimations;
         [SerializeField] public bool handSignOverrideEnabled;
 
         [FormerlySerializedAs("baseMixins")]

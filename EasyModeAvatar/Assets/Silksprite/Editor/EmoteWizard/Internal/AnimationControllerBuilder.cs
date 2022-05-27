@@ -88,11 +88,11 @@ namespace Silksprite.EmoteWizard.Internal
             new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
         }
 
-        public void BuildHandSignLayer(string layerName, bool isLeft, bool advancedAnimations)
+        public void BuildHandSignLayer(string layerName, bool isLeft)
         {
             var avatarMask = isLeft ? VrcSdkAssetLocator.HandLeft() : VrcSdkAssetLocator.HandRight(); 
             var handLayer = PopulateLayer(layerName, avatarMask);
-            new HandSignLayerBuilder(this, handLayer, isLeft, advancedAnimations).Build();
+            new HandSignLayerBuilder(this, handLayer, isLeft).Build();
         }
 
         public void BuildParameterLayers(IEnumerable<ParameterEmote> parameterEmotes)

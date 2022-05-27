@@ -1,7 +1,4 @@
-using UnityEditor;
 using UnityEngine;
-
-using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
 namespace Silksprite.EmoteWizard.Extensions
 {

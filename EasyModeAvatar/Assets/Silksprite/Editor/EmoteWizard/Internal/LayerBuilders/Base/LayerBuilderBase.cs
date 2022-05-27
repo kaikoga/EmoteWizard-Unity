@@ -35,9 +35,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             _position.y = 75f * indent;
         }
 
-        protected bool AssertParameterExists(string parameterName)
+        protected bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
-            return Builder.ParametersWizard == null || Builder.ParametersWizard.AssertParameterExists(parameterName);
+            return Builder.ParametersWizard == null || Builder.ParametersWizard.AssertParameterExists(parameterName, itemKind);
         }
 
         protected LayerBuilderBase(AnimationControllerBuilder builder, AnimatorControllerLayer layer)
@@ -68,14 +68,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         }
 
         protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion) => AddStateWithoutTransition(stateName, motion, false);
-
-        [Obsolete("Avoid AnyState")]
-        protected AnimatorStateTransition AddAnyStateTransition(AnimatorState state, ConditionBuilder conditions = null)
-        {
-            var transition = StateMachine.AddAnyStateTransition(state);
-            transition.conditions = conditions?.ToArray();
-            return transition;
-        }
 
         protected AnimatorStateTransition AddTransition(AnimatorState fromState, AnimatorState toState, ConditionBuilder conditions = null)
         {
@@ -124,7 +116,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)
         {
             var validConditions = emoteConditions
-                .Where(emoteCondition => AssertParameterExists(emoteCondition.parameter));
+                .Where(emoteCondition => AssertParameterExists(emoteCondition.parameter, ParameterItemKind.Auto));
             foreach (var condition in validConditions)
             {
                 conditions.EmoteCondition(condition);
@@ -218,7 +210,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
             if (state.motion == null || !control.normalizedTimeEnabled) return;
 
             var timeParameter = isLeft ? control.normalizedTimeLeft : control.normalizedTimeRight;
-            if (!AssertParameterExists(timeParameter)) return;
+            if (!AssertParameterExists(timeParameter, ParameterItemKind.Float)) return;
 
             state.timeParameterActive = true;
             state.timeParameter = timeParameter;

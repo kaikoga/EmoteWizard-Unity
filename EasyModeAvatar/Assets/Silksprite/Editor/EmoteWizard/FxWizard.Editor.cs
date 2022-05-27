@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(FxWizard))]
-    public class FxWizardEditor : AnimationWizardBaseEditor
+    public class FxWizardEditor : Editor
     {
         FxWizard fxWizard;
 
@@ -24,35 +24,13 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = fxWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(fxWizard))
             {
-                var emoteWizardRoot = fxWizard.EmoteWizardRoot;
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
 
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
-                EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
-                {
-                    if (GUILayout.Button("Create HandSigns: 7 items"))
-                    {
-                        fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes();
-                    }
-
-                    if (GUILayout.Button("Create HandSigns: 14 items"))
-                    {
-                        fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes14();
-                    }
-
-                    if (parametersWizard != null)
-                    {
-                        if (GUILayout.Button("Create Parameters"))
-                        {
-                            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-                        }
-                    }
-                });
-
-                TypedGUILayout.Toggle("Advanced Animations", ref fxWizard.advancedAnimations);
                 TypedGUILayout.Toggle("HandSign Override", ref fxWizard.handSignOverrideEnabled);
                 if (fxWizard.handSignOverrideEnabled)
                 {
@@ -77,18 +55,6 @@ namespace Silksprite.EmoteWizard
                         MigrateToDataSource();
                     }
                 }
-                if (GUILayout.Button("Add Emote Source"))
-                {
-                    fxWizard.AddChildComponentAndSelect<FxEmoteSource>();
-                }
-                if (GUILayout.Button("Add Parameter Emote Source"))
-                {
-                    fxWizard.AddChildComponentAndSelect<FxParameterEmoteSource>();
-                }
-                if (GUILayout.Button("Add Animation Mixin Source"))
-                {
-                    fxWizard.AddChildComponentAndSelect<FxAnimationMixinSource>();
-                }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
@@ -103,9 +69,10 @@ namespace Silksprite.EmoteWizard
                     TypedGUILayout.AssetField("Output Asset", ref fxWizard.outputAsset);
                     TypedGUILayout.AssetField("Reset Clip", ref fxWizard.resetClip);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"FX Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
         }
 
         void MigrateToDataSource()
@@ -124,5 +91,14 @@ namespace Silksprite.EmoteWizard
             fxWizard.legacyBaseMixins.Clear();
             fxWizard.legacyMixins.Clear();
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "FX Layerの設定を行い、Animation Controllerを生成します。");
+
+        static string Tutorial2 => 
+            string.Join("\n",
+                "Write Defaultsオフでセットアップされます。",
+                "各アニメーションで使われているパラメータをリセットするアニメーションがFX Layerの一番上に追加されます。");
     }
 }

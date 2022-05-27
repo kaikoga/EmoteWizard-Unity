@@ -7,7 +7,6 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
 {
     public static class ConditionBuilderEmoteWizardExtension
     {
-        [Obsolete("EmoteCondition should be typed")]
         public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteCondition emoteCondition)
         {
             AnimatorControllerParameterType type;
@@ -23,11 +22,11 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
                     mode = AnimatorConditionMode.IfNot;
                     break;
                 case EmoteConditionMode.Greater:
-                    type = AnimatorControllerParameterType.Float;
+                    type = emoteCondition.kind == ParameterItemKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
                     mode = AnimatorConditionMode.Greater;
                     break;
                 case EmoteConditionMode.Less:
-                    type = AnimatorControllerParameterType.Float;
+                    type = emoteCondition.kind == ParameterItemKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
                     mode = AnimatorConditionMode.Less;
                     break;
                 case EmoteConditionMode.Equals:

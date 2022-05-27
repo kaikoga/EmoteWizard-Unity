@@ -30,22 +30,14 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var parametersWizard = actionWizard.EmoteWizardRoot.GetWizard<ParametersWizard>();
+            var emoteWizardRoot = actionWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(actionWizard))
             {
-                var emoteWizardRoot = actionWizard.EmoteWizardRoot;
+                var parametersWizard = actionWizard.EmoteWizardRoot.GetWizard<ParametersWizard>();
 
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
-                EmoteWizardGUILayout.SetupOnlyUI(actionWizard, () =>
-                {
-                    if (GUILayout.Button("Create Default Actions"))
-                    {
-                        actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
-                    }
-                });
-
-                TypedGUILayout.ToggleLeft("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
+                TypedGUILayout.Toggle("Fixed Transition Duration", ref actionWizard.fixedTransitionDuration);
 
                 using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.actionSelectParameter)))
                 {
@@ -95,9 +87,9 @@ namespace Silksprite.EmoteWizard
 
                     TypedGUILayout.AssetField("Output Asset", ref actionWizard.outputAsset);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, $"Action Layerの設定を行い、AnimationControllerを生成します。\n{Tutorial}");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void MigrateToDataSource()
@@ -113,15 +105,6 @@ namespace Silksprite.EmoteWizard
 
         static string Tutorial =>
             string.Join("\n",
-                "Write Defaultsはオフになります。",
-                "Select Value: モーションを再生するために必要なAction Select ParameterかAFK Select Parameterの値。1以上である必要があります",
-                "Has Exit Time: オンの場合、一回再生のアニメーションとして適用されます。オフの場合、ループアニメーションとして適用されます",
-                "",
-                "Action Select Parameter: 再生されるAction Emotesを選択するパラメータ",
-                "Action Emotes: Action Select Parameterが変化したタイミングで再生されるエモートモーション",
-                "",
-                "AFK Select Parameter: 再生されるAFK Emotesを選択するパラメータ",
-                "AFK Emotes: AFK時に再生されるAFKモーション",
-                "Default AFK Emote: AFK Emotesが再生条件を満たさなかった場合に再生されるAFKモーション");
+                "Action Layerの設定を行い、AnimationControllerを生成します。");
     }
 }

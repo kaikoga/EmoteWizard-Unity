@@ -3,25 +3,33 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
     public class HandSignLayerBuilder : LayerBuilderBase
     {
         readonly bool _isLeft;
-        readonly bool _isAdvanced;
 
-        public HandSignLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, bool isLeft, bool isAdvanced) : base(builder, layer)
+        public HandSignLayerBuilder(AnimationControllerBuilder builder, AnimatorControllerLayer layer, bool isLeft) : base(builder, layer)
         {
             _isLeft = isLeft;
-            _isAdvanced = isAdvanced;
         }
 
         protected override void Process()
         {
             AnimatorState GenerateStateFromEmote(Emote emote, bool isOverride)
             {
-                var clip = _isLeft || !_isAdvanced ? emote.clipLeft : emote.clipRight;
+                Motion clip;
+                if (_isLeft)
+                {
+                    clip = emote.clipLeft ? emote.clipLeft : emote.clipRight;
+                }
+                else
+                {
+                    clip = emote.clipRight ? emote.clipRight : emote.clipLeft;
+                }
+
                 var state = AddStateWithoutTransition(isOverride ? $"{AnimationWizardBase.HandSignOverrideParameter}={emote.overrideIndex}" : emote.ToStateName(false, true), clip);
                 return state;
             }

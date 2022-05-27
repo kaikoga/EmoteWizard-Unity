@@ -7,8 +7,8 @@ namespace Silksprite.EmoteWizard.Sources.Base
 {
     public abstract class AnimationMixinSourceBase : EmoteWizardDataSourceBase
     {
-        [SerializeField] public List<AnimationMixin> baseMixins;
-        [SerializeField] public List<AnimationMixin> mixins;
+        [SerializeField] public List<AnimationMixin> baseMixins = new List<AnimationMixin>();
+        [SerializeField] public List<AnimationMixin> mixins = new List<AnimationMixin>();
 
         public abstract string LayerName { get; }
     }

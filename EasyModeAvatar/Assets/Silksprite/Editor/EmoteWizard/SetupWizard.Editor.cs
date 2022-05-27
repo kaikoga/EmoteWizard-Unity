@@ -22,12 +22,13 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
+
             using (new ObjectChangeScope(setupWizard))
             {
                 TypedGUILayout.Toggle(new GUIContent("Enable Setup Only UI"), ref setupWizard.isSetupMode);
             }
 
-            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
             if (GUILayout.Button("Generate Wizards"))
             {
                 emoteWizardRoot.EnsureWizard<AvatarWizard>();
@@ -57,7 +58,7 @@ namespace Silksprite.EmoteWizard
                 return;
             }
             
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。\nセットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void DestroySelf(EmoteWizardRoot emoteWizardRoot)
@@ -80,13 +81,14 @@ namespace Silksprite.EmoteWizard
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
             parametersWizard.RepopulateParameters();
-            fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes();
-            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
-            gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
+            fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes();
+            fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
+            gestureWizard.FindOrCreateChildComponent<GestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
+            actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
 
@@ -98,14 +100,20 @@ namespace Silksprite.EmoteWizard
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
             parametersWizard.RepopulateParameters();
-            fxWizard.AddChildComponent<FxEmoteSource>().RepopulateDefaultEmotes14();
-            fxWizard.AddChildComponent<FxParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            gestureWizard.AddChildComponent<GestureEmoteSource>().RepopulateDefaultEmotes();
-            gestureWizard.AddChildComponent<GestureParameterEmoteSource>().RepopulateParameterEmotes(parametersWizard);
-            actionWizard.AddChildComponent<ActionEmoteSource>().RepopulateDefaultActionEmotes();
+            fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes14();
+            fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
+            gestureWizard.FindOrCreateChildComponent<GestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
+            actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。",
+                "セットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
     }
 }

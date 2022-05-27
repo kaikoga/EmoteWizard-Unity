@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -21,52 +22,49 @@ namespace Silksprite.EmoteWizard
             outputAsset = null;
         }
 
+        IEnumerable<ParameterItem> CollectSourceParameterItems()
+        {
+            return EmoteWizardRoot.GetComponentsInChildren<ParameterSource>()
+                .SelectMany(source => source.parameterItems)
+                .Where(item => item.enabled);
+        }
+
         public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Where(item => item.enabled).Concat(defaultParameterItems);
 
-        public bool AssertParameterExists(string parameterName)
+        public bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
-            var result = AllParameterItems.Any(item => item.name == parameterName);
-            if (!result) Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
-            return result;
-        }
-
-        public void TryRefreshParameters()
-        {
-            var expressionWizard = GetWizard<ExpressionWizard>();
-            if (expressionWizard == null)
+            foreach (var item in AllParameterItems)
             {
-                Debug.LogWarning("ExpressionWizard not found. Parameters are unchanged.");
-                return;
+                if (item.name != parameterName) continue;
+
+                if (itemKind == ParameterItemKind.Auto || itemKind == item.itemKind) return true;
+                Debug.LogWarning($"Ignored invalid parameter: {parameterName}, expected ${itemKind}, was ${item.itemKind}");
+                return false;
             }
-            DoRefreshParameters(expressionWizard);
+
+            Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
+            return false;
         }
 
-        public void ForceRefreshParameters()
-        {
-            var expressionWizard = GetWizard<ExpressionWizard>();
-            if (expressionWizard == null)
-            {
-                throw new Exception("ExpressionWizard not found. Parameters are unchanged.");
-            }
-            DoRefreshParameters(expressionWizard);
-        }
-
-        void DoRefreshParameters(ExpressionWizard expressionWizard)
+        public void RefreshParameters()
         {
             var builder = new ExpressionParameterBuilder();
 
-            if (parameterItems != null) builder.Import(parameterItems);
-
-            foreach (var expressionItem in expressionWizard.CollectExpressionItems())
+            var expressionWizard = GetWizard<ExpressionWizard>();
+            if (expressionWizard != null)
             {
-                if (!string.IsNullOrEmpty(expressionItem.parameter))
+                foreach (var expressionItem in expressionWizard.CollectExpressionItems())
                 {
-                    builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
-                }
-                if (!expressionItem.IsPuppet) continue;
-                foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
-                {
-                    builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                    if (!string.IsNullOrEmpty(expressionItem.parameter))
+                    {
+                        builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                    }
+
+                    if (!expressionItem.IsPuppet) continue;
+                    foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
+                    {
+                        builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                    }
                 }
             }
 
@@ -98,13 +96,15 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
+            builder.Import(CollectSourceParameterItems());
+
             parameterItems = builder.ParameterItems.ToList();
             defaultParameterItems = ParameterItem.PopulateDefaultParameters(defaultParameterItems ?? new List<ParameterItem>());
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()
         {
-            TryRefreshParameters(); 
+            RefreshParameters(); 
             return parameterItems
                 .Where(parameter => parameter.enabled)
                 .Select(parameter => parameter.ToParameter())

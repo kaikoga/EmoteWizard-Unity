@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources
 {
-    public class ActionEmoteSource : EmoteWizardDataSourceBase
+    public class ParameterSource : EmoteWizardDataSourceBase
     {
-        [SerializeField] public List<ActionEmote> actionEmotes = new List<ActionEmote>(); 
+        [SerializeField] public List<ParameterItem> parameterItems = new List<ParameterItem>();
     }
 }

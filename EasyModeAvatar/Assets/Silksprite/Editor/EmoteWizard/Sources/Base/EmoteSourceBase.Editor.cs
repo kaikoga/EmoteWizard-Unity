@@ -1,3 +1,5 @@
+using System.Linq;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
@@ -5,7 +7,9 @@ using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -32,11 +36,14 @@ namespace Silksprite.EmoteWizard.Sources.Base
         public override void OnInspectorGUI()
         {
             var emoteWizardRoot = _emoteSource.EmoteWizardRoot;
-            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-            var fxWizard = emoteWizardRoot.GetWizard<FxWizard>();
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(_emoteSource))
             {
-                EmoteWizardGUILayout.SetupOnlyUI(fxWizard, () =>
+                var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
+                var animationWizardBase = _emoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
+
+                EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
@@ -52,11 +59,28 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     }
                 });
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, fxWizard.LayerName, fxWizard.advancedAnimations, _emotesState).StartContext())
+                var advancedAnimations = _emoteSource.AdvancedAnimations;
+                using (new EditorGUI.DisabledScope(_emoteSource.HasComplexAnimations))
+                {
+                    TypedGUILayout.Toggle("Advanced Animations", ref advancedAnimations);
+                    if (advancedAnimations != _emoteSource.AdvancedAnimations)
+                    {
+                        _emoteSource.AdvancedAnimations = advancedAnimations;
+                    }
+                }
+
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, animationWizardBase.LayerName, _emoteSource.AdvancedAnimations, _emotesState).StartContext())
                 {
                     _emoteList.DrawAsProperty(_emoteSource.emotes, emoteWizardRoot.listDisplayMode);
                 }
             }
+            
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial => 
+            string.Join("\n",
+                "ハンドサインに基づくアニメーションの設定をします。",
+                "");
     }
 }

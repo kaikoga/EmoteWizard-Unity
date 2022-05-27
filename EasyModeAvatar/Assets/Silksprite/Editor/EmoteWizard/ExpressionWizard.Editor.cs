@@ -23,20 +23,11 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
+            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
+
             using (new ObjectChangeScope(expressionWizard))
             {
-                var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
-
-                if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
-                EmoteWizardGUILayout.SetupOnlyUI(expressionWizard, () =>
-                {
-                    if (GUILayout.Button("Create Default Expression Items"))
-                    {
-                        expressionWizard.AddChildComponent<ExpressionItemSource>().RepopulateDefaultExpressionItems();
-                    }
-                });
-
                 TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
 
                 if (expressionWizard.HasLegacyData)
@@ -46,10 +37,6 @@ namespace Silksprite.EmoteWizard
                     {
                         MigrateToDataSource();
                     }
-                }
-                if (GUILayout.Button("Add Expression Item Source"))
-                {
-                    expressionWizard.AddChildComponentAndSelect<ExpressionItemSource>();
                 }
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
@@ -61,9 +48,9 @@ namespace Silksprite.EmoteWizard
 
                     TypedGUILayout.AssetField("Output Asset", ref expressionWizard.outputAsset);
                 });
-
-                EmoteWizardGUILayout.Tutorial(emoteWizardRoot, "Expression Menuの設定を一括で行い、アセットを出力します。\nここで入力した値は他のWizardに自動的に引き継がれます。\n項目名を半角スラッシュで区切るとサブメニューを作成できます。");
             }
+
+            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         void MigrateToDataSource()
@@ -73,5 +60,10 @@ namespace Silksprite.EmoteWizard
             expressionWizard.legacyExpressionItems.Clear();
             source.defaultPrefix = expressionWizard.defaultPrefix;
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "Expression Menuを生成します。");
+
     }
 }
