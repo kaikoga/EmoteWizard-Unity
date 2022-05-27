@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                 existingEmote.CollectStates(allParameterItems.Single(p => p.name == existingEmote.parameter));
             }
 
-            var parameterItemsToCreate = parametersWizard.parameterItems
+            var parameterItemsToCreate = parametersWizard.ParameterItems
                 .Where(p => p.enabled && !existingParameterNames.Contains(p.name));
 
             foreach (var parameterItem in parameterItemsToCreate)

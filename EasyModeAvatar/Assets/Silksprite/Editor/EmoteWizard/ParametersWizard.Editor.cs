@@ -23,10 +23,10 @@ namespace Silksprite.EmoteWizard
         {
             parametersWizard = (ParametersWizard) target;
             
-            parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.parameterItems);
-            defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.defaultParameterItems);
-            IsExpandedTracker.SetDefaultExpanded(parametersWizard.parameterItems, false);
-            IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
+            parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.ParameterItems);
+            defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.DefaultParameterItems);
+            IsExpandedTracker.SetDefaultExpanded(parametersWizard.ParameterItems, false);
+            IsExpandedTracker.SetDefaultExpanded(parametersWizard.DefaultParameterItems, false);
         }
 
         public override void OnInspectorGUI()
@@ -40,21 +40,21 @@ namespace Silksprite.EmoteWizard
 
                 using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
-                    parameterItemsList.DrawAsProperty(parametersWizard.parameterItems, emoteWizardRoot.listDisplayMode);
+                    parameterItemsList.DrawAsProperty(parametersWizard.ParameterItems, emoteWizardRoot.listDisplayMode);
                 }
 
                 using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
                 {
-                    defaultParameterItemsList.DrawAsProperty(parametersWizard.defaultParameterItems, emoteWizardRoot.listDisplayMode);
+                    defaultParameterItemsList.DrawAsProperty(parametersWizard.DefaultParameterItems, emoteWizardRoot.listDisplayMode);
                 }
 
                 EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
                     () =>
                     {
-                        if (GUILayout.Button("Collect Parameters (auto)"))
+                        if (GUILayout.Button("Manually Refresh Parameters"))
                         {
                             parametersWizard.RefreshParameters();
-                            IsExpandedTracker.SetDefaultExpanded(parametersWizard.defaultParameterItems, false);
+                            IsExpandedTracker.SetDefaultExpanded(parametersWizard.DefaultParameterItems, false);
                         }
                     });
 
