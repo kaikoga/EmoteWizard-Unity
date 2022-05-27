@@ -76,14 +76,14 @@ namespace Silksprite.EmoteWizard.DataObjects
             ("InStation", ParameterItemKind.Bool, _empty)
         };
 
-        public static List<ParameterItem> PopulateDefaultParameters(List<ParameterItem> oldItems)
+        public static List<ParameterItem> PopulateDefaultParameters()
         {
             return _defaultParameters.Select(tuple =>
             {
                 var (name, kind, states) = tuple;
                 return new ParameterItem
                 {
-                    enabled = oldItems.FirstOrDefault(item => item.name == name)?.enabled ?? false,
+                    enabled = false,
                     defaultValue = 0,
                     name = name,
                     saved = false,

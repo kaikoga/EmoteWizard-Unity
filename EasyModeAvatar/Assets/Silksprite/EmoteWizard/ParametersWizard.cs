@@ -18,7 +18,14 @@ namespace Silksprite.EmoteWizard
         [NonSerialized] public List<ParameterItem> ParameterItems;
         [NonSerialized] public List<ParameterItem> DefaultParameterItems;
 
-        public IEnumerable<ParameterItem> AllParameterItems => ParameterItems.Where(item => item.enabled).Concat(DefaultParameterItems);
+        public IEnumerable<ParameterItem> AllParameterItems
+        {
+            get
+            {
+                if (DefaultParameterItems == null) RefreshParameters();
+                return ParameterItems.Where(item => item.enabled).Concat(DefaultParameterItems);
+            }
+        }
 
         public override void DisconnectOutputAssets()
         {
@@ -100,7 +107,7 @@ namespace Silksprite.EmoteWizard
             builder.Import(CollectSourceParameterItems());
 
             ParameterItems = builder.ParameterItems.ToList();
-            DefaultParameterItems = ParameterItem.PopulateDefaultParameters(DefaultParameterItems ?? new List<ParameterItem>());
+            DefaultParameterItems = DefaultParameterItems ?? ParameterItem.PopulateDefaultParameters();
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()
