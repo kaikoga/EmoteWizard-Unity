@@ -34,8 +34,8 @@ namespace Silksprite.EmoteWizard
                 emoteWizardRoot.EnsureWizard<AvatarWizard>();
                 emoteWizardRoot.EnsureWizard<ExpressionWizard>();
                 emoteWizardRoot.EnsureWizard<ParametersWizard>();
-                emoteWizardRoot.EnsureWizard<GestureWizard>();
                 emoteWizardRoot.EnsureWizard<FxWizard>();
+                emoteWizardRoot.EnsureWizard<GestureWizard>();
                 emoteWizardRoot.EnsureWizard<ActionWizard>();
             }
 
