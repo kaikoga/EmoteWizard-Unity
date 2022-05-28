@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard
                 }
 
                 TypedGUILayout.Toggle("AFK Select Enabled", ref actionWizard.afkSelectEnabled);
-                if (actionWizard.SelectableAfkEmotes)
+                if (actionWizard.afkSelectEnabled)
                 {
                     using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.afkSelectParameter)))
                     {
