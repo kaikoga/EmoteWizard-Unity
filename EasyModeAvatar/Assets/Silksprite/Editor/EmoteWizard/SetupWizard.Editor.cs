@@ -78,8 +78,8 @@ namespace Silksprite.EmoteWizard
             emoteWizardRoot.EnsureWizard<AvatarWizard>();
             var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
             var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
-            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
             expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
@@ -97,8 +97,8 @@ namespace Silksprite.EmoteWizard
             emoteWizardRoot.EnsureWizard<AvatarWizard>();
             var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
             var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
-            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
             expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
