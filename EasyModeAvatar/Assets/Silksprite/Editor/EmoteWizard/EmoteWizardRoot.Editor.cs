@@ -54,6 +54,10 @@ namespace Silksprite.EmoteWizard
                         }
                     }
                 }
+                if (GUILayout.Button("Add Empty Data Source"))
+                {
+                    emoteWizardRoot.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
+                }
                 if (GUILayout.Button("Disconnect Output Assets"))
                 {
                     emoteWizardRoot.DisconnectAllOutputAssets();
