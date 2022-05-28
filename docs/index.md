@@ -4,13 +4,13 @@
 
 - [index.md](index.md) このドキュメント
 - Emote Wizard のドキュメント
-  - [Emote Wizardの基本設定](1_EmoteWizard.md) ・・・Emote Wizardを使う上でのUIの設定など
-  - [セットアップ](2_SetupWizard.md) ・・・環境構築
-  - [Avatar Wizard](3_AvatarWizard.md) ・・・セットアップ対象のアバターの基本設定
-  - [Expression Wizard](4_ExpressionWizard.md) ・・・アクションメニュー項目の設定
-  - [Parameters Wizard](5_ParametersWizard.md) ・・・アニメーションパラメータの設定
-  - [Fx Wizard / Gesture Wizard](6_FxWizard.md) ・・・表情と動的着せ替えとハンドサインの設定
-  - [Action Wizard](7_ActionWizard.md) ・・・エモートとAFKアニメーションの設定
+  - [Emote Wizardの基本設定](1_EmoteWizardRoot.md) ・・・Emote Wizardを使う上でのUIの設定など
+  - [Emote Wizardのセットアップ](2_Setup.md) ・・・環境構築
+  - [アバターの設定](3_AvatarSettings.md) ・・・セットアップ対象のアバターの基本設定
+  - [Expressions Menuの設定](4_Expressions.md) ・・・アクションメニュー項目の設定
+  - [Expression Parametersの設定](5_Parameters.md) ・・・アニメーションパラメータの設定
+  - [FX / Gestureレイヤーの設定](6_FxAndGestures.md) ・・・表情と動的着せ替えとハンドサインの設定
+  - [Actionレイヤーの設定](7_Actions.md) ・・・エモートとAFKアニメーションの設定
   - [アバターのビルド](8_Publish.md) ・・・Emote Wizardから行える設定を完了したらすること
 - おまけ
   - [リセットアニメーション自動生成くん](r_ResetClipGenerator.md) ・・・Emote Wizardを使わない人向けのべんりツール
