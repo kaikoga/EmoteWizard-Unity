@@ -14,8 +14,19 @@ namespace Silksprite.EmoteWizard
     public class ParametersWizard : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
-        [SerializeField] public List<ParameterItem> parameterItems;
-        [SerializeField] public List<ParameterItem> defaultParameterItems;
+
+        [NonSerialized] public List<ParameterItem> ParameterItems;
+        [NonSerialized] public List<ParameterItem> DefaultParameterItems;
+
+        public IEnumerable<ParameterItem> AllParameterItems
+        {
+            get
+            {
+                if (DefaultParameterItems.Count == 0) DefaultParameterItems = null;
+                if (DefaultParameterItems == null || DefaultParameterItems.Count == 0) RefreshParameters();
+                return ParameterItems.Where(item => item.enabled).Concat(DefaultParameterItems);
+            }
+        }
 
         public override void DisconnectOutputAssets()
         {
@@ -28,8 +39,6 @@ namespace Silksprite.EmoteWizard
                 .SelectMany(source => source.parameterItems)
                 .Where(item => item.enabled);
         }
-
-        public IEnumerable<ParameterItem> AllParameterItems => parameterItems.Where(item => item.enabled).Concat(defaultParameterItems);
 
         public bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
@@ -98,14 +107,14 @@ namespace Silksprite.EmoteWizard
 
             builder.Import(CollectSourceParameterItems());
 
-            parameterItems = builder.ParameterItems.ToList();
-            defaultParameterItems = ParameterItem.PopulateDefaultParameters(defaultParameterItems ?? new List<ParameterItem>());
+            ParameterItems = builder.ParameterItems.ToList();
+            DefaultParameterItems = DefaultParameterItems ?? ParameterItem.PopulateDefaultParameters();
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()
         {
             RefreshParameters(); 
-            return parameterItems
+            return ParameterItems
                 .Where(parameter => parameter.enabled)
                 .Select(parameter => parameter.ToParameter())
                 .ToArray();

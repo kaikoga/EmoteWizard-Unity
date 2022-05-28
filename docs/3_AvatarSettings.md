@@ -1,9 +1,9 @@
-## Avatar Wizard
+## アバターの設定 
 
-`Avatar Wizard` ではセットアップ対象のアバターの基本情報を設定します。
-最低限 `Avatar Descriptor` だけセットして [次のステップ](4_ExpressionWizard.md) に進んでください。
+`Avatar Wizard` では操作対象のアバターを選択します。
+最低限 `Avatar Descriptor` だけセットして [次のステップ](4_Expressions.md) に進んでください。
 
-### インスペクタ
+### Avatar Wizard
 
 ![3.1.AvatarWizard.png](img/3.1.AvatarWizard.png)
 

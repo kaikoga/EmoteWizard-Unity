@@ -4,7 +4,6 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Silksprite.EmoteWizard
 {
@@ -16,10 +15,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public bool afkSelectEnabled = false;
         [SerializeField] public string afkSelectParameter = "EmoteWizardAFK";
 
-        [FormerlySerializedAs("actionEmotes")]
-        [SerializeField] public List<ActionEmote> legacyActionEmotes = new List<ActionEmote>();
-        [FormerlySerializedAs("afkEmotes")]
-        [SerializeField] public List<ActionEmote> legacyAfkEmotes = new List<ActionEmote>();
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
@@ -27,8 +22,6 @@ namespace Silksprite.EmoteWizard
         {
             outputAsset = null;
         }
-
-        public bool HasLegacyData => legacyActionEmotes?.Any() ?? legacyAfkEmotes?.Any() ?? false;
 
         public IEnumerable<ActionEmote> CollectActionEmotes()
         {

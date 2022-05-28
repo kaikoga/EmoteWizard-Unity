@@ -1,8 +1,4 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -47,15 +43,6 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                if (fxWizard.HasLegacyData)
-                {
-                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
-                    if (GUILayout.Button("Migrate to Data Source"))
-                    {
-                        MigrateToDataSource();
-                    }
-                }
-
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
                     EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(fxWizard, () =>
@@ -73,23 +60,6 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
-        }
-
-        void MigrateToDataSource()
-        {
-            var emoteSource = fxWizard.AddChildComponent<FxEmoteSource>();
-            emoteSource.emotes = fxWizard.legacyEmotes.ToList();
-            fxWizard.legacyEmotes.Clear();
-            
-            var parameterEmoteSource = fxWizard.AddChildComponent<FxParameterEmoteSource>();
-            parameterEmoteSource.parameterEmotes = fxWizard.legacyParameterEmotes.ToList();
-            fxWizard.legacyParameterEmotes.Clear();
-            
-            var mixinSource = fxWizard.AddChildComponent<FxAnimationMixinSource>();
-            mixinSource.baseMixins = fxWizard.legacyBaseMixins.ToList();
-            mixinSource.mixins = fxWizard.legacyMixins.ToList();
-            fxWizard.legacyBaseMixins.Clear();
-            fxWizard.legacyMixins.Clear();
         }
 
         static string Tutorial => 

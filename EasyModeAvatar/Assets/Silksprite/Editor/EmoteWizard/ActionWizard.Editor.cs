@@ -1,10 +1,7 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -45,7 +42,7 @@ namespace Silksprite.EmoteWizard
                 }
 
                 TypedGUILayout.Toggle("AFK Select Enabled", ref actionWizard.afkSelectEnabled);
-                if (actionWizard.SelectableAfkEmotes)
+                if (actionWizard.afkSelectEnabled)
                 {
                     using (new InvalidValueScope(parametersWizard.IsInvalidParameter(actionWizard.afkSelectParameter)))
                     {
@@ -57,14 +54,6 @@ namespace Silksprite.EmoteWizard
                     using (new EditorGUI.DisabledScope(true))
                     {
                         TypedGUILayout.TextField("AFK Select Parameter", ref actionWizard.afkSelectParameter);
-                    }
-                }
-                if (actionWizard.HasLegacyData)
-                {
-                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
-                    if (GUILayout.Button("Migrate to Data Source"))
-                    {
-                        MigrateToDataSource();
                     }
                 }
 
@@ -90,17 +79,6 @@ namespace Silksprite.EmoteWizard
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
-        }
-
-        void MigrateToDataSource()
-        {
-            var actionEmoteSource = actionWizard.AddChildComponent<ActionEmoteSource>();
-            actionEmoteSource.actionEmotes = actionWizard.legacyActionEmotes.ToList();
-            actionWizard.legacyActionEmotes.Clear();
-
-            var afkEmoteSource = actionWizard.AddChildComponent<AfkEmoteSource>();
-            afkEmoteSource.afkEmotes = actionWizard.legacyAfkEmotes.ToList();
-            actionWizard.legacyAfkEmotes.Clear();
         }
 
         static string Tutorial =>

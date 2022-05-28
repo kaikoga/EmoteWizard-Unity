@@ -26,22 +26,27 @@ namespace Silksprite.EmoteWizard.Sources.Base
                 existingEmote.CollectStates(allParameterItems.Single(p => p.name == existingEmote.parameter));
             }
 
-            var parameterItemsToCreate = parametersWizard.parameterItems
+            var parameterItemsToCreate = parametersWizard.ParameterItems
                 .Where(p => p.enabled && !existingParameterNames.Contains(p.name));
 
             foreach (var parameterItem in parameterItemsToCreate)
             {
-                var parameter = new ParameterEmote
-                {
-                    enabled = true,
-                    name = parameterItem.name,
-                    valueKind = parameterItem.ValueKind,
-                    parameter = parameterItem.name,
-                    emoteKind = ParameterEmoteKind.Transition
-                };
-                parameter.CollectStates(parameterItem);
-                parameterEmotes.Add(parameter);
+                GenerateSingleParameter(parameterItem);
             }
+        }
+
+        public void GenerateSingleParameter(ParameterItem parameterItem)
+        {
+            var parameter = new ParameterEmote
+            {
+                enabled = true,
+                name = parameterItem.name,
+                valueKind = parameterItem.ValueKind,
+                parameter = parameterItem.name,
+                emoteKind = ParameterEmoteKind.Transition
+            };
+            parameter.CollectStates(parameterItem);
+            parameterEmotes.Add(parameter);
         }
     }
 }

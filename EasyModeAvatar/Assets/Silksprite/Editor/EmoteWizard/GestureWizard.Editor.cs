@@ -1,9 +1,4 @@
-using System;
-using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -55,15 +50,6 @@ namespace Silksprite.EmoteWizard
                     return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
                 });
 
-                if (gestureWizard.HasLegacyData)
-                {
-                    EditorGUILayout.HelpBox("レガシーデータを検出しました。以下のボタンを押してエクスポートします。", MessageType.Warning);
-                    if (GUILayout.Button("Migrate to Data Source"))
-                    {
-                        MigrateToDataSource();
-                    }
-                }
-
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
                     EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(gestureWizard, () =>
@@ -82,23 +68,6 @@ namespace Silksprite.EmoteWizard
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
         }
 
-        void MigrateToDataSource()
-        {
-            var emoteSource = gestureWizard.AddChildComponent<GestureEmoteSource>();
-            emoteSource.emotes = gestureWizard.legacyEmotes.ToList();
-            gestureWizard.legacyEmotes.Clear();
-            
-            var parameterEmoteSource = gestureWizard.AddChildComponent<GestureParameterEmoteSource>();
-            parameterEmoteSource.parameterEmotes = gestureWizard.legacyParameterEmotes.ToList();
-            gestureWizard.legacyParameterEmotes.Clear();
-            
-            var mixinSource = gestureWizard.AddChildComponent<GestureAnimationMixinSource>();
-            mixinSource.baseMixins = gestureWizard.legacyBaseMixins.ToList();
-            mixinSource.mixins = gestureWizard.legacyMixins.ToList();
-            gestureWizard.legacyBaseMixins.Clear();
-            gestureWizard.legacyMixins.Clear();
-        }
-        
         static string Tutorial => 
             string.Join("\n",
                 "Gesture Layerの設定を行い、Animation Controllerを生成します。");

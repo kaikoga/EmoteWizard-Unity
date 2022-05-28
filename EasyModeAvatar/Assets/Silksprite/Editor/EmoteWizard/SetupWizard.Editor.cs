@@ -34,8 +34,8 @@ namespace Silksprite.EmoteWizard
                 emoteWizardRoot.EnsureWizard<AvatarWizard>();
                 emoteWizardRoot.EnsureWizard<ExpressionWizard>();
                 emoteWizardRoot.EnsureWizard<ParametersWizard>();
-                emoteWizardRoot.EnsureWizard<GestureWizard>();
                 emoteWizardRoot.EnsureWizard<FxWizard>();
+                emoteWizardRoot.EnsureWizard<GestureWizard>();
                 emoteWizardRoot.EnsureWizard<ActionWizard>();
             }
 
@@ -78,12 +78,12 @@ namespace Silksprite.EmoteWizard
             emoteWizardRoot.EnsureWizard<AvatarWizard>();
             var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
             var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
-            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
             expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
-            parametersWizard.RepopulateParameters();
+            parametersWizard.RefreshParameters();
             fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes();
             fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
             gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
@@ -97,12 +97,12 @@ namespace Silksprite.EmoteWizard
             emoteWizardRoot.EnsureWizard<AvatarWizard>();
             var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
             var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
-            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
+            var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
             expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
             expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
-            parametersWizard.RepopulateParameters();
+            parametersWizard.RefreshParameters();
             fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes14();
             fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
             gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
