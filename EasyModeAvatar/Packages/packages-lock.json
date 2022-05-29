@@ -73,6 +73,23 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "com.vrchat.avatars": {
+      "version": "https://github.com/vrchat/packages.git?path=/packages/com.vrchat.avatars#3.0.6",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "604bbe8da908618747141f9c47063cf73ca52a31"
+    },
+    "com.vrchat.base": {
+      "version": "https://github.com/vrchat/packages.git?path=/packages/com.vrchat.base#3.0.6",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.burst": "1.4.11",
+        "com.unity.mathematics": "1.2.5"
+      },
+      "hash": "604bbe8da908618747141f9c47063cf73ca52a31"
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,
