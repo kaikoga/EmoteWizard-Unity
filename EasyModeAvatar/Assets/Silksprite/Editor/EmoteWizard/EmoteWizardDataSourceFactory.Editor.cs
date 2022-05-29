@@ -116,7 +116,7 @@ namespace Silksprite.EmoteWizard
                 expressionItemSource.expressionItems.Add(new ExpressionItem
                 {
                     enabled = true,
-                    icon = VrcSdkAssetLocator.PersonDance(),
+                    icon = VrcSdkAssetLocator.ItemWand(),
                     path = $"{_itemName}/Item {value}",
                     parameter = _itemName,
                     value = value,
@@ -157,7 +157,7 @@ namespace Silksprite.EmoteWizard
             expressionItemSource.expressionItems.Add(new ExpressionItem
             {
                 enabled = true,
-                icon = VrcSdkAssetLocator.PersonDance(),
+                icon = VrcSdkAssetLocator.ItemFolder(),
                 path = _itemName,
                 value = 0,
                 itemKind = ExpressionItemKind.SubMenu

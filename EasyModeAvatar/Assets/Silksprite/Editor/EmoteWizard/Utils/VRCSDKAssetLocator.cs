@@ -25,6 +25,12 @@ namespace Silksprite.EmoteWizard.Utils
                 "Assets/VRCSDK/Examples3/Expressions Menu/Icons/item_folder.png");
         }
 
+        public static Texture2D ItemWand()
+        {
+            return LoadAssetByGuidOrPath<Texture2D>("0ff9333af28b8224893850e22c95e496", 
+                "Assets/VRCSDK/Examples3/Expressions Menu/Icons/item_wand.png");
+        }
+
         public static AvatarMask HandsOnly()
         {
             return LoadAssetByGuidOrPath<AvatarMask>("b2b8bad9583e56a46a3e21795e96ad92", 
