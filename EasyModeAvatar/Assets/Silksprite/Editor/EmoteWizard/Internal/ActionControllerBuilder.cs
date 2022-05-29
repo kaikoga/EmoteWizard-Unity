@@ -197,7 +197,6 @@ namespace Silksprite.EmoteWizard.Internal
         static void PopulateTrackingControl(AnimatorState state, VRC_AnimatorTrackingControl.TrackingType value)
         {
             var trackingControl = state.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
-            // FIXME: customize?
             trackingControl.trackingHead = value; 
             trackingControl.trackingLeftHand = value; 
             trackingControl.trackingRightHand = value; 

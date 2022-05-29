@@ -28,7 +28,6 @@ namespace Silksprite.EmoteWizardSupport.UI
                 var typedDrawerInterfaces = type.FindInterfaces((t, _) => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(ITypedDrawer<>), null);
                 if (type.IsGenericTypeDefinition)
                 {
-                    // TODO: Use some more information?
                     AddDrawerGenerator(type);
                 }
                 else
