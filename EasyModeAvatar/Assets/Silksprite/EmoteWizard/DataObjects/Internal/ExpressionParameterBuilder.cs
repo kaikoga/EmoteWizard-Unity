@@ -1,39 +1,34 @@
 using System.Collections.Generic;
 using System.Linq;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ExpressionParameterBuilder
     {
-        readonly List<ParameterItemBuilder> parameterItems;
-        public IEnumerable<ParameterItem> ParameterItems => parameterItems.Select(item => item.Export());
+        readonly List<ParameterItemBuilder> _parameterItems;
+        public IEnumerable<ParameterItem> ParameterItems => _parameterItems.Where(item => item.enabled).Select(item => item.Export());
 
         public ExpressionParameterBuilder()
         {
-            parameterItems = new List<ParameterItemBuilder>();
+            _parameterItems = new List<ParameterItemBuilder>();
         }
 
-        public ParameterItemBuilder FindOrCreate(string name)
+        public ParameterItemBuilder FindOrCreate(string name, bool enable = false)
         {
-            var result = parameterItems.FirstOrDefault(parameter => parameter.name == name);
-            if (result != null) return result;
-            result = ParameterItemBuilder.Populate(name);
-            parameterItems.Add(result);
-            return result;
-        }
-
-        public void Import(IEnumerable<VRCExpressionParameters.Parameter> parameters)
-        {
-            foreach (var parameter in parameters)
+            var result = _parameterItems.FirstOrDefault(parameter => parameter.name == name);
+            if (result == null)
             {
-                FindOrCreate(parameter.name).Import(parameter);
+                result = ParameterItemBuilder.Populate(name);
+                _parameterItems.Add(result);
             }
+
+            if (enable) result.Enable();
+            return result;
         }
 
         public void Import(IEnumerable<ParameterItem> parameters)
         {
-            foreach (var parameter in parameters)
+            foreach (var parameter in parameters.Where(i => i.enabled))
             {
                 FindOrCreate(parameter.name).Import(parameter);
             }

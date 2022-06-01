@@ -38,7 +38,6 @@ namespace Silksprite.EmoteWizardSupport.UI
             if (type == null) return Invalid;
             if (UntypedDrawers.TryGetValue(type, out var cached)) return cached;
 
-            // XXX: This mess could be done better
             foreach (var drawerType in DrawerGenerators)
             {
                 for (var typeParameter = type; typeParameter != null; typeParameter = typeParameter.GenericTypeArguments.FirstOrDefault())

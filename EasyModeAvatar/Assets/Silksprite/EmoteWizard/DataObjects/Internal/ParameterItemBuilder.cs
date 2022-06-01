@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ParameterItemBuilder
     {
-        bool enabled = true;
-        public string name;
+        public string name { get; private set; }
+        public bool enabled { get; private set; }
+
         ParameterItemKind itemKind;
         bool saved = true;
         float defaultValue;
@@ -18,12 +19,17 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             return new ParameterItemBuilder
             {
-                enabled = true,
+                enabled = false,
                 name = name,
                 itemKind = ParameterItemKind.Auto,
                 saved = false,
                 defaultValue = 0,
             };
+        }
+
+        public void Enable()
+        {
+            enabled = true;
         }
 
         void AddDefaultUsage()
@@ -62,15 +68,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             AddDefaultUsage();
             itemKind = ParameterItemKind.Int;
-        }
-
-        public void Import(VRCExpressionParameters.Parameter parameter)
-        {
-            enabled = true;
-            name = parameter.name;
-            saved = parameter.saved;
-            defaultValue = parameter.defaultValue;
-            AddUsage(parameter.defaultValue);
         }
 
         public void Import(ParameterItem parameter)

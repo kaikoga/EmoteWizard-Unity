@@ -16,7 +16,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public bool showTutorial;
         [SerializeField] public bool showCopyPasteJsonButtons;
 
-        // NOTE: allows children setup for historical reasons(Low Spec UI), but it does not make sense in Source meta and not recommended
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 
         public T EnsureWizard<T>() where T : EmoteWizardBase
