@@ -46,6 +46,7 @@ jobs:
         with:
           package-path: ${{ env.unityPackage }}
           include-files: metaList
+          project-folder: ./EasyModeAvatar
         
         
       - name: Make Release
