@@ -38,7 +38,8 @@ jobs:
           directory: "EasyModeAvatar/Packages/${{env.packageName}}/"
           filename: "../../../${{env.zipFile}}" # make the zip file two directories up, since we start two directories in above
           
-      - run: find "EasyModeAvatar/Packages/${{env.packageName}}/" -name \*.meta >> metaList
+      - run: find "Packages/${{env.packageName}}/" -name \*.meta >> ../metaList
+        working-directory: ./EasyModeAvatar
           
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
