@@ -2,8 +2,9 @@ using System.Linq;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
+using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -12,46 +13,46 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Sources.Multi
 {
-    [CustomEditor(typeof(ExpressionItemSource))]
-    public class ExpressionItemSourceEditor : Editor
+    [CustomEditor(typeof(MultiExpressionItemSource))]
+    public class MultiExpressionItemSourceEditor : Editor
     {
-        ExpressionItemSource _expressionItemSource;
+        MultiExpressionItemSource _multiExpressionItemSource;
 
         ExpandableReorderableList<ExpressionItem> _expressionItemsList;
 
         void OnEnable()
         {
-            _expressionItemSource = (ExpressionItemSource)target;
+            _multiExpressionItemSource = (MultiExpressionItemSource)target;
             
-            _expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Expression Items", ref _expressionItemSource.expressionItems);
+            _expressionItemsList = new ExpandableReorderableList<ExpressionItem>(new ExpressionItemListHeaderDrawer(), new ExpressionItemDrawer(), "Expression Items", ref _multiExpressionItemSource.expressionItems);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _expressionItemSource.EmoteWizardRoot;
+            var emoteWizardRoot = _multiExpressionItemSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            using (new ObjectChangeScope(_expressionItemSource))
+            using (new ObjectChangeScope(_multiExpressionItemSource))
             {
-                EmoteWizardGUILayout.SetupOnlyUI(_expressionItemSource, () =>
+                EmoteWizardGUILayout.SetupOnlyUI(_multiExpressionItemSource, () =>
                 {
                     if (GUILayout.Button("Reset Expression Items"))
                     {
-                        _expressionItemSource.RepopulateDefaultExpressionItems();
+                        _multiExpressionItemSource.RepopulateDefaultExpressionItems();
                     }
                 });
 
                 using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
                 {
-                    _expressionItemsList.DrawAsProperty(_expressionItemSource.expressionItems, emoteWizardRoot.listDisplayMode);
+                    _expressionItemsList.DrawAsProperty(_multiExpressionItemSource.expressionItems, emoteWizardRoot.listDisplayMode);
                 }
 
-                TypedGUILayout.TextField("Default Prefix", ref _expressionItemSource.defaultPrefix);
+                TypedGUILayout.TextField("Default Prefix", ref _multiExpressionItemSource.defaultPrefix);
                 if (GUILayout.Button("Populate Default Expression Items"))
                 {
-                    _expressionItemSource.PopulateDefaultExpressionItems();
+                    _multiExpressionItemSource.PopulateDefaultExpressionItems();
                 }
 
                 if (GUILayout.Button("Group by Folder (Sort)"))
@@ -66,7 +67,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         void GroupItemsByFolder()
         {
-            _expressionItemSource.expressionItems = _expressionItemSource.expressionItems
+            _multiExpressionItemSource.expressionItems = _multiExpressionItemSource.expressionItems
                 .GroupBy(item => item.Folder)
                 .SelectMany(group => group)
                 .ToList();

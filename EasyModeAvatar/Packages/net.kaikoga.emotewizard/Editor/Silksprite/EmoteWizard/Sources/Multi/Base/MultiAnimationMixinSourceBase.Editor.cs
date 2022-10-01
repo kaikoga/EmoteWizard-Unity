@@ -2,7 +2,7 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Sources.Impl.Base;
+using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -10,12 +10,12 @@ using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 
-namespace Silksprite.EmoteWizard.Sources.Base
+namespace Silksprite.EmoteWizard.Sources.Multi.Base
 {
-    [CustomEditor(typeof(AnimationMixinSourceBase), true)]
-    public class AnimationMixinSourceBaseEditor : Editor
+    [CustomEditor(typeof(MultiAnimationMixinSourceBase), true)]
+    public class MultiAnimationMixinSourceBaseEditor : Editor
     {
-        AnimationMixinSourceBase _animationMixinSource;
+        MultiAnimationMixinSourceBase _multiAnimationMixinSource;
 
         AnimationMixinDrawerState _baseMixinsState;
         AnimationMixinDrawerState _mixinsState;
@@ -25,33 +25,33 @@ namespace Silksprite.EmoteWizard.Sources.Base
 
         void OnEnable()
         {
-            _animationMixinSource = (AnimationMixinSourceBase)target;
+            _multiAnimationMixinSource = (MultiAnimationMixinSourceBase)target;
 
             _baseMixinsState = new AnimationMixinDrawerState();
             _mixinsState = new AnimationMixinDrawerState();
 
-            _baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref _animationMixinSource.baseMixins);
-            _mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref _animationMixinSource.mixins);
+            _baseMixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Base Mixins", ref _multiAnimationMixinSource.baseMixins);
+            _mixinsList = new ExpandableReorderableList<AnimationMixin>(new AnimationMixinListHeaderDrawer(), new AnimationMixinDrawer(), "Mixins", ref _multiAnimationMixinSource.mixins);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _animationMixinSource.EmoteWizardRoot;
+            var emoteWizardRoot = _multiAnimationMixinSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            using (new ObjectChangeScope(_animationMixinSource))
+            using (new ObjectChangeScope(_multiAnimationMixinSource))
             {
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
 
-                var relativePath = GeneratedAssetLocator.MixinDirectoryPath(_animationMixinSource.LayerName);
+                var relativePath = GeneratedAssetLocator.MixinDirectoryPath(_multiAnimationMixinSource.LayerName);
                 using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, _baseMixinsState).StartContext())
                 {
-                    _baseMixinsList.DrawAsProperty(_animationMixinSource.baseMixins, emoteWizardRoot.listDisplayMode);
+                    _baseMixinsList.DrawAsProperty(_multiAnimationMixinSource.baseMixins, emoteWizardRoot.listDisplayMode);
                 }
 
                 using (new AnimationMixinDrawerContext(emoteWizardRoot, parametersWizard, relativePath, _mixinsState).StartContext())
                 {
-                    _mixinsList.DrawAsProperty(_animationMixinSource.mixins, emoteWizardRoot.listDisplayMode);
+                    _mixinsList.DrawAsProperty(_multiAnimationMixinSource.mixins, emoteWizardRoot.listDisplayMode);
                 }
             }
             

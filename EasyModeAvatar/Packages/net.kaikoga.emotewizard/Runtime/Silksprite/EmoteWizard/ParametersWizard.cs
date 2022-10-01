@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard
         {
             get
             {
-                if (DefaultParameterItems.Count == 0) DefaultParameterItems = null;
+                if (DefaultParameterItems?.Count == 0) DefaultParameterItems = null;
                 if (DefaultParameterItems == null || DefaultParameterItems.Count == 0) RefreshParameters();
                 return ParameterItems.Where(item => item.enabled).Concat(DefaultParameterItems);
             }

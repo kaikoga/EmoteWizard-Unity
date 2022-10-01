@@ -4,9 +4,9 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Impl.Base
+namespace Silksprite.EmoteWizard.Sources.Impl.Multi.Base
 {
-    public abstract class AnimationMixinSourceBase : EmoteWizardDataSourceBase, IAnimationMixinSourceBase
+    public abstract class MultiAnimationMixinSourceBase : EmoteWizardDataSourceBase, IAnimationMixinSourceBase
     {
         [SerializeField] public List<AnimationMixin> baseMixins = new List<AnimationMixin>();
         [SerializeField] public List<AnimationMixin> mixins = new List<AnimationMixin>();

@@ -3,9 +3,9 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Impl
+namespace Silksprite.EmoteWizard.Sources.Impl.Multi
 {
-    public class ExpressionItemSource : EmoteWizardDataSourceBase, IExpressionItemSource
+    public class MultiExpressionItemSource : EmoteWizardDataSourceBase, IExpressionItemSource
     {
         [SerializeField] public List<ExpressionItem> expressionItems = new List<ExpressionItem>(); 
 

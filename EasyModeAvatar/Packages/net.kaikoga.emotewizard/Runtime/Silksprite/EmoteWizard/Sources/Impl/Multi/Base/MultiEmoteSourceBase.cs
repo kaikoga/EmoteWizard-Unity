@@ -5,9 +5,9 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Impl.Base
+namespace Silksprite.EmoteWizard.Sources.Impl.Multi.Base
 {
-    public abstract class EmoteSourceBase : EmoteWizardDataSourceBase, IEmoteSourceBase
+    public abstract class MultiEmoteSourceBase : EmoteWizardDataSourceBase, IEmoteSourceBase
     {
         [SerializeField] public List<Emote> emotes = new List<Emote>();
         [SerializeField] public bool advancedAnimations;

@@ -2,8 +2,9 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
+using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -11,12 +12,12 @@ using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Sources.Multi
 {
-    [CustomEditor(typeof(ActionEmoteSource))]
-    public class ActionEmoteSourceEditor : Editor
+    [CustomEditor(typeof(MultiActionEmoteSource))]
+    public class MultiActionEmoteSourceEditor : Editor
     {
-        ActionEmoteSource _actionEmoteSource;
+        MultiActionEmoteSource _multiActionEmoteSource;
 
         ActionEmoteDrawerState _actionEmotesState;
 
@@ -24,32 +25,32 @@ namespace Silksprite.EmoteWizard.Sources
 
         void OnEnable()
         {
-            _actionEmoteSource = (ActionEmoteSource)target;
+            _multiActionEmoteSource = (MultiActionEmoteSource)target;
             
             _actionEmotesState = new ActionEmoteDrawerState();
 
-            _actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref _actionEmoteSource.actionEmotes);
+            _actionEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "Action Emotes", ref _multiActionEmoteSource.actionEmotes);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _actionEmoteSource.EmoteWizardRoot;
+            var emoteWizardRoot = _multiActionEmoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            using (new ObjectChangeScope(_actionEmoteSource))
+            using (new ObjectChangeScope(_multiActionEmoteSource))
             {
                 var actionWizard = emoteWizardRoot.GetWizard<ActionWizard>();
 
-                EmoteWizardGUILayout.SetupOnlyUI(_actionEmoteSource, () =>
+                EmoteWizardGUILayout.SetupOnlyUI(_multiActionEmoteSource, () =>
                 {
                     if (GUILayout.Button("Repopulate Default Actions"))
                     {
-                        _actionEmoteSource.RepopulateDefaultActionEmotes();
+                        _multiActionEmoteSource.RepopulateDefaultActionEmotes();
                     }
                 });
                 using (new ActionEmoteDrawerContext(emoteWizardRoot, _actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
                 {
-                    _actionEmotesList.DrawAsProperty(_actionEmoteSource.actionEmotes, emoteWizardRoot.listDisplayMode);
+                    _actionEmotesList.DrawAsProperty(_multiActionEmoteSource.actionEmotes, emoteWizardRoot.listDisplayMode);
                 }
             }
 

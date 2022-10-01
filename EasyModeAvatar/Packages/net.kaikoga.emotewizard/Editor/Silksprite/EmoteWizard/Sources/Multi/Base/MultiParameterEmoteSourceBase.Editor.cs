@@ -2,8 +2,8 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Sources.Extensions;
-using Silksprite.EmoteWizard.Sources.Impl.Base;
+using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
+using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -12,12 +12,12 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Base
+namespace Silksprite.EmoteWizard.Sources.Multi.Base
 {
-    [CustomEditor(typeof(ParameterEmoteSourceBase), true)]
-    public class ParameterEmoteSourceBaseEditor : Editor
+    [CustomEditor(typeof(MultiParameterEmoteSourceBase), true)]
+    public class MultiParameterEmoteSourceBaseEditor : Editor
     {
-        ParameterEmoteSourceBase _parameterEmoteSource;
+        MultiParameterEmoteSourceBase _multiParameterEmoteSource;
 
         ParameterEmoteDrawerState _parametersState;
 
@@ -25,40 +25,40 @@ namespace Silksprite.EmoteWizard.Sources.Base
 
         void OnEnable()
         {
-            _parameterEmoteSource = (ParameterEmoteSourceBase)target;
+            _multiParameterEmoteSource = (MultiParameterEmoteSourceBase)target;
 
             _parametersState = new ParameterEmoteDrawerState();
 
-            _parameterEmoteList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref _parameterEmoteSource.parameterEmotes);
+            _parameterEmoteList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref _multiParameterEmoteSource.parameterEmotes);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _parameterEmoteSource.EmoteWizardRoot;
+            var emoteWizardRoot = _multiParameterEmoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            using (new ObjectChangeScope(_parameterEmoteSource))
+            using (new ObjectChangeScope(_multiParameterEmoteSource))
             {
                 var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
 
-                EmoteWizardGUILayout.SetupOnlyUI(_parameterEmoteSource, () =>
+                EmoteWizardGUILayout.SetupOnlyUI(_multiParameterEmoteSource, () =>
                 {
                     if (GUILayout.Button("Repopulate Parameters"))
                     {
-                        _parameterEmoteSource.RepopulateParameterEmotes(parametersWizard);
+                        _multiParameterEmoteSource.RepopulateParameterEmotes(parametersWizard);
                     }
                 });
 
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, _parameterEmoteSource, parametersWizard, _parameterEmoteSource.LayerName, _parametersState).StartContext())
+                using (new ParameterEmoteDrawerContext(emoteWizardRoot, _multiParameterEmoteSource, parametersWizard, _multiParameterEmoteSource.LayerName, _parametersState).StartContext())
                 {
-                    _parameterEmoteList.DrawAsProperty(_parameterEmoteSource.parameterEmotes, emoteWizardRoot.listDisplayMode);
+                    _parameterEmoteList.DrawAsProperty(_multiParameterEmoteSource.parameterEmotes, emoteWizardRoot.listDisplayMode);
                 }
 
-                if (IsExpandedTracker.GetIsExpanded(_parameterEmoteSource.parameterEmotes))
+                if (IsExpandedTracker.GetIsExpanded(_multiParameterEmoteSource.parameterEmotes))
                 {
                     if (GUILayout.Button("Generate Parameters"))
                     {
-                        _parameterEmoteSource.GenerateParameters(parametersWizard);
+                        _multiParameterEmoteSource.GenerateParameters(parametersWizard);
                     }
                 }
             }

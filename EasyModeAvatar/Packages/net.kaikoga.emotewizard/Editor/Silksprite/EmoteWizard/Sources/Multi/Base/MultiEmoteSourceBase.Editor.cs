@@ -3,8 +3,8 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Sources.Extensions;
-using Silksprite.EmoteWizard.Sources.Impl.Base;
+using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
+using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -13,12 +13,12 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Base
+namespace Silksprite.EmoteWizard.Sources.Multi.Base
 {
-    [CustomEditor(typeof(EmoteSourceBase), true)]
-    public class EmoteSourceEditor : Editor
+    [CustomEditor(typeof(MultiEmoteSourceBase), true)]
+    public class MultiEmoteSourceEditor : Editor
     {
-        EmoteSourceBase _emoteSource;
+        MultiEmoteSourceBase _multiEmoteSource;
 
         EmoteDrawerState _emotesState;
 
@@ -26,52 +26,52 @@ namespace Silksprite.EmoteWizard.Sources.Base
 
         void OnEnable()
         {
-            _emoteSource = (EmoteSourceBase)target;
+            _multiEmoteSource = (MultiEmoteSourceBase)target;
 
             _emotesState = new EmoteDrawerState();
 
-            _emoteList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref _emoteSource.emotes);
+            _emoteList = new ExpandableReorderableList<Emote>(new EmoteListHeaderDrawer(), new EmoteDrawer(), "HandSign Emotes", ref _multiEmoteSource.emotes);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _emoteSource.EmoteWizardRoot;
+            var emoteWizardRoot = _multiEmoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            using (new ObjectChangeScope(_emoteSource))
+            using (new ObjectChangeScope(_multiEmoteSource))
             {
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-                var animationWizardBase = _emoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
+                var animationWizardBase = _multiEmoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
 
                 EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
                 {
                     if (GUILayout.Button("Repopulate HandSigns: 7 items"))
                     {
-                        _emoteSource.RepopulateDefaultEmotes();
+                        _multiEmoteSource.RepopulateDefaultEmotes();
                     }
 
-                    if (_emoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx)
+                    if (_multiEmoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx)
                     {
                         if (GUILayout.Button("Repopulate HandSigns: 14 items"))
                         {
-                            _emoteSource.RepopulateDefaultEmotes14();
+                            _multiEmoteSource.RepopulateDefaultEmotes14();
                         }
                     }
                 });
 
-                var advancedAnimations = _emoteSource.AdvancedAnimations;
-                using (new EditorGUI.DisabledScope(_emoteSource.HasComplexAnimations))
+                var advancedAnimations = _multiEmoteSource.AdvancedAnimations;
+                using (new EditorGUI.DisabledScope(_multiEmoteSource.HasComplexAnimations))
                 {
                     TypedGUILayout.Toggle("Advanced Animations", ref advancedAnimations);
-                    if (advancedAnimations != _emoteSource.AdvancedAnimations)
+                    if (advancedAnimations != _multiEmoteSource.AdvancedAnimations)
                     {
-                        _emoteSource.AdvancedAnimations = advancedAnimations;
+                        _multiEmoteSource.AdvancedAnimations = advancedAnimations;
                     }
                 }
 
-                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, animationWizardBase.LayerName, _emoteSource.AdvancedAnimations, _emotesState).StartContext())
+                using (new EmoteDrawerContext(emoteWizardRoot, parametersWizard, animationWizardBase.LayerName, _multiEmoteSource.AdvancedAnimations, _emotesState).StartContext())
                 {
-                    _emoteList.DrawAsProperty(_emoteSource.emotes, emoteWizardRoot.listDisplayMode);
+                    _emoteList.DrawAsProperty(_multiEmoteSource.emotes, emoteWizardRoot.listDisplayMode);
                 }
             }
             

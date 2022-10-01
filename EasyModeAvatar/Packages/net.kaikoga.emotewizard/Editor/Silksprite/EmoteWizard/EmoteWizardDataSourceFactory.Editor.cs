@@ -1,6 +1,7 @@
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -25,11 +26,11 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button(new GUIContent("Expression Item", "Expression Menuのメニュー項目")))
                     {
-                        sourceFactory.gameObject.AddComponent<ExpressionItemSource>();
+                        sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
                     }
                     if (GUILayout.Button(new GUIContent("Parameter", "外部アセットが利用するExpression Parameter")))
                     {
-                        sourceFactory.gameObject.AddComponent<ParameterSource>();
+                        sourceFactory.gameObject.AddComponent<MultiParameterSource>();
                     }
                 }
 
@@ -38,15 +39,15 @@ namespace Silksprite.EmoteWizard
                     GUILayout.Label("Gesture", GUILayout.Width(60f));
                     if (GUILayout.Button(new GUIContent("Emote", "ハンドサインに基づくアニメーション(Gesture)")))
                     {
-                        sourceFactory.gameObject.AddComponent<GestureEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<MultiGestureEmoteSource>();
                     }
                     if (GUILayout.Button(new GUIContent("Parameter Emote", "パラメーターに基づくアニメーション(Gesture)")))
                     {
-                        sourceFactory.gameObject.AddComponent<GestureParameterEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<MultiGestureParameterEmoteSource>();
                     }
                     if (GUILayout.Button(new GUIContent("Mixin", "常時再生したいアニメーションやブレンドツリー(Gesture)")))
                     {
-                        sourceFactory.gameObject.AddComponent<GestureAnimationMixinSource>();
+                        sourceFactory.gameObject.AddComponent<MultiGestureAnimationMixinSource>();
                     }
                 }
 
@@ -55,15 +56,15 @@ namespace Silksprite.EmoteWizard
                     GUILayout.Label("FX", GUILayout.Width(60f));
                     if (GUILayout.Button(new GUIContent("Emote", "ハンドサインに基づくアニメーション(FX)")))
                     {
-                        sourceFactory.gameObject.AddComponent<FxEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<MultiFxEmoteSource>();
                     }
                     if (GUILayout.Button(new GUIContent("Parameter Emote", "パラメーターに基づくアニメーション(FX)")))
                     {
-                        sourceFactory.gameObject.AddComponent<FxParameterEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<MultiFxParameterEmoteSource>();
                     }
                     if (GUILayout.Button(new GUIContent("Mixin", "常時再生したいアニメーションやブレンドツリー(FX)")))
                     {
-                        sourceFactory.gameObject.AddComponent<FxAnimationMixinSource>();
+                        sourceFactory.gameObject.AddComponent<MultiFxAnimationMixinSource>();
                     }
                 }
 
@@ -71,11 +72,11 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button(new GUIContent("Action Emote", "エモートモーション")))
                     {
-                        sourceFactory.gameObject.AddComponent<ActionEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<MultiActionEmoteSource>();
                     }
                     if (GUILayout.Button(new GUIContent("Afk Emote", "カスタムAFKモーション")))
                     {
-                        sourceFactory.gameObject.AddComponent<AfkEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<MultiAfkEmoteSource>();
                     }
                 }
 
@@ -110,7 +111,7 @@ namespace Silksprite.EmoteWizard
 
         void GenerateDressChangeTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
-            var expressionItemSource = sourceFactory.gameObject.AddComponent<ExpressionItemSource>();
+            var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
             foreach (var value in Enumerable.Range(1, 2))
             {
                 expressionItemSource.expressionItems.Add(new ExpressionItem
@@ -124,7 +125,7 @@ namespace Silksprite.EmoteWizard
                 });
             }
 
-            var fxParameterEmoteSource = sourceFactory.gameObject.AddComponent<FxParameterEmoteSource>();
+            var fxParameterEmoteSource = sourceFactory.gameObject.AddComponent<MultiFxParameterEmoteSource>();
             var parametersWizard = sourceFactory.EmoteWizardRoot.GetWizard<ParametersWizard>();
             parametersWizard.RefreshParameters();
             fxParameterEmoteSource.GenerateSingleParameter(parametersWizard.AllParameterItems.First(p => p.name == _itemName));
@@ -132,7 +133,7 @@ namespace Silksprite.EmoteWizard
 
         void GenerateActionEmoteTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
-            var expressionItemSource = sourceFactory.gameObject.AddComponent<ExpressionItemSource>();
+            var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
             expressionItemSource.expressionItems.Add(new ExpressionItem
             {
                 enabled = true,
@@ -142,7 +143,7 @@ namespace Silksprite.EmoteWizard
                 value = 21,
                 itemKind = ExpressionItemKind.Toggle
             });
-            var actionEmoteSource = sourceFactory.gameObject.AddComponent<ActionEmoteSource>();
+            var actionEmoteSource = sourceFactory.gameObject.AddComponent<MultiActionEmoteSource>();
             actionEmoteSource.actionEmotes.Add(new ActionEmote
             {
                 enabled = true,
@@ -153,7 +154,7 @@ namespace Silksprite.EmoteWizard
 
         void GenerateAssetTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
-            var expressionItemSource = sourceFactory.gameObject.AddComponent<ExpressionItemSource>();
+            var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
             expressionItemSource.expressionItems.Add(new ExpressionItem
             {
                 enabled = true,
@@ -162,7 +163,7 @@ namespace Silksprite.EmoteWizard
                 value = 0,
                 itemKind = ExpressionItemKind.SubMenu
             });
-            var parameterSource = sourceFactory.gameObject.AddComponent<ParameterSource>();
+            var parameterSource = sourceFactory.gameObject.AddComponent<MultiParameterSource>();
             parameterSource.parameterItems.Add(new ParameterItem
             {
                 enabled = true,

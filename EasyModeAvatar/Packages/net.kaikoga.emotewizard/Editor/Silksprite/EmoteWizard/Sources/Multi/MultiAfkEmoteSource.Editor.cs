@@ -3,18 +3,19 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Sources.Multi
 {
-    [CustomEditor(typeof(AfkEmoteSource))]
-    public class AfkEmoteSourceEditor : Editor
+    [CustomEditor(typeof(MultiAfkEmoteSource))]
+    public class MultiAfkEmoteSourceEditor : Editor
     {
-        AfkEmoteSource _afkEmoteSource;
+        MultiAfkEmoteSource _multiAfkEmoteSource;
 
         ActionEmoteDrawerState _afkEmotesState;
 
@@ -22,26 +23,26 @@ namespace Silksprite.EmoteWizard.Sources
 
         void OnEnable()
         {
-            _afkEmoteSource = (AfkEmoteSource)target;
+            _multiAfkEmoteSource = (MultiAfkEmoteSource)target;
             
             _afkEmotesState = new ActionEmoteDrawerState();
 
-            _afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref _afkEmoteSource.afkEmotes);
+            _afkEmotesList = new ExpandableReorderableList<ActionEmote>(new ActionEmoteListHeaderDrawer(), new ActionEmoteDrawer(), "AFK Emotes", ref _multiAfkEmoteSource.afkEmotes);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _afkEmoteSource.EmoteWizardRoot;
+            var emoteWizardRoot = _multiAfkEmoteSource.EmoteWizardRoot;
             if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
-            using (new ObjectChangeScope(_afkEmoteSource))
+            using (new ObjectChangeScope(_multiAfkEmoteSource))
             {
                 var actionWizard = emoteWizardRoot.GetWizard<ActionWizard>();
 
                 using (new ActionEmoteDrawerContext(emoteWizardRoot, _afkEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
                 using (new EditorGUI.DisabledScope(!actionWizard.afkSelectEnabled))
                 {
-                    _afkEmotesList.DrawAsProperty(_afkEmoteSource.afkEmotes, emoteWizardRoot.listDisplayMode);
+                    _afkEmotesList.DrawAsProperty(_multiAfkEmoteSource.afkEmotes, emoteWizardRoot.listDisplayMode);
                 }
             }
 

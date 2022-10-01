@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
+using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -81,14 +82,14 @@ namespace Silksprite.EmoteWizard
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
-            expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
+            expressionWizard.FindOrCreateChildComponent<MultiExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<MultiParameterSource>("Parameter Sources");
             parametersWizard.RefreshParameters();
-            fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes();
-            fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
-            gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
-            gestureWizard.FindOrCreateChildComponent<GestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
-            actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
+            fxWizard.FindOrCreateChildComponent<MultiFxEmoteSource>("FX Sources").RepopulateDefaultEmotes();
+            fxWizard.FindOrCreateChildComponent<MultiFxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.FindOrCreateChildComponent<MultiGestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
+            gestureWizard.FindOrCreateChildComponent<MultiGestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
+            actionWizard.FindOrCreateChildComponent<MultiActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
 
@@ -100,14 +101,14 @@ namespace Silksprite.EmoteWizard
             var fxWizard = emoteWizardRoot.EnsureWizard<FxWizard>();
             var gestureWizard = emoteWizardRoot.EnsureWizard<GestureWizard>();
             var actionWizard = emoteWizardRoot.EnsureWizard<ActionWizard>();
-            expressionWizard.FindOrCreateChildComponent<ExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
-            expressionWizard.FindOrCreateChildComponent<ParameterSource>("Parameter Sources");
+            expressionWizard.FindOrCreateChildComponent<MultiExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<MultiParameterSource>("Parameter Sources");
             parametersWizard.RefreshParameters();
-            fxWizard.FindOrCreateChildComponent<FxEmoteSource>("FX Sources").RepopulateDefaultEmotes14();
-            fxWizard.FindOrCreateChildComponent<FxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
-            gestureWizard.FindOrCreateChildComponent<GestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
-            gestureWizard.FindOrCreateChildComponent<GestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
-            actionWizard.FindOrCreateChildComponent<ActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
+            fxWizard.FindOrCreateChildComponent<MultiFxEmoteSource>("FX Sources").RepopulateDefaultEmotes14();
+            fxWizard.FindOrCreateChildComponent<MultiFxParameterEmoteSource>("FX Sources").RepopulateParameterEmotes(parametersWizard);
+            gestureWizard.FindOrCreateChildComponent<MultiGestureEmoteSource>("Gesture Sources").RepopulateDefaultEmotes();
+            gestureWizard.FindOrCreateChildComponent<MultiGestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
+            actionWizard.FindOrCreateChildComponent<MultiActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
         }
 
