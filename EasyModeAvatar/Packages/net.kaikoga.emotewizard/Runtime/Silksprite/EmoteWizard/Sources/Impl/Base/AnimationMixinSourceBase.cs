@@ -3,7 +3,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Base
+namespace Silksprite.EmoteWizard.Sources.Impl.Base
 {
     public abstract class AnimationMixinSourceBase : EmoteWizardDataSourceBase
     {
