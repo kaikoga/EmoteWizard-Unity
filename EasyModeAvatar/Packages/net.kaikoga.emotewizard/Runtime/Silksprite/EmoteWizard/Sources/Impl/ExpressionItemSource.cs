@@ -3,7 +3,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Sources.Impl
 {
     public class ExpressionItemSource : EmoteWizardDataSourceBase
     {

@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Impl;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
