@@ -8,15 +8,32 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class ActionWizard : EmoteWizardBase
+    public class ActionWizard : EmoteWizardBase, IParameterSource
     {
         [SerializeField] public bool fixedTransitionDuration = true;
-        [SerializeField] public string actionSelectParameter = "VRCEmote";
+        [SerializeField] public string actionSelectParameter = EmoteWizardConstants.Defaults.Params.ActionSelect;
         [SerializeField] public bool afkSelectEnabled = false;
-        [SerializeField] public string afkSelectParameter = "EmoteWizardAFK";
+        [SerializeField] public string afkSelectParameter = EmoteWizardConstants.Defaults.Params.AfkSelect;
 
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;
+
+        public IEnumerable<ParameterItem> ParameterItems
+        {
+            get
+            {
+
+                IEnumerable<ParameterItem> EnumerateParameterItems()
+                {
+                    yield return ParameterItem.Build(actionSelectParameter, ParameterItemKind.Int);
+                    if (afkSelectEnabled)
+                    {
+                        yield return ParameterItem.Build(afkSelectParameter, ParameterItemKind.Int);
+                    }
+                }
+                return EnumerateParameterItems();
+            }
+        }
 
         public override void DisconnectOutputAssets()
         {
@@ -25,13 +42,13 @@ namespace Silksprite.EmoteWizard
 
         public IEnumerable<ActionEmote> CollectActionEmotes()
         {
-            return EmoteWizardRoot.GetComponentsInChildren<ActionEmoteSource>().SelectMany(source => source.actionEmotes)
+            return EmoteWizardRoot.GetComponentsInChildren<IActionEmoteSource>().SelectMany(source => source.ActionEmotes)
                 .Where(item => item.enabled);
         }
 
         public IEnumerable<ActionEmote> CollectAfkEmotes()
         {
-            return EmoteWizardRoot.GetComponentsInChildren<AfkEmoteSource>().SelectMany(source => source.afkEmotes)
+            return EmoteWizardRoot.GetComponentsInChildren<IAfkEmoteSource>().SelectMany(source => source.AfkEmotes)
                 .Where(item => item.enabled);
         }
 

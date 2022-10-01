@@ -2,15 +2,18 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Base
+namespace Silksprite.EmoteWizard.Sources.Impl.Base
 {
-    public abstract class EmoteSourceBase : EmoteWizardDataSourceBase
+    public abstract class EmoteSourceBase : EmoteWizardDataSourceBase, IEmoteSourceBase
     {
         [SerializeField] public List<Emote> emotes = new List<Emote>();
         [SerializeField] public bool advancedAnimations;
-        
+
+        public IEnumerable<Emote> Emotes => emotes;
+
         public abstract string LayerName { get; }
 
         public bool HasComplexAnimations => emotes.Any(emote => emote.clipLeft != null && emote.clipRight != null && emote.clipLeft != emote.clipRight);

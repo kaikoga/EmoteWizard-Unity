@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.Sources.Impl;
 
 namespace Silksprite.EmoteWizard.Sources.Extensions
 {

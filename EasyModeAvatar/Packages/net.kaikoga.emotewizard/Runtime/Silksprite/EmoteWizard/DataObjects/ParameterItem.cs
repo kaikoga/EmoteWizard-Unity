@@ -15,6 +15,19 @@ namespace Silksprite.EmoteWizard.DataObjects
         public float defaultValue;
         public List<ParameterUsage> usages;
 
+        public static ParameterItem Build(string parameter, ParameterItemKind itemKind)
+        {
+            return new ParameterItem
+            {
+                enabled = true,
+                name = parameter,
+                itemKind = itemKind,
+                saved = false,
+                defaultValue = 0,
+                usages = new List<ParameterUsage>()
+            };
+        }
+
         public ParameterValueKind ValueKind
         {
             get
