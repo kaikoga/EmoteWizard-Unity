@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [DisallowMultipleComponent]
-    public class FxEmoteSource : EmoteSourceBase
+    public class FxEmoteSource : EmoteSourceBase, IFxEmoteSource
     {
         public override string LayerName => "FX";
     }

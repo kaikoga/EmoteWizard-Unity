@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class FxWizard : AnimationWizardBase<FxEmoteSource, FxParameterEmoteSource, FxAnimationMixinSource>
+    public class FxWizard : AnimationWizardBase<IFxEmoteSource, IFxParameterEmoteSource, IFxAnimationMixinSource>
     {
         [SerializeField] public AnimationClip resetClip;
 

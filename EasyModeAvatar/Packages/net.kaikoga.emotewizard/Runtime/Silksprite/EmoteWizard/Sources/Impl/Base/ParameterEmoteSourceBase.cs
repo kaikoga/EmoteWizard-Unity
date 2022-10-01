@@ -2,14 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl.Base
 {
-    public abstract class ParameterEmoteSourceBase : EmoteWizardDataSourceBase
+    public abstract class ParameterEmoteSourceBase : EmoteWizardDataSourceBase, IParameterEmoteSourceBase
     {
         [SerializeField] public List<ParameterEmote> parameterEmotes = new List<ParameterEmote>();
         
+        public IEnumerable<ParameterEmote> ParameterEmotes => parameterEmotes;
+
         public abstract string LayerName { get; }
 
         public void GenerateParameters(ParametersWizard parametersWizard)

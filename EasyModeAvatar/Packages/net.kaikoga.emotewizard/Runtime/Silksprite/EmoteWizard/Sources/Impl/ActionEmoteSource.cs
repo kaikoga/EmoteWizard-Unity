@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
-    public class ActionEmoteSource : EmoteWizardDataSourceBase
+    public class ActionEmoteSource : EmoteWizardDataSourceBase, IActionEmoteSource
     {
-        [SerializeField] public List<ActionEmote> actionEmotes = new List<ActionEmote>(); 
+        [SerializeField] public List<ActionEmote> actionEmotes = new List<ActionEmote>();
+
+        public IEnumerable<ActionEmote> ActionEmotes => actionEmotes;
     }
 }

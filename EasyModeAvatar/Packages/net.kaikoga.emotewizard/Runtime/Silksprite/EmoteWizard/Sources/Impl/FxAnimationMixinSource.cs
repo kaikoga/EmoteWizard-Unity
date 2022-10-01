@@ -3,7 +3,7 @@ using Silksprite.EmoteWizard.Sources.Impl.Base;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
-    public class FxAnimationMixinSource : AnimationMixinSourceBase
+    public class FxAnimationMixinSource : AnimationMixinSourceBase, IFxAnimationMixinSource
     {
         public override string LayerName => "FX";
     }

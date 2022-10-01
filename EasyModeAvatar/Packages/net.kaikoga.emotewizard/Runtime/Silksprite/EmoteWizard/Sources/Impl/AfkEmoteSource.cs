@@ -5,8 +5,10 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
-    public class AfkEmoteSource : EmoteWizardDataSourceBase
+    public class AfkEmoteSource : EmoteWizardDataSourceBase, IAfkEmoteSource
     {
-        [SerializeField] public List<ActionEmote> afkEmotes = new List<ActionEmote>(); 
+        [SerializeField] public List<ActionEmote> afkEmotes = new List<ActionEmote>();
+
+        public IEnumerable<ActionEmote> AfkEmotes => afkEmotes;
     }
 }
