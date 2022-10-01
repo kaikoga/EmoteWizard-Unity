@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public AnimationClip resetClip;
 
-        [SerializeField] public string handSignOverrideParameter = "EmoteWizardFX";
+        [SerializeField] public string handSignOverrideParameter = EmoteWizardConstants.Defaults.Params.FxHandSignOverride;
 
         public override void DisconnectOutputAssets()
         {
@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard
             resetClip = null;
         }
 
-        public override string LayerName => "FX";
+        public override string LayerName => EmoteWizardConstants.LayerNames.Fx;
         public override string HandSignOverrideParameter => handSignOverrideParameter;
     }
 }

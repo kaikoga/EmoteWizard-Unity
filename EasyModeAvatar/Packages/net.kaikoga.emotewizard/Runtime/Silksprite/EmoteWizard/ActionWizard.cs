@@ -12,9 +12,9 @@ namespace Silksprite.EmoteWizard
     public class ActionWizard : EmoteWizardBase
     {
         [SerializeField] public bool fixedTransitionDuration = true;
-        [SerializeField] public string actionSelectParameter = "VRCEmote";
+        [SerializeField] public string actionSelectParameter = EmoteWizardConstants.Defaults.Params.ActionSelect;
         [SerializeField] public bool afkSelectEnabled = false;
-        [SerializeField] public string afkSelectParameter = "EmoteWizardAFK";
+        [SerializeField] public string afkSelectParameter = EmoteWizardConstants.Defaults.Params.AfkSelect;
 
         [SerializeField] public ActionEmote defaultAfkEmote;
         [SerializeField] public RuntimeAnimatorController outputAsset;

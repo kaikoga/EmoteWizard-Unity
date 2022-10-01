@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
             using (new ObjectChangeScope(_emoteSource))
             {
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-                var animationWizardBase = _emoteSource.LayerName == "FX" ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
+                var animationWizardBase = _emoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
 
                 EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
                 {
@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                         _emoteSource.RepopulateDefaultEmotes();
                     }
 
-                    if (_emoteSource.LayerName == "FX")
+                    if (_emoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx)
                     {
                         if (GUILayout.Button("Repopulate HandSigns: 14 items"))
                         {
