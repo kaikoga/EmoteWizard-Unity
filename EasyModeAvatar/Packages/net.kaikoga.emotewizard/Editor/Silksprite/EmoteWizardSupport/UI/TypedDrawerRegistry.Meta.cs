@@ -1,14 +1,7 @@
 using System;
-using System.Collections;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Tools;
-using Silksprite.EmoteWizardSupport.UI.Base;
-using Silksprite.EmoteWizardSupport.Utils;
-using UnityEditor;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizardSupport.UI
 {

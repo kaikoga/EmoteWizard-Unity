@@ -9,7 +9,6 @@ using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
-using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Sources.Base
 {

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal

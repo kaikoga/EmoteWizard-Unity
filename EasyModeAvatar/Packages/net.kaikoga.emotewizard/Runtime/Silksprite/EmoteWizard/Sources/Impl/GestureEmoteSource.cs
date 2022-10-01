@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Sources.Base;
 using Silksprite.EmoteWizard.Sources.Impl.Base;
 using UnityEngine;
 

@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
