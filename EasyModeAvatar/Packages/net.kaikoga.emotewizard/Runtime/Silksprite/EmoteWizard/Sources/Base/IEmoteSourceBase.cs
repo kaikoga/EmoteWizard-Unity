@@ -6,5 +6,6 @@ namespace Silksprite.EmoteWizard.Sources.Base
     public interface IEmoteSourceBase
     {
         IEnumerable<Emote> Emotes { get; }
+        bool AdvancedAnimations { get; }
     }
 }

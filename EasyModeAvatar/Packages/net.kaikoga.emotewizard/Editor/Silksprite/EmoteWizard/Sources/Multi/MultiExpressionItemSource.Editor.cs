@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard.Sources.Multi
 
                 if (GUILayout.Button("Explode"))
                 {
-                    Explode();
+                    SourceExploder.Explode(_multiExpressionItemSource);
                 }
             }
 
@@ -78,15 +78,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi
                 .GroupBy(item => item.Folder)
                 .SelectMany(group => group)
                 .ToList();
-        }
-        
-        void Explode()
-        {
-            foreach (var expressionItem in _multiExpressionItemSource.ExpressionItems)
-            {
-                var child = _multiExpressionItemSource.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path);
-                child.expressionItem = SerializableUtils.Clone(expressionItem);
-            }
         }
 
         static string Tutorial => 

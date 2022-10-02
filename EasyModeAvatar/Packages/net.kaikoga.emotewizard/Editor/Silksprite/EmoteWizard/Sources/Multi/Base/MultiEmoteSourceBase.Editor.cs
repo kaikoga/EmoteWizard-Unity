@@ -10,6 +10,7 @@ using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
 using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -82,35 +83,10 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
             
             if (GUILayout.Button("Explode"))
             {
-                Explode();
+                SourceExploder.Explode(_multiEmoteSource);
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
-        }
-
-        void Explode()
-        {
-            void ExplodeImpl<TIn, TOut>(TIn source)
-                where TIn : MultiEmoteSourceBase, IEmoteSourceBase
-                where TOut : EmoteSourceBase
-            {
-                foreach (var emote in source.Emotes)
-                {
-                    var child = source.FindOrCreateChildComponent<TOut>(emote.ToStateName());
-                    child.emote = SerializableUtils.Clone(emote);
-                    child.advancedAnimations = source.advancedAnimations;
-                }
-            }
-
-            switch (_multiEmoteSource)
-            {
-                case MultiGestureEmoteSource gesture:
-                    ExplodeImpl<MultiGestureEmoteSource, GestureEmoteSource>(gesture);
-                    break;
-                case MultiFxEmoteSource fx:
-                    ExplodeImpl<MultiFxEmoteSource, FxEmoteSource>(fx);
-                    break;
-            }
         }
 
         static string Tutorial => 

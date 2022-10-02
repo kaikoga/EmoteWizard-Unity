@@ -42,19 +42,10 @@ namespace Silksprite.EmoteWizard.Sources.Multi
 
             if (GUILayout.Button("Explode"))
             {
-                Explode();
+                SourceExploder.Explode(_multiParameterSource);
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
-        }
-
-        void Explode()
-        {
-            foreach (var parameterItem in _multiParameterSource.ParameterItems)
-            {
-                var child = _multiParameterSource.FindOrCreateChildComponent<ParameterSource>(parameterItem.name);
-                child.parameterItem = SerializableUtils.Clone(parameterItem);
-            }
         }
 
         static string Tutorial => 

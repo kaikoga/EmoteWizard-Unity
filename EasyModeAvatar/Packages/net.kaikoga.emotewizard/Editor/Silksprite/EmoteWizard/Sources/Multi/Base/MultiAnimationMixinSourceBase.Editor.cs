@@ -63,41 +63,10 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
             
             if (GUILayout.Button("Explode"))
             {
-                Explode();
+                SourceExploder.Explode(_multiAnimationMixinSource);
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
-        }
-
-        void Explode()
-        {
-            void ExplodeImpl<TIn, TOut>(TIn source)
-                where TIn : MultiAnimationMixinSourceBase, IAnimationMixinSourceBase
-                where TOut : AnimationMixinSourceBase
-            {
-                foreach (var baseMixin in source.Mixins)
-                {
-                    var child = source.FindOrCreateChildComponent<TOut>(baseMixin.name);
-                    child.mixin = SerializableUtils.Clone(baseMixin);
-                    child.isBaseMixin = true;
-                }
-                foreach (var mixin in source.Mixins)
-                {
-                    var child = source.FindOrCreateChildComponent<TOut>(mixin.name);
-                    child.mixin = SerializableUtils.Clone(mixin);
-                    child.isBaseMixin = false;
-                }
-            }
-
-            switch (_multiAnimationMixinSource)
-            {
-                case MultiGestureAnimationMixinSource gesture:
-                    ExplodeImpl<MultiGestureAnimationMixinSource, GestureAnimationMixinSource>(gesture);
-                    break;
-                case MultiFxAnimationMixinSource fx:
-                    ExplodeImpl<MultiFxAnimationMixinSource, FxAnimationMixinSource>(fx);
-                    break;
-            }
         }
 
         static string Tutorial => 
