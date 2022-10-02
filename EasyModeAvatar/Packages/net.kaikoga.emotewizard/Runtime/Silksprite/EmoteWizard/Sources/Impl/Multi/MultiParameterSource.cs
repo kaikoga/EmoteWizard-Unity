@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl.Multi
 {
-    public class MultiParameterSource : EmoteWizardDataSourceBase, IParameterSource
+    public class MultiParameterSource : EmoteWizardDataSourceContainerBase, IParameterSource
     {
         [SerializeField] public List<ParameterItem> parameterItems = new List<ParameterItem>();
 

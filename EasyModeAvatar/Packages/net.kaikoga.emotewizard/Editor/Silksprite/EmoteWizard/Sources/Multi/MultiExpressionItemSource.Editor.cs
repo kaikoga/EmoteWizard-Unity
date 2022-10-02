@@ -6,10 +6,12 @@ using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,6 +61,11 @@ namespace Silksprite.EmoteWizard.Sources.Multi
                 {
                     GroupItemsByFolder();
                 }
+
+                if (GUILayout.Button("Explode"))
+                {
+                    Explode();
+                }
             }
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
@@ -73,6 +80,15 @@ namespace Silksprite.EmoteWizard.Sources.Multi
                 .ToList();
         }
         
+        void Explode()
+        {
+            foreach (var expressionItem in _multiExpressionItemSource.ExpressionItems)
+            {
+                var child = _multiExpressionItemSource.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path);
+                child.expressionItem = SerializableUtils.Clone(expressionItem);
+            }
+        }
+
         static string Tutorial => 
             string.Join("\n",
                 "Expressions MenuとExpression Parameterに追加する項目を設定します。");

@@ -4,10 +4,13 @@ using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Multi
 {
@@ -37,7 +40,21 @@ namespace Silksprite.EmoteWizard.Sources.Multi
                 }
             }
 
+            if (GUILayout.Button("Explode"))
+            {
+                Explode();
+            }
+
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+        }
+
+        void Explode()
+        {
+            foreach (var parameterItem in _multiParameterSource.ParameterItems)
+            {
+                var child = _multiParameterSource.FindOrCreateChildComponent<ParameterSource>(parameterItem.name);
+                child.parameterItem = SerializableUtils.Clone(parameterItem);
+            }
         }
 
         static string Tutorial => 

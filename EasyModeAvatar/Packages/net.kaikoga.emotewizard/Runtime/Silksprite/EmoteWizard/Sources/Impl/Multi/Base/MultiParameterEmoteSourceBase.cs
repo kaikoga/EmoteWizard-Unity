@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl.Multi.Base
 {
-    public abstract class MultiParameterEmoteSourceBase : EmoteWizardDataSourceBase, IParameterEmoteSourceBase
+    public abstract class MultiParameterEmoteSourceBase : EmoteWizardDataSourceContainerBase, IParameterEmoteSourceBase
     {
         [SerializeField] public List<ParameterEmote> parameterEmotes = new List<ParameterEmote>();
         

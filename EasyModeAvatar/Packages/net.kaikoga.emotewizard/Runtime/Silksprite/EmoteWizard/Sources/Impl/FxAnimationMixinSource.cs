@@ -1,8 +1,8 @@
-using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
+using Silksprite.EmoteWizard.Sources.Impl.Base;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
-    public class FxAnimationMixinSource : MultiAnimationMixinSourceBase, IFxAnimationMixinSource
+    public class FxAnimationMixinSource : AnimationMixinSourceBase, IFxAnimationMixinSource
     {
         public override string LayerName => EmoteWizardConstants.LayerNames.Fx;
     }

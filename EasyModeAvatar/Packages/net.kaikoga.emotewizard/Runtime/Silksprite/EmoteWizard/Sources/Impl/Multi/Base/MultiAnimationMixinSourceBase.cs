@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl.Multi.Base
 {
-    public abstract class MultiAnimationMixinSourceBase : EmoteWizardDataSourceBase, IAnimationMixinSourceBase
+    public abstract class MultiAnimationMixinSourceBase : EmoteWizardDataSourceContainerBase, IAnimationMixinSourceBase
     {
         [SerializeField] public List<AnimationMixin> baseMixins = new List<AnimationMixin>();
         [SerializeField] public List<AnimationMixin> mixins = new List<AnimationMixin>();

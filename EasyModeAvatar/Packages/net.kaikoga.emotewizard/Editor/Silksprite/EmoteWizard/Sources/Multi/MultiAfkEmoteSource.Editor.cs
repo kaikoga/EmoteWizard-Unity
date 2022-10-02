@@ -5,10 +5,13 @@ using Silksprite.EmoteWizard.DataObjects.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Multi
 {
@@ -46,7 +49,21 @@ namespace Silksprite.EmoteWizard.Sources.Multi
                 }
             }
 
+            if (GUILayout.Button("Explode"))
+            {
+                Explode();
+            }
+
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+        }
+
+        void Explode()
+        {
+            foreach (var afkEmote in _multiAfkEmoteSource.AfkEmotes)
+            {
+                var child = _multiAfkEmoteSource.FindOrCreateChildComponent<AfkEmoteSource>(afkEmote.name);
+                child.afkEmote = SerializableUtils.Clone(afkEmote);
+            }
         }
 
         static string Tutorial =>

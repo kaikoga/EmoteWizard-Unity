@@ -3,6 +3,10 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.Sources.Base;
+using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Base;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
 using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
@@ -10,6 +14,7 @@ using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -75,7 +80,37 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
                 }
             }
             
+            if (GUILayout.Button("Explode"))
+            {
+                Explode();
+            }
+
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+        }
+
+        void Explode()
+        {
+            void ExplodeImpl<TIn, TOut>(TIn source)
+                where TIn : MultiEmoteSourceBase, IEmoteSourceBase
+                where TOut : EmoteSourceBase
+            {
+                foreach (var emote in source.Emotes)
+                {
+                    var child = source.FindOrCreateChildComponent<TOut>(emote.ToStateName());
+                    child.emote = SerializableUtils.Clone(emote);
+                    child.advancedAnimations = source.advancedAnimations;
+                }
+            }
+
+            switch (_multiEmoteSource)
+            {
+                case MultiGestureEmoteSource gesture:
+                    ExplodeImpl<MultiGestureEmoteSource, GestureEmoteSource>(gesture);
+                    break;
+                case MultiFxEmoteSource fx:
+                    ExplodeImpl<MultiFxEmoteSource, FxEmoteSource>(fx);
+                    break;
+            }
         }
 
         static string Tutorial => 

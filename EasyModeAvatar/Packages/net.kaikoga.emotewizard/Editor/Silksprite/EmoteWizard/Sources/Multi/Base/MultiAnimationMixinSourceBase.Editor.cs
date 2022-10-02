@@ -2,13 +2,19 @@ using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.Sources.Base;
+using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Impl.Base;
+using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Multi.Base
 {
@@ -55,7 +61,43 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
                 }
             }
             
+            if (GUILayout.Button("Explode"))
+            {
+                Explode();
+            }
+
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+        }
+
+        void Explode()
+        {
+            void ExplodeImpl<TIn, TOut>(TIn source)
+                where TIn : MultiAnimationMixinSourceBase, IAnimationMixinSourceBase
+                where TOut : AnimationMixinSourceBase
+            {
+                foreach (var baseMixin in source.Mixins)
+                {
+                    var child = source.FindOrCreateChildComponent<TOut>(baseMixin.name);
+                    child.mixin = SerializableUtils.Clone(baseMixin);
+                    child.isBaseMixin = true;
+                }
+                foreach (var mixin in source.Mixins)
+                {
+                    var child = source.FindOrCreateChildComponent<TOut>(mixin.name);
+                    child.mixin = SerializableUtils.Clone(mixin);
+                    child.isBaseMixin = false;
+                }
+            }
+
+            switch (_multiAnimationMixinSource)
+            {
+                case MultiGestureAnimationMixinSource gesture:
+                    ExplodeImpl<MultiGestureAnimationMixinSource, GestureAnimationMixinSource>(gesture);
+                    break;
+                case MultiFxAnimationMixinSource fx:
+                    ExplodeImpl<MultiFxAnimationMixinSource, FxAnimationMixinSource>(fx);
+                    break;
+            }
         }
 
         static string Tutorial => 
