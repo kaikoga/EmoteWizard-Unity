@@ -98,8 +98,9 @@ namespace Silksprite.EmoteWizard.Utils
         {
             foreach (var parameterEmote in source.ParameterEmotes)
             {
-                var child = destination.FindOrCreateChildComponent<TOut>(parameterEmote.name);
+                var child = destination.FindOrCreateChildComponent<TOut>(parameterEmote.name, parameterEmote.enabled);
                 child.parameterEmote = SerializableUtils.Clone(parameterEmote);
+                child.parameterEmote.enabled = true;
             }
         }
 
@@ -108,14 +109,16 @@ namespace Silksprite.EmoteWizard.Utils
         {
             foreach (var baseMixin in source.Mixins)
             {
-                var child = destination.FindOrCreateChildComponent<TOut>(baseMixin.name);
+                var child = destination.FindOrCreateChildComponent<TOut>(baseMixin.name, baseMixin.enabled);
                 child.mixin = SerializableUtils.Clone(baseMixin);
+                child.mixin.enabled = true;
                 child.isBaseMixin = true;
             }
             foreach (var mixin in source.Mixins)
             {
-                var child = destination.FindOrCreateChildComponent<TOut>(mixin.name);
+                var child = destination.FindOrCreateChildComponent<TOut>(mixin.name, mixin.enabled);
                 child.mixin = SerializableUtils.Clone(mixin);
+                child.mixin.enabled = true;
                 child.isBaseMixin = false;
             }
         }
@@ -124,8 +127,9 @@ namespace Silksprite.EmoteWizard.Utils
         {
             foreach (var parameterItem in source.ParameterItems)
             {
-                var child = destination.FindOrCreateChildComponent<ParameterSource>(parameterItem.name);
+                var child = destination.FindOrCreateChildComponent<ParameterSource>(parameterItem.name, parameterItem.enabled);
                 child.parameterItem = SerializableUtils.Clone(parameterItem);
+                child.parameterItem.enabled = true;
             }
         }
 
@@ -133,8 +137,9 @@ namespace Silksprite.EmoteWizard.Utils
         {
             foreach (var expressionItem in source.ExpressionItems)
             {
-                var child = destination.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path);
+                var child = destination.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path, expressionItem.enabled);
                 child.expressionItem = SerializableUtils.Clone(expressionItem);
+                child.expressionItem.enabled = true;
             }
         }
 
@@ -142,8 +147,9 @@ namespace Silksprite.EmoteWizard.Utils
         {
             foreach (var actionEmote in source.ActionEmotes)
             {
-                var child = destination.FindOrCreateChildComponent<ActionEmoteSource>(actionEmote.name);
+                var child = destination.FindOrCreateChildComponent<ActionEmoteSource>(actionEmote.name, actionEmote.enabled);
                 child.actionEmote = SerializableUtils.Clone(actionEmote);
+                child.actionEmote.enabled = true;
             }
         }
 
@@ -151,9 +157,18 @@ namespace Silksprite.EmoteWizard.Utils
         {
             foreach (var afkEmote in source.AfkEmotes)
             {
-                var child = destination.FindOrCreateChildComponent<AfkEmoteSource>(afkEmote.name);
+                var child = destination.FindOrCreateChildComponent<AfkEmoteSource>(afkEmote.name, afkEmote.enabled);
                 child.afkEmote = SerializableUtils.Clone(afkEmote);
+                child.afkEmote.enabled = true;
             }
+        }
+        
+        static T FindOrCreateChildComponent<T>(this Component component, string path, bool enabled)
+            where T : Component
+        {
+            var result = component.FindOrCreateChildComponent<T>(path);
+            result.gameObject.SetActive(enabled);
+            return result;
         }
     }
 }
