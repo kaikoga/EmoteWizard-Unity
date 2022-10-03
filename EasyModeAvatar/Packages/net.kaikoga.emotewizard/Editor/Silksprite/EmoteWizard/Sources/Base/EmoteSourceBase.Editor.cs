@@ -2,7 +2,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl.Base;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
@@ -30,7 +29,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                 {
                     EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.overrideIndex)));
                 }
-                using (new HideLabelsScope())
+                // using (new HideLabelsScope())
                 {
                     EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.gesture1)));
                     EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.gesture2)));
