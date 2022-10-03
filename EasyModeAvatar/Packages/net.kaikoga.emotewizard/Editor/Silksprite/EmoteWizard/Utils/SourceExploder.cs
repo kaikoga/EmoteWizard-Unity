@@ -3,8 +3,6 @@ using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Base;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Impl.Base;
-using Silksprite.EmoteWizard.Sources.Impl.Multi;
-using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;

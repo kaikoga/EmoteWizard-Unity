@@ -1,6 +1,5 @@
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;

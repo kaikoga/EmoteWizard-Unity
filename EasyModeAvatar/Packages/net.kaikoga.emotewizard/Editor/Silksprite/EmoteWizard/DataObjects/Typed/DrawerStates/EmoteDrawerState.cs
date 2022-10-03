@@ -1,4 +1,4 @@
-namespace Silksprite.EmoteWizard.DataObjects.DrawerStates
+namespace Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates
 {
     public class EmoteDrawerState
     {

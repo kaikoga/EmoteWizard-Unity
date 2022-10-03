@@ -4,7 +4,7 @@ using Silksprite.EmoteWizardSupport.UI.Base;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Typed
 {
     [UsedImplicitly]
     public class TrackingOverrideDrawer : TypedDrawerBase<TrackingOverride>

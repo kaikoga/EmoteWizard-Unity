@@ -1,7 +1,8 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.Typed;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;

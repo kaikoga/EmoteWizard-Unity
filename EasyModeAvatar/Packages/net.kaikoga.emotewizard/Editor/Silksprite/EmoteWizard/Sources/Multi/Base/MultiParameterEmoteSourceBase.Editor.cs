@@ -1,11 +1,8 @@
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.DrawerStates;
-using Silksprite.EmoteWizard.Sources.Base;
-using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Impl.Base;
-using Silksprite.EmoteWizard.Sources.Impl.Multi;
+using Silksprite.EmoteWizard.DataObjects.Typed;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
 using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
@@ -14,7 +11,6 @@ using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 

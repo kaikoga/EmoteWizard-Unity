@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 
-namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
+namespace Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts
 {
     [UsedImplicitly]
     public class ActionEmoteDrawerContext : EmoteWizardDrawerContextBase<ActionEmote, ActionEmoteDrawerContext>

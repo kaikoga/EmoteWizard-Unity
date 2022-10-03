@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using JetBrains.Annotations;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -13,7 +13,7 @@ using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Typed
 {
     [UsedImplicitly]
     public class ExpressionItemDrawer : TypedDrawerWithContext<ExpressionItem, ExpressionItemDrawerContext>

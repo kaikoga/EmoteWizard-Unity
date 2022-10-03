@@ -1,4 +1,4 @@
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Base;
@@ -9,7 +9,7 @@ using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Typed
 {
     public class EmoteDrawer : TypedDrawerWithContext<Emote, EmoteDrawerContext>
     {

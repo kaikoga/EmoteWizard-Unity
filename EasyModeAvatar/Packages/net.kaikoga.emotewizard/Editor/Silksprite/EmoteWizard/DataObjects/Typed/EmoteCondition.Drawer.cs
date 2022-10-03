@@ -1,5 +1,5 @@
 using JetBrains.Annotations;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -8,7 +8,7 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Typed
 {
     [UsedImplicitly]
     public class EmoteConditionDrawer : TypedDrawerWithContext<EmoteCondition, EmoteConditionDrawerContext>

@@ -1,6 +1,6 @@
 using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;

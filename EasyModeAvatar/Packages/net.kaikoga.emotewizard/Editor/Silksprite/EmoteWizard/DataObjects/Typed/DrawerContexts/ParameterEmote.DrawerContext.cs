@@ -1,9 +1,9 @@
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.DrawerStates;
+using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects.DrawerContexts
+namespace Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts
 {
     [UsedImplicitly]
     public class ParameterEmoteDrawerContext : EmoteWizardDrawerContextBase<ParameterEmote, ParameterEmoteDrawerContext>
