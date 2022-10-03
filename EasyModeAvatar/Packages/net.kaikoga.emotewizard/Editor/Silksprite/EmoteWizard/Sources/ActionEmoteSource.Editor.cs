@@ -9,55 +9,88 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(ActionEmoteSource))]
     public class ActionEmoteSourceEditor : Editor
     {
+        SerializedProperty _serializedHasExitTime;
+        SerializedProperty _serializedBlendIn;
+        SerializedProperty _serializedEntryTransitionDuration;
+        SerializedProperty _serializedEntryClip;
+        SerializedProperty _serializedEntryClipExitTime;
+        SerializedProperty _serializedPostEntryTransitionDuration;
+        SerializedProperty _serializedClip;
+        SerializedProperty _serializedClipExitTime;
+        SerializedProperty _serializedExitTransitionDuration;
+        SerializedProperty _serializedExitClip;
+        SerializedProperty _serializedExitClipExitTime;
+        SerializedProperty _serializedPostExitTransitionDuration;
+        SerializedProperty _serializedBlendOut;
+        SerializedProperty _serializedName;
+        SerializedProperty _serializedEmoteIndex;
+
         const bool IsDefaultAfk = false; // FIXME
+
+        void OnEnable()
+        {
+            var serializedItem = serializedObject.FindProperty(nameof(ActionEmoteSource.actionEmote));
+
+            _serializedName = serializedItem.FindPropertyRelative(nameof(ActionEmote.name));
+            _serializedEmoteIndex = serializedItem.FindPropertyRelative(nameof(ActionEmote.emoteIndex));
+            _serializedHasExitTime = serializedItem.FindPropertyRelative(nameof(ActionEmote.hasExitTime));
+            _serializedBlendIn = serializedItem.FindPropertyRelative(nameof(ActionEmote.blendIn));
+            _serializedEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(ActionEmote.entryTransitionDuration));
+            _serializedEntryClip = serializedItem.FindPropertyRelative(nameof(ActionEmote.entryClip));
+            _serializedEntryClipExitTime = serializedItem.FindPropertyRelative(nameof(ActionEmote.entryClipExitTime));
+            _serializedPostEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(ActionEmote.postEntryTransitionDuration));
+            _serializedClip = serializedItem.FindPropertyRelative(nameof(ActionEmote.clip));
+            _serializedClipExitTime = serializedItem.FindPropertyRelative(nameof(ActionEmote.clipExitTime));
+            _serializedExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(ActionEmote.exitTransitionDuration));
+            _serializedExitClip = serializedItem.FindPropertyRelative(nameof(ActionEmote.exitClip));
+            _serializedExitClipExitTime = serializedItem.FindPropertyRelative(nameof(ActionEmote.exitClipExitTime));
+            _serializedPostExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(ActionEmote.postExitTransitionDuration));
+            _serializedBlendOut = serializedItem.FindPropertyRelative(nameof(ActionEmote.blendOut));
+        }
 
         public override void OnInspectorGUI()
         {
-            var serializedObj = serializedObject.FindProperty(nameof(ActionEmoteSource.actionEmote));
             var FixedTransitionDuration = ((ActionEmoteSource)target).EmoteWizardRoot.GetWizard<ActionWizard>().fixedTransitionDuration;
-
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ActionEmote.name)));
+            
+            EditorGUILayout.PropertyField(_serializedName);
 
             if (!IsDefaultAfk)
             {
-                using (new InvalidValueScope(serializedObj.FindPropertyRelative(nameof(ActionEmote.emoteIndex)).intValue == 0))
+                using (new InvalidValueScope(_serializedEmoteIndex.intValue == 0))
                 {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ActionEmote.emoteIndex)));
+                    EditorGUILayout.PropertyField(_serializedEmoteIndex);
                 }
             }
 
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ActionEmote.hasExitTime)));
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ActionEmote.blendIn)));
+            EditorGUILayout.PropertyField(_serializedHasExitTime);
+            EditorGUILayout.PropertyField(_serializedBlendIn);
 
-            TransitionField(FixedTransitionDuration, serializedObj.FindPropertyRelative(nameof(ActionEmote.entryTransitionDuration)));
-            ClipField(serializedObj.FindPropertyRelative(nameof(ActionEmote.entryClip)),
-                serializedObj.FindPropertyRelative(nameof(ActionEmote.entryClipExitTime)));
-            using (new EditorGUI.DisabledScope(serializedObj.FindPropertyRelative(nameof(ActionEmote.entryClip)).objectReferenceValue == null))
+            TransitionField(FixedTransitionDuration, _serializedEntryTransitionDuration);
+            ClipField(_serializedEntryClip, _serializedEntryClipExitTime);
+            using (new EditorGUI.DisabledScope(_serializedEntryClip.objectReferenceValue == null))
             {
-                TransitionField(FixedTransitionDuration, serializedObj.FindPropertyRelative(nameof(ActionEmote.postEntryTransitionDuration)));
+                TransitionField(FixedTransitionDuration, _serializedPostEntryTransitionDuration);
             }
 
-            ClipField(serializedObj.FindPropertyRelative(nameof(ActionEmote.clip)),
-                serializedObj.FindPropertyRelative(nameof(ActionEmote.clipExitTime)));
+            ClipField(_serializedClip, _serializedClipExitTime);
 
-            TransitionField(FixedTransitionDuration, serializedObj.FindPropertyRelative(nameof(ActionEmote.exitTransitionDuration)));
-            ClipField(serializedObj.FindPropertyRelative(nameof(ActionEmote.exitClip)),
-                serializedObj.FindPropertyRelative(nameof(ActionEmote.exitClipExitTime)));
-            using (new EditorGUI.DisabledScope(serializedObj.FindPropertyRelative(nameof(ActionEmote.exitClip)).objectReferenceValue == null))
+            TransitionField(FixedTransitionDuration, _serializedExitTransitionDuration);
+            ClipField(_serializedExitClip, _serializedExitClipExitTime);
+            using (new EditorGUI.DisabledScope(_serializedExitClip.objectReferenceValue == null))
             {
-                TransitionField(FixedTransitionDuration, serializedObj.FindPropertyRelative(nameof(ActionEmote.postExitTransitionDuration)));
+                TransitionField(FixedTransitionDuration, _serializedPostExitTransitionDuration);
             }
 
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ActionEmote.blendOut)));
+            EditorGUILayout.PropertyField(_serializedBlendOut);
             
             serializedObject.ApplyModifiedProperties();
         }
         
-        static void TransitionField(bool fixedTransitionDuration, SerializedProperty propertyField)
+        static void TransitionField(bool fixedTransitionDuration, SerializedProperty serializedField)
         {
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.PropertyField(propertyField);
+                EditorGUILayout.PropertyField(serializedField);
                 if (fixedTransitionDuration)
                 {
                     GUILayout.Label("(s)", GUILayout.Width(20f));
@@ -65,16 +98,16 @@ namespace Silksprite.EmoteWizard.Sources
             }
         }
 
-        static void ClipField(SerializedProperty propertyClipField, SerializedProperty propertyExitTimeField)
+        static void ClipField(SerializedProperty serializedClipField, SerializedProperty serializedExitTimeField)
         {
-            EditorGUILayout.PropertyField(propertyClipField);
-            var motion = (Motion)propertyClipField.objectReferenceValue;
+            EditorGUILayout.PropertyField(serializedClipField);
+            var motion = (Motion)serializedClipField.objectReferenceValue;
             using (new EditorGUI.DisabledScope(motion == null))
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.PropertyField(propertyExitTimeField);
+                EditorGUILayout.PropertyField(serializedExitTimeField);
                 if (motion == null) return;
-                var realExitTime = propertyExitTimeField.floatValue * motion.averageDuration;
+                var realExitTime = serializedExitTimeField.floatValue * motion.averageDuration;
                 GUILayout.Label($"{realExitTime:F2}s");
             }
         }

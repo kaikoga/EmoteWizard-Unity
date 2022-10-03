@@ -23,57 +23,80 @@ namespace Silksprite.EmoteWizard.Sources
             new[] { "Up", "Right", "Down", "Left" }
         };
 
+        SerializedProperty _serializedIcon;
+        SerializedProperty _serializedPath;
+        SerializedProperty _serializedParameter;
+        SerializedProperty _serializedValue;
+        SerializedProperty _serializedItemKind;
+        SerializedProperty _serializedSubParameters;
+        SerializedProperty _serializedLabels;
+        SerializedProperty _serializedLabelIcons;
+        SerializedProperty _serializedSubMenu;
+
+        void OnEnable()
+        {
+            var serializedItem = serializedObject.FindProperty(nameof(ExpressionItemSource.expressionItem));
+
+            _serializedIcon = serializedItem.FindPropertyRelative(nameof(ExpressionItem.icon));
+            _serializedPath = serializedItem.FindPropertyRelative(nameof(ExpressionItem.path));
+            _serializedParameter = serializedItem.FindPropertyRelative(nameof(ExpressionItem.parameter));
+            _serializedValue = serializedItem.FindPropertyRelative(nameof(ExpressionItem.value));
+            _serializedItemKind = serializedItem.FindPropertyRelative(nameof(ExpressionItem.itemKind));
+            _serializedSubParameters = serializedItem.FindPropertyRelative(nameof(ExpressionItem.subParameters));
+            _serializedLabels = serializedItem.FindPropertyRelative(nameof(ExpressionItem.labels));
+            _serializedLabelIcons = serializedItem.FindPropertyRelative(nameof(ExpressionItem.labelIcons));
+            _serializedSubMenu = serializedItem.FindPropertyRelative(nameof(ExpressionItem.subMenu));
+        }
+
         public override void OnInspectorGUI()
         {
-            var serializedObj = serializedObject.FindProperty(nameof(ExpressionItemSource.expressionItem));
-
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.icon)));
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.path)));
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.parameter)));
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.value)));
-            EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.itemKind)));
+            EditorGUILayout.PropertyField(_serializedIcon);
+            EditorGUILayout.PropertyField(_serializedPath);
+            EditorGUILayout.PropertyField(_serializedParameter);
+            EditorGUILayout.PropertyField(_serializedValue);
+            EditorGUILayout.PropertyField(_serializedItemKind);
 
             var y = 2;
 
             void DrawSubParameters(int subParametersCount, int labelsCount)
             {
-                serializedObj.FindPropertyRelative(nameof(ExpressionItem.subParameters)).arraySize = subParametersCount;
+                _serializedSubParameters.arraySize = subParametersCount;
                 if (subParametersCount > 0)
                 {
                     GUILayout.Label("Puppet Parameters");
                     for (var i = 0; i < subParametersCount; i++)
                     {
                         GUILayout.Label(SubParameterLabels[subParametersCount][i]);
-                        EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.subParameters)).GetArrayElementAtIndex(i));
+                        EditorGUILayout.PropertyField(_serializedSubParameters.GetArrayElementAtIndex(i));
                     }
                 }
 
-                serializedObj.FindPropertyRelative(nameof(ExpressionItem.labels)).arraySize = labelsCount;
-                serializedObj.FindPropertyRelative(nameof(ExpressionItem.labelIcons)).arraySize = labelsCount;
+                _serializedLabels.arraySize = labelsCount;
+                _serializedLabelIcons.arraySize = labelsCount;
                 if (labelsCount > 0)
                 {
                     GUILayout.Label("Puppet Labels");
                     for (var i = 0; i < labelsCount; i++)
                     {
                         GUILayout.Label(SubParameterLabels[labelsCount][i]);
-                        EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.labels)).GetArrayElementAtIndex(i));
-                        EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ExpressionItem.labelIcons)).GetArrayElementAtIndex(i));
+                        EditorGUILayout.PropertyField(_serializedLabels.GetArrayElementAtIndex(i));
+                        EditorGUILayout.PropertyField(_serializedLabelIcons.GetArrayElementAtIndex(i));
                     }
                 }
             }
 
-            if (serializedObj.FindPropertyRelative(nameof(ExpressionItem.itemKind)).hasMultipleDifferentValues) return;
-            switch ((ExpressionItemKind)serializedObj.FindPropertyRelative(nameof(ExpressionItem.itemKind)).intValue)
+            if (_serializedItemKind.hasMultipleDifferentValues) return;
+            switch ((ExpressionItemKind)_serializedItemKind.intValue)
             {
                 case ExpressionItemKind.Button:
                 case ExpressionItemKind.Toggle:
                     break;
                 case ExpressionItemKind.SubMenu:
                     CustomEditorGUILayout.PropertyFieldWithGenerate(
-                        serializedObj.FindPropertyRelative(nameof(ExpressionItem.subMenu)),
+                        _serializedSubMenu,
                         () =>
                         {
-                            var name = serializedObj.FindPropertyRelative(nameof(ExpressionItem.subMenu)).stringValue;
+                            var name = _serializedPath.stringValue;
                             if (string.IsNullOrEmpty(name))
                             {
                                 Debug.LogError("Expression name is required.");

@@ -7,43 +7,63 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Base
 {
-    [CustomEditor(typeof(EmoteSourceBase), true)]
+    [CustomEditor(typeof(ParameterEmoteSourceBase), true)]
     public class ParameterEmoteSourceBaseEditor : Editor
     {
+        SerializedProperty _serializedEnabled;
+        SerializedProperty _serializedName;
+        SerializedProperty _serializedParameter;
+        SerializedProperty _serializedValueKind;
+        SerializedProperty _serializedEmoteKind;
+        SerializedProperty _serializedStates;
+
+        void OnEnable()
+        {
+            var serializedItem = serializedObject.FindProperty(nameof(ParameterEmoteSourceBase.parameterEmote));
+
+            _serializedEnabled = serializedItem.FindPropertyRelative(nameof(ParameterEmote.enabled));
+            _serializedName = serializedItem.FindPropertyRelative(nameof(ParameterEmote.name));
+            _serializedParameter = serializedItem.FindPropertyRelative(nameof(ParameterEmote.parameter));
+            _serializedValueKind = serializedItem.FindPropertyRelative(nameof(ParameterEmote.valueKind));
+            _serializedEmoteKind = serializedItem.FindPropertyRelative(nameof(ParameterEmote.emoteKind));
+            _serializedStates = serializedItem.FindPropertyRelative(nameof(ParameterEmote.states));
+        }
+
         public override void OnInspectorGUI()
         {
             var parameterEmoteSourceBase = (ParameterEmoteSourceBase)target;
             var layer = parameterEmoteSourceBase.LayerName;
             var parameterEmote = parameterEmoteSourceBase.parameterEmote;
 
-            var serializedObj = serializedObject.FindProperty(nameof(ParameterEmoteSourceBase.parameterEmote));
-
             using (new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel))
             {
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    using (new HideLabelsScope())
+                    {
+                        EditorGUILayout.PropertyField(_serializedEnabled);
+                    }
+                    EditorGUI.BeginDisabledGroup(!parameterEmote.enabled);
+                    EditorGUILayout.PropertyField(_serializedName);
+                }
+                using (new InvalidValueScope(parameterEmoteSourceBase.EmoteWizardRoot.EnsureWizard<ParametersWizard>().IsInvalidParameter(_serializedParameter.stringValue)))
+                {
+                    EditorGUILayout.PropertyField(_serializedParameter);
+                }
+                
                 using (new HideLabelsScope())
                 {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ParameterEmote.enabled)));
-                }
-                EditorGUI.BeginDisabledGroup(!parameterEmote.enabled);
-                EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ParameterEmote.name)));
-                using (new InvalidValueScope(parameterEmoteSourceBase.EmoteWizardRoot.EnsureWizard<ParametersWizard>().IsInvalidParameter(parameterEmote.parameter)))
-                {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ParameterEmote.enabled)));
+                    EditorGUILayout.PropertyField(_serializedValueKind);
                 }
 
-                using (new HideLabelsScope())
-                {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ParameterEmote.valueKind)));
-                }
-
-                EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ParameterEmote.emoteKind)));
+                EditorGUILayout.PropertyField(_serializedEmoteKind);
             }
 
             if (parameterEmote.emoteKind != ParameterEmoteKind.Unused)
             {
                 // using (var sub = context.ParameterEmoteStateDrawerContext(property.name, property.emoteKind == ParameterEmoteKind.Transition).StartContext())
                 {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(ParameterEmote.states)));
+                    EditorGUILayout.PropertyField(_serializedStates);
                     // if (sub.Context.EditTargets && IsExpandedTracker.GetIsExpanded(property.states))
                     {
                         if (GUILayout.Button("Generate clips from targets (TBD)"))

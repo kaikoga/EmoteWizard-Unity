@@ -13,24 +13,43 @@ namespace Silksprite.EmoteWizard.Sources.Base
     [CustomEditor(typeof(AnimationMixinSourceBase), true)]
     public class AnimationMixinSourceBaseEditor : Editor
     {
+        SerializedProperty _serializedName;
+        SerializedProperty _serializedKind;
+        SerializedProperty _serializedAnimationClip;
+        SerializedProperty _serializedBlendTree;
+        SerializedProperty _serializedConditions;
+
+        SerializedProperty _serializedIsBaseMixin;
+
+        void OnEnable()
+        {
+            var serializedItem = serializedObject.FindProperty(nameof(AnimationMixinSourceBase.mixin));
+
+            _serializedName = serializedItem.FindPropertyRelative(nameof(AnimationMixin.name));
+            _serializedKind = serializedItem.FindPropertyRelative(nameof(AnimationMixin.kind));
+            _serializedAnimationClip = serializedItem.FindPropertyRelative(nameof(AnimationMixin.animationClip));
+            _serializedBlendTree = serializedItem.FindPropertyRelative(nameof(AnimationMixin.blendTree));
+            _serializedConditions = serializedItem.FindPropertyRelative(nameof(AnimationMixin.conditions));
+
+            _serializedIsBaseMixin = serializedObject.FindProperty(nameof(AnimationMixinSourceBase.isBaseMixin));
+        }
+
         public override void OnInspectorGUI()
         {
             var animationMixinSourceBase = (AnimationMixinSourceBase)target;
             var layer = animationMixinSourceBase.LayerName;
             var mixin = animationMixinSourceBase.mixin;
 
-            var serializedObj = serializedObject.FindProperty(nameof(AnimationMixinSourceBase.mixin));
-
             using (new EditorGUI.DisabledScope(!mixin.enabled))
             {
-                EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(AnimationMixin.name)));
-                EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(AnimationMixin.kind)));
+                EditorGUILayout.PropertyField(_serializedName);
+                EditorGUILayout.PropertyField(_serializedKind);
                 
                 switch (mixin.kind)
                 {
                     case AnimationMixinKind.AnimationClip:
                         CustomEditorGUILayout.PropertyFieldWithGenerate(
-                            serializedObj.FindPropertyRelative(nameof(AnimationMixin.animationClip)),
+                            _serializedAnimationClip,
                             () =>
                             {
                                 if (string.IsNullOrEmpty(name))
@@ -45,7 +64,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                         break;
                     case AnimationMixinKind.BlendTree:
                         CustomEditorGUILayout.PropertyFieldWithGenerate(
-                            serializedObj.FindPropertyRelative(nameof(AnimationMixin.blendTree)),
+                            _serializedBlendTree,
                             () =>
                             {
                                 if (string.IsNullOrEmpty(name))
@@ -61,10 +80,9 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AnimationMixinSourceBase.isBaseMixin)));
 
-                EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(AnimationMixin.conditions)));
+                EditorGUILayout.PropertyField(_serializedConditions);
+                EditorGUILayout.PropertyField(_serializedIsBaseMixin);
             }
             
             serializedObject.ApplyModifiedProperties();

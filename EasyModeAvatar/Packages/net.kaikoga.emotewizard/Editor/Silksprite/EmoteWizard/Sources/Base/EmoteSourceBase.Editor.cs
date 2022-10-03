@@ -11,9 +11,31 @@ namespace Silksprite.EmoteWizard.Sources.Base
     [CustomEditor(typeof(EmoteSourceBase), true)]
     public class EmoteSourceBaseEditor : Editor
     {
+        SerializedProperty _serializedOverrideEnabled;
+        SerializedProperty _serializedOverrideIndex;
+        SerializedProperty _serializedGesture1;
+        SerializedProperty _serializedGesture2;
+        SerializedProperty _serializedConditions;
+        SerializedProperty _serializedClipLeft;
+        SerializedProperty _serializedClipRight;
+        SerializedProperty _serializedControl;
         const bool EditConditions = true;
         const bool EditAnimations = true;
         const bool AdvancedAnimations = true;
+
+        void OnEnable()
+        {
+            var serializedItem = serializedObject.FindProperty(nameof(EmoteSourceBase.emote));
+
+            _serializedOverrideEnabled = serializedItem.FindPropertyRelative(nameof(Emote.overrideEnabled));
+            _serializedOverrideIndex = serializedItem.FindPropertyRelative(nameof(Emote.overrideIndex));
+            _serializedGesture1 = serializedItem.FindPropertyRelative(nameof(Emote.gesture1));
+            _serializedGesture2 = serializedItem.FindPropertyRelative(nameof(Emote.gesture2));
+            _serializedConditions = serializedItem.FindPropertyRelative(nameof(Emote.conditions));
+            _serializedClipLeft = serializedItem.FindPropertyRelative(nameof(Emote.clipLeft));
+            _serializedClipRight = serializedItem.FindPropertyRelative(nameof(Emote.clipRight));
+            _serializedControl = serializedItem.FindPropertyRelative(nameof(Emote.control));
+        }
 
         public override void OnInspectorGUI()
         {
@@ -21,23 +43,21 @@ namespace Silksprite.EmoteWizard.Sources.Base
             var layer = emoteSourceBase.LayerName;
             var emote = emoteSourceBase.emote;
 
-            var serializedObj = serializedObject.FindProperty(nameof(EmoteSourceBase.emote));
-
             if (EditConditions)
             {
-                using (new EditorGUI.DisabledScope(!serializedObj.FindPropertyRelative(nameof(Emote.overrideEnabled)).boolValue))
+                using (new EditorGUI.DisabledScope(!_serializedOverrideEnabled.boolValue))
                 {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.overrideIndex)));
+                    EditorGUILayout.PropertyField(_serializedOverrideIndex);
                 }
                 // using (new HideLabelsScope())
                 {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.gesture1)));
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.gesture2)));
+                    EditorGUILayout.PropertyField(_serializedGesture1);
+                    EditorGUILayout.PropertyField(_serializedGesture2);
                 }
 
                 // using (context.EmoteConditionDrawerContext().StartContext())
                 {
-                    EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.conditions)));
+                    EditorGUILayout.PropertyField(_serializedConditions);
                 }
             }
             else
@@ -53,14 +73,14 @@ namespace Silksprite.EmoteWizard.Sources.Base
                 var fileName = emote.ToStateName(true);
                 if (AdvancedAnimations)
                 {
-                    CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindPropertyRelative(nameof(Emote.clipLeft)),
+                    CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedClipLeft,
                         () =>
                         {
                             var relativePath = GeneratedAssetLocator.EmoteStateClipPath(layer, fileName, "Left");
                             return emoteSourceBase.EmoteWizardRoot.EnsureAsset<AnimationClip>(relativePath);
                         });
 
-                    CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindPropertyRelative(nameof(Emote.clipRight)),
+                    CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedClipRight,
                         () =>
                         {
                             var relativePath = GeneratedAssetLocator.EmoteStateClipPath(layer, fileName, "Right");
@@ -69,7 +89,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
                 }
                 else
                 {
-                    CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObj.FindPropertyRelative(nameof(Emote.clipLeft)),
+                    CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedClipLeft,
                         "Clip",
                         () =>
                         {
@@ -81,7 +101,7 @@ namespace Silksprite.EmoteWizard.Sources.Base
 
             // using (context.EmoteParameterDrawerContext().StartContext())
             {
-                EditorGUILayout.PropertyField(serializedObj.FindPropertyRelative(nameof(Emote.control)));
+                EditorGUILayout.PropertyField(_serializedControl);
             }
 
             serializedObject.ApplyModifiedProperties();
