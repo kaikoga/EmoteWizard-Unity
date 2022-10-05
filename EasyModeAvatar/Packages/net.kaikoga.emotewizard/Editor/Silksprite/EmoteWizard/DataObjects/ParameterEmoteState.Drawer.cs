@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 position = position.UISliceV(1);
                 if (EditTargets)
                 {
-                    var height = TargetListHeight(serializedProperty);
+                    var height = TargetListHeight(serializedTargets);
                     EditorGUI.PropertyField(position.SliceV(0f, height), serializedTargets, true);
                     position = position.InsetTop(height + EditorGUIUtility.standardVerticalSpacing);
                 }

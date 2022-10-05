@@ -46,14 +46,17 @@ namespace Silksprite.EmoteWizard.Sources.Base
                     EditorGUI.BeginDisabledGroup(!parameterEmote.enabled);
                     EditorGUILayout.PropertyField(_serializedName);
                 }
-                using (new InvalidValueScope(parameterEmoteSourceBase.EmoteWizardRoot.EnsureWizard<ParametersWizard>().IsInvalidParameter(_serializedParameter.stringValue)))
-                {
-                    EditorGUILayout.PropertyField(_serializedParameter);
-                }
                 
-                using (new HideLabelsScope())
+                using (new EditorGUILayout.HorizontalScope())
                 {
-                    EditorGUILayout.PropertyField(_serializedValueKind);
+                    using (new InvalidValueScope(parameterEmoteSourceBase.EmoteWizardRoot.EnsureWizard<ParametersWizard>().IsInvalidParameter(_serializedParameter.stringValue)))
+                    {
+                        EditorGUILayout.PropertyField(_serializedParameter);
+                    }
+                    using (new HideLabelsScope())
+                    {
+                        EditorGUILayout.PropertyField(_serializedValueKind);
+                    }
                 }
 
                 EditorGUILayout.PropertyField(_serializedEmoteKind);

@@ -93,7 +93,7 @@ namespace Silksprite.EmoteWizard.Sources
                 EditorGUILayout.PropertyField(serializedField);
                 if (fixedTransitionDuration)
                 {
-                    GUILayout.Label("(s)", GUILayout.Width(20f));
+                    GUILayout.Label("(s)", GUILayout.ExpandWidth(false));
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace Silksprite.EmoteWizard.Sources
                 EditorGUILayout.PropertyField(serializedExitTimeField);
                 if (motion == null) return;
                 var realExitTime = serializedExitTimeField.floatValue * motion.averageDuration;
-                GUILayout.Label($"{realExitTime:F2}s");
+                GUILayout.Label($"{realExitTime:F2}s", GUILayout.ExpandWidth(false));
             }
         }
     }

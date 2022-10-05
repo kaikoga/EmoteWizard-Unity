@@ -3,6 +3,7 @@ using System.IO;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
@@ -52,8 +53,15 @@ namespace Silksprite.EmoteWizard.Sources
         {
             EditorGUILayout.PropertyField(_serializedIcon);
             EditorGUILayout.PropertyField(_serializedPath);
-            EditorGUILayout.PropertyField(_serializedParameter);
-            EditorGUILayout.PropertyField(_serializedValue);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.PropertyField(_serializedParameter);
+                using (new HideLabelsScope())
+                {
+                    GUILayout.Label("=", GUILayout.ExpandWidth(false));
+                    EditorGUILayout.PropertyField(_serializedValue);
+                }
+            }
             EditorGUILayout.PropertyField(_serializedItemKind);
 
             var y = 2;

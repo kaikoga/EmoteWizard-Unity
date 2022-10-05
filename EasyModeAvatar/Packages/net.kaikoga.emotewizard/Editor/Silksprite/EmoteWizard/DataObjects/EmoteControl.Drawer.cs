@@ -55,7 +55,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     }
                 }
 
-                EditorGUI.PropertyField(position.UISliceV(y++, 2), serializedTrackingOverrides);
+                EditorGUI.PropertyField(position.UISliceV(y++, 2), serializedTrackingOverrides, true);
             }
             else
             {
