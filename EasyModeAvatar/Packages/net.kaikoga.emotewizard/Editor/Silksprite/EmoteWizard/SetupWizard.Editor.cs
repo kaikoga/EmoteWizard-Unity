@@ -3,11 +3,8 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,28 +13,31 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(SetupWizard))]
     public class SetupWizardEditor : Editor
     {
-        SetupWizard setupWizard;
+        SetupWizard _wizard;
+
+        SerializedProperty _serializedIsSetupMode;
 
         void OnEnable()
         {
-            setupWizard = (SetupWizard) target;
+            _wizard = (SetupWizard) target;
+
+            _serializedIsSetupMode = serializedObject.FindProperty(nameof(SetupWizard.isSetupMode));
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = setupWizard.EmoteWizardRoot;
+            var emoteWizardRoot = _wizard.EmoteWizardRoot;
 
-            using (new ObjectChangeScope(setupWizard))
-            {
-                TypedGUILayout.Toggle(new GUIContent("Enable Setup Only UI"), ref setupWizard.isSetupMode);
-            }
+            EditorGUILayout.PropertyField(_serializedIsSetupMode, new GUIContent("Enable Setup Only UI"));
+
+            serializedObject.ApplyModifiedProperties();
 
             if (GUILayout.Button("Generate Wizards"))
             {
                 GenerateWizards(emoteWizardRoot);
             }
 
-            EmoteWizardGUILayout.SetupOnlyUI(setupWizard, () =>
+            EmoteWizardGUILayout.SetupOnlyUI(_wizard, () =>
             {
                 if (GUILayout.Button("Quick Setup EmoteItems"))
                 {
@@ -66,13 +66,13 @@ namespace Silksprite.EmoteWizard
 
         void DestroySelf(EmoteWizardRoot emoteWizardRoot)
         {
-            if (setupWizard.gameObject != emoteWizardRoot.gameObject)
+            if (_wizard.gameObject != emoteWizardRoot.gameObject)
             {
-                DestroyImmediate(setupWizard.gameObject, true);
+                DestroyImmediate(_wizard.gameObject, true);
             }
             else
             {
-                DestroyImmediate(setupWizard, true);
+                DestroyImmediate(_wizard, true);
             }
         }
 

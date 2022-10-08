@@ -1,7 +1,6 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
@@ -12,56 +11,63 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(EmoteWizardRoot))]
     public class EmoteWizardRootEditor : Editor
     {
-        EmoteWizardRoot emoteWizardRoot;
+        EmoteWizardRoot _root;
+
+        SerializedProperty _serializedGeneratedAssetRoot;
+        SerializedProperty _serializedGeneratedAssetPrefix;
+        SerializedProperty _serializedEmptyClip;
+        SerializedProperty _serializedShowTutorial;
 
         void OnEnable()
         {
-            emoteWizardRoot = (EmoteWizardRoot) target;
+            _root = (EmoteWizardRoot)target;
+
+            _serializedGeneratedAssetRoot = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetRoot));
+            _serializedGeneratedAssetPrefix = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetPrefix));
+            _serializedEmptyClip = serializedObject.FindProperty(nameof(EmoteWizardRoot.emptyClip));
+            _serializedShowTutorial = serializedObject.FindProperty(nameof(EmoteWizardRoot.showTutorial));
         }
 
         public override void OnInspectorGUI()
         {
-            using (new ObjectChangeScope(emoteWizardRoot))
+            using (new GUILayout.HorizontalScope())
             {
-                using (new GUILayout.HorizontalScope())
+                EditorGUILayout.PropertyField(_serializedGeneratedAssetRoot);
+                if (GUILayout.Button("Browse"))
                 {
-                    TypedGUILayout.TextField("Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
-                    if (GUILayout.Button("Browse"))
-                    {
-                        SelectFolder("Select Generated Assets Root", ref emoteWizardRoot.generatedAssetRoot);
-                    }
-                }
-
-                TypedGUILayout.TextField("Generated Asset Prefix", ref emoteWizardRoot.generatedAssetPrefix);
-                CustomTypedGUILayout.AssetFieldWithGenerate("Empty Clip", ref emoteWizardRoot.emptyClip, () => emoteWizardRoot.ProvideEmptyClip());
-
-                EmoteWizardGUILayout.ConfigUIArea(() =>
-                {
-                    TypedGUILayout.Toggle("Show Tutorial", ref emoteWizardRoot.showTutorial);
-                    TypedGUILayout.EnumPopup("List Display Mode", ref emoteWizardRoot.listDisplayMode);
-                });
-
-                if (!emoteWizardRoot.GetWizard<SetupWizard>())
-                {
-                    using (new GUILayout.HorizontalScope())
-                    {
-                        if (GUILayout.Button("Setup"))
-                        {
-                            emoteWizardRoot.EnsureWizard<SetupWizard>();
-                        }
-                    }
-                }
-                if (GUILayout.Button("Add Empty Data Source"))
-                {
-                    emoteWizardRoot.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
-                }
-                if (GUILayout.Button("Disconnect Output Assets"))
-                {
-                    emoteWizardRoot.DisconnectAllOutputAssets();
+                    SelectFolder("Select Generated Assets Root", _serializedGeneratedAssetRoot);
                 }
             }
 
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
+            CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ProvideEmptyClip());
+
+            EmoteWizardGUILayout.ConfigUIArea(() =>
+            {
+                EditorGUILayout.PropertyField(_serializedShowTutorial);
+            });
+
+            if (!_root.GetWizard<SetupWizard>())
+            {
+                using (new GUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button("Setup"))
+                    {
+                        _root.EnsureWizard<SetupWizard>();
+                    }
+                }
+            }
+            if (GUILayout.Button("Add Empty Data Source"))
+            {
+                _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
+            }
+            if (GUILayout.Button("Disconnect Output Assets"))
+            {
+                _root.DisconnectAllOutputAssets();
+            }
+            serializedObject.ApplyModifiedProperties();
+
+            EmoteWizardGUILayout.Tutorial(_root, Tutorial);
         }
 
         static string Tutorial =>

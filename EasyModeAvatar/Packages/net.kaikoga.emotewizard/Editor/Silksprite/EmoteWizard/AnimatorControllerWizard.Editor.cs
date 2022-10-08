@@ -19,11 +19,11 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
+            _wizard = (AnimatorLayerWizardBase)target;
+
             _serializedDefaultAvatarMask = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.defaultAvatarMask));
             _serializedOutputAsset = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.outputAsset));
             _serializedResetClip = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.resetClip));
-
-            _wizard = (AnimatorLayerWizardBase)target;
         }
 
         public override void OnInspectorGUI()

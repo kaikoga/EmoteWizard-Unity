@@ -1,8 +1,5 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,31 +8,36 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(ExpressionWizard))]
     public class ExpressionWizardEditor : Editor
     {
-        ExpressionWizard expressionWizard;
+        ExpressionWizard _wizard;
+
+        SerializedProperty _serializedBuildAsSubAsset;
+        SerializedProperty _serializedOutputAsset;
 
         void OnEnable()
         {
-            expressionWizard = (ExpressionWizard) target;
+            _wizard = (ExpressionWizard) target;
+
+            _serializedBuildAsSubAsset = serializedObject.FindProperty(nameof(ExpressionWizard.buildAsSubAsset));
+            _serializedOutputAsset = serializedObject.FindProperty(nameof(ExpressionWizard.outputAsset));
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = expressionWizard.EmoteWizardRoot;
+            var emoteWizardRoot = _wizard.EmoteWizardRoot;
 
-            using (new ObjectChangeScope(expressionWizard))
+            EditorGUILayout.PropertyField(_serializedBuildAsSubAsset);
+
+            EmoteWizardGUILayout.OutputUIArea(() =>
             {
-                TypedGUILayout.Toggle("Build As Sub Asset", ref expressionWizard.buildAsSubAsset);
-
-                EmoteWizardGUILayout.OutputUIArea(() =>
+                if (GUILayout.Button("Generate Expression Menu"))
                 {
-                    if (GUILayout.Button("Generate Expression Menu"))
-                    {
-                        expressionWizard.BuildOutputAsset();
-                    }
+                    _wizard.BuildOutputAsset();
+                }
 
-                    TypedGUILayout.AssetField("Output Asset", ref expressionWizard.outputAsset);
-                });
-            }
+                EditorGUILayout.PropertyField(_serializedOutputAsset);
+            });
+
+            serializedObject.ApplyModifiedProperties();
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }

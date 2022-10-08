@@ -1,13 +1,5 @@
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Typed;
-using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,64 +8,48 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(ParametersWizard))]
     public class ParametersWizardEditor : Editor
     {
-        ParametersWizard parametersWizard;
-        ExpandableReorderableList<ParameterItem> parameterItemsList;
-        ExpandableReorderableList<ParameterItem> defaultParameterItemsList;
+        ParametersWizard _wizard;
+
+        SerializedProperty _serializedOutputAsset;
 
         void OnEnable()
         {
-            parametersWizard = (ParametersWizard) target;
-            
-            parameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Parameter Items", ref parametersWizard.ParameterItems);
-            defaultParameterItemsList = new ExpandableReorderableList<ParameterItem>(new ParameterItemListHeaderDrawer(), new ParameterItemDrawer(), "Default Parameter Items", ref parametersWizard.DefaultParameterItems);
-            IsExpandedTracker.SetDefaultExpanded(parametersWizard.ParameterItems, false);
-            IsExpandedTracker.SetDefaultExpanded(parametersWizard.DefaultParameterItems, false);
+            _wizard = (ParametersWizard) target;
+
+            _serializedOutputAsset = serializedObject.FindProperty(nameof(ParametersWizard.outputAsset));
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = parametersWizard.EmoteWizardRoot;
+            var emoteWizardRoot = _wizard.EmoteWizardRoot;
 
-            using (new ObjectChangeScope(parametersWizard))
-            {
-                var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
+            var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
 
-                using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
+            EmoteWizardGUILayout.RequireAnotherWizard(_wizard, expressionWizard,
+                () =>
                 {
-                    parameterItemsList.DrawAsProperty(parametersWizard.ParameterItems, emoteWizardRoot.listDisplayMode);
-                }
-
-                using (new ParameterItemDrawerContext(emoteWizardRoot, false).StartContext())
-                {
-                    defaultParameterItemsList.DrawAsProperty(parametersWizard.DefaultParameterItems, emoteWizardRoot.listDisplayMode);
-                }
-
-                EmoteWizardGUILayout.RequireAnotherWizard(parametersWizard, expressionWizard,
-                    () =>
+                    if (GUILayout.Button("Manually Refresh Parameters"))
                     {
-                        if (GUILayout.Button("Manually Refresh Parameters"))
-                        {
-                            parametersWizard.RefreshParameters();
-                            IsExpandedTracker.SetDefaultExpanded(parametersWizard.DefaultParameterItems, false);
-                        }
-                    });
-
-                EmoteWizardGUILayout.OutputUIArea(() =>
-                {
-                    if (GUILayout.Button("Generate Expression Parameters"))
-                    {
-                        parametersWizard.BuildOutputAsset();
+                        _wizard.RefreshParameters();
                     }
-
-                    TypedGUILayout.AssetField("Output Asset", ref parametersWizard.outputAsset);
                 });
-            }
+
+            EmoteWizardGUILayout.OutputUIArea(() =>
+            {
+                if (GUILayout.Button("Generate Expression Parameters"))
+                {
+                    _wizard.BuildOutputAsset();
+                }
+
+                EditorGUILayout.PropertyField(_serializedOutputAsset);
+            });
+            serializedObject.ApplyModifiedProperties();
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
         }
 
         static string Tutorial =>
             string.Join("\n",
-                "設定されたExpression Parametersを確認できます。");
+                "Expression Parametersを管理するために必要なコンポーネントです。");
     }
 }
