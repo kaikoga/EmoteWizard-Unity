@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
             drawHeaderCallback += rect =>
             {
                 var isExpanded = serializedProperty.isExpanded;
-                TypedGUI.Foldout(rect.UISliceV(0), ref isExpanded, serializedProperty.displayName);
+                isExpanded = EditorGUI.Foldout(rect.UISliceV(0), isExpanded, serializedProperty.displayName);
                 serializedProperty.isExpanded = isExpanded;
                 draggable = isExpanded;
                 displayAdd = isExpanded;
@@ -98,7 +98,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
             {
                 const int arraySizeMax = 100;
                 var arraySize = serializedProperty.arraySize;
-                TypedGUILayout.DelayedIntField("Size", ref arraySize);
+                arraySize = EditorGUILayout.DelayedIntField("Size", arraySize);
                 if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                 serializedProperty.arraySize = arraySize;
 
@@ -128,7 +128,7 @@ namespace Silksprite.EmoteWizardSupport.Collections
         void DrawAsPager()
         {
             var isExpanded = serializedProperty.isExpanded;
-            TypedGUILayout.Foldout(ref isExpanded, serializedProperty.displayName);
+            isExpanded = EditorGUILayout.Foldout(isExpanded, serializedProperty.displayName);
             serializedProperty.isExpanded = isExpanded;
             if (!isExpanded) return;
 
@@ -147,11 +147,11 @@ namespace Silksprite.EmoteWizardSupport.Collections
                     {
                         pagerIndex = EditorGUILayout.Popup("", pagerIndex, pagerOptions, GUILayout.MinWidth(80f), GUILayout.ExpandWidth(true));
                         pagerIndex++;
-                        TypedGUILayout.IntField("", ref pagerIndex, GUILayout.Width(50f));
+                        pagerIndex = EditorGUILayout.IntField("", pagerIndex, GUILayout.Width(50f));
                         pagerIndex--;
                     }
                     GUILayout.Label("/", GUILayout.Width(10f));
-                    TypedGUILayout.DelayedIntField("", ref arraySize, GUILayout.Width(50f));
+                    arraySize = EditorGUILayout.DelayedIntField("", arraySize, GUILayout.Width(50f));
                     if (arraySize > arraySizeMax) arraySize = arraySizeMax;
                     serializedProperty.arraySize = arraySize;
 

@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             using (new HideLabelsScope())
             {
                 var arraySize = serializedProperty.arraySize;
-                TypedGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", ref arraySize);
+                arraySize = EditorGUI.DelayedIntField(new Rect(position.x + labelWidth, position.y, sizeWidth, EditorGUIUtility.singleLineHeight), "Size", arraySize);
                 serializedProperty.arraySize = arraySize;
                 position = position.InsetLeft(labelWidth + sizeWidth);
                 if (arraySize > 0)
