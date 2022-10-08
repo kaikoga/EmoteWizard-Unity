@@ -35,7 +35,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi
         public override void OnInspectorGUI()
         {
             var emoteWizardRoot = _multiAfkEmoteSource.EmoteWizardRoot;
-            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
             using (new ObjectChangeScope(_multiAfkEmoteSource))
             {

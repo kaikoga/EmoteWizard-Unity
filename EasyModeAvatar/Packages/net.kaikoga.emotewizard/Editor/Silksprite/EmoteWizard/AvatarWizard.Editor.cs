@@ -33,7 +33,6 @@ namespace Silksprite.EmoteWizard
             }
 
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
-            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
             using (new ObjectChangeScope(avatarWizard))
             {

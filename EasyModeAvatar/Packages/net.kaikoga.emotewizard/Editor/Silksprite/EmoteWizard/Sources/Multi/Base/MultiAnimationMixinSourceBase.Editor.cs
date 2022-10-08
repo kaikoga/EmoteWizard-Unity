@@ -39,7 +39,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
         public override void OnInspectorGUI()
         {
             var emoteWizardRoot = _multiAnimationMixinSource.EmoteWizardRoot;
-            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
             using (new ObjectChangeScope(_multiAnimationMixinSource))
             {

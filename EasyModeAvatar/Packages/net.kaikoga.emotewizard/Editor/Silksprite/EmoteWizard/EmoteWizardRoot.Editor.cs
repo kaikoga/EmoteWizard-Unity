@@ -21,8 +21,6 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
-
             using (new ObjectChangeScope(emoteWizardRoot))
             {
                 using (new GUILayout.HorizontalScope())
@@ -40,7 +38,6 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.ConfigUIArea(() =>
                 {
                     TypedGUILayout.Toggle("Show Tutorial", ref emoteWizardRoot.showTutorial);
-                    TypedGUILayout.Toggle("Copy Paste JSON", ref emoteWizardRoot.showCopyPasteJsonButtons);
                     TypedGUILayout.EnumPopup("List Display Mode", ref emoteWizardRoot.listDisplayMode);
                 });
 

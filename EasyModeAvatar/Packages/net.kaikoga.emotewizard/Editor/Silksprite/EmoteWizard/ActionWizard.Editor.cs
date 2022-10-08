@@ -28,7 +28,6 @@ namespace Silksprite.EmoteWizard
         public override void OnInspectorGUI()
         {
             var emoteWizardRoot = actionWizard.EmoteWizardRoot;
-            if (emoteWizardRoot.showCopyPasteJsonButtons) this.CopyPasteJsonButtons();
 
             using (new ObjectChangeScope(actionWizard))
             {
