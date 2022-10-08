@@ -1,8 +1,10 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -34,7 +36,18 @@ namespace Silksprite.EmoteWizard
             {
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
 
-                EditorGUILayout.PropertyField(_serializedDefaultAvatarMask);
+                if (_wizard.LayerKind == LayerKind.Gesture)
+                {
+                    CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedDefaultAvatarMask, () =>
+                    {
+                        var avatarMask = emoteWizardRoot.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
+                        return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
+                    });
+                }
+                else
+                {
+                    EditorGUILayout.PropertyField(_serializedDefaultAvatarMask);
+                }
                 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
