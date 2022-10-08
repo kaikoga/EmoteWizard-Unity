@@ -3,7 +3,6 @@ using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -68,11 +67,6 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
-                    if (GUILayout.Button("Generate Animation Controller"))
-                    {
-                        actionWizard.BuildOutputAsset();
-                    }
-
                     TypedGUILayout.AssetField("Output Asset", ref actionWizard.outputAsset);
                 });
             }

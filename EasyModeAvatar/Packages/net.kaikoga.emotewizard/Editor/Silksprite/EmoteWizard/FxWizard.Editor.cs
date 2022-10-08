@@ -1,10 +1,8 @@
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard
 {
@@ -44,14 +42,6 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
-                    EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(fxWizard, () =>
-                    {
-                        if (GUILayout.Button("Generate Animation Controller"))
-                        {
-                            fxWizard.BuildOutputAsset(parametersWizard);
-                        }
-                    });
-
                     TypedGUILayout.AssetField("Output Asset", ref fxWizard.outputAsset);
                     TypedGUILayout.AssetField("Reset Clip", ref fxWizard.resetClip);
                 });
