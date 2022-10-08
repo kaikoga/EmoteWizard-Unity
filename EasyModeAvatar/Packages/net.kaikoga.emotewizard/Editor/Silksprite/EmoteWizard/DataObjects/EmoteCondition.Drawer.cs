@@ -19,7 +19,6 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             var parametersWizard = ((EmoteWizardDataSourceBase)serializedProperty.serializedObject.targetObject).EmoteWizardRoot.EnsureWizard<ParametersWizard>();
 
-            using (new EditorGUILayout.HorizontalScope())
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {

@@ -18,13 +18,6 @@ namespace Silksprite.EmoteWizard
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 
-        public T EnsureWizard<T>() where T : EmoteWizardBase
-        {
-            var wizard = GetComponentInChildren<T>();
-            if (!(wizard is null)) return wizard;
-            return gameObject.AddComponent<T>();
-        }
-
         public void DisconnectAllOutputAssets()
         {
             foreach (var wizard in GetComponentsInChildren<EmoteWizardBase>()) wizard.DisconnectOutputAssets();

@@ -1,4 +1,6 @@
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
 using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
@@ -49,6 +51,11 @@ namespace Silksprite.EmoteWizard
                 if (GUILayout.Button("Quick Setup 14 HandSigns"))
                 {
                     QuickSetup14(emoteWizardRoot);
+                }
+
+                if (GUILayout.Button("Quick Setup EmoteItems"))
+                {
+                    QuickSetupEmoteItems(emoteWizardRoot);
                 }
             });
 
@@ -109,6 +116,41 @@ namespace Silksprite.EmoteWizard
             gestureWizard.FindOrCreateChildComponent<MultiGestureParameterEmoteSource>("Gesture Sources").RepopulateParameterEmotes(parametersWizard);
             actionWizard.FindOrCreateChildComponent<MultiActionEmoteSource>("Action Sources").RepopulateDefaultActionEmotes();
             actionWizard.RepopulateDefaultAfkEmote();
+        }
+
+        static void QuickSetupEmoteItems(EmoteWizardRoot emoteWizardRoot)
+        {
+            emoteWizardRoot.EnsureWizard<AvatarWizard>();
+            var expressionWizard = emoteWizardRoot.EnsureWizard<ExpressionWizard>();
+            var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
+            var fxLayerWizard = emoteWizardRoot.EnsureWizard<FxLayerWizard>();
+            var gestureLayerWizard = emoteWizardRoot.EnsureWizard<GestureLayerWizard>();
+            var actionLayerWizard = emoteWizardRoot.EnsureWizard<ActionLayerWizard>();
+            expressionWizard.FindOrCreateChildComponent<MultiExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
+            expressionWizard.FindOrCreateChildComponent<MultiParameterSource>("Parameter Sources");
+            parametersWizard.RefreshParameters();
+
+            var fxSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("FX Sources");
+            foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns("FX"))
+            {
+                var fxSource = fxSources.FindOrCreateChildComponent<EmoteItemSource>(fxItem.trigger.name);
+                fxSource.trigger = fxItem.trigger;
+                fxSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = fxItem.sequence;
+            }
+            var gestureSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Gesture Sources");
+            foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns("Gesture"))
+            {
+                var gestureSource = gestureSources.FindOrCreateChildComponent<EmoteItemSource>(gestureItem.trigger.name);
+                gestureSource.trigger = gestureItem.trigger;
+                gestureSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = gestureItem.sequence;
+            }
+            var actionSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Action Sources");
+            foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
+            {
+                var actionSource = actionSources.FindOrCreateChildComponent<EmoteItemSource>(actionItem.trigger.name);
+                actionSource.trigger = actionItem.trigger;
+                actionSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = actionItem.sequence;
+            }
         }
 
         static string Tutorial =>

@@ -30,6 +30,10 @@ namespace Silksprite.EmoteWizard.Extensions
                 switch (avatarWizard.overrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
+                        if (emoteWizardRoot.GetWizard<GestureLayerWizard>())
+                        {
+                            return emoteWizardRoot.GetWizard<GestureLayerWizard>().BuildOutputAsset(parametersWizard);
+                        }
                         return emoteWizardRoot.GetWizard<GestureWizard>()?.BuildOutputAsset(parametersWizard);
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return avatarWizard.overrideGestureController;
@@ -47,6 +51,10 @@ namespace Silksprite.EmoteWizard.Extensions
                 switch (avatarWizard.overrideAction)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType1.Generate:
+                        if (emoteWizardRoot.GetWizard<ActionLayerWizard>())
+                        {
+                            return emoteWizardRoot.GetWizard<ActionLayerWizard>().BuildOutputAsset(parametersWizard);
+                        }
                         return emoteWizardRoot.GetWizard<ActionWizard>()?.BuildOutputAsset();
                     case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return avatarWizard.overrideActionController;
@@ -59,6 +67,10 @@ namespace Silksprite.EmoteWizard.Extensions
 
             RuntimeAnimatorController SelectFxController()
             {
+                if (emoteWizardRoot.GetWizard<FxLayerWizard>())
+                {
+                    return emoteWizardRoot.GetWizard<FxLayerWizard>().BuildOutputAsset(parametersWizard);
+                }
                 return emoteWizardRoot.GetWizard<FxWizard>()?.BuildOutputAsset(parametersWizard);
             }
 

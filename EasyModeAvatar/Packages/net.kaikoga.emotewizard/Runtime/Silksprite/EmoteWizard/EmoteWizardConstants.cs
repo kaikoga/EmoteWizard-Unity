@@ -6,6 +6,7 @@ namespace Silksprite.EmoteWizard
         {
             public const string Gesture = "Gesture";
             public const string Fx = "FX";
+            public const string Action = "Action";
         }
 
         public static class Defaults

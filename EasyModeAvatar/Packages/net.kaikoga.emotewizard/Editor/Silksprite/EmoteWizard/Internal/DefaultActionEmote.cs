@@ -151,5 +151,39 @@ namespace Silksprite.EmoteWizard.Internal
                 blendOut = 0.5f
             };
         }
+
+        public static IEnumerable<EmoteItem> EnumerateDefaultActionEmoteItems()
+        {
+            var actionTrackingOverrides = new[]
+            {
+                TrackingTarget.Head,
+                TrackingTarget.LeftHand,
+                TrackingTarget.RightHand,
+                TrackingTarget.Hip,
+                TrackingTarget.LeftFoot,
+                TrackingTarget.RightFoot,
+                TrackingTarget.LeftFingers,
+                TrackingTarget.RightFingers
+            }.Select(target => new TrackingOverride { target = target }).ToList();
+
+            foreach (var def in Defaults)
+            {
+                yield return EmoteItem.Builder("Action", def._name, "Action")
+                    .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = "VRCEmote", mode = EmoteConditionMode.Equals, threshold = def._index })
+                    .AddClip(def._clip)
+                    .AddClipExitTime(def._hasExitTime, def._exitTime)
+                    .AddExitClip(def._exitClip != null, def._exitClip, 0.25f, def._exitClip ? 0.4f : 0.25f)
+                    .AddLayerBlend(true, 0.5f, 0.25f)
+                    .AddTrackingOverrides(true, actionTrackingOverrides)
+                    .ToEmoteItem();
+            }
+            yield return EmoteItem.Builder("Action", "AFK", "Action")
+                .AddPriority(100)
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = "AFK", mode = EmoteConditionMode.If, threshold = 0 })
+                .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
+                .AddLayerBlend(true, 1f, 0.5f)
+                .AddTrackingOverrides(true, actionTrackingOverrides)
+                .ToEmoteItem();
+        }
     }
 }
