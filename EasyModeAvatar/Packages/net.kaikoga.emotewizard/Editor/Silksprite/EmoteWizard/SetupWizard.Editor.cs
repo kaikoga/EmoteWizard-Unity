@@ -92,14 +92,14 @@ namespace Silksprite.EmoteWizard
             emoteWizardRoot.EnsureWizard<ParametersWizard>().RefreshParameters();
 
             var fxSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("FX Sources");
-            foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns("FX"))
+            foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
             {
                 var fxSource = fxSources.FindOrCreateChildComponent<EmoteItemSource>(fxItem.trigger.name);
                 fxSource.trigger = fxItem.trigger;
                 fxSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = fxItem.sequence;
             }
             var gestureSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Gesture Sources");
-            foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns("Gesture"))
+            foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
             {
                 var gestureSource = gestureSources.FindOrCreateChildComponent<EmoteItemSource>(gestureItem.trigger.name);
                 gestureSource.trigger = gestureItem.trigger;

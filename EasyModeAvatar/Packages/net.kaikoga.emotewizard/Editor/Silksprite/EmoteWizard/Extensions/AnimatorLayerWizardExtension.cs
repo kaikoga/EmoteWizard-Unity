@@ -10,15 +10,15 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersWizard parametersWizard)
         {
-            var layerName = wizard.LayerName;
+            var layerKind = wizard.LayerKind;
             var builder = new AnimatorLayerBuilder
             {
                 Wizard = wizard,
                 ParametersWizard = parametersWizard,
-                DefaultRelativePath = $"{layerName}/@@@Generated@@@{layerName}.controller"
+                DefaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller"
             };
 
-            var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerName}/@@@Generated@@@Reset{layerName}.anim", ref wizard.resetClip);
+            var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
             wizard.BuildResetClip(resetClip);
 
             builder.BuildStaticLayer("Reset", resetClip, null);

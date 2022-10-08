@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizard.Base
         [SerializeField] public AnimationClip resetClip;
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public abstract string LayerName { get; }
+        public abstract LayerKind LayerKind { get; }
 
         public override void DisconnectOutputAssets()
         {
@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Base
         {
             return EmoteWizardRoot.GetComponentsInChildren<IEmoteItemSource>()
                 .SelectMany(source => source.EmoteItems)
-                .Where(item => item.trigger.layerName == LayerName);
+                .Where(item => item.trigger.layerKind == LayerKind);
         }
     }
 }

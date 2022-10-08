@@ -19,13 +19,13 @@ namespace Silksprite.EmoteWizard.DataObjects
             this.sequence = sequence;
         }
 
-        public static EmoteItemBuilder Builder(string layerName, string name, string groupName)
+        public static EmoteItemBuilder Builder(LayerKind layerKind, string name, string groupName)
         {
             return new EmoteItemBuilder(new EmoteItem
             {
                 trigger =
                 {
-                    layerName = layerName,
+                    layerKind = layerKind,
                     name = name,
                     groupName = groupName
                 }

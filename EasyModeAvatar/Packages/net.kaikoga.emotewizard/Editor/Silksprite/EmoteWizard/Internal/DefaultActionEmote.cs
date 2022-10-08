@@ -168,7 +168,7 @@ namespace Silksprite.EmoteWizard.Internal
 
             foreach (var def in Defaults)
             {
-                yield return EmoteItem.Builder("Action", def._name, "Action")
+                yield return EmoteItem.Builder(LayerKind.Action, def._name, "Action")
                     .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = "VRCEmote", mode = EmoteConditionMode.Equals, threshold = def._index })
                     .AddClip(def._clip)
                     .AddClipExitTime(def._hasExitTime, def._exitTime)
@@ -177,7 +177,7 @@ namespace Silksprite.EmoteWizard.Internal
                     .AddTrackingOverrides(true, actionTrackingOverrides)
                     .ToEmoteItem();
             }
-            yield return EmoteItem.Builder("Action", "AFK", "Action")
+            yield return EmoteItem.Builder(LayerKind.Action, "AFK", "Action")
                 .AddPriority(100)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = "AFK", mode = EmoteConditionMode.If, threshold = 0 })
                 .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)

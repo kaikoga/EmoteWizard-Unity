@@ -57,11 +57,11 @@ namespace Silksprite.EmoteWizard
 
         string Tutorial => 
             string.Join("\n",
-                $"{_wizard.LayerName} Layerの設定を行い、Animation Controllerを生成します。");
+                $"{_wizard.LayerKind} Layerの設定を行い、Animation Controllerを生成します。");
 
         string Tutorial2 => 
             string.Join("\n",
                 "Write Defaultsオフでセットアップされます。",
-                $"各アニメーションで使われているパラメータをリセットするアニメーションが{_wizard.LayerName} Layerの一番上に追加されます。");
+                $"各アニメーションで使われているパラメータをリセットするアニメーションが{_wizard.LayerKind} Layerの一番上に追加されます。");
     }
 }

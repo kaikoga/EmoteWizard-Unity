@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard
@@ -6,6 +7,6 @@ namespace Silksprite.EmoteWizard
     [DisallowMultipleComponent]
     public class GestureLayerWizard : AnimatorLayerWizardBase
     {
-        public override string LayerName => EmoteWizardConstants.LayerNames.Gesture;
+        public override LayerKind LayerKind => LayerKind.Gesture;
     }
 }
