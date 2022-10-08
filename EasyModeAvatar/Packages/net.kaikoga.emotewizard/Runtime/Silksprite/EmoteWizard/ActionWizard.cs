@@ -40,12 +40,6 @@ namespace Silksprite.EmoteWizard
             outputAsset = null;
         }
 
-        public IEnumerable<ActionEmote> CollectActionEmotes()
-        {
-            return EmoteWizardRoot.GetComponentsInChildren<IActionEmoteSource>().SelectMany(source => source.ActionEmotes)
-                .Where(item => item.enabled);
-        }
-
         public IEnumerable<ActionEmote> CollectAfkEmotes()
         {
             return EmoteWizardRoot.GetComponentsInChildren<IAfkEmoteSource>().SelectMany(source => source.AfkEmotes)

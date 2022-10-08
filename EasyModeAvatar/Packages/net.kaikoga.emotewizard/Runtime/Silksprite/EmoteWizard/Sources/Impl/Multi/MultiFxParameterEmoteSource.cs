@@ -4,6 +4,6 @@ namespace Silksprite.EmoteWizard.Sources.Impl.Multi
 {
     public class MultiFxParameterEmoteSource : MultiParameterEmoteSourceBase, IFxParameterEmoteSource
     {
-        public override string LayerName => EmoteWizardConstants.LayerNames.Fx;
+        public virtual string LayerName => EmoteWizardConstants.LayerNames.Fx;
     }
 }

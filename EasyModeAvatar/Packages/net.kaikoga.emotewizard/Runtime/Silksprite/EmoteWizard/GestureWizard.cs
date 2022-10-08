@@ -27,8 +27,5 @@ namespace Silksprite.EmoteWizard
                 return EnumerateParameterItems();
             }
         }
-
-        public override string LayerName => EmoteWizardConstants.LayerNames.Gesture;
-        public override string HandSignOverrideParameter => handSignOverrideParameter;
     }
 }

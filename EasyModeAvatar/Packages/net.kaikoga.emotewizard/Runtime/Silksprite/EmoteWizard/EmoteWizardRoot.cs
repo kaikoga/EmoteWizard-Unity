@@ -14,7 +14,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public AnimationClip emptyClip;
         [SerializeField] public ListDisplayMode listDisplayMode;
         [SerializeField] public bool showTutorial;
-        public const bool showCopyPasteJsonButtons = false;
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 

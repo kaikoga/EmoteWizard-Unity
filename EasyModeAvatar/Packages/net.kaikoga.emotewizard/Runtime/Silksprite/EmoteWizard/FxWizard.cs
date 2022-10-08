@@ -33,8 +33,5 @@ namespace Silksprite.EmoteWizard
             base.DisconnectOutputAssets();
             resetClip = null;
         }
-
-        public override string LayerName => EmoteWizardConstants.LayerNames.Fx;
-        public override string HandSignOverrideParameter => handSignOverrideParameter;
     }
 }
