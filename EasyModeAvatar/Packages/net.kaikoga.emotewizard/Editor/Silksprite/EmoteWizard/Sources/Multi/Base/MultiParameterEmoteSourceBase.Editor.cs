@@ -1,16 +1,5 @@
-using Silksprite.EmoteWizard.Collections;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Typed;
-using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
-using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Collections.Generic;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,52 +10,22 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
     {
         MultiParameterEmoteSourceBase _multiParameterEmoteSource;
 
-        ParameterEmoteDrawerState _parametersState;
-
-        ExpandableReorderableList<ParameterEmote> _parameterEmoteList;
-
         void OnEnable()
         {
             _multiParameterEmoteSource = (MultiParameterEmoteSourceBase)target;
 
-            _parametersState = new ParameterEmoteDrawerState();
-
-            _parameterEmoteList = new ExpandableReorderableList<ParameterEmote>(new ParameterEmoteListHeaderDrawer(), new ParameterEmoteDrawer(), "Parameter Emotes", ref _multiParameterEmoteSource.parameterEmotes);
         }
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _multiParameterEmoteSource.EmoteWizardRoot;
-
-            using (new ObjectChangeScope(_multiParameterEmoteSource))
-            {
-                var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
-
-                using (new ParameterEmoteDrawerContext(emoteWizardRoot, _multiParameterEmoteSource, parametersWizard, _multiParameterEmoteSource.LayerName, _parametersState).StartContext())
-                {
-                    _parameterEmoteList.DrawAsProperty(_multiParameterEmoteSource.parameterEmotes, emoteWizardRoot.listDisplayMode);
-                }
-
-                if (IsExpandedTracker.GetIsExpanded(_multiParameterEmoteSource.parameterEmotes))
-                {
-                    if (GUILayout.Button("Generate Parameters"))
-                    {
-                        _multiParameterEmoteSource.GenerateParameters(parametersWizard);
-                    }
-                }
-            }
+            EditorGUILayout.LabelField("Legacy Data", $"{_multiParameterEmoteSource.parameterEmotes.Count} Items");
             
             if (GUILayout.Button("Explode"))
             {
                 SourceExploder.Explode(_multiParameterEmoteSource);
             }
 
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EditorGUILayout.HelpBox("古いデータです。", MessageType.Warning);
         }
-
-        static string Tutorial => 
-            string.Join("\n",
-                "パラメーターに基づくアニメーションの設定をします。",
-                "");
     }
 }
