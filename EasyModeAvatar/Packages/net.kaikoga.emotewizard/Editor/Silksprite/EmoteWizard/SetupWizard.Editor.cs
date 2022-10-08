@@ -1,3 +1,5 @@
+using System.Linq;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
@@ -126,8 +128,16 @@ namespace Silksprite.EmoteWizard
             var fxLayerWizard = emoteWizardRoot.EnsureWizard<FxLayerWizard>();
             var gestureLayerWizard = emoteWizardRoot.EnsureWizard<GestureLayerWizard>();
             var actionLayerWizard = emoteWizardRoot.EnsureWizard<ActionLayerWizard>();
-            expressionWizard.FindOrCreateChildComponent<MultiExpressionItemSource>("Expression Sources").RepopulateDefaultExpressionItems();
-            expressionWizard.FindOrCreateChildComponent<MultiParameterSource>("Parameter Sources");
+
+            var expressionSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Expression Sources");
+            foreach (var expressionItem in DefaultActionEmote.PopulateDefaultExpressionItems("Default/", Enumerable.Empty<ExpressionItem>()))
+            {
+                var expressionSource = expressionSources.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path);
+                expressionSource.expressionItem = expressionItem;
+
+            }
+
+            var parameterSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Parameter Sources");
             parametersWizard.RefreshParameters();
 
             var fxSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("FX Sources");
