@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.DataObjects.Typed;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
-using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -44,22 +43,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
             {
                 var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
                 var animationWizardBase = _multiEmoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx ? (AnimationWizardBase)emoteWizardRoot.GetWizard<FxWizard>() : emoteWizardRoot.GetWizard<GestureWizard>();
-
-                EmoteWizardGUILayout.SetupOnlyUI(animationWizardBase, () =>
-                {
-                    if (GUILayout.Button("Repopulate HandSigns: 7 items"))
-                    {
-                        _multiEmoteSource.RepopulateDefaultEmotes();
-                    }
-
-                    if (_multiEmoteSource.LayerName == EmoteWizardConstants.LayerNames.Fx)
-                    {
-                        if (GUILayout.Button("Repopulate HandSigns: 14 items"))
-                        {
-                            _multiEmoteSource.RepopulateDefaultEmotes14();
-                        }
-                    }
-                });
 
                 var advancedAnimations = _multiEmoteSource.AdvancedAnimations;
                 using (new EditorGUI.DisabledScope(_multiEmoteSource.HasComplexAnimations))

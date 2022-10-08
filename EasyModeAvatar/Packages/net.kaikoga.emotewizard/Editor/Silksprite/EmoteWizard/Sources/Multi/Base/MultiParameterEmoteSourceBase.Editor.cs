@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl.Multi.Base;
-using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -43,14 +42,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi.Base
             using (new ObjectChangeScope(_multiParameterEmoteSource))
             {
                 var parametersWizard = emoteWizardRoot.EnsureWizard<ParametersWizard>();
-
-                EmoteWizardGUILayout.SetupOnlyUI(_multiParameterEmoteSource, () =>
-                {
-                    if (GUILayout.Button("Repopulate Parameters"))
-                    {
-                        _multiParameterEmoteSource.RepopulateParameterEmotes(parametersWizard);
-                    }
-                });
 
                 using (new ParameterEmoteDrawerContext(emoteWizardRoot, _multiParameterEmoteSource, parametersWizard, _multiParameterEmoteSource.LayerName, _parametersState).StartContext())
                 {

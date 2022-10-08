@@ -4,7 +4,6 @@ using Silksprite.EmoteWizard.DataObjects.Typed;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerStates;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
-using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
@@ -42,13 +41,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi
             {
                 var actionWizard = emoteWizardRoot.GetWizard<ActionWizard>();
 
-                EmoteWizardGUILayout.SetupOnlyUI(_multiActionEmoteSource, () =>
-                {
-                    if (GUILayout.Button("Repopulate Default Actions"))
-                    {
-                        _multiActionEmoteSource.RepopulateDefaultActionEmotes();
-                    }
-                });
                 using (new ActionEmoteDrawerContext(emoteWizardRoot, _actionEmotesState, actionWizard.fixedTransitionDuration, false).StartContext())
                 {
                     _actionEmotesList.DrawAsProperty(_multiActionEmoteSource.actionEmotes, emoteWizardRoot.listDisplayMode);

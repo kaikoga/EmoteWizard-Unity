@@ -1,16 +1,13 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Collections;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Typed;
 using Silksprite.EmoteWizard.DataObjects.Typed.DrawerContexts;
 using Silksprite.EmoteWizard.Sources.Impl.Multi;
-using Silksprite.EmoteWizard.Sources.Multi.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -37,28 +34,9 @@ namespace Silksprite.EmoteWizard.Sources.Multi
 
             using (new ObjectChangeScope(_multiExpressionItemSource))
             {
-                EmoteWizardGUILayout.SetupOnlyUI(_multiExpressionItemSource, () =>
-                {
-                    if (GUILayout.Button("Reset Expression Items"))
-                    {
-                        _multiExpressionItemSource.RepopulateDefaultExpressionItems();
-                    }
-                });
-
                 using (new ExpressionItemDrawerContext(emoteWizardRoot).StartContext())
                 {
                     _expressionItemsList.DrawAsProperty(_multiExpressionItemSource.expressionItems, emoteWizardRoot.listDisplayMode);
-                }
-
-                TypedGUILayout.TextField("Default Prefix", ref _multiExpressionItemSource.defaultPrefix);
-                if (GUILayout.Button("Populate Default Expression Items"))
-                {
-                    _multiExpressionItemSource.PopulateDefaultExpressionItems();
-                }
-
-                if (GUILayout.Button("Group by Folder (Sort)"))
-                {
-                    GroupItemsByFolder();
                 }
 
                 if (GUILayout.Button("Explode"))
@@ -69,14 +47,6 @@ namespace Silksprite.EmoteWizard.Sources.Multi
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
-        }
-
-        void GroupItemsByFolder()
-        {
-            _multiExpressionItemSource.expressionItems = _multiExpressionItemSource.expressionItems
-                .GroupBy(item => item.Folder)
-                .SelectMany(group => group)
-                .ToList();
         }
 
         static string Tutorial => 
