@@ -1,7 +1,5 @@
 using Silksprite.EmoteWizard.Sources.Legacy.Impl.Base;
-using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Legacy.Base
 {
@@ -20,11 +18,6 @@ namespace Silksprite.EmoteWizard.Sources.Legacy.Base
         {
             EditorGUILayout.LabelField("Legacy Data", $"{_multiParameterEmoteSource.parameterEmotes.Count} Items");
             
-            if (GUILayout.Button("Explode"))
-            {
-                SourceExploder.Explode(_multiParameterEmoteSource);
-            }
-
             EditorGUILayout.HelpBox("古いデータです。", MessageType.Warning);
         }
     }
