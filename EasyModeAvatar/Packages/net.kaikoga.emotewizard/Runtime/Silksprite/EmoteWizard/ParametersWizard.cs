@@ -40,13 +40,13 @@ namespace Silksprite.EmoteWizard
             {
                 if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {
-                    builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                    builder.FindOrCreate(expressionItem.parameter).AddWriteValue(expressionItem.value);
                 }
 
                 if (!expressionItem.IsPuppet) continue;
                 foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
                 {
-                    builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                    builder.FindOrCreate(subParameter).AddWritePuppet(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
                 }
             }
 

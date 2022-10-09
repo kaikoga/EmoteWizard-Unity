@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public ParameterItemKind ItemKind;
         public bool Saved = true;
         public float DefaultValue;
-        public List<ParameterUsage> Usages;
+        public List<ParameterWriteUsage> WriteUsages;
 
         public ParameterValueKind ValueKind
         {
@@ -20,8 +20,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 switch (ItemKind)
                 {
                     case ParameterItemKind.Auto:
-                        if (Usages.Any(usage => usage.usageKind == ParameterUsageKind.Float)) return ParameterValueKind.Float;
-                        return Usages.Count(usage => usage.usageKind != ParameterUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
+                        if (WriteUsages.Any(usage => usage.WriteUsageKind == ParameterWriteUsageKind.Float)) return ParameterValueKind.Float;
+                        return WriteUsages.Count(usage => usage.WriteUsageKind != ParameterWriteUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
                     case ParameterItemKind.Bool:
                         return ParameterValueKind.Bool;
                     case ParameterItemKind.Int:

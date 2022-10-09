@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         ParameterItemKind _itemKind;
         bool _saved = true;
         float _defaultValue;
-        readonly List<ParameterUsage> _usages = new List<ParameterUsage>();
+        readonly List<ParameterWriteUsage> _usages = new List<ParameterWriteUsage>();
 
         public string Name => Name;
 
@@ -25,42 +25,36 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             };
         }
 
-        void AddDefaultUsage()
+        void AddWriteDefault()
         {
-            if (_usages.All(state => state.value != 0))
+            if (_usages.All(state => state.Value != 0))
             {
-                _usages.Add(new ParameterUsage(ParameterUsageKind.Default, 0));
+                _usages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Default, 0));
             }
         }
 
-        public void AddUsage(float value)
+        public void AddWriteValue(float value)
         {
-            AddDefaultUsage();
+            AddWriteDefault();
             if (value > 1)
             {
-                _usages.Add(new ParameterUsage(ParameterUsageKind.Int, value));
+                _usages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Int, value));
             }
             else if (Mathf.Abs(value % 1f) > 0f)
             {
-                _usages.Add(new ParameterUsage(ParameterUsageKind.Float, value));
+                _usages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, value));
             }
             else if (value != 0)
             {
-                _usages.Add(new ParameterUsage(ParameterUsageKind.Int, value));
+                _usages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Int, value));
             }
         }
 
-        public void AddPuppetUsage(bool hasNegativeRange)
+        public void AddWritePuppet(bool hasNegativeRange)
         {
-            if (hasNegativeRange) _usages.Add(new ParameterUsage(ParameterUsageKind.Float, -1f));
-            AddDefaultUsage();
-            _usages.Add(new ParameterUsage(ParameterUsageKind.Float, 1f));
-        }
-
-        public void AddIndexUsage()
-        {
-            AddDefaultUsage();
-            _itemKind = ParameterItemKind.Int;
+            if (hasNegativeRange) _usages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, -1f));
+            AddWriteDefault();
+            _usages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, 1f));
         }
 
         public void Import(ParameterItem parameter)
@@ -79,10 +73,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 Saved = _saved,
                 DefaultValue = _defaultValue,
                 ItemKind = _itemKind,
-                Usages = _usages.Select(state => (valueKind: state.usageKind, state.value))
+                WriteUsages = _usages.Select(state => (valueKind: state.WriteUsageKind, value: state.Value))
                     .Distinct()
-                    .Select(usageValue => new ParameterUsage(usageValue.valueKind, usageValue.value))
-                    .OrderBy(usage => usage.value)
+                    .Select(usageValue => new ParameterWriteUsage(usageValue.valueKind, usageValue.value))
+                    .OrderBy(usage => usage.Value)
                     .ToList()
             };
         }

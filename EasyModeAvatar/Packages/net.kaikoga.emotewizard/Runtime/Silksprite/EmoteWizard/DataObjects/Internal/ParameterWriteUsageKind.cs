@@ -1,6 +1,6 @@
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    public enum ParameterUsageKind
+    public enum ParameterWriteUsageKind
     {
         Default,
         Bool,
