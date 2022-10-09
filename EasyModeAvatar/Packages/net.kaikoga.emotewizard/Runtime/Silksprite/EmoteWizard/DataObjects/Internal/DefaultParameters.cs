@@ -25,7 +25,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             ("TrackingType", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 6}),
             ("VRMode", ParameterItemKind.Int, Empty),
             ("MuteSelf", ParameterItemKind.Bool, Empty),
-            ("InStation", ParameterItemKind.Bool, Empty)
+            ("InStation", ParameterItemKind.Bool, Empty),
+            
+            // These are mirrored into appropriate VRC default parameters
+            ("Gesture", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+            ("GestureOther", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+            ("GestureWeight", ParameterItemKind.Float, Empty),
+            ("GestureOtherWeight", ParameterItemKind.Float, Empty),
         };
 
         public static List<ParameterInstance> Populate()

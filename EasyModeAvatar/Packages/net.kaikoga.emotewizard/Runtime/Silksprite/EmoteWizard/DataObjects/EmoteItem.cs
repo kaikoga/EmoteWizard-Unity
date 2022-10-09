@@ -32,6 +32,33 @@ namespace Silksprite.EmoteWizard.DataObjects
             });
         }
 
+        public bool IsMirrorItem
+        {
+            get
+            {
+                bool IsMirrorParameter(string parameter)
+                {
+                    switch (parameter)
+                    {
+                        case "Gesture":
+                        case "GestureOther":
+                        case "GestureWeight":
+                        case "GestureOtherWeight":
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+                foreach (var condition in trigger.conditions)
+                {
+                    if (IsMirrorParameter(condition.parameter)) return true;
+                }
+                if (IsMirrorParameter(sequence.timeParameter)) return true;
+
+                return false;
+            }
+        }
+
         public EmoteItem Mirror(string side)
         {
             string ResolveMirrorParameter(string parameter)

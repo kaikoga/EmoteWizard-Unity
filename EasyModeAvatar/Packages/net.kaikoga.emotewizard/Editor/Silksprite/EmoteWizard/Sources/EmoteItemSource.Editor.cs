@@ -1,6 +1,8 @@
+using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using UnityEditor;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources
 {
@@ -12,7 +14,8 @@ namespace Silksprite.EmoteWizard.Sources
         SerializedProperty _serializedLayerKind;
         SerializedProperty _serializedGroupName;
         SerializedProperty _serializedConditions;
-        SerializedProperty _serializedMirror;
+
+        EmoteItemSource _emoteItemSource;
 
         void OnEnable()
         {
@@ -23,7 +26,7 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedGroupName = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.groupName));
             _serializedConditions = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.conditions));
 
-            _serializedMirror = serializedObject.FindProperty(nameof(EmoteItemSource.mirror));
+            _emoteItemSource = (EmoteItemSource)target;
         }
 
         public override void OnInspectorGUI()
@@ -32,8 +35,20 @@ namespace Silksprite.EmoteWizard.Sources
             EditorGUILayout.PropertyField(_serializedLayerKind);
             EditorGUILayout.PropertyField(_serializedGroupName);
             EditorGUILayout.PropertyField(_serializedConditions);
-            EditorGUILayout.PropertyField(_serializedMirror);
             serializedObject.ApplyModifiedProperties();
+
+            if (_emoteItemSource.IsMirrorItem)
+            {
+                EditorGUILayout.HelpBox(MirrorInfoText, MessageType.Info);
+            }
         }
+        
+        static string MirrorInfoText =>
+            string.Join("\n",
+                "パラメータのミラーリングが有効になっています。",
+                "Gesture: GestureLeft / GestureRight",
+                "GestureOther: GestureRight / GestureLeft",
+                "GestureWeight: GestureLeftWeight / GestureRightWeight",
+                "GestureOtherWeight: GestureRightWeight / GestureLeftWeight");
     }
 }
