@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Base;
@@ -15,7 +16,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             get
             {
-                var sequence = GetComponentInParent<EmoteSequenceSourceBase>()?.EmoteSequence;
+                var sequence = GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
                 if (sequence == null) yield break;
 
                 var emoteItem = new EmoteItem(trigger, sequence);
