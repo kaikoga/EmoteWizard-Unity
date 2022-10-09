@@ -1,10 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Legacy;
-using Silksprite.EmoteWizard.Sources.Legacy.Base;
-using Silksprite.EmoteWizard.Sources.Legacy.Impl;
-using Silksprite.EmoteWizard.Sources.Legacy.Impl.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
@@ -26,36 +22,6 @@ namespace Silksprite.EmoteWizard.Utils
         {
             var exploded = false;
 
-            if (container is IGestureEmoteSource gestureEmoteSource)
-            {
-                ExplodeEmotes<GestureEmoteSource>(gestureEmoteSource, container);
-                exploded = true;
-            }
-            if (container is IFxEmoteSource fxEmoteSource)
-            {
-                ExplodeEmotes<FxEmoteSource>(fxEmoteSource, container);
-                exploded = true;
-            }
-            if (container is IGestureParameterEmoteSource gestureParameterEmoteSource)
-            {
-                ExplodeParameterEmotes<GestureParameterEmoteSource>(gestureParameterEmoteSource, container);
-                exploded = true;
-            }
-            if (container is IFxParameterEmoteSource fxParameterEmoteSource)
-            {
-                ExplodeParameterEmotes<FxParameterEmoteSource>(fxParameterEmoteSource, container);
-                exploded = true;
-            }
-            if (container is IGestureAnimationMixinSource gestureAnimationMixinSource)
-            {
-                ExplodeAnimationMixins<GestureAnimationMixinSource>(gestureAnimationMixinSource, container);
-                exploded = true;
-            }
-            if (container is IFxAnimationMixinSource fxAnimationMixinSource)
-            {
-                ExplodeAnimationMixins<FxAnimationMixinSource>(fxAnimationMixinSource, container);
-                exploded = true;
-            }
             if (container is IExpressionItemSource expressionItemSource)
             {
                 ExplodeExpressionItems(expressionItemSource, container);
@@ -66,61 +32,10 @@ namespace Silksprite.EmoteWizard.Utils
                 ExplodeParameters(parameterSource, container);
                 exploded = true;
             }
-            if (container is IActionEmoteSource actionEmoteSource)
-            {
-                ExplodeActionEmotes(actionEmoteSource, container);
-                exploded = true;
-            }
-            if (container is IAfkEmoteSource afkEmoteSource)
-            {
-                ExplodeAfkEmotes(afkEmoteSource, container);
-                exploded = true;
-            }
 
             if (!exploded) return;
 
             EditorApplication.delayCall += () => Object.DestroyImmediate(container); 
-        }
-
-        static void ExplodeEmotes<TOut>(IEmoteSourceBase source, Component destination)
-            where TOut : EmoteSourceBase
-        {
-            foreach (var emote in source.Emotes)
-            {
-                var child = destination.FindOrCreateChildComponent<TOut>(emote.ToStateName());
-                child.emote = SerializableUtils.Clone(emote);
-                child.advancedAnimations = source.AdvancedAnimations;
-            }
-        }
-
-        static void ExplodeParameterEmotes<TOut>(IParameterEmoteSourceBase source, Component destination)
-            where TOut : ParameterEmoteSourceBase
-        {
-            foreach (var parameterEmote in source.ParameterEmotes)
-            {
-                var child = destination.FindOrCreateChildComponent<TOut>(parameterEmote.name, parameterEmote.enabled);
-                child.parameterEmote = SerializableUtils.Clone(parameterEmote);
-                child.parameterEmote.enabled = true;
-            }
-        }
-
-        static void ExplodeAnimationMixins<TOut>(IAnimationMixinSourceBase source, Component destination)
-            where TOut : AnimationMixinSourceBase
-        {
-            foreach (var baseMixin in source.BaseMixins)
-            {
-                var child = destination.FindOrCreateChildComponent<TOut>(baseMixin.name, baseMixin.enabled);
-                child.mixin = SerializableUtils.Clone(baseMixin);
-                child.mixin.enabled = true;
-                child.isBaseMixin = true;
-            }
-            foreach (var mixin in source.Mixins)
-            {
-                var child = destination.FindOrCreateChildComponent<TOut>(mixin.name, mixin.enabled);
-                child.mixin = SerializableUtils.Clone(mixin);
-                child.mixin.enabled = true;
-                child.isBaseMixin = false;
-            }
         }
 
         static void ExplodeParameters(IParameterSource source, Component destination)
@@ -143,26 +58,6 @@ namespace Silksprite.EmoteWizard.Utils
             }
         }
 
-        static void ExplodeActionEmotes(IActionEmoteSource source, Component destination)
-        {
-            foreach (var actionEmote in source.ActionEmotes)
-            {
-                var child = destination.FindOrCreateChildComponent<ActionEmoteSource>(actionEmote.name, actionEmote.enabled);
-                child.actionEmote = SerializableUtils.Clone(actionEmote);
-                child.actionEmote.enabled = true;
-            }
-        }
-
-        static void ExplodeAfkEmotes(IAfkEmoteSource source, Component destination)
-        {
-            foreach (var afkEmote in source.AfkEmotes)
-            {
-                var child = destination.FindOrCreateChildComponent<AfkEmoteSource>(afkEmote.name, afkEmote.enabled);
-                child.afkEmote = SerializableUtils.Clone(afkEmote);
-                child.afkEmote.enabled = true;
-            }
-        }
-        
         static T FindOrCreateChildComponent<T>(this Component component, string path, bool enabled)
             where T : Component
         {
