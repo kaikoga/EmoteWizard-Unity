@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2;
 using UnityEditor;
@@ -14,7 +15,7 @@ namespace Silksprite.EmoteWizard.Internal
     public class AnimatorLayerBuilder
     {
         public AnimatorLayerWizardBase Wizard;
-        public ParametersWizard ParametersWizard;
+        public ParametersSnapshot ParametersSnapshot;
         public string DefaultRelativePath;
 
         readonly HashSet<string> _referencedParameters = new HashSet<string>();
@@ -110,9 +111,9 @@ namespace Silksprite.EmoteWizard.Internal
         public void BuildParameters()
         {
             MarkParameter("Viseme"); // for AlwaysTrueCondition
-            foreach (var parameter in ParametersWizard.AllParameterItems)
+            foreach (var parameter in ParametersSnapshot.AllParameters)
             {
-                var parameterName = parameter.name;
+                var parameterName = parameter.Name;
                 if (!_referencedParameters.Contains(parameterName)) continue;
 
                 AnimatorControllerParameterType parameterType;

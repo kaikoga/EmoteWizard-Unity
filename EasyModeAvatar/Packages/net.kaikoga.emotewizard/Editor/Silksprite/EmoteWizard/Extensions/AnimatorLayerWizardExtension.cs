@@ -1,5 +1,6 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
 using UnityEditor;
 using UnityEngine;
@@ -8,13 +9,13 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimatorLayerWizardExtension
     {
-        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersWizard parametersWizard)
+        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersWizard)
         {
             var layerKind = wizard.LayerKind;
             var builder = new AnimatorLayerBuilder
             {
                 Wizard = wizard,
-                ParametersWizard = parametersWizard,
+                ParametersSnapshot = parametersWizard,
                 DefaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller"
             };
 

@@ -23,17 +23,6 @@ namespace Silksprite.EmoteWizard
         {
             var emoteWizardRoot = _wizard.EmoteWizardRoot;
 
-            var expressionWizard = emoteWizardRoot.GetWizard<ExpressionWizard>();
-
-            EmoteWizardGUILayout.RequireAnotherWizard(_wizard, expressionWizard,
-                () =>
-                {
-                    if (GUILayout.Button("Manually Refresh Parameters"))
-                    {
-                        _wizard.RefreshParameters();
-                    }
-                });
-
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))

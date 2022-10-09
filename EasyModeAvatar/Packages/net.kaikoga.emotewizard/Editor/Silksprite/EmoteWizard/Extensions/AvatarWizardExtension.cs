@@ -22,15 +22,14 @@ namespace Silksprite.EmoteWizard.Extensions
             avatarAnimator.runtimeAnimatorController = null;
             
             var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
-            var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-            parametersWizard.RefreshParameters();
+            var parameters = emoteWizardRoot.EnsureWizard<ParametersWizard>().Snapshot(); 
 
             RuntimeAnimatorController SelectGestureController()
             {
                 switch (avatarWizard.overrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return emoteWizardRoot.GetWizard<GestureLayerWizard>().BuildOutputAsset(parametersWizard);
+                        return emoteWizardRoot.GetWizard<GestureLayerWizard>().BuildOutputAsset(parameters);
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return avatarWizard.overrideGestureController;
                     case AvatarWizard.OverrideGeneratedControllerType2.Default1:
@@ -47,7 +46,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 switch (avatarWizard.overrideAction)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType1.Generate:
-                        return emoteWizardRoot.GetWizard<ActionLayerWizard>().BuildOutputAsset(parametersWizard);
+                        return emoteWizardRoot.GetWizard<ActionLayerWizard>().BuildOutputAsset(parameters);
                     case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return avatarWizard.overrideActionController;
                     case AvatarWizard.OverrideGeneratedControllerType1.Default:
@@ -59,7 +58,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
             RuntimeAnimatorController SelectFxController()
             {
-                return emoteWizardRoot.GetWizard<FxLayerWizard>().BuildOutputAsset(parametersWizard);
+                return emoteWizardRoot.GetWizard<FxLayerWizard>().BuildOutputAsset(parameters);
             }
 
             RuntimeAnimatorController SelectSittingController()

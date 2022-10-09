@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -9,14 +8,14 @@ namespace Silksprite.EmoteWizard.Extensions
         public static bool IsInvalidParameter(this ParametersWizard parametersWizard, string parameterName)
         {
             if (string.IsNullOrEmpty(parameterName)) return false;
-            return parametersWizard != null && parametersWizard.AllParameterItems.All(item => item.name != parameterName);
+            return parametersWizard != null && parametersWizard.Snapshot().IsInvalidParameter(parameterName);
         }
 
         public static VRCExpressionParameters BuildOutputAsset(this ParametersWizard parametersWizard)
         {
             var expressionParams = parametersWizard.ReplaceOrCreateOutputAsset(ref parametersWizard.outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
 
-            expressionParams.parameters = parametersWizard.ToParameters();
+            expressionParams.parameters = parametersWizard.Snapshot().ToParameters();
 
             AssetDatabase.SaveAssets();
             

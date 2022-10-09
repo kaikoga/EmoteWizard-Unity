@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
@@ -15,19 +14,6 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
 
-        [NonSerialized] public List<ParameterItem> ParameterItems;
-        [NonSerialized] public List<ParameterItem> DefaultParameterItems;
-
-        public IEnumerable<ParameterItem> AllParameterItems
-        {
-            get
-            {
-                if (DefaultParameterItems?.Count == 0) DefaultParameterItems = null;
-                if (DefaultParameterItems == null || DefaultParameterItems.Count == 0) RefreshParameters();
-                return ParameterItems.Where(item => item.enabled).Concat(DefaultParameterItems);
-            }
-        }
-
         public override void DisconnectOutputAssets()
         {
             outputAsset = null;
@@ -40,22 +26,7 @@ namespace Silksprite.EmoteWizard
                 .Where(item => item.enabled);
         }
 
-        public bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
-        {
-            foreach (var item in AllParameterItems)
-            {
-                if (item.name != parameterName) continue;
-
-                if (itemKind == ParameterItemKind.Auto || itemKind == item.itemKind) return true;
-                Debug.LogWarning($"Ignored invalid parameter: {parameterName}, expected ${itemKind}, was ${item.itemKind}");
-                return false;
-            }
-
-            Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
-            return false;
-        }
-
-        public void RefreshParameters()
+        public ParametersSnapshot Snapshot()
         {
             var builder = new ExpressionParameterBuilder();
 
@@ -77,47 +48,12 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            var gestureWizard = GetWizard<GestureWizard>();
-            if (gestureWizard != null && gestureWizard.handSignOverrideEnabled)
-            {
-                builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var gestureEmote in gestureWizard.CollectEmotes().Where(emote => emote.OverrideAvailable))
-                {
-                    builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddUsage(gestureEmote.overrideIndex);
-                }
-            }
-            var fxWizard = GetWizard<FxWizard>();
-            if (fxWizard != null && fxWizard.handSignOverrideEnabled)
-            {
-                builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var fxEmote in fxWizard.CollectEmotes().Where(emote => emote.OverrideAvailable))
-                {
-                    builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddUsage(fxEmote.overrideIndex);
-                }
-            }
-            var actionWizard = GetWizard<ActionWizard>();
-            if (actionWizard != null && actionWizard.SelectableAfkEmotes)
-            {
-                builder.FindOrCreate(actionWizard.afkSelectParameter).AddIndexUsage();
-                foreach (var afkEmote in actionWizard.CollectAfkEmotes())
-                {
-                    builder.FindOrCreate(actionWizard.afkSelectParameter).AddUsage(afkEmote.emoteIndex);
-                }
-            }
-
             builder.Import(CollectSourceParameterItems());
 
-            ParameterItems = builder.ParameterItems.ToList();
-            DefaultParameterItems = DefaultParameterItems ?? ParameterItem.PopulateDefaultParameters();
-        }
-
-        public VRCExpressionParameters.Parameter[] ToParameters()
-        {
-            RefreshParameters(); 
-            return ParameterItems
-                .Where(parameter => parameter.enabled)
-                .Select(parameter => parameter.ToParameter())
-                .ToArray();
+            return new ParametersSnapshot
+            {
+                ParameterItems = builder.ParameterItems.Where(item => item.enabled).Select(item => item.ToInstance()).ToList()
+            };
         }
     }
 }

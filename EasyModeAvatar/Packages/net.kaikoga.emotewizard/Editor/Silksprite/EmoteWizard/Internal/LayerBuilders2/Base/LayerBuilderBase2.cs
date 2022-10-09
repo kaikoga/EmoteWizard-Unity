@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
 
         protected bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
         {
-            return Builder.ParametersWizard == null || Builder.ParametersWizard.AssertParameterExists(parameterName, itemKind);
+            return Builder.ParametersSnapshot == null || Builder.ParametersSnapshot.AssertParameterExists(parameterName, itemKind);
         }
 
         protected LayerBuilderBase2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer)

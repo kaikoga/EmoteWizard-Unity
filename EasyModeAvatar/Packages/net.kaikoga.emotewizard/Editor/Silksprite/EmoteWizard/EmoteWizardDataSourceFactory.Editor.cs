@@ -80,6 +80,7 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
+                /*
                 using (new EditorGUI.IndentLevelScope())
                 {
                     _templatesIsExpanded = EditorGUILayout.Foldout(_templatesIsExpanded, "Templates");
@@ -104,11 +105,13 @@ namespace Silksprite.EmoteWizard
                         }
                     }
                 }
+                */
             }
 
             EmoteWizardGUILayout.Tutorial(sourceFactory.EmoteWizardRoot, Tutorial);
         }
 
+        /*
         void GenerateDressChangeTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
             var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
@@ -173,6 +176,7 @@ namespace Silksprite.EmoteWizard
                 defaultValue = 0,
             });
         }
+        */
 
         static string Tutorial =>
             string.Join("\n",

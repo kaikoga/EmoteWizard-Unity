@@ -34,8 +34,6 @@ namespace Silksprite.EmoteWizard
 
             using (new ObjectChangeScope(_wizard))
             {
-                var parametersWizard = emoteWizardRoot.GetWizard<ParametersWizard>();
-
                 if (_wizard.LayerKind == LayerKind.Gesture)
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedDefaultAvatarMask, () =>
@@ -48,14 +46,14 @@ namespace Silksprite.EmoteWizard
                 {
                     EditorGUILayout.PropertyField(_serializedDefaultAvatarMask);
                 }
-                
+
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
                     EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(_wizard, () =>
                     {
                         if (GUILayout.Button("Generate Animation Controller"))
                         {
-                            _wizard.BuildOutputAsset(parametersWizard);
+                            _wizard.BuildOutputAsset(emoteWizardRoot.EnsureWizard<ParametersWizard>().Snapshot());
                         }
                     });
 

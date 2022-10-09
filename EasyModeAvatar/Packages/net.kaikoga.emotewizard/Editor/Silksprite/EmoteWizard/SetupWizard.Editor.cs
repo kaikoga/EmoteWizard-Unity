@@ -89,7 +89,6 @@ namespace Silksprite.EmoteWizard
             }
 
             var parameterSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Parameter Sources");
-            emoteWizardRoot.EnsureWizard<ParametersWizard>().RefreshParameters();
 
             var fxSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("FX Sources");
             foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
