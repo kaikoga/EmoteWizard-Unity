@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         float _defaultValue;
         readonly List<ParameterWriteUsage> _usages = new List<ParameterWriteUsage>();
 
-        public string Name => Name;
+        public string Name => _name;
 
         public static ParameterInstanceBuilder Populate(string name)
         {
