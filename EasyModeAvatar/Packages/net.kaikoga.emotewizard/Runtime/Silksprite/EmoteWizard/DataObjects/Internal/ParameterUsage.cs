@@ -1,6 +1,6 @@
 using System;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     [Serializable]
     public class ParameterUsage
