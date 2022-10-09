@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -13,7 +12,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         public ParameterItemKind itemKind;
         public bool saved = true;
         public float defaultValue;
-        public List<ParameterUsage> usages;
 
         public static ParameterItem Build(string parameter, ParameterItemKind itemKind)
         {
@@ -23,8 +21,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 name = parameter,
                 itemKind = itemKind,
                 saved = false,
-                defaultValue = 0,
-                usages = new List<ParameterUsage>()
+                defaultValue = 0
             };
         }
 
@@ -38,7 +35,6 @@ namespace Silksprite.EmoteWizard.DataObjects
                 Saved = saved,
                 DefaultValue = defaultValue,
                 ItemKind = itemKind,
-                Usages = usages
             };
         }
 

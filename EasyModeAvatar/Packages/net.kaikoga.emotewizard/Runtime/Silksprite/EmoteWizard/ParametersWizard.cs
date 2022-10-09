@@ -19,6 +19,12 @@ namespace Silksprite.EmoteWizard
             outputAsset = null;
         }
 
+        IEnumerable<ExpressionItem> CollectExpressionItems()
+        {
+            var expressionWizard = GetWizard<ExpressionWizard>();
+            return expressionWizard ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
+        }
+
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
             return EmoteWizardRoot.GetComponentsInChildren<IParameterSource>()
@@ -28,32 +34,28 @@ namespace Silksprite.EmoteWizard
 
         public ParametersSnapshot Snapshot()
         {
-            var builder = new ExpressionParameterBuilder();
+            var builder = new ParameterSnapshotBuilder();
 
-            var expressionWizard = GetWizard<ExpressionWizard>();
-            if (expressionWizard != null)
+            foreach (var expressionItem in CollectExpressionItems())
             {
-                foreach (var expressionItem in expressionWizard.CollectExpressionItems())
+                if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {
-                    if (!string.IsNullOrEmpty(expressionItem.parameter))
-                    {
-                        builder.FindOrCreate(expressionItem.parameter, true).AddUsage(expressionItem.value);
-                    }
+                    builder.FindOrCreate(expressionItem.parameter).AddUsage(expressionItem.value);
+                }
 
-                    if (!expressionItem.IsPuppet) continue;
-                    foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
-                    {
-                        builder.FindOrCreate(subParameter, true).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
-                    }
+                if (!expressionItem.IsPuppet) continue;
+                foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
+                {
+                    builder.FindOrCreate(subParameter).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
                 }
             }
 
-            builder.Import(CollectSourceParameterItems());
-
-            return new ParametersSnapshot
+            foreach (var parameter in CollectSourceParameterItems())
             {
-                ParameterItems = builder.ParameterItems.Where(item => item.enabled).Select(item => item.ToInstance()).ToList()
-            };
+                builder.FindOrCreate(parameter.name).Import(parameter);
+            }
+
+            return builder.ToSnapshot();
         }
     }
 }
