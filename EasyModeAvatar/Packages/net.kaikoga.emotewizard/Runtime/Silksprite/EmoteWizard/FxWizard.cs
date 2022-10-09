@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Sources.Legacy;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard

@@ -1,8 +1,10 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Sources.Base;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Impl.Base;
+using Silksprite.EmoteWizard.Sources.Legacy;
+using Silksprite.EmoteWizard.Sources.Legacy.Base;
+using Silksprite.EmoteWizard.Sources.Legacy.Impl;
+using Silksprite.EmoteWizard.Sources.Legacy.Impl.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
@@ -105,7 +107,7 @@ namespace Silksprite.EmoteWizard.Utils
         static void ExplodeAnimationMixins<TOut>(IAnimationMixinSourceBase source, Component destination)
             where TOut : AnimationMixinSourceBase
         {
-            foreach (var baseMixin in source.Mixins)
+            foreach (var baseMixin in source.BaseMixins)
             {
                 var child = destination.FindOrCreateChildComponent<TOut>(baseMixin.name, baseMixin.enabled);
                 child.mixin = SerializableUtils.Clone(baseMixin);
