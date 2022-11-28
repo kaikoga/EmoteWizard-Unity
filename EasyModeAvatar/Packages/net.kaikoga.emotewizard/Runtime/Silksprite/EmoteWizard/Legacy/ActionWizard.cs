@@ -7,7 +7,7 @@ using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Legacy;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Legacy
 {
     [DisallowMultipleComponent]
     public class ActionWizard : EmoteWizardBase, IParameterSource

@@ -1,6 +1,6 @@
 using UnityEditor;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Legacy
 {
     [CustomEditor(typeof(GestureWizard))]
     public class GestureWizardEditor : Editor

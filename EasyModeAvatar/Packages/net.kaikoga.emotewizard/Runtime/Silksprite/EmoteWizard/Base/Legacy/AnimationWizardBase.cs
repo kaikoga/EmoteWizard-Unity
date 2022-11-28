@@ -4,7 +4,7 @@ using Silksprite.EmoteWizard.DataObjects.Legacy;
 using Silksprite.EmoteWizard.Sources.Legacy.Base;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Base
+namespace Silksprite.EmoteWizard.Base.Legacy
 {
     public abstract class AnimationWizardBase<TEmoteSource, TParameterEmoteSource, TAnimationMixinSource> : AnimationWizardBase
         where TEmoteSource : IEmoteSourceBase

@@ -1,9 +1,9 @@
 using UnityEditor;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Legacy
 {
-    [CustomEditor(typeof(FxWizard))]
-    public class FxWizardEditor : Editor
+    [CustomEditor(typeof(ActionWizard))]
+    public class ActionWizardEditor : Editor
     {
         public override void OnInspectorGUI()
         {
