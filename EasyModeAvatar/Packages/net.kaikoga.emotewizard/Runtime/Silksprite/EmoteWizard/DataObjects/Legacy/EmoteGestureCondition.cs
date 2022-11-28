@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Legacy
 {
     [Serializable]
     public class EmoteGestureCondition

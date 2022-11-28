@@ -3,7 +3,7 @@ using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Legacy
 {
     [CustomPropertyDrawer(typeof(EmoteGestureCondition))]
     public class EmoteGestureConditionDrawer : PropertyDrawer

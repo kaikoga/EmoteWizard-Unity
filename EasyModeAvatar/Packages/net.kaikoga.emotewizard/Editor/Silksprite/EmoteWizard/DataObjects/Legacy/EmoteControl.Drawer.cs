@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.PropertyDrawerUITools;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Legacy
 {
     [CustomPropertyDrawer(typeof(EmoteControl))]
     public class EmoteControlDrawer : PropertyDrawer
