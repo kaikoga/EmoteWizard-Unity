@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Legacy;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
-using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -89,17 +86,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             foreach (var cond in conditions) AddTransition(fromState, toState, cond);
         }
 
-        protected AnimatorStateTransition AddTransitionAndCopyConditions(AnimatorState fromState, AnimatorState toState, AnimatorCondition[] rawConditions)
-        {
-            var transition = fromState.AddTransition(toState);
-            transition.conditions = new AnimatorCondition[] { };
-            foreach (var sourceCondition in rawConditions)
-            {
-                transition.AddCondition(sourceCondition.mode, sourceCondition.threshold, sourceCondition.parameter);
-            }
-            return transition;
-        }
-
         protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
         {
             var transition = fromState.AddExitTransition(false);
@@ -120,20 +106,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             return defaultState;
         }
 
-        protected AnimatorStateTransition AddConditionTransition(AnimatorState defaultState, AnimatorState state, ConditionBuilder conditions)
-        {
-            var transition = AddTransition(defaultState, state, conditions);
-            AddExitTransitions(state, conditions.Inverse());
-            return transition;
-        }
-
-        protected AnimatorStateTransition AddInverseConditionTransition(AnimatorState defaultState, AnimatorState state, ConditionBuilder conditions)
-        {
-            var transition = AddTransition(defaultState, state, conditions);
-            AddExitTransitions(state, conditions.Inverse());
-            return transition;
-        }
-
         protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)
         {
             var validConditions = emoteConditions
@@ -146,98 +118,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
         }
 
         TrackingTarget[] _allTrackingTargets;
-
-        protected void InitEmoteControl(IEnumerable<TrackingOverride> trackingOverrides)
-        {
-            _allTrackingTargets = trackingOverrides.Select(o => o.target).Distinct().ToArray();
-        }
-
-        protected void ApplyEmoteControl(AnimatorStateTransition transition, bool isLeft, EmoteControl control)
-        {
-            ApplyEmoteTrackingControl(transition.destinationState, control, transition);
-            ApplyEmoteTransitionControl(transition, isLeft, control);
-        }
-
-        protected void ApplyDefaultEmoteControl(AnimatorState state)
-        {
-            ApplyEmoteTrackingControl(state);
-        }
-
-        void ApplyEmoteTrackingControl(AnimatorState state, EmoteControl control = null, AnimatorStateTransition transition = null)
-        {
-            if (_allTrackingTargets == null)
-            {
-                throw new InvalidOperationException("Please call InitEmoteControl()");
-            }
-
-            if (_allTrackingTargets.Length == 0) return;
-
-            TrackingTarget[] currentTrackingTargets;
-            if (control == null)
-            {
-                currentTrackingTargets = new TrackingTarget[] { };
-            }
-            else
-            {
-                currentTrackingTargets = control.trackingOverrides
-                    .Select(o => o.target)
-                    .Where(target => target != TrackingTarget.None)
-                    .ToArray();
-            }
-
-            if (transition != null)
-            {
-                foreach (var target in currentTrackingTargets)
-                {
-                    Builder.RegisterOverrider(target, transition);
-                }
-            }
-
-            var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
-            avatarParameterDriver.localOnly = true;
-            avatarParameterDriver.parameters = _allTrackingTargets.Select(target => new VRC_AvatarParameterDriver.Parameter
-            {
-                name = target.ToAnimatorParameterName(currentTrackingTargets.Contains(target)),
-                value = 0f,
-                valueMin = 0f,
-                valueMax = 0f,
-                chance = 1f,
-                type = VRC_AvatarParameterDriver.ChangeType.Set
-            }).ToList();
-        }
-        
-        void ApplyEmoteTransitionControl(AnimatorStateTransition transition, bool isLeft, EmoteControl control)
-        {
-            var state = transition.destinationState;
-
-            transition.hasExitTime = false;
-            transition.duration = control.transitionDuration;
-            transition.canTransitionToSelf = false;
-
-            if (state.motion == null || !control.normalizedTimeEnabled) return;
-
-            var timeParameter = isLeft ? control.normalizedTimeLeft : control.normalizedTimeRight;
-            if (!AssertParameterExists(timeParameter, ParameterItemKind.Float)) return;
-
-            state.timeParameterActive = true;
-            state.timeParameter = timeParameter;
-            state.motion.SetLoopTimeRec(false);
-            EditorUtility.SetDirty(state.motion);
-            Builder.MarkParameter(timeParameter);
-        }
-        
-        protected static void PopulateTrackingControl(AnimatorState state, VRC_AnimatorTrackingControl.TrackingType value)
-        {
-            var trackingControl = state.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
-            trackingControl.trackingHead = value; 
-            trackingControl.trackingLeftHand = value; 
-            trackingControl.trackingRightHand = value; 
-            trackingControl.trackingHip = value; 
-            trackingControl.trackingLeftFoot = value; 
-            trackingControl.trackingRightFoot = value; 
-            trackingControl.trackingLeftFingers = value; 
-            trackingControl.trackingRightFingers = value; 
-        }
 
         protected static void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
