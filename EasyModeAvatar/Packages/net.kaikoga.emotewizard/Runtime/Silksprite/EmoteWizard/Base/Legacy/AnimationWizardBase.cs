@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Silksprite.EmoteWizard.DataObjects.Legacy;
 using Silksprite.EmoteWizard.Sources.Legacy.Base;
 using UnityEngine;
 
@@ -11,10 +8,6 @@ namespace Silksprite.EmoteWizard.Base.Legacy
         where TParameterEmoteSource : IParameterEmoteSourceBase
         where TAnimationMixinSource : IAnimationMixinSourceBase
     {
-        public virtual IEnumerable<Emote> CollectEmotes()
-        {
-            return EmoteWizardRoot.GetComponentsInChildren<TEmoteSource>().SelectMany(source => source.Emotes);
-        }
     }
     
     public abstract class AnimationWizardBase : EmoteWizardBase

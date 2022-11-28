@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Legacy;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Sources.Legacy;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Legacy
@@ -41,13 +39,5 @@ namespace Silksprite.EmoteWizard.Legacy
         {
             outputAsset = null;
         }
-
-        public IEnumerable<ActionEmote> CollectAfkEmotes()
-        {
-            return EmoteWizardRoot.GetComponentsInChildren<IAfkEmoteSource>().SelectMany(source => source.AfkEmotes)
-                .Where(item => item.enabled);
-        }
-
-        public bool SelectableAfkEmotes => afkSelectEnabled && CollectAfkEmotes().Any();
     }
 }
