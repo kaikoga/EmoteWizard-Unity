@@ -13,9 +13,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
     public class TrackingControlLayerBuilder2 : LayerBuilderBase2
     {
         readonly TrackingTarget _target;
-        readonly IEnumerable<AnimatorStateTransition> _overriders;
+        readonly IEnumerable<EmoteItem> _overriders;
 
-        public TrackingControlLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, TrackingTarget target, IEnumerable<AnimatorStateTransition> overriders) : base(builder, layer)
+        public TrackingControlLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, TrackingTarget target, IEnumerable<EmoteItem> overriders) : base(builder, layer)
         {
             _target = target;
             _overriders = overriders;
@@ -23,25 +23,32 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 
         protected override void Process()
         {
+            Builder.MarkTrackingTarget(_target);
+
             var defaultState = PopulateDefaultState();
 
             var offTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true);
             var onTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true);
 
-            foreach (var sourceTransition in _overriders)
+            foreach (var emoteItem in _overriders)
             {
-                var state = AddStateWithoutTransition(sourceTransition.destinationState.name, null);
-                var transition = AddTransitionAndCopyConditions(defaultState, state, sourceTransition.conditions);
+                NextStatePosition();
+                var state = AddStateWithoutTransition(emoteItem.trigger.name, null);
+                var conditions = new ConditionBuilder();
+                ApplyEmoteConditions(conditions, emoteItem.trigger.conditions);
+                var transition = AddTransition(defaultState, state, conditions);
                 transition.hasExitTime = false;
                 transition.duration = 0f;
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
 
-                AddExitTransition(state, offTriggerConditions);
+                AddExitTransition(state, offTriggerConditions); // wait until offTrigger
                 // Consume triggers by self transition if current state is already On
                 AddTransition(state, state, onTriggerConditions);
+                NextStateRow();
             }
 
+            NextStatePosition();
             var trackingState = AddStateWithoutTransition("Tracking", null);
             var trackingTransition = AddTransition(defaultState, trackingState, new ConditionBuilder().AlwaysTrue());
             trackingTransition.hasExitTime = false;

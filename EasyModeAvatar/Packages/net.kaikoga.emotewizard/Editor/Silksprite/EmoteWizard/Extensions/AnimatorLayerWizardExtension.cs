@@ -1,5 +1,6 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
 using UnityEditor;
@@ -24,7 +25,10 @@ namespace Silksprite.EmoteWizard.Extensions
 
             builder.BuildStaticLayer("Reset", resetClip, null);
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
-            builder.BuildTrackingControlLayers();
+            if (layerKind == LayerKind.FX) // FIXME: configurable?
+            {
+                builder.BuildTrackingControlLayers(wizard.CollectAllEmoteItems());
+            }
             builder.BuildParameters();
             return wizard.outputAsset;
         }

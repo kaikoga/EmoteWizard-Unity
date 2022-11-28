@@ -20,10 +20,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         readonly HashSet<string> _referencedParameters = new HashSet<string>();
 
-        public void MarkParameter(string name)
-        {
-            _referencedParameters.Add(name);
-        }
+        public void MarkParameter(string name) => _referencedParameters.Add(name);
 
         public void MarkParameter(Motion motion)
         {
@@ -37,17 +34,8 @@ namespace Silksprite.EmoteWizard.Internal
             }
         }
 
-        readonly Dictionary<TrackingTarget, List<AnimatorStateTransition>> _overriders = new Dictionary<TrackingTarget, List<AnimatorStateTransition>>();
-
-        public void RegisterOverrider(TrackingTarget target, AnimatorStateTransition transition)
-        {
-            if (!_overriders.TryGetValue(target, out var transitions))
-            {
-                transitions = new List<AnimatorStateTransition>();
-                _overriders[target] = transitions;
-            }
-            transitions.Add(transition);
-        }
+        readonly HashSet<TrackingTarget> _referencedTrackingTargets = new HashSet<TrackingTarget>();
+        public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
         AnimatorController _animatorController;
         AnimatorController AnimatorController
@@ -98,9 +86,16 @@ namespace Silksprite.EmoteWizard.Internal
             }
         }
 
-        public void BuildTrackingControlLayers()
+        public void BuildTrackingControlLayers(IEnumerable<EmoteItem> allEmoteItems)
         {
-            foreach (var kv in _overriders)
+            var overriders = allEmoteItems
+                .OrderBy(item => item.trigger.priority)
+                .Where(item => item.sequence.hasTrackingOverrides)
+                .SelectMany(item => item.sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
+                .GroupBy(pair => pair.target)
+                .ToDictionary(group => group.Key, group => group.Select(pair => pair.item).ToList());
+
+            foreach (var kv in overriders)
             {
                 var trackingTarget = kv.Key;
                 var trackingControlLayer = PopulateLayer($"TrackingControl {trackingTarget}");
@@ -133,7 +128,7 @@ namespace Silksprite.EmoteWizard.Internal
                 }
                 AnimatorController.AddParameter(parameterName, parameterType);
             }
-            foreach (var trackingTarget in _overriders.Keys)
+            foreach (var trackingTarget in _referencedTrackingTargets)
             {
                 AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(false), AnimatorControllerParameterType.Trigger);
                 AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(true), AnimatorControllerParameterType.Trigger);

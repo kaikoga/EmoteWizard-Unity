@@ -5,6 +5,8 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
 using UnityEditor.Animations;
+using VRC.SDK3.Avatars.Components;
+using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 {
@@ -19,9 +21,10 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 
         protected override void Process()
         {
+            var currentTrackingTargets = _emoteItems.SelectMany(emoteItem => emoteItem.sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
             foreach (var emoteItem in _emoteItems)
             {
-                PopulateSequence(emoteItem);
+                PopulateSequence(emoteItem, currentTrackingTargets);
             }
             PopulateDefaultSequence();
         }
@@ -38,8 +41,26 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             exitDefaultTransition.duration = 0f;
         }
 
-        void PopulateSequence(EmoteItem emoteItem)
+        void PopulateSequence(EmoteItem emoteItem, TrackingTarget[] currentTrackingTargets)
         {
+            void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
+            {
+                var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
+                avatarParameterDriver.localOnly = true;
+                var targets = emoteItem.sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
+                foreach (var target in targets) Builder.MarkTrackingTarget(target);
+
+                avatarParameterDriver.parameters = targets.Select(target => new VRC_AvatarParameterDriver.Parameter
+                {
+                    name = target.ToAnimatorParameterName(isEntry && currentTrackingTargets.Contains(target)),
+                    value = 0f,
+                    valueMin = 0f,
+                    valueMax = 0f,
+                    chance = 1f,
+                    type = VRC_AvatarParameterDriver.ChangeType.Set
+                }).ToList();
+            }
+            
             NextStateRow();
 
             var sequence = emoteItem.sequence;
@@ -76,6 +97,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             if (sequence.hasTrackingOverrides)
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteItem.trigger.name}", null);
+                AddTrackingParameterDrivers(entryState ? entryState : mainState, true);
+                AddTrackingParameterDrivers(releaseState, false);
             }
             
             if (!sequence.hasExitTime)

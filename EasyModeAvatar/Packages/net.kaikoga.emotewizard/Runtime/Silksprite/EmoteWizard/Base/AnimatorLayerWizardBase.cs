@@ -20,12 +20,8 @@ namespace Silksprite.EmoteWizard.Base
             resetClip = null;
             outputAsset = null;
         }
-        
-        public IEnumerable<EmoteItem> CollectEmoteItems()
-        {
-            return EmoteWizardRoot.GetComponentsInChildren<IEmoteItemSource>()
-                .SelectMany(source => source.EmoteItems)
-                .Where(item => item.trigger.layerKind == LayerKind);
-        }
+
+        public IEnumerable<EmoteItem> CollectAllEmoteItems() => EmoteWizardRoot.GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
+        public IEnumerable<EmoteItem> CollectEmoteItems() => CollectAllEmoteItems().Where(item => item.trigger.layerKind == LayerKind);
     }
 }
