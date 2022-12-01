@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             ("Upright", ParameterItemKind.Float, Empty),
             ("Grounded", ParameterItemKind.Bool, Empty),
             ("Seated", ParameterItemKind.Bool, Empty),
-            ("AFK", ParameterItemKind.Bool, Empty),
+            (EmoteWizardConstants.Params.AFK, ParameterItemKind.Bool, Empty),
             ("TrackingType", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 6}),
             ("VRMode", ParameterItemKind.Int, Empty),
             ("MuteSelf", ParameterItemKind.Bool, Empty),
