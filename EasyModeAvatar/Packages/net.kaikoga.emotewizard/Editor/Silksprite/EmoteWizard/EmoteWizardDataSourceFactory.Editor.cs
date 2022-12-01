@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Legacy;
-using Silksprite.EmoteWizard.Sources.Legacy.Impl;
+using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -24,63 +25,38 @@ namespace Silksprite.EmoteWizard
                 GUILayout.Label("Add Source", new GUIStyle { fontStyle = FontStyle.Bold });
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    if (GUILayout.Button(new GUIContent("Expression Item", "Expression Menuのメニュー項目")))
+                    if (GUILayout.Button(new GUIContent("Expression Item Source", "Expression Menuのメニュー項目")))
                     {
-                        sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
+                        sourceFactory.gameObject.AddComponent<ExpressionItemSource>();
                     }
-                    if (GUILayout.Button(new GUIContent("Parameter", "外部アセットが利用するExpression Parameter")))
+                    GUILayout.Label("Expression Menuのメニュー項目");
+                }
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button(new GUIContent("Parameter Source", "外部アセットが利用するパラメータ")))
                     {
-                        sourceFactory.gameObject.AddComponent<MultiParameterSource>();
+                        sourceFactory.gameObject.AddComponent<ParameterSource>();
                     }
+                    GUILayout.Label("外部アセットが利用するパラメータ");
                 }
 
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    GUILayout.Label("Gesture", GUILayout.Width(60f));
-                    if (GUILayout.Button(new GUIContent("Emote", "ハンドサインに基づくアニメーション(Gesture)")))
+                    if (GUILayout.Button(new GUIContent("Emote Item Source", "アニメーションの発生条件")))
                     {
-                        sourceFactory.gameObject.AddComponent<MultiGestureEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<EmoteItemSource>();
                     }
-                    if (GUILayout.Button(new GUIContent("Parameter Emote", "パラメーターに基づくアニメーション(Gesture)")))
-                    {
-                        sourceFactory.gameObject.AddComponent<MultiGestureParameterEmoteSource>();
-                    }
-                    if (GUILayout.Button(new GUIContent("Mixin", "常時再生したいアニメーションやブレンドツリー(Gesture)")))
-                    {
-                        sourceFactory.gameObject.AddComponent<MultiGestureAnimationMixinSource>();
-                    }
+                    GUILayout.Label("アニメーションの発生条件");
                 }
-
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    GUILayout.Label("FX", GUILayout.Width(60f));
-                    if (GUILayout.Button(new GUIContent("Emote", "ハンドサインに基づくアニメーション(FX)")))
+                    if (GUILayout.Button(new GUIContent("Emote Sequence Source", "アニメーションの内容")))
                     {
-                        sourceFactory.gameObject.AddComponent<MultiFxEmoteSource>();
+                        sourceFactory.gameObject.AddComponent<EmoteSequenceSource>();
                     }
-                    if (GUILayout.Button(new GUIContent("Parameter Emote", "パラメーターに基づくアニメーション(FX)")))
-                    {
-                        sourceFactory.gameObject.AddComponent<MultiFxParameterEmoteSource>();
-                    }
-                    if (GUILayout.Button(new GUIContent("Mixin", "常時再生したいアニメーションやブレンドツリー(FX)")))
-                    {
-                        sourceFactory.gameObject.AddComponent<MultiFxAnimationMixinSource>();
-                    }
+                    GUILayout.Label("アニメーションの内容");
                 }
 
-                using (new EditorGUILayout.HorizontalScope())
-                {
-                    if (GUILayout.Button(new GUIContent("Action Emote", "エモートモーション")))
-                    {
-                        sourceFactory.gameObject.AddComponent<MultiActionEmoteSource>();
-                    }
-                    if (GUILayout.Button(new GUIContent("Afk Emote", "カスタムAFKモーション")))
-                    {
-                        sourceFactory.gameObject.AddComponent<MultiAfkEmoteSource>();
-                    }
-                }
-
-                /*
                 using (new EditorGUI.IndentLevelScope())
                 {
                     _templatesIsExpanded = EditorGUILayout.Foldout(_templatesIsExpanded, "Templates");
@@ -89,6 +65,7 @@ namespace Silksprite.EmoteWizard
                 {
                     _itemName = EditorGUILayout.TextField("Name", _itemName);
 
+                    using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(_itemName)))
                     using (new EditorGUILayout.HorizontalScope())
                     {
                         if (GUILayout.Button(new GUIContent("Dress Change", "着せ替えセット")))
@@ -105,19 +82,17 @@ namespace Silksprite.EmoteWizard
                         }
                     }
                 }
-                */
             }
 
             EmoteWizardGUILayout.Tutorial(sourceFactory.EmoteWizardRoot, Tutorial);
         }
 
-        /*
         void GenerateDressChangeTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
-            var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
             foreach (var value in Enumerable.Range(1, 2))
             {
-                expressionItemSource.expressionItems.Add(new ExpressionItem
+                var child = sourceFactory.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>($"Item {value}");
+                child.gameObject.AddComponent<ExpressionItemSource>().expressionItem = new ExpressionItem
                 {
                     enabled = true,
                     icon = VrcSdkAssetLocator.ItemWand(),
@@ -125,58 +100,76 @@ namespace Silksprite.EmoteWizard
                     parameter = _itemName,
                     value = value,
                     itemKind = ExpressionItemKind.Toggle
-                });
+                };
+                child.gameObject.AddComponent<EmoteItemSource>().trigger = new EmoteTrigger
+                {
+                    name = $"{_itemName}/Item {value}",
+                    layerKind = LayerKind.FX,
+                    groupName = _itemName,
+                    priority = 0,
+                    conditions = new List<EmoteCondition>
+                    {
+                        new EmoteCondition
+                        {
+                            kind = ParameterItemKind.Int,
+                            parameter = _itemName,
+                            mode = EmoteConditionMode.Equals,
+                            threshold = value
+                        }
+                    }
+                };
+                child.gameObject.AddComponent<EmoteSequenceSource>();
             }
-
-            var fxParameterEmoteSource = sourceFactory.gameObject.AddComponent<MultiFxParameterEmoteSource>();
-            var parametersWizard = sourceFactory.EmoteWizardRoot.GetWizard<ParametersWizard>();
-            parametersWizard.RefreshParameters();
-            fxParameterEmoteSource.GenerateSingleParameter(parametersWizard.AllParameterItems.First(p => p.name == _itemName));
         }
 
         void GenerateActionEmoteTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
-            var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
-            expressionItemSource.expressionItems.Add(new ExpressionItem
+            const int value = 21;
+
+            var child = sourceFactory.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(_itemName);
+
+            child.gameObject.AddComponent<ExpressionItemSource>().expressionItem = new ExpressionItem
             {
                 enabled = true,
                 icon = VrcSdkAssetLocator.PersonDance(),
                 path = $"More Emotes/{_itemName}",
-                parameter = sourceFactory.EmoteWizardRoot.GetWizard<ActionWizard>().actionSelectParameter,
-                value = 21,
+                parameter = EmoteWizardConstants.Defaults.Params.ActionSelect,
+                value = value,
                 itemKind = ExpressionItemKind.Toggle
-            });
-            var actionEmoteSource = sourceFactory.gameObject.AddComponent<MultiActionEmoteSource>();
-            actionEmoteSource.actionEmotes.Add(new ActionEmote
+            };
+            child.gameObject.AddComponent<EmoteItemSource>().trigger = new EmoteTrigger
             {
-                enabled = true,
-                name = _itemName,
-                emoteIndex = 21
-            });
+                name = $"More Emotes/{_itemName}",
+                layerKind = LayerKind.Action,
+                groupName = "Action",
+                priority = 0,
+                conditions = new List<EmoteCondition>
+                {
+                    new EmoteCondition
+                    {
+                        kind = ParameterItemKind.Int,
+                        parameter = EmoteWizardConstants.Defaults.Params.ActionSelect,
+                        mode = EmoteConditionMode.Equals,
+                        threshold = value
+                    }
+                }
+            };
+            child.gameObject.AddComponent<EmoteSequenceSource>();
         }
 
         void GenerateAssetTemplate(EmoteWizardDataSourceFactory sourceFactory)
         {
-            var expressionItemSource = sourceFactory.gameObject.AddComponent<MultiExpressionItemSource>();
-            expressionItemSource.expressionItems.Add(new ExpressionItem
+            var child = sourceFactory.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(_itemName);
+
+            child.gameObject.AddComponent<ExpressionItemSource>().expressionItem = new ExpressionItem
             {
                 enabled = true,
                 icon = VrcSdkAssetLocator.ItemFolder(),
                 path = _itemName,
                 value = 0,
                 itemKind = ExpressionItemKind.SubMenu
-            });
-            var parameterSource = sourceFactory.gameObject.AddComponent<MultiParameterSource>();
-            parameterSource.parameterItems.Add(new ParameterItem
-            {
-                enabled = true,
-                name = _itemName,
-                itemKind = ParameterItemKind.Int,
-                saved = false,
-                defaultValue = 0,
-            });
+            };
         }
-        */
 
         static string Tutorial =>
             string.Join("\n",
