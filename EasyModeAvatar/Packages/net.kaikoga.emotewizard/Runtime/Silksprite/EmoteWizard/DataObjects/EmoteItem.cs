@@ -40,10 +40,10 @@ namespace Silksprite.EmoteWizard.DataObjects
                 {
                     switch (parameter)
                     {
-                        case "Gesture":
-                        case "GestureOther":
-                        case "GestureWeight":
-                        case "GestureOtherWeight":
+                        case EmoteWizardConstants.Params.Gesture:
+                        case EmoteWizardConstants.Params.GestureOther:
+                        case EmoteWizardConstants.Params.GestureWeight:
+                        case EmoteWizardConstants.Params.GestureOtherWeight:
                             return true;
                         default:
                             return false;
@@ -65,13 +65,13 @@ namespace Silksprite.EmoteWizard.DataObjects
             {
                 switch (parameter)
                 {
-                    case "Gesture":
+                    case EmoteWizardConstants.Params.Gesture:
                         return side == "Left" ? "GestureLeft" : "GestureRight";
-                    case "GestureOther":
+                    case EmoteWizardConstants.Params.GestureOther:
                         return side == "Left" ? "GestureRight" : "GestureLeft";
-                    case "GestureWeight":
+                    case EmoteWizardConstants.Params.GestureWeight:
                         return side == "Left" ? "GestureLeftWeight" : "GestureRightWeight";
-                    case "GestureOtherWeight":
+                    case EmoteWizardConstants.Params.GestureOtherWeight:
                         return side == "Left" ? "GestureRightWeight" : "GestureLeftWeight";
                     default:
                         return parameter;

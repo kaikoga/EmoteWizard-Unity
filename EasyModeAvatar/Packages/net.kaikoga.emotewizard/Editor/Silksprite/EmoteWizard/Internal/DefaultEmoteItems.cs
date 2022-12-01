@@ -10,8 +10,8 @@ namespace Silksprite.EmoteWizard.Internal
         public static IEnumerable<EmoteItem> EnumerateDefaultHandSigns(LayerKind layerKind)
         {
             return Emote.HandSigns.Select(handSign => EmoteItem.Builder(layerKind, $"{handSign}", "HandSign")
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = "Gesture", mode = EmoteConditionMode.Equals, threshold = (int)handSign })
-                .AddTimeParameter(handSign == HandSign.Fist, "GestureWeight")
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)handSign })
+                .AddTimeParameter(handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
                 .ToEmoteItem());
         }
 

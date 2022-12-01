@@ -105,7 +105,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildParameters()
         {
-            MarkParameter("Viseme"); // for AlwaysTrueCondition
+            MarkParameter(EmoteWizardConstants.Params.Viseme); // for AlwaysTrueCondition
             foreach (var parameter in ParametersSnapshot.AllParameters)
             {
                 var parameterName = parameter.Name;
