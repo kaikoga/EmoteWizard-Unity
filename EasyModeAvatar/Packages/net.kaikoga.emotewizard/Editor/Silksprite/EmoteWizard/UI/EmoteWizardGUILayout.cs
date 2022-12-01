@@ -1,6 +1,5 @@
 using System;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizardSupport.Collections.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
@@ -10,8 +9,9 @@ namespace Silksprite.EmoteWizard.UI
 {
     public static class EmoteWizardGUILayout
     {
-        public static readonly Color SetupUIColor = new Color(1.0f, 0.1f, 0.6f);
-        public static readonly Color OutputUIColor = new Color(0.3f, 1.0f, 0.9f);
+        static readonly Color SetupUIColor = new Color(1.0f, 0.1f, 0.6f);
+        static readonly Color ConfigUIColor = new Color(0.80f, 0.80f, 0.82f);
+        static readonly Color OutputUIColor = new Color(0.3f, 1.0f, 0.9f);
 
         public static void SetupOnlyUI(EmoteWizardBehaviour emoteWizardBehaviour, Action action)
         {
@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.UI
 
         public static void ConfigUIArea(Action action)
         {
-            using (new BoxLayoutScope(ListDrawerBase.HeaderColor))
+            using (new BoxLayoutScope(ConfigUIColor))
             {
                 action();
             }

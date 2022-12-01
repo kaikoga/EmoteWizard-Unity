@@ -1,32 +1,35 @@
-using JetBrains.Annotations;
-using Silksprite.EmoteWizard.DataObjects.DrawerContexts;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizardSupport.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [UsedImplicitly]
-    public class EmoteConditionDrawer : TypedDrawerWithContext<EmoteCondition, EmoteConditionDrawerContext>
+    [CustomPropertyDrawer(typeof(EmoteCondition))]
+    public class EmoteConditionDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, ref EmoteCondition property, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
-            var context = EnsureContext();
+            var serializedParameter = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.parameter));
+            var serializedKind = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.kind));
+            var serializedMode = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.mode));
+            var serializedThreshold = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.threshold));
+
+            var parametersWizard = ((EmoteWizardDataSourceBase)serializedProperty.serializedObject.targetObject).EmoteWizardRoot.EnsureWizard<ParametersWizard>();
 
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {
-                using (new InvalidValueScope(context.ParametersWizard.IsInvalidParameter(property.parameter)))
+                using (new InvalidValueScope(parametersWizard.IsInvalidParameter(serializedParameter.stringValue)))
                 {
-                    TypedGUI.TextField(position.UISliceH(0.0f, 0.4f), new GUIContent(" "), ref property.parameter);
+                    EditorGUI.PropertyField(position.UISliceH(0.0f, 0.4f), serializedParameter);
                 }
-                TypedGUI.EnumPopup(position.UISliceH(0.4f, 0.2f), new GUIContent(" "), ref property.kind);
-                TypedGUI.EnumPopup(position.UISliceH(0.6f, 0.2f), new GUIContent(" "), ref property.mode);
-                TypedGUI.FloatField(position.UISliceH(0.8f, 0.2f), new GUIContent(" "), ref property.threshold);
+
+                EditorGUI.PropertyField(position.UISliceH(0.4f, 0.2f), serializedKind);
+                EditorGUI.PropertyField(position.UISliceH(0.6f, 0.2f), serializedMode);
+                EditorGUI.PropertyField(position.UISliceH(0.8f, 0.2f), serializedThreshold);
             }
         }
     }

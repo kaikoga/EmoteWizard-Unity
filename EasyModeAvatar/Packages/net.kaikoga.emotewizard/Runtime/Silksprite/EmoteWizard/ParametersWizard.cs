@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
@@ -15,22 +14,15 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
 
-        [NonSerialized] public List<ParameterItem> ParameterItems;
-        [NonSerialized] public List<ParameterItem> DefaultParameterItems;
-
-        public IEnumerable<ParameterItem> AllParameterItems
-        {
-            get
-            {
-                if (DefaultParameterItems.Count == 0) DefaultParameterItems = null;
-                if (DefaultParameterItems == null || DefaultParameterItems.Count == 0) RefreshParameters();
-                return ParameterItems.Where(item => item.enabled).Concat(DefaultParameterItems);
-            }
-        }
-
         public override void DisconnectOutputAssets()
         {
             outputAsset = null;
+        }
+
+        IEnumerable<ExpressionItem> CollectExpressionItems()
+        {
+            var expressionWizard = GetWizard<ExpressionWizard>();
+            return expressionWizard ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
         }
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
@@ -40,84 +32,30 @@ namespace Silksprite.EmoteWizard
                 .Where(item => item.enabled);
         }
 
-        public bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
+        public ParametersSnapshot Snapshot()
         {
-            foreach (var item in AllParameterItems)
+            var builder = new ParameterSnapshotBuilder();
+
+            foreach (var expressionItem in CollectExpressionItems())
             {
-                if (item.name != parameterName) continue;
-
-                if (itemKind == ParameterItemKind.Auto || itemKind == item.itemKind) return true;
-                Debug.LogWarning($"Ignored invalid parameter: {parameterName}, expected ${itemKind}, was ${item.itemKind}");
-                return false;
-            }
-
-            Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
-            return false;
-        }
-
-        public void RefreshParameters()
-        {
-            var builder = new ExpressionParameterBuilder();
-
-            var expressionWizard = GetWizard<ExpressionWizard>();
-            if (expressionWizard != null)
-            {
-                foreach (var expressionItem in expressionWizard.CollectExpressionItems())
+                if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {
-                    if (!string.IsNullOrEmpty(expressionItem.parameter))
-                    {
-                        builder.FindOrCreate(expressionItem.parameter, true).AddUsage(expressionItem.value);
-                    }
+                    builder.FindOrCreate(expressionItem.parameter).AddWriteValue(expressionItem.value);
+                }
 
-                    if (!expressionItem.IsPuppet) continue;
-                    foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
-                    {
-                        builder.FindOrCreate(subParameter, true).AddPuppetUsage(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
-                    }
+                if (!expressionItem.IsPuppet) continue;
+                foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
+                {
+                    builder.FindOrCreate(subParameter).AddWritePuppet(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
                 }
             }
 
-            var gestureWizard = GetWizard<GestureWizard>();
-            if (gestureWizard != null && gestureWizard.handSignOverrideEnabled)
+            foreach (var parameter in CollectSourceParameterItems())
             {
-                builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var gestureEmote in gestureWizard.CollectEmotes().Where(emote => emote.OverrideAvailable))
-                {
-                    builder.FindOrCreate(gestureWizard.handSignOverrideParameter).AddUsage(gestureEmote.overrideIndex);
-                }
-            }
-            var fxWizard = GetWizard<FxWizard>();
-            if (fxWizard != null && fxWizard.handSignOverrideEnabled)
-            {
-                builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddIndexUsage();
-                foreach (var fxEmote in fxWizard.CollectEmotes().Where(emote => emote.OverrideAvailable))
-                {
-                    builder.FindOrCreate(fxWizard.handSignOverrideParameter).AddUsage(fxEmote.overrideIndex);
-                }
-            }
-            var actionWizard = GetWizard<ActionWizard>();
-            if (actionWizard != null && actionWizard.SelectableAfkEmotes)
-            {
-                builder.FindOrCreate(actionWizard.afkSelectParameter).AddIndexUsage();
-                foreach (var afkEmote in actionWizard.CollectAfkEmotes())
-                {
-                    builder.FindOrCreate(actionWizard.afkSelectParameter).AddUsage(afkEmote.emoteIndex);
-                }
+                builder.FindOrCreate(parameter.name).Import(parameter);
             }
 
-            builder.Import(CollectSourceParameterItems());
-
-            ParameterItems = builder.ParameterItems.ToList();
-            DefaultParameterItems = DefaultParameterItems ?? ParameterItem.PopulateDefaultParameters();
-        }
-
-        public VRCExpressionParameters.Parameter[] ToParameters()
-        {
-            RefreshParameters(); 
-            return ParameterItems
-                .Where(parameter => parameter.enabled)
-                .Select(parameter => parameter.ToParameter())
-                .ToArray();
+            return builder.ToSnapshot();
         }
     }
 }

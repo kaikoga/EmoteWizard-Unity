@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ namespace Silksprite.EmoteWizard.Extensions
             {
                 case AnimationClip clip:
                     clip.SetLoopTime(value);
+                    EditorUtility.SetDirty(clip);
                     break;
                 case BlendTree blendTree:
                 {
@@ -35,7 +37,6 @@ namespace Silksprite.EmoteWizard.Extensions
                     {
                         child.motion.SetLoopTimeRec(value);
                     }
-
                     break;
                 }
             }

@@ -7,8 +7,11 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     public class ParameterSource : EmoteWizardDataSourceBase, IParameterSource
     {
-        [SerializeField] public List<ParameterItem> parameterItems = new List<ParameterItem>();
+        [SerializeField] public ParameterItem parameterItem;
 
-        public IEnumerable<ParameterItem> ParameterItems => parameterItems;
+        public IEnumerable<ParameterItem> ParameterItems
+        {
+            get { yield return parameterItem; }
+        }
     }
 }

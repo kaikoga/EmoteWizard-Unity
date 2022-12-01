@@ -6,10 +6,27 @@ namespace Silksprite.EmoteWizard
         {
             public const string Gesture = "Gesture";
             public const string Fx = "FX";
+            public const string Action = "Action";
+        }
+
+        public static class Params
+        {
+            public const string Viseme = "Viseme";
+            public const string AFK = "AFK";
+            public const string Gesture = "Gesture";
+            public const string GestureOther = "GestureOther";
+            public const string GestureWeight = "GestureWeight";
+            public const string GestureOtherWeight = "GestureOtherWeight";
         }
 
         public static class Defaults
         {
+            public static class Groups
+            {
+                public const string HandSign = "HandSign";
+                public const string Action = "Action";
+            }
+
             public static class Params
             {
                 public const string GestureHandSignOverride = "EmoteWizardGesture";

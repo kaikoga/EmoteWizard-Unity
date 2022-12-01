@@ -7,10 +7,11 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     public class ExpressionItemSource : EmoteWizardDataSourceBase, IExpressionItemSource
     {
-        [SerializeField] public List<ExpressionItem> expressionItems = new List<ExpressionItem>(); 
+        [SerializeField] public ExpressionItem expressionItem; 
 
-        [SerializeField] public string defaultPrefix = "Default/";
-
-        public IEnumerable<ExpressionItem> ExpressionItems => expressionItems;
+        public IEnumerable<ExpressionItem> ExpressionItems
+        {
+            get { yield return expressionItem; }
+        }
     }
 }

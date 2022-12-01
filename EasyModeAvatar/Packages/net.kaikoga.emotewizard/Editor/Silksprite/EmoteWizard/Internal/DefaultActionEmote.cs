@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Legacy;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
@@ -150,6 +151,40 @@ namespace Silksprite.EmoteWizard.Internal
                 blendIn = 1f,
                 blendOut = 0.5f
             };
+        }
+
+        public static IEnumerable<EmoteItem> EnumerateDefaultActionEmoteItems()
+        {
+            var actionTrackingOverrides = new[]
+            {
+                TrackingTarget.Head,
+                TrackingTarget.LeftHand,
+                TrackingTarget.RightHand,
+                TrackingTarget.Hip,
+                TrackingTarget.LeftFoot,
+                TrackingTarget.RightFoot,
+                TrackingTarget.LeftFingers,
+                TrackingTarget.RightFingers
+            }.Select(target => new TrackingOverride { target = target }).ToList();
+
+            foreach (var def in Defaults)
+            {
+                yield return EmoteItem.Builder(LayerKind.Action, def._name, EmoteWizardConstants.Defaults.Groups.Action)
+                    .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Defaults.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = def._index })
+                    .AddClip(def._clip)
+                    .AddClipExitTime(def._hasExitTime, def._exitTime)
+                    .AddExitClip(def._exitClip != null, def._exitClip, 0.25f, def._exitClip ? 0.4f : 0.25f)
+                    .AddLayerBlend(true, 0.5f, 0.25f)
+                    .AddTrackingOverrides(true, actionTrackingOverrides)
+                    .ToEmoteItem();
+            }
+            yield return EmoteItem.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action)
+                .AddPriority(100)
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.AFK, mode = EmoteConditionMode.If, threshold = 0 })
+                .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
+                .AddLayerBlend(true, 1f, 0.5f)
+                .AddTrackingOverrides(true, actionTrackingOverrides)
+                .ToEmoteItem();
         }
     }
 }

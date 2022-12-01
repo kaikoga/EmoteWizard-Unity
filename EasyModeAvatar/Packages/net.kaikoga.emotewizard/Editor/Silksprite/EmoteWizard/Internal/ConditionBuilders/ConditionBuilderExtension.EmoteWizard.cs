@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
 
         public static ConditionBuilder AlwaysTrue(this ConditionBuilder builder)
         {
-            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, "Viseme", -1);
+            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, EmoteWizardConstants.Params.Viseme, -1);
             return builder;
         }
     }

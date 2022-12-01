@@ -1,6 +1,5 @@
 using System.IO;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard
@@ -12,18 +11,9 @@ namespace Silksprite.EmoteWizard
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
         
         [SerializeField] public AnimationClip emptyClip;
-        [SerializeField] public ListDisplayMode listDisplayMode;
         [SerializeField] public bool showTutorial;
-        [SerializeField] public bool showCopyPasteJsonButtons;
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
-
-        public T EnsureWizard<T>() where T : EmoteWizardBase
-        {
-            var wizard = GetComponentInChildren<T>();
-            if (!(wizard is null)) return wizard;
-            return gameObject.AddComponent<T>();
-        }
 
         public void DisconnectAllOutputAssets()
         {

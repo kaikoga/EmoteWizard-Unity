@@ -1,19 +1,16 @@
-using JetBrains.Annotations;
-using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.UI.Base;
 using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [UsedImplicitly]
-    public class TrackingOverrideDrawer : TypedDrawerBase<TrackingOverride>
+    [CustomPropertyDrawer(typeof(TrackingOverride))]
+    public class TrackingOverrideDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, ref TrackingOverride item, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             using (new EditorGUI.IndentLevelScope())
             {
-                TypedGUI.EnumPopup(position, "Override", ref item.target);
+                EditorGUI.PropertyField(position, property.FindPropertyRelative("target"), new GUIContent("Override"));
             }
         }
     }
