@@ -8,6 +8,8 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class EmoteItem
     {
+        [SerializeField] public EmoteHand hand = EmoteHand.Neither;
+
         [SerializeField] public EmoteTrigger trigger;
         [SerializeField] public EmoteSequence sequence;
         
@@ -59,26 +61,27 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public EmoteItem Mirror(string side)
+        public EmoteItem Mirror(EmoteHand handValue)
         {
             string ResolveMirrorParameter(string parameter)
             {
                 switch (parameter)
                 {
                     case EmoteWizardConstants.Params.Gesture:
-                        return side == "Left" ? "GestureLeft" : "GestureRight";
+                        return handValue == EmoteHand.Left ? "GestureLeft" : "GestureRight";
                     case EmoteWizardConstants.Params.GestureOther:
-                        return side == "Left" ? "GestureRight" : "GestureLeft";
+                        return handValue == EmoteHand.Left ? "GestureRight" : "GestureLeft";
                     case EmoteWizardConstants.Params.GestureWeight:
-                        return side == "Left" ? "GestureLeftWeight" : "GestureRightWeight";
+                        return handValue == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
                     case EmoteWizardConstants.Params.GestureOtherWeight:
-                        return side == "Left" ? "GestureRightWeight" : "GestureLeftWeight";
+                        return handValue == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
                     default:
                         return parameter;
                 }
             }
             var item = SerializableUtils.Clone(this);
-            item.trigger.groupName = $"{item.trigger.groupName} ({side})";
+            item.hand = handValue;
+            item.trigger.groupName = $"{item.trigger.groupName} ({handValue})";
             foreach (var condition in item.trigger.conditions)
             {
                 condition.parameter = ResolveMirrorParameter(condition.parameter);
