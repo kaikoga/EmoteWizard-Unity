@@ -23,6 +23,10 @@ namespace Silksprite.EmoteWizard.Extensions
             var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
             wizard.BuildResetClip(resetClip);
 
+            if (wizard.defaultAvatarMask)
+            {
+                builder.BuildStaticLayer("Default Avatar Mask", null, wizard.defaultAvatarMask);
+            }
             builder.BuildStaticLayer("Reset", resetClip, null);
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
             if (layerKind == LayerKind.FX) // FIXME: configurable?
