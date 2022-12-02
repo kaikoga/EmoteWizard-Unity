@@ -61,6 +61,7 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.PropertyField(_serializedResetClip);
                 });
             }
+            serializedObject.ApplyModifiedProperties();
 
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
             EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial2);
