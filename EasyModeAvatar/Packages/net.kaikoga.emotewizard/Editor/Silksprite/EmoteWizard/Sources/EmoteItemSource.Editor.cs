@@ -13,6 +13,7 @@ namespace Silksprite.EmoteWizard.Sources
         SerializedProperty _serializedName;
         SerializedProperty _serializedLayerKind;
         SerializedProperty _serializedGroupName;
+        SerializedProperty _serializedPriority;
         SerializedProperty _serializedConditions;
 
         EmoteItemSource _emoteItemSource;
@@ -24,6 +25,7 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedName = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.name));
             _serializedLayerKind = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.layerKind));
             _serializedGroupName = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.groupName));
+            _serializedPriority = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.priority));
             _serializedConditions = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.conditions));
 
             _emoteItemSource = (EmoteItemSource)target;
@@ -34,6 +36,7 @@ namespace Silksprite.EmoteWizard.Sources
             EditorGUILayout.PropertyField(_serializedName);
             EditorGUILayout.PropertyField(_serializedLayerKind);
             EditorGUILayout.PropertyField(_serializedGroupName);
+            EditorGUILayout.PropertyField(_serializedPriority);
             EditorGUILayout.PropertyField(_serializedConditions);
             serializedObject.ApplyModifiedProperties();
 
