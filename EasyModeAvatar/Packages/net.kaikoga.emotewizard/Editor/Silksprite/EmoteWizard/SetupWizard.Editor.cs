@@ -93,23 +93,23 @@ namespace Silksprite.EmoteWizard
             var fxSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("FX Sources");
             foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
             {
-                var fxSource = fxSources.FindOrCreateChildComponent<EmoteItemSource>(fxItem.trigger.name);
-                fxSource.trigger = fxItem.trigger;
-                fxSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = fxItem.sequence;
+                var fxSource = fxSources.FindOrCreateChildComponent<EmoteItemSource>(fxItem.Trigger.name);
+                fxSource.trigger = fxItem.Trigger;
+                fxSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = fxItem.Sequence;
             }
             var gestureSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Gesture Sources");
             foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
             {
-                var gestureSource = gestureSources.FindOrCreateChildComponent<EmoteItemSource>(gestureItem.trigger.name);
-                gestureSource.trigger = gestureItem.trigger;
-                gestureSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = gestureItem.sequence;
+                var gestureSource = gestureSources.FindOrCreateChildComponent<EmoteItemSource>(gestureItem.Trigger.name);
+                gestureSource.trigger = gestureItem.Trigger;
+                gestureSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = gestureItem.Sequence;
             }
             var actionSources = emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>("Action Sources");
             foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
             {
-                var actionSource = actionSources.FindOrCreateChildComponent<EmoteItemSource>(actionItem.trigger.name);
-                actionSource.trigger = actionItem.trigger;
-                actionSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = actionItem.sequence;
+                var actionSource = actionSources.FindOrCreateChildComponent<EmoteItemSource>(actionItem.Trigger.name);
+                actionSource.trigger = actionItem.Trigger;
+                actionSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = actionItem.Sequence;
             }
         }
 
