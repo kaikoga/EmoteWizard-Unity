@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -81,7 +82,16 @@ namespace Silksprite.EmoteWizard.Internal
             foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.trigger.groupName))
             {
                 var groupName = emoteItemGroup.Key;
-                var layer = PopulateLayer(groupName);
+                AvatarMask avatarMask = null;
+                if (Wizard.LayerKind == LayerKind.Gesture)
+                {
+                    switch (emoteItemGroup.First().hand) // XXX: 
+                    {
+                        case EmoteHand.Left: avatarMask = VrcSdkAssetLocator.HandLeft(); break;
+                        case EmoteHand.Right: avatarMask = VrcSdkAssetLocator.HandRight(); break;
+                    }
+                }
+                var layer = PopulateLayer(groupName, avatarMask);
                 new EmoteLayerBuilder2(this, layer, emoteItemGroup).Build();
             }
         }

@@ -1,7 +1,7 @@
 {
   "name": "net.kaikoga.emotewizard",
   "displayName": "Emote Wizard",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "unity": "2019.4",
   "description": "Animation and Expression Editor for VRChat Avatar SDK3",
   "vrchatVersion": "2022.1.1",

@@ -33,9 +33,14 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             _position.y += 75f;
         }
 
-        protected bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
+        protected ParameterItemKind ResolveParameterType(string parameterName, ParameterItemKind itemKind)
         {
-            return Builder.ParametersSnapshot == null || Builder.ParametersSnapshot.AssertParameterExists(parameterName, itemKind);
+            if (Builder.ParametersSnapshot == null)
+            {
+                return itemKind;
+            }
+
+            return Builder.ParametersSnapshot.ResolveParameterType(parameterName, itemKind);
         }
 
         protected LayerBuilderBase2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer)
@@ -108,11 +113,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
 
         protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)
         {
-            var validConditions = emoteConditions
-                .Where(emoteCondition => AssertParameterExists(emoteCondition.parameter, ParameterItemKind.Auto));
-            foreach (var condition in validConditions)
+            foreach (var condition in emoteConditions)
             {
-                conditions.EmoteCondition(condition);
+                conditions.EmoteCondition(condition, ResolveParameterType(condition.parameter, condition.kind));
                 Builder.MarkParameter(condition.parameter);
             }
         }

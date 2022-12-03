@@ -10,19 +10,23 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimatorLayerWizardExtension
     {
-        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersWizard)
+        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersSnapshot)
         {
             var layerKind = wizard.LayerKind;
             var builder = new AnimatorLayerBuilder
             {
                 Wizard = wizard,
-                ParametersSnapshot = parametersWizard,
+                ParametersSnapshot = parametersSnapshot,
                 DefaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller"
             };
 
             var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
             wizard.BuildResetClip(resetClip);
 
+            if (wizard.defaultAvatarMask)
+            {
+                builder.BuildStaticLayer("Default Avatar Mask", null, wizard.defaultAvatarMask);
+            }
             builder.BuildStaticLayer("Reset", resetClip, null);
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
             if (layerKind == LayerKind.FX) // FIXME: configurable?

@@ -32,8 +32,8 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 var emoteItem = new EmoteItem(trigger, sequence);
                 if (emoteItem.IsMirrorItem)
                 {
-                    yield return emoteItem.Mirror("Left");
-                    yield return emoteItem.Mirror("Right");
+                    yield return emoteItem.Mirror(EmoteHand.Left);
+                    yield return emoteItem.Mirror(EmoteHand.Right);
                 }
                 else
                 {
