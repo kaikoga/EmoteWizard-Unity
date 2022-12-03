@@ -11,8 +11,6 @@ namespace Silksprite.EmoteWizard.Sources
     public class EmoteItemSourceEditor : Editor
     {
         SerializedProperty _serializedName;
-        SerializedProperty _serializedLayerKind;
-        SerializedProperty _serializedGroupName;
         SerializedProperty _serializedPriority;
         SerializedProperty _serializedConditions;
 
@@ -23,8 +21,6 @@ namespace Silksprite.EmoteWizard.Sources
             var serializedTrigger = serializedObject.FindProperty(nameof(EmoteItemSource.trigger));
 
             _serializedName = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.name));
-            _serializedLayerKind = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.layerKind));
-            _serializedGroupName = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.groupName));
             _serializedPriority = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.priority));
             _serializedConditions = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.conditions));
 
@@ -34,8 +30,6 @@ namespace Silksprite.EmoteWizard.Sources
         public override void OnInspectorGUI()
         {
             EditorGUILayout.PropertyField(_serializedName);
-            EditorGUILayout.PropertyField(_serializedLayerKind);
-            EditorGUILayout.PropertyField(_serializedGroupName);
             EditorGUILayout.PropertyField(_serializedPriority);
             EditorGUILayout.PropertyField(_serializedConditions);
             serializedObject.ApplyModifiedProperties();

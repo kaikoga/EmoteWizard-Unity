@@ -20,11 +20,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             return new EmoteItemTemplateBuilder(new EmoteItemTemplate(
                 new EmoteTrigger
                 {
-                    layerKind = layerKind,
                     name = name,
-                    groupName = groupName
                 },
-                new EmoteSequence()));
+                new EmoteSequence
+                {
+                    layerKind = layerKind,
+                    groupName = groupName
+                }));
         }
 
         public bool IsMirrorItem

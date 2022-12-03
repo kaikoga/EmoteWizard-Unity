@@ -22,6 +22,6 @@ namespace Silksprite.EmoteWizard.Base
         }
 
         public IEnumerable<EmoteItem> CollectAllEmoteItems() => EmoteWizardRoot.GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
-        public IEnumerable<EmoteItem> CollectEmoteItems() => CollectAllEmoteItems().Where(item => item.trigger.layerKind == LayerKind);
+        public IEnumerable<EmoteItem> CollectEmoteItems() => CollectAllEmoteItems().Where(item => item.sequence.layerKind == LayerKind);
     }
 }

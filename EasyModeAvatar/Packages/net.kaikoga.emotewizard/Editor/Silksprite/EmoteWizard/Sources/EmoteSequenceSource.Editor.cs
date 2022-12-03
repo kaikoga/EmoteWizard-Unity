@@ -9,6 +9,9 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(EmoteSequenceSource))]
     public class EmoteSequenceSourceEditor : Editor
     {
+        SerializedProperty _serializedLayerKind;
+        SerializedProperty _serializedGroupName;
+
         SerializedProperty _serializedIsFixedDuration;
 
         SerializedProperty _serializedClip;
@@ -42,6 +45,9 @@ namespace Silksprite.EmoteWizard.Sources
         {
             var serializedItem = serializedObject.FindProperty(nameof(EmoteSequenceSource.sequence));
 
+            _serializedLayerKind = serializedItem.FindPropertyRelative(nameof(EmoteSequence.layerKind));
+            _serializedGroupName = serializedItem.FindPropertyRelative(nameof(EmoteSequence.groupName));
+
             _serializedIsFixedDuration = serializedItem.FindPropertyRelative(nameof(EmoteSequence.isFixedDuration));
             
             _serializedClip = serializedItem.FindPropertyRelative(nameof(EmoteSequence.clip));
@@ -74,6 +80,9 @@ namespace Silksprite.EmoteWizard.Sources
 
         public override void OnInspectorGUI()
         {
+            EditorGUILayout.PropertyField(_serializedLayerKind);
+            EditorGUILayout.PropertyField(_serializedGroupName);
+
             EditorGUILayout.PropertyField(_serializedIsFixedDuration);
             EditorGUILayout.PropertyField(_serializedClip);
             EditorGUILayout.PropertyField(_serializedEntryTransitionDuration);

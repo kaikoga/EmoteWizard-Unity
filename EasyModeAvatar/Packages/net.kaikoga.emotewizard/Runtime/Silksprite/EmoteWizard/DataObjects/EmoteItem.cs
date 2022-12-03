@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         [SerializeField] public EmoteHand hand;
 
-        public string GroupInstanceName => hand == EmoteHand.Neither ? trigger.groupName : $"{trigger.groupName} ({hand})";
+        public string GroupInstanceName => hand == EmoteHand.Neither ? sequence.groupName : $"{sequence.groupName} ({hand})";
 
         public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence, EmoteHand hand)
         {
