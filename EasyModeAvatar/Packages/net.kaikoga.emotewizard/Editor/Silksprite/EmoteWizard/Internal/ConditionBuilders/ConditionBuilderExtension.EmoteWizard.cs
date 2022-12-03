@@ -1,5 +1,6 @@
 using System;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -7,13 +8,13 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
 {
     public static class ConditionBuilderEmoteWizardExtension
     {
-        public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteCondition emoteCondition, ParameterItemKind actualItemKind)
+        public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteCondition emoteCondition, ParameterValueKind? actualValueKind)
         {
             AnimatorControllerParameterType type;
             AnimatorConditionMode mode;
-            switch (actualItemKind)
+            switch (actualValueKind)
             {
-                case ParameterItemKind.Bool:
+                case ParameterValueKind.Bool:
                     type = AnimatorControllerParameterType.Bool;
                     switch (emoteCondition.mode)
                     {
@@ -51,11 +52,11 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
                             mode = AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.Greater:
-                            type = actualItemKind == ParameterItemKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
+                            type = actualValueKind == ParameterValueKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
                             mode = AnimatorConditionMode.Greater;
                             break;
                         case EmoteConditionMode.Less:
-                            type = actualItemKind == ParameterItemKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
+                            type = actualValueKind == ParameterValueKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
                             mode = AnimatorConditionMode.Less;
                             break;
                         case EmoteConditionMode.Equals:

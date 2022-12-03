@@ -13,19 +13,33 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(DefaultParameterItems);
 
-        public ParameterItemKind ResolveParameterType(string parameterName, ParameterItemKind itemKind)
+        public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
         {
             foreach (var item in AllParameters)
             {
                 if (item.Name != parameterName) continue;
 
-                if (itemKind == ParameterItemKind.Auto || itemKind == item.ItemKind) return item.ItemKind;
-                Debug.LogWarning($"Possibly parameter type mismatch: {parameterName}, expected ${itemKind}, was ${item.ItemKind}");
-                return item.ItemKind;
+                var resolvedValueKind = item.ValueKind;
+                switch (resolvedValueKind)
+                {
+                    case ParameterValueKind.Bool:
+                        if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Bool) return resolvedValueKind;
+                        break;
+                    case ParameterValueKind.Int:
+                        if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Int) return resolvedValueKind;
+                        break;
+                    case ParameterValueKind.Float:
+                        if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return resolvedValueKind;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                Debug.LogWarning($"Possibly parameter type mismatch: {parameterName}, expected {itemKind}, was {resolvedValueKind}");
+                return resolvedValueKind;
             }
 
             Debug.LogWarning($"Possibly not found parameter: {parameterName} ({itemKind})");
-            return itemKind;
+            return null;
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using UnityEditor.Animations;
@@ -33,13 +34,8 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             _position.y += 75f;
         }
 
-        protected ParameterItemKind ResolveParameterType(string parameterName, ParameterItemKind itemKind)
+        protected ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
         {
-            if (Builder.ParametersSnapshot == null)
-            {
-                return itemKind;
-            }
-
             return Builder.ParametersSnapshot.ResolveParameterType(parameterName, itemKind);
         }
 
