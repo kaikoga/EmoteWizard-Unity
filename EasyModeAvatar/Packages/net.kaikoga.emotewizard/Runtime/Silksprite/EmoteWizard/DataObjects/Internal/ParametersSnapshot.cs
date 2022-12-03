@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -12,19 +13,19 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(DefaultParameterItems);
 
-        public bool AssertParameterExists(string parameterName, ParameterItemKind itemKind)
+        public ParameterItemKind ResolveParameterType(string parameterName, ParameterItemKind itemKind)
         {
             foreach (var item in AllParameters)
             {
                 if (item.Name != parameterName) continue;
 
-                if (itemKind == ParameterItemKind.Auto || itemKind == item.ItemKind) return true;
-                Debug.LogWarning($"Ignored invalid parameter: {parameterName}, expected ${itemKind}, was ${item.ItemKind}");
-                return false;
+                if (itemKind == ParameterItemKind.Auto || itemKind == item.ItemKind) return item.ItemKind;
+                Debug.LogWarning($"Possibly parameter type mismatch: {parameterName}, expected ${itemKind}, was ${item.ItemKind}");
+                return item.ItemKind;
             }
 
-            Debug.LogWarning($"Ignored unknown parameter: {parameterName}");
-            return false;
+            Debug.LogWarning($"Possibly not found parameter: {parameterName} ({itemKind})");
+            return itemKind;
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()

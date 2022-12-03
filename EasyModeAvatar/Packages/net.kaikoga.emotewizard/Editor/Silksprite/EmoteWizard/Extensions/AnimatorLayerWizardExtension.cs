@@ -10,13 +10,13 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimatorLayerWizardExtension
     {
-        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersWizard)
+        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersSnapshot)
         {
             var layerKind = wizard.LayerKind;
             var builder = new AnimatorLayerBuilder
             {
                 Wizard = wizard,
-                ParametersSnapshot = parametersWizard,
+                ParametersSnapshot = parametersSnapshot,
                 DefaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller"
             };
 

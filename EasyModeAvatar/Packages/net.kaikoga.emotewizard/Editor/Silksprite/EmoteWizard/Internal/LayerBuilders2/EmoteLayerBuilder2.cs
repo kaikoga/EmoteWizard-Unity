@@ -103,7 +103,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             
             if (!sequence.hasExitTime)
             {
-                if (sequence.hasTimeParameter && AssertParameterExists(sequence.timeParameter, ParameterItemKind.Float))
+                if (sequence.hasTimeParameter && ResolveParameterType(sequence.timeParameter, ParameterItemKind.Float) == ParameterItemKind.Float)
                 {
                     mainState.timeParameterActive = true;
                     mainState.timeParameter = sequence.timeParameter;
