@@ -1,4 +1,4 @@
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public enum ParameterValueKind
     {
