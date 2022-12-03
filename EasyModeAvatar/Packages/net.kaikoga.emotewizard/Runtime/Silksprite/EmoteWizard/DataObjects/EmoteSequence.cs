@@ -7,6 +7,10 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class EmoteSequence
     {
+        [SerializeField] public LayerKind layerKind;
+        [SerializeField] public string groupName;
+
+        [Header("Common Settings")]
         [SerializeField] public bool isFixedDuration;
 
         [SerializeField] public Motion clip;

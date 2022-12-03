@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
@@ -103,7 +104,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             
             if (!sequence.hasExitTime)
             {
-                if (sequence.hasTimeParameter && ResolveParameterType(sequence.timeParameter, ParameterItemKind.Float) == ParameterItemKind.Float)
+                if (sequence.hasTimeParameter && ResolveParameterType(sequence.timeParameter, ParameterItemKind.Float) == ParameterValueKind.Float)
                 {
                     mainState.timeParameterActive = true;
                     mainState.timeParameter = sequence.timeParameter;

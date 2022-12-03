@@ -64,8 +64,6 @@ namespace Silksprite.EmoteWizard.Sources
             }
             EditorGUILayout.PropertyField(_serializedItemKind);
 
-            var y = 2;
-
             void DrawSubParameters(int subParametersCount, int labelsCount)
             {
                 _serializedSubParameters.arraySize = subParametersCount;

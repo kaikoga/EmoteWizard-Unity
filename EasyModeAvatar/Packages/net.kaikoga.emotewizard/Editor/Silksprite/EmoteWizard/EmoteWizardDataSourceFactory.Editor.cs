@@ -101,11 +101,10 @@ namespace Silksprite.EmoteWizard
                     value = value,
                     itemKind = ExpressionItemKind.Toggle
                 };
+                
                 child.gameObject.AddComponent<EmoteItemSource>().trigger = new EmoteTrigger
                 {
                     name = $"{_itemName}/Item {value}",
-                    layerKind = LayerKind.FX,
-                    groupName = _itemName,
                     priority = 0,
                     conditions = new List<EmoteCondition>
                     {
@@ -118,7 +117,11 @@ namespace Silksprite.EmoteWizard
                         }
                     }
                 };
-                child.gameObject.AddComponent<EmoteSequenceSource>();
+                child.gameObject.AddComponent<EmoteSequenceSource>().sequence = new EmoteSequence
+                {
+                    layerKind = LayerKind.FX,
+                    groupName = _itemName
+                };
             }
         }
 
@@ -140,8 +143,6 @@ namespace Silksprite.EmoteWizard
             child.gameObject.AddComponent<EmoteItemSource>().trigger = new EmoteTrigger
             {
                 name = $"More Emotes/{_itemName}",
-                layerKind = LayerKind.Action,
-                groupName = "Action",
                 priority = 0,
                 conditions = new List<EmoteCondition>
                 {
@@ -154,7 +155,11 @@ namespace Silksprite.EmoteWizard
                     }
                 }
             };
-            child.gameObject.AddComponent<EmoteSequenceSource>();
+            child.gameObject.AddComponent<EmoteSequenceSource>().sequence = new EmoteSequence
+            {
+                layerKind = LayerKind.Action,
+                groupName = EmoteWizardConstants.Defaults.Groups.Action
+            };
         }
 
         void GenerateAssetTemplate(EmoteWizardDataSourceFactory sourceFactory)

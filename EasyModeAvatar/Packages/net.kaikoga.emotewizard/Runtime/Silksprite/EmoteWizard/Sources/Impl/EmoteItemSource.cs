@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
@@ -11,14 +12,24 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public EmoteTrigger trigger;
 
+        EmoteSequence FindEmoteSequence() => GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
+
+        EmoteItemTemplate ToEmoteItemTemplate()
+        {
+            var sequence = FindEmoteSequence();
+            if (sequence == null) return null;
+
+            return new EmoteItemTemplate(trigger, sequence);
+        }
+
         public bool IsMirrorItem
         {
             get
             {
-                var sequence = GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
-                if (sequence == null) return false;
+                var template = ToEmoteItemTemplate();
+                if (template == null) return false;
 
-                return new EmoteItem(trigger, sequence).IsMirrorItem;
+                return template.IsMirrorItem;
             }
         }
 
@@ -26,20 +37,20 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             get
             {
-                var sequence = GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
-                if (sequence == null) yield break;
+                var template = ToEmoteItemTemplate();
+                if (template == null) yield break;
 
-                var emoteItem = new EmoteItem(trigger, sequence);
-                if (emoteItem.IsMirrorItem)
+                if (template.IsMirrorItem)
                 {
-                    yield return emoteItem.Mirror(EmoteHand.Left);
-                    yield return emoteItem.Mirror(EmoteHand.Right);
+                    yield return template.Mirror(EmoteHand.Left);
+                    yield return template.Mirror(EmoteHand.Right);
                 }
                 else
                 {
-                    yield return emoteItem;
+                    yield return template.ToEmoteItem();
                 }
             }
         }
+
     }
 }

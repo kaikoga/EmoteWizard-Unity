@@ -79,7 +79,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
         {
-            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.trigger.groupName))
+            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupInstanceName))
             {
                 var groupName = emoteItemGroup.Key;
                 AvatarMask avatarMask = null;
