@@ -25,8 +25,6 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
         {
             Builder.MarkTrackingTarget(_target);
 
-            var defaultState = PopulateDefaultState();
-
             var offTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true);
             var onTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true);
 
@@ -36,9 +34,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
                 var state = AddStateWithoutTransition(emoteItem.trigger.name, null);
                 var conditions = new ConditionBuilder();
                 ApplyEmoteConditions(conditions, emoteItem.trigger.conditions);
-                var transition = AddTransition(defaultState, state, conditions);
-                transition.hasExitTime = false;
-                transition.duration = 0f;
+                var transition = AddEntryTransition(state, conditions);
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
 
@@ -50,9 +46,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 
             NextStatePosition();
             var trackingState = AddStateWithoutTransition("Tracking", null);
-            var trackingTransition = AddTransition(defaultState, trackingState, new ConditionBuilder().AlwaysTrue());
-            trackingTransition.hasExitTime = false;
-            trackingTransition.duration = 0f;
+            var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue());
 
             PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
 
@@ -61,7 +55,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             AddTransition(trackingState, trackingState, offTriggerConditions);
         }
         
-        static void PopulateTrackingControl(AnimatorStateTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
+        static void PopulateTrackingControl(AnimatorTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
         {
             var trackingControl = transition.destinationState.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
             switch (target)

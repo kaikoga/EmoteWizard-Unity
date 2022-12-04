@@ -22,8 +22,7 @@ namespace Silksprite.EmoteWizard
 
         public IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            return EmoteWizardRoot.GetComponentsInChildren<IExpressionItemSource>().SelectMany(source => source.ExpressionItems)
-                .Where(item => item.enabled);
+            return EmoteWizardRoot.GetComponentsInChildren<IExpressionItemSource>().SelectMany(source => source.ExpressionItems);
         }
     }
 }

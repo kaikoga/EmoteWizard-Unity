@@ -19,6 +19,11 @@ namespace Silksprite.EmoteWizard
             outputAsset = null;
         }
 
+        IEnumerable<EmoteItem> CollectEmoteItems()
+        {
+            return EmoteWizardRoot.CollectAllEmoteItems();
+        }
+
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
             var expressionWizard = GetWizard<ExpressionWizard>();
@@ -28,8 +33,7 @@ namespace Silksprite.EmoteWizard
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
             return EmoteWizardRoot.GetComponentsInChildren<IParameterSource>()
-                .SelectMany(source => source.ParameterItems)
-                .Where(item => item.enabled);
+                .SelectMany(source => source.ParameterItems);
         }
 
         public ParametersSnapshot Snapshot()
@@ -47,6 +51,14 @@ namespace Silksprite.EmoteWizard
                 foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
                 {
                     builder.FindOrCreate(subParameter).AddWritePuppet(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                }
+            }
+
+            foreach (var emoteItem in CollectEmoteItems())
+            {
+                foreach (var condition in emoteItem.trigger.conditions)
+                {
+                    builder.FindOrCreate(condition.parameter).AddReadValue(condition.kind, condition.threshold);
                 }
             }
 

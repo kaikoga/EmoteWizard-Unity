@@ -45,7 +45,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     Name = name,
                     Saved = false,
                     ItemKind = kind,
-                    WriteUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state)).ToList()
+                    WriteUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state)).ToList(),
+                    ReadUsages = states.Select(state => new ParameterReadUsage(ParameterItemKind.Int, state)).ToList(),
                 };
             }).ToList();
         }

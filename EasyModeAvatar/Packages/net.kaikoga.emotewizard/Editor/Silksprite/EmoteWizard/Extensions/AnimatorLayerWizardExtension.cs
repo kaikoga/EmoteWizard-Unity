@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Extensions
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
             if (layerKind == LayerKind.FX) // FIXME: configurable?
             {
-                builder.BuildTrackingControlLayers(wizard.CollectAllEmoteItems());
+                builder.BuildTrackingControlLayers(wizard.EmoteWizardRoot.CollectAllEmoteItems());
             }
             builder.BuildParameters();
             return wizard.outputAsset;

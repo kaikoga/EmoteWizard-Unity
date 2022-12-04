@@ -29,7 +29,6 @@ namespace Silksprite.EmoteWizard.Extensions
             {
                 case AnimationClip clip:
                     clip.SetLoopTime(value);
-                    EditorUtility.SetDirty(clip);
                     break;
                 case BlendTree blendTree:
                 {
