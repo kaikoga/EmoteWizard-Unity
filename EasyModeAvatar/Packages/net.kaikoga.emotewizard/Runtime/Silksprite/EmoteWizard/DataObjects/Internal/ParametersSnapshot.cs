@@ -13,33 +13,40 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(DefaultParameterItems);
 
-        public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
+        public ParameterInstance ResolveParameter(string parameterName)
         {
             foreach (var item in AllParameters)
             {
                 if (item.Name != parameterName) continue;
-
-                var resolvedValueKind = item.ValueKind;
-                switch (resolvedValueKind)
-                {
-                    case ParameterValueKind.Bool:
-                        if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Bool) return resolvedValueKind;
-                        break;
-                    case ParameterValueKind.Int:
-                        if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Int) return resolvedValueKind;
-                        break;
-                    case ParameterValueKind.Float:
-                        if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return resolvedValueKind;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                Debug.LogWarning($"Possibly parameter type mismatch: {parameterName}, expected {itemKind}, was {resolvedValueKind}");
-                return resolvedValueKind;
+                return item;
             }
 
-            Debug.LogWarning($"Possibly not found parameter: {parameterName} ({itemKind})");
+            Debug.LogWarning($"Possibly not found parameter: {parameterName}");
             return null;
+        }
+
+        public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
+        {
+            var item = ResolveParameter(parameterName);
+            if (item == null) return null;
+
+            var resolvedValueKind = item.ValueKind;
+            switch (resolvedValueKind)
+            {
+                case ParameterValueKind.Bool:
+                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Bool) return resolvedValueKind;
+                    break;
+                case ParameterValueKind.Int:
+                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Int) return resolvedValueKind;
+                    break;
+                case ParameterValueKind.Float:
+                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return resolvedValueKind;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            Debug.LogWarning($"Possibly parameter type mismatch: {parameterName}, expected {itemKind}, was {resolvedValueKind}");
+            return resolvedValueKind;
         }
 
         public VRCExpressionParameters.Parameter[] ToParameters()

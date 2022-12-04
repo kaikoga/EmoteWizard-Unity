@@ -12,6 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public bool Saved = true;
         public float DefaultValue;
         public List<ParameterWriteUsage> WriteUsages;
+        public List<ParameterReadUsage> ReadUsages;
 
         public ParameterValueKind ValueKind
         {

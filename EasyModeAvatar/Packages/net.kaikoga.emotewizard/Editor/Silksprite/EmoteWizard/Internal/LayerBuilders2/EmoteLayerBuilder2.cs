@@ -13,19 +13,28 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 {
     public class EmoteLayerBuilder2 : LayerBuilderBase2
     {
-        readonly IEnumerable<EmoteItem> _emoteItems;
+        readonly IEnumerable<IGrouping<int, EmoteItem>> _emoteItems;
 
         public EmoteLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, IEnumerable<EmoteItem> emoteItems) : base(builder, layer)
         {
-            _emoteItems = emoteItems.OrderBy(item => item.trigger.priority).ToList();
+            _emoteItems = emoteItems.OrderBy(item => item.trigger.priority).GroupBy(item => item.trigger.priority);
         }
 
         protected override void Process()
         {
-            var currentTrackingTargets = _emoteItems.SelectMany(emoteItem => emoteItem.sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
-            foreach (var emoteItem in _emoteItems)
+            var currentTrackingTargets = _emoteItems.SelectMany(priority => priority).SelectMany(emoteItem => emoteItem.sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
+            var currentForcedConditions = new List<List<EmoteCondition>>();
+            foreach (var priority in _emoteItems)
             {
-                PopulateSequence(emoteItem, currentTrackingTargets);
+                foreach (var emoteItem in priority)
+                {
+                    PopulateSequence(emoteItem, currentTrackingTargets, currentForcedConditions);
+                }
+
+                foreach (var emoteItem in priority)
+                {
+                    currentForcedConditions = MergeForcedConditions(currentForcedConditions, emoteItem.trigger.conditions);
+                }
             }
             PopulateDefaultSequence();
         }
@@ -42,7 +51,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             exitDefaultTransition.duration = 0f;
         }
 
-        void PopulateSequence(EmoteItem emoteItem, TrackingTarget[] currentTrackingTargets)
+        void PopulateSequence(EmoteItem emoteItem, TrackingTarget[] currentTrackingTargets, List<List<EmoteCondition>> currentForcedConditions)
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
@@ -160,17 +169,26 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             }
             else
             {
+                var forcedConditions = currentForcedConditions.Select(forcedCondition =>
+                {
+                    var condition = new ConditionBuilder(); 
+                    ApplyEmoteConditions(condition, forcedCondition);
+                    return condition;
+                });
                 if (exitState)
                 {
                     AddTransitions(mainState, exitState, conditions.Inverse());
+                    AddTransitions(mainState, exitState, forcedConditions);
                 }
                 else if (releaseState)
                 {
                     AddTransitions(mainState, releaseState, conditions.Inverse());
+                    AddTransitions(mainState, releaseState, forcedConditions);
                 }
                 else
                 {
                     AddExitTransitions(mainState, conditions.Inverse());
+                    AddExitTransitions(mainState, forcedConditions);
                 }
             }
 
@@ -190,6 +208,41 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
                 postReleaseTransition.exitTime = 0f;
                 postReleaseTransition.duration = 0f;
             }
+        }
+        
+        List<List<EmoteCondition>> MergeForcedConditions(List<List<EmoteCondition>> currentForcedConditions, List<EmoteCondition> conditions)
+        {
+            currentForcedConditions.Add(conditions);
+
+            // quick and dirty optimization starts here
+            // TODO: how about optimizing multiple conditions
+            if (conditions.Count == 1 && conditions[0].kind == ParameterItemKind.Int || conditions[0].kind == ParameterItemKind.Auto)
+            {
+                var parameterName = conditions[0].parameter;
+                var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
+                    .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
+                var readUsages = Builder.ParametersSnapshot.ResolveParameter(parameterName).ReadUsages;
+                var values = equalConditions.Select(cond => cond[0].threshold);
+                var elseValues = readUsages.Select(usage => usage.Value).Where(value => !values.Contains(value)).ToArray();
+                if (elseValues.Length == 1)
+                {
+                    currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();
+                    currentForcedConditions.Add(new List<EmoteCondition>
+                    {
+                        new EmoteCondition
+                        {
+                            kind = conditions[0].kind,
+                            parameter = conditions[0].parameter,
+                            mode = EmoteConditionMode.NotEqual,
+                            threshold = elseValues[0]
+                        }
+                    });
+                }
+            }
+
+            // quick and dirty optimization ends here
+
+            return currentForcedConditions;
         }
     }
 }

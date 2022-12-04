@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             return new ParametersSnapshot
             {
-                ParameterItems = _parameterItems.Select(item => item.ToInstance()).ToList()
+                ParameterItems = _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList()
             };
         }
     }
