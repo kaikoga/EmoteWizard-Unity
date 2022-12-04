@@ -108,7 +108,7 @@ namespace Silksprite.EmoteWizard.Internal
             foreach (var kv in overriders)
             {
                 var trackingTarget = kv.Key;
-                var trackingControlLayer = PopulateLayer($"TrackingControl {trackingTarget}");
+                var trackingControlLayer = PopulateLayer($"TrackingControl ({trackingTarget})");
                 new TrackingControlLayerBuilder2(this, trackingControlLayer, trackingTarget, kv.Value).Build();
             }
         }
