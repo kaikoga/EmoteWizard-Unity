@@ -79,19 +79,19 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
         {
-            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupInstanceName))
+            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupInstance))
             {
-                var groupName = emoteItemGroup.Key;
+                var groupInstance = emoteItemGroup.Key;
                 AvatarMask avatarMask = null;
                 if (Wizard.LayerKind == LayerKind.Gesture)
                 {
-                    switch (emoteItemGroup.First().hand) // XXX: 
+                    switch (groupInstance.Hand)
                     {
                         case EmoteHand.Left: avatarMask = VrcSdkAssetLocator.HandLeft(); break;
                         case EmoteHand.Right: avatarMask = VrcSdkAssetLocator.HandRight(); break;
                     }
                 }
-                var layer = PopulateLayer(groupName, avatarMask);
+                var layer = PopulateLayer(groupInstance.Name, avatarMask);
                 new EmoteLayerBuilder2(this, layer, emoteItemGroup).Build();
             }
         }
@@ -108,7 +108,7 @@ namespace Silksprite.EmoteWizard.Internal
             foreach (var kv in overriders)
             {
                 var trackingTarget = kv.Key;
-                var trackingControlLayer = PopulateLayer($"TrackingControl {trackingTarget}");
+                var trackingControlLayer = PopulateLayer($"TrackingControl ({trackingTarget})");
                 new TrackingControlLayerBuilder2(this, trackingControlLayer, trackingTarget, kv.Value).Build();
             }
         }

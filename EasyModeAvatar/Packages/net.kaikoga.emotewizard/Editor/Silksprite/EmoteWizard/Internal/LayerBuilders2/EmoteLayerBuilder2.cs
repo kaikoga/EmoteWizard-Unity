@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
@@ -6,6 +7,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
 using UnityEditor.Animations;
+using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
@@ -216,27 +218,77 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 
             // quick and dirty optimization starts here
             // TODO: how about optimizing multiple conditions
-            if (conditions.Count == 1 && conditions[0].kind == ParameterItemKind.Int || conditions[0].kind == ParameterItemKind.Auto)
+            if (conditions.Count == 1 && conditions[0].kind != ParameterItemKind.Float)
             {
                 var parameterName = conditions[0].parameter;
-                var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
-                    .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
-                var readUsages = Builder.ParametersSnapshot.ResolveParameter(parameterName).ReadUsages;
-                var values = equalConditions.Select(cond => cond[0].threshold);
-                var elseValues = readUsages.Select(usage => usage.Value).Where(value => !values.Contains(value)).ToArray();
-                if (elseValues.Length == 1)
+                var parameter = Builder.ParametersSnapshot.ResolveParameter(parameterName);
+                switch (parameter.ValueKind)
                 {
-                    currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();
-                    currentForcedConditions.Add(new List<EmoteCondition>
+                    case ParameterValueKind.Int:
                     {
-                        new EmoteCondition
+                        var readUsages = parameter.ReadUsages;
+                        var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
+                            .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
+                        var values = equalConditions.Select(cond => cond[0].threshold);
+                        var elseValues = readUsages.Select(usage => usage.Value).Where(value => !values.Contains(value)).ToArray();
+                        if (elseValues.Length == 1)
                         {
-                            kind = conditions[0].kind,
-                            parameter = conditions[0].parameter,
-                            mode = EmoteConditionMode.NotEqual,
-                            threshold = elseValues[0]
+                            currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();
+                            currentForcedConditions.Add(new List<EmoteCondition>
+                            {
+                                new EmoteCondition
+                                {
+                                    kind = conditions[0].kind,
+                                    parameter = conditions[0].parameter,
+                                    mode = EmoteConditionMode.NotEqual,
+                                    threshold = elseValues[0]
+                                }
+                            });
                         }
-                    });
+                        break;
+                    }
+                    case ParameterValueKind.Bool:
+                    {
+                        var boolConditions = currentForcedConditions.Where(cond => cond.Count == 1)
+                            .Where(cond => cond[0].parameter == parameterName).ToArray();
+                        var values = boolConditions.Select(cond =>
+                        {
+                            switch (cond[0].mode)
+                            {
+                                case EmoteConditionMode.If:
+                                    return EmoteConditionMode.If;
+                                case EmoteConditionMode.IfNot:
+                                    return EmoteConditionMode.IfNot;
+                                case EmoteConditionMode.Greater:
+                                    return EmoteConditionMode.IfNot;
+                                case EmoteConditionMode.Less:
+                                    return EmoteConditionMode.IfNot;
+                                case EmoteConditionMode.Equals:
+                                    return cond[0].threshold != 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
+                                case EmoteConditionMode.NotEqual:
+                                    return cond[0].threshold == 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
+                                default:
+                                    throw new ArgumentOutOfRangeException();
+                            }
+                        }).Distinct().ToArray();
+                        if (values.Length == 1)
+                        {
+                            var combinedMode = values[0];
+                            currentForcedConditions = currentForcedConditions.Where(cond => !boolConditions.Contains(cond)).ToList();
+                            currentForcedConditions.Add(new List<EmoteCondition>
+                            {
+                                new EmoteCondition
+                                {
+                                    kind = ParameterItemKind.Bool,
+                                    parameter = conditions[0].parameter,
+                                    mode = combinedMode,
+                                    threshold = 0
+                                }
+                            });
+                        }
+
+                        break;
+                    }
                 }
             }
 
