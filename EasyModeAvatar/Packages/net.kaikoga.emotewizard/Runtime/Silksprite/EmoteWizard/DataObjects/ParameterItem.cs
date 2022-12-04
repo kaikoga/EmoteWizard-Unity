@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class ParameterItem
     {
-        public bool enabled;
+        public bool enabled = true;
         public string name;
         public ParameterItemKind itemKind;
         public bool saved = true;

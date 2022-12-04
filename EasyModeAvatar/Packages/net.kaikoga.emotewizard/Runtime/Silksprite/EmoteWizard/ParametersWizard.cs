@@ -28,8 +28,7 @@ namespace Silksprite.EmoteWizard
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
             return EmoteWizardRoot.GetComponentsInChildren<IParameterSource>()
-                .SelectMany(source => source.ParameterItems)
-                .Where(item => item.enabled);
+                .SelectMany(source => source.ParameterItems);
         }
 
         public ParametersSnapshot Snapshot()
