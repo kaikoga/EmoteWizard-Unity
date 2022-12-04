@@ -219,24 +219,28 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             if (conditions.Count == 1 && conditions[0].kind == ParameterItemKind.Int || conditions[0].kind == ParameterItemKind.Auto)
             {
                 var parameterName = conditions[0].parameter;
-                var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
-                    .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
-                var readUsages = Builder.ParametersSnapshot.ResolveParameter(parameterName).ReadUsages;
-                var values = equalConditions.Select(cond => cond[0].threshold);
-                var elseValues = readUsages.Select(usage => usage.Value).Where(value => !values.Contains(value)).ToArray();
-                if (elseValues.Length == 1)
+                var parameter = Builder.ParametersSnapshot.ResolveParameter(parameterName);
+                if (parameter.ValueKind == ParameterValueKind.Int)
                 {
-                    currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();
-                    currentForcedConditions.Add(new List<EmoteCondition>
+                    var readUsages = parameter.ReadUsages;
+                    var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
+                        .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
+                    var values = equalConditions.Select(cond => cond[0].threshold);
+                    var elseValues = readUsages.Select(usage => usage.Value).Where(value => !values.Contains(value)).ToArray();
+                    if (elseValues.Length == 1)
                     {
-                        new EmoteCondition
+                        currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();
+                        currentForcedConditions.Add(new List<EmoteCondition>
                         {
-                            kind = conditions[0].kind,
-                            parameter = conditions[0].parameter,
-                            mode = EmoteConditionMode.NotEqual,
-                            threshold = elseValues[0]
-                        }
-                    });
+                            new EmoteCondition
+                            {
+                                kind = conditions[0].kind,
+                                parameter = conditions[0].parameter,
+                                mode = EmoteConditionMode.NotEqual,
+                                threshold = elseValues[0]
+                            }
+                        });
+                    }
                 }
             }
 
