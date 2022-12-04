@@ -31,10 +31,10 @@ namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
                             mode = AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.Equals:
-                            mode = AnimatorConditionMode.If;
+                            mode = emoteCondition.threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.NotEqual:
-                            mode = AnimatorConditionMode.IfNot;
+                            mode = emoteCondition.threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
