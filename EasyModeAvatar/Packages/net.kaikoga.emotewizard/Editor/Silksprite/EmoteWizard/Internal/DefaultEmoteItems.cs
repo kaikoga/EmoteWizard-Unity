@@ -13,6 +13,8 @@ namespace Silksprite.EmoteWizard.Internal
             return Emote.HandSigns.Select(handSign => EmoteItemTemplate.Builder(layerKind, $"{handSign}", EmoteWizardConstants.Defaults.Groups.HandSign)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)handSign })
                 .AddTimeParameter(handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
+                .AddFixedDuration(true)
+                .AddClip(null, 0f, 0.1f)
                 .ToEmoteItemTemplate());
         }
 

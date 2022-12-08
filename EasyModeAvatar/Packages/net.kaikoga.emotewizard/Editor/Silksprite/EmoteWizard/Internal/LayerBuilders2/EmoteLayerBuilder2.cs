@@ -7,7 +7,6 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
 using UnityEditor.Animations;
-using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
@@ -15,22 +14,27 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 {
     public class EmoteLayerBuilder2 : LayerBuilderBase2
     {
-        readonly IEnumerable<IGrouping<int, EmoteItem>> _emoteItems;
+        readonly IEnumerable<EmoteItem> _emoteItems;
 
         public EmoteLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, IEnumerable<EmoteItem> emoteItems) : base(builder, layer)
         {
-            _emoteItems = emoteItems.OrderBy(item => item.trigger.priority).GroupBy(item => item.trigger.priority);
+            _emoteItems = emoteItems.ToArray();
         }
 
         protected override void Process()
         {
-            var currentTrackingTargets = _emoteItems.SelectMany(priority => priority).SelectMany(emoteItem => emoteItem.sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
+            AnimatorState defaultState = null;
+            if (_emoteItems.Any(item => item.sequence.entryTransitionDuration != 0f))
+            {
+                defaultState = PopulateDefaultState();
+            }
+            var currentTrackingTargets = _emoteItems.SelectMany(item => item.sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
             var currentForcedConditions = new List<List<EmoteCondition>>();
-            foreach (var priority in _emoteItems)
+            foreach (var priority in _emoteItems.OrderBy(item => item.trigger.priority).GroupBy(item => item.trigger.priority))
             {
                 foreach (var emoteItem in priority)
                 {
-                    PopulateSequence(emoteItem, currentTrackingTargets, currentForcedConditions);
+                    PopulateSequence(emoteItem, defaultState, currentTrackingTargets, currentForcedConditions);
                 }
 
                 foreach (var emoteItem in priority)
@@ -38,12 +42,14 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
                     currentForcedConditions = MergeForcedConditions(currentForcedConditions, emoteItem.trigger.conditions);
                 }
             }
-            PopulateDefaultSequence();
+
+            if (defaultState == null) PopulateDefaultSequence();
         }
 
         void PopulateDefaultSequence()
         {
             NextStateRow();
+            NextStatePosition();
             NextStatePosition();
 
             var defaultState = PopulateDefaultState();
@@ -53,7 +59,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             exitDefaultTransition.duration = 0f;
         }
 
-        void PopulateSequence(EmoteItem emoteItem, TrackingTarget[] currentTrackingTargets, List<List<EmoteCondition>> currentForcedConditions)
+        void PopulateSequence(EmoteItem emoteItem, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteCondition>> currentForcedConditions)
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
@@ -72,8 +78,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
                     type = VRC_AvatarParameterDriver.ChangeType.Set
                 }).ToList();
             }
-            
+
             NextStateRow();
+            NextStatePosition();
 
             var sequence = emoteItem.sequence;
             // emoteItem.sequence.clip.SetLoopTimeRec(!emoteItem.sequence.hasExitTime);
@@ -137,7 +144,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 
             if (entryState)
             {
-                AddEntryTransition(entryState, conditions);
+                if (defaultState == null)
+                {
+                    AddEntryTransition(entryState, conditions);
+                }
+                else
+                {
+                    var entryTransition = AddTransition(defaultState, entryState, conditions);
+                    entryTransition.hasExitTime = false;
+                    entryTransition.exitTime = 0f;
+                    entryTransition.duration = sequence.entryTransitionDuration;
+                    entryTransition.hasFixedDuration = sequence.isFixedDuration;
+                }
                 var postEntryTransition = AddTransition(entryState, mainState);
                 postEntryTransition.hasExitTime = true;
                 postEntryTransition.exitTime = sequence.entryClipExitTime;
@@ -146,7 +164,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             }
             else
             {
-                AddEntryTransition(mainState, conditions);
+                if (defaultState == null)
+                {
+                    AddEntryTransition(mainState, conditions);
+                }
+                else
+                {
+                    var entryTransition = AddTransition(defaultState, mainState, conditions);
+                    entryTransition.hasExitTime = false;
+                    entryTransition.exitTime = 0f;
+                    entryTransition.duration = sequence.entryTransitionDuration;
+                    entryTransition.hasFixedDuration = sequence.isFixedDuration;
+                }
             }
 
             if (sequence.hasExitTime)
@@ -177,20 +206,27 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
                     ApplyEmoteConditions(condition, forcedCondition);
                     return condition;
                 });
+
+                IEnumerable<AnimatorStateTransition> exitTransitions;
                 if (exitState)
                 {
-                    AddTransitions(mainState, exitState, conditions.Inverse());
-                    AddTransitions(mainState, exitState, forcedConditions);
+                    exitTransitions = AddTransitions(mainState, exitState, conditions.Inverse().Concat(forcedConditions));
                 }
                 else if (releaseState)
                 {
-                    AddTransitions(mainState, releaseState, conditions.Inverse());
-                    AddTransitions(mainState, releaseState, forcedConditions);
+                    exitTransitions = AddTransitions(mainState, releaseState, conditions.Inverse().Concat(forcedConditions));
                 }
                 else
                 {
-                    AddExitTransitions(mainState, conditions.Inverse());
-                    AddExitTransitions(mainState, forcedConditions);
+                    exitTransitions = AddExitTransitions(mainState, conditions.Inverse().Concat(forcedConditions));
+                }
+
+                foreach (var exitTransition in exitTransitions)
+                {
+                    exitTransition.hasExitTime = false;
+                    exitTransition.exitTime = sequence.clipExitTime;
+                    exitTransition.duration = sequence.exitTransitionDuration;
+                    exitTransition.hasFixedDuration = sequence.isFixedDuration;
                 }
             }
 

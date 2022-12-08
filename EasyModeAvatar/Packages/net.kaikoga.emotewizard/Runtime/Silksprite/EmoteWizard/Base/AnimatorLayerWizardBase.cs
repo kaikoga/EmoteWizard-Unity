@@ -11,8 +11,10 @@ namespace Silksprite.EmoteWizard.Base
         [SerializeField] public AvatarMask defaultAvatarMask;
 
         [SerializeField] public AnimationClip resetClip;
+
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
+        public abstract bool HasResetClip { get; }
         public abstract LayerKind LayerKind { get; }
 
         public override void DisconnectOutputAssets()

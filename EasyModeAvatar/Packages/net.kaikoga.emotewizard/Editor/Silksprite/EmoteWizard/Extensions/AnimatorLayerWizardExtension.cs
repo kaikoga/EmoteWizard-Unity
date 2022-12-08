@@ -20,16 +20,22 @@ namespace Silksprite.EmoteWizard.Extensions
                 DefaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller"
             };
 
-            var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
-            wizard.BuildResetClip(resetClip);
-
             if (wizard.defaultAvatarMask)
             {
                 builder.BuildStaticLayer("Default Avatar Mask", null, wizard.defaultAvatarMask);
             }
-            builder.BuildStaticLayer("Reset", resetClip, null);
+            if (wizard.HasResetClip)
+            {
+                var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
+                wizard.BuildResetClip(resetClip);
+                builder.BuildStaticLayer("Reset", resetClip, null);
+            }
+            else
+            {
+                wizard.resetClip = null;
+            }
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
-            if (layerKind == LayerKind.FX) // FIXME: configurable?
+            if (layerKind == wizard.EmoteWizardRoot.generateTrackingControlLayer)
             {
                 builder.BuildTrackingControlLayers(wizard.EmoteWizardRoot.CollectAllEmoteItems());
             }

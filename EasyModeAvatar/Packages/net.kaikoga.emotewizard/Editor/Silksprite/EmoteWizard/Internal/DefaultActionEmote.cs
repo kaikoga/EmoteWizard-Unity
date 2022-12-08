@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.DataObjects.Legacy;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
@@ -102,7 +101,7 @@ namespace Silksprite.EmoteWizard.Internal
             };
         }
 
-        public static List<ExpressionItem> PopulateDefaultExpressionItems(string defaultPrefix, IEnumerable<ExpressionItem> oldItems)
+        public static List<ExpressionItem> PopulateDefaultExpressionItems(string defaultPrefix)
         {
             var icon = VrcSdkAssetLocator.PersonDance();
             var expressionItems = Defaults
@@ -114,44 +113,9 @@ namespace Silksprite.EmoteWizard.Internal
                     value = def._index,
                     itemKind = def._hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle,
                 });
-            return oldItems.Concat(expressionItems)
+            return expressionItems
                 .DistinctBy(item => item.path)
                 .ToList();
-        }
-
-        public static List<ActionEmote> PopulateDefaultActionEmotes(IEnumerable<ActionEmote> oldItems = null)
-        {
-            return Defaults
-                .Select(def => new ActionEmote
-                {
-                    name = def._name,
-                    emoteIndex = def._index,
-                    hasExitTime = def._hasExitTime,
-                    clipExitTime = def._exitTime,
-                    clip = def._clip,
-                    exitClip = def._exitClip,
-                    exitTransitionDuration = 0.25f,
-                    postExitTransitionDuration = def._exitClip ? 0.4f : 0.25f,
-                    blendIn = 0.5f
-                }).Concat(oldItems ?? Enumerable.Empty<ActionEmote>())
-                .DistinctBy(actionEmote => actionEmote.emoteIndex)
-                .OrderBy(actionEmote => actionEmote.emoteIndex)
-                .ToList();
-        }
-        
-        public static ActionEmote PopulateDefaultAfkEmote()
-        {
-            return new ActionEmote
-            {
-                name = "AFK",
-                emoteIndex = 0,
-                hasExitTime = false,
-                clip = VrcSdkAssetLocator.ProxyAfk(),
-                entryTransitionDuration = 1f,
-                exitTransitionDuration = 0.2f,
-                blendIn = 1f,
-                blendOut = 0.5f
-            };
         }
 
         public static IEnumerable<EmoteItemTemplate> EnumerateDefaultActionEmoteItems()
@@ -172,9 +136,10 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 yield return EmoteItemTemplate.Builder(LayerKind.Action, def._name, EmoteWizardConstants.Defaults.Groups.Action)
                     .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Defaults.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = def._index })
+                    .AddFixedDuration(true)
                     .AddClip(def._clip)
                     .AddClipExitTime(def._hasExitTime, def._exitTime)
-                    .AddExitClip(def._exitClip != null, def._exitClip, 0.25f, def._exitClip ? 0.4f : 0.25f)
+                    .AddExitClip(def._exitClip != null, def._exitClip, 0.75f, def._exitClip ? 0.4f : 0.25f)
                     .AddLayerBlend(true, 0.5f, 0.25f)
                     .AddTrackingOverrides(true, actionTrackingOverrides)
                     .ToEmoteItemTemplate();
@@ -182,6 +147,7 @@ namespace Silksprite.EmoteWizard.Internal
             yield return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action)
                 .AddPriority(100)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.AFK, mode = EmoteConditionMode.If, threshold = 0 })
+                .AddFixedDuration(true)
                 .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
                 .AddLayerBlend(true, 1f, 0.5f)
                 .AddTrackingOverrides(true, actionTrackingOverrides)
