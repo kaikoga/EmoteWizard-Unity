@@ -1,6 +1,8 @@
+using System;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.Extensions
 {
@@ -11,7 +13,18 @@ namespace Silksprite.EmoteWizardSupport.Extensions
             return !string.IsNullOrEmpty(AssetDatabase.GetAssetPath(unityObject));
         }
 
-        public static T AddChildComponent<T>(this Component component, string path = null)
+        public static T EnsureComponent<T>(this Component component, Action<T> initializer = null)
+            where T : Component
+        {
+            var result = component.GetComponent<T>();
+            if (result != null) return result;
+
+            result = component.gameObject.AddComponent<T>();
+            initializer?.Invoke(result);
+            return result;
+        }
+
+        public static T AddChildComponent<T>(this Component component, string path = null, Action<T> initializer = null)
             where T : Component
         {
             var paths = string.IsNullOrEmpty(path) ? new[] { typeof(T).Name } : path.Split('/').ToArray();
@@ -30,14 +43,16 @@ namespace Silksprite.EmoteWizardSupport.Extensions
                     gameObject = newChildObject;
                 }
             }
-            return gameObject.AddComponent<T>();
+            var t =  gameObject.AddComponent<T>();
+            initializer?.Invoke(t);
+            return t;
         }
 
-        public static T FindOrCreateChildComponent<T>(this Component component, string path = null)
+        public static T FindOrCreateChildComponent<T>(this Component component, string path = null, Action<T> initializer = null)
             where T : Component
         {
             var child = component.transform.Find(path);
-            return child ? child.EnsureComponent<T>() : component.AddChildComponent<T>(path);
+            return child ? child.EnsureComponent<T>() : component.AddChildComponent(path, initializer);
         }
 
         public static T AddChildComponentAndSelect<T>(this Component component, string path = null)
