@@ -108,6 +108,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 return this;
             }
 
+            public EmoteItemTemplateBuilder AddFixedDuration(bool isFixedDuration)
+            {
+                _emoteItemTemplate.Sequence.isFixedDuration = isFixedDuration;
+                return this;
+            }
+
             public EmoteItemTemplateBuilder AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
             {
                 _emoteItemTemplate.Sequence.clip = clip;

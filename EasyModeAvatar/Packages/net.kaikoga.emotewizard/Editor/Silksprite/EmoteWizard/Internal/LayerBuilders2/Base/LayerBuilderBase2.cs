@@ -82,9 +82,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             return transition;
         }
 
-        protected void AddTransitions(AnimatorState fromState, AnimatorState toState, IEnumerable<ConditionBuilder> conditions)
+        protected IEnumerable<AnimatorStateTransition> AddTransitions(AnimatorState fromState, AnimatorState toState, IEnumerable<ConditionBuilder> conditions)
         {
-            foreach (var cond in conditions) AddTransition(fromState, toState, cond);
+            return conditions.Select(cond => AddTransition(fromState, toState, cond)).ToArray();
         }
 
         protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
@@ -94,9 +94,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             return transition;
         }
 
-        protected void AddExitTransitions(AnimatorState fromState, IEnumerable<ConditionBuilder> conditions)
+        protected IEnumerable<AnimatorStateTransition> AddExitTransitions(AnimatorState fromState, IEnumerable<ConditionBuilder> conditions)
         {
-            foreach (var cond in conditions) AddExitTransition(fromState, cond);
+            return conditions.Select(cond => AddExitTransition(fromState, cond)).ToArray();
         }
 
         protected AnimatorState PopulateDefaultState(string stateName = "Default", Motion clip = null)

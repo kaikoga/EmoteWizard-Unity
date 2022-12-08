@@ -7,7 +7,6 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
 using UnityEditor.Animations;
-using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
@@ -137,6 +136,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
 
             if (entryState)
             {
+                // FIXME: some way to emulate default state of Action layer  
                 AddEntryTransition(entryState, conditions);
                 var postEntryTransition = AddTransition(entryState, mainState);
                 postEntryTransition.hasExitTime = true;
@@ -146,6 +146,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             }
             else
             {
+                // FIXME: also here 
                 AddEntryTransition(mainState, conditions);
             }
 
@@ -177,20 +178,27 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
                     ApplyEmoteConditions(condition, forcedCondition);
                     return condition;
                 });
+
+                IEnumerable<AnimatorStateTransition> exitTransitions;
                 if (exitState)
                 {
-                    AddTransitions(mainState, exitState, conditions.Inverse());
-                    AddTransitions(mainState, exitState, forcedConditions);
+                    exitTransitions = AddTransitions(mainState, exitState, conditions.Inverse().Concat(forcedConditions));
                 }
                 else if (releaseState)
                 {
-                    AddTransitions(mainState, releaseState, conditions.Inverse());
-                    AddTransitions(mainState, releaseState, forcedConditions);
+                    exitTransitions = AddTransitions(mainState, releaseState, conditions.Inverse().Concat(forcedConditions));
                 }
                 else
                 {
-                    AddExitTransitions(mainState, conditions.Inverse());
-                    AddExitTransitions(mainState, forcedConditions);
+                    exitTransitions = AddExitTransitions(mainState, conditions.Inverse().Concat(forcedConditions));
+                }
+
+                foreach (var exitTransition in exitTransitions)
+                {
+                    exitTransition.hasExitTime = false;
+                    exitTransition.exitTime = sequence.clipExitTime;
+                    exitTransition.duration = sequence.exitTransitionDuration;
+                    exitTransition.hasFixedDuration = sequence.isFixedDuration;
                 }
             }
 
