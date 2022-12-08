@@ -62,7 +62,7 @@ namespace Silksprite.EmoteWizard.Internal
                     hideFlags = HideFlags.HideInHierarchy,
                     anyStatePosition = new Vector3(-300f, 100f, 0f),
                     entryPosition = new Vector3(-300f, 0f, 0f),
-                    exitPosition = new Vector3(1200f, 0f, 0f)
+                    exitPosition = new Vector3(1500f, 0f, 0f)
                 }
             };
 
