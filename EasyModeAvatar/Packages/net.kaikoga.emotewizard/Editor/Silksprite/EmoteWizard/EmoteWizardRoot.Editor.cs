@@ -16,6 +16,7 @@ namespace Silksprite.EmoteWizard
         SerializedProperty _serializedGeneratedAssetRoot;
         SerializedProperty _serializedGeneratedAssetPrefix;
         SerializedProperty _serializedEmptyClip;
+        SerializedProperty _serializedGenerateTrackingControlLayer;
         SerializedProperty _serializedShowTutorial;
 
         void OnEnable()
@@ -25,6 +26,7 @@ namespace Silksprite.EmoteWizard
             _serializedGeneratedAssetRoot = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetRoot));
             _serializedGeneratedAssetPrefix = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetPrefix));
             _serializedEmptyClip = serializedObject.FindProperty(nameof(EmoteWizardRoot.emptyClip));
+            _serializedGenerateTrackingControlLayer = serializedObject.FindProperty(nameof(EmoteWizardRoot.generateTrackingControlLayer));
             _serializedShowTutorial = serializedObject.FindProperty(nameof(EmoteWizardRoot.showTutorial));
         }
 
@@ -41,6 +43,7 @@ namespace Silksprite.EmoteWizard
 
             EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
             CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ProvideEmptyClip());
+            EditorGUILayout.PropertyField(_serializedGenerateTrackingControlLayer);
 
             EmoteWizardGUILayout.ConfigUIArea(() =>
             {

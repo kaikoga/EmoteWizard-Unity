@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             builder.BuildStaticLayer("Reset", resetClip, null);
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
-            if (layerKind == LayerKind.FX) // FIXME: configurable?
+            if (layerKind == wizard.EmoteWizardRoot.generateTrackingControlLayer)
             {
                 builder.BuildTrackingControlLayers(wizard.EmoteWizardRoot.CollectAllEmoteItems());
             }

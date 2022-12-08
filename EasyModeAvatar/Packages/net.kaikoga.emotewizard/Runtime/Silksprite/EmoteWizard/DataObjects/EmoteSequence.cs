@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class EmoteSequence
     {
-        [SerializeField] public LayerKind layerKind;
+        [SerializeField] public LayerKind layerKind = LayerKind.FX;
         [SerializeField] public string groupName;
 
         [Header("Common Settings")]

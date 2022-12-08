@@ -15,6 +15,8 @@ namespace Silksprite.EmoteWizard
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
         
         [SerializeField] public AnimationClip emptyClip;
+        [SerializeField] public LayerKind generateTrackingControlLayer = LayerKind.FX;
+
         [SerializeField] public bool showTutorial;
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
