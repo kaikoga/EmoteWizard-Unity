@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard
 
         SerializedProperty _serializedDefaultAvatarMask;
         SerializedProperty _serializedOutputAsset;
+        SerializedProperty _serializedHasResetClip;
         SerializedProperty _serializedResetClip;
 
         void OnEnable()
@@ -25,6 +26,7 @@ namespace Silksprite.EmoteWizard
 
             _serializedDefaultAvatarMask = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.defaultAvatarMask));
             _serializedOutputAsset = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.outputAsset));
+            _serializedHasResetClip = serializedObject.FindProperty("hasResetClip");
             _serializedResetClip = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.resetClip));
         }
 
@@ -47,6 +49,8 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.PropertyField(_serializedDefaultAvatarMask);
                 }
 
+                EditorGUILayout.PropertyField(_serializedHasResetClip);
+
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
                     EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(_wizard, () =>
@@ -58,7 +62,10 @@ namespace Silksprite.EmoteWizard
                     });
 
                     EditorGUILayout.PropertyField(_serializedOutputAsset);
-                    EditorGUILayout.PropertyField(_serializedResetClip);
+                    using (new EditorGUI.DisabledScope(!_wizard.HasResetClip))
+                    {
+                        EditorGUILayout.PropertyField(_serializedResetClip);
+                    }
                 });
             }
             serializedObject.ApplyModifiedProperties();

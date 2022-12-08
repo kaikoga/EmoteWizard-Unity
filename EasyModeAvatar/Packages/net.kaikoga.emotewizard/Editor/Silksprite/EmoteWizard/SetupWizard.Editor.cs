@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -99,7 +100,10 @@ namespace Silksprite.EmoteWizard
             emoteWizardRoot.EnsureWizard<ExpressionWizard>();
             emoteWizardRoot.EnsureWizard<ParametersWizard>();
             emoteWizardRoot.EnsureWizard<FxLayerWizard>();
-            emoteWizardRoot.EnsureWizard<GestureLayerWizard>();
+            emoteWizardRoot.EnsureWizard<GestureLayerWizard>(gestureWizard =>
+            {
+                gestureWizard.defaultAvatarMask = VrcSdkAssetLocator.HandsOnly();
+            });
             emoteWizardRoot.EnsureWizard<ActionLayerWizard>();
         }
 
