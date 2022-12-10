@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
 
@@ -8,6 +7,8 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         public readonly EmoteTrigger Trigger;
         public readonly EmoteSequence Sequence;
+
+        public string Group => Sequence.groupName;
 
         public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence)
         {
@@ -42,7 +43,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        EmoteInstance Mirror(EmoteHand handValue)
+        public EmoteInstance Mirror(EmoteHand handValue)
         {
             string ResolveMirrorParameter(string parameter)
             {
@@ -62,8 +63,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
 
             var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
-                SerializableUtils.Clone(Sequence),
-                handValue);
+                SerializableUtils.Clone(Sequence));
 
             foreach (var condition in item.Trigger.conditions)
             {
@@ -74,23 +74,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             return item;
         }
 
-        EmoteInstance ToEmoteInstance()
+        public EmoteInstance ToEmoteInstance()
         {
-            return new EmoteInstance(Trigger, Sequence, EmoteHand.Neither);
-        }
-
-        public IEnumerable<EmoteInstance> Materialize()
-        {
-            if (IsMirrorItem)
-            {
-                yield return Mirror(EmoteHand.Left);
-                yield return Mirror(EmoteHand.Right);
-            }
-            else
-            {
-                yield return ToEmoteInstance();
-            }
-
+            return new EmoteInstance(Trigger, Sequence);
         }
     }
 }
