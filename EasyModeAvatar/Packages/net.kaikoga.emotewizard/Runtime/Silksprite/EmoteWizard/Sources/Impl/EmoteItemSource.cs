@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
@@ -52,7 +51,16 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 if (trigger.conditions.Count != 1) return false;
 
                 var soleCondition = trigger.conditions[0];
-                if (soleCondition.kind != ParameterItemKind.Int) return false;
+                switch (soleCondition.kind)
+                {
+                    case ParameterItemKind.Auto:
+                    case ParameterItemKind.Int:
+                        break;
+                    case ParameterItemKind.Bool:
+                    case ParameterItemKind.Float:
+                    default:
+                        return false;
+                }
                 if (soleCondition.mode != EmoteConditionMode.Equals) return false;
 
                 return true;
