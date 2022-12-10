@@ -24,10 +24,9 @@ namespace Silksprite.EmoteWizardSupport.Extensions
             return result;
         }
 
-        public static T AddChildComponent<T>(this Component component, string path = null, Action<T> initializer = null)
-            where T : Component
+        public static GameObject AddChildGameObject(this Component component, string path)
         {
-            var paths = string.IsNullOrEmpty(path) ? new[] { typeof(T).Name } : path.Split('/').ToArray();
+            var paths = path.Split('/').ToArray();
             var gameObject = component.gameObject;
             foreach (var name in paths)
             {
@@ -43,7 +42,13 @@ namespace Silksprite.EmoteWizardSupport.Extensions
                     gameObject = newChildObject;
                 }
             }
-            var t =  gameObject.AddComponent<T>();
+            return gameObject;
+        }
+
+        public static T AddChildComponent<T>(this Component component, string path = null, Action<T> initializer = null)
+            where T : Component
+        {
+            var t = AddChildGameObject(component, string.IsNullOrEmpty(path) ? typeof(T).Name : path).AddComponent<T>();
             initializer?.Invoke(t);
             return t;
         }
