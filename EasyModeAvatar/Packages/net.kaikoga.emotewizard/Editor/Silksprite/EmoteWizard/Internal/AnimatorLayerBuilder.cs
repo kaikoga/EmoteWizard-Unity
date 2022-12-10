@@ -79,7 +79,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
         {
-            foreach (var emoteItemGroup in emoteItems.Select(item => item.ToInstance()).GroupBy(item => item.GroupInstance))
+            foreach (var emoteItemGroup in emoteItems.SelectMany(item => item.Materialize()).GroupBy(item => item.GroupInstance))
             {
                 var groupInstance = emoteItemGroup.Key;
                 AvatarMask avatarMask = null;
@@ -99,9 +99,9 @@ namespace Silksprite.EmoteWizard.Internal
         public void BuildTrackingControlLayers(IEnumerable<EmoteItem> allEmoteItems)
         {
             var overriders = allEmoteItems
-                .OrderBy(item => item.trigger.priority)
-                .Where(item => item.sequence.hasTrackingOverrides)
-                .SelectMany(item => item.sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
+                .OrderBy(item => item.Trigger.priority)
+                .Where(item => item.Sequence.hasTrackingOverrides)
+                .SelectMany(item => item.Sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
                 .GroupBy(pair => pair.target)
                 .ToDictionary(group => group.Key, group => group.Select(pair => pair.item).ToList());
 

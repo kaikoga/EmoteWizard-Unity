@@ -14,22 +14,22 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         EmoteSequence FindEmoteSequence() => GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
 
-        EmoteItemTemplate ToEmoteItemTemplate()
+        EmoteItem ToEmoteItem()
         {
             var sequence = FindEmoteSequence();
             if (sequence == null) return null;
 
-            return new EmoteItemTemplate(trigger, sequence);
+            return new EmoteItem(trigger, sequence);
         }
 
         public bool IsMirrorItem
         {
             get
             {
-                var template = ToEmoteItemTemplate();
-                if (template == null) return false;
+                var item = ToEmoteItem();
+                if (item == null) return false;
 
-                return template.IsMirrorItem;
+                return item.IsMirrorItem;
             }
         }
 
@@ -37,18 +37,8 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             get
             {
-                var template = ToEmoteItemTemplate();
-                if (template == null) yield break;
-
-                if (template.IsMirrorItem)
-                {
-                    yield return template.Mirror(EmoteHand.Left);
-                    yield return template.Mirror(EmoteHand.Right);
-                }
-                else
-                {
-                    yield return template.ToEmoteItem();
-                }
+                var emoteItem = ToEmoteItem();
+                if (emoteItem != null) yield return emoteItem;
             }
         }
 

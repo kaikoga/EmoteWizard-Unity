@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public readonly EmoteTrigger Trigger;
         public readonly EmoteSequence Sequence;
 
-        public EmoteItemTemplate(EmoteTrigger trigger, EmoteSequence sequence)
+        EmoteItemTemplate(EmoteTrigger trigger, EmoteSequence sequence)
         {
             Trigger = trigger;
             Sequence = sequence;
@@ -27,67 +27,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     layerKind = layerKind,
                     groupName = groupName
                 }));
-        }
-
-        public bool IsMirrorItem
-        {
-            get
-            {
-                bool IsMirrorParameter(string parameter)
-                {
-                    switch (parameter)
-                    {
-                        case EmoteWizardConstants.Params.Gesture:
-                        case EmoteWizardConstants.Params.GestureOther:
-                        case EmoteWizardConstants.Params.GestureWeight:
-                        case EmoteWizardConstants.Params.GestureOtherWeight:
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-                foreach (var condition in Trigger.conditions)
-                {
-                    if (IsMirrorParameter(condition.parameter)) return true;
-                }
-                if (Sequence.hasTimeParameter && IsMirrorParameter(Sequence.timeParameter)) return true;
-
-                return false;
-            }
-        }
-
-        public EmoteItem ToEmoteItem() => new EmoteItem(Trigger, Sequence, EmoteHand.Neither);
-
-        public EmoteItem Mirror(EmoteHand handValue)
-        {
-            string ResolveMirrorParameter(string parameter)
-            {
-                switch (parameter)
-                {
-                    case EmoteWizardConstants.Params.Gesture:
-                        return handValue == EmoteHand.Left ? "GestureLeft" : "GestureRight";
-                    case EmoteWizardConstants.Params.GestureOther:
-                        return handValue == EmoteHand.Left ? "GestureRight" : "GestureLeft";
-                    case EmoteWizardConstants.Params.GestureWeight:
-                        return handValue == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
-                    case EmoteWizardConstants.Params.GestureOtherWeight:
-                        return handValue == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
-                    default:
-                        return parameter;
-                }
-            }
-
-            var item = new EmoteItem(SerializableUtils.Clone(Trigger),
-                SerializableUtils.Clone(Sequence),
-                handValue);
-
-            foreach (var condition in item.trigger.conditions)
-            {
-                condition.parameter = ResolveMirrorParameter(condition.parameter);
-            }
-            item.sequence.timeParameter = ResolveMirrorParameter(item.sequence.timeParameter);
-
-            return item;
         }
         
         public class EmoteItemTemplateBuilder

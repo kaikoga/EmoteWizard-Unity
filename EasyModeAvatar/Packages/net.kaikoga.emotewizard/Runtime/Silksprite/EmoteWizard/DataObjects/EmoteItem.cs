@@ -1,27 +1,96 @@
-using System;
+using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using UnityEngine;
+using Silksprite.EmoteWizardSupport.Utils;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [Serializable]
     public class EmoteItem
     {
-        [SerializeField] public EmoteTrigger trigger;
-        [SerializeField] public EmoteSequence sequence;
+        public readonly EmoteTrigger Trigger;
+        public readonly EmoteSequence Sequence;
 
-        [SerializeField] public EmoteHand hand;
-
-        public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence, EmoteHand hand)
+        public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence)
         {
-            this.trigger = trigger;
-            this.sequence = sequence;
-            this.hand = hand;
+            Trigger = trigger;
+            Sequence = sequence;
         }
 
-        public EmoteInstance ToInstance()
+        public bool IsMirrorItem
         {
-            return new EmoteInstance(trigger, sequence, hand);
+            get
+            {
+                bool IsMirrorParameter(string parameter)
+                {
+                    switch (parameter)
+                    {
+                        case EmoteWizardConstants.Params.Gesture:
+                        case EmoteWizardConstants.Params.GestureOther:
+                        case EmoteWizardConstants.Params.GestureWeight:
+                        case EmoteWizardConstants.Params.GestureOtherWeight:
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+                foreach (var condition in Trigger.conditions)
+                {
+                    if (IsMirrorParameter(condition.parameter)) return true;
+                }
+                if (Sequence.hasTimeParameter && IsMirrorParameter(Sequence.timeParameter)) return true;
+
+                return false;
+            }
+        }
+
+        EmoteInstance Mirror(EmoteHand handValue)
+        {
+            string ResolveMirrorParameter(string parameter)
+            {
+                switch (parameter)
+                {
+                    case EmoteWizardConstants.Params.Gesture:
+                        return handValue == EmoteHand.Left ? "GestureLeft" : "GestureRight";
+                    case EmoteWizardConstants.Params.GestureOther:
+                        return handValue == EmoteHand.Left ? "GestureRight" : "GestureLeft";
+                    case EmoteWizardConstants.Params.GestureWeight:
+                        return handValue == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
+                    case EmoteWizardConstants.Params.GestureOtherWeight:
+                        return handValue == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
+                    default:
+                        return parameter;
+                }
+            }
+
+            var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
+                SerializableUtils.Clone(Sequence),
+                handValue);
+
+            foreach (var condition in item.Trigger.conditions)
+            {
+                condition.parameter = ResolveMirrorParameter(condition.parameter);
+            }
+            item.Sequence.timeParameter = ResolveMirrorParameter(item.Sequence.timeParameter);
+
+            return item;
+        }
+
+        EmoteInstance ToEmoteInstance()
+        {
+            return new EmoteInstance(Trigger, Sequence, EmoteHand.Neither);
+        }
+
+        public IEnumerable<EmoteInstance> Materialize()
+        {
+            if (IsMirrorItem)
+            {
+                yield return Mirror(EmoteHand.Left);
+                yield return Mirror(EmoteHand.Right);
+            }
+            else
+            {
+                yield return ToEmoteInstance();
+            }
+
         }
     }
 }

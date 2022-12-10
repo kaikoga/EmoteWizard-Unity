@@ -31,9 +31,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             foreach (var emoteItem in _overriders)
             {
                 NextStatePosition();
-                var state = AddStateWithoutTransition(emoteItem.trigger.name, null);
+                var state = AddStateWithoutTransition(emoteItem.Trigger.name, null);
                 var conditions = new ConditionBuilder();
-                ApplyEmoteConditions(conditions, emoteItem.trigger.conditions);
+                ApplyEmoteConditions(conditions, emoteItem.Trigger.conditions);
                 var transition = AddEntryTransition(state, conditions);
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);

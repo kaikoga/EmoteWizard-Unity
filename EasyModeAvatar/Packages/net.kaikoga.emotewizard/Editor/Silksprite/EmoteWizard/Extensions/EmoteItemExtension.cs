@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static IEnumerable<AnimationClip> AllClips(this EmoteItem emoteItem)
         {
-            var sequence = emoteItem.sequence;
+            var sequence = emoteItem.Sequence;
             return Enumerable.Empty<AnimationClip>()
                 .Concat(sequence.clip.GetClipsRec())
                 .Concat((sequence.hasEntryClip ? sequence.entryClip : null).GetClipsRec())
