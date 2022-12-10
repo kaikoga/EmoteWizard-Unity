@@ -8,9 +8,14 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
-    public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource
+    public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource
     {
         [SerializeField] public EmoteTrigger trigger;
+
+        [Header("Expression Item")]
+        [SerializeField] public bool hasExpressionItem;
+        [SerializeField] public string expressionItemPath;
+        [SerializeField] public Texture2D expressionItemIcon;
 
         EmoteSequence FindEmoteSequence() => GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
 
@@ -33,6 +38,22 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
         }
 
+        public bool CanAutoExpression
+        {
+            get
+            {
+                if (trigger.conditions.Count != 1) return false;
+
+                var soleCondition = trigger.conditions[0];
+                if (soleCondition.kind != ParameterItemKind.Int) return false;
+                if (soleCondition.mode != EmoteConditionMode.Equals) return false;
+
+                return true;
+            }
+        }
+
+        public bool IsAutoExpression => hasExpressionItem && CanAutoExpression;
+
         public IEnumerable<EmoteItem> EmoteItems
         {
             get
@@ -42,5 +63,23 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
         }
 
+        public IEnumerable<ExpressionItem> ExpressionItems
+        {
+            get
+            {
+                if (!IsAutoExpression) yield break;
+
+                var soleCondition = trigger.conditions[0];
+                yield return new ExpressionItem
+                {
+                    enabled = true,
+                    icon = expressionItemIcon,
+                    path = expressionItemPath,
+                    parameter = soleCondition.parameter,
+                    value = soleCondition.threshold,
+                    itemKind = FindEmoteSequence().hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+                };
+            }
+        }
     }
 }
