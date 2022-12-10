@@ -5,7 +5,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal.LayerBuilders2;
+using Silksprite.EmoteWizard.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -74,7 +74,7 @@ namespace Silksprite.EmoteWizard.Internal
         public void BuildStaticLayer(string layerName, AnimationClip clip, AvatarMask defaultAvatarMask)
         {
             var resetLayer = PopulateLayer(layerName, defaultAvatarMask);
-            new StaticLayerBuilder2(this, resetLayer, layerName, clip).Build();
+            new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
         }
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
@@ -88,16 +88,16 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     var avatarMaskLeft = Wizard.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
                     var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
-                    new EmoteLayerBuilder2(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Left))).Build();
+                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Left))).Build();
 
                     var avatarMaskRight = Wizard.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
                     var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
-                    new EmoteLayerBuilder2(this, layerRight, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Right))).Build();
+                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Right))).Build();
                 }
                 else
                 {
                     var layer = PopulateLayer(emoteItemGroup.Key);
-                    new EmoteLayerBuilder2(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance())).Build();
+                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance())).Build();
                 }
             }
         }
@@ -115,7 +115,7 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 var trackingTarget = kv.Key;
                 var trackingControlLayer = PopulateLayer($"TrackingControl ({trackingTarget})");
-                new TrackingControlLayerBuilder2(this, trackingControlLayer, trackingTarget, kv.Value).Build();
+                new TrackingControlLayerBuilder(this, trackingControlLayer, trackingTarget, kv.Value).Build();
             }
         }
 

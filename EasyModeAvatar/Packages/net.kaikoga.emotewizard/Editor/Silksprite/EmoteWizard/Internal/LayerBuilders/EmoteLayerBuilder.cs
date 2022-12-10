@@ -5,18 +5,18 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
+using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
+namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
-    public class EmoteLayerBuilder2 : LayerBuilderBase2
+    public class EmoteLayerBuilder : LayerBuilderBase
     {
         readonly IEnumerable<EmoteInstance> _emoteInstances;
 
-        public EmoteLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, IEnumerable<EmoteInstance> emoteInstances) : base(builder, layer)
+        public EmoteLayerBuilder(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, IEnumerable<EmoteInstance> emoteInstances) : base(builder, layer)
         {
             _emoteInstances = emoteInstances.ToArray();
         }

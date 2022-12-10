@@ -1,15 +1,15 @@
-using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
+using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
+namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
-    public class StaticLayerBuilder2 : LayerBuilderBase2
+    public class StaticLayerBuilder : LayerBuilderBase
     {
         readonly string _stateName;
         readonly Motion _clip;
 
-        public StaticLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, string stateName, Motion clip) : base(builder, layer)
+        public StaticLayerBuilder(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, string stateName, Motion clip) : base(builder, layer)
         {
             _stateName = stateName;
             _clip = clip;

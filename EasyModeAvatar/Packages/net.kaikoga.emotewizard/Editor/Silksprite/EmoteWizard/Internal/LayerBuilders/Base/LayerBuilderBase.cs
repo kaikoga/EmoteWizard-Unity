@@ -10,9 +10,9 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
+namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 {
-    public abstract class LayerBuilderBase2
+    public abstract class LayerBuilderBase
     {
         protected readonly AnimatorLayerBuilder Builder;
         readonly AnimatorControllerLayer _layer;
@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2.Base
             return Builder.ParametersSnapshot.ResolveParameterType(parameterName, itemKind);
         }
 
-        protected LayerBuilderBase2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer)
+        protected LayerBuilderBase(AnimatorLayerBuilder builder, AnimatorControllerLayer layer)
         {
             Builder = builder;
             _layer = layer;

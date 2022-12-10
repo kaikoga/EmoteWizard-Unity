@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
+using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
+namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
-    public class TrackingControlLayerBuilder2 : LayerBuilderBase2
+    public class TrackingControlLayerBuilder : LayerBuilderBase
     {
         readonly TrackingTarget _target;
         readonly IEnumerable<EmoteItem> _overriders;
 
-        public TrackingControlLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, TrackingTarget target, IEnumerable<EmoteItem> overriders) : base(builder, layer)
+        public TrackingControlLayerBuilder(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, TrackingTarget target, IEnumerable<EmoteItem> overriders) : base(builder, layer)
         {
             _target = target;
             _overriders = overriders;
