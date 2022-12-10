@@ -50,7 +50,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 {
                     if (IsMirrorParameter(condition.parameter)) return true;
                 }
-                if (IsMirrorParameter(Sequence.timeParameter)) return true;
+                if (Sequence.hasTimeParameter && IsMirrorParameter(Sequence.timeParameter)) return true;
 
                 return false;
             }
