@@ -5,7 +5,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal.LayerBuilders2;
+using Silksprite.EmoteWizard.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -74,34 +74,40 @@ namespace Silksprite.EmoteWizard.Internal
         public void BuildStaticLayer(string layerName, AnimationClip clip, AvatarMask defaultAvatarMask)
         {
             var resetLayer = PopulateLayer(layerName, defaultAvatarMask);
-            new StaticLayerBuilder2(this, resetLayer, layerName, clip).Build();
+            new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
         }
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
         {
-            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupInstance))
+            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.Group))
             {
-                var groupInstance = emoteItemGroup.Key;
-                AvatarMask avatarMask = null;
-                if (Wizard.LayerKind == LayerKind.Gesture)
+                var groupName = emoteItemGroup.Key;
+                var mirror = emoteItemGroup.Any(item => item.IsMirrorItem);
+
+                if (mirror)
                 {
-                    switch (groupInstance.Hand)
-                    {
-                        case EmoteHand.Left: avatarMask = VrcSdkAssetLocator.HandLeft(); break;
-                        case EmoteHand.Right: avatarMask = VrcSdkAssetLocator.HandRight(); break;
-                    }
+                    var avatarMaskLeft = Wizard.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
+                    var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
+                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Left))).Build();
+
+                    var avatarMaskRight = Wizard.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
+                    var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
+                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Right))).Build();
                 }
-                var layer = PopulateLayer(groupInstance.Name, avatarMask);
-                new EmoteLayerBuilder2(this, layer, emoteItemGroup).Build();
+                else
+                {
+                    var layer = PopulateLayer(emoteItemGroup.Key);
+                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance())).Build();
+                }
             }
         }
 
         public void BuildTrackingControlLayers(IEnumerable<EmoteItem> allEmoteItems)
         {
             var overriders = allEmoteItems
-                .OrderBy(item => item.trigger.priority)
-                .Where(item => item.sequence.hasTrackingOverrides)
-                .SelectMany(item => item.sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
+                .OrderBy(item => item.Trigger.priority)
+                .Where(item => item.Sequence.hasTrackingOverrides)
+                .SelectMany(item => item.Sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
                 .GroupBy(pair => pair.target)
                 .ToDictionary(group => group.Key, group => group.Select(pair => pair.item).ToList());
 
@@ -109,7 +115,7 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 var trackingTarget = kv.Key;
                 var trackingControlLayer = PopulateLayer($"TrackingControl ({trackingTarget})");
-                new TrackingControlLayerBuilder2(this, trackingControlLayer, trackingTarget, kv.Value).Build();
+                new TrackingControlLayerBuilder(this, trackingControlLayer, trackingTarget, kv.Value).Build();
             }
         }
 

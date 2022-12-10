@@ -1,69 +1,82 @@
-using System;
-using UnityEngine;
+using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizardSupport.Utils;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [Serializable]
     public class EmoteItem
     {
-        [SerializeField] public EmoteTrigger trigger;
-        [SerializeField] public EmoteSequence sequence;
+        public readonly EmoteTrigger Trigger;
+        public readonly EmoteSequence Sequence;
 
-        [SerializeField] public EmoteHand hand;
+        public string Group => Sequence.groupName;
 
-        public EmoteItemGroupInstance GroupInstance => new EmoteItemGroupInstance(sequence.groupName, hand);
-
-        public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence, EmoteHand hand)
+        public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence)
         {
-            this.trigger = trigger;
-            this.sequence = sequence;
-            this.hand = hand;
+            Trigger = trigger;
+            Sequence = sequence;
         }
 
-        public readonly struct EmoteItemGroupInstance : IEquatable<EmoteItemGroupInstance>
+        public bool IsMirrorItem
         {
-            readonly string _groupName;
-            public readonly EmoteHand Hand;
-
-            public string Name => Hand == EmoteHand.Neither ? _groupName : $"{_groupName} ({Hand})";
-
-            public EmoteItemGroupInstance(string groupName, EmoteHand hand)
+            get
             {
-                _groupName = groupName;
-                Hand = hand;
-            }
-
-            #region IEquatable
-
-            public bool Equals(EmoteItemGroupInstance other)
-            {
-                return _groupName == other._groupName && Hand == other.Hand;
-            }
-
-            public override bool Equals(object obj)
-            {
-                return obj is EmoteItemGroupInstance other && Equals(other);
-            }
-
-            public override int GetHashCode()
-            {
-                unchecked
+                bool IsMirrorParameter(string parameter)
                 {
-                    return ((_groupName != null ? _groupName.GetHashCode() : 0) * 397) ^ (int)Hand;
+                    switch (parameter)
+                    {
+                        case EmoteWizardConstants.Params.Gesture:
+                        case EmoteWizardConstants.Params.GestureOther:
+                        case EmoteWizardConstants.Params.GestureWeight:
+                        case EmoteWizardConstants.Params.GestureOtherWeight:
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+                foreach (var condition in Trigger.conditions)
+                {
+                    if (IsMirrorParameter(condition.parameter)) return true;
+                }
+                if (Sequence.hasTimeParameter && IsMirrorParameter(Sequence.timeParameter)) return true;
+
+                return false;
+            }
+        }
+
+        public EmoteInstance Mirror(EmoteHand handValue)
+        {
+            string ResolveMirrorParameter(string parameter)
+            {
+                switch (parameter)
+                {
+                    case EmoteWizardConstants.Params.Gesture:
+                        return handValue == EmoteHand.Left ? "GestureLeft" : "GestureRight";
+                    case EmoteWizardConstants.Params.GestureOther:
+                        return handValue == EmoteHand.Left ? "GestureRight" : "GestureLeft";
+                    case EmoteWizardConstants.Params.GestureWeight:
+                        return handValue == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
+                    case EmoteWizardConstants.Params.GestureOtherWeight:
+                        return handValue == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
+                    default:
+                        return parameter;
                 }
             }
 
-            public static bool operator ==(EmoteItemGroupInstance left, EmoteItemGroupInstance right)
-            {
-                return left.Equals(right);
-            }
+            var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
+                SerializableUtils.Clone(Sequence));
 
-            public static bool operator !=(EmoteItemGroupInstance left, EmoteItemGroupInstance right)
+            foreach (var condition in item.Trigger.conditions)
             {
-                return !left.Equals(right);
+                condition.parameter = ResolveMirrorParameter(condition.parameter);
             }
+            item.Sequence.timeParameter = ResolveMirrorParameter(item.Sequence.timeParameter);
 
-            #endregion
+            return item;
+        }
+
+        public EmoteInstance ToEmoteInstance()
+        {
+            return new EmoteInstance(Trigger, Sequence);
         }
     }
 }

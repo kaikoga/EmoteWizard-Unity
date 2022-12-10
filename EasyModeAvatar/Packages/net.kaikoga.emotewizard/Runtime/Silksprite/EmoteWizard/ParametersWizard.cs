@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard
 
             foreach (var emoteItem in CollectEmoteItems())
             {
-                foreach (var condition in emoteItem.trigger.conditions)
+                foreach (var condition in emoteItem.Trigger.conditions)
                 {
                     builder.FindOrCreate(condition.parameter).AddReadValue(condition.kind, condition.threshold);
                 }

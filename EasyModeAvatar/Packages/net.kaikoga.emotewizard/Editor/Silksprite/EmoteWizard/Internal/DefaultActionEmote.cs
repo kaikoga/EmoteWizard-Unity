@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 
@@ -101,25 +100,10 @@ namespace Silksprite.EmoteWizard.Internal
             };
         }
 
-        public static List<ExpressionItem> PopulateDefaultExpressionItems(string defaultPrefix)
-        {
-            var icon = VrcSdkAssetLocator.PersonDance();
-            var expressionItems = Defaults
-                .Select(def => new ExpressionItem
-                {
-                    icon = icon,
-                    path = $"{defaultPrefix}{def._name}",
-                    parameter = "VRCEmote",
-                    value = def._index,
-                    itemKind = def._hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle,
-                });
-            return expressionItems
-                .DistinctBy(item => item.path)
-                .ToList();
-        }
-
         public static IEnumerable<EmoteItemTemplate> EnumerateDefaultActionEmoteItems()
         {
+            var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
+
             var actionTrackingOverrides = new[]
             {
                 TrackingTarget.Head,
@@ -142,6 +126,7 @@ namespace Silksprite.EmoteWizard.Internal
                     .AddExitClip(def._exitClip != null, def._exitClip, 0.75f, def._exitClip ? 0.4f : 0.25f)
                     .AddLayerBlend(true, 0.5f, 0.25f)
                     .AddTrackingOverrides(true, actionTrackingOverrides)
+                    .AddExpressionItem(true, $"Default/{def._name}", expressionItemIcon)
                     .ToEmoteItemTemplate();
             }
             yield return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action)

@@ -5,41 +5,41 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Internal.LayerBuilders2.Base;
+using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
+namespace Silksprite.EmoteWizard.Internal.LayerBuilders
 {
-    public class EmoteLayerBuilder2 : LayerBuilderBase2
+    public class EmoteLayerBuilder : LayerBuilderBase
     {
-        readonly IEnumerable<EmoteItem> _emoteItems;
+        readonly IEnumerable<EmoteInstance> _emoteInstances;
 
-        public EmoteLayerBuilder2(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, IEnumerable<EmoteItem> emoteItems) : base(builder, layer)
+        public EmoteLayerBuilder(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, IEnumerable<EmoteInstance> emoteInstances) : base(builder, layer)
         {
-            _emoteItems = emoteItems.ToArray();
+            _emoteInstances = emoteInstances.ToArray();
         }
 
         protected override void Process()
         {
             AnimatorState defaultState = null;
-            if (_emoteItems.Any(item => item.sequence.entryTransitionDuration != 0f))
+            if (_emoteInstances.Any(item => item.Sequence.entryTransitionDuration != 0f))
             {
                 defaultState = PopulateDefaultState();
             }
-            var currentTrackingTargets = _emoteItems.SelectMany(item => item.sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
+            var currentTrackingTargets = _emoteInstances.SelectMany(instance => instance.Sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
             var currentForcedConditions = new List<List<EmoteCondition>>();
-            foreach (var priority in _emoteItems.OrderBy(item => item.trigger.priority).GroupBy(item => item.trigger.priority))
+            foreach (var priority in _emoteInstances.OrderBy(instance => instance.Trigger.priority).GroupBy(instance => instance.Trigger.priority))
             {
-                foreach (var emoteItem in priority)
+                foreach (var emoteInstance in priority)
                 {
-                    PopulateSequence(emoteItem, defaultState, currentTrackingTargets, currentForcedConditions);
+                    PopulateSequence(emoteInstance, defaultState, currentTrackingTargets, currentForcedConditions);
                 }
 
-                foreach (var emoteItem in priority)
+                foreach (var emoteInstance in priority)
                 {
-                    currentForcedConditions = MergeForcedConditions(currentForcedConditions, emoteItem.trigger.conditions);
+                    currentForcedConditions = MergeForcedConditions(currentForcedConditions, emoteInstance.Trigger.conditions);
                 }
             }
 
@@ -59,13 +59,13 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             exitDefaultTransition.duration = 0f;
         }
 
-        void PopulateSequence(EmoteItem emoteItem, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteCondition>> currentForcedConditions)
+        void PopulateSequence(EmoteInstance emoteInstance, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteCondition>> currentForcedConditions)
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
                 var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
                 avatarParameterDriver.localOnly = true;
-                var targets = emoteItem.sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
+                var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
                 foreach (var target in targets) Builder.MarkTrackingTarget(target);
 
                 avatarParameterDriver.parameters = targets.Select(target => new VRC_AvatarParameterDriver.Parameter
@@ -82,11 +82,11 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             NextStateRow();
             NextStatePosition();
 
-            var sequence = emoteItem.sequence;
+            var sequence = emoteInstance.Sequence;
             // emoteItem.sequence.clip.SetLoopTimeRec(!emoteItem.sequence.hasExitTime);
 
             var conditions = new ConditionBuilder();
-            ApplyEmoteConditions(conditions, emoteItem.trigger.conditions);
+            ApplyEmoteConditions(conditions, emoteInstance.Trigger.conditions);
 
             AnimatorState entryState = null;
             AnimatorState mainState = null;
@@ -95,18 +95,18 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             
             if (sequence.hasEntryClip)
             {
-                entryState = AddStateWithoutTransition($"Entry {emoteItem.trigger.name}", sequence.entryClip);
+                entryState = AddStateWithoutTransition($"Entry {emoteInstance.Trigger.name}", sequence.entryClip);
             }
             else
             {
                 NextStatePosition();
             }
 
-            mainState = AddStateWithoutTransition(emoteItem.trigger.name, sequence.clip);
+            mainState = AddStateWithoutTransition(emoteInstance.Trigger.name, sequence.clip);
 
             if (sequence.hasExitClip)
             {
-                exitState = AddStateWithoutTransition($"Exit {emoteItem.trigger.name}", sequence.exitClip);
+                exitState = AddStateWithoutTransition($"Exit {emoteInstance.Trigger.name}", sequence.exitClip);
             }
             else
             {
@@ -115,7 +115,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders2
             
             if (sequence.hasTrackingOverrides)
             {
-                releaseState = AddStateWithoutTransition($"Release {emoteItem.trigger.name}", null);
+                releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.name}", null);
                 AddTrackingParameterDrivers(entryState ? entryState : mainState, true);
                 AddTrackingParameterDrivers(releaseState, false);
             }

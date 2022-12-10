@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -130,6 +131,20 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             serializedObject.ApplyModifiedProperties();
+
+            EmoteWizardGUILayout.Tutorial(((EmoteSequenceSource)target).EmoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "アニメーションの内容をここに登録します。",
+                "Group Nameでアニメーションをグループ分けします。同時に再生したいアニメーションはGroupを分けてください。",
+                "",
+                "Exit Time: Exit Timeの設定をします。再生終了するタイプのアニメーションを設定します。",
+                "Time Parameter: Motion Timeの設定をします。グリップやRadial Puppetに反応するタイプのアニメーションを設定します。",
+                "Entry Clip: Clipに遷移する際にアニメーションを挿入します。",
+                "Exit Clip: Clipから遷移する際にアニメーションを挿入します。",
+                "Layer Blend: VRC Playable Layer Controlの設定をします。現状Actionレイヤー専用です。",
+                "Tracking Override: VRC Animator Tracking Controlの設定をします。アニメーションの再生中に一時的にAnimationにする項目を登録します。");
     }
 }
