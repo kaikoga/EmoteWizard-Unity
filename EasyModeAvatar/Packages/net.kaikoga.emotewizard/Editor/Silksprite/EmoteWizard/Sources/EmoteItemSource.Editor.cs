@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizard.Sources
@@ -58,6 +59,8 @@ namespace Silksprite.EmoteWizard.Sources
             {
                 EditorGUILayout.HelpBox(MirrorInfoText, MessageType.Info);
             }
+            
+            EmoteWizardGUILayout.Tutorial(((EmoteItemSource)target).EmoteWizardRoot, Tutorial);
         }
         
         static string MirrorInfoText =>
@@ -67,5 +70,12 @@ namespace Silksprite.EmoteWizard.Sources
                 "GestureOther: GestureRight / GestureLeft",
                 "GestureWeight: GestureLeftWeight / GestureRightWeight",
                 "GestureOtherWeight: GestureRightWeight / GestureLeftWeight");
+
+        static string Tutorial =>
+            string.Join("\n",
+                "アニメーションの発生条件を設定します。",
+                "Priorityの小さい条件が優先的に判定されます。",
+                "単純な条件を設定している場合、Has Expression Itemを有効にすることでメニュー項目も生成されます。",
+                "条件を満たした場合に表示されるアニメーションは関連するEmote Sequence Sourceに登録します（いい感じに探してくれます）");
     }
 }

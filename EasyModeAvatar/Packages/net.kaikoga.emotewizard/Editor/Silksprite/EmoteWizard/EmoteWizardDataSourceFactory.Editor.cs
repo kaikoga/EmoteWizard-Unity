@@ -330,7 +330,7 @@ namespace Silksprite.EmoteWizard
                     }
                 };
                 emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
-                emoteItemSource.expressionItemPath = _itemPath;
+                emoteItemSource.expressionItemPath = childName;
                 emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.ItemWand();
                 child.AddComponent<EmoteSequenceSource>().sequence = new EmoteSequence
                 {
@@ -416,7 +416,7 @@ namespace Silksprite.EmoteWizard
         static string Tutorial =>
             string.Join("\n",
                 "Emote Wizardに登録するデータの入力欄を生成します。",
-                "GameObjectを非アクティブにした場合、データは無効化されます。");
+                "GameObjectを非アクティブにしたデータはビルドに含まれません。");
         
         enum DataSourceFactoryMode
         {

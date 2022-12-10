@@ -17,7 +17,14 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         [SerializeField] public string expressionItemPath;
         [SerializeField] public Texture2D expressionItemIcon;
 
-        EmoteSequence FindEmoteSequence() => GetComponentsInParent<EmoteSequenceSourceBase>().Select(source => source.EmoteSequence).FirstOrDefault();
+        EmoteSequence FindEmoteSequence()
+        {
+            return GetComponents<EmoteSequenceSourceBase>() // Find in self
+                .Concat(GetComponentsInParent<EmoteSequenceSourceBase>()) // then find in parents
+                .Concat(GetComponentsInChildren<EmoteSequenceSourceBase>()) // then find in children
+                .Select(source => source.EmoteSequence)
+                .FirstOrDefault();
+        }
 
         EmoteItem ToEmoteItem()
         {

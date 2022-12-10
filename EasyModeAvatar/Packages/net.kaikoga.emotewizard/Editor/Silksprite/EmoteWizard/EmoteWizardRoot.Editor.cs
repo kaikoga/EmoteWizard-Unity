@@ -81,13 +81,14 @@ namespace Silksprite.EmoteWizard
                 "基本的な使い方：",
                 "（上から順番に操作するのがお勧めです）",
                 "1. Emote Wizard RootのSetupボタンを押す",
-                "2. Setup WizardのQuick Setupから必要なコンポーネントを生成する",
-                "3. Avatar Wizardを設定する",
-                "4. Expression Wizardからアクションメニューを設定する",
-                "5. Parameter Wizardの設定値を確認する",
-                "6. FX Wizardから表情や着せ替えのアニメーションを設定する",
-                "7. ハンドサインを差し替える場合はGesture Wizardから設定する",
-                "8. 必要に応じてAction WizardからエモートとAFKモーションを編集する",
-                "9. 全てのOutput zoneが埋まったらAvatar WizardのUpdate Avatarを押す");
+                "2. Setup WizardのGenerate Wizardsボタンを押して必要なコンポーネントを生成する",
+                "3. Setup WizardのQuick Setupを押してプリセットを生成する",
+                "4. Avatar Wizardを設定する",
+                "5. FX Sourcesに表情や着せ替えの項目を設定する",
+                "6. ハンドサインを差し替える場合はGesture Sourcesに設定する",
+                "7. 必要に応じてAction SourcesからエモートとAFKモーションを編集する",
+                "8. 外部アセットと連携する場合はExpression SourcesとParameter Sourcesを設定する",
+                "9. Avatar WizardのUpdate Avatarを押してアバターを更新する",
+                "10. Avatar WizardのEdit FXボタンなどを押してアニメーションを編集する");
     }
 }

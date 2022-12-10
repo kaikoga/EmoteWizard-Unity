@@ -81,6 +81,6 @@ namespace Silksprite.EmoteWizard
         string Tutorial2 => 
             string.Join("\n",
                 "Write Defaultsオフでセットアップされます。",
-                $"各アニメーションで使われているパラメータをリセットするアニメーションが{_wizard.LayerKind} Layerの一番上に追加されます。");
+                $"Has Reset Clipがオンの場合、各アニメーションで使われているパラメータをリセットするアニメーションが{_wizard.LayerKind} Layerの一番上に追加されます。");
     }
 }

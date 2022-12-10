@@ -3,6 +3,7 @@ using System.IO;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -128,6 +129,12 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             serializedObject.ApplyModifiedProperties();
+            
+            EmoteWizardGUILayout.Tutorial(((ExpressionItemSource)target).EmoteWizardRoot, Tutorial);
         }
+
+        static string Tutorial =>
+            string.Join("\n",
+                "Expression Menuを登録します。");
     }
 }
