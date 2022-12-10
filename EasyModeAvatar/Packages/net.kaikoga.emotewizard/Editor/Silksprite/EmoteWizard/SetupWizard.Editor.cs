@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
@@ -132,19 +133,21 @@ namespace Silksprite.EmoteWizard
 
         static void QuickSetupExpressionSources(EmoteWizardRoot emoteWizardRoot)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources, expressionSources =>
-            {
-                foreach (var expressionItem in DefaultActionEmote.PopulateDefaultExpressionItems("Default/"))
-                {
-                    var expressionSource = expressionSources.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path);
-                    expressionSource.expressionItem = expressionItem;
-                }
-            });
+            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources);
         }
 
         static void QuickSetupParameterSources(EmoteWizardRoot emoteWizardRoot)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources, parameterSources => { });
+            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
+        }
+
+        static void PopulateEmoteItemSource(EmoteItemSource source, EmoteItemTemplate template)
+        {
+            source.trigger = template.Trigger;
+            source.gameObject.AddComponent<EmoteSequenceSource>().sequence = template.Sequence;
+            source.hasExpressionItem = template.HasExpressionItem;
+            source.expressionItemPath = template.ExpressionItemPath;
+            source.expressionItemIcon = template.ExpressionItemIcon;
         }
 
         static void QuickSetupFXSources(EmoteWizardRoot emoteWizardRoot)
@@ -154,8 +157,7 @@ namespace Silksprite.EmoteWizard
                 foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
                 {
                     var fxSource = fxSources.FindOrCreateChildComponent<EmoteItemSource>(fxItem.Trigger.name);
-                    fxSource.trigger = fxItem.Trigger;
-                    fxSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = fxItem.Sequence;
+                    PopulateEmoteItemSource(fxSource, fxItem);
                 }
             });
         }
@@ -167,8 +169,7 @@ namespace Silksprite.EmoteWizard
                 foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
                 {
                     var gestureSource = gestureSources.FindOrCreateChildComponent<EmoteItemSource>(gestureItem.Trigger.name);
-                    gestureSource.trigger = gestureItem.Trigger;
-                    gestureSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = gestureItem.Sequence;
+                    PopulateEmoteItemSource(gestureSource, gestureItem);
                 }
             });
         }
@@ -180,8 +181,7 @@ namespace Silksprite.EmoteWizard
                 foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
                 {
                     var actionSource = actionSources.FindOrCreateChildComponent<EmoteItemSource>(actionItem.Trigger.name);
-                    actionSource.trigger = actionItem.Trigger;
-                    actionSource.gameObject.AddComponent<EmoteSequenceSource>().sequence = actionItem.Sequence;
+                    PopulateEmoteItemSource(actionSource, actionItem);
                 }
             });
         }

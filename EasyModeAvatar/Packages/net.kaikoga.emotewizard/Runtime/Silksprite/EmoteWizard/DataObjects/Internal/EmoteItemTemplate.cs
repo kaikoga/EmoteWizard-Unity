@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -9,15 +8,22 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public readonly EmoteTrigger Trigger;
         public readonly EmoteSequence Sequence;
 
-        EmoteItemTemplate(EmoteTrigger trigger, EmoteSequence sequence)
+        public readonly bool HasExpressionItem;
+        public readonly string ExpressionItemPath;
+        public readonly Texture2D ExpressionItemIcon;
+
+        EmoteItemTemplate(EmoteTrigger trigger, EmoteSequence sequence, bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
         {
             Trigger = trigger;
             Sequence = sequence;
+            HasExpressionItem = hasExpressionItem;
+            ExpressionItemPath = expressionItemPath;
+            ExpressionItemIcon = expressionItemIcon;
         }
 
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName)
         {
-            return new EmoteItemTemplateBuilder(new EmoteItemTemplate(
+            return new EmoteItemTemplateBuilder(
                 new EmoteTrigger
                 {
                     name = name,
@@ -26,80 +32,96 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 {
                     layerKind = layerKind,
                     groupName = groupName
-                }));
+                });
         }
         
         public class EmoteItemTemplateBuilder
         {
-            readonly EmoteItemTemplate _emoteItemTemplate;
+            readonly EmoteTrigger _trigger;
+            readonly EmoteSequence _sequence;
+            bool _hasExpressionItem;
+            string _expressionItemPath;
+            Texture2D _expressionItemIcon;
 
-            public EmoteItemTemplateBuilder(EmoteItemTemplate emoteItemTemplate) => _emoteItemTemplate = emoteItemTemplate;
+            public EmoteItemTemplateBuilder(EmoteTrigger emoteTrigger, EmoteSequence emoteSequence)
+            {
+                _trigger = emoteTrigger;
+                _sequence = emoteSequence;
+            }
 
             public EmoteItemTemplateBuilder AddPriority(int priority)
             {
-                _emoteItemTemplate.Trigger.priority = priority;
+                _trigger.priority = priority;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddCondition(EmoteCondition condition)
             {
-                _emoteItemTemplate.Trigger.conditions.Add(condition);
+                _trigger.conditions.Add(condition);
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddFixedDuration(bool isFixedDuration)
             {
-                _emoteItemTemplate.Sequence.isFixedDuration = isFixedDuration;
+                _sequence.isFixedDuration = isFixedDuration;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
             {
-                _emoteItemTemplate.Sequence.clip = clip;
-                _emoteItemTemplate.Sequence.entryTransitionDuration = entryTransitionDuration;
-                _emoteItemTemplate.Sequence.exitTransitionDuration = exitTransitionDuration;
+                _sequence.clip = clip;
+                _sequence.entryTransitionDuration = entryTransitionDuration;
+                _sequence.exitTransitionDuration = exitTransitionDuration;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddClipExitTime(bool hasExitTime, float clipExitTime)
             {
-                _emoteItemTemplate.Sequence.hasExitTime = hasExitTime;
-                _emoteItemTemplate.Sequence.clipExitTime = clipExitTime;
+                _sequence.hasExitTime = hasExitTime;
+                _sequence.clipExitTime = clipExitTime;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddTimeParameter(bool hasTimeParameter, string timeParameter)
             {
-                _emoteItemTemplate.Sequence.hasTimeParameter = hasTimeParameter;
-                _emoteItemTemplate.Sequence.timeParameter = timeParameter;
+                _sequence.hasTimeParameter = hasTimeParameter;
+                _sequence.timeParameter = timeParameter;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddExitClip(bool hasExitClip, Motion exitClip, float exitClipExitTime, float postExitTransitionDuration)
             {
-                _emoteItemTemplate.Sequence.hasExitClip = hasExitClip;
-                _emoteItemTemplate.Sequence.exitClip = exitClip;
-                _emoteItemTemplate.Sequence.exitClipExitTime = exitClipExitTime;
-                _emoteItemTemplate.Sequence.postExitTransitionDuration = postExitTransitionDuration;
+                _sequence.hasExitClip = hasExitClip;
+                _sequence.exitClip = exitClip;
+                _sequence.exitClipExitTime = exitClipExitTime;
+                _sequence.postExitTransitionDuration = postExitTransitionDuration;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddLayerBlend(bool hasLayerBlend, float blendIn, float blendOut)
             {
-                _emoteItemTemplate.Sequence.hasLayerBlend = hasLayerBlend;
-                _emoteItemTemplate.Sequence.blendIn = blendIn;
-                _emoteItemTemplate.Sequence.blendOut = blendOut;
+                _sequence.hasLayerBlend = hasLayerBlend;
+                _sequence.blendIn = blendIn;
+                _sequence.blendOut = blendOut;
                 return this;
             }
 
             public EmoteItemTemplateBuilder AddTrackingOverrides(bool hasTrackingOverrides, IEnumerable<TrackingOverride> trackingOverrides)
             {
-                _emoteItemTemplate.Sequence.hasTrackingOverrides = hasTrackingOverrides;
-                _emoteItemTemplate.Sequence.trackingOverrides.AddRange(trackingOverrides);
+                _sequence.hasTrackingOverrides = hasTrackingOverrides;
+                _sequence.trackingOverrides.AddRange(trackingOverrides);
                 return this;
             }
 
-            public EmoteItemTemplate ToEmoteItemTemplate() => _emoteItemTemplate;
+            public EmoteItemTemplateBuilder AddExpressionItem(bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
+            {
+                _hasExpressionItem = hasExpressionItem;
+                _expressionItemPath = expressionItemPath;
+                _expressionItemIcon = expressionItemIcon;
+                return this;
+            }
+
+            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, _sequence, _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
     }
 }
