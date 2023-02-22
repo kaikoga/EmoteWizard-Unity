@@ -111,14 +111,22 @@
         "com.unity.nuget.newtonsoft-json": "2.0.2"
       }
     },
-    "net.fushizen.modular-avatar": {
-      "version": "file:net.fushizen.modular-avatar",
+    "nadena.dev.modular-avatar": {
+      "version": "file:nadena.dev.modular-avatar",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0"
+      }
+    },
+    "net.kaikoga.emotewizard": {
+      "version": "file:net.kaikoga.emotewizard",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
     },
-    "net.kaikoga.emotewizard": {
-      "version": "file:net.kaikoga.emotewizard",
+    "vrchat.blackstartx.gesture-manager": {
+      "version": "file:vrchat.blackstartx.gesture-manager",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
