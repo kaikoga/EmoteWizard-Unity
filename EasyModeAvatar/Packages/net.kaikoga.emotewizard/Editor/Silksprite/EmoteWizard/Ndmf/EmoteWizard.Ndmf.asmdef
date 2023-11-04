@@ -1,0 +1,24 @@
+{
+    "name": "EmoteWizard.Ndmf",
+    "references": [
+        "nadena.dev.ndmf",
+        "nadena.dev.ndmf.runtime",
+        "EmoteWizard",
+        "EmoteWizard.Editor",
+        "EmoteWizardSupport",
+        "EmoteWizardSupport.Editor"
+    ],
+    "optionalUnityReferences": [],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "VRCSDKBase.dll",
+        "VRCSDK3A.dll"
+    ],
+    "autoReferenced": true,
+    "defineConstraints": []
+}
