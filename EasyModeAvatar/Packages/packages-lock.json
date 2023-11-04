@@ -111,13 +111,12 @@
         "com.unity.nuget.newtonsoft-json": "3.0.2"
       }
     },
-    "nadena.dev.modular-avatar": {
-      "version": "file:nadena.dev.modular-avatar",
+    "nadena.dev.ndmf": {
+      "version": "https://github.com/bdunderscore/ndmf.git#1.2.2",
       "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.nuget.newtonsoft-json": "2.0.0"
-      }
+      "source": "git",
+      "dependencies": {},
+      "hash": "753319dedb15d59b0beb125cdad1aca3662b0ece"
     },
     "net.kaikoga.emotewizard": {
       "version": "file:net.kaikoga.emotewizard",
