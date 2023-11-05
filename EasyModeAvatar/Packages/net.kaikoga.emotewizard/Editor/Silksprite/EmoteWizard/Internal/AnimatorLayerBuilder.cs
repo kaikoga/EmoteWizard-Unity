@@ -15,9 +15,9 @@ namespace Silksprite.EmoteWizard.Internal
 {
     public class AnimatorLayerBuilder
     {
-        public AnimatorLayerWizardBase Wizard;
-        public ParametersSnapshot ParametersSnapshot;
-        public string DefaultRelativePath;
+        public readonly AnimatorLayerWizardBase Wizard;
+        public readonly ParametersSnapshot ParametersSnapshot;
+        readonly AnimatorController _animatorController;
 
         readonly HashSet<string> _referencedParameters = new HashSet<string>();
 
@@ -38,19 +38,17 @@ namespace Silksprite.EmoteWizard.Internal
         readonly HashSet<TrackingTarget> _referencedTrackingTargets = new HashSet<TrackingTarget>();
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
-        AnimatorController _animatorController;
-        AnimatorController AnimatorController
+
+        public AnimatorLayerBuilder(AnimatorLayerWizardBase wizard, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
         {
-            get
-            {
-                if (_animatorController) return _animatorController;
-                return _animatorController = Wizard.ReplaceOrCreateOutputAsset(ref Wizard.outputAsset, DefaultRelativePath);
-            }
+            Wizard = wizard;
+            ParametersSnapshot = parametersSnapshot;
+            _animatorController = animatorController;
         }
 
         AnimatorControllerLayer PopulateLayer(string layerName, AvatarMask avatarMask = null)
         {
-            layerName = AnimatorController.MakeUniqueLayerName(layerName);
+            layerName = _animatorController.MakeUniqueLayerName(layerName);
             var layer = new AnimatorControllerLayer
             {
                 name = layerName,
@@ -66,8 +64,8 @@ namespace Silksprite.EmoteWizard.Internal
                 }
             };
 
-            AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(AnimatorController));
-            AnimatorController.AddLayer(layer);
+            AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(_animatorController));
+            _animatorController.AddLayer(layer);
             return layer;
         }
 
@@ -142,12 +140,12 @@ namespace Silksprite.EmoteWizard.Internal
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-                AnimatorController.AddParameter(parameterName, parameterType);
+                _animatorController.AddParameter(parameterName, parameterType);
             }
             foreach (var trackingTarget in _referencedTrackingTargets)
             {
-                AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(false), AnimatorControllerParameterType.Trigger);
-                AnimatorController.AddParameter(trackingTarget.ToAnimatorParameterName(true), AnimatorControllerParameterType.Trigger);
+                _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(false), AnimatorControllerParameterType.Trigger);
+                _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(true), AnimatorControllerParameterType.Trigger);
             }
         }
     }

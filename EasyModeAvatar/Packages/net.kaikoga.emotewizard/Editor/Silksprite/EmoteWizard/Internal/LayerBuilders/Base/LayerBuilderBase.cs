@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected readonly AnimatorLayerBuilder Builder;
         readonly AnimatorControllerLayer _layer;
 
-        protected AnimatorLayerWizardBase Wizard => Builder.Wizard;
+        AnimatorLayerWizardBase Wizard => Builder.Wizard;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 
         Vector3 _position = new Vector3(0f, 0f, 0f);

@@ -1,6 +1,5 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
 using UnityEditor;
@@ -13,12 +12,9 @@ namespace Silksprite.EmoteWizard.Extensions
         public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersSnapshot)
         {
             var layerKind = wizard.LayerKind;
-            var builder = new AnimatorLayerBuilder
-            {
-                Wizard = wizard,
-                ParametersSnapshot = parametersSnapshot,
-                DefaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller"
-            };
+            var defaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller";
+            var animatorController = wizard.ReplaceOrCreateOutputAsset(ref wizard.outputAsset, defaultRelativePath);
+            var builder = new AnimatorLayerBuilder(wizard, parametersSnapshot, animatorController);
 
             if (wizard.defaultAvatarMask)
             {
