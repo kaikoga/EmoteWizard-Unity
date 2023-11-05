@@ -19,6 +19,14 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public bool showTutorial;
 
+        AnimationClip IEmoteWizardContext.EmptyClip
+        {
+            get => emptyClip;
+            set => emptyClip = value;
+        }
+
+        GameObject IEmoteWizardContext.GameObject => gameObject;
+
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 
         public void DisconnectAllOutputAssets()

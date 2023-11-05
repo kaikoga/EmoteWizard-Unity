@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Base;
 using UnityEditor;
 using UnityEngine;
 
@@ -5,20 +6,20 @@ using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
-    public static partial class EmoteWizardRootExtension
+    public static partial class EmoteWizardContextExtension
     {
-        public static T EnsureAsset<T>(this EmoteWizardRoot root, string relativePath)
+        public static T EnsureAsset<T>(this IEmoteWizardContext context, string relativePath)
             where T : Object, new()
         {
             T asset = default;
-            return EnsureAsset(root, relativePath, ref asset);
+            return EnsureAsset(context, relativePath, ref asset);
         }
 
-        public static T EnsureAsset<T>(this EmoteWizardRoot root, string relativePath, ref T asset)
+        public static T EnsureAsset<T>(this IEmoteWizardContext context, string relativePath, ref T asset)
             where T : Object, new()
         {
             if (asset) return asset;
-            var assetPath = root.GeneratedAssetPath(relativePath);
+            var assetPath = context.GeneratedAssetPath(relativePath);
             var existingAsset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
             asset = existingAsset ? existingAsset : CreateAsset<T>(assetPath);
             return asset;
