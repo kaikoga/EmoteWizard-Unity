@@ -1,7 +1,8 @@
 {
     "name": "EmoteWizard",
     "references": [
-        "EmoteWizardSupport"
+        "EmoteWizardSupport",
+        "EmoteWizardSupport.Editor"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

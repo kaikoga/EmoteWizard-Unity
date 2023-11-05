@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             serializedObject.ApplyModifiedProperties();
             
-            EmoteWizardGUILayout.Tutorial(((ParameterSource)target).EmoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(((ParameterSource)target).Context, Tutorial);
         }
         
         static string Tutorial =>

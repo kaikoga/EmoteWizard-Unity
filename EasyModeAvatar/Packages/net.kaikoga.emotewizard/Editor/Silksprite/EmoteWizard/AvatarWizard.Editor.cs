@@ -25,13 +25,13 @@ namespace Silksprite.EmoteWizard
             RuntimeAnimatorController GenerateOverrideController(RuntimeAnimatorController source, string layer)
             {
                 var path = AssetDatabase.GetAssetPath(source);
-                var newPath = _wizard.EmoteWizardRoot.GeneratedAssetPath(GeneratedAssetLocator.GeneratedOverrideControllerPath(layer));
+                var newPath = _wizard.Context.GeneratedAssetPath(GeneratedAssetLocator.GeneratedOverrideControllerPath(layer));
                 EnsureDirectory(newPath);
                 AssetDatabase.CopyAsset(path, newPath);
                 return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(newPath);
             }
 
-            var emoteWizardRoot = _wizard.EmoteWizardRoot;
+            var context = _wizard.Context;
 
             var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AvatarWizard.overrideGesture)), overrideGestureLabel);
@@ -71,9 +71,9 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                 }
 
-                var gestureController = emoteWizardRoot.GetWizard<GestureLayerWizard>()?.outputAsset as AnimatorController;
-                var fxController = emoteWizardRoot.GetWizard<FxLayerWizard>()?.outputAsset as AnimatorController;
-                var actionController = emoteWizardRoot.GetWizard<ActionLayerWizard>()?.outputAsset as AnimatorController;
+                var gestureController = context.GetWizard<GestureLayerWizard>()?.outputAsset as AnimatorController;
+                var fxController = context.GetWizard<FxLayerWizard>()?.outputAsset as AnimatorController;
+                var actionController = context.GetWizard<ActionLayerWizard>()?.outputAsset as AnimatorController;
 
                 if (avatarDescriptor)
                 {
@@ -153,7 +153,7 @@ namespace Silksprite.EmoteWizard
 
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(context, Tutorial);
         }
         
         static string Tutorial => 

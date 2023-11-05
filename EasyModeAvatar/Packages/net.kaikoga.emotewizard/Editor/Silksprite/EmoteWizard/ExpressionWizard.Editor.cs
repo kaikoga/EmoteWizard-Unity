@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _wizard.EmoteWizardRoot;
+            var context = _wizard.Context;
 
             EditorGUILayout.PropertyField(_serializedBuildAsSubAsset);
 
@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard
 
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(context, Tutorial);
         }
 
         static string Tutorial =>

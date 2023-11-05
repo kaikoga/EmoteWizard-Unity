@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         AnimatorState AddStateWithoutTransition(string stateName, Motion motion, Vector3 position, bool isReallyEmptyState)
         {
-            if (motion == null && !isReallyEmptyState) motion = Wizard.EmoteWizardRoot.ProvideEmptyClip();
+            if (motion == null && !isReallyEmptyState) motion = Wizard.Context.ProvideEmptyClip();
             var state = StateMachine.AddState(stateName, position);
             state.motion = motion;
             state.writeDefaultValues = false;

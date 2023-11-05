@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
@@ -27,7 +28,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var emoteWizardRoot = _wizard.EmoteWizardRoot;
+            var context = _wizard.Context;
 
             EditorGUILayout.PropertyField(_serializedIsSetupMode, new GUIContent("Enable Setup Only UI"));
 
@@ -35,82 +36,82 @@ namespace Silksprite.EmoteWizard
 
             if (GUILayout.Button("Generate Wizards"))
             {
-                GenerateWizards(emoteWizardRoot);
+                GenerateWizards(context);
             }
 
             EmoteWizardGUILayout.SetupOnlyUI(_wizard, () =>
             {
                 if (GUILayout.Button("Quick Setup EmoteItems (All Sources)"))
                 {
-                    QuickSetupEmoteItems(emoteWizardRoot);
+                    QuickSetupEmoteItems(context);
                 }
 
-                if (emoteWizardRoot.transform.childCount <= 0) return;
+                if (context.Transform.childCount <= 0) return;
 
                 GUILayout.Space(4f);
 
-                if (!emoteWizardRoot.transform.Find(Names.ExpressionSources))
+                if (!context.Transform.Find(Names.ExpressionSources))
                 {
                     if (GUILayout.Button("Quick Setup Expression Sources"))
                     {
-                        QuickSetupExpressionSources(emoteWizardRoot);
+                        QuickSetupExpressionSources(context);
                     }
                 }
-                if (!emoteWizardRoot.transform.Find(Names.ParameterSources))
+                if (!context.Transform.Find(Names.ParameterSources))
                 {
                     if (GUILayout.Button("Quick Setup Parameter Sources"))
                     {
-                        QuickSetupParameterSources(emoteWizardRoot);
+                        QuickSetupParameterSources(context);
                     }
                 }
-                if (!emoteWizardRoot.transform.Find(Names.FXSources))
+                if (!context.Transform.Find(Names.FXSources))
                 {
                     if (GUILayout.Button("Quick Setup FX Sources"))
                     {
-                        QuickSetupFXSources(emoteWizardRoot);
+                        QuickSetupFXSources(context);
                     }
                 }
-                if (!emoteWizardRoot.transform.Find(Names.GestureSources))
+                if (!context.Transform.Find(Names.GestureSources))
                 {
                     if (GUILayout.Button("Quick Setup Gesture Sources"))
                     {
-                        QuickSetupGestureSources(emoteWizardRoot);
+                        QuickSetupGestureSources(context);
                     }
                 }
-                if (!emoteWizardRoot.transform.Find(Names.ActionSources))
+                if (!context.Transform.Find(Names.ActionSources))
                 {
                     if (GUILayout.Button("Quick Setup Action Sources"))
                     {
-                        QuickSetupActionSources(emoteWizardRoot);
+                        QuickSetupActionSources(context);
                     }
                 }
             });
 
             if (GUILayout.Button("Complete setup and remove me"))
             {
-                DestroySelf(emoteWizardRoot);
+                DestroySelf(context);
                 return;
             }
             
-            EmoteWizardGUILayout.Tutorial(emoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(context, Tutorial);
         }
 
-        static void GenerateWizards(EmoteWizardRoot emoteWizardRoot)
+        static void GenerateWizards(IEmoteWizardContext context)
         {
-            emoteWizardRoot.EnsureWizard<AvatarWizard>();
-            emoteWizardRoot.EnsureWizard<ExpressionWizard>();
-            emoteWizardRoot.EnsureWizard<ParametersWizard>();
-            emoteWizardRoot.EnsureWizard<FxLayerWizard>();
-            emoteWizardRoot.EnsureWizard<GestureLayerWizard>(gestureWizard =>
+            context.EnsureWizard<AvatarWizard>();
+            context.EnsureWizard<ExpressionWizard>();
+            context.EnsureWizard<ParametersWizard>();
+            context.EnsureWizard<FxLayerWizard>();
+            context.EnsureWizard<GestureLayerWizard>(gestureWizard =>
             {
                 gestureWizard.defaultAvatarMask = VrcSdkAssetLocator.HandsOnly();
             });
-            emoteWizardRoot.EnsureWizard<ActionLayerWizard>();
+            context.EnsureWizard<ActionLayerWizard>();
         }
 
-        void DestroySelf(EmoteWizardRoot emoteWizardRoot)
+        void DestroySelf(IEmoteWizardContext context)
         {
-            if (_wizard.gameObject != emoteWizardRoot.gameObject)
+            if (_wizard.gameObject != context.GameObject)
             {
                 DestroyImmediate(_wizard.gameObject, true);
             }
@@ -120,25 +121,25 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        static void QuickSetupEmoteItems(EmoteWizardRoot emoteWizardRoot)
+        static void QuickSetupEmoteItems(IEmoteWizardContext context)
         {
-            GenerateWizards(emoteWizardRoot);
+            GenerateWizards(context);
 
-            QuickSetupExpressionSources(emoteWizardRoot);
-            QuickSetupParameterSources(emoteWizardRoot);
-            QuickSetupFXSources(emoteWizardRoot);
-            QuickSetupGestureSources(emoteWizardRoot);
-            QuickSetupActionSources(emoteWizardRoot);
+            QuickSetupExpressionSources(context);
+            QuickSetupParameterSources(context);
+            QuickSetupFXSources(context);
+            QuickSetupGestureSources(context);
+            QuickSetupActionSources(context);
         }
 
-        static void QuickSetupExpressionSources(EmoteWizardRoot emoteWizardRoot)
+        static void QuickSetupExpressionSources(IEmoteWizardContext context)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources);
+            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources);
         }
 
-        static void QuickSetupParameterSources(EmoteWizardRoot emoteWizardRoot)
+        static void QuickSetupParameterSources(IEmoteWizardContext context)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
+            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
         }
 
         static void PopulateEmoteItemSource(EmoteItemSource source, EmoteItemTemplate template)
@@ -150,9 +151,9 @@ namespace Silksprite.EmoteWizard
             source.expressionItemIcon = template.ExpressionItemIcon;
         }
 
-        static void QuickSetupFXSources(EmoteWizardRoot emoteWizardRoot)
+        static void QuickSetupFXSources(IEmoteWizardContext context)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.FXSources, fxSources =>
+            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.FXSources, fxSources =>
             {
                 foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
                 {
@@ -162,9 +163,9 @@ namespace Silksprite.EmoteWizard
             });
         }
 
-        static void QuickSetupGestureSources(EmoteWizardRoot emoteWizardRoot)
+        static void QuickSetupGestureSources(IEmoteWizardContext context)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.GestureSources, gestureSources =>
+            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.GestureSources, gestureSources =>
             {
                 foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
                 {
@@ -174,9 +175,9 @@ namespace Silksprite.EmoteWizard
             });
         }
 
-        static void QuickSetupActionSources(EmoteWizardRoot emoteWizardRoot)
+        static void QuickSetupActionSources(IEmoteWizardContext context)
         {
-            emoteWizardRoot.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ActionSources, actionSources =>
+            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ActionSources, actionSources =>
             {
                 foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
                 {

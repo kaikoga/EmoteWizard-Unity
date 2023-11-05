@@ -112,7 +112,7 @@ namespace Silksprite.EmoteWizard.Sources
 
                             var relativePath =
                                 $"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.anim";
-                            return ((ExpressionItemSource)target).EmoteWizardRoot.EnsureAsset<VRCExpressionsMenu>(relativePath);
+                            return ((ExpressionItemSource)target).Context.EnsureAsset<VRCExpressionsMenu>(relativePath);
                         });
                     break;
                 case ExpressionItemKind.TwoAxisPuppet:
@@ -130,7 +130,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             serializedObject.ApplyModifiedProperties();
             
-            EmoteWizardGUILayout.Tutorial(((ExpressionItemSource)target).EmoteWizardRoot, Tutorial);
+            EmoteWizardGUILayout.Tutorial(((ExpressionItemSource)target).Context, Tutorial);
         }
 
         static string Tutorial =>

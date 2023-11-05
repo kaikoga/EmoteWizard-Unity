@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             if (wizard.HasResetClip)
             {
-                var resetClip = wizard.EmoteWizardRoot.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
+                var resetClip = wizard.Context.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
                 wizard.BuildResetClip(resetClip);
                 builder.BuildStaticLayer("Reset", resetClip, null);
             }
@@ -35,9 +35,9 @@ namespace Silksprite.EmoteWizard.Extensions
                 wizard.resetClip = null;
             }
             builder.BuildEmoteLayers(wizard.CollectEmoteItems());
-            if (layerKind == wizard.EmoteWizardRoot.generateTrackingControlLayer)
+            if (layerKind == wizard.Context.GenerateTrackingControlLayer)
             {
-                builder.BuildTrackingControlLayers(wizard.EmoteWizardRoot.CollectAllEmoteItems());
+                builder.BuildTrackingControlLayers(wizard.Context.CollectAllEmoteItems());
             }
             builder.BuildParameters();
             return wizard.outputAsset;
@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            var proxyAnimator = wizard.EmoteWizardRoot.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
+            var proxyAnimator = wizard.Context.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : null;
 
             targetClip.ClearCurves();

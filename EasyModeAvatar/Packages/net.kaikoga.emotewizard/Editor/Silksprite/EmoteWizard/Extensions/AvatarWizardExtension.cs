@@ -21,15 +21,15 @@ namespace Silksprite.EmoteWizard.Extensions
             var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
             avatarAnimator.runtimeAnimatorController = null;
             
-            var emoteWizardRoot = avatarWizard.EmoteWizardRoot;
-            var parameters = emoteWizardRoot.EnsureWizard<ParametersWizard>().Snapshot(); 
+            var context = avatarWizard.Context;
+            var parameters = context.EnsureWizard<ParametersWizard>().Snapshot(); 
 
             RuntimeAnimatorController SelectGestureController()
             {
                 switch (avatarWizard.overrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return emoteWizardRoot.GetWizard<GestureLayerWizard>().BuildOutputAsset(parameters);
+                        return context.GetWizard<GestureLayerWizard>().BuildOutputAsset(parameters);
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return avatarWizard.overrideGestureController;
                     case AvatarWizard.OverrideGeneratedControllerType2.Default1:
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 switch (avatarWizard.overrideAction)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType1.Generate:
-                        return emoteWizardRoot.GetWizard<ActionLayerWizard>().BuildOutputAsset(parameters);
+                        return context.GetWizard<ActionLayerWizard>().BuildOutputAsset(parameters);
                     case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return avatarWizard.overrideActionController;
                     case AvatarWizard.OverrideGeneratedControllerType1.Default:
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
             RuntimeAnimatorController SelectFxController()
             {
-                return emoteWizardRoot.GetWizard<FxLayerWizard>().BuildOutputAsset(parameters);
+                return context.GetWizard<FxLayerWizard>().BuildOutputAsset(parameters);
             }
 
             RuntimeAnimatorController SelectSittingController()
@@ -154,8 +154,8 @@ namespace Silksprite.EmoteWizard.Extensions
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = emoteWizardRoot.GetWizard<ExpressionWizard>()?.BuildOutputAsset();
-            avatarDescriptor.expressionParameters = emoteWizardRoot.GetWizard<ParametersWizard>()?.BuildOutputAsset();
+            avatarDescriptor.expressionsMenu = context.GetWizard<ExpressionWizard>()?.BuildOutputAsset();
+            avatarDescriptor.expressionParameters = context.GetWizard<ParametersWizard>()?.BuildOutputAsset();
         }
     }
 }

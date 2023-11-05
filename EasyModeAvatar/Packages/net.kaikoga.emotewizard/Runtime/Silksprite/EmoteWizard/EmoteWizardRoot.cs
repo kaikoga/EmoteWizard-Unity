@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard
@@ -24,8 +26,15 @@ namespace Silksprite.EmoteWizard
             get => emptyClip;
             set => emptyClip = value;
         }
+        LayerKind IEmoteWizardContext.GenerateTrackingControlLayer => generateTrackingControlLayer;
+        bool IEmoteWizardContext.ShowTutorial => showTutorial;
+
 
         GameObject IEmoteWizardContext.GameObject => gameObject;
+        Transform IEmoteWizardContext.Transform => transform;
+
+        T IEmoteWizardContext.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => this.FindOrCreateChildComponent(path, initializer);
+
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 

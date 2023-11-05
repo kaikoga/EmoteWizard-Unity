@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard
 
         IEnumerable<EmoteItem> CollectEmoteItems()
         {
-            return EmoteWizardRoot.CollectAllEmoteItems();
+            return Context.CollectAllEmoteItems();
         }
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
-            return EmoteWizardRoot.GetComponentsInChildren<IParameterSource>()
+            return Context.GetComponentsInChildren<IParameterSource>()
                 .SelectMany(source => source.ParameterItems);
         }
 

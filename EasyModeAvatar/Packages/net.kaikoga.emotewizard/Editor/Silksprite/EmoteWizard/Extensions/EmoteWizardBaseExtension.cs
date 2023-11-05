@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = emoteWizardBase.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
+                var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
                 EnsureDirectory(path);
                 outputAsset = ScriptableObject.CreateInstance<T>();
                 AssetDatabase.CreateAsset(outputAsset, path);
@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = emoteWizardBase.EmoteWizardRoot.GeneratedAssetPath(defaultRelativePath);
+                var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
                 EnsureDirectory(path);
                 animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                 animatorController.RemoveLayer(0); // Remove Base Layer

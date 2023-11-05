@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.UI
         public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, Action action)
             where T : EmoteWizardBase
         {
-            RequireAnotherWizard(emoteWizardBase, emoteWizardBase.EmoteWizardRoot.GetWizard<T>(), action);
+            RequireAnotherWizard(emoteWizardBase, emoteWizardBase.Context.GetWizard<T>(), action);
         }
 
         public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, T anotherWizard, Action action)
@@ -68,15 +68,15 @@ namespace Silksprite.EmoteWizard.UI
             }
         }
 
-        public static void Tutorial(EmoteWizardRoot emoteWizardRoot, Action action)
+        public static void Tutorial(IEmoteWizardContext context, Action action)
         {
-            if (!emoteWizardRoot.showTutorial) return;
+            if (!context.ShowTutorial) return;
             using (new BoxLayoutScope()) action();
         }
         
-        public static void Tutorial(EmoteWizardRoot emoteWizardRoot, string message)
+        public static void Tutorial(IEmoteWizardContext context, string message)
         {
-            Tutorial(emoteWizardRoot, () => EditorGUILayout.HelpBox(message.Nowrap(), MessageType.Info));
+            Tutorial(context, () => EditorGUILayout.HelpBox(message.Nowrap(), MessageType.Info));
         }
     }
 }
