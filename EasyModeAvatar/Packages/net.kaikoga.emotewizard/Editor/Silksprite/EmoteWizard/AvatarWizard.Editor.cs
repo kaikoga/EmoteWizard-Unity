@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Legacy;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -72,25 +71,9 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                 }
 
-                var gestureWizardController = emoteWizardRoot.GetWizard<GestureLayerWizard>()?.outputAsset;
-                if (gestureWizardController is null)
-                {
-                    gestureWizardController = emoteWizardRoot.GetWizard<GestureWizard>()?.outputAsset;
-                }
-                var gestureController = gestureWizardController as AnimatorController;
-                var fxWizardController = emoteWizardRoot.GetWizard<FxLayerWizard>()?.outputAsset;
-                if (fxWizardController is null)
-                {
-                    fxWizardController = emoteWizardRoot.GetWizard<FxWizard>()?.outputAsset;
-                }
-
-                var fxController = fxWizardController as AnimatorController;
-                var actionLayerController = emoteWizardRoot.GetWizard<ActionLayerWizard>()?.outputAsset;
-                if (actionLayerController is null)
-                {
-                    actionLayerController = emoteWizardRoot.GetWizard<ActionWizard>()?.outputAsset;
-                }
-                var actionController = actionLayerController as AnimatorController;
+                var gestureController = emoteWizardRoot.GetWizard<GestureLayerWizard>()?.outputAsset as AnimatorController;
+                var fxController = emoteWizardRoot.GetWizard<FxLayerWizard>()?.outputAsset as AnimatorController;
+                var actionController = emoteWizardRoot.GetWizard<ActionLayerWizard>()?.outputAsset as AnimatorController;
 
                 if (avatarDescriptor)
                 {
