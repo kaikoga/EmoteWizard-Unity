@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -35,10 +36,17 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
-                EnsureDirectory(path);
                 outputAsset = ScriptableObject.CreateInstance<T>();
-                AssetDatabase.CreateAsset(outputAsset, path);
+                var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
+                if (emoteWizardBase.Context.PersistGeneratedAssets)
+                {
+                    EnsureDirectory(path);
+                    AssetDatabase.CreateAsset(outputAsset, path);
+                }
+                else
+                {
+                    outputAsset.name = Path.GetFileName(path);
+                }
             }
             EditorUtility.SetDirty(emoteWizardBase);
             EditorUtility.SetDirty(outputAsset);
@@ -57,10 +65,21 @@ namespace Silksprite.EmoteWizard.Extensions
             else
             {
                 var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
-                EnsureDirectory(path);
-                animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
-                animatorController.RemoveLayer(0); // Remove Base Layer
-                outputAsset = animatorController;
+                if (emoteWizardBase.Context.PersistGeneratedAssets)
+                {
+
+                    EnsureDirectory(path);
+                    animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
+                    animatorController.RemoveLayer(0); // Remove Base Layer
+                    outputAsset = animatorController;
+                }
+                else
+                {
+                    outputAsset = new AnimatorController
+                    {
+                        name = Path.GetFileName(path)
+                    };
+                }
             }
             EditorUtility.SetDirty(emoteWizardBase);
             EditorUtility.SetDirty(animatorController);

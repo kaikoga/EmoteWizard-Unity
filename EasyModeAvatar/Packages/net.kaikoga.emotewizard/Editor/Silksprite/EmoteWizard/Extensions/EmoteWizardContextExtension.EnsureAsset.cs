@@ -1,3 +1,4 @@
+using System.IO;
 using Silksprite.EmoteWizard.Base;
 using UnityEditor;
 using UnityEngine;
@@ -21,17 +22,24 @@ namespace Silksprite.EmoteWizard.Extensions
             if (asset) return asset;
             var assetPath = context.GeneratedAssetPath(relativePath);
             var existingAsset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            asset = existingAsset ? existingAsset : CreateAsset<T>(assetPath);
+            asset = existingAsset ? existingAsset : context.CreateAsset<T>(assetPath);
             return asset;
         }
 
-        static T CreateAsset<T>(string assetPath)
+        static T CreateAsset<T>(this IEmoteWizardContext context, string assetPath)
             where T : Object, new()
         {
             var asset = new T();
-            EnsureDirectory(assetPath);
-            AssetDatabase.CreateAsset(asset, assetPath);
-            AssetDatabase.SaveAssets();
+            if (context.PersistGeneratedAssets) 
+            {
+                EnsureDirectory(assetPath);
+                AssetDatabase.CreateAsset(asset, assetPath);
+                AssetDatabase.SaveAssets();
+            }
+            else
+            {
+                asset.name = Path.GetFileName(assetPath);
+            }
             return asset;
         }
     }

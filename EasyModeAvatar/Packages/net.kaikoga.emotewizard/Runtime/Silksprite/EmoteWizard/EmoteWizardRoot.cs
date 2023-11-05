@@ -28,6 +28,7 @@ namespace Silksprite.EmoteWizard
         }
         LayerKind IEmoteWizardContext.GenerateTrackingControlLayer => generateTrackingControlLayer;
         bool IEmoteWizardContext.ShowTutorial => showTutorial;
+        bool IEmoteWizardContext.PersistGeneratedAssets { get; set; } = true;
 
 
         GameObject IEmoteWizardContext.GameObject => gameObject;

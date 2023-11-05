@@ -12,6 +12,7 @@ namespace Silksprite.EmoteWizard.Base
         AnimationClip EmptyClip { get; set; }
         LayerKind GenerateTrackingControlLayer { get; }
         bool ShowTutorial { get; }
+        bool PersistGeneratedAssets { get; set;  }
 
         T GetWizard<T>() where T : EmoteWizardBase;
 
