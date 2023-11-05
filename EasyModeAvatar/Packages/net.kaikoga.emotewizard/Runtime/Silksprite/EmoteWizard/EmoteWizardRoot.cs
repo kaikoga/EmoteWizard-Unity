@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class EmoteWizardRoot : MonoBehaviour
+    public class EmoteWizardRoot : MonoBehaviour, IEmoteWizardContext
     {
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
