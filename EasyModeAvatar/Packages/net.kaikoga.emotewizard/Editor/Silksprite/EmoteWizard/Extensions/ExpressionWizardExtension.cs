@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
-            var rootPath = $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
+            var rootPath = string.IsNullOrEmpty(rootItemPath) ? null : $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
 
             var groups = expressionWizard.GroupExpressionItems().ToList();
 
@@ -66,7 +66,10 @@ namespace Silksprite.EmoteWizard.Extensions
                 else if (expressionWizard.buildAsSubAsset)
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
-                    AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
+                    if (expressionWizard.Context.PersistGeneratedAssets)
+                    {
+                        AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
+                    }
                     childMenu.name = @group.Path;
                     menus[@group.Path] = childMenu;
                 }

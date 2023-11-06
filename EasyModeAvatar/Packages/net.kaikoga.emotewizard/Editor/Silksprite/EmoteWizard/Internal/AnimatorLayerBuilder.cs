@@ -64,7 +64,10 @@ namespace Silksprite.EmoteWizard.Internal
                 }
             };
 
-            AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(_animatorController));
+            if (Wizard.Context.PersistGeneratedAssets)
+            {
+                AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(_animatorController));
+            }
             _animatorController.AddLayer(layer);
             return layer;
         }
