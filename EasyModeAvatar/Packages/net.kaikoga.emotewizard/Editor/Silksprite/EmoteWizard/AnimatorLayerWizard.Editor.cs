@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var context = _wizard.Environment;
+            var env = _wizard.Environment;
 
             using (new ObjectChangeScope(_wizard))
             {
@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedDefaultAvatarMask, () =>
                     {
-                        var avatarMask = context.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
+                        var avatarMask = env.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
                         return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
                     });
                 }
@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Generate Animation Controller"))
                         {
-                            _wizard.GetContext().BuildOutputAsset(context.GetContext<ParametersContext>().Snapshot());
+                            _wizard.GetContext().BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
                         }
                     });
 
@@ -72,8 +72,8 @@ namespace Silksprite.EmoteWizard
             }
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(context, Tutorial);
-            EmoteWizardGUILayout.Tutorial(context, Tutorial2);
+            EmoteWizardGUILayout.Tutorial(env, Tutorial);
+            EmoteWizardGUILayout.Tutorial(env, Tutorial2);
         }
 
         string Tutorial => 

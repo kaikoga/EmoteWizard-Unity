@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard
                 return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(newPath);
             }
 
-            var context = _wizard.Environment;
+            var env = _wizard.Environment;
 
             var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AvatarWizard.overrideGesture)), overrideGestureLabel);
@@ -76,9 +76,9 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                 }
 
-                var gestureController = context.GetContext<GestureLayerContext>()?.OutputAsset as AnimatorController;
-                var fxController = context.GetContext<FxLayerContext>()?.OutputAsset as AnimatorController;
-                var actionController = context.GetContext<ActionLayerContext>()?.OutputAsset as AnimatorController;
+                var gestureController = env.GetContext<GestureLayerContext>()?.OutputAsset as AnimatorController;
+                var fxController = env.GetContext<FxLayerContext>()?.OutputAsset as AnimatorController;
+                var actionController = env.GetContext<ActionLayerContext>()?.OutputAsset as AnimatorController;
 
                 if (avatarDescriptor)
                 {
@@ -158,7 +158,7 @@ namespace Silksprite.EmoteWizard
 
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(context, Tutorial);
+            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
         
         static string Tutorial => 

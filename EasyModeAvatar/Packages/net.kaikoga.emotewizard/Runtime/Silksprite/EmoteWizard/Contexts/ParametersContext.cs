@@ -32,18 +32,18 @@ namespace Silksprite.EmoteWizard.Contexts
 
         IEnumerable<EmoteItem> CollectEmoteItems()
         {
-            return Wizard.Environment.CollectAllEmoteItems();
+            return Environment.CollectAllEmoteItems();
         }
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            var expressionWizard = Wizard.Environment.GetContext<ExpressionContext>();
+            var expressionWizard = Environment.GetContext<ExpressionContext>();
             return expressionWizard != null ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
         }
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
-            return Wizard.Environment.GetComponentsInChildren<IParameterSource>()
+            return Environment.GetComponentsInChildren<IParameterSource>()
                 .SelectMany(source => source.ParameterItems);
         }
 

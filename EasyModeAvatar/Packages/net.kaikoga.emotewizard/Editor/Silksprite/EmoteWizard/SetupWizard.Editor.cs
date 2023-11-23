@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var context = _wizard.Environment;
+            var env = _wizard.Environment;
 
             EditorGUILayout.PropertyField(_serializedIsSetupMode, new GUIContent("Enable Setup Only UI"));
 
@@ -38,64 +38,64 @@ namespace Silksprite.EmoteWizard
 
             if (GUILayout.Button("Generate Wizards"))
             {
-                GenerateWizards(context);
+                GenerateWizards(env);
             }
 
             EmoteWizardGUILayout.SetupOnlyUI(_wizard, () =>
             {
                 if (GUILayout.Button("Quick Setup EmoteItems (All Sources)"))
                 {
-                    QuickSetupEmoteItems(context);
+                    QuickSetupEmoteItems(env);
                 }
 
-                if (context.Transform.childCount <= 0) return;
+                if (env.Transform.childCount <= 0) return;
 
                 GUILayout.Space(4f);
 
-                if (!context.Transform.Find(Names.ExpressionSources))
+                if (!env.Transform.Find(Names.ExpressionSources))
                 {
                     if (GUILayout.Button("Quick Setup Expression Sources"))
                     {
-                        QuickSetupExpressionSources(context);
+                        QuickSetupExpressionSources(env);
                     }
                 }
-                if (!context.Transform.Find(Names.ParameterSources))
+                if (!env.Transform.Find(Names.ParameterSources))
                 {
                     if (GUILayout.Button("Quick Setup Parameter Sources"))
                     {
-                        QuickSetupParameterSources(context);
+                        QuickSetupParameterSources(env);
                     }
                 }
-                if (!context.Transform.Find(Names.FXSources))
+                if (!env.Transform.Find(Names.FXSources))
                 {
                     if (GUILayout.Button("Quick Setup FX Sources"))
                     {
-                        QuickSetupFXSources(context);
+                        QuickSetupFXSources(env);
                     }
                 }
-                if (!context.Transform.Find(Names.GestureSources))
+                if (!env.Transform.Find(Names.GestureSources))
                 {
                     if (GUILayout.Button("Quick Setup Gesture Sources"))
                     {
-                        QuickSetupGestureSources(context);
+                        QuickSetupGestureSources(env);
                     }
                 }
-                if (!context.Transform.Find(Names.ActionSources))
+                if (!env.Transform.Find(Names.ActionSources))
                 {
                     if (GUILayout.Button("Quick Setup Action Sources"))
                     {
-                        QuickSetupActionSources(context);
+                        QuickSetupActionSources(env);
                     }
                 }
             });
 
             if (GUILayout.Button("Complete setup and remove me"))
             {
-                DestroySelf(context);
+                DestroySelf(env);
                 return;
             }
             
-            EmoteWizardGUILayout.Tutorial(context, Tutorial);
+            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
 
         static void GenerateWizards(EmoteWizardEnvironment environment)
