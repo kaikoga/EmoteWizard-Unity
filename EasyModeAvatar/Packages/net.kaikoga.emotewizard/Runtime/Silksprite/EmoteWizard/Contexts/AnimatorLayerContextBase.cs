@@ -30,9 +30,9 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
-        public readonly AvatarMask DefaultAvatarMask;
-        public readonly LayerKind LayerKind;
-        public readonly bool HasResetClip;
+        public AvatarMask DefaultAvatarMask { get; protected set; }
+        public LayerKind LayerKind { get; protected set; }
+        public bool HasResetClip { get; protected set; }
 
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env) : base(env) { }
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard)
