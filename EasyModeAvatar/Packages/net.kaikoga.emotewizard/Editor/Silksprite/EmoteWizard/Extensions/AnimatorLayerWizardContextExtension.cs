@@ -1,5 +1,5 @@
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
 using UnityEditor;
@@ -7,63 +7,69 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
-    public static class AnimatorLayerWizardExtension
+    public static class AnimatorLayerWizardContextExtension
     {
-        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerWizardBase wizard, ParametersSnapshot parametersSnapshot)
+        public static RuntimeAnimatorController BuildOutputAsset(this IAnimatorLayerWizardContext context, ParametersSnapshot parametersSnapshot)
         {
-            var layerKind = wizard.LayerKind;
+            var layerKind = context.LayerKind;
             var defaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller";
-            var animatorController = wizard.ReplaceOrCreateOutputAsset(ref wizard.outputAsset, defaultRelativePath);
-            var builder = new AnimatorLayerBuilder(wizard, parametersSnapshot, animatorController);
+            var outputAsset = context.OutputAsset;
+            var animatorController = context.ReplaceOrCreateOutputAsset(ref outputAsset, defaultRelativePath);
+            context.OutputAsset = outputAsset;
+            var builder = new AnimatorLayerBuilder(context, parametersSnapshot, animatorController);
 
-            if (wizard.defaultAvatarMask)
+            if (context.DefaultAvatarMask)
             {
-                builder.BuildStaticLayer("Default Avatar Mask", null, wizard.defaultAvatarMask);
+                builder.BuildStaticLayer("Default Avatar Mask", null, context.DefaultAvatarMask);
             }
-            if (wizard.HasResetClip)
+
+            var resetClip = context.ResetClip;
+            if (context.HasResetClip)
             {
-                var resetClip = wizard.Context.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref wizard.resetClip);
-                wizard.BuildResetClip(resetClip);
+                resetClip = context.Context.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref resetClip);
+                context.BuildResetClip(resetClip);
                 builder.BuildStaticLayer("Reset", resetClip, null);
             }
             else
             {
-                wizard.resetClip = null;
+                resetClip = null;
             }
-            builder.BuildEmoteLayers(wizard.CollectEmoteItems());
-            if (layerKind == wizard.Context.GenerateTrackingControlLayer)
+            context.ResetClip = resetClip;
+
+            builder.BuildEmoteLayers(context.CollectEmoteItems());
+            if (layerKind == context.Context.GenerateTrackingControlLayer)
             {
-                builder.BuildTrackingControlLayers(wizard.Context.CollectAllEmoteItems());
+                builder.BuildTrackingControlLayers(context.Context.CollectAllEmoteItems());
             }
             builder.BuildParameters();
-            return wizard.outputAsset;
+            return context.OutputAsset;
         }
 
-        static void BuildResetClip(this AnimatorLayerWizardBase wizard, AnimationClip targetClip)
+        static void BuildResetClip(this IAnimatorLayerWizardContext context, AnimationClip targetClip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(wizard.CollectEmoteItems().SelectMany(e => e.AllClips()))
+                .Concat(context.CollectEmoteItems().SelectMany(e => e.AllClips()))
                 .Where(c => c != null).ToList();
             var curveBindings = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            var proxyAnimator = wizard.Context.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
+            var proxyAnimator = context.Context.GetWizard<AvatarWizard>()?.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : null;
 
             targetClip.ClearCurves();
             targetClip.frameRate = 60f;
             if (!avatar)
             {
-                var gameObject = wizard.gameObject;
+                var gameObject = context.Component.gameObject;
                 Debug.LogWarning($"{gameObject}: Failed to build reset clip because Avatar is not specified.\nProxyAnimator or AvatarDescriptor is required to build ResetClip.", gameObject);
                 return;
             }
 
             void WarnBindingNotFound(EditorCurveBinding curveBinding)
             {
-                var gameObject = wizard.gameObject;
+                var gameObject = context.Component.gameObject;
                 Debug.LogWarning($@"{gameObject.name}: ResetClip may be insufficient because animated property is not found in avatar.
 Object Path: {curveBinding.path}
 Property: {curveBinding.type} {curveBinding.propertyName}

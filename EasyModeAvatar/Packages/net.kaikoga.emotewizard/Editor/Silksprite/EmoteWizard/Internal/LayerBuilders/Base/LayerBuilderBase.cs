@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected readonly AnimatorLayerBuilder Builder;
         readonly AnimatorControllerLayer _layer;
 
-        AnimatorLayerWizardBase Wizard => Builder.Wizard;
+        IAnimatorLayerWizardContext Context => Builder.Context;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 
         Vector3 _position = new Vector3(0f, 0f, 0f);
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         AnimatorState AddStateWithoutTransition(string stateName, Motion motion, Vector3 position, bool isReallyEmptyState)
         {
-            if (motion == null && !isReallyEmptyState) motion = Wizard.Context.ProvideEmptyClip();
+            if (motion == null && !isReallyEmptyState) motion = Context.Context.ProvideEmptyClip();
             var state = StateMachine.AddState(stateName, position);
             state.motion = motion;
             state.writeDefaultValues = false;

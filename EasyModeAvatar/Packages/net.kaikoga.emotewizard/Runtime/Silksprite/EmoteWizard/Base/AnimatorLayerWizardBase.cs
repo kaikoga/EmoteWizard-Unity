@@ -24,6 +24,14 @@ namespace Silksprite.EmoteWizard.Base
             set => outputAsset = value;
         }
 
+        AvatarMask IAnimatorLayerWizardContext.DefaultAvatarMask => defaultAvatarMask;
+
+        AnimationClip IAnimatorLayerWizardContext.ResetClip
+        {
+            get => resetClip;
+            set => resetClip = value;
+        }
+
         public override void DisconnectOutputAssets()
         {
             resetClip = null;

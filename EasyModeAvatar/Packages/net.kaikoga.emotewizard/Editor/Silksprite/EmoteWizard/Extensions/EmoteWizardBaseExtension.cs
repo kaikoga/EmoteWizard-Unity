@@ -129,7 +129,7 @@ namespace Silksprite.EmoteWizard.Extensions
             return outputAsset;
         }
 
-        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<AnimatorController> context, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
+        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<RuntimeAnimatorController> context, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
         {
             AnimatorController animatorController;
 

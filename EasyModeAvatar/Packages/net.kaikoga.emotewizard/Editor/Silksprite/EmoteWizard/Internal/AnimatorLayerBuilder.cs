@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Internal
 {
     public class AnimatorLayerBuilder
     {
-        public readonly AnimatorLayerWizardBase Wizard;
+        public readonly IAnimatorLayerWizardContext Context;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
 
@@ -39,9 +39,9 @@ namespace Silksprite.EmoteWizard.Internal
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
 
-        public AnimatorLayerBuilder(AnimatorLayerWizardBase wizard, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
+        public AnimatorLayerBuilder(IAnimatorLayerWizardContext context, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
         {
-            Wizard = wizard;
+            Context = context;
             ParametersSnapshot = parametersSnapshot;
             _animatorController = animatorController;
         }
@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard.Internal
                 }
             };
 
-            if (Wizard.Context.PersistGeneratedAssets)
+            if (Context.Context.PersistGeneratedAssets)
             {
                 AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(_animatorController));
             }
@@ -87,11 +87,11 @@ namespace Silksprite.EmoteWizard.Internal
 
                 if (mirror)
                 {
-                    var avatarMaskLeft = Wizard.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
+                    var avatarMaskLeft = Context.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
                     var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
                     new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Left))).Build();
 
-                    var avatarMaskRight = Wizard.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
+                    var avatarMaskRight = Context.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
                     var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
                     new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Right))).Build();
                 }
