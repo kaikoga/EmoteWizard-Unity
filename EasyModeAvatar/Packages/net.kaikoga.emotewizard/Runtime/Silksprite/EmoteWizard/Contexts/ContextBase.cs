@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Contexts
         protected readonly TWizard Wizard;
 
         public EmoteWizardEnvironment Environment { get; }
-        public GameObject GameObject => Wizard.gameObject;
+        public GameObject GameObject => Wizard != null ? Wizard.gameObject : null;
 
         protected ContextBase(EmoteWizardEnvironment env)
         {
