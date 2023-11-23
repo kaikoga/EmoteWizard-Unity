@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
@@ -19,6 +20,8 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public readonly bool BuildAsSubAsset;
 
+        [UsedImplicitly]
+        public ExpressionContext(EmoteWizardEnvironment env) : base(env) { }
         public ExpressionContext(ExpressionWizard wizard) : base(wizard)
         {
             _outputAsset = wizard.outputAsset;

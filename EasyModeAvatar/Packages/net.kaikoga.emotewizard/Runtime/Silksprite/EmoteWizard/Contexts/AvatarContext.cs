@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
@@ -34,6 +35,8 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly AvatarWizard.OverrideControllerType2 OverrideSitting;
         public readonly RuntimeAnimatorController OverrideSittingController;
 
+        [UsedImplicitly]
+        public AvatarContext(EmoteWizardEnvironment env) : base(env) { }
         public AvatarContext(AvatarWizard wizard) : base(wizard)
         {
             _avatarDescriptor = Wizard.avatarDescriptor;

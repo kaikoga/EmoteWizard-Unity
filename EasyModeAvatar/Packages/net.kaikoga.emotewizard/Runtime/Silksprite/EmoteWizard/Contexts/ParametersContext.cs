@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
@@ -20,6 +21,8 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
+        [UsedImplicitly]
+        public ParametersContext(EmoteWizardEnvironment env) : base(env) { }
         public ParametersContext(ParametersWizard wizard) : base(wizard)
         {
             _outputAsset = wizard.outputAsset;
