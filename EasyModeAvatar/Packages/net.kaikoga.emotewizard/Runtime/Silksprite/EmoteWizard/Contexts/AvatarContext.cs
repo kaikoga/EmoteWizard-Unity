@@ -3,44 +3,44 @@ using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class AvatarContext : IAvatarWizardContext
+    public class AvatarContext : IBehaviourContext
     {
         readonly AvatarWizard _wizard;
 
         public AvatarContext(AvatarWizard wizard) => _wizard = wizard;
 
-        IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
+        public IEmoteWizardEnvironment Environment => _wizard.Environment;
 
-        GameObject IBehaviourContext.GameObject => _wizard.gameObject;
+        public GameObject GameObject => _wizard.gameObject;
 
-        VRCAvatarDescriptor IAvatarWizardContext.AvatarDescriptor
+        public VRCAvatarDescriptor AvatarDescriptor
         {
             get => _wizard.avatarDescriptor;
             set => _wizard.avatarDescriptor = value;
         }
 
-        Animator IAvatarWizardContext.ProxyAnimator
+        public Animator ProxyAnimator
         {
             get => _wizard.proxyAnimator;
             set => _wizard.proxyAnimator = value;
         }
 
-        void IBehaviourContext.DisconnectOutputAssets()
+        public void DisconnectOutputAssets()
         {
             _wizard.avatarDescriptor = null;
             _wizard.proxyAnimator = null;
         }
 
-        AvatarWizard.OverrideGeneratedControllerType2 IAvatarWizardContext.OverrideGesture => _wizard.overrideGesture;
+        public AvatarWizard.OverrideGeneratedControllerType2 OverrideGesture => _wizard.overrideGesture;
 
-        RuntimeAnimatorController IAvatarWizardContext.OverrideGestureController => _wizard.overrideGestureController;
+        public RuntimeAnimatorController OverrideGestureController => _wizard.overrideGestureController;
 
-        AvatarWizard.OverrideGeneratedControllerType1 IAvatarWizardContext.OverrideAction => _wizard.overrideAction;
+        public AvatarWizard.OverrideGeneratedControllerType1 OverrideAction => _wizard.overrideAction;
 
-        RuntimeAnimatorController IAvatarWizardContext.OverrideActionController => _wizard.overrideActionController;
+        public RuntimeAnimatorController OverrideActionController => _wizard.overrideActionController;
 
-        AvatarWizard.OverrideControllerType2 IAvatarWizardContext.OverrideSitting => _wizard.overrideSitting;
+        public AvatarWizard.OverrideControllerType2 OverrideSitting => _wizard.overrideSitting;
 
-        RuntimeAnimatorController IAvatarWizardContext.OverrideSittingController => _wizard.overrideSittingController;
+        public RuntimeAnimatorController OverrideSittingController => _wizard.overrideSittingController;
     }
 }

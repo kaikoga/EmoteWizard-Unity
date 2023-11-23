@@ -54,7 +54,7 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
-                    EmoteWizardGUILayout.RequireAnotherContext<IAvatarWizardContext, AvatarWizard>(_wizard, () =>
+                    EmoteWizardGUILayout.RequireAnotherContext<AvatarContext, AvatarWizard>(_wizard, () =>
                     {
                         if (GUILayout.Button("Generate Animation Controller"))
                         {

@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Base
         {
             get
             {
-                var setupContext = Environment.GetContext<ISetupWizardContext>();
+                var setupContext = Environment.GetContext<SetupContext>();
                 return setupContext != null && setupContext.IsSetupMode;
             }
         }

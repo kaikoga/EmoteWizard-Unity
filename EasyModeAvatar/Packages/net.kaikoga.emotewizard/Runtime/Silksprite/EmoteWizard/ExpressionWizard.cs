@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public bool buildAsSubAsset = true;
 
         public override IBehaviourContext ToContext() => GetContext();
-        public IExpressionWizardContext GetContext() => new ExpressionContext(this);
+        public ExpressionContext GetContext() => new ExpressionContext(this);
 
         public IEnumerable<ExpressionItem> CollectExpressionItems()
         {

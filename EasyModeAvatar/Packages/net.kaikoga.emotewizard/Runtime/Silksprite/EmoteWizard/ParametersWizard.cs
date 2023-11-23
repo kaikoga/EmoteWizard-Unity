@@ -11,6 +11,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public VRCExpressionParameters outputAsset;
 
         public override IBehaviourContext ToContext() => GetContext();
-        public IParametersWizardContext GetContext() => new ParametersContext(this);
+        public ParametersContext GetContext() => new ParametersContext(this);
     }
 }

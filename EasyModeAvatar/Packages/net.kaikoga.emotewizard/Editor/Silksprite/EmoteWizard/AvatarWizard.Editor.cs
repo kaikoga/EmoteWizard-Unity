@@ -75,14 +75,14 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                 }
 
-                var gestureController = context.GetContext<IGestureLayerWizardContext>()?.OutputAsset as AnimatorController;
-                var fxController = context.GetContext<IFxLayerWizardContext>()?.OutputAsset as AnimatorController;
-                var actionController = context.GetContext<IActionLayerWizardContext>()?.OutputAsset as AnimatorController;
+                var gestureController = context.GetContext<GestureLayerContext>()?.OutputAsset as AnimatorController;
+                var fxController = context.GetContext<FxLayerContext>()?.OutputAsset as AnimatorController;
+                var actionController = context.GetContext<ActionLayerContext>()?.OutputAsset as AnimatorController;
 
                 if (avatarDescriptor)
                 {
                     var avatarAnimator = _wizard.avatarDescriptor.EnsureComponent<Animator>();
-                    EmoteWizardGUILayout.RequireAnotherContext<IParametersWizardContext, ParametersWizard>(_wizard, () =>
+                    EmoteWizardGUILayout.RequireAnotherContext<ParametersContext, ParametersWizard>(_wizard, () =>
                     {
                         if (GUILayout.Button("Generate Everything and Update Avatar"))
                         {

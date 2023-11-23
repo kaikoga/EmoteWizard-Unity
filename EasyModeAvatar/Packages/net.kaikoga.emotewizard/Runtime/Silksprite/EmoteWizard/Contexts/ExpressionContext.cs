@@ -5,7 +5,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class ExpressionContext : IExpressionWizardContext
+    public class ExpressionContext : IOutputContext<VRCExpressionsMenu>
     {
         readonly ExpressionWizard _wizard;
 
@@ -14,23 +14,23 @@ namespace Silksprite.EmoteWizard.Contexts
             _wizard = wizard;
         }
 
-        IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
+        public IEmoteWizardEnvironment Environment => _wizard.Environment;
 
-        GameObject IBehaviourContext.GameObject => _wizard.gameObject;
+        public GameObject GameObject => _wizard.gameObject;
 
-        VRCExpressionsMenu IOutputContext<VRCExpressionsMenu>.OutputAsset
+        public VRCExpressionsMenu OutputAsset
         {
             get => _wizard.outputAsset;
             set => _wizard.outputAsset = value;
         }
 
-        void IBehaviourContext.DisconnectOutputAssets()
+        public void DisconnectOutputAssets()
         {
             _wizard.outputAsset = null;
         }
 
-        bool IExpressionWizardContext.BuildAsSubAsset => _wizard.buildAsSubAsset;
+        public bool BuildAsSubAsset => _wizard.buildAsSubAsset;
 
-        IEnumerable<ExpressionItem> IExpressionWizardContext.CollectExpressionItems() => _wizard.CollectExpressionItems();
+        public IEnumerable<ExpressionItem> CollectExpressionItems() => _wizard.CollectExpressionItems();
     }
 }

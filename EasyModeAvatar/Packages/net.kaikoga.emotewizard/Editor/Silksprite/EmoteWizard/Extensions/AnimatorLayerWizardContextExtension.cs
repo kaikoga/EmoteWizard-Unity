@@ -1,4 +1,5 @@
 using System.Linq;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
@@ -9,7 +10,7 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AnimatorLayerWizardContextExtension
     {
-        public static RuntimeAnimatorController BuildOutputAsset(this IAnimatorLayerWizardContext context, ParametersSnapshot parametersSnapshot)
+        public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerContextBase context, ParametersSnapshot parametersSnapshot)
         {
             var layerKind = context.LayerKind;
             var defaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller";
@@ -45,7 +46,7 @@ namespace Silksprite.EmoteWizard.Extensions
             return context.OutputAsset;
         }
 
-        static void BuildResetClip(this IAnimatorLayerWizardContext context, AnimationClip targetClip)
+        static void BuildResetClip(this AnimatorLayerContextBase context, AnimationClip targetClip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
                 .Concat(context.CollectEmoteItems().SelectMany(e => e.AllClips()))
@@ -55,7 +56,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            var proxyAnimator = context.Environment.GetContext<IAvatarWizardContext>()?.ProvideProxyAnimator();
+            var proxyAnimator = context.Environment.GetContext<AvatarContext>()?.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : null;
 
             targetClip.ClearCurves();

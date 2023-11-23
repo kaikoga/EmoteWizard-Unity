@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ExpressionWizardContextExtension
     {
-        static IEnumerable<ExpressionItemSet> GroupExpressionItems(this IExpressionWizardContext context)
+        static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionContext context)
         {
             var activeExpressionItems = context.CollectExpressionItems().ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Extensions
             return groups;
         }
 
-        public static VRCExpressionsMenu BuildOutputAsset(this IExpressionWizardContext context)
+        public static VRCExpressionsMenu BuildOutputAsset(this ExpressionContext context)
         {
             var outputAsset = context.OutputAsset;
             var expressionMenu = context.ReplaceOrCreateOutputAsset(ref outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");

@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Internal
 {
     public class AnimatorLayerBuilder
     {
-        public readonly IAnimatorLayerWizardContext Context;
+        public readonly AnimatorLayerContextBase Context;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
 
@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Internal
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
 
-        public AnimatorLayerBuilder(IAnimatorLayerWizardContext context, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
+        public AnimatorLayerBuilder(AnimatorLayerContextBase context, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
         {
             Context = context;
             ParametersSnapshot = parametersSnapshot;

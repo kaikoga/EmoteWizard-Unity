@@ -16,6 +16,6 @@ namespace Silksprite.EmoteWizard.Base
         public abstract LayerKind LayerKind { get; }
 
         public override IBehaviourContext ToContext() => GetContext();
-        public abstract IAnimatorLayerWizardContext GetContext();
+        public abstract AnimatorLayerContextBase GetContext();
     }
 }

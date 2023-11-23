@@ -9,14 +9,14 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class AvatarWizardContextExtension
     {
-        public static Animator ProvideProxyAnimator(this IAvatarWizardContext context)
+        public static Animator ProvideProxyAnimator(this AvatarContext context)
         {
             var animator = context.ProxyAnimator ? context.ProxyAnimator : context.AvatarDescriptor.EnsureComponent<Animator>();
             context.ProxyAnimator = animator;
             return animator;
         }
 
-        public static void BuildAvatar(this IAvatarWizardContext context)
+        public static void BuildAvatar(this AvatarContext context)
         {
             var avatarDescriptor = context.AvatarDescriptor;
             var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 switch (context.OverrideGesture)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return context.Environment.GetContext<IGestureLayerWizardContext>().BuildOutputAsset(parameters);
+                        return context.Environment.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
                     case AvatarWizard.OverrideGeneratedControllerType2.Override:
                         return context.OverrideGestureController;
                     case AvatarWizard.OverrideGeneratedControllerType2.Default1:
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 switch (context.OverrideAction)
                 {
                     case AvatarWizard.OverrideGeneratedControllerType1.Generate:
-                        return context.Environment.GetContext<IActionLayerWizardContext>().BuildOutputAsset(parameters);
+                        return context.Environment.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
                     case AvatarWizard.OverrideGeneratedControllerType1.Override:
                         return context.OverrideActionController;
                     case AvatarWizard.OverrideGeneratedControllerType1.Default:
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
             RuntimeAnimatorController SelectFxController()
             {
-                return context.Environment.GetContext<IFxLayerWizardContext>().BuildOutputAsset(parameters);
+                return context.Environment.GetContext<FxLayerContext>().BuildOutputAsset(parameters);
             }
 
             RuntimeAnimatorController SelectSittingController()
@@ -154,8 +154,8 @@ namespace Silksprite.EmoteWizard.Extensions
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = context.Environment.GetContext<IExpressionWizardContext>()?.BuildOutputAsset();
-            avatarDescriptor.expressionParameters = context.Environment.GetContext<IParametersWizardContext>()?.BuildOutputAsset();
+            avatarDescriptor.expressionsMenu = context.Environment.GetContext<ExpressionContext>()?.BuildOutputAsset();
+            avatarDescriptor.expressionParameters = context.Environment.GetContext<ParametersContext>()?.BuildOutputAsset();
         }
     }
 }

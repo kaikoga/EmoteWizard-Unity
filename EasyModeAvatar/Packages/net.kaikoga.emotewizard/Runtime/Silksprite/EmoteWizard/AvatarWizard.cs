@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
 
         public override IBehaviourContext ToContext() => GetContext();
-        public IAvatarWizardContext GetContext() => new AvatarContext(this);
+        public AvatarContext GetContext() => new AvatarContext(this);
 
         public enum OverrideGeneratedControllerType1
         {

@@ -13,6 +13,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public bool hasResetClip = true;
         public override bool HasResetClip => hasResetClip;
 
-        public override IAnimatorLayerWizardContext GetContext() => new FxLayerContext(this);
+        public override AnimatorLayerContextBase GetContext() => new FxLayerContext(this);
     }
 }

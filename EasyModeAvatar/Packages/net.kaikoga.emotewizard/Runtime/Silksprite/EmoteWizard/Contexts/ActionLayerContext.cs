@@ -2,10 +2,8 @@ using Silksprite.EmoteWizard.Base;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class ActionLayerContext : AnimatorLayerContextBase, IActionLayerWizardContext
+    public class ActionLayerContext : AnimatorLayerContextBase
     {
         public ActionLayerContext(AnimatorLayerWizardBase wizard) : base(wizard) { }
     }
-
-    public interface IActionLayerWizardContext : IAnimatorLayerWizardContext { }
 }
