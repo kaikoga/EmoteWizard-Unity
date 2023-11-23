@@ -1,11 +1,12 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class AvatarWizard : EmoteWizardBase
+    public class AvatarWizard : EmoteWizardBase, IAvatarWizardContext
     {
         [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
 

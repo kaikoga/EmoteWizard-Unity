@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
@@ -10,7 +11,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class ParametersWizard : EmoteWizardBase
+    public class ParametersWizard : EmoteWizardBase, IParametersWizardContext
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
 
