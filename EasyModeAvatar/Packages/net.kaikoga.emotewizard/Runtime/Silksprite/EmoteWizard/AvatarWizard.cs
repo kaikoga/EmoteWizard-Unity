@@ -19,6 +19,26 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
 
+        VRCAvatarDescriptor IAvatarWizardContext.AvatarDescriptor => avatarDescriptor;
+
+        Animator IAvatarWizardContext.ProxyAnimator
+        {
+            get => proxyAnimator;
+            set => proxyAnimator = value;
+        }
+
+        OverrideGeneratedControllerType2 IAvatarWizardContext.OverrideGesture => overrideGesture;
+
+        RuntimeAnimatorController IAvatarWizardContext.OverrideGestureController => overrideGestureController;
+
+        OverrideGeneratedControllerType1 IAvatarWizardContext.OverrideAction => overrideAction;
+
+        RuntimeAnimatorController IAvatarWizardContext.OverrideActionController => overrideActionController;
+
+        OverrideControllerType2 IAvatarWizardContext.OverrideSitting => overrideSitting;
+
+        RuntimeAnimatorController IAvatarWizardContext.OverrideSittingController => overrideSittingController;
+        
         Component IBehaviourContext.Component => this;
 
         public override void DisconnectOutputAssets()
