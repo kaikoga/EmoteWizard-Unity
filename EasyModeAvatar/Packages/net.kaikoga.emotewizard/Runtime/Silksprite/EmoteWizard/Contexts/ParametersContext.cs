@@ -9,17 +9,25 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public class ParametersContext : OutputContextBase<ParametersWizard, VRCExpressionParameters>
     {
-        public ParametersContext(ParametersWizard wizard) : base(wizard) { }
-
+        VRCExpressionParameters _outputAsset;
         public override VRCExpressionParameters OutputAsset
         {
-            get => Wizard.outputAsset;
-            set => Wizard.outputAsset = value;
+            get => _outputAsset;
+            set
+            {
+                _outputAsset = value;
+                if (Wizard) Wizard.outputAsset = value;
+            }
+        }
+
+        public ParametersContext(ParametersWizard wizard) : base(wizard)
+        {
+            _outputAsset = wizard.outputAsset;
         }
 
         public override void DisconnectOutputAssets()
         {
-            Wizard.outputAsset = null;
+            OutputAsset = null;
         }
 
         IEnumerable<EmoteItem> CollectEmoteItems()
