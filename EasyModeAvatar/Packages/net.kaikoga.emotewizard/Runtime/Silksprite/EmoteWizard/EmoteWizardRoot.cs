@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard
         class EnvImpl : IEmoteWizardEnvironment
         {
             readonly EmoteWizardRoot _root;
-            readonly Dictionary<Type, IBehaviourContext> _contexts = new Dictionary<Type, IBehaviourContext>();
+            readonly List<IBehaviourContext> _contexts = new List<IBehaviourContext>();
 
             EnvImpl(EmoteWizardRoot root) => _root = root;
 
@@ -42,20 +42,18 @@ namespace Silksprite.EmoteWizard
             public static EnvImpl FromContext(EmoteWizardRoot root, IBehaviourContext context)
             {
                 var env = new EnvImpl(root);
-                env._contexts.Add(context.GetType(), context);
+                env._contexts.Add(context);
                 env.CollectOtherContexts();
                 return env;
             }
 
             void CollectOtherContexts()
             {
-                foreach (var context in _root.GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext()))
+                var contexts = _root.GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext());
+                foreach (var context in contexts)
                 {
-                    var type = context.GetType();
-                    if (!_contexts.TryGetValue(type, out _))
-                    {
-                        _contexts.Add(type, context); 
-                    }
+                    if (_contexts.Any(c => c.GetType() == context.GetType() && c.Component == context.Component)) continue;
+                    _contexts.Add(context);
                 }
             }
 
@@ -70,10 +68,7 @@ namespace Silksprite.EmoteWizard
             bool IEmoteWizardEnvironment.ShowTutorial => _root.showTutorial;
             bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
 
-            T IEmoteWizardEnvironment.GetContext<T>()
-            {
-                return _contexts.TryGetValue(typeof(T), out var context) ? (T)context : default;
-            }
+            T IEmoteWizardEnvironment.GetContext<T>() => _contexts.OfType<T>().FirstOrDefault();
 
             void IEmoteWizardEnvironment.DisconnectAllOutputAssets()
             {
