@@ -24,14 +24,6 @@ namespace Silksprite.EmoteWizard.Contexts
             return env;
         }
 
-        public static EmoteWizardEnvironment FromContext(EmoteWizardRoot root, IBehaviourContext context)
-        {
-            var env = new EmoteWizardEnvironment(root);
-            if (context != null) env._contexts.Add(context);
-            env.CollectOtherContexts();
-            return env;
-        }
-
         void CollectOtherContexts()
         {
             var contexts = _root.GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext(this));
