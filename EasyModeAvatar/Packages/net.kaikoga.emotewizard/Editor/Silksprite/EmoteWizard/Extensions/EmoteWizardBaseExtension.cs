@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
@@ -54,7 +55,10 @@ namespace Silksprite.EmoteWizard.Extensions
                 context.OutputAsset.name = Path.GetFileNameWithoutExtension(path);
             }
 
-            EditorUtility.SetDirty(context.GameObject);
+            if (context.GameObject)
+            {
+                EditorUtility.SetDirty(context.GameObject);
+            }
             return outputAsset;
         }
 
@@ -92,7 +96,10 @@ namespace Silksprite.EmoteWizard.Extensions
                 context.OutputAsset = animatorController;
             }
 
-            EditorUtility.SetDirty(context.GameObject);
+            if (context.GameObject)
+            {
+                EditorUtility.SetDirty(context.GameObject);
+            }
             return animatorController;
         }
 
