@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Ndmf
             resolving.BeforePlugin("nadena.dev.modular-avatar").Run(PreEmoteWizardPass.Instance);
             var generating = InPhase(BuildPhase.Generating);
             generating.Run(EmoteWizardPass.Instance);
-            // generating.Run(PostEmoteWizardPass.Instance);
+            generating.Run(PostEmoteWizardPass.Instance);
         }
     }
 
@@ -36,8 +36,9 @@ namespace Silksprite.EmoteWizard.Ndmf
         protected override void Execute(BuildContext buildContext)
         {
                 
-            foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardEnvironment>())
+            foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>())
             {
+                var context = root.ToEnv();
                 context.DisconnectAllOutputAssets();
 
                 DeleteLayer(buildContext.AvatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.FX);
@@ -70,8 +71,9 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-            foreach (var env in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardEnvironment>())
+            foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>())
             {
+                var env = root.ToEnv();
                 var avatarContext = env.GetContext<AvatarContext>();
                 if (avatarContext != null)
                 {
