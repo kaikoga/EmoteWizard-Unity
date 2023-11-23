@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using UnityEditor;
@@ -14,27 +15,27 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            _wizard = (ParametersWizard) target;
+            _wizard = (ParametersWizard)target;
 
             _serializedOutputAsset = serializedObject.FindProperty(nameof(ParametersWizard.outputAsset));
         }
 
         public override void OnInspectorGUI()
         {
-            var context = _wizard.Environment;
+            var env = _wizard.Environment;
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {
-                    _wizard.BuildOutputAsset();
+                    _wizard.GetContext().BuildOutputAsset();
                 }
 
                 EditorGUILayout.PropertyField(_serializedOutputAsset);
             });
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(context, Tutorial);
+            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
 
         static string Tutorial =>

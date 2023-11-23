@@ -11,19 +11,12 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class ParametersWizard : EmoteWizardBase, IParametersWizardContext
+    public class ParametersWizard : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
 
-        VRCExpressionParameters IOutputContext<VRCExpressionParameters>.OutputAsset
-        {
-            get => outputAsset;
-            set => outputAsset = value;
-        }
-
-        public override IBehaviourContext ToContext() => this;
-
-        Component IBehaviourContext.Component => this;
+        public override IBehaviourContext ToContext() => GetContext();
+        public IParametersWizardContext GetContext() => new ParametersContext(this);
 
         public override void DisconnectOutputAssets()
         {
@@ -79,6 +72,25 @@ namespace Silksprite.EmoteWizard
             }
 
             return builder.ToSnapshot();
+        }
+        
+        class ParametersContext : IParametersWizardContext
+        {
+            readonly ParametersWizard _wizard;
+
+            public ParametersContext(ParametersWizard wizard) => _wizard = wizard;
+
+            IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
+
+            Component IBehaviourContext.Component => _wizard;
+
+            VRCExpressionParameters IOutputContext<VRCExpressionParameters>.OutputAsset
+            {
+                get => _wizard.outputAsset;
+                set => _wizard.outputAsset = value;
+            }
+
+            ParametersSnapshot IParametersWizardContext.Snapshot() => _wizard.Snapshot();
         }
     }
 }
