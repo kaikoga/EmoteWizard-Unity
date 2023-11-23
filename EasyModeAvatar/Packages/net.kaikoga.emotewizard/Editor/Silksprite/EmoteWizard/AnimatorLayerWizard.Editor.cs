@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Generate Animation Controller"))
                         {
-                            _wizard.GetContext().BuildOutputAsset(context.EnsureWizard<ParametersWizard>().Snapshot());
+                            _wizard.GetContext().BuildOutputAsset(context.EnsureWizard<ParametersWizard>().GetContext().Snapshot());
                         }
                     });
 

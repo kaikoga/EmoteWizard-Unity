@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
             avatarAnimator.runtimeAnimatorController = null;
             
-            var parameters = context.Environment.EnsureWizard<ParametersWizard>().Snapshot(); 
+            var parameters = context.Environment.EnsureWizard<ParametersWizard>().GetContext().Snapshot(); 
 
             RuntimeAnimatorController SelectGestureController()
             {

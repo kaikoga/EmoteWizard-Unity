@@ -20,8 +20,6 @@ namespace Silksprite.EmoteWizard.Base
         public override IBehaviourContext ToContext() => GetContext();
         public abstract IAnimatorLayerWizardContext GetContext();
 
-        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == LayerKind);
-
         protected abstract class AnimatorLayerContextBase : IAnimatorLayerWizardContext
         {
             readonly AnimatorLayerWizardBase _wizard;
@@ -56,7 +54,7 @@ namespace Silksprite.EmoteWizard.Base
                 set => _wizard.resetClip = value;
             }
 
-            IEnumerable<EmoteItem> IAnimatorLayerWizardContext.CollectEmoteItems() => _wizard.CollectEmoteItems();
+            IEnumerable<EmoteItem> IAnimatorLayerWizardContext.CollectEmoteItems() => _wizard.Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == _wizard.LayerKind);
         }
     }
 }
