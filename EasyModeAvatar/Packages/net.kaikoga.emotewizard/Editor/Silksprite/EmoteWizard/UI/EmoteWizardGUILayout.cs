@@ -43,28 +43,30 @@ namespace Silksprite.EmoteWizard.UI
             }
         }
 
-        public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, Action action)
-            where T : EmoteWizardBase
+        public static void RequireAnotherContext<TContext, TComponent>(EmoteWizardBase emoteWizardBase, Action action)
+            where TContext : IBehaviourContext
+            where TComponent : EmoteWizardBase
         {
-            RequireAnotherWizard(emoteWizardBase, emoteWizardBase.Environment.GetWizard<T>(), action);
+            RequireAnotherContext<TContext, TComponent>(emoteWizardBase, emoteWizardBase.Environment.GetContext<TContext>(), action);
         }
 
-        public static void RequireAnotherWizard<T>(EmoteWizardBase emoteWizardBase, T anotherWizard, Action action)
-            where T : EmoteWizardBase
+        public static void RequireAnotherContext<TContext, TComponent>(EmoteWizardBase emoteWizardBase, TContext anotherContext, Action action)
+            where TContext : IBehaviourContext
+            where TComponent : EmoteWizardBase
         {
-            if (anotherWizard)
+            if (anotherContext != null)
             {
                 action();
                 return;
             }
 
-            var typeName = typeof(T).Name;
+            var typeName = typeof(TComponent).Name;
             EditorGUILayout.HelpBox($"{typeName} not found. Some functions might not work.", MessageType.Error);
             using (new BoxLayoutScope(Color.magenta))
             {
                 if (GUILayout.Button($"Add {typeName}"))
                 {
-                    emoteWizardBase.gameObject.AddComponent<T>();
+                    emoteWizardBase.gameObject.AddComponent<TComponent>();
                 }
             }
         }

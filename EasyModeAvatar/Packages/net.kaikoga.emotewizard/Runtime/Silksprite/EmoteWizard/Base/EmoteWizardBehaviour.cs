@@ -6,14 +6,14 @@ namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardBehaviour : MonoBehaviour
     {
-        public IEmoteWizardEnvironment Environment => GetComponentsInParent<EmoteWizardRoot>(true).FirstOrDefault()?.ToEnv();
-        protected T GetWizard<T>() where T : EmoteWizardBase => Environment.GetWizard<T>();
+        public IEmoteWizardEnvironment Environment => GetComponentsInParent<EmoteWizardRoot>(true).FirstOrDefault()?.ToEnv((this as IContextProvider)?.ToContext());
+        protected T GetContext<T>() where T : IBehaviourContext => Environment.GetContext<T>();
 
         public bool IsSetupMode
         {
             get
             {
-                var setupWizard = GetWizard<SetupWizard>();
+                var setupWizard = GetContext<SetupWizard>();
                 return setupWizard != null && setupWizard.isSetupMode;
             }
         }

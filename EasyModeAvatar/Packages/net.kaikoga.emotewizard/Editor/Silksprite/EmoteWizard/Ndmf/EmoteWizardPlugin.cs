@@ -72,7 +72,7 @@ namespace Silksprite.EmoteWizard.Ndmf
         {
             foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardEnvironment>())
             {
-                var avatarWizard = context.GetWizard<AvatarWizard>();
+                var avatarWizard = context.GetContext<AvatarWizard>();
                 if (avatarWizard)
                 {
                     avatarWizard.avatarDescriptor = buildContext.AvatarDescriptor;

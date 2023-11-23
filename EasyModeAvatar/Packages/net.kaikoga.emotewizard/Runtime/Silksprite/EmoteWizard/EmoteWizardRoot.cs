@@ -22,13 +22,42 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public bool showTutorial;
 
-        public IEmoteWizardEnvironment ToEnv() => new EnvImpl(this);
+        public IEmoteWizardEnvironment ToEnv() => EnvImpl.FromRoot(this);
+        public IEmoteWizardEnvironment ToEnv(IBehaviourContext context) => EnvImpl.FromContext(this, context);
 
         class EnvImpl : IEmoteWizardEnvironment
         {
             readonly EmoteWizardRoot _root;
+            readonly Dictionary<Type, IBehaviourContext> _contexts = new Dictionary<Type, IBehaviourContext>();
 
-            public EnvImpl(EmoteWizardRoot root) => _root = root;
+            EnvImpl(EmoteWizardRoot root) => _root = root;
+
+            public static EnvImpl FromRoot(EmoteWizardRoot root)
+            {
+                var env = new EnvImpl(root);
+                env.CollectOtherContexts();
+                return env;
+            }
+
+            public static EnvImpl FromContext(EmoteWizardRoot root, IBehaviourContext context)
+            {
+                var env = new EnvImpl(root);
+                env._contexts.Add(context.GetType(), context);
+                env.CollectOtherContexts();
+                return env;
+            }
+
+            void CollectOtherContexts()
+            {
+                foreach (var context in _root.GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext()))
+                {
+                    var type = context.GetType();
+                    if (!_contexts.TryGetValue(type, out _))
+                    {
+                        _contexts.Add(type, context); 
+                    }
+                }
+            }
 
             GameObject IEmoteWizardEnvironment.GameObject => _root.gameObject;
             Transform IEmoteWizardEnvironment.Transform => _root.transform;
@@ -41,9 +70,9 @@ namespace Silksprite.EmoteWizard
             bool IEmoteWizardEnvironment.ShowTutorial => _root.showTutorial;
             bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
 
-            T IEmoteWizardEnvironment.GetWizard<T>()
+            T IEmoteWizardEnvironment.GetContext<T>()
             {
-                return _root.GetComponentInChildren<T>();
+                return _contexts.TryGetValue(typeof(T), out var context) ? (T)context : default;
             }
 
             void IEmoteWizardEnvironment.DisconnectAllOutputAssets()

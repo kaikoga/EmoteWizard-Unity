@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Contexts
         bool ShowTutorial { get; }
         bool PersistGeneratedAssets { get; set;  }
 
-        T GetWizard<T>() where T : EmoteWizardBase;
+        T GetContext<T>() where T : IBehaviourContext;
 
         void DisconnectAllOutputAssets();
 

@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
@@ -53,7 +54,7 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.OutputUIArea(() =>
                 {
-                    EmoteWizardGUILayout.RequireAnotherWizard<AvatarWizard>(_wizard, () =>
+                    EmoteWizardGUILayout.RequireAnotherContext<IAvatarWizardContext, AvatarWizard>(_wizard, () =>
                     {
                         if (GUILayout.Button("Generate Animation Controller"))
                         {
