@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Base;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts

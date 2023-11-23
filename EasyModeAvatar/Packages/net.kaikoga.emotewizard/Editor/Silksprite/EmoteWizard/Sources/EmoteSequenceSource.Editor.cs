@@ -2,7 +2,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
 using UnityEditor;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources
 {

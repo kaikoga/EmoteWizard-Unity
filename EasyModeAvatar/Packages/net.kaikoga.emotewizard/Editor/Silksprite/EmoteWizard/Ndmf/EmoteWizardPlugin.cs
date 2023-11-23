@@ -3,7 +3,6 @@ using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Ndmf;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
