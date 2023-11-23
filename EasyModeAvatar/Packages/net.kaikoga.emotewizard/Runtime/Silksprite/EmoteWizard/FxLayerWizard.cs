@@ -14,12 +14,5 @@ namespace Silksprite.EmoteWizard
         public override bool HasResetClip => hasResetClip;
 
         public override IAnimatorLayerWizardContext GetContext() => new FxLayerContext(this);
-
-        class FxLayerContext : AnimatorLayerContextBase, IFxLayerWizardContext
-        {
-            public FxLayerContext(AnimatorLayerWizardBase wizard) : base(wizard) { }
-        }
     }
-
-    public interface IFxLayerWizardContext : IAnimatorLayerWizardContext { }
 }
