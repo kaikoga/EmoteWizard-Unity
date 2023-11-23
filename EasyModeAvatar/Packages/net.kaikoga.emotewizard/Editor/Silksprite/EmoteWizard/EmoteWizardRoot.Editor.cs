@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard
             }
 
             EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
-            CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ProvideEmptyClip());
+            CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ToEnv().ProvideEmptyClip());
             EditorGUILayout.PropertyField(_serializedGenerateTrackingControlLayer);
 
             EmoteWizardGUILayout.ConfigUIArea(() =>
@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Setup"))
                     {
-                        _root.EnsureWizard<SetupWizard>();
+                        _root.ToEnv().EnsureWizard<SetupWizard>();
                     }
                 }
             }
@@ -70,7 +70,7 @@ namespace Silksprite.EmoteWizard
             }
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(_root, Tutorial);
+            EmoteWizardGUILayout.Tutorial(_root.ToEnv(), Tutorial);
         }
 
         static string Tutorial =>

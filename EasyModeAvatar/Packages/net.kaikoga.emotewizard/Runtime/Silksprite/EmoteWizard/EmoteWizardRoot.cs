@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class EmoteWizardRoot : MonoBehaviour, IEmoteWizardEnvironment
+    public class EmoteWizardRoot : MonoBehaviour
     {
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
@@ -21,22 +21,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public LayerKind generateTrackingControlLayer = LayerKind.FX;
 
         [SerializeField] public bool showTutorial;
-
-        AnimationClip IEmoteWizardEnvironment.EmptyClip
-        {
-            get => emptyClip;
-            set => emptyClip = value;
-        }
-        LayerKind IEmoteWizardEnvironment.GenerateTrackingControlLayer => generateTrackingControlLayer;
-        bool IEmoteWizardEnvironment.ShowTutorial => showTutorial;
-        bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
-
-
-        GameObject IEmoteWizardEnvironment.GameObject => gameObject;
-        Transform IEmoteWizardEnvironment.Transform => transform;
-
-        T IEmoteWizardEnvironment.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => this.FindOrCreateChildComponent(path, initializer);
-
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
 
@@ -48,5 +32,33 @@ namespace Silksprite.EmoteWizard
         public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
 
         public IEnumerable<EmoteItem> CollectAllEmoteItems() => GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
+
+        public IEmoteWizardEnvironment ToEnv() => new EnvImpl(this);
+
+        class EnvImpl : IEmoteWizardEnvironment
+        {
+            readonly EmoteWizardRoot _root;
+
+            public EnvImpl(EmoteWizardRoot root) => _root = root;
+
+            GameObject IEmoteWizardEnvironment.GameObject => _root.gameObject;
+            Transform IEmoteWizardEnvironment.Transform => _root.transform;
+            AnimationClip IEmoteWizardEnvironment.EmptyClip
+            {
+                get => _root.emptyClip;
+                set => _root.emptyClip = value;
+            }
+            LayerKind IEmoteWizardEnvironment.GenerateTrackingControlLayer => _root.generateTrackingControlLayer;
+            bool IEmoteWizardEnvironment.ShowTutorial => _root.showTutorial;
+            bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
+
+            T IEmoteWizardEnvironment.GetWizard<T>() => _root.GetWizard<T>();
+            void IEmoteWizardEnvironment.DisconnectAllOutputAssets() => _root.DisconnectAllOutputAssets();
+            string IEmoteWizardEnvironment.GeneratedAssetPath(string relativePath) => _root.GeneratedAssetPath(relativePath);
+            IEnumerable<EmoteItem> IEmoteWizardEnvironment.CollectAllEmoteItems() => _root.CollectAllEmoteItems();
+            T IEmoteWizardEnvironment.GetComponentInChildren<T>() => _root.GetComponentInChildren<T>();
+            T[] IEmoteWizardEnvironment.GetComponentsInChildren<T>() => _root.GetComponentsInChildren<T>();
+            T IEmoteWizardEnvironment.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => _root.FindOrCreateChildComponent(path, initializer);
+        }
     }
 }
