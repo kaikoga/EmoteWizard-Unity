@@ -1,5 +1,4 @@
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
@@ -14,9 +13,7 @@ namespace Silksprite.EmoteWizard.Extensions
         {
             var layerKind = context.LayerKind;
             var defaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller";
-            var outputAsset = context.OutputAsset;
-            var animatorController = context.ReplaceOrCreateOutputAsset(ref outputAsset, defaultRelativePath);
-            context.OutputAsset = outputAsset;
+            var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
             var builder = new AnimatorLayerBuilder(context, parametersSnapshot, animatorController);
 
             if (context.DefaultAvatarMask)

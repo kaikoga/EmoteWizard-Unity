@@ -14,9 +14,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
         public static VRCExpressionParameters BuildOutputAsset(this ParametersContext context)
         {
-            var outputAsset = context.OutputAsset;
-            var expressionParams = context.ReplaceOrCreateOutputAsset(ref outputAsset, "Expressions/@@@Generated@@@ExprParams.asset");
-            context.OutputAsset = outputAsset;
+            var expressionParams = context.ReplaceOrCreateOutputAsset("Expressions/@@@Generated@@@ExprParams.asset");
 
             expressionParams.parameters = context.Snapshot().ToParameters();
 

@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
@@ -25,86 +24,15 @@ namespace Silksprite.EmoteWizard.Extensions
                 .ForEach(subAsset => Object.DestroyImmediate(subAsset, true));
         }
 
-        public static T ReplaceOrCreateOutputAsset<T>(this EmoteWizardBase emoteWizardBase, ref T outputAsset, string defaultRelativePath)
-            where T:ScriptableObject
+        public static T ReplaceOrCreateOutputAsset<T>(this IOutputContext<T> context, string defaultRelativePath)
+            where T : ScriptableObject
         {
-            if (emoteWizardBase.Environment.PersistGeneratedAssets)
-            {
-                if (outputAsset && outputAsset.IsPersistedAsset())
-                {
-                    var o = outputAsset;
-                    DestroyAllSubAssets(outputAsset, asset => asset != o);
-                    var value = ScriptableObject.CreateInstance<T>();
-                    EditorUtility.CopySerialized(value, outputAsset);
-                }
-                else
-                {
-                    outputAsset = ScriptableObject.CreateInstance<T>();
-                    var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
-                    EnsureDirectory(path);
-                    AssetDatabase.CreateAsset(outputAsset, path);
-                }
-
-                EditorUtility.SetDirty(outputAsset);
-            }
-            else
-            {
-                var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
-                outputAsset = ScriptableObject.CreateInstance<T>();
-                outputAsset.name = Path.GetFileNameWithoutExtension(path);
-            }
-
-            EditorUtility.SetDirty(emoteWizardBase);
-            return outputAsset;
-        }
-
-        public static AnimatorController ReplaceOrCreateOutputAsset(this EmoteWizardBase emoteWizardBase, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
-        {
-            AnimatorController animatorController;
-
-            if (emoteWizardBase.Environment.PersistGeneratedAssets)
-            {
-                animatorController = outputAsset as AnimatorController;
-                if (animatorController)
-                {
-                    DestroyAllSubAssets(animatorController, asset => asset != animatorController);
-                    animatorController.layers = new AnimatorControllerLayer[] { };
-                    animatorController.parameters = new AnimatorControllerParameter[] { };
-                }
-                else
-                {
-                    var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
-                    EnsureDirectory(path);
-                    animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
-                    animatorController.RemoveLayer(0); // Remove Base Layer
-                    outputAsset = animatorController;
-                }
-
-                EditorUtility.SetDirty(animatorController);
-            }
-            else
-            {
-                var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
-                animatorController = new AnimatorController
-                {
-                    name = Path.GetFileNameWithoutExtension(path)
-                };
-                outputAsset = animatorController;
-            }
-
-            EditorUtility.SetDirty(emoteWizardBase);
-            return animatorController;
-        }
-        
-        public static T ReplaceOrCreateOutputAsset<T>(this IOutputContext<T> context, ref T outputAsset, string defaultRelativePath)
-            where T:ScriptableObject
-        {
+            var outputAsset = context.OutputAsset;
             if (context.Environment.PersistGeneratedAssets)
             {
                 if (outputAsset && outputAsset.IsPersistedAsset())
                 {
-                    var o = outputAsset;
-                    DestroyAllSubAssets(outputAsset, asset => asset != o);
+                    DestroyAllSubAssets(outputAsset, asset => asset != outputAsset);
                     var value = ScriptableObject.CreateInstance<T>();
                     EditorUtility.CopySerialized(value, outputAsset);
                 }
@@ -114,6 +42,7 @@ namespace Silksprite.EmoteWizard.Extensions
                     var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
                     EnsureDirectory(path);
                     AssetDatabase.CreateAsset(outputAsset, path);
+                    context.OutputAsset = outputAsset;
                 }
 
                 EditorUtility.SetDirty(outputAsset);
@@ -121,21 +50,21 @@ namespace Silksprite.EmoteWizard.Extensions
             else
             {
                 var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
-                outputAsset = ScriptableObject.CreateInstance<T>();
-                outputAsset.name = Path.GetFileNameWithoutExtension(path);
+                context.OutputAsset = ScriptableObject.CreateInstance<T>();
+                context.OutputAsset.name = Path.GetFileNameWithoutExtension(path);
             }
 
             EditorUtility.SetDirty(context.GameObject);
             return outputAsset;
         }
 
-        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<RuntimeAnimatorController> context, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
+        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<RuntimeAnimatorController> context, string defaultRelativePath)
         {
             AnimatorController animatorController;
 
             if (context.Environment.PersistGeneratedAssets)
             {
-                animatorController = outputAsset as AnimatorController;
+                animatorController = context.OutputAsset as AnimatorController;
                 if (animatorController)
                 {
                     DestroyAllSubAssets(animatorController, asset => asset != animatorController);
@@ -148,7 +77,7 @@ namespace Silksprite.EmoteWizard.Extensions
                     EnsureDirectory(path);
                     animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                     animatorController.RemoveLayer(0); // Remove Base Layer
-                    outputAsset = animatorController;
+                    context.OutputAsset = animatorController;
                 }
 
                 EditorUtility.SetDirty(animatorController);
@@ -160,7 +89,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 {
                     name = Path.GetFileNameWithoutExtension(path)
                 };
-                outputAsset = animatorController;
+                context.OutputAsset = animatorController;
             }
 
             EditorUtility.SetDirty(context.GameObject);

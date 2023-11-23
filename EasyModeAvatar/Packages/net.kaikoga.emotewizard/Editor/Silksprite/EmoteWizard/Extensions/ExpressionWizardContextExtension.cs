@@ -47,9 +47,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
         public static VRCExpressionsMenu BuildOutputAsset(this ExpressionContext context)
         {
-            var outputAsset = context.OutputAsset;
-            var expressionMenu = context.ReplaceOrCreateOutputAsset(ref outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
-            context.OutputAsset = outputAsset;
+            var expressionMenu = context.ReplaceOrCreateOutputAsset("Expressions/@@@Generated@@@ExprMenu.asset");
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = string.IsNullOrEmpty(rootItemPath) ? null : $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
@@ -80,7 +78,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
                     var childPath = $"{rootPath}{@group.Path}.asset";
-                    context.ReplaceOrCreateOutputAsset(ref childMenu, childPath);
+                    context.ReplaceOrCreateOutputAsset(childPath);
                     menus[@group.Path] = childMenu;
                 }
             }
