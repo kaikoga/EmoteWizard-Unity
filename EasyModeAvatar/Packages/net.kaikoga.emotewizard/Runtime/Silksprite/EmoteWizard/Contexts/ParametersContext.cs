@@ -3,46 +3,39 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
-using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class ParametersContext : IOutputContext<VRCExpressionParameters>
+    public class ParametersContext : OutputContextBase<ParametersWizard, VRCExpressionParameters>
     {
-        readonly ParametersWizard _wizard;
+        public ParametersContext(ParametersWizard wizard) : base(wizard) { }
 
-        public ParametersContext(ParametersWizard wizard) => _wizard = wizard;
-
-        public EmoteWizardEnvironment Environment => _wizard.Environment;
-
-        public GameObject GameObject => _wizard.gameObject;
-
-        public VRCExpressionParameters OutputAsset
+        public override VRCExpressionParameters OutputAsset
         {
-            get => _wizard.outputAsset;
-            set => _wizard.outputAsset = value;
+            get => Wizard.outputAsset;
+            set => Wizard.outputAsset = value;
         }
 
-        public void DisconnectOutputAssets()
+        public override void DisconnectOutputAssets()
         {
-            _wizard.outputAsset = null;
+            Wizard.outputAsset = null;
         }
 
         IEnumerable<EmoteItem> CollectEmoteItems()
         {
-            return _wizard.Environment.CollectAllEmoteItems();
+            return Wizard.Environment.CollectAllEmoteItems();
         }
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            var expressionWizard = _wizard.Environment.GetContext<ExpressionContext>();
+            var expressionWizard = Wizard.Environment.GetContext<ExpressionContext>();
             return expressionWizard != null ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
         }
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
-            return _wizard.Environment.GetComponentsInChildren<IParameterSource>()
+            return Wizard.Environment.GetComponentsInChildren<IParameterSource>()
                 .SelectMany(source => source.ParameterItems);
         }
 

@@ -6,40 +6,34 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public abstract class AnimatorLayerContextBase : IOutputContext<RuntimeAnimatorController>
+    public abstract class AnimatorLayerContextBase : OutputContextBase<AnimatorLayerWizardBase, RuntimeAnimatorController>
     {
-        readonly AnimatorLayerWizardBase _wizard;
+        protected AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) : base(wizard) { }
 
-        protected AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) => _wizard = wizard;
-
-        public EmoteWizardEnvironment Environment => _wizard.Environment;
-
-        public GameObject GameObject => _wizard.gameObject;
-
-        public RuntimeAnimatorController OutputAsset
+        public override RuntimeAnimatorController OutputAsset
         {
-            get => _wizard.outputAsset;
-            set => _wizard.outputAsset = value;
+            get => Wizard.outputAsset;
+            set => Wizard.outputAsset = value;
         }
 
-        public void DisconnectOutputAssets()
+        public override void DisconnectOutputAssets()
         {
-            _wizard.resetClip = null;
-            _wizard.outputAsset = null;
+            Wizard.resetClip = null;
+            Wizard.outputAsset = null;
         }
 
-        public LayerKind LayerKind => _wizard.LayerKind;
+        public LayerKind LayerKind => Wizard.LayerKind;
 
-        public AvatarMask DefaultAvatarMask => _wizard.defaultAvatarMask;
+        public AvatarMask DefaultAvatarMask => Wizard.defaultAvatarMask;
 
-        public bool HasResetClip => _wizard.HasResetClip;
+        public bool HasResetClip => Wizard.HasResetClip;
 
         public AnimationClip ResetClip
         {
-            get => _wizard.resetClip;
-            set => _wizard.resetClip = value;
+            get => Wizard.resetClip;
+            set => Wizard.resetClip = value;
         }
 
-        public IEnumerable<EmoteItem> CollectEmoteItems() => _wizard.Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == _wizard.LayerKind);
+        public IEnumerable<EmoteItem> CollectEmoteItems() => Wizard.Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == Wizard.LayerKind);
     }
 }

@@ -1,36 +1,26 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
-using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class ExpressionContext : IOutputContext<VRCExpressionsMenu>
+    public class ExpressionContext : OutputContextBase<ExpressionWizard, VRCExpressionsMenu>
     {
-        readonly ExpressionWizard _wizard;
+        public ExpressionContext(ExpressionWizard wizard) : base(wizard) { }
 
-        public ExpressionContext(ExpressionWizard wizard)
+        public override VRCExpressionsMenu OutputAsset
         {
-            _wizard = wizard;
+            get => Wizard.outputAsset;
+            set => Wizard.outputAsset = value;
         }
 
-        public EmoteWizardEnvironment Environment => _wizard.Environment;
-
-        public GameObject GameObject => _wizard.gameObject;
-
-        public VRCExpressionsMenu OutputAsset
+        public override void DisconnectOutputAssets()
         {
-            get => _wizard.outputAsset;
-            set => _wizard.outputAsset = value;
+            Wizard.outputAsset = null;
         }
 
-        public void DisconnectOutputAssets()
-        {
-            _wizard.outputAsset = null;
-        }
+        public bool BuildAsSubAsset => Wizard.buildAsSubAsset;
 
-        public bool BuildAsSubAsset => _wizard.buildAsSubAsset;
-
-        public IEnumerable<ExpressionItem> CollectExpressionItems() => _wizard.CollectExpressionItems();
+        public IEnumerable<ExpressionItem> CollectExpressionItems() => Wizard.CollectExpressionItems();
     }
 }

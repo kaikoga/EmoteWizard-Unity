@@ -1,19 +1,11 @@
-using UnityEngine;
-
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class SetupContext : IBehaviourContext
+    public class SetupContext : ContextBase<SetupWizard>
     {
-        readonly SetupWizard _wizard;
+        public SetupContext(SetupWizard wizard) : base(wizard) { }
 
-        public SetupContext(SetupWizard wizard) => _wizard = wizard;
+        public bool IsSetupMode => Wizard.isSetupMode;
 
-        public EmoteWizardEnvironment Environment => _wizard.Environment;
-
-        public GameObject GameObject => _wizard.gameObject;
-
-        public bool IsSetupMode => _wizard.isSetupMode;
-
-        public void DisconnectOutputAssets() { }
+        public override void DisconnectOutputAssets() { }
     }
 }
