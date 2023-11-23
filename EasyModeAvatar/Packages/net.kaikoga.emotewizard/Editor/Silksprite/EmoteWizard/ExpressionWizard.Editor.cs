@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            _wizard = (ExpressionWizard) target;
+            _wizard = (ExpressionWizard)target;
 
             _serializedBuildAsSubAsset = serializedObject.FindProperty(nameof(ExpressionWizard.buildAsSubAsset));
             _serializedOutputAsset = serializedObject.FindProperty(nameof(ExpressionWizard.outputAsset));
@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var context = _wizard.Environment;
+            var env = _wizard.Environment;
 
             EditorGUILayout.PropertyField(_serializedBuildAsSubAsset);
 
@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {
-                    _wizard.BuildOutputAsset();
+                    _wizard.GetContext().BuildOutputAsset();
                 }
 
                 EditorGUILayout.PropertyField(_serializedOutputAsset);
@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard
 
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(context, Tutorial);
+            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
 
         static string Tutorial =>

@@ -154,7 +154,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = context.Environment.GetContext<ExpressionWizard>()?.BuildOutputAsset();
+            avatarDescriptor.expressionsMenu = context.Environment.GetContext<IExpressionWizardContext>()?.BuildOutputAsset();
             avatarDescriptor.expressionParameters = context.Environment.GetContext<IParametersWizardContext>()?.BuildOutputAsset();
         }
     }

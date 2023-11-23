@@ -30,8 +30,8 @@ namespace Silksprite.EmoteWizard
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            var expressionWizard = GetContext<ExpressionWizard>();
-            return expressionWizard ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
+            var expressionWizard = GetContext<IExpressionWizardContext>();
+            return expressionWizard != null ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
         }
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
