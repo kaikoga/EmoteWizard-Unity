@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard.Base
         {
             readonly AnimatorLayerWizardBase _wizard;
 
-            public AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) => _wizard = wizard;
+            protected AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) => _wizard = wizard;
 
             IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
 
