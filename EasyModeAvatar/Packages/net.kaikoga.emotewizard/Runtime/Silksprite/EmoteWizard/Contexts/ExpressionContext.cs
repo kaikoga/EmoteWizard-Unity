@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Contexts
@@ -33,6 +35,9 @@ namespace Silksprite.EmoteWizard.Contexts
             OutputAsset = null;
         }
 
-        public IEnumerable<ExpressionItem> CollectExpressionItems() => Wizard.CollectExpressionItems();
+        public IEnumerable<ExpressionItem> CollectExpressionItems()
+        {
+            return Environment.GetComponentsInChildren<IExpressionItemSource>().SelectMany(source => source.ExpressionItems);
+        }
     }
 }
