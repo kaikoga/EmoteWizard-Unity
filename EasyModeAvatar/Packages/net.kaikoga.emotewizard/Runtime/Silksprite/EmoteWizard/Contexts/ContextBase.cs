@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Contexts
         protected ContextBase(EmoteWizardEnvironment env, TWizard wizard)
         {
             Environment = env;
-            Wizard = wizard;
+            if (env.PersistGeneratedAssets) Wizard = wizard;
         }
 
         public abstract void DisconnectOutputAssets();

@@ -37,8 +37,11 @@ namespace Silksprite.EmoteWizard.Contexts
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env) : base(env) { }
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard)
         {
-            _outputAsset = Wizard.outputAsset;
-            _resetClip = Wizard.resetClip;
+            if (env.PersistGeneratedAssets)
+            {
+                _outputAsset = Wizard.outputAsset;
+                _resetClip = Wizard.resetClip;
+            }
 
             DefaultAvatarMask = Wizard.defaultAvatarMask;
             LayerKind = Wizard.LayerKind;

@@ -25,7 +25,10 @@ namespace Silksprite.EmoteWizard.Contexts
         public ParametersContext(EmoteWizardEnvironment env) : base(env) { }
         public ParametersContext(EmoteWizardEnvironment env, ParametersWizard wizard) : base(env, wizard)
         {
-            _outputAsset = wizard.outputAsset;
+            if (env.PersistGeneratedAssets)
+            {
+                _outputAsset = wizard.outputAsset;
+            }
         }
 
         public override void DisconnectOutputAssets()

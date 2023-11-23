@@ -26,7 +26,11 @@ namespace Silksprite.EmoteWizard.Contexts
         public ExpressionContext(EmoteWizardEnvironment env) : base(env) { }
         public ExpressionContext(EmoteWizardEnvironment env, ExpressionWizard wizard) : base(env, wizard)
         {
-            _outputAsset = wizard.outputAsset;
+            if (env.PersistGeneratedAssets)
+            {
+                _outputAsset = wizard.outputAsset;
+            }
+
             BuildAsSubAsset = Wizard.buildAsSubAsset;
         }
 

@@ -39,8 +39,11 @@ namespace Silksprite.EmoteWizard.Contexts
         public AvatarContext(EmoteWizardEnvironment env) : base(env) { }
         public AvatarContext(EmoteWizardEnvironment env, AvatarWizard wizard) : base(env, wizard)
         {
-            _avatarDescriptor = Wizard.avatarDescriptor;
-            _proxyAnimator = Wizard.proxyAnimator;
+            if (env.PersistGeneratedAssets)
+            {
+                _avatarDescriptor = Wizard.avatarDescriptor;
+                _proxyAnimator = Wizard.proxyAnimator;
+            }
 
             OverrideGesture = Wizard.overrideGesture;
             OverrideGestureController = Wizard.overrideGestureController;
