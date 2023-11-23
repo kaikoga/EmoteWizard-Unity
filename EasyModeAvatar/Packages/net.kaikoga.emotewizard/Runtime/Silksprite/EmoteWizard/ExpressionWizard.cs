@@ -16,6 +16,15 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public string defaultPrefix = "Default/";
         [SerializeField] public bool buildAsSubAsset = true;
 
+        VRCExpressionsMenu IOutputContext<VRCExpressionsMenu>.OutputAsset
+        {
+            get => outputAsset;
+            set => outputAsset = value;
+        }
+        bool IExpressionWizardContext.BuildAsSubAsset => buildAsSubAsset;
+
+        Component IBehaviourContext.Component => this;
+
         public override void DisconnectOutputAssets()
         {
             outputAsset = null;

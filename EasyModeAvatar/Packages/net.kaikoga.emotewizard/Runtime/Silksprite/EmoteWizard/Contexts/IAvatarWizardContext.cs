@@ -1,6 +1,6 @@
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public interface IAvatarWizardContext
+    public interface IAvatarWizardContext : IBehaviourContext
     {
         
     }

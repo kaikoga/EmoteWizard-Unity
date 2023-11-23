@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -94,5 +95,77 @@ namespace Silksprite.EmoteWizard.Extensions
             EditorUtility.SetDirty(emoteWizardBase);
             return animatorController;
         }
+        
+        public static T ReplaceOrCreateOutputAsset<T>(this IOutputContext<T> context, ref T outputAsset, string defaultRelativePath)
+            where T:ScriptableObject
+        {
+            if (context.Context.PersistGeneratedAssets)
+            {
+                if (outputAsset && outputAsset.IsPersistedAsset())
+                {
+                    var o = outputAsset;
+                    DestroyAllSubAssets(outputAsset, asset => asset != o);
+                    var value = ScriptableObject.CreateInstance<T>();
+                    EditorUtility.CopySerialized(value, outputAsset);
+                }
+                else
+                {
+                    outputAsset = ScriptableObject.CreateInstance<T>();
+                    var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                    EnsureDirectory(path);
+                    AssetDatabase.CreateAsset(outputAsset, path);
+                }
+
+                EditorUtility.SetDirty(outputAsset);
+            }
+            else
+            {
+                var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                outputAsset = ScriptableObject.CreateInstance<T>();
+                outputAsset.name = Path.GetFileNameWithoutExtension(path);
+            }
+
+            EditorUtility.SetDirty(context.Component);
+            return outputAsset;
+        }
+
+        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<AnimatorController> context, ref RuntimeAnimatorController outputAsset, string defaultRelativePath)
+        {
+            AnimatorController animatorController;
+
+            if (context.Context.PersistGeneratedAssets)
+            {
+                animatorController = outputAsset as AnimatorController;
+                if (animatorController)
+                {
+                    DestroyAllSubAssets(animatorController, asset => asset != animatorController);
+                    animatorController.layers = new AnimatorControllerLayer[] { };
+                    animatorController.parameters = new AnimatorControllerParameter[] { };
+                }
+                else
+                {
+                    var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                    EnsureDirectory(path);
+                    animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
+                    animatorController.RemoveLayer(0); // Remove Base Layer
+                    outputAsset = animatorController;
+                }
+
+                EditorUtility.SetDirty(animatorController);
+            }
+            else
+            {
+                var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                animatorController = new AnimatorController
+                {
+                    name = Path.GetFileNameWithoutExtension(path)
+                };
+                outputAsset = animatorController;
+            }
+
+            EditorUtility.SetDirty(context.Component);
+            return animatorController;
+        }
+
     }
 }

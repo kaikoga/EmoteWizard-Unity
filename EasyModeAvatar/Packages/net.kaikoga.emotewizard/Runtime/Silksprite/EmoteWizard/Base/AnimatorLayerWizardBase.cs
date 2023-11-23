@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
@@ -17,6 +16,13 @@ namespace Silksprite.EmoteWizard.Base
 
         public abstract bool HasResetClip { get; }
         public abstract LayerKind LayerKind { get; }
+
+        Component IBehaviourContext.Component => this;
+        RuntimeAnimatorController IOutputContext<RuntimeAnimatorController>.OutputAsset
+        {
+            get => outputAsset;
+            set => outputAsset = value;
+        }
 
         public override void DisconnectOutputAssets()
         {

@@ -15,6 +15,14 @@ namespace Silksprite.EmoteWizard
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
 
+        VRCExpressionParameters IOutputContext<VRCExpressionParameters>.OutputAsset
+        {
+            get => outputAsset;
+            set => outputAsset = value;
+        }
+
+        Component IBehaviourContext.Component => this;
+
         public override void DisconnectOutputAssets()
         {
             outputAsset = null;

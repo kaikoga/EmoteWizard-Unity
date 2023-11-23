@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Utils;
@@ -9,11 +10,11 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
-    public static class ExpressionWizardExtension
+    public static class ExpressionWizardContextExtension
     {
-        static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionWizard expressionWizard)
+        static IEnumerable<ExpressionItemSet> GroupExpressionItems(this IExpressionWizardContext context)
         {
-            var activeExpressionItems = expressionWizard.CollectExpressionItems().ToList();
+            var activeExpressionItems = context.CollectExpressionItems().ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
 
             var folderNames = activeExpressionItems.SelectMany(item => item.Folders()).Distinct().ToList();
@@ -44,14 +45,16 @@ namespace Silksprite.EmoteWizard.Extensions
             return groups;
         }
 
-        public static VRCExpressionsMenu BuildOutputAsset(this ExpressionWizard expressionWizard)
+        public static VRCExpressionsMenu BuildOutputAsset(this IExpressionWizardContext context)
         {
-            var expressionMenu = expressionWizard.ReplaceOrCreateOutputAsset(ref expressionWizard.outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
+            var outputAsset = context.OutputAsset;
+            var expressionMenu = context.ReplaceOrCreateOutputAsset(ref outputAsset, "Expressions/@@@Generated@@@ExprMenu.asset");
+            context.OutputAsset = outputAsset;
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = string.IsNullOrEmpty(rootItemPath) ? null : $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
 
-            var groups = expressionWizard.GroupExpressionItems().ToList();
+            var groups = context.GroupExpressionItems().ToList();
 
             var menus = new Dictionary<string, VRCExpressionsMenu>();
 
@@ -63,10 +66,10 @@ namespace Silksprite.EmoteWizard.Extensions
                     menus[@group.Path] = expressionMenu;
                     EditorUtility.SetDirty(expressionMenu);
                 }
-                else if (expressionWizard.buildAsSubAsset)
+                else if (context.BuildAsSubAsset)
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
-                    if (expressionWizard.Context.PersistGeneratedAssets)
+                    if (context.Context.PersistGeneratedAssets)
                     {
                         AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
                     }
@@ -77,7 +80,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
                     var childPath = $"{rootPath}{@group.Path}.asset";
-                    expressionWizard.ReplaceOrCreateOutputAsset(ref childMenu, childPath);
+                    context.ReplaceOrCreateOutputAsset(ref childMenu, childPath);
                     menus[@group.Path] = childMenu;
                 }
             }

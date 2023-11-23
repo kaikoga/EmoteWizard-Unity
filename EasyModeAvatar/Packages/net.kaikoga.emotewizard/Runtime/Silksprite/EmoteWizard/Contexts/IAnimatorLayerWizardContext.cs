@@ -1,6 +1,8 @@
+using UnityEngine;
+
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public interface IAnimatorLayerWizardContext
+    public interface IAnimatorLayerWizardContext : IOutputContext<RuntimeAnimatorController>
     {
         
     }
