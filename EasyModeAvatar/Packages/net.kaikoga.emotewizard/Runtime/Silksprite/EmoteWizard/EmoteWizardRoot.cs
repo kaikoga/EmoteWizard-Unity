@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard
                 var contexts = _root.GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext());
                 foreach (var context in contexts)
                 {
-                    if (_contexts.Any(c => c.GetType() == context.GetType() && c.Component == context.Component)) continue;
+                    if (_contexts.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;
                     _contexts.Add(context);
                 }
             }

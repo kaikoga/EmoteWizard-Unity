@@ -125,7 +125,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 outputAsset.name = Path.GetFileNameWithoutExtension(path);
             }
 
-            EditorUtility.SetDirty(context.Component);
+            EditorUtility.SetDirty(context.GameObject);
             return outputAsset;
         }
 
@@ -163,7 +163,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 outputAsset = animatorController;
             }
 
-            EditorUtility.SetDirty(context.Component);
+            EditorUtility.SetDirty(context.GameObject);
             return animatorController;
         }
 

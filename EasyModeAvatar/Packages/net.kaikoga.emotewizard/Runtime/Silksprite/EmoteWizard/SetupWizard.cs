@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard
 
             IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
 
-            Component IBehaviourContext.Component => _wizard;
+            GameObject IBehaviourContext.GameObject => _wizard.gameObject;
 
             bool ISetupWizardContext.IsSetupMode => _wizard.isSetupMode;
 

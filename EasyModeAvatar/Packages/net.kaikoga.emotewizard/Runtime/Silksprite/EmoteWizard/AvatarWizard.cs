@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard
 
             IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
 
-            Component IBehaviourContext.Component => _wizard;
+            GameObject IBehaviourContext.GameObject => _wizard.gameObject;
 
             VRCAvatarDescriptor IAvatarWizardContext.AvatarDescriptor
             {

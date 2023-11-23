@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Base
 
             IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
 
-            Component IBehaviourContext.Component => _wizard;
+            GameObject IBehaviourContext.GameObject => _wizard.gameObject;
 
             RuntimeAnimatorController IOutputContext<RuntimeAnimatorController>.OutputAsset
             {
