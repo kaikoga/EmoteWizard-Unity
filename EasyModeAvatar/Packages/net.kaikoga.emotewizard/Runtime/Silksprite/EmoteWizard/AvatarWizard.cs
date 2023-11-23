@@ -19,6 +19,8 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
 
+        public override IBehaviourContext ToContext() => this;
+
         VRCAvatarDescriptor IAvatarWizardContext.AvatarDescriptor => avatarDescriptor;
 
         Animator IAvatarWizardContext.ProxyAnimator

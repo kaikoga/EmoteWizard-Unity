@@ -17,6 +17,8 @@ namespace Silksprite.EmoteWizard.Base
         public abstract bool HasResetClip { get; }
         public abstract LayerKind LayerKind { get; }
 
+        public override IBehaviourContext ToContext() => this;
+
         Component IBehaviourContext.Component => this;
         RuntimeAnimatorController IOutputContext<RuntimeAnimatorController>.OutputAsset
         {

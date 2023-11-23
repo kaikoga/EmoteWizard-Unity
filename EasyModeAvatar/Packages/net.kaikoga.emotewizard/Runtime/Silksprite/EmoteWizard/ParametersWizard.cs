@@ -21,6 +21,8 @@ namespace Silksprite.EmoteWizard
             set => outputAsset = value;
         }
 
+        public override IBehaviourContext ToContext() => this;
+
         Component IBehaviourContext.Component => this;
 
         public override void DisconnectOutputAssets()
