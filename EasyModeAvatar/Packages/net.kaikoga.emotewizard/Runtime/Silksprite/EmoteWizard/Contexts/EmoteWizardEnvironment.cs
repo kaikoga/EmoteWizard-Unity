@@ -55,7 +55,16 @@ namespace Silksprite.EmoteWizard.Contexts
         public bool ShowTutorial => _root.showTutorial;
         public bool PersistGeneratedAssets { get; set; } = true;
 
-        public T GetContext<T>() where T : IBehaviourContext => _contexts.OfType<T>().FirstOrDefault();
+        public T GetContext<T>() where T : IBehaviourContext
+        {
+            var context = _contexts.OfType<T>().FirstOrDefault();
+            if (context == null)
+            {
+                context = (T)Activator.CreateInstance(typeof(T), this);
+                _contexts.Add(context);
+            }
+            return context;
+        }
 
         public void DisconnectAllOutputAssets()
         {
