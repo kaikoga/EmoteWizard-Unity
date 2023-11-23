@@ -50,8 +50,9 @@ namespace Silksprite.EmoteWizard.Extensions
             else
             {
                 var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
-                context.OutputAsset = ScriptableObject.CreateInstance<T>();
-                context.OutputAsset.name = Path.GetFileNameWithoutExtension(path);
+                outputAsset = ScriptableObject.CreateInstance<T>();
+                outputAsset.name = Path.GetFileNameWithoutExtension(path);
+                context.OutputAsset = outputAsset;
             }
 
             if (context.GameObject)
