@@ -70,16 +70,16 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-            foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardEnvironment>())
+            foreach (var env in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardEnvironment>())
             {
-                var avatarWizard = context.GetContext<AvatarWizard>();
-                if (avatarWizard)
+                var avatarContext = env.GetContext<IAvatarWizardContext>();
+                if (avatarContext != null)
                 {
-                    avatarWizard.avatarDescriptor = buildContext.AvatarDescriptor;
-                    var oldPersist = context.PersistGeneratedAssets;
-                    context.PersistGeneratedAssets = false;
-                    avatarWizard.BuildAvatar();
-                    context.PersistGeneratedAssets = oldPersist;
+                    avatarContext.AvatarDescriptor = buildContext.AvatarDescriptor;
+                    var oldPersist = env.PersistGeneratedAssets;
+                    env.PersistGeneratedAssets = false;
+                    avatarContext.BuildAvatar();
+                    env.PersistGeneratedAssets = oldPersist;
                     break;
                 }
             }

@@ -6,7 +6,7 @@ using VRC.SDK3.Avatars.Components;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class AvatarWizard : EmoteWizardBase, IAvatarWizardContext
+    public class AvatarWizard : EmoteWizardBase
     {
         [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
 
@@ -19,29 +19,8 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
 
-        public override IBehaviourContext ToContext() => this;
-
-        VRCAvatarDescriptor IAvatarWizardContext.AvatarDescriptor => avatarDescriptor;
-
-        Animator IAvatarWizardContext.ProxyAnimator
-        {
-            get => proxyAnimator;
-            set => proxyAnimator = value;
-        }
-
-        OverrideGeneratedControllerType2 IAvatarWizardContext.OverrideGesture => overrideGesture;
-
-        RuntimeAnimatorController IAvatarWizardContext.OverrideGestureController => overrideGestureController;
-
-        OverrideGeneratedControllerType1 IAvatarWizardContext.OverrideAction => overrideAction;
-
-        RuntimeAnimatorController IAvatarWizardContext.OverrideActionController => overrideActionController;
-
-        OverrideControllerType2 IAvatarWizardContext.OverrideSitting => overrideSitting;
-
-        RuntimeAnimatorController IAvatarWizardContext.OverrideSittingController => overrideSittingController;
-        
-        Component IBehaviourContext.Component => this;
+        public override IBehaviourContext ToContext() => GetContext();
+        public IAvatarWizardContext GetContext() => new AvatarContext(this);
 
         public override void DisconnectOutputAssets()
         {
@@ -69,6 +48,41 @@ namespace Silksprite.EmoteWizard
             Override = 0x11,
             Default1 = 0x00,
             Default2 = 0x01
+        }
+
+        class AvatarContext : IAvatarWizardContext
+        {
+            readonly AvatarWizard _wizard;
+
+            public AvatarContext(AvatarWizard wizard) => _wizard = wizard;
+
+            IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
+
+            Component IBehaviourContext.Component => _wizard;
+
+            VRCAvatarDescriptor IAvatarWizardContext.AvatarDescriptor
+            {
+                get => _wizard.avatarDescriptor;
+                set => _wizard.avatarDescriptor = value;
+            }
+
+            Animator IAvatarWizardContext.ProxyAnimator
+            {
+                get => _wizard.proxyAnimator;
+                set => _wizard.proxyAnimator = value;
+            }
+
+            OverrideGeneratedControllerType2 IAvatarWizardContext.OverrideGesture => _wizard.overrideGesture;
+
+            RuntimeAnimatorController IAvatarWizardContext.OverrideGestureController => _wizard.overrideGestureController;
+
+            OverrideGeneratedControllerType1 IAvatarWizardContext.OverrideAction => _wizard.overrideAction;
+
+            RuntimeAnimatorController IAvatarWizardContext.OverrideActionController => _wizard.overrideActionController;
+
+            OverrideControllerType2 IAvatarWizardContext.OverrideSitting => _wizard.overrideSitting;
+
+            RuntimeAnimatorController IAvatarWizardContext.OverrideSittingController => _wizard.overrideSittingController;
         }
     }
 }

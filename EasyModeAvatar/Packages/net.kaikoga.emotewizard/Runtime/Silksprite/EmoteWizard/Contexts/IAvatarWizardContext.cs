@@ -5,7 +5,7 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public interface IAvatarWizardContext : IBehaviourContext
     {
-        VRCAvatarDescriptor AvatarDescriptor { get; }
+        VRCAvatarDescriptor AvatarDescriptor { get; set; }
         Animator ProxyAnimator { get; set; }
 
         AvatarWizard.OverrideGeneratedControllerType2 OverrideGesture { get; }

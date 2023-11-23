@@ -60,7 +60,7 @@ namespace Silksprite.EmoteWizard
             {
                 void EditAnimator(AnimatorController animatorController)
                 {
-                    var animator = _wizard.ProvideProxyAnimator();
+                    var animator = _wizard.GetContext().ProvideProxyAnimator();
                     animator.runtimeAnimatorController = animatorController;
                     if (!animatorController) return;
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
@@ -86,7 +86,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Generate Everything and Update Avatar"))
                         {
-                            _wizard.BuildAvatar();
+                            _wizard.GetContext().BuildAvatar();
                         }
                     });
 
