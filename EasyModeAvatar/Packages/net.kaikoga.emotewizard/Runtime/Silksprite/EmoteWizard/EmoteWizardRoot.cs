@@ -1,4 +1,4 @@
-using System;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class EmoteWizardRoot : MonoBehaviour
+    public class EmoteWizardRoot : EmoteWizardBehaviour
     {
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
