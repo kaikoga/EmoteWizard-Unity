@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
 {
-    public abstract class AnimatorLayerWizardBase : EmoteWizardBase, IAnimatorLayerWizardContext
+    public abstract class AnimatorLayerWizardBase : EmoteWizardBase
     {
         [SerializeField] public AvatarMask defaultAvatarMask;
 
@@ -17,22 +17,8 @@ namespace Silksprite.EmoteWizard.Base
         public abstract bool HasResetClip { get; }
         public abstract LayerKind LayerKind { get; }
 
-        public override IBehaviourContext ToContext() => this;
-
-        Component IBehaviourContext.Component => this;
-        RuntimeAnimatorController IOutputContext<RuntimeAnimatorController>.OutputAsset
-        {
-            get => outputAsset;
-            set => outputAsset = value;
-        }
-
-        AvatarMask IAnimatorLayerWizardContext.DefaultAvatarMask => defaultAvatarMask;
-
-        AnimationClip IAnimatorLayerWizardContext.ResetClip
-        {
-            get => resetClip;
-            set => resetClip = value;
-        }
+        public override IBehaviourContext ToContext() => GetContext();
+        public abstract IAnimatorLayerWizardContext GetContext();
 
         public override void DisconnectOutputAssets()
         {
@@ -41,5 +27,36 @@ namespace Silksprite.EmoteWizard.Base
         }
 
         public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == LayerKind);
+
+        protected abstract class AnimatorLayerContextBase : IAnimatorLayerWizardContext
+        {
+            readonly AnimatorLayerWizardBase _wizard;
+
+            public AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) => _wizard = wizard;
+
+            IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
+
+            Component IBehaviourContext.Component => _wizard;
+
+            RuntimeAnimatorController IOutputContext<RuntimeAnimatorController>.OutputAsset
+            {
+                get => _wizard.outputAsset;
+                set => _wizard.outputAsset = value;
+            }
+
+            LayerKind IAnimatorLayerWizardContext.LayerKind => _wizard.LayerKind;
+
+            AvatarMask IAnimatorLayerWizardContext.DefaultAvatarMask => _wizard.defaultAvatarMask;
+
+            bool IAnimatorLayerWizardContext.HasResetClip => _wizard.HasResetClip;
+
+            AnimationClip IAnimatorLayerWizardContext.ResetClip
+            {
+                get => _wizard.resetClip;
+                set => _wizard.resetClip = value;
+            }
+
+            IEnumerable<EmoteItem> IAnimatorLayerWizardContext.CollectEmoteItems() => _wizard.CollectEmoteItems();
+        }
     }
 }
