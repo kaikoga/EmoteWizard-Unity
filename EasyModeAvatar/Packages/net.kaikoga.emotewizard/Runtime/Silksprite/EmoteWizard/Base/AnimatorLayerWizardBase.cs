@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Base
         public abstract bool HasResetClip { get; }
         public abstract LayerKind LayerKind { get; }
 
-        public override IBehaviourContext ToContext() => GetContext();
-        public abstract AnimatorLayerContextBase GetContext();
+        public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);
+        public abstract AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env);
     }
 }

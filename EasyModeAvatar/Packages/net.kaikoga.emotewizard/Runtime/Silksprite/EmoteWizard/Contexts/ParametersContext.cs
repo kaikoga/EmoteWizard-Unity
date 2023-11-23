@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         [UsedImplicitly]
         public ParametersContext(EmoteWizardEnvironment env) : base(env) { }
-        public ParametersContext(ParametersWizard wizard) : base(wizard)
+        public ParametersContext(EmoteWizardEnvironment env, ParametersWizard wizard) : base(env, wizard)
         {
             _outputAsset = wizard.outputAsset;
         }

@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.Environment;
+            var env = _wizard.CreateEnv();
 
             EditorGUILayout.PropertyField(_serializedIsSetupMode, new GUIContent("Enable Setup Only UI"));
 

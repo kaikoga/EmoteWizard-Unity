@@ -16,9 +16,9 @@ namespace Silksprite.EmoteWizard.Contexts
             Environment = env;
         }
 
-        protected ContextBase(TWizard wizard)
+        protected ContextBase(EmoteWizardEnvironment env, TWizard wizard)
         {
-            Environment = wizard.Environment;
+            Environment = env;
             Wizard = wizard;
         }
 
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Contexts
         where TWizard : EmoteWizardBase
     {
         protected OutputContextBase(EmoteWizardEnvironment env) : base(env) { }
-        protected OutputContextBase(TWizard wizard) : base(wizard) { }
+        protected OutputContextBase(EmoteWizardEnvironment env, TWizard wizard) : base(env, wizard) { }
         public abstract TOut OutputAsset { get; set; }
     }
 }

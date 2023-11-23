@@ -26,8 +26,8 @@ namespace Silksprite.EmoteWizard
             RuntimeAnimatorController GenerateOverrideController(RuntimeAnimatorController source, string layer)
             {
                 var path = AssetDatabase.GetAssetPath(source);
-                var newPath = _wizard.Environment.GeneratedAssetPath(GeneratedAssetLocator.GeneratedOverrideControllerPath(layer));
-                if (_wizard.Environment.PersistGeneratedAssets)
+                var newPath = _wizard.CreateEnv().GeneratedAssetPath(GeneratedAssetLocator.GeneratedOverrideControllerPath(layer));
+                if (_wizard.CreateEnv().PersistGeneratedAssets)
                 {
                     EnsureDirectory(newPath);
                 }
@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard
                 return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(newPath);
             }
 
-            var env = _wizard.Environment;
+            var env = _wizard.CreateEnv();
 
             var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
             EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AvatarWizard.overrideGesture)), overrideGestureLabel);
@@ -60,7 +60,7 @@ namespace Silksprite.EmoteWizard
             {
                 void EditAnimator(AnimatorController animatorController)
                 {
-                    var animator = _wizard.GetContext().ProvideProxyAnimator();
+                    var animator = _wizard.GetContext(_wizard.CreateEnv()).ProvideProxyAnimator();
                     animator.runtimeAnimatorController = animatorController;
                     if (!animatorController) return;
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
@@ -86,7 +86,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Generate Everything and Update Avatar"))
                         {
-                            _wizard.GetContext().BuildAvatar();
+                            _wizard.GetContext(_wizard.CreateEnv()).BuildAvatar();
                         }
                     });
 

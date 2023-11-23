@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         [UsedImplicitly]
         public AvatarContext(EmoteWizardEnvironment env) : base(env) { }
-        public AvatarContext(AvatarWizard wizard) : base(wizard)
+        public AvatarContext(EmoteWizardEnvironment env, AvatarWizard wizard) : base(env, wizard)
         {
             _avatarDescriptor = Wizard.avatarDescriptor;
             _proxyAnimator = Wizard.proxyAnimator;

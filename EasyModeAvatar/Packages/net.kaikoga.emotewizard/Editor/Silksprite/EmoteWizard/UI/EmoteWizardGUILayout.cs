@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.UI
             where TContext : IBehaviourContext
             where TComponent : EmoteWizardBase
         {
-            RequireAnotherContext<TContext, TComponent>(emoteWizardBase, emoteWizardBase.Environment.GetContext<TContext>(), action);
+            RequireAnotherContext<TContext, TComponent>(emoteWizardBase, emoteWizardBase.CreateEnv().GetContext<TContext>(), action);
         }
 
         public static void RequireAnotherContext<TContext, TComponent>(EmoteWizardBase emoteWizardBase, TContext anotherContext, Action action)

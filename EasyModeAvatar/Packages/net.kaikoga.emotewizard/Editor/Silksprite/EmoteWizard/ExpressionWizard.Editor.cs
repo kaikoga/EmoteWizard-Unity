@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.Environment;
+            var env = _wizard.CreateEnv();
 
             EditorGUILayout.PropertyField(_serializedBuildAsSubAsset);
 
@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {
-                    _wizard.GetContext().BuildOutputAsset();
+                    _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset();
                 }
 
                 EditorGUILayout.PropertyField(_serializedOutputAsset);

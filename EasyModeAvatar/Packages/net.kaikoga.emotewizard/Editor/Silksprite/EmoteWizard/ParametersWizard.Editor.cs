@@ -21,13 +21,13 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.Environment;
+            var env = _wizard.CreateEnv();
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {
-                    _wizard.GetContext().BuildOutputAsset();
+                    _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset();
                 }
 
                 EditorGUILayout.PropertyField(_serializedOutputAsset);

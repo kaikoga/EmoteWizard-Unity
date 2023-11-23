@@ -9,6 +9,6 @@ namespace Silksprite.EmoteWizard
     {
         public bool isSetupMode = true;
 
-        public override IBehaviourContext ToContext() => new SetupContext(this);
+        public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => new SetupContext(env, this);
     }
 }

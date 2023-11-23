@@ -60,7 +60,7 @@ namespace Silksprite.EmoteWizard.Sources
                 EditorGUILayout.HelpBox(MirrorInfoText, MessageType.Info);
             }
             
-            EmoteWizardGUILayout.Tutorial(((EmoteItemSource)target).Environment, Tutorial);
+            EmoteWizardGUILayout.Tutorial(((EmoteItemSource)target).CreateEnv(), Tutorial);
         }
         
         static string MirrorInfoText =>

@@ -7,6 +7,6 @@ namespace Silksprite.EmoteWizard.Contexts
     {
         [UsedImplicitly]
         public FxLayerContext(EmoteWizardEnvironment env) : base(env) { }
-        public FxLayerContext(AnimatorLayerWizardBase wizard) : base(wizard) { }
+        public FxLayerContext(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard) { }
     }
 }

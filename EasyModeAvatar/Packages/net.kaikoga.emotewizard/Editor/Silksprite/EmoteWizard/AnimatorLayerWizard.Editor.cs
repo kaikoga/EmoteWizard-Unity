@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.Environment;
+            var env = _wizard.CreateEnv();
 
             using (new ObjectChangeScope(_wizard))
             {
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard
                     {
                         if (GUILayout.Button("Generate Animation Controller"))
                         {
-                            _wizard.GetContext().BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
+                            _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
                         }
                     });
 

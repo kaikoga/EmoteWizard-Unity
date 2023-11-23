@@ -4,6 +4,6 @@ namespace Silksprite.EmoteWizard.Base
 {
     public interface IContextProvider
     {
-        IBehaviourContext ToContext();
+        IBehaviourContext ToContext(EmoteWizardEnvironment env);
     }
 }

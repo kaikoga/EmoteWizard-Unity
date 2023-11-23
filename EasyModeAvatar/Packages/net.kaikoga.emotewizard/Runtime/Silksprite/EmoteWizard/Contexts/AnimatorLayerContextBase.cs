@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly bool HasResetClip;
 
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env) : base(env) { }
-        protected AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) : base(wizard)
+        protected AnimatorLayerContextBase(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard)
         {
             _outputAsset = Wizard.outputAsset;
             _resetClip = Wizard.resetClip;

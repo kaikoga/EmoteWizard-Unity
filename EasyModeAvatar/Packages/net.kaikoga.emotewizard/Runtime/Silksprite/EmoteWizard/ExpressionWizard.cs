@@ -16,12 +16,12 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public string defaultPrefix = "Default/";
         [SerializeField] public bool buildAsSubAsset = true;
 
-        public override IBehaviourContext ToContext() => GetContext();
-        public ExpressionContext GetContext() => new ExpressionContext(this);
+        public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);
+        public ExpressionContext GetContext(EmoteWizardEnvironment env) => new ExpressionContext(env, this);
 
         public IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            return Environment.GetComponentsInChildren<IExpressionItemSource>().SelectMany(source => source.ExpressionItems);
+            return CreateEnv().GetComponentsInChildren<IExpressionItemSource>().SelectMany(source => source.ExpressionItems);
         }
     }
 }

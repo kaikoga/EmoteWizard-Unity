@@ -1,3 +1,4 @@
+using System;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
@@ -16,6 +17,5 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public bool showTutorial;
 
         public EmoteWizardEnvironment ToEnv() => EmoteWizardEnvironment.FromRoot(this);
-        public EmoteWizardEnvironment ToEnv(IBehaviourContext context) => EmoteWizardEnvironment.FromContext(this, context);
     }
 }
