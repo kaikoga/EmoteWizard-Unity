@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public bool showTutorial;
 
-        public IEmoteWizardEnvironment ToEnv() => EmoteWizardEnvironment.FromRoot(this);
-        public IEmoteWizardEnvironment ToEnv(IBehaviourContext context) => EmoteWizardEnvironment.FromContext(this, context);
+        public EmoteWizardEnvironment ToEnv() => EmoteWizardEnvironment.FromRoot(this);
+        public EmoteWizardEnvironment ToEnv(IBehaviourContext context) => EmoteWizardEnvironment.FromContext(this, context);
     }
 }

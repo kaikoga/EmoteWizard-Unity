@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class EmoteWizardEnvironment : IEmoteWizardEnvironment
+    public class EmoteWizardEnvironment
     {
         readonly EmoteWizardRoot _root;
         readonly List<IBehaviourContext> _contexts = new List<IBehaviourContext>();
@@ -42,36 +42,38 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
-        GameObject IEmoteWizardEnvironment.GameObject => _root.gameObject;
-        Transform IEmoteWizardEnvironment.Transform => _root.transform;
-        AnimationClip IEmoteWizardEnvironment.EmptyClip
+        public GameObject GameObject => _root.gameObject;
+        public Transform Transform => _root.transform;
+
+        public AnimationClip EmptyClip
         {
             get => _root.emptyClip;
             set => _root.emptyClip = value;
         }
-        LayerKind IEmoteWizardEnvironment.GenerateTrackingControlLayer => _root.generateTrackingControlLayer;
-        bool IEmoteWizardEnvironment.ShowTutorial => _root.showTutorial;
-        bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
 
-        T IEmoteWizardEnvironment.GetContext<T>() => _contexts.OfType<T>().FirstOrDefault();
+        public LayerKind GenerateTrackingControlLayer => _root.generateTrackingControlLayer;
+        public bool ShowTutorial => _root.showTutorial;
+        public bool PersistGeneratedAssets { get; set; } = true;
 
-        void IEmoteWizardEnvironment.DisconnectAllOutputAssets()
+        public T GetContext<T>() where T : IBehaviourContext => _contexts.OfType<T>().FirstOrDefault();
+
+        public void DisconnectAllOutputAssets()
         {
             foreach (var context in _contexts) context.DisconnectOutputAssets();
         }
 
-        string IEmoteWizardEnvironment.GeneratedAssetPath(string relativePath)
+        public string GeneratedAssetPath(string relativePath)
         {
             return Path.Combine(_root.generatedAssetRoot, relativePath.Replace("@@@Generated@@@", _root.generatedAssetPrefix));
         }
 
-        IEnumerable<EmoteItem> IEmoteWizardEnvironment.CollectAllEmoteItems()
+        public IEnumerable<EmoteItem> CollectAllEmoteItems()
         {
             return _root.GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
         }
 
-        T IEmoteWizardEnvironment.GetComponentInChildren<T>() => _root.GetComponentInChildren<T>();
-        T[] IEmoteWizardEnvironment.GetComponentsInChildren<T>() => _root.GetComponentsInChildren<T>();
-        T IEmoteWizardEnvironment.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => _root.FindOrCreateChildComponent(path, initializer);
+        public T GetComponentInChildren<T>() => _root.GetComponentInChildren<T>();
+        public T[] GetComponentsInChildren<T>() => _root.GetComponentsInChildren<T>();
+        public T FindOrCreateChildComponent<T>(string path, Action<T> initializer = null) where T : Component => _root.FindOrCreateChildComponent(path, initializer);
     }
 }

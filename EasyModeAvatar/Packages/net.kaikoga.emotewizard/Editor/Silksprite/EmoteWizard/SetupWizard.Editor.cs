@@ -97,7 +97,7 @@ namespace Silksprite.EmoteWizard
             EmoteWizardGUILayout.Tutorial(context, Tutorial);
         }
 
-        static void GenerateWizards(IEmoteWizardEnvironment environment)
+        static void GenerateWizards(EmoteWizardEnvironment environment)
         {
             environment.EnsureWizard<AvatarWizard>();
             environment.EnsureWizard<ExpressionWizard>();
@@ -110,7 +110,7 @@ namespace Silksprite.EmoteWizard
             environment.EnsureWizard<ActionLayerWizard>();
         }
 
-        void DestroySelf(IEmoteWizardEnvironment environment)
+        void DestroySelf(EmoteWizardEnvironment environment)
         {
             if (_wizard.gameObject != environment.GameObject)
             {
@@ -122,7 +122,7 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        static void QuickSetupEmoteItems(IEmoteWizardEnvironment environment)
+        static void QuickSetupEmoteItems(EmoteWizardEnvironment environment)
         {
             GenerateWizards(environment);
 
@@ -133,12 +133,12 @@ namespace Silksprite.EmoteWizard
             QuickSetupActionSources(environment);
         }
 
-        static void QuickSetupExpressionSources(IEmoteWizardEnvironment environment)
+        static void QuickSetupExpressionSources(EmoteWizardEnvironment environment)
         {
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources);
         }
 
-        static void QuickSetupParameterSources(IEmoteWizardEnvironment environment)
+        static void QuickSetupParameterSources(EmoteWizardEnvironment environment)
         {
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
         }
@@ -152,7 +152,7 @@ namespace Silksprite.EmoteWizard
             source.expressionItemIcon = template.ExpressionItemIcon;
         }
 
-        static void QuickSetupFXSources(IEmoteWizardEnvironment environment)
+        static void QuickSetupFXSources(EmoteWizardEnvironment environment)
         {
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.FXSources, fxSources =>
             {
@@ -164,7 +164,7 @@ namespace Silksprite.EmoteWizard
             });
         }
 
-        static void QuickSetupGestureSources(IEmoteWizardEnvironment environment)
+        static void QuickSetupGestureSources(EmoteWizardEnvironment environment)
         {
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.GestureSources, gestureSources =>
             {
@@ -176,7 +176,7 @@ namespace Silksprite.EmoteWizard
             });
         }
 
-        static void QuickSetupActionSources(IEmoteWizardEnvironment environment)
+        static void QuickSetupActionSources(EmoteWizardEnvironment environment)
         {
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ActionSources, actionSources =>
             {

@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         protected AnimatorLayerContextBase(AnimatorLayerWizardBase wizard) => _wizard = wizard;
 
-        public IEmoteWizardEnvironment Environment => _wizard.Environment;
+        public EmoteWizardEnvironment Environment => _wizard.Environment;
 
         public GameObject GameObject => _wizard.gameObject;
 

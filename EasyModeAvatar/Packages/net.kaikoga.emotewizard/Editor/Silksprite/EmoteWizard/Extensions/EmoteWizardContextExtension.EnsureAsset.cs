@@ -10,14 +10,14 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static partial class EmoteWizardContextExtension
     {
-        public static T EnsureAsset<T>(this IEmoteWizardEnvironment environment, string relativePath)
+        public static T EnsureAsset<T>(this EmoteWizardEnvironment environment, string relativePath)
             where T : Object, new()
         {
             T asset = default;
             return EnsureAsset(environment, relativePath, ref asset);
         }
 
-        public static T EnsureAsset<T>(this IEmoteWizardEnvironment environment, string relativePath, ref T asset)
+        public static T EnsureAsset<T>(this EmoteWizardEnvironment environment, string relativePath, ref T asset)
             where T : Object, new()
         {
             if (asset) return asset;
@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Extensions
             return asset;
         }
 
-        static T CreateAsset<T>(this IEmoteWizardEnvironment environment, string assetPath)
+        static T CreateAsset<T>(this EmoteWizardEnvironment environment, string assetPath)
             where T : Object, new()
         {
             var asset = new T();

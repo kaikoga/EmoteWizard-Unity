@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(EmoteWizardRoot))]
     public class EmoteWizardRootEditor : Editor
     {
-        IEmoteWizardEnvironment _env;
+        EmoteWizardEnvironment _env;
 
         SerializedProperty _serializedGeneratedAssetRoot;
         SerializedProperty _serializedGeneratedAssetPrefix;

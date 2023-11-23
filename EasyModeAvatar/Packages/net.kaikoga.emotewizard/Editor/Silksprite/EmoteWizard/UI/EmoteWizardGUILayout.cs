@@ -71,13 +71,13 @@ namespace Silksprite.EmoteWizard.UI
             }
         }
 
-        public static void Tutorial(IEmoteWizardEnvironment environment, Action action)
+        public static void Tutorial(EmoteWizardEnvironment environment, Action action)
         {
             if (!environment.ShowTutorial) return;
             using (new BoxLayoutScope()) action();
         }
         
-        public static void Tutorial(IEmoteWizardEnvironment environment, string message)
+        public static void Tutorial(EmoteWizardEnvironment environment, string message)
         {
             Tutorial(environment, () => EditorGUILayout.HelpBox(message.Nowrap(), MessageType.Info));
         }

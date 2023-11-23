@@ -4,7 +4,7 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public interface IBehaviourContext
     {
-        IEmoteWizardEnvironment Environment { get; }
+        EmoteWizardEnvironment Environment { get; }
         GameObject GameObject { get; }
 
         void DisconnectOutputAssets();

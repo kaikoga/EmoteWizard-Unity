@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Contexts
             _wizard = wizard;
         }
 
-        public IEmoteWizardEnvironment Environment => _wizard.Environment;
+        public EmoteWizardEnvironment Environment => _wizard.Environment;
 
         public GameObject GameObject => _wizard.gameObject;
 
