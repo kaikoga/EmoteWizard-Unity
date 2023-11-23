@@ -22,17 +22,6 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public bool showTutorial;
 
-        public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();
-
-        public void DisconnectAllOutputAssets()
-        {
-            foreach (var wizard in GetComponentsInChildren<EmoteWizardBase>()) wizard.DisconnectOutputAssets();
-        }
-
-        public string GeneratedAssetPath(string relativePath) => Path.Combine(generatedAssetRoot, relativePath.Replace("@@@Generated@@@", generatedAssetPrefix));
-
-        public IEnumerable<EmoteItem> CollectAllEmoteItems() => GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
-
         public IEmoteWizardEnvironment ToEnv() => new EnvImpl(this);
 
         class EnvImpl : IEmoteWizardEnvironment
@@ -52,10 +41,26 @@ namespace Silksprite.EmoteWizard
             bool IEmoteWizardEnvironment.ShowTutorial => _root.showTutorial;
             bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
 
-            T IEmoteWizardEnvironment.GetWizard<T>() => _root.GetWizard<T>();
-            void IEmoteWizardEnvironment.DisconnectAllOutputAssets() => _root.DisconnectAllOutputAssets();
-            string IEmoteWizardEnvironment.GeneratedAssetPath(string relativePath) => _root.GeneratedAssetPath(relativePath);
-            IEnumerable<EmoteItem> IEmoteWizardEnvironment.CollectAllEmoteItems() => _root.CollectAllEmoteItems();
+            T IEmoteWizardEnvironment.GetWizard<T>()
+            {
+                return _root.GetComponentInChildren<T>();
+            }
+
+            void IEmoteWizardEnvironment.DisconnectAllOutputAssets()
+            {
+                foreach (var wizard in _root.GetComponentsInChildren<EmoteWizardBase>()) wizard.DisconnectOutputAssets();
+            }
+
+            string IEmoteWizardEnvironment.GeneratedAssetPath(string relativePath)
+            {
+                return Path.Combine(_root.generatedAssetRoot, relativePath.Replace("@@@Generated@@@", _root.generatedAssetPrefix));
+            }
+
+            IEnumerable<EmoteItem> IEmoteWizardEnvironment.CollectAllEmoteItems()
+            {
+                return _root.GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
+            }
+
             T IEmoteWizardEnvironment.GetComponentInChildren<T>() => _root.GetComponentInChildren<T>();
             T[] IEmoteWizardEnvironment.GetComponentsInChildren<T>() => _root.GetComponentsInChildren<T>();
             T IEmoteWizardEnvironment.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => _root.FindOrCreateChildComponent(path, initializer);
