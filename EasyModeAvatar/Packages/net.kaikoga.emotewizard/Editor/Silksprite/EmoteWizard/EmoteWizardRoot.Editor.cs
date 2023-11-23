@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard
                 EditorGUILayout.PropertyField(_serializedShowTutorial);
             });
 
-            if (!_env.GetContext<SetupWizard>())
+            if (_env.GetContext<ISetupWizardContext>() != null)
             {
                 using (new GUILayout.HorizontalScope())
                 {

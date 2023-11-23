@@ -13,8 +13,21 @@ namespace Silksprite.EmoteWizard
         {
         }
 
-        public override IBehaviourContext ToContext() => this;
+        public override IBehaviourContext ToContext() => new SetupContext(this);
 
         Component IBehaviourContext.Component => this;
+
+        class SetupContext : ISetupWizardContext
+        {
+            readonly SetupWizard _wizard;
+
+            public SetupContext(SetupWizard wizard) => _wizard = wizard;
+
+            IEmoteWizardEnvironment IBehaviourContext.Environment => _wizard.Environment;
+
+            Component IBehaviourContext.Component => _wizard;
+
+            bool ISetupWizardContext.IsSetupMode => _wizard.isSetupMode;
+        }
     }
 }
