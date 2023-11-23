@@ -6,6 +6,8 @@ namespace Silksprite.EmoteWizard.Contexts
     {
         IEmoteWizardEnvironment Environment { get; }
         Component Component { get; }
+
+        void DisconnectOutputAssets();
     }
 
     public interface IOutputContext<T> : IBehaviourContext

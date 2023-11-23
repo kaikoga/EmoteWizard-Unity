@@ -18,11 +18,6 @@ namespace Silksprite.EmoteWizard
         public override IBehaviourContext ToContext() => GetContext();
         public IParametersWizardContext GetContext() => new ParametersContext(this);
 
-        public override void DisconnectOutputAssets()
-        {
-            outputAsset = null;
-        }
-
         IEnumerable<EmoteItem> CollectEmoteItems()
         {
             return Environment.CollectAllEmoteItems();
@@ -88,6 +83,11 @@ namespace Silksprite.EmoteWizard
             {
                 get => _wizard.outputAsset;
                 set => _wizard.outputAsset = value;
+            }
+
+            void IBehaviourContext.DisconnectOutputAssets()
+            {
+                _wizard.outputAsset = null;
             }
 
             ParametersSnapshot IParametersWizardContext.Snapshot() => _wizard.Snapshot();

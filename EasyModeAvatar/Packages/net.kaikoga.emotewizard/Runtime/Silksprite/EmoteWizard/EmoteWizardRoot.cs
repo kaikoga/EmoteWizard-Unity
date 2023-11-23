@@ -72,7 +72,7 @@ namespace Silksprite.EmoteWizard
 
             void IEmoteWizardEnvironment.DisconnectAllOutputAssets()
             {
-                foreach (var wizard in _root.GetComponentsInChildren<EmoteWizardBase>()) wizard.DisconnectOutputAssets();
+                foreach (var context in _contexts) context.DisconnectOutputAssets();
             }
 
             string IEmoteWizardEnvironment.GeneratedAssetPath(string relativePath)

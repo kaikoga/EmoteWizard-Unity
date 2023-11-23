@@ -22,12 +22,6 @@ namespace Silksprite.EmoteWizard
         public override IBehaviourContext ToContext() => GetContext();
         public IAvatarWizardContext GetContext() => new AvatarContext(this);
 
-        public override void DisconnectOutputAssets()
-        {
-            avatarDescriptor = null;
-            proxyAnimator = null;
-        }
-
         public enum OverrideGeneratedControllerType1
         {
             Generate = 0x10,
@@ -70,6 +64,12 @@ namespace Silksprite.EmoteWizard
             {
                 get => _wizard.proxyAnimator;
                 set => _wizard.proxyAnimator = value;
+            }
+
+            void IBehaviourContext.DisconnectOutputAssets()
+            {
+                _wizard.avatarDescriptor = null;
+                _wizard.proxyAnimator = null;
             }
 
             OverrideGeneratedControllerType2 IAvatarWizardContext.OverrideGesture => _wizard.overrideGesture;

@@ -19,11 +19,6 @@ namespace Silksprite.EmoteWizard
         public override IBehaviourContext ToContext() => GetContext();
         public IExpressionWizardContext GetContext() => new ExpressionContext(this);
 
-        public override void DisconnectOutputAssets()
-        {
-            outputAsset = null;
-        }
-
         public IEnumerable<ExpressionItem> CollectExpressionItems()
         {
             return Environment.GetComponentsInChildren<IExpressionItemSource>().SelectMany(source => source.ExpressionItems);
@@ -46,6 +41,11 @@ namespace Silksprite.EmoteWizard
             {
                 get => _wizard.outputAsset;
                 set => _wizard.outputAsset = value;
+            }
+
+            void IBehaviourContext.DisconnectOutputAssets()
+            {
+                _wizard.outputAsset = null;
             }
 
             bool IExpressionWizardContext.BuildAsSubAsset => _wizard.buildAsSubAsset;

@@ -5,17 +5,11 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class SetupWizard : EmoteWizardBase, ISetupWizardContext
+    public class SetupWizard : EmoteWizardBase
     {
         public bool isSetupMode = true;
 
-        public override void DisconnectOutputAssets()
-        {
-        }
-
         public override IBehaviourContext ToContext() => new SetupContext(this);
-
-        Component IBehaviourContext.Component => this;
 
         class SetupContext : ISetupWizardContext
         {
@@ -28,6 +22,8 @@ namespace Silksprite.EmoteWizard
             Component IBehaviourContext.Component => _wizard;
 
             bool ISetupWizardContext.IsSetupMode => _wizard.isSetupMode;
+
+            void IBehaviourContext.DisconnectOutputAssets() { }
         }
     }
 }
