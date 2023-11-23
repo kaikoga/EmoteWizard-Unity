@@ -1,13 +1,12 @@
 using System;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static class AvatarWizardContextExtension
+    public static class AvatarContextExtension
     {
         public static Animator ProvideProxyAnimator(this AvatarContext context)
         {

@@ -1,12 +1,11 @@
 using System;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static partial class EmoteWizardContextExtension
+    public static partial class EmoteWizardEnvironmentExtension
     {
         public static AnimationClip ProvideEmptyClip(this EmoteWizardEnvironment environment)
         {

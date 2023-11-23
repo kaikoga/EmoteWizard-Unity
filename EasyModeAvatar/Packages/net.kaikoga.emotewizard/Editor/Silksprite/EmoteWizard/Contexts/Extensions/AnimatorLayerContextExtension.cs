@@ -1,13 +1,13 @@
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static class AnimatorLayerWizardContextExtension
+    public static class AnimatorLayerContextExtension
     {
         public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerContextBase context, ParametersSnapshot parametersSnapshot)
         {

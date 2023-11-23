@@ -1,14 +1,11 @@
 using System.IO;
-using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using UnityEditor;
 using UnityEngine;
-
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static partial class EmoteWizardContextExtension
+    public static partial class EmoteWizardEnvironmentExtension
     {
         public static T EnsureAsset<T>(this EmoteWizardEnvironment environment, string relativePath)
             where T : Object, new()

@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static class ExpressionWizardContextExtension
+    public static class ExpressionContextExtension
     {
         static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionContext context)
         {

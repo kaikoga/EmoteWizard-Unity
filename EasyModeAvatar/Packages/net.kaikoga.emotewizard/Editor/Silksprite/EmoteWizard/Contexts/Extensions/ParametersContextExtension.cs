@@ -1,10 +1,10 @@
-using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Extensions;
 using UnityEditor;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static class ParametersWizardContextExtension
+    public static class ParametersContextExtension
     {
         public static bool IsInvalidParameter(this ParametersContext context, string parameterName)
         {
