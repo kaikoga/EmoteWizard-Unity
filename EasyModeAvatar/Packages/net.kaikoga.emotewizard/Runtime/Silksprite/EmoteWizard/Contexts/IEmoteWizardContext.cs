@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Base
+namespace Silksprite.EmoteWizard.Contexts
 {
     public interface IEmoteWizardContext
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Ndmf;
 using UnityEngine;
