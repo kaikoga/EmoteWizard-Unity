@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -17,12 +18,12 @@ namespace Silksprite.EmoteWizard.DataObjects
             var serializedMode = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.mode));
             var serializedThreshold = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.threshold));
 
-            var parametersWizard = ((EmoteWizardDataSourceBase)serializedProperty.serializedObject.targetObject).Environment.EnsureWizard<ParametersWizard>().GetContext();
+            var parametersContext = ((EmoteWizardDataSourceBase)serializedProperty.serializedObject.targetObject).Environment.GetContext<ParametersContext>();
 
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {
-                using (new InvalidValueScope(parametersWizard.IsInvalidParameter(serializedParameter.stringValue)))
+                using (new InvalidValueScope(parametersContext.IsInvalidParameter(serializedParameter.stringValue)))
                 {
                     EditorGUI.PropertyField(position.UISliceH(0.0f, 0.4f), serializedParameter);
                 }

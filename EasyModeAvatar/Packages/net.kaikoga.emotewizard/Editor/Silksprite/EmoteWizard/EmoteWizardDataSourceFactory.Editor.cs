@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard
 
         int GuessActionIndex()
         {
-            var snapshot = _sourceFactory.Environment.EnsureWizard<ParametersWizard>().GetContext().Snapshot();
+            var snapshot = _sourceFactory.Environment.GetContext<ParametersContext>().Snapshot();
             var newValue = 21;
             var usages = snapshot.ParameterItems.FirstOrDefault(v => v.Name == EmoteWizardConstants.Defaults.Params.ActionSelect)?.ReadUsages;
             if (usages != null)
