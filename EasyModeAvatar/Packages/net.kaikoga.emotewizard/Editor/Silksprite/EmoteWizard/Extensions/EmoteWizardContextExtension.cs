@@ -8,20 +8,20 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static partial class EmoteWizardContextExtension
     {
-        public static AnimationClip ProvideEmptyClip(this IEmoteWizardContext context)
+        public static AnimationClip ProvideEmptyClip(this IEmoteWizardEnvironment environment)
         {
-            var emptyClip = context.EmptyClip;
-            var asset = EnsureAsset(context, "@@@Generated@@@Empty.anim", ref emptyClip);
-            context.EmptyClip = emptyClip;
+            var emptyClip = environment.EmptyClip;
+            var asset = EnsureAsset(environment, "@@@Generated@@@Empty.anim", ref emptyClip);
+            environment.EmptyClip = emptyClip;
             return asset;
         }
 
-        public static T EnsureWizard<T>(this IEmoteWizardContext context, Action<T> initializer = null) where T : EmoteWizardBase
+        public static T EnsureWizard<T>(this IEmoteWizardEnvironment environment, Action<T> initializer = null) where T : EmoteWizardBase
         {
-            var wizard = context.GetComponentInChildren<T>();
+            var wizard = environment.GetComponentInChildren<T>();
             if (wizard) return wizard;
 
-            wizard = Undo.AddComponent<T>(context.GameObject);
+            wizard = Undo.AddComponent<T>(environment.GameObject);
             initializer?.Invoke(wizard);
             return wizard;
         }

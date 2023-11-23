@@ -6,8 +6,8 @@ namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardBehaviour : MonoBehaviour
     {
-        public IEmoteWizardContext Context => GetComponentsInParent<EmoteWizardRoot>(true).FirstOrDefault();
-        protected T GetWizard<T>() where T : EmoteWizardBase => Context.GetWizard<T>();
+        public IEmoteWizardEnvironment Environment => GetComponentsInParent<EmoteWizardRoot>(true).FirstOrDefault();
+        protected T GetWizard<T>() where T : EmoteWizardBase => Environment.GetWizard<T>();
 
         public bool IsSetupMode
         {

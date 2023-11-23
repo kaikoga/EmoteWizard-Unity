@@ -4,7 +4,7 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public interface IBehaviourContext
     {
-        IEmoteWizardContext Context { get; }
+        IEmoteWizardEnvironment Environment { get; }
         Component Component { get; }
     }
 

@@ -10,28 +10,28 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static partial class EmoteWizardContextExtension
     {
-        public static T EnsureAsset<T>(this IEmoteWizardContext context, string relativePath)
+        public static T EnsureAsset<T>(this IEmoteWizardEnvironment environment, string relativePath)
             where T : Object, new()
         {
             T asset = default;
-            return EnsureAsset(context, relativePath, ref asset);
+            return EnsureAsset(environment, relativePath, ref asset);
         }
 
-        public static T EnsureAsset<T>(this IEmoteWizardContext context, string relativePath, ref T asset)
+        public static T EnsureAsset<T>(this IEmoteWizardEnvironment environment, string relativePath, ref T asset)
             where T : Object, new()
         {
             if (asset) return asset;
-            var assetPath = context.GeneratedAssetPath(relativePath);
+            var assetPath = environment.GeneratedAssetPath(relativePath);
             var existingAsset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            asset = existingAsset ? existingAsset : context.CreateAsset<T>(assetPath);
+            asset = existingAsset ? existingAsset : environment.CreateAsset<T>(assetPath);
             return asset;
         }
 
-        static T CreateAsset<T>(this IEmoteWizardContext context, string assetPath)
+        static T CreateAsset<T>(this IEmoteWizardEnvironment environment, string assetPath)
             where T : Object, new()
         {
             var asset = new T();
-            if (context.PersistGeneratedAssets) 
+            if (environment.PersistGeneratedAssets) 
             {
                 EnsureDirectory(assetPath);
                 AssetDatabase.CreateAsset(asset, assetPath);

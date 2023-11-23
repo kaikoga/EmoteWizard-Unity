@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 else if (context.BuildAsSubAsset)
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
-                    if (context.Context.PersistGeneratedAssets)
+                    if (context.Environment.PersistGeneratedAssets)
                     {
                         AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
                     }

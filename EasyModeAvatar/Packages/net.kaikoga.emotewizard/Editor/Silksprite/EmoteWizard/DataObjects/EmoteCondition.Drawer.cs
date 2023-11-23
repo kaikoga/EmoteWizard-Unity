@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var serializedMode = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.mode));
             var serializedThreshold = serializedProperty.FindPropertyRelative(nameof(EmoteCondition.threshold));
 
-            var parametersWizard = ((EmoteWizardDataSourceBase)serializedProperty.serializedObject.targetObject).Context.EnsureWizard<ParametersWizard>();
+            var parametersWizard = ((EmoteWizardDataSourceBase)serializedProperty.serializedObject.targetObject).Environment.EnsureWizard<ParametersWizard>();
 
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())

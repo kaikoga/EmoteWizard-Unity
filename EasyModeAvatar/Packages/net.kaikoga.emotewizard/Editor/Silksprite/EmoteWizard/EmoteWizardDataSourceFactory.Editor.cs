@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard
 
         int GuessActionIndex()
         {
-            var snapshot = _sourceFactory.Context.EnsureWizard<ParametersWizard>().Snapshot();
+            var snapshot = _sourceFactory.Environment.EnsureWizard<ParametersWizard>().Snapshot();
             var newValue = 21;
             var usages = snapshot.ParameterItems.FirstOrDefault(v => v.Name == EmoteWizardConstants.Defaults.Params.ActionSelect)?.ReadUsages;
             if (usages != null)
@@ -255,7 +255,7 @@ namespace Silksprite.EmoteWizard
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            EmoteWizardGUILayout.Tutorial(_sourceFactory.Context, Tutorial);
+            EmoteWizardGUILayout.Tutorial(_sourceFactory.Environment, Tutorial);
         }
 
         void GenerateExpressionMenu()

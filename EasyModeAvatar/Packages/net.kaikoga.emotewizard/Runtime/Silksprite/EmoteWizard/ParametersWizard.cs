@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard
 
         IEnumerable<EmoteItem> CollectEmoteItems()
         {
-            return Context.CollectAllEmoteItems();
+            return Environment.CollectAllEmoteItems();
         }
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
-            return Context.GetComponentsInChildren<IParameterSource>()
+            return Environment.GetComponentsInChildren<IParameterSource>()
                 .SelectMany(source => source.ParameterItems);
         }
 

@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var context = _wizard.Context;
+            var context = _wizard.Environment;
 
             EditorGUILayout.PropertyField(_serializedIsSetupMode, new GUIContent("Enable Setup Only UI"));
 
@@ -97,22 +97,22 @@ namespace Silksprite.EmoteWizard
             EmoteWizardGUILayout.Tutorial(context, Tutorial);
         }
 
-        static void GenerateWizards(IEmoteWizardContext context)
+        static void GenerateWizards(IEmoteWizardEnvironment environment)
         {
-            context.EnsureWizard<AvatarWizard>();
-            context.EnsureWizard<ExpressionWizard>();
-            context.EnsureWizard<ParametersWizard>();
-            context.EnsureWizard<FxLayerWizard>();
-            context.EnsureWizard<GestureLayerWizard>(gestureWizard =>
+            environment.EnsureWizard<AvatarWizard>();
+            environment.EnsureWizard<ExpressionWizard>();
+            environment.EnsureWizard<ParametersWizard>();
+            environment.EnsureWizard<FxLayerWizard>();
+            environment.EnsureWizard<GestureLayerWizard>(gestureWizard =>
             {
                 gestureWizard.defaultAvatarMask = VrcSdkAssetLocator.HandsOnly();
             });
-            context.EnsureWizard<ActionLayerWizard>();
+            environment.EnsureWizard<ActionLayerWizard>();
         }
 
-        void DestroySelf(IEmoteWizardContext context)
+        void DestroySelf(IEmoteWizardEnvironment environment)
         {
-            if (_wizard.gameObject != context.GameObject)
+            if (_wizard.gameObject != environment.GameObject)
             {
                 DestroyImmediate(_wizard.gameObject, true);
             }
@@ -122,25 +122,25 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        static void QuickSetupEmoteItems(IEmoteWizardContext context)
+        static void QuickSetupEmoteItems(IEmoteWizardEnvironment environment)
         {
-            GenerateWizards(context);
+            GenerateWizards(environment);
 
-            QuickSetupExpressionSources(context);
-            QuickSetupParameterSources(context);
-            QuickSetupFXSources(context);
-            QuickSetupGestureSources(context);
-            QuickSetupActionSources(context);
+            QuickSetupExpressionSources(environment);
+            QuickSetupParameterSources(environment);
+            QuickSetupFXSources(environment);
+            QuickSetupGestureSources(environment);
+            QuickSetupActionSources(environment);
         }
 
-        static void QuickSetupExpressionSources(IEmoteWizardContext context)
+        static void QuickSetupExpressionSources(IEmoteWizardEnvironment environment)
         {
-            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources);
+            environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ExpressionSources);
         }
 
-        static void QuickSetupParameterSources(IEmoteWizardContext context)
+        static void QuickSetupParameterSources(IEmoteWizardEnvironment environment)
         {
-            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
+            environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
         }
 
         static void PopulateEmoteItemSource(EmoteItemSource source, EmoteItemTemplate template)
@@ -152,9 +152,9 @@ namespace Silksprite.EmoteWizard
             source.expressionItemIcon = template.ExpressionItemIcon;
         }
 
-        static void QuickSetupFXSources(IEmoteWizardContext context)
+        static void QuickSetupFXSources(IEmoteWizardEnvironment environment)
         {
-            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.FXSources, fxSources =>
+            environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.FXSources, fxSources =>
             {
                 foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
                 {
@@ -164,9 +164,9 @@ namespace Silksprite.EmoteWizard
             });
         }
 
-        static void QuickSetupGestureSources(IEmoteWizardContext context)
+        static void QuickSetupGestureSources(IEmoteWizardEnvironment environment)
         {
-            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.GestureSources, gestureSources =>
+            environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.GestureSources, gestureSources =>
             {
                 foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
                 {
@@ -176,9 +176,9 @@ namespace Silksprite.EmoteWizard
             });
         }
 
-        static void QuickSetupActionSources(IEmoteWizardContext context)
+        static void QuickSetupActionSources(IEmoteWizardEnvironment environment)
         {
-            context.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ActionSources, actionSources =>
+            environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ActionSources, actionSources =>
             {
                 foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
                 {

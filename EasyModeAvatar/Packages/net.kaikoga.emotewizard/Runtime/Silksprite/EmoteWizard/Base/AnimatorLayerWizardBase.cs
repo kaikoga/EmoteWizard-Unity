@@ -38,6 +38,6 @@ namespace Silksprite.EmoteWizard.Base
             outputAsset = null;
         }
 
-        public IEnumerable<EmoteItem> CollectEmoteItems() => Context.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == LayerKind);
+        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == LayerKind);
     }
 }

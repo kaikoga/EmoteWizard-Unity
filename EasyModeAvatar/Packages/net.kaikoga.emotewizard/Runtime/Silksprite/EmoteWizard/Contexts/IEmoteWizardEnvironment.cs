@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public interface IEmoteWizardContext
+    public interface IEmoteWizardEnvironment
     {
         GameObject GameObject { get; }
         Transform Transform { get; }

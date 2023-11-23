@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
-    public class EmoteWizardRoot : MonoBehaviour, IEmoteWizardContext
+    public class EmoteWizardRoot : MonoBehaviour, IEmoteWizardEnvironment
     {
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
@@ -22,20 +22,20 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public bool showTutorial;
 
-        AnimationClip IEmoteWizardContext.EmptyClip
+        AnimationClip IEmoteWizardEnvironment.EmptyClip
         {
             get => emptyClip;
             set => emptyClip = value;
         }
-        LayerKind IEmoteWizardContext.GenerateTrackingControlLayer => generateTrackingControlLayer;
-        bool IEmoteWizardContext.ShowTutorial => showTutorial;
-        bool IEmoteWizardContext.PersistGeneratedAssets { get; set; } = true;
+        LayerKind IEmoteWizardEnvironment.GenerateTrackingControlLayer => generateTrackingControlLayer;
+        bool IEmoteWizardEnvironment.ShowTutorial => showTutorial;
+        bool IEmoteWizardEnvironment.PersistGeneratedAssets { get; set; } = true;
 
 
-        GameObject IEmoteWizardContext.GameObject => gameObject;
-        Transform IEmoteWizardContext.Transform => transform;
+        GameObject IEmoteWizardEnvironment.GameObject => gameObject;
+        Transform IEmoteWizardEnvironment.Transform => transform;
 
-        T IEmoteWizardContext.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => this.FindOrCreateChildComponent(path, initializer);
+        T IEmoteWizardEnvironment.FindOrCreateChildComponent<T>(string path, Action<T> initializer) => this.FindOrCreateChildComponent(path, initializer);
 
 
         public T GetWizard<T>() where T : EmoteWizardBase => GetComponentInChildren<T>();

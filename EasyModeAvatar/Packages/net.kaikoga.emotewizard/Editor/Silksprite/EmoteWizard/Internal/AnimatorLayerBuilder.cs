@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard.Internal
                 }
             };
 
-            if (Context.Context.PersistGeneratedAssets)
+            if (Context.Environment.PersistGeneratedAssets)
             {
                 AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(_animatorController));
             }

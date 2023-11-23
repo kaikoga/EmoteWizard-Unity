@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Extensions
         public static T ReplaceOrCreateOutputAsset<T>(this EmoteWizardBase emoteWizardBase, ref T outputAsset, string defaultRelativePath)
             where T:ScriptableObject
         {
-            if (emoteWizardBase.Context.PersistGeneratedAssets)
+            if (emoteWizardBase.Environment.PersistGeneratedAssets)
             {
                 if (outputAsset && outputAsset.IsPersistedAsset())
                 {
@@ -40,7 +40,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 else
                 {
                     outputAsset = ScriptableObject.CreateInstance<T>();
-                    var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
+                    var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
                     EnsureDirectory(path);
                     AssetDatabase.CreateAsset(outputAsset, path);
                 }
@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
+                var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
                 outputAsset = ScriptableObject.CreateInstance<T>();
                 outputAsset.name = Path.GetFileNameWithoutExtension(path);
             }
@@ -62,7 +62,7 @@ namespace Silksprite.EmoteWizard.Extensions
         {
             AnimatorController animatorController;
 
-            if (emoteWizardBase.Context.PersistGeneratedAssets)
+            if (emoteWizardBase.Environment.PersistGeneratedAssets)
             {
                 animatorController = outputAsset as AnimatorController;
                 if (animatorController)
@@ -73,7 +73,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 }
                 else
                 {
-                    var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
+                    var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
                     EnsureDirectory(path);
                     animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                     animatorController.RemoveLayer(0); // Remove Base Layer
@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = emoteWizardBase.Context.GeneratedAssetPath(defaultRelativePath);
+                var path = emoteWizardBase.Environment.GeneratedAssetPath(defaultRelativePath);
                 animatorController = new AnimatorController
                 {
                     name = Path.GetFileNameWithoutExtension(path)
@@ -99,7 +99,7 @@ namespace Silksprite.EmoteWizard.Extensions
         public static T ReplaceOrCreateOutputAsset<T>(this IOutputContext<T> context, ref T outputAsset, string defaultRelativePath)
             where T:ScriptableObject
         {
-            if (context.Context.PersistGeneratedAssets)
+            if (context.Environment.PersistGeneratedAssets)
             {
                 if (outputAsset && outputAsset.IsPersistedAsset())
                 {
@@ -111,7 +111,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 else
                 {
                     outputAsset = ScriptableObject.CreateInstance<T>();
-                    var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                    var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
                     EnsureDirectory(path);
                     AssetDatabase.CreateAsset(outputAsset, path);
                 }
@@ -120,7 +120,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
                 outputAsset = ScriptableObject.CreateInstance<T>();
                 outputAsset.name = Path.GetFileNameWithoutExtension(path);
             }
@@ -133,7 +133,7 @@ namespace Silksprite.EmoteWizard.Extensions
         {
             AnimatorController animatorController;
 
-            if (context.Context.PersistGeneratedAssets)
+            if (context.Environment.PersistGeneratedAssets)
             {
                 animatorController = outputAsset as AnimatorController;
                 if (animatorController)
@@ -144,7 +144,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 }
                 else
                 {
-                    var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                    var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
                     EnsureDirectory(path);
                     animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                     animatorController.RemoveLayer(0); // Remove Base Layer
@@ -155,7 +155,7 @@ namespace Silksprite.EmoteWizard.Extensions
             }
             else
             {
-                var path = context.Context.GeneratedAssetPath(defaultRelativePath);
+                var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
                 animatorController = new AnimatorController
                 {
                     name = Path.GetFileNameWithoutExtension(path)

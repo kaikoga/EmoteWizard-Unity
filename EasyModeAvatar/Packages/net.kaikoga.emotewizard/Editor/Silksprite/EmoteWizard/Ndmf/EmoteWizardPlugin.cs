@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.Ndmf
         protected override void Execute(BuildContext buildContext)
         {
                 
-            foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardContext>())
+            foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardEnvironment>())
             {
                 context.DisconnectAllOutputAssets();
 
@@ -70,7 +70,7 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-            foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardContext>())
+            foreach (var context in buildContext.AvatarRootTransform.GetComponentsInChildren<IEmoteWizardEnvironment>())
             {
                 var avatarWizard = context.GetWizard<AvatarWizard>();
                 if (avatarWizard)

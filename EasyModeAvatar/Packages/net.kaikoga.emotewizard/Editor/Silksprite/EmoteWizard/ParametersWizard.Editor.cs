@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            var context = _wizard.Context;
+            var context = _wizard.Environment;
 
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
