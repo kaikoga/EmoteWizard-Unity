@@ -1,5 +1,8 @@
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Silksprite.EmoteWizard.Utils
 {
@@ -10,7 +13,11 @@ namespace Silksprite.EmoteWizard.Utils
         static T DemoAsset<T>(string path)
             where T : Object
         {
+#if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath<T>($"{BaseFolderPath}/AV3 Demo Assets/{path}");
+#else
+            return null;
+#endif
         }
 
         public static Texture2D PersonDance()
