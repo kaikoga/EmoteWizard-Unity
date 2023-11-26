@@ -52,11 +52,35 @@ namespace Silksprite.EmoteWizard.Contexts
         }
 
         public readonly LayerKind GenerateTrackingControlLayer = LayerKind.FX;
-        public readonly OverrideGeneratedControllerType2 OverrideGesture;
+
+        OverrideGeneratedControllerType2 _overrideGesture;
+        public OverrideGeneratedControllerType2 OverrideGesture
+        {
+            get => _overrideGesture;
+            set
+            {
+                _overrideGesture = value;
+                if (_root) _root.overrideGesture = value;
+            }
+        }
+
         public readonly RuntimeAnimatorController OverrideGestureController;
-        public readonly OverrideGeneratedControllerType1 OverrideAction;
+
+        OverrideGeneratedControllerType1 _overrideAction;
+        public OverrideGeneratedControllerType1 OverrideAction
+        {
+            get => _overrideAction;
+            set
+            {
+                _overrideAction = value;
+                if (_root) _root.overrideAction = value;
+            }
+        }
+
         public readonly RuntimeAnimatorController OverrideActionController;
+
         public readonly OverrideControllerType2 OverrideSitting;
+
         public readonly RuntimeAnimatorController OverrideSittingController;
 
         public readonly bool ShowTutorial;
@@ -69,9 +93,9 @@ namespace Silksprite.EmoteWizard.Contexts
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
-            OverrideGesture = root.overrideGesture;
+            _overrideGesture = root.overrideGesture;
             OverrideGestureController = root.overrideGestureController;
-            OverrideAction = root.overrideAction;
+            _overrideAction = root.overrideAction;
             OverrideActionController = root.overrideActionController;
             OverrideSitting = root.overrideSitting;
             OverrideSittingController = root.overrideSittingController;
@@ -85,8 +109,8 @@ namespace Silksprite.EmoteWizard.Contexts
             _avatarDescriptor = avatarDescriptor;
             _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>();
             
-            OverrideGesture = OverrideGeneratedControllerType2.Generate;
-            OverrideAction = OverrideGeneratedControllerType1.Default;
+            _overrideGesture = OverrideGeneratedControllerType2.Default1;
+            _overrideAction = OverrideGeneratedControllerType1.Default;
             OverrideSitting = OverrideControllerType2.Default2;
         }
 

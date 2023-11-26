@@ -158,6 +158,7 @@ namespace Silksprite.EmoteWizard
 
         static void QuickSetupGestureSources(EmoteWizardEnvironment environment)
         {
+            environment.OverrideGesture = OverrideGeneratedControllerType2.Generate;
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.GestureSources, gestureSources =>
             {
                 foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
@@ -170,6 +171,7 @@ namespace Silksprite.EmoteWizard
 
         static void QuickSetupActionSources(EmoteWizardEnvironment environment)
         {
+            environment.OverrideAction = OverrideGeneratedControllerType1.Generate;
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ActionSources, actionSources =>
             {
                 foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
