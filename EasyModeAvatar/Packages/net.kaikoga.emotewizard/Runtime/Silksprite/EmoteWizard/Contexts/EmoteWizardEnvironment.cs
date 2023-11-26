@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly RuntimeAnimatorController OverrideSittingController;
 
         public readonly bool ShowTutorial;
-        public bool PersistGeneratedAssets { get; set; } = true;
+        public bool PersistGeneratedAssets { get; set; }
 
         EmoteWizardEnvironment(EmoteWizardRoot root)
         {
