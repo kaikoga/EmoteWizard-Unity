@@ -19,11 +19,11 @@ namespace Silksprite.EmoteWizard
         
         [SerializeField] public AnimationClip emptyClip;
         [SerializeField] public LayerKind generateTrackingControlLayer = LayerKind.FX;
-        [SerializeField] public EmoteWizardEnvironment.OverrideGeneratedControllerType2 overrideGesture = EmoteWizardEnvironment.OverrideGeneratedControllerType2.Generate;
+        [SerializeField] public OverrideGeneratedControllerType2 overrideGesture = OverrideGeneratedControllerType2.Generate;
         [SerializeField] public RuntimeAnimatorController overrideGestureController;
-        [SerializeField] public EmoteWizardEnvironment.OverrideGeneratedControllerType1 overrideAction = EmoteWizardEnvironment.OverrideGeneratedControllerType1.Default;
+        [SerializeField] public OverrideGeneratedControllerType1 overrideAction = OverrideGeneratedControllerType1.Default;
         [SerializeField] public RuntimeAnimatorController overrideActionController;
-        [SerializeField] public EmoteWizardEnvironment.OverrideControllerType2 overrideSitting = EmoteWizardEnvironment.OverrideControllerType2.Default2;
+        [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
 
 

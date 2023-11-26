@@ -113,19 +113,19 @@ namespace Silksprite.EmoteWizard
 
                 var overrideGestureLabel = new GUIContent("Override Gesture", "Gestureレイヤーで使用するAnimatorControllerを選択します。\nGenerate: EmoteWizardが生成するものを使用\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.overrideGesture)), overrideGestureLabel);
-                if (env.OverrideGesture == EmoteWizardEnvironment.OverrideGeneratedControllerType2.Override)
+                if (env.OverrideGesture == OverrideGeneratedControllerType2.Override)
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObject.FindProperty(nameof(EmoteWizardRoot.overrideGestureController)), () => GenerateOverrideController(VrcSdkAssetLocator.HandsLayerController1(), "Gesture"));
                 }
                 var overrideActionLabel = new GUIContent("Override Action", "Actionレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault: デフォルトを使用");
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.overrideAction)), overrideActionLabel);
-                if (env.OverrideAction == EmoteWizardEnvironment.OverrideGeneratedControllerType1.Override)
+                if (env.OverrideAction == OverrideGeneratedControllerType1.Override)
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObject.FindProperty(nameof(EmoteWizardRoot.overrideActionController)), () => GenerateOverrideController(VrcSdkAssetLocator.ActionLayerController(), "Action"));
                 }
                 var overrideSittingLabel = new GUIContent("Override Sitting", "Sittingレイヤーで使用するAnimatorControllerを選択します。\nOverride: AnimationControllerを手動指定\nDefault 1: デフォルトを使用（male）\nDefault 2: デフォルトを使用（female）");
                 EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.overrideSitting)), overrideSittingLabel);
-                if (env.OverrideSitting == EmoteWizardEnvironment.OverrideControllerType2.Override)
+                if (env.OverrideSitting == OverrideControllerType2.Override)
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObject.FindProperty(nameof(EmoteWizardRoot.overrideSittingController)), () => GenerateOverrideController(VrcSdkAssetLocator.SittingLayerController1(), "Sitting"));
                 }
@@ -185,7 +185,7 @@ namespace Silksprite.EmoteWizard
 
                     using (new GUILayout.HorizontalScope())
                     {
-                        using (new EditorGUI.DisabledScope(gestureController == null || env.OverrideGesture == EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default1 || env.OverrideGesture == EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default2))
+                        using (new EditorGUI.DisabledScope(gestureController == null || env.OverrideGesture == OverrideGeneratedControllerType2.Default1 || env.OverrideGesture == OverrideGeneratedControllerType2.Default2))
                         {
                             if (GUILayout.Button("Edit Gesture"))
                             {
@@ -201,7 +201,7 @@ namespace Silksprite.EmoteWizard
                             }
                         }
 
-                        using (new EditorGUI.DisabledScope(actionController == null || env.OverrideAction == EmoteWizardEnvironment.OverrideGeneratedControllerType1.Default))
+                        using (new EditorGUI.DisabledScope(actionController == null || env.OverrideAction == OverrideGeneratedControllerType1.Default))
                         {
                             if (GUILayout.Button("Edit Action"))
                             {

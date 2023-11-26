@@ -20,13 +20,13 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             {
                 switch (environment.OverrideGesture)
                 {
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Generate:
+                    case OverrideGeneratedControllerType2.Generate:
                         return environment.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Override:
+                    case OverrideGeneratedControllerType2.Override:
                         return environment.OverrideGestureController;
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default1:
+                    case OverrideGeneratedControllerType2.Default1:
                         return VrcSdkAssetLocator.HandsLayerController1();
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default2:
+                    case OverrideGeneratedControllerType2.Default2:
                         return VrcSdkAssetLocator.HandsLayerController2();
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -37,11 +37,11 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             {
                 switch (environment.OverrideAction)
                 {
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Generate:
+                    case OverrideGeneratedControllerType1.Generate:
                         return environment.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Override:
+                    case OverrideGeneratedControllerType1.Override:
                         return environment.OverrideActionController;
-                    case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Default:
+                    case OverrideGeneratedControllerType1.Default:
                         return VrcSdkAssetLocator.ActionLayerController();
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -57,11 +57,11 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             {
                 switch (environment.OverrideSitting)
                 {
-                    case EmoteWizardEnvironment.OverrideControllerType2.Override:
+                    case OverrideControllerType2.Override:
                         return environment.OverrideSittingController;
-                    case EmoteWizardEnvironment.OverrideControllerType2.Default1:
+                    case OverrideControllerType2.Default1:
                         return VrcSdkAssetLocator.SittingLayerController1();
-                    case EmoteWizardEnvironment.OverrideControllerType2.Default2:
+                    case OverrideControllerType2.Default2:
                         return VrcSdkAssetLocator.SittingLayerController2();
                     default:
                         throw new ArgumentOutOfRangeException();
