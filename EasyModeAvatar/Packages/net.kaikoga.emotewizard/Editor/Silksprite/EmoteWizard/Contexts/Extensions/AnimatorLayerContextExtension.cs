@@ -60,14 +60,14 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             targetClip.frameRate = 60f;
             if (!avatar)
             {
-                var gameObject = context.Environment.GameObject;
+                var gameObject = context.Environment.ContainerTransform.gameObject;
                 Debug.LogWarning($"{gameObject}: Failed to build reset clip because Avatar is not specified.\nProxyAnimator or AvatarDescriptor is required to build ResetClip.", gameObject);
                 return;
             }
 
             void WarnBindingNotFound(EditorCurveBinding curveBinding)
             {
-                var gameObject = context.Environment.GameObject;
+                var gameObject = context.Environment.ContainerTransform.gameObject;
                 Debug.LogWarning($@"{gameObject.name}: ResetClip may be insufficient because animated property is not found in avatar.
 Object Path: {curveBinding.path}
 Property: {curveBinding.type} {curveBinding.propertyName}

@@ -28,6 +28,8 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
+        readonly Component _rootOrAvatarDescriptor;
+
         [CanBeNull]
         Animator _proxyAnimator;
         public Animator ProxyAnimator
@@ -90,6 +92,7 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             _root = root;
             _avatarDescriptor = root.avatarDescriptor ? root.avatarDescriptor : root.GetComponentInParent<VRCAvatarDescriptor>();
+            _rootOrAvatarDescriptor = _root;
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
@@ -108,6 +111,7 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             _avatarDescriptor = avatarDescriptor;
             _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>();
+            _rootOrAvatarDescriptor = _avatarDescriptor;
             
             _overrideGesture = OverrideGeneratedControllerType2.Default1;
             _overrideAction = OverrideGeneratedControllerType1.Default;
@@ -128,10 +132,7 @@ namespace Silksprite.EmoteWizard.Contexts
             return env;
         }
 
-        [Obsolete]
-        public GameObject GameObject => _root.gameObject;
-        [Obsolete]
-        public Transform Transform => _root.transform;
+        public Transform ContainerTransform => _rootOrAvatarDescriptor.transform;
         
         public void DisconnectAllOutputAssets()
         {
@@ -147,6 +148,19 @@ namespace Silksprite.EmoteWizard.Contexts
         public IEnumerable<EmoteItem> CollectAllEmoteItems()
         {
             return GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
+        }
+
+        public Transform Find(string path)
+        {
+            if (_root)
+            {
+                if (_root.transform.Find(path) is Transform transform) return transform;
+            }
+            if (_avatarDescriptor)
+            {
+                if (_avatarDescriptor.transform.Find(path) is Transform transform) return transform;
+            }
+            return null;
         }
 
         public T GetComponentInChildren<T>()
@@ -181,7 +195,7 @@ namespace Silksprite.EmoteWizard.Contexts
                 var child = _avatarDescriptor.transform.Find(path);
                 if (child && child.EnsureComponent<T>() is T c) return c;
             }
-            return ((Component)_root ?? _avatarDescriptor).AddChildComponent(path, initializer);
+            return _rootOrAvatarDescriptor.AddChildComponent(path, initializer);
         }
     }
 }

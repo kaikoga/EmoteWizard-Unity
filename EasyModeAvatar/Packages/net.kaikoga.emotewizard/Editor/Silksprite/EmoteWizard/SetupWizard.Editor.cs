@@ -40,39 +40,37 @@ namespace Silksprite.EmoteWizard
                     QuickSetupEmoteItems(env);
                 }
 
-                if (env.Transform.childCount <= 0) return;
-
                 GUILayout.Space(4f);
 
-                if (!env.Transform.Find(Names.ExpressionSources))
+                if (!env.Find(Names.ExpressionSources))
                 {
                     if (GUILayout.Button("Quick Setup Expression Sources"))
                     {
                         QuickSetupExpressionSources(env);
                     }
                 }
-                if (!env.Transform.Find(Names.ParameterSources))
+                if (!env.Find(Names.ParameterSources))
                 {
                     if (GUILayout.Button("Quick Setup Parameter Sources"))
                     {
                         QuickSetupParameterSources(env);
                     }
                 }
-                if (!env.Transform.Find(Names.FXSources))
+                if (!env.Find(Names.FXSources))
                 {
                     if (GUILayout.Button("Quick Setup FX Sources"))
                     {
                         QuickSetupFXSources(env);
                     }
                 }
-                if (!env.Transform.Find(Names.GestureSources))
+                if (!env.Find(Names.GestureSources))
                 {
                     if (GUILayout.Button("Quick Setup Gesture Sources"))
                     {
                         QuickSetupGestureSources(env);
                     }
                 }
-                if (!env.Transform.Find(Names.ActionSources))
+                if (!env.Find(Names.ActionSources))
                 {
                     if (GUILayout.Button("Quick Setup Action Sources"))
                     {
@@ -106,7 +104,7 @@ namespace Silksprite.EmoteWizard
 
         void DestroySelf(EmoteWizardEnvironment environment)
         {
-            if (_wizard.gameObject != environment.GameObject)
+            if (_wizard.gameObject != environment.ContainerTransform.gameObject)
             {
                 DestroyImmediate(_wizard.gameObject, true);
             }
