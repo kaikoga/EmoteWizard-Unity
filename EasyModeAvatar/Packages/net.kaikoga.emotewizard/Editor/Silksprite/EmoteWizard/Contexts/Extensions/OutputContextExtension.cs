@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 using System.Linq;
 using UnityEditor;
@@ -11,13 +10,12 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
     public static class EmoteWizardBaseExtension
     {
-        static void DestroyAllSubAssets<T>(T outputAsset, Func<Object, bool> isSubAsset = null) where T : Object
+        static void DestroyAllSubAssets<T>(T outputAsset) where T : Object
         {
             if (!EditorUtility.IsPersistent(outputAsset)) return;
-            isSubAsset = isSubAsset ?? AssetDatabase.IsSubAsset;
             AssetDatabase
                 .LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(outputAsset))
-                .Where(isSubAsset)
+                .Where(AssetDatabase.IsSubAsset)
                 .ToList()
                 .ForEach(subAsset => Object.DestroyImmediate(subAsset, true));
         }
@@ -30,7 +28,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             {
                 if (outputAsset && EditorUtility.IsPersistent(outputAsset))
                 {
-                    DestroyAllSubAssets(outputAsset, asset => asset != outputAsset);
+                    DestroyAllSubAssets(outputAsset);
                     var value = ScriptableObject.CreateInstance<T>();
                     EditorUtility.CopySerialized(value, outputAsset);
                 }
@@ -69,7 +67,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 animatorController = context.OutputAsset as AnimatorController;
                 if (animatorController)
                 {
-                    DestroyAllSubAssets(animatorController, asset => asset != animatorController);
+                    DestroyAllSubAssets(animatorController);
                     animatorController.layers = new AnimatorControllerLayer[] { };
                     animatorController.parameters = new AnimatorControllerParameter[] { };
                 }
