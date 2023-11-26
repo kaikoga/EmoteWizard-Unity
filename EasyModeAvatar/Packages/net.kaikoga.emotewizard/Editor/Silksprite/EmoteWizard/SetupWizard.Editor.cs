@@ -98,12 +98,12 @@ namespace Silksprite.EmoteWizard
 
         static void GenerateWizards(EmoteWizardEnvironment environment)
         {
-            environment.EnsureWizard<AvatarWizard>();
-            environment.EnsureWizard<ExpressionWizard>();
-            environment.EnsureWizard<ParametersWizard>();
-            environment.EnsureWizard<FxLayerWizard>();
-            environment.EnsureWizard<GestureLayerWizard>();
-            environment.EnsureWizard<ActionLayerWizard>();
+            environment.AddWizard<AvatarWizard>();
+            environment.AddWizard<ExpressionWizard>();
+            environment.AddWizard<ParametersWizard>();
+            environment.AddWizard<FxLayerWizard>();
+            environment.AddWizard<GestureLayerWizard>();
+            environment.AddWizard<ActionLayerWizard>();
         }
 
         void DestroySelf(EmoteWizardEnvironment environment)

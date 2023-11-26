@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.Base;
 using UnityEditor;
 using UnityEngine;
@@ -15,13 +14,10 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             return asset;
         }
 
-        public static T EnsureWizard<T>(this EmoteWizardEnvironment environment) where T : EmoteWizardBase
+        public static void AddWizard<T>(this EmoteWizardEnvironment environment) where T : EmoteWizardBase
         {
             var wizard = environment.GetComponentInChildren<T>();
-            if (wizard) return wizard;
-
-            wizard = Undo.AddComponent<T>(environment.GameObject);
-            return wizard;
+            if (!wizard) Undo.AddComponent<T>(environment.GameObject);
         }
     }
 }

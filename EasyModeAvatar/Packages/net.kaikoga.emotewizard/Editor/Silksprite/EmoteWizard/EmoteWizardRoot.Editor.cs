@@ -57,7 +57,7 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Setup"))
                     {
-                        _env.EnsureWizard<SetupWizard>();
+                        _env.AddWizard<SetupWizard>();
                     }
                 }
             }
