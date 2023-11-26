@@ -27,10 +27,7 @@ namespace Silksprite.EmoteWizard
             {
                 var path = AssetDatabase.GetAssetPath(source);
                 var newPath = _wizard.CreateEnv().GeneratedAssetPath(GeneratedAssetLocator.GeneratedOverrideControllerPath(layer));
-                if (_wizard.CreateEnv().PersistGeneratedAssets)
-                {
-                    EnsureDirectory(newPath);
-                }
+                EnsureDirectory(newPath);
                 AssetDatabase.CopyAsset(path, newPath);
                 return AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(newPath);
             }

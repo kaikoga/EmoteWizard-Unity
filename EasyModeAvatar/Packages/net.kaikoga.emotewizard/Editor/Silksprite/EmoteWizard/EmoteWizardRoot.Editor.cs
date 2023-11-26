@@ -57,17 +57,18 @@ namespace Silksprite.EmoteWizard
                 env.DisconnectAllOutputAssets();
             }
 
+            using (new GUILayout.HorizontalScope())
+            {
+                EditorGUILayout.PropertyField(_serializedGeneratedAssetRoot);
+                if (GUILayout.Button("Browse"))
+                {
+                    SelectFolder("Select Generated Assets Root", _serializedGeneratedAssetRoot);
+                }
+            }
+            EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
+
             EmoteWizardGUILayout.OutputUIArea(env, () =>
             {
-                using (new GUILayout.HorizontalScope())
-                {
-                    EditorGUILayout.PropertyField(_serializedGeneratedAssetRoot);
-                    if (GUILayout.Button("Browse"))
-                    {
-                        SelectFolder("Select Generated Assets Root", _serializedGeneratedAssetRoot);
-                    }
-                }
-                EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
                 CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ToEnv().ProvideEmptyClip());
             });
 
