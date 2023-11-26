@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEditor.Animations;
@@ -9,7 +8,7 @@ using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 using Object = UnityEngine.Object;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
     public static class EmoteWizardBaseExtension
     {
