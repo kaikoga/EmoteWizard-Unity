@@ -14,6 +14,9 @@ namespace Silksprite.EmoteWizard
     {
         EmoteWizardRoot _root;
 
+        SerializedProperty _serializedAvatarDescriptor;
+        SerializedProperty _serializedProxyAnimator;
+        SerializedProperty _serializedPersistGeneratedAssets;
         SerializedProperty _serializedGeneratedAssetRoot;
         SerializedProperty _serializedGeneratedAssetPrefix;
         SerializedProperty _serializedEmptyClip;
@@ -24,6 +27,9 @@ namespace Silksprite.EmoteWizard
         {
             _root = (EmoteWizardRoot)target;
 
+            _serializedAvatarDescriptor = serializedObject.FindProperty(nameof(EmoteWizardRoot.avatarDescriptor));
+            _serializedProxyAnimator = serializedObject.FindProperty(nameof(EmoteWizardRoot.proxyAnimator));
+            _serializedPersistGeneratedAssets = serializedObject.FindProperty(nameof(EmoteWizardRoot.persistGeneratedAssets));
             _serializedGeneratedAssetRoot = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetRoot));
             _serializedGeneratedAssetPrefix = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetPrefix));
             _serializedEmptyClip = serializedObject.FindProperty(nameof(EmoteWizardRoot.emptyClip));
@@ -33,19 +39,10 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            using (new GUILayout.HorizontalScope())
-            {
-                EditorGUILayout.PropertyField(_serializedGeneratedAssetRoot);
-                if (GUILayout.Button("Browse"))
-                {
-                    SelectFolder("Select Generated Assets Root", _serializedGeneratedAssetRoot);
-                }
-            }
-
             EmoteWizardGUILayout.OutputUIArea(() =>
             {
                 var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.avatarDescriptor)), avatarDescriptorLabel);
+                EditorGUILayout.PropertyField(_serializedAvatarDescriptor, avatarDescriptorLabel);
 
                 var avatarDescriptor = _root.avatarDescriptor;
                 if (avatarDescriptor == null)
@@ -53,8 +50,17 @@ namespace Silksprite.EmoteWizard
                     EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                 }
                 var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.proxyAnimator)), proxyAnimatorLabel);
+                EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
+                EditorGUILayout.PropertyField(_serializedPersistGeneratedAssets);
 
+                using (new GUILayout.HorizontalScope())
+                {
+                    EditorGUILayout.PropertyField(_serializedGeneratedAssetRoot);
+                    if (GUILayout.Button("Browse"))
+                    {
+                        SelectFolder("Select Generated Assets Root", _serializedGeneratedAssetRoot);
+                    }
+                }
                 EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
                 CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ToEnv().ProvideEmptyClip());
             });

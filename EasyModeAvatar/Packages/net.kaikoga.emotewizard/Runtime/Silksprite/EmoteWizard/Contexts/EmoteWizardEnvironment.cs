@@ -66,6 +66,7 @@ namespace Silksprite.EmoteWizard.Contexts
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
             ShowTutorial = root.showTutorial;
+            PersistGeneratedAssets = root.persistGeneratedAssets;
         }
 
         EmoteWizardEnvironment(VRCAvatarDescriptor avatarDescriptor)

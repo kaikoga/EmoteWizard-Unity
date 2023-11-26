@@ -10,8 +10,9 @@ namespace Silksprite.EmoteWizard
     public class EmoteWizardRoot : EmoteWizardBehaviour
     {
         [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
-
         [SerializeField] public Animator proxyAnimator;
+
+        [SerializeField] public bool persistGeneratedAssets = true;
 
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
