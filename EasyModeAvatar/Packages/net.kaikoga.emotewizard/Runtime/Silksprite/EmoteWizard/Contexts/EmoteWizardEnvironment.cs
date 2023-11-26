@@ -16,6 +16,8 @@ namespace Silksprite.EmoteWizard.Contexts
         [CanBeNull]
         readonly EmoteWizardRoot _root;
 
+        public EmoteWizardRoot Root => _root;
+
         [CanBeNull]
         VRCAvatarDescriptor _avatarDescriptor;
         public VRCAvatarDescriptor AvatarDescriptor
@@ -181,21 +183,6 @@ namespace Silksprite.EmoteWizard.Contexts
                 .SelectMany(component => component.GetComponentsInChildren<T>())
                 .Distinct()
                 .ToArray();
-        }
-
-        public T FindOrCreateChildComponent<T>(string path, Action<T> initializer = null) where T : Component
-        {
-            if (_root)
-            {
-                var child = _root.transform.Find(path);
-                if (child && child.EnsureComponent<T>() is T c) return c;
-            }
-            if (_avatarDescriptor)
-            {
-                var child = _avatarDescriptor.transform.Find(path);
-                if (child && child.EnsureComponent<T>() is T c) return c;
-            }
-            return _rootOrAvatarDescriptor.AddChildComponent(path, initializer);
         }
     }
 }
