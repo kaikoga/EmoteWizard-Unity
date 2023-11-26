@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(EmoteWizardRoot))]
     public class EmoteWizardRootEditor : Editor
     {
-        EmoteWizardEnvironment _env;
+        EmoteWizardRoot _root;
 
         SerializedProperty _serializedGeneratedAssetRoot;
         SerializedProperty _serializedGeneratedAssetPrefix;
@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            _env = ((EmoteWizardRoot)target).ToEnv();
+            _root = (EmoteWizardRoot)target;
 
             _serializedGeneratedAssetRoot = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetRoot));
             _serializedGeneratedAssetPrefix = serializedObject.FindProperty(nameof(EmoteWizardRoot.generatedAssetPrefix));
@@ -42,8 +42,23 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
-            CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _env.ProvideEmptyClip());
+            EmoteWizardGUILayout.OutputUIArea(() =>
+            {
+                var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.avatarDescriptor)), avatarDescriptorLabel);
+
+                var avatarDescriptor = _root.avatarDescriptor;
+                if (avatarDescriptor == null)
+                {
+                    EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
+                }
+                var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
+                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(EmoteWizardRoot.proxyAnimator)), proxyAnimatorLabel);
+
+                EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
+                CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ToEnv().ProvideEmptyClip());
+            });
+
             EditorGUILayout.PropertyField(_serializedGenerateTrackingControlLayer);
 
             EmoteWizardGUILayout.ConfigUIArea(() =>
@@ -51,27 +66,27 @@ namespace Silksprite.EmoteWizard
                 EditorGUILayout.PropertyField(_serializedShowTutorial);
             });
 
-            if (_env.GetContext<SetupContext>() != null)
+            if (_root.ToEnv().GetContext<SetupContext>() != null)
             {
                 using (new GUILayout.HorizontalScope())
                 {
                     if (GUILayout.Button("Setup"))
                     {
-                        _env.AddWizard<SetupWizard>();
+                        _root.ToEnv().AddWizard<SetupWizard>();
                     }
                 }
             }
             if (GUILayout.Button("Add Empty Data Source"))
             {
-                _env.Transform.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
+                _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
             }
             if (GUILayout.Button("Disconnect Output Assets"))
             {
-                _env.DisconnectAllOutputAssets();
+                _root.ToEnv().DisconnectAllOutputAssets();
             }
             serializedObject.ApplyModifiedProperties();
 
-            EmoteWizardGUILayout.Tutorial(_env, Tutorial);
+            EmoteWizardGUILayout.Tutorial(_root.ToEnv(), Tutorial);
         }
 
         static string Tutorial =>

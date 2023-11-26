@@ -1,17 +1,12 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     public class AvatarWizard : EmoteWizardBase
     {
-        [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
-
-        [SerializeField] public Animator proxyAnimator;
-
         [SerializeField] public OverrideGeneratedControllerType2 overrideGesture = OverrideGeneratedControllerType2.Generate;
         [SerializeField] public RuntimeAnimatorController overrideGestureController;
         [SerializeField] public OverrideGeneratedControllerType1 overrideAction = OverrideGeneratedControllerType1.Default;

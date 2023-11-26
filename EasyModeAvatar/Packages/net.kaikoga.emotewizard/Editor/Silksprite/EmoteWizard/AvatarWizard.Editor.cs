@@ -60,28 +60,19 @@ namespace Silksprite.EmoteWizard
             {
                 void EditAnimator(AnimatorController animatorController)
                 {
-                    var animator = _wizard.GetContext(_wizard.CreateEnv()).ProvideProxyAnimator();
+                    var animator = _wizard.CreateEnv().ProvideProxyAnimator();
                     animator.runtimeAnimatorController = animatorController;
                     if (!animatorController) return;
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
-                }
-
-                var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AvatarWizard.avatarDescriptor)), avatarDescriptorLabel);
-
-                var avatarDescriptor = _wizard.avatarDescriptor;
-                if (avatarDescriptor == null)
-                {
-                    EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
                 }
 
                 var gestureController = env.GetContext<GestureLayerContext>()?.OutputAsset as AnimatorController;
                 var fxController = env.GetContext<FxLayerContext>()?.OutputAsset as AnimatorController;
                 var actionController = env.GetContext<ActionLayerContext>()?.OutputAsset as AnimatorController;
 
-                if (avatarDescriptor)
+                if (env.AvatarDescriptor)
                 {
-                    var avatarAnimator = _wizard.avatarDescriptor.EnsureComponent<Animator>();
+                    var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
                     EmoteWizardGUILayout.RequireAnotherContext<ParametersContext, ParametersWizard>(_wizard, () =>
                     {
                         if (GUILayout.Button("Generate Everything and Update Avatar"))
@@ -116,10 +107,7 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
-                EditorGUILayout.PropertyField(serializedObject.FindProperty(nameof(AvatarWizard.proxyAnimator)), proxyAnimatorLabel);
-
-                if (avatarDescriptor)
+                if (env.AvatarDescriptor)
                 {
                     using (new GUILayout.HorizontalScope())
                     {

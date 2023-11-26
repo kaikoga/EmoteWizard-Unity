@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             var objectReferenceCurveBindings = allClips.SelectMany(AnimationUtility.GetObjectReferenceCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));
             
-            var proxyAnimator = context.Environment.GetContext<AvatarContext>()?.ProvideProxyAnimator();
+            var proxyAnimator = context.Environment.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : null;
 
             targetClip.ClearCurves();

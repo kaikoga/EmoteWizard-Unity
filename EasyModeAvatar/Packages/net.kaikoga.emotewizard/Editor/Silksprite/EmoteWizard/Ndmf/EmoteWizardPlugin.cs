@@ -74,14 +74,12 @@ namespace Silksprite.EmoteWizard.Ndmf
             foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>())
             {
                 var env = root.ToEnv();
+                env.PersistGeneratedAssets = false;
+                env.AvatarDescriptor = buildContext.AvatarDescriptor;
                 var avatarContext = env.GetContext<AvatarContext>();
                 if (avatarContext != null)
                 {
-                    avatarContext.AvatarDescriptor = buildContext.AvatarDescriptor;
-                    var oldPersist = env.PersistGeneratedAssets;
-                    env.PersistGeneratedAssets = false;
                     avatarContext.BuildAvatar();
-                    env.PersistGeneratedAssets = oldPersist;
                     break;
                 }
             }

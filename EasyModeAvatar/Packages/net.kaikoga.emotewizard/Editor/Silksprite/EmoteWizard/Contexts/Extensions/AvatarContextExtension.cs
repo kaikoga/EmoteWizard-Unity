@@ -8,16 +8,9 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
     public static class AvatarContextExtension
     {
-        public static Animator ProvideProxyAnimator(this AvatarContext context)
-        {
-            var animator = context.ProxyAnimator ? context.ProxyAnimator : context.AvatarDescriptor.EnsureComponent<Animator>();
-            context.ProxyAnimator = animator;
-            return animator;
-        }
-
         public static void BuildAvatar(this AvatarContext context)
         {
-            var avatarDescriptor = context.AvatarDescriptor;
+            var avatarDescriptor = context.Environment.AvatarDescriptor;
             var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
             avatarAnimator.runtimeAnimatorController = null;
             

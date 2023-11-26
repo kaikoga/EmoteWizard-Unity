@@ -16,8 +16,31 @@ namespace Silksprite.EmoteWizard.Contexts
     {
         [CanBeNull]
         readonly EmoteWizardRoot _root;
+
         [CanBeNull]
-        readonly VRCAvatarDescriptor _avatarDescriptor;
+        VRCAvatarDescriptor _avatarDescriptor;
+        public VRCAvatarDescriptor AvatarDescriptor
+        {
+            get => _avatarDescriptor;
+            set
+            {
+                _avatarDescriptor = value;
+                if (_root) _root.avatarDescriptor = value;
+            }
+        }
+
+        [CanBeNull]
+        Animator _proxyAnimator;
+        public Animator ProxyAnimator
+        {
+            get => _proxyAnimator;
+            set
+            {
+                _proxyAnimator = value;
+                if (_root) _root.proxyAnimator = value;
+            }
+        }
+
         readonly List<IBehaviourContext> _contexts = new List<IBehaviourContext>();
 
         AnimationClip _emptyClip;
@@ -38,7 +61,8 @@ namespace Silksprite.EmoteWizard.Contexts
         EmoteWizardEnvironment(EmoteWizardRoot root)
         {
             _root = root;
-            _avatarDescriptor = GetComponentInChildren<AvatarWizard>()?.avatarDescriptor;
+            _avatarDescriptor = root.avatarDescriptor;
+            _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
             ShowTutorial = root.showTutorial;
@@ -79,6 +103,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public void DisconnectAllOutputAssets()
         {
+            ProxyAnimator = null;
             foreach (var context in _contexts) context.DisconnectOutputAssets();
         }
 
