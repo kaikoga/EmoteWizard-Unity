@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard
         protected override void Reset()
         {
             base.Reset();
-            var context = GetContext(CreateEnv());
+            var context = new FxLayerContext(CreateEnv());
             hasResetClip = context.HasResetClip;
         }
     }

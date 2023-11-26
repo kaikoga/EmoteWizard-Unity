@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard
         protected override void Reset()
         {
             base.Reset();
-            var context = GetContext(CreateEnv());
+            var context = new GestureLayerContext(CreateEnv());
             defaultAvatarMask = context.DefaultAvatarMask;
         }
     }
