@@ -1,7 +1,10 @@
 using System;
+using System.Linq;
 using nadena.dev.ndmf;
+using nadena.dev.ndmf.util;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
+using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using Object = UnityEngine.Object;
@@ -157,11 +160,13 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         class ManualBundleGeneratedAssetsScope : IDisposable
         {
+            readonly EmoteWizardEnvironment _environment;
             readonly GameObject _gameObject;
             readonly BuildContext _buildContext;
 
             public ManualBundleGeneratedAssetsScope(EmoteWizardEnvironment environment, bool manualBuild)
             {
+                _environment = environment;
                 if (manualBuild && !environment.PersistGeneratedAssets)
                 {
                     _gameObject = new GameObject("Temporary");
@@ -171,7 +176,26 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
             void IDisposable.Dispose()
             {
-                _buildContext?.Serialize();
+                if (_buildContext == null) return;
+
+                // manually try to persist volatile layers because layers are what Emote Wizard generates
+                var layers = _environment.AvatarDescriptor.baseAnimationLayers
+                    .Concat(_environment.AvatarDescriptor.specialAnimationLayers)
+                    .Select(layer => layer.animatorController)
+                    .Where(layer => layer != null)
+                    .Distinct()
+                    .Where(layer => !EditorUtility.IsPersistent(layer));
+                // we are sure these are not prefabs
+                foreach (var layer in layers)
+                {
+                    foreach (var asset in layer.ReferencedAssets(traverseSaved: false, includeScene: true))
+                    {
+                        AssetDatabase.AddObjectToAsset(asset, _buildContext.AssetContainer);
+                        asset.hideFlags = HideFlags.None; // match Modular Avatar behavior 
+                    }
+                }
+
+                AssetDatabase.SaveAssets();
                 Object.DestroyImmediate(_gameObject);
             }
         }
