@@ -9,11 +9,6 @@ namespace Silksprite.EmoteWizardSupport.Extensions
 {
     public static class UnityExtension
     {
-        public static bool IsPersistedAsset(this Object unityObject)
-        {
-            return !string.IsNullOrEmpty(AssetDatabase.GetAssetPath(unityObject));
-        }
-
         public static T EnsureComponent<T>(this Component component, Action<T> initializer = null)
             where T : Component
         {

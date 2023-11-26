@@ -1,7 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         static void DestroyAllSubAssets<T>(T outputAsset, Func<Object, bool> isSubAsset = null) where T : Object
         {
-            if (!outputAsset.IsPersistedAsset()) return;
+            if (!EditorUtility.IsPersistent(outputAsset)) return;
             isSubAsset = isSubAsset ?? AssetDatabase.IsSubAsset;
             AssetDatabase
                 .LoadAllAssetsAtPath(AssetDatabase.GetAssetPath(outputAsset))
@@ -29,7 +28,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             var outputAsset = context.OutputAsset;
             if (context.Environment.PersistGeneratedAssets)
             {
-                if (outputAsset && outputAsset.IsPersistedAsset())
+                if (outputAsset && EditorUtility.IsPersistent(outputAsset))
                 {
                     DestroyAllSubAssets(outputAsset, asset => asset != outputAsset);
                     var value = ScriptableObject.CreateInstance<T>();
