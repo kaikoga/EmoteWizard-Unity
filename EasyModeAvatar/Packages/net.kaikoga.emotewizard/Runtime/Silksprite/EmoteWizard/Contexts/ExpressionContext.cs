@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
-        public readonly bool BuildAsSubAsset;
+        public readonly bool BuildAsSubAsset = true;
 
         [UsedImplicitly]
         public ExpressionContext(EmoteWizardEnvironment env) : base(env) { }

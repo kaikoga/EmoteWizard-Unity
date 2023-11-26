@@ -36,7 +36,13 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly RuntimeAnimatorController OverrideSittingController;
 
         [UsedImplicitly]
-        public AvatarContext(EmoteWizardEnvironment env) : base(env) { }
+        public AvatarContext(EmoteWizardEnvironment env) : base(env)
+        {
+            OverrideGesture = AvatarWizard.OverrideGeneratedControllerType2.Generate;
+            OverrideAction = AvatarWizard.OverrideGeneratedControllerType1.Default;
+            OverrideSitting = AvatarWizard.OverrideControllerType2.Default2;
+        }
+
         public AvatarContext(EmoteWizardEnvironment env, AvatarWizard wizard) : base(env, wizard)
         {
             if (env.PersistGeneratedAssets)
