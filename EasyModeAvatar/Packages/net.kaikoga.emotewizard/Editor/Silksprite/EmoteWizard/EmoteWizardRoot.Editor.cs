@@ -39,20 +39,26 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
-            EmoteWizardGUILayout.OutputUIArea(() =>
+            var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
+            EditorGUILayout.PropertyField(_serializedAvatarDescriptor, avatarDescriptorLabel);
+
+            var avatarDescriptor = _root.avatarDescriptor;
+            if (avatarDescriptor == null)
             {
-                var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
-                EditorGUILayout.PropertyField(_serializedAvatarDescriptor, avatarDescriptorLabel);
+                EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
+            }
+            var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
+            EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(_serializedPersistGeneratedAssets);
+            var env = _root.ToEnv();
+            if (EditorGUI.EndChangeCheck() && !env.PersistGeneratedAssets)
+            {
+                env.DisconnectAllOutputAssets();
+            }
 
-                var avatarDescriptor = _root.avatarDescriptor;
-                if (avatarDescriptor == null)
-                {
-                    EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
-                }
-                var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
-                EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
-                EditorGUILayout.PropertyField(_serializedPersistGeneratedAssets);
-
+            EmoteWizardGUILayout.OutputUIArea(env, () =>
+            {
                 using (new GUILayout.HorizontalScope())
                 {
                     EditorGUILayout.PropertyField(_serializedGeneratedAssetRoot);
@@ -72,7 +78,7 @@ namespace Silksprite.EmoteWizard
                 EditorGUILayout.PropertyField(_serializedShowTutorial);
             });
 
-            if (_root.ToEnv().GetContext<SetupContext>() != null)
+            if (env.GetContext<SetupContext>() != null)
             {
                 using (new GUILayout.HorizontalScope())
                 {

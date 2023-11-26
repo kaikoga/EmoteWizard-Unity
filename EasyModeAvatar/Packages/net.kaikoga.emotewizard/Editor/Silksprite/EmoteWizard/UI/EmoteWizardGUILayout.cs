@@ -34,8 +34,9 @@ namespace Silksprite.EmoteWizard.UI
             }
         }
 
-        public static void OutputUIArea(Action action)
+        public static void OutputUIArea(EmoteWizardEnvironment env, Action action)
         {
+            if (!env.PersistGeneratedAssets) return;
             using (new BoxLayoutScope(OutputUIColor))
             {
                 GUILayout.Label("Output zone");

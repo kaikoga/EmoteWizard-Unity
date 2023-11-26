@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard
 
                 EditorGUILayout.PropertyField(_serializedHasResetClip);
 
-                EmoteWizardGUILayout.OutputUIArea(() =>
+                EmoteWizardGUILayout.OutputUIArea(env, () =>
                 {
                     EmoteWizardGUILayout.RequireAnotherContext<AvatarContext, AvatarWizard>(_wizard, () =>
                     {

@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard
                 CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObject.FindProperty(nameof(AvatarWizard.overrideSittingController)), () => GenerateOverrideController(VrcSdkAssetLocator.SittingLayerController1(), "Sitting"));
             }
 
-            EmoteWizardGUILayout.OutputUIArea(() =>
+            EmoteWizardGUILayout.OutputUIArea(env, () =>
             {
                 void EditAnimator(AnimatorController animatorController)
                 {
