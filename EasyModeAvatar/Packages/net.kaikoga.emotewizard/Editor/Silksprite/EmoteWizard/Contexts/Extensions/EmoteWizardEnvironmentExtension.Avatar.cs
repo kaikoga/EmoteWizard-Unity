@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using nadena.dev.ndmf;
 using nadena.dev.ndmf.util;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
@@ -179,11 +180,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 if (_buildContext == null) return;
 
                 // manually try to persist volatile layers because layers are what Emote Wizard generates
-                var layers = _environment.AvatarDescriptor.baseAnimationLayers
-                    .Concat(_environment.AvatarDescriptor.specialAnimationLayers)
-                    .Select(layer => layer.animatorController)
-                    .Where(layer => layer != null)
-                    .Distinct()
+                var layers = _environment.AvatarDescriptor.AllAnimationLayers()
                     .Where(layer => !EditorUtility.IsPersistent(layer));
                 // we are sure these are not prefabs
                 foreach (var layer in layers)

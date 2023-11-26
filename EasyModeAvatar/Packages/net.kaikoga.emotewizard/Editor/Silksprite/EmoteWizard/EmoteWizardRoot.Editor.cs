@@ -1,6 +1,7 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -140,16 +141,8 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.OutputUIArea(true, null, () =>
             {
-                if (env.AvatarDescriptor)
+                if (avatarDescriptor)
                 {
-                    AnimatorController FindAnimator(VRCAvatarDescriptor.AnimLayerType vrcLayerType)
-                    {
-                        return avatarDescriptor.baseAnimationLayers.Concat(avatarDescriptor.specialAnimationLayers)
-                            .Where(layer => layer.type == vrcLayerType)
-                            .Select(layer => layer.animatorController)
-                            .FirstOrDefault() as AnimatorController;
-                    }
-
                     void EditAnimator(AnimatorController animatorController)
                     {
                         var animator = _root.ToEnv().ProvideProxyAnimator();
@@ -158,9 +151,9 @@ namespace Silksprite.EmoteWizard
                         Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
                     }
 
-                    var gestureController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Gesture);
-                    var fxController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.FX);
-                    var actionController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Action);
+                    var gestureController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture);
+                    var fxController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.FX);
+                    var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
 
                     var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
