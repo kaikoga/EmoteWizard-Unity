@@ -98,7 +98,6 @@ namespace Silksprite.EmoteWizard
 
         static void GenerateWizards(EmoteWizardEnvironment environment)
         {
-            environment.AddWizard<AvatarWizard>();
             environment.AddWizard<ExpressionWizard>();
             environment.AddWizard<ParametersWizard>();
             environment.AddWizard<FxLayerWizard>();
