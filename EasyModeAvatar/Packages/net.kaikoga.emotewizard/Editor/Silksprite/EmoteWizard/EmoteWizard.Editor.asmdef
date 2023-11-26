@@ -1,6 +1,8 @@
 {
     "name": "EmoteWizard.Editor",
     "references": [
+        "nadena.dev.ndmf",
+        "nadena.dev.ndmf.runtime",
         "EmoteWizard",
         "EmoteWizardSupport",
         "EmoteWizardSupport.Editor"

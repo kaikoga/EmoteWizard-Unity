@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard
 
             EditorGUILayout.PropertyField(_serializedBuildAsSubAsset);
 
-            EmoteWizardGUILayout.OutputUIArea(env, () =>
+            EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {

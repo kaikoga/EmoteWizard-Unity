@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard
 
                 EditorGUILayout.PropertyField(_serializedHasResetClip);
 
-                EmoteWizardGUILayout.OutputUIArea(env, () =>
+                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
                 {
                     if (GUILayout.Button("Generate Animation Controller"))
                     {

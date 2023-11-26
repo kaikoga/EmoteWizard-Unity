@@ -90,7 +90,7 @@ namespace Silksprite.EmoteWizard
             }
             EditorGUILayout.PropertyField(_serializedGeneratedAssetPrefix);
 
-            EmoteWizardGUILayout.OutputUIArea(env, () =>
+            EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
                 CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ToEnv().ProvideEmptyClip());
             });
@@ -136,7 +136,7 @@ namespace Silksprite.EmoteWizard
             var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
             EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
 
-            EmoteWizardGUILayout.OutputUIArea(env, null, () =>
+            EmoteWizardGUILayout.OutputUIArea(true, null, () =>
             {
                 void EditAnimator(AnimatorController animatorController)
                 {
@@ -155,7 +155,7 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
-                        _root.ToEnv().BuildAvatar();
+                        _root.ToEnv().BuildAvatar(true);
                     }
 
                     if (avatarAnimator.runtimeAnimatorController == null)

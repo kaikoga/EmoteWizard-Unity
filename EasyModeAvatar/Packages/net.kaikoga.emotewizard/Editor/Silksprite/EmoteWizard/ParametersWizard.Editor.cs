@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard
         {
             var env = _wizard.CreateEnv();
 
-            EmoteWizardGUILayout.OutputUIArea(env, () =>
+            EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {

@@ -75,7 +75,7 @@ namespace Silksprite.EmoteWizard.Ndmf
                 var env = root.ToEnv();
                 env.PersistGeneratedAssets = false;
                 env.AvatarDescriptor = buildContext.AvatarDescriptor;
-                env.BuildAvatar();
+                env.BuildAvatar(false);
             }
         }
     }
