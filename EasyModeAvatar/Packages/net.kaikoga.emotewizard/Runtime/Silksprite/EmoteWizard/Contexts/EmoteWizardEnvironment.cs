@@ -2,20 +2,47 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
+using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
     public class EmoteWizardEnvironment
     {
+        [CanBeNull]
         readonly EmoteWizardRoot _root;
+        [CanBeNull]
+        readonly VRCAvatarDescriptor _avatarDescriptor;
         readonly List<IBehaviourContext> _contexts = new List<IBehaviourContext>();
 
-        EmoteWizardEnvironment(EmoteWizardRoot root) => _root = root;
+        AnimationClip _emptyClip;
+        public AnimationClip EmptyClip
+        {
+            get => _emptyClip;
+            set
+            {
+                _emptyClip = value;
+                if (_root) _root.emptyClip = value;
+            }
+        }
+
+        public readonly LayerKind GenerateTrackingControlLayer = LayerKind.FX;
+        public readonly bool ShowTutorial;
+        public bool PersistGeneratedAssets { get; set; } = true;
+
+        EmoteWizardEnvironment(EmoteWizardRoot root)
+        {
+            _root = root;
+            _avatarDescriptor = GetComponentInChildren<AvatarWizard>()?.avatarDescriptor;
+            
+            GenerateTrackingControlLayer = root.generateTrackingControlLayer;
+            ShowTutorial = root.showTutorial;
+        }
 
         public static EmoteWizardEnvironment FromRoot(EmoteWizardRoot root)
         {
@@ -26,7 +53,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         void CollectOtherContexts()
         {
-            var contexts = _root.GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext(this));
+            var contexts = GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext(this));
             foreach (var context in contexts)
             {
                 if (_contexts.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;
@@ -34,18 +61,10 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
+        [Obsolete]
         public GameObject GameObject => _root.gameObject;
+        [Obsolete]
         public Transform Transform => _root.transform;
-
-        public AnimationClip EmptyClip
-        {
-            get => _root.emptyClip;
-            set => _root.emptyClip = value;
-        }
-
-        public LayerKind GenerateTrackingControlLayer => _root.generateTrackingControlLayer;
-        public bool ShowTutorial => _root.showTutorial;
-        public bool PersistGeneratedAssets { get; set; } = true;
 
         public T GetContext<T>() where T : IBehaviourContext
         {
@@ -65,16 +84,47 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public string GeneratedAssetPath(string relativePath)
         {
-            return Path.Combine(_root.generatedAssetRoot, relativePath.Replace("@@@Generated@@@", _root.generatedAssetPrefix));
+            return _root ? Path.Combine(_root.generatedAssetRoot, relativePath.Replace("@@@Generated@@@", _root.generatedAssetPrefix)) : relativePath;
         }
 
         public IEnumerable<EmoteItem> CollectAllEmoteItems()
         {
-            return _root.GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
+            return GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
         }
 
-        public T GetComponentInChildren<T>() => _root.GetComponentInChildren<T>();
-        public T[] GetComponentsInChildren<T>() => _root.GetComponentsInChildren<T>();
-        public T FindOrCreateChildComponent<T>(string path, Action<T> initializer = null) where T : Component => _root.FindOrCreateChildComponent(path, initializer);
+        public T GetComponentInChildren<T>()
+        {
+            {
+                if (_root && _root.GetComponentInChildren<T>() is T c) return c;
+            }
+            {
+                if (_avatarDescriptor && _avatarDescriptor.GetComponentInChildren<T>() is T c) return c;
+            }
+            return default;
+        }
+
+        public T[] GetComponentsInChildren<T>()
+        {
+            return new Component[] { _root, _avatarDescriptor }
+                .Where(component => component)
+                .SelectMany(component => component.GetComponentsInChildren<T>())
+                .Distinct()
+                .ToArray();
+        }
+
+        public T FindOrCreateChildComponent<T>(string path, Action<T> initializer = null) where T : Component
+        {
+            if (_root)
+            {
+                var child = _root.transform.Find(path);
+                if (child && child.EnsureComponent<T>() is T c) return c;
+            }
+            if (_avatarDescriptor)
+            {
+                var child = _avatarDescriptor.transform.Find(path);
+                if (child && child.EnsureComponent<T>() is T c) return c;
+            }
+            return ((Component)_root ?? _avatarDescriptor).AddChildComponent(path, initializer);
+        }
     }
 }
