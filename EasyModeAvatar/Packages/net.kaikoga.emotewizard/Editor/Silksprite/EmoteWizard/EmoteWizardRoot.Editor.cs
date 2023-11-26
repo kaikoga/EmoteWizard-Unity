@@ -1,3 +1,4 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.UI;
@@ -7,6 +8,7 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
+using VRC.SDK3.Avatars.Components;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
 namespace Silksprite.EmoteWizard
@@ -138,6 +140,14 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.OutputUIArea(true, null, () =>
             {
+                AnimatorController FindAnimator(VRCAvatarDescriptor.AnimLayerType vrcLayerType)
+                {
+                    return avatarDescriptor.baseAnimationLayers.Concat(avatarDescriptor.specialAnimationLayers)
+                        .Where(layer => layer.type == vrcLayerType)
+                        .Select(layer => layer.animatorController)
+                        .FirstOrDefault() as AnimatorController;
+                }
+
                 void EditAnimator(AnimatorController animatorController)
                 {
                     var animator = _root.ToEnv().ProvideProxyAnimator();
@@ -146,9 +156,9 @@ namespace Silksprite.EmoteWizard
                     Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
                 }
 
-                var gestureController = env.GetContext<GestureLayerContext>()?.OutputAsset as AnimatorController;
-                var fxController = env.GetContext<FxLayerContext>()?.OutputAsset as AnimatorController;
-                var actionController = env.GetContext<ActionLayerContext>()?.OutputAsset as AnimatorController;
+                var gestureController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Gesture);
+                var fxController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.FX);
+                var actionController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Action);
 
                 if (env.AvatarDescriptor)
                 {
