@@ -61,16 +61,29 @@ namespace Silksprite.EmoteWizard.Contexts
         EmoteWizardEnvironment(EmoteWizardRoot root)
         {
             _root = root;
-            _avatarDescriptor = root.avatarDescriptor;
+            _avatarDescriptor = root.avatarDescriptor ? root.avatarDescriptor : root.GetComponentInParent<VRCAvatarDescriptor>();
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
             ShowTutorial = root.showTutorial;
         }
 
+        EmoteWizardEnvironment(VRCAvatarDescriptor avatarDescriptor)
+        {
+            _avatarDescriptor = avatarDescriptor;
+            _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>();
+        }
+
         public static EmoteWizardEnvironment FromRoot(EmoteWizardRoot root)
         {
             var env = new EmoteWizardEnvironment(root);
+            env.CollectOtherContexts();
+            return env;
+        }
+
+        public static EmoteWizardEnvironment FromAvatar(VRCAvatarDescriptor avatarDescriptor)
+        {
+            var env = new EmoteWizardEnvironment(avatarDescriptor);
             env.CollectOtherContexts();
             return env;
         }
