@@ -140,28 +140,28 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.OutputUIArea(true, null, () =>
             {
-                AnimatorController FindAnimator(VRCAvatarDescriptor.AnimLayerType vrcLayerType)
-                {
-                    return avatarDescriptor.baseAnimationLayers.Concat(avatarDescriptor.specialAnimationLayers)
-                        .Where(layer => layer.type == vrcLayerType)
-                        .Select(layer => layer.animatorController)
-                        .FirstOrDefault() as AnimatorController;
-                }
-
-                void EditAnimator(AnimatorController animatorController)
-                {
-                    var animator = _root.ToEnv().ProvideProxyAnimator();
-                    animator.runtimeAnimatorController = animatorController;
-                    if (!animatorController) return;
-                    Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
-                }
-
-                var gestureController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Gesture);
-                var fxController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.FX);
-                var actionController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Action);
-
                 if (env.AvatarDescriptor)
                 {
+                    AnimatorController FindAnimator(VRCAvatarDescriptor.AnimLayerType vrcLayerType)
+                    {
+                        return avatarDescriptor.baseAnimationLayers.Concat(avatarDescriptor.specialAnimationLayers)
+                            .Where(layer => layer.type == vrcLayerType)
+                            .Select(layer => layer.animatorController)
+                            .FirstOrDefault() as AnimatorController;
+                    }
+
+                    void EditAnimator(AnimatorController animatorController)
+                    {
+                        var animator = _root.ToEnv().ProvideProxyAnimator();
+                        animator.runtimeAnimatorController = animatorController;
+                        if (!animatorController) return;
+                        Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
+                    }
+
+                    var gestureController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Gesture);
+                    var fxController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.FX);
+                    var actionController = FindAnimator(VRCAvatarDescriptor.AnimLayerType.Action);
+
                     var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
