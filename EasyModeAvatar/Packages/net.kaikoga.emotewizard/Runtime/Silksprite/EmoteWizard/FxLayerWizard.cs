@@ -10,7 +10,13 @@ namespace Silksprite.EmoteWizard
     {
         public override LayerKind LayerKind => LayerKind.FX;
 
-
         public override AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env) => new FxLayerContext(env, this);
+
+        protected override void Reset()
+        {
+            base.Reset();
+            var context = GetContext(CreateEnv());
+            hasResetClip = context.HasResetClip;
+        }
     }
 }
