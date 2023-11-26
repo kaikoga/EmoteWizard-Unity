@@ -71,8 +71,6 @@ namespace Silksprite.EmoteWizard
             {
                 EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
             }
-            var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
-            EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
 
             EmoteWizardGUILayout.Header("Assets Generation");
             EditorGUI.BeginChangeCheck();
@@ -134,6 +132,10 @@ namespace Silksprite.EmoteWizard
             }
 
             EmoteWizardGUILayout.Header("Avatar Output");
+
+            var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
+            EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
+
             EmoteWizardGUILayout.OutputUIArea(env, null, () =>
             {
                 void EditAnimator(AnimatorController animatorController)
