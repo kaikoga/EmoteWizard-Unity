@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
             DefaultAvatarMask = Wizard.defaultAvatarMask;
             LayerKind = Wizard.LayerKind;
-            HasResetClip = Wizard.HasResetClip;
+            HasResetClip = Wizard.hasResetClip;
         }
 
         public override void DisconnectOutputAssets()

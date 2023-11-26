@@ -12,10 +12,16 @@ namespace Silksprite.EmoteWizard.Base
 
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
-        public abstract bool HasResetClip { get; }
+        [SerializeField] public bool hasResetClip = false;
         public abstract LayerKind LayerKind { get; }
 
         public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);
         public abstract AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env);
+
+        protected virtual void Reset()
+        {
+            var context = GetContext(CreateEnv());
+            hasResetClip = context.HasResetClip;
+        }
     }
 }

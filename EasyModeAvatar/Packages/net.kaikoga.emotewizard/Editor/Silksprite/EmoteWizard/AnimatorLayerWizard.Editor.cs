@@ -63,7 +63,7 @@ namespace Silksprite.EmoteWizard
                     });
 
                     EditorGUILayout.PropertyField(_serializedOutputAsset);
-                    using (new EditorGUI.DisabledScope(!_wizard.HasResetClip))
+                    using (new EditorGUI.DisabledScope(!_wizard.hasResetClip))
                     {
                         EditorGUILayout.PropertyField(_serializedResetClip);
                     }

@@ -10,14 +10,12 @@ namespace Silksprite.EmoteWizard
     {
         public override LayerKind LayerKind => LayerKind.Gesture;
 
-        [SerializeField] public bool hasResetClip = false;
-        public override bool HasResetClip => hasResetClip;
-        
         public override AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env) => new GestureLayerContext(env, this);
 
 
-        void Reset()
+        protected override void Reset()
         {
+            base.Reset();
             var context = GetContext(CreateEnv());
             defaultAvatarMask = context.DefaultAvatarMask;
         }
