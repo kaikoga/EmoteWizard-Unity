@@ -102,10 +102,7 @@ namespace Silksprite.EmoteWizard
             environment.EnsureWizard<ExpressionWizard>();
             environment.EnsureWizard<ParametersWizard>();
             environment.EnsureWizard<FxLayerWizard>();
-            environment.EnsureWizard<GestureLayerWizard>(gestureWizard =>
-            {
-                gestureWizard.defaultAvatarMask = VrcSdkAssetLocator.HandsOnly();
-            });
+            environment.EnsureWizard<GestureLayerWizard>();
             environment.EnsureWizard<ActionLayerWizard>();
         }
 

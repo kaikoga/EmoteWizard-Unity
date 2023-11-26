@@ -15,13 +15,12 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             return asset;
         }
 
-        public static T EnsureWizard<T>(this EmoteWizardEnvironment environment, Action<T> initializer = null) where T : EmoteWizardBase
+        public static T EnsureWizard<T>(this EmoteWizardEnvironment environment) where T : EmoteWizardBase
         {
             var wizard = environment.GetComponentInChildren<T>();
             if (wizard) return wizard;
 
             wizard = Undo.AddComponent<T>(environment.GameObject);
-            initializer?.Invoke(wizard);
             return wizard;
         }
     }
