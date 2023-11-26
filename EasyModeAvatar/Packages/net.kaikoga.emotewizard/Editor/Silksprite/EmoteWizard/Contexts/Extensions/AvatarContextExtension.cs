@@ -10,23 +10,25 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         public static void BuildAvatar(this AvatarContext context)
         {
-            var avatarDescriptor = context.Environment.AvatarDescriptor;
+            var env = context.Environment;
+            
+            var avatarDescriptor = env.AvatarDescriptor;
             var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
             avatarAnimator.runtimeAnimatorController = null;
             
-            var parameters = context.Environment.GetContext<ParametersContext>().Snapshot(); 
+            var parameters = env.GetContext<ParametersContext>().Snapshot(); 
 
             RuntimeAnimatorController SelectGestureController()
             {
-                switch (context.OverrideGesture)
+                switch (env.OverrideGesture)
                 {
-                    case AvatarWizard.OverrideGeneratedControllerType2.Generate:
-                        return context.Environment.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
-                    case AvatarWizard.OverrideGeneratedControllerType2.Override:
-                        return context.OverrideGestureController;
-                    case AvatarWizard.OverrideGeneratedControllerType2.Default1:
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Generate:
+                        return env.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Override:
+                        return env.OverrideGestureController;
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default1:
                         return VrcSdkAssetLocator.HandsLayerController1();
-                    case AvatarWizard.OverrideGeneratedControllerType2.Default2:
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default2:
                         return VrcSdkAssetLocator.HandsLayerController2();
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -35,13 +37,13 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
             RuntimeAnimatorController SelectActionController()
             {
-                switch (context.OverrideAction)
+                switch (env.OverrideAction)
                 {
-                    case AvatarWizard.OverrideGeneratedControllerType1.Generate:
-                        return context.Environment.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
-                    case AvatarWizard.OverrideGeneratedControllerType1.Override:
-                        return context.OverrideActionController;
-                    case AvatarWizard.OverrideGeneratedControllerType1.Default:
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Generate:
+                        return env.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Override:
+                        return env.OverrideActionController;
+                    case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Default:
                         return VrcSdkAssetLocator.ActionLayerController();
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -50,18 +52,18 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
             RuntimeAnimatorController SelectFxController()
             {
-                return context.Environment.GetContext<FxLayerContext>().BuildOutputAsset(parameters);
+                return env.GetContext<FxLayerContext>().BuildOutputAsset(parameters);
             }
 
             RuntimeAnimatorController SelectSittingController()
             {
-                switch (context.OverrideSitting)
+                switch (env.OverrideSitting)
                 {
-                    case AvatarWizard.OverrideControllerType2.Override:
-                        return context.OverrideSittingController;
-                    case AvatarWizard.OverrideControllerType2.Default1:
+                    case EmoteWizardEnvironment.OverrideControllerType2.Override:
+                        return env.OverrideSittingController;
+                    case EmoteWizardEnvironment.OverrideControllerType2.Default1:
                         return VrcSdkAssetLocator.SittingLayerController1();
-                    case AvatarWizard.OverrideControllerType2.Default2:
+                    case EmoteWizardEnvironment.OverrideControllerType2.Default2:
                         return VrcSdkAssetLocator.SittingLayerController2();
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -146,8 +148,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = context.Environment.GetContext<ExpressionContext>()?.BuildOutputAsset();
-            avatarDescriptor.expressionParameters = context.Environment.GetContext<ParametersContext>()?.BuildOutputAsset();
+            avatarDescriptor.expressionsMenu = env.GetContext<ExpressionContext>()?.BuildOutputAsset();
+            avatarDescriptor.expressionParameters = env.GetContext<ParametersContext>()?.BuildOutputAsset();
         }
     }
 }

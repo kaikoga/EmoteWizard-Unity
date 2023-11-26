@@ -52,6 +52,13 @@ namespace Silksprite.EmoteWizard.Contexts
         }
 
         public readonly LayerKind GenerateTrackingControlLayer = LayerKind.FX;
+        public readonly OverrideGeneratedControllerType2 OverrideGesture;
+        public readonly RuntimeAnimatorController OverrideGestureController;
+        public readonly OverrideGeneratedControllerType1 OverrideAction;
+        public readonly RuntimeAnimatorController OverrideActionController;
+        public readonly OverrideControllerType2 OverrideSitting;
+        public readonly RuntimeAnimatorController OverrideSittingController;
+
         public readonly bool ShowTutorial;
         public bool PersistGeneratedAssets { get; set; } = true;
 
@@ -62,6 +69,13 @@ namespace Silksprite.EmoteWizard.Contexts
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
+            OverrideGesture = root.overrideGesture;
+            OverrideGestureController = root.overrideGestureController;
+            OverrideAction = root.overrideAction;
+            OverrideActionController = root.overrideActionController;
+            OverrideSitting = root.overrideSitting;
+            OverrideSittingController = root.overrideSittingController;
+
             ShowTutorial = root.showTutorial;
             PersistGeneratedAssets = root.persistGeneratedAssets;
         }
@@ -70,6 +84,10 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             _avatarDescriptor = avatarDescriptor;
             _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>();
+            
+            OverrideGesture = OverrideGeneratedControllerType2.Generate;
+            OverrideAction = OverrideGeneratedControllerType1.Default;
+            OverrideSitting = OverrideControllerType2.Default2;
         }
 
         public static EmoteWizardEnvironment FromRoot(EmoteWizardRoot root)
@@ -140,6 +158,28 @@ namespace Silksprite.EmoteWizard.Contexts
                 if (child && child.EnsureComponent<T>() is T c) return c;
             }
             return ((Component)_root ?? _avatarDescriptor).AddChildComponent(path, initializer);
+        }
+        
+        public enum OverrideGeneratedControllerType1
+        {
+            Generate = 0x10,
+            Override = 0x11,
+            Default = 0x00,
+        }
+        
+        public enum OverrideGeneratedControllerType2
+        {
+            Generate = 0x10,
+            Override = 0x11,
+            Default1 = 0x00,
+            Default2 = 0x01
+        }
+        
+        public enum OverrideControllerType2
+        {
+            Override = 0x11,
+            Default1 = 0x00,
+            Default2 = 0x01
         }
     }
 }
