@@ -103,6 +103,8 @@ namespace Silksprite.EmoteWizard.Contexts
         public GameObject GameObject => _root.gameObject;
         [Obsolete]
         public Transform Transform => _root.transform;
+        
+        public bool HasContext<T>() => _contexts.OfType<T>().Any();
 
         public T GetContext<T>() where T : IBehaviourContext
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -28,20 +29,27 @@ namespace Silksprite.EmoteWizardSupport.Extensions
         {
             var paths = path.Split('/').ToArray();
             var gameObject = component.gameObject;
-            foreach (var name in paths)
+            for (var i = 0; i < paths.Length; i++)
             {
-                var childTransform = gameObject.transform.Find(name);
-                if (childTransform)
+                var name = paths[i];
+                var isLeaf = i == paths.Length - 1;
+                if (gameObject.transform.Find(name) is Transform childTransform)
                 {
-                    gameObject = childTransform.gameObject;
+                    if (isLeaf)
+                    {
+                        name = GameObjectUtility.GetUniqueNameForSibling(gameObject.transform, name);
+                    }
+                    else
+                    {
+                        gameObject = childTransform.gameObject;
+                        continue;
+                    }
                 }
-                else
-                {
-                    var newChildObject = new GameObject(name);
-                    newChildObject.transform.parent = gameObject.transform;
-                    gameObject = newChildObject;
-                }
+                var newChildObject = new GameObject(name);
+                newChildObject.transform.SetParent(gameObject.transform);
+                gameObject = newChildObject;
             }
+
             return gameObject;
         }
 

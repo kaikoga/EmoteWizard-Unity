@@ -40,6 +40,28 @@ namespace Silksprite.EmoteWizard
 
         public override void OnInspectorGUI()
         {
+            var env = _root.ToEnv();
+            EmoteWizardGUILayout.ConfigUIArea(() =>
+            {
+                EditorGUILayout.PropertyField(_serializedShowTutorial);
+            });
+
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                if (!env.HasContext<SetupContext>())
+                {
+                    if (GUILayout.Button("Setup"))
+                    {
+                        _root.ToEnv().AddWizard<SetupWizard>();
+                    }
+                }
+                if (GUILayout.Button("Add Empty Data Source"))
+                {
+                    _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
+                }
+            }
+
+            EmoteWizardGUILayout.Header("Avatar");
             var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
             EditorGUILayout.PropertyField(_serializedAvatarDescriptor, avatarDescriptorLabel);
 
@@ -50,10 +72,11 @@ namespace Silksprite.EmoteWizard
             }
             var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
             EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
+
+            EmoteWizardGUILayout.Header("Assets Generation");
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(_serializedPersistGeneratedAssets);
-            var env = _root.ToEnv();
-            if (EditorGUI.EndChangeCheck() && !env.PersistGeneratedAssets)
+            if (EditorGUI.EndChangeCheck() && !_serializedPersistGeneratedAssets.boolValue)
             {
                 env.DisconnectAllOutputAssets();
             }
@@ -72,33 +95,15 @@ namespace Silksprite.EmoteWizard
             {
                 CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedEmptyClip, () => _root.ToEnv().ProvideEmptyClip());
             });
-
-            EditorGUILayout.PropertyField(_serializedGenerateTrackingControlLayer);
-
-            EmoteWizardGUILayout.ConfigUIArea(() =>
-            {
-                EditorGUILayout.PropertyField(_serializedShowTutorial);
-            });
-
-            if (env.GetContext<SetupContext>() != null)
-            {
-                using (new GUILayout.HorizontalScope())
-                {
-                    if (GUILayout.Button("Setup"))
-                    {
-                        _root.ToEnv().AddWizard<SetupWizard>();
-                    }
-                }
-            }
-            if (GUILayout.Button("Add Empty Data Source"))
-            {
-                _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
-            }
             if (GUILayout.Button("Disconnect Output Assets"))
             {
                 _root.ToEnv().DisconnectAllOutputAssets();
             }
-            
+
+            EmoteWizardGUILayout.Header("Options");
+            EditorGUILayout.PropertyField(_serializedGenerateTrackingControlLayer);
+
+            EmoteWizardGUILayout.Header("Avatar Output");
             EmoteWizardGUILayout.OutputUIArea(env, null, () =>
             {
                 void EditAnimator(AnimatorController animatorController)
