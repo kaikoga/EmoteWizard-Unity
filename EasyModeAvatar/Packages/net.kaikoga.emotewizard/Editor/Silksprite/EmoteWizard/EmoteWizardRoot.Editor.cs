@@ -153,7 +153,7 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
-                        _root.ToEnv().GetContext<AvatarContext>().BuildAvatar();
+                        _root.ToEnv().BuildAvatar();
                     }
 
                     if (avatarAnimator.runtimeAnimatorController == null)

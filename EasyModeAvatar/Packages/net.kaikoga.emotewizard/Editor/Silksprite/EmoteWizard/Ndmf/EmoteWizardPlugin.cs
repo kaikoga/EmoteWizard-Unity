@@ -1,7 +1,6 @@
 ﻿using System;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Ndmf;
 using UnityEngine;
@@ -76,12 +75,7 @@ namespace Silksprite.EmoteWizard.Ndmf
                 var env = root.ToEnv();
                 env.PersistGeneratedAssets = false;
                 env.AvatarDescriptor = buildContext.AvatarDescriptor;
-                var avatarContext = env.GetContext<AvatarContext>();
-                if (avatarContext != null)
-                {
-                    avatarContext.BuildAvatar();
-                    break;
-                }
+                env.BuildAvatar();
             }
         }
     }

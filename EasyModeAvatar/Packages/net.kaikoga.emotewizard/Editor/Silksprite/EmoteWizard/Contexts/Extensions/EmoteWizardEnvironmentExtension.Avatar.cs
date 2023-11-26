@@ -6,26 +6,24 @@ using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static class AvatarContextExtension
+    public static partial class EmoteWizardEnvironmentExtension
     {
-        public static void BuildAvatar(this AvatarContext context)
+        public static void BuildAvatar(this EmoteWizardEnvironment environment)
         {
-            var env = context.Environment;
-            
-            var avatarDescriptor = env.AvatarDescriptor;
+            var avatarDescriptor = environment.AvatarDescriptor;
             var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
             avatarAnimator.runtimeAnimatorController = null;
             
-            var parameters = env.GetContext<ParametersContext>().Snapshot(); 
+            var parameters = environment.GetContext<ParametersContext>().Snapshot(); 
 
             RuntimeAnimatorController SelectGestureController()
             {
-                switch (env.OverrideGesture)
+                switch (environment.OverrideGesture)
                 {
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Generate:
-                        return env.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
+                        return environment.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Override:
-                        return env.OverrideGestureController;
+                        return environment.OverrideGestureController;
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default1:
                         return VrcSdkAssetLocator.HandsLayerController1();
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType2.Default2:
@@ -37,12 +35,12 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
             RuntimeAnimatorController SelectActionController()
             {
-                switch (env.OverrideAction)
+                switch (environment.OverrideAction)
                 {
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Generate:
-                        return env.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
+                        return environment.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Override:
-                        return env.OverrideActionController;
+                        return environment.OverrideActionController;
                     case EmoteWizardEnvironment.OverrideGeneratedControllerType1.Default:
                         return VrcSdkAssetLocator.ActionLayerController();
                     default:
@@ -52,15 +50,15 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
             RuntimeAnimatorController SelectFxController()
             {
-                return env.GetContext<FxLayerContext>().BuildOutputAsset(parameters);
+                return environment.GetContext<FxLayerContext>().BuildOutputAsset(parameters);
             }
 
             RuntimeAnimatorController SelectSittingController()
             {
-                switch (env.OverrideSitting)
+                switch (environment.OverrideSitting)
                 {
                     case EmoteWizardEnvironment.OverrideControllerType2.Override:
-                        return env.OverrideSittingController;
+                        return environment.OverrideSittingController;
                     case EmoteWizardEnvironment.OverrideControllerType2.Default1:
                         return VrcSdkAssetLocator.SittingLayerController1();
                     case EmoteWizardEnvironment.OverrideControllerType2.Default2:
@@ -148,8 +146,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 }
             };
             avatarDescriptor.customExpressions = true;
-            avatarDescriptor.expressionsMenu = env.GetContext<ExpressionContext>()?.BuildOutputAsset();
-            avatarDescriptor.expressionParameters = env.GetContext<ParametersContext>()?.BuildOutputAsset();
+            avatarDescriptor.expressionsMenu = environment.GetContext<ExpressionContext>()?.BuildOutputAsset();
+            avatarDescriptor.expressionParameters = environment.GetContext<ParametersContext>()?.BuildOutputAsset();
         }
     }
 }

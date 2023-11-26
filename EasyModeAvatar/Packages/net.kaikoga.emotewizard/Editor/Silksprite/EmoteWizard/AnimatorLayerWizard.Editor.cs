@@ -54,13 +54,10 @@ namespace Silksprite.EmoteWizard
 
                 EmoteWizardGUILayout.OutputUIArea(env, () =>
                 {
-                    EmoteWizardGUILayout.RequireAnotherContext<AvatarContext, AvatarWizard>(_wizard, () =>
+                    if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        if (GUILayout.Button("Generate Animation Controller"))
-                        {
-                            _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
-                        }
-                    });
+                        _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
+                    }
 
                     EditorGUILayout.PropertyField(_serializedOutputAsset);
                     using (new EditorGUI.DisabledScope(!_wizard.hasResetClip))
