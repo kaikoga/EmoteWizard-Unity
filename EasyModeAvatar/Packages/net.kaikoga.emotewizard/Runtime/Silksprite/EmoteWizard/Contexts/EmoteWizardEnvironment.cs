@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -12,7 +11,7 @@ using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class EmoteWizardEnvironment
+    public partial class EmoteWizardEnvironment
     {
         [CanBeNull]
         readonly EmoteWizardRoot _root;
@@ -40,8 +39,6 @@ namespace Silksprite.EmoteWizard.Contexts
                 if (_root) _root.proxyAnimator = value;
             }
         }
-
-        readonly List<IBehaviourContext> _contexts = new List<IBehaviourContext>();
 
         AnimationClip _emptyClip;
         public AnimationClip EmptyClip
@@ -89,34 +86,11 @@ namespace Silksprite.EmoteWizard.Contexts
             return env;
         }
 
-        void CollectOtherContexts()
-        {
-            var contexts = GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext(this));
-            foreach (var context in contexts)
-            {
-                if (_contexts.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;
-                _contexts.Add(context);
-            }
-        }
-
         [Obsolete]
         public GameObject GameObject => _root.gameObject;
         [Obsolete]
         public Transform Transform => _root.transform;
         
-        public bool HasContext<T>() => _contexts.OfType<T>().Any();
-
-        public T GetContext<T>() where T : IBehaviourContext
-        {
-            var context = _contexts.OfType<T>().FirstOrDefault();
-            if (context == null)
-            {
-                context = (T)Activator.CreateInstance(typeof(T), this);
-                _contexts.Add(context);
-            }
-            return context;
-        }
-
         public void DisconnectAllOutputAssets()
         {
             ProxyAnimator = null;
