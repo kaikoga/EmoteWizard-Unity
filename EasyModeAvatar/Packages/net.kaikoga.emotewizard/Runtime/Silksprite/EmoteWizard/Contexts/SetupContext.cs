@@ -8,7 +8,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         [UsedImplicitly]
         public SetupContext(EmoteWizardEnvironment env) : base(env) { }
-        public SetupContext(EmoteWizardEnvironment env, SetupWizard wizard) : base(env, wizard) => IsSetupMode = Wizard.isSetupMode;
+        public SetupContext(EmoteWizardEnvironment env, SetupWizard wizard) : base(env, wizard) => IsSetupMode = wizard.isSetupMode;
 
         public override void DisconnectOutputAssets() { }
     }

@@ -47,16 +47,16 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             if (env.PersistGeneratedAssets)
             {
-                _avatarDescriptor = Wizard.avatarDescriptor;
-                _proxyAnimator = Wizard.proxyAnimator;
+                _avatarDescriptor = wizard.avatarDescriptor;
+                _proxyAnimator = wizard.proxyAnimator;
             }
 
-            OverrideGesture = Wizard.overrideGesture;
-            OverrideGestureController = Wizard.overrideGestureController;
-            OverrideAction = Wizard.overrideAction;
-            OverrideActionController = Wizard.overrideActionController;
-            OverrideSitting = Wizard.overrideSitting;
-            OverrideSittingController = Wizard.overrideSittingController;
+            OverrideGesture = wizard.overrideGesture;
+            OverrideGestureController = wizard.overrideGestureController;
+            OverrideAction = wizard.overrideAction;
+            OverrideActionController = wizard.overrideActionController;
+            OverrideSitting = wizard.overrideSitting;
+            OverrideSittingController = wizard.overrideSittingController;
         }
 
         public override void DisconnectOutputAssets()

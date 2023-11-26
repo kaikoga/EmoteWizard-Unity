@@ -39,13 +39,13 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             if (env.PersistGeneratedAssets)
             {
-                _outputAsset = Wizard.outputAsset;
-                _resetClip = Wizard.resetClip;
+                _outputAsset = wizard.outputAsset;
+                _resetClip = wizard.resetClip;
             }
 
-            DefaultAvatarMask = Wizard.defaultAvatarMask;
-            LayerKind = Wizard.LayerKind;
-            HasResetClip = Wizard.hasResetClip;
+            DefaultAvatarMask = wizard.defaultAvatarMask;
+            LayerKind = wizard.LayerKind;
+            HasResetClip = wizard.hasResetClip;
         }
 
         public override void DisconnectOutputAssets()

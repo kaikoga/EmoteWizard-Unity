@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Contexts
                 _outputAsset = wizard.outputAsset;
             }
 
-            BuildAsSubAsset = Wizard.buildAsSubAsset;
+            BuildAsSubAsset = wizard.buildAsSubAsset;
         }
 
         public override void DisconnectOutputAssets()

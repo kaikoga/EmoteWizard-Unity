@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base;
 using UnityEngine;
 
@@ -6,6 +7,7 @@ namespace Silksprite.EmoteWizard.Contexts
     public abstract class ContextBase<TWizard> : IBehaviourContext
         where TWizard : EmoteWizardBase
     {
+        [CanBeNull]
         protected readonly TWizard Wizard;
 
         public EmoteWizardEnvironment Environment { get; }
