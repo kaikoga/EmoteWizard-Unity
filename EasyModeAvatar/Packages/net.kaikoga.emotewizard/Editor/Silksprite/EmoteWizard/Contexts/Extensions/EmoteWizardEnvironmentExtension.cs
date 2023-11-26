@@ -16,10 +16,9 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static AnimationClip ProvideEmptyClip(this EmoteWizardEnvironment environment)
         {
-            var emptyClip = environment.EmptyClip;
-            var asset = EnsureAsset(environment, "@@@Generated@@@Empty.anim", ref emptyClip);
+            var emptyClip = EnsureAsset(environment, "@@@Generated@@@Empty.anim", environment.EmptyClip);
             environment.EmptyClip = emptyClip;
-            return asset;
+            return emptyClip;
         }
 
         public static void AddWizard<T>(this EmoteWizardEnvironment environment) where T : EmoteWizardBase

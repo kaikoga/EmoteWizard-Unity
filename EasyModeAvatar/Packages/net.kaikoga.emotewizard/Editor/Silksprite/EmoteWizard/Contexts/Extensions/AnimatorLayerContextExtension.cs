@@ -21,10 +21,10 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 builder.BuildStaticLayer("Default Avatar Mask", null, context.DefaultAvatarMask);
             }
 
-            var resetClip = context.ResetClip;
+            AnimationClip resetClip;
             if (context.HasResetClip)
             {
-                resetClip = context.Environment.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", ref resetClip);
+                resetClip = context.Environment.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", context.ResetClip);
                 context.BuildResetClip(resetClip);
                 builder.BuildStaticLayer("Reset", resetClip, null);
             }
