@@ -1,11 +1,7 @@
-using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
@@ -52,93 +48,6 @@ namespace Silksprite.EmoteWizard
             {
                 CustomEditorGUILayout.PropertyFieldWithGenerate(serializedObject.FindProperty(nameof(AvatarWizard.overrideSittingController)), () => GenerateOverrideController(VrcSdkAssetLocator.SittingLayerController1(), "Sitting"));
             }
-
-            EmoteWizardGUILayout.OutputUIArea(env, () =>
-            {
-                void EditAnimator(AnimatorController animatorController)
-                {
-                    var animator = _wizard.CreateEnv().ProvideProxyAnimator();
-                    animator.runtimeAnimatorController = animatorController;
-                    if (!animatorController) return;
-                    Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
-                }
-
-                var gestureController = env.GetContext<GestureLayerContext>()?.OutputAsset as AnimatorController;
-                var fxController = env.GetContext<FxLayerContext>()?.OutputAsset as AnimatorController;
-                var actionController = env.GetContext<ActionLayerContext>()?.OutputAsset as AnimatorController;
-
-                if (env.AvatarDescriptor)
-                {
-                    var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
-                    EmoteWizardGUILayout.RequireAnotherContext<ParametersContext, ParametersWizard>(_wizard, () =>
-                    {
-                        if (GUILayout.Button("Generate Everything and Update Avatar"))
-                        {
-                            _wizard.GetContext(_wizard.CreateEnv()).BuildAvatar();
-                        }
-                    });
-
-                    if (avatarAnimator.runtimeAnimatorController == null)
-                    {
-                        // do nothing
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == gestureController)
-                    {
-                        EditorGUILayout.HelpBox("Editing Gesture Controller on avatar.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("選択されたAnimatorを利用して、Gestureレイヤーのアニメーションを編集中です。", MessageType.Warning);
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == fxController)
-                    {
-                        EditorGUILayout.HelpBox("Editing FX Controller on avatar.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("選択されたAnimatorを利用して、FXレイヤーのアニメーションを編集中です。", MessageType.Warning);
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == actionController)
-                    {
-                        EditorGUILayout.HelpBox("Editing Action Controller on avatar.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("選択されたAnimatorを利用して、Actionレイヤーのアニメーションを編集中です。", MessageType.Warning);
-                    }
-                    else
-                    {
-                        EditorGUILayout.HelpBox("Unknown Animator Controller is present.", MessageType.Warning);
-                        EditorGUILayout.HelpBox("選択されたAnimatorに不明なAnimator Controllerが刺さっています。", MessageType.Warning);
-                    }
-                }
-
-                if (env.AvatarDescriptor)
-                {
-                    using (new GUILayout.HorizontalScope())
-                    {
-                        using (new EditorGUI.DisabledScope(gestureController == null || _wizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Default1 || _wizard.overrideGesture == AvatarWizard.OverrideGeneratedControllerType2.Default2))
-                        {
-                            if (GUILayout.Button("Edit Gesture"))
-                            {
-                                EditAnimator(gestureController);
-                            }
-                        }
-
-                        using (new EditorGUI.DisabledScope(fxController == null))
-                        {
-                            if (GUILayout.Button("Edit FX"))
-                            {
-                                EditAnimator(fxController);
-                            }
-                        }
-
-                        using (new EditorGUI.DisabledScope(actionController == null || _wizard.overrideAction == AvatarWizard.OverrideGeneratedControllerType1.Default))
-                        {
-                            if (GUILayout.Button("Edit Action"))
-                            {
-                                EditAnimator(actionController);
-                            }
-                        }
-                    }
-
-                    if (GUILayout.Button("Remove Animator Controller"))
-                    {
-                        EditAnimator(null);
-                    }
-                }
-            });
 
             serializedObject.ApplyModifiedProperties();
 
