@@ -68,11 +68,17 @@ namespace Silksprite.EmoteWizard
             EmoteWizardGUILayout.Header("Avatar");
             var avatarDescriptorLabel = new GUIContent("Avatar Descriptor", "ここで指定したアバターの設定が上書きされます。");
             EditorGUILayout.PropertyField(_serializedAvatarDescriptor, avatarDescriptorLabel);
-
-            var avatarDescriptor = _root.avatarDescriptor;
-            if (avatarDescriptor == null)
+            var avatarDescriptor = env.AvatarDescriptor;
+            if (!avatarDescriptor)
             {
                 EditorGUILayout.HelpBox("VRCAvatarDescriptorを設定してください", MessageType.Error);
+            }
+            else if (!_serializedAvatarDescriptor.objectReferenceValue)
+            {
+                using (new EditorGUI.DisabledScope(true))
+                {
+                    EditorGUILayout.ObjectField("Detected Avatar Descriptor", env.AvatarDescriptor, typeof(VRCAvatarDescriptor), true);
+                }
             }
 
             EmoteWizardGUILayout.Header("Assets Generation");
@@ -139,9 +145,9 @@ namespace Silksprite.EmoteWizard
             var proxyAnimatorLabel = new GUIContent("Proxy Animator", "アバターのアニメーションを編集する際に使用するAnimatorを別途選択できます。");
             EditorGUILayout.PropertyField(_serializedProxyAnimator, proxyAnimatorLabel);
 
-            EmoteWizardGUILayout.OutputUIArea(true, null, () =>
+            if (avatarDescriptor)
             {
-                if (avatarDescriptor)
+                EmoteWizardGUILayout.OutputUIArea(true, null, () =>
                 {
                     void EditAnimator(AnimatorController animatorController)
                     {
@@ -217,8 +223,8 @@ namespace Silksprite.EmoteWizard
                     {
                         EditAnimator(null);
                     }
-                }
-            });
+                });
+            }
  
             serializedObject.ApplyModifiedProperties();
 
