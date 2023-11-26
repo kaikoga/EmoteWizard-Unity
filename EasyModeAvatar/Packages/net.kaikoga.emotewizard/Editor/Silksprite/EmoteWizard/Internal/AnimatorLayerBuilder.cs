@@ -18,7 +18,10 @@ namespace Silksprite.EmoteWizard.Internal
         public readonly AnimatorLayerContextBase Context;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
+        readonly string _assetPath;
 
+        public bool IsPersistedAsset => !string.IsNullOrEmpty(_assetPath);
+        
         readonly HashSet<string> _referencedParameters = new HashSet<string>();
 
         public void MarkParameter(string name) => _referencedParameters.Add(name);
@@ -44,6 +47,7 @@ namespace Silksprite.EmoteWizard.Internal
             Context = context;
             ParametersSnapshot = parametersSnapshot;
             _animatorController = animatorController;
+            _assetPath = AssetDatabase.GetAssetPath(_animatorController);
         }
 
         AnimatorControllerLayer PopulateLayer(string layerName, AvatarMask avatarMask = null)
@@ -64,9 +68,9 @@ namespace Silksprite.EmoteWizard.Internal
                 }
             };
 
-            if (Context.Environment.PersistGeneratedAssets)
+            if (IsPersistedAsset)
             {
-                AssetDatabase.AddObjectToAsset(layer.stateMachine, AssetDatabase.GetAssetPath(_animatorController));
+                AssetDatabase.AddObjectToAsset(layer.stateMachine, _assetPath);
             }
             _animatorController.AddLayer(layer);
             return layer;

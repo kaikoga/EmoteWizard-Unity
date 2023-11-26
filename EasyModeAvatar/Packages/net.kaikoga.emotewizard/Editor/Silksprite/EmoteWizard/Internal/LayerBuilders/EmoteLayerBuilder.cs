@@ -5,8 +5,10 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Internal.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
+using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
@@ -63,7 +65,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
-                var avatarParameterDriver = state.AddStateMachineBehaviour<VRCAvatarParameterDriver>();
+                var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>(Builder);
                 avatarParameterDriver.localOnly = true;
                 var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
                 foreach (var target in targets) Builder.MarkTrackingTarget(target);

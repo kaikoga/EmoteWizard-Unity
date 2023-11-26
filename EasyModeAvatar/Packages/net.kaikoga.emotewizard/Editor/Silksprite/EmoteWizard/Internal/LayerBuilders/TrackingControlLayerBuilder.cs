@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Internal.Extensions;
 using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
@@ -55,9 +56,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             AddTransition(trackingState, trackingState, offTriggerConditions);
         }
         
-        static void PopulateTrackingControl(AnimatorTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
+        void PopulateTrackingControl(AnimatorTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
         {
-            var trackingControl = transition.destinationState.AddStateMachineBehaviour<VRCAnimatorTrackingControl>();
+            var trackingControl = transition.destinationState.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>(Builder);
             switch (target)
             {
                 case TrackingTarget.Head:

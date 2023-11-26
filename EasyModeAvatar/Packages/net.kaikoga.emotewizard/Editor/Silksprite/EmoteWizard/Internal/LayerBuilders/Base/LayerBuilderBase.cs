@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Internal.Extensions;
 using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -118,9 +119,9 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         TrackingTarget[] _allTrackingTargets;
 
-        protected static void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
+        protected void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
-            var playableLayerControl = state.AddStateMachineBehaviour<VRCPlayableLayerControl>();
+            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>(Builder);
             playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;
             playableLayerControl.goalWeight = goalWeight;
             playableLayerControl.blendDuration = duration;
