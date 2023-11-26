@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -33,11 +32,6 @@ namespace Silksprite.EmoteWizard
             EditorGUILayout.PropertyField(_serializedIsSetupMode, new GUIContent("Enable Setup Only UI"));
 
             serializedObject.ApplyModifiedProperties();
-
-            if (GUILayout.Button("Generate Wizards"))
-            {
-                GenerateWizards(env);
-            }
 
             EmoteWizardGUILayout.SetupOnlyUI(_wizard, () =>
             {
@@ -87,6 +81,11 @@ namespace Silksprite.EmoteWizard
                 }
             });
 
+            if (GUILayout.Button("Generate Intermediate Wizards"))
+            {
+                GenerateWizards(env);
+            }
+
             if (GUILayout.Button("Complete setup and remove me"))
             {
                 DestroySelf(env);
@@ -119,8 +118,6 @@ namespace Silksprite.EmoteWizard
 
         static void QuickSetupEmoteItems(EmoteWizardEnvironment environment)
         {
-            GenerateWizards(environment);
-
             QuickSetupExpressionSources(environment);
             QuickSetupParameterSources(environment);
             QuickSetupFXSources(environment);
