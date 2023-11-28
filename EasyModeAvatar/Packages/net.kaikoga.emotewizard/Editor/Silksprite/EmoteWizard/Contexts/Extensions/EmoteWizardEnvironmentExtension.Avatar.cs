@@ -14,6 +14,22 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
     public static partial class EmoteWizardEnvironmentExtension
     {
+        public static void CleanupAvatar(this EmoteWizardEnvironment environment)
+        {
+            var avatarDescriptor = environment.AvatarDescriptor;
+            if (avatarDescriptor.TryGetComponent<Animator>(out var avatarAnimator))
+            {
+                avatarAnimator.runtimeAnimatorController = null;
+            }
+            
+            CustomizeAnimationLayers(avatarDescriptor, null, null, null, null);
+
+            avatarDescriptor.customExpressions = true;
+            avatarDescriptor.expressionsMenu = null;
+            avatarDescriptor.expressionParameters = null;
+
+        }
+
         public static void BuildAvatar(this EmoteWizardEnvironment environment, bool manualBuild)
         {
             var avatarDescriptor = environment.AvatarDescriptor;
@@ -81,82 +97,65 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 var fxController = SelectFxController();
                 var sittingController = SelectSittingController();
 
-                avatarDescriptor.customizeAnimationLayers = true;
-                avatarDescriptor.baseAnimationLayers = new[]
-                {
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = null,
-                        isDefault = true,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.Base
-                    },
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = null,
-                        isDefault = true,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.Additive
-                    },
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = gestureController,
-                        isDefault = gestureController == null,
-                        isEnabled = false,
-                        mask = VrcSdkAssetLocator.HandsOnly(),
-                        type = VRCAvatarDescriptor.AnimLayerType.Gesture
-                    },
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = actionController,
-                        isDefault = actionController == null,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.Action
-                    },
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = fxController,
-                        isDefault = fxController == null,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.FX
-                    }
-                };
-                
-                avatarDescriptor.specialAnimationLayers = new[]
-                {
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = sittingController,
-                        isDefault = false,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.Sitting
-                    },
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = null,
-                        isDefault = true,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.TPose
-                    },
-                    new VRCAvatarDescriptor.CustomAnimLayer
-                    {
-                        animatorController = null,
-                        isDefault = false,
-                        isEnabled = false,
-                        mask = null,
-                        type = VRCAvatarDescriptor.AnimLayerType.IKPose
-                    }
-                };
+                CustomizeAnimationLayers(avatarDescriptor, gestureController, actionController, fxController, sittingController);
+
                 avatarDescriptor.customExpressions = true;
                 avatarDescriptor.expressionsMenu = environment.GetContext<ExpressionContext>()?.BuildOutputAsset();
                 avatarDescriptor.expressionParameters = environment.GetContext<ParametersContext>()?.BuildOutputAsset();
             }
+        }
+
+        static void CustomizeAnimationLayers(VRCAvatarDescriptor avatarDescriptor, RuntimeAnimatorController gestureController, RuntimeAnimatorController actionController, RuntimeAnimatorController fxController, RuntimeAnimatorController sittingController)
+        {
+            var baseLayer = avatarDescriptor.FindCustomAnimLayer(VRCAvatarDescriptor.AnimLayerType.Base);
+            var additiveLayer = avatarDescriptor.FindCustomAnimLayer(VRCAvatarDescriptor.AnimLayerType.Additive);
+            var tPoseLayer = avatarDescriptor.FindCustomAnimLayer(VRCAvatarDescriptor.AnimLayerType.TPose);
+            var ikPoseLayer = avatarDescriptor.FindCustomAnimLayer(VRCAvatarDescriptor.AnimLayerType.IKPose);
+
+            avatarDescriptor.customizeAnimationLayers = true;
+            avatarDescriptor.baseAnimationLayers = new[]
+            {
+                baseLayer,
+                additiveLayer,
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = gestureController,
+                    isDefault = !gestureController,
+                    isEnabled = !gestureController,
+                    mask = VrcSdkAssetLocator.HandsOnly(),
+                    type = VRCAvatarDescriptor.AnimLayerType.Gesture
+                },
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = actionController,
+                    isDefault = !actionController,
+                    isEnabled = !actionController,
+                    mask = null,
+                    type = VRCAvatarDescriptor.AnimLayerType.Action
+                },
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = fxController,
+                    isDefault = !fxController,
+                    isEnabled = !fxController,
+                    mask = null,
+                    type = VRCAvatarDescriptor.AnimLayerType.FX
+                }
+            };
+
+            avatarDescriptor.specialAnimationLayers = new[]
+            {
+                new VRCAvatarDescriptor.CustomAnimLayer
+                {
+                    animatorController = sittingController,
+                    isDefault = !sittingController,
+                    isEnabled = !sittingController,
+                    mask = null,
+                    type = VRCAvatarDescriptor.AnimLayerType.Sitting
+                },
+                tPoseLayer,
+                ikPoseLayer
+            };
         }
 
         class ManualBundleGeneratedAssetsScope : IDisposable

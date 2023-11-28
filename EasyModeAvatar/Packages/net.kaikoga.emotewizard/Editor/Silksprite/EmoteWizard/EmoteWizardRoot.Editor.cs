@@ -162,6 +162,10 @@ namespace Silksprite.EmoteWizard
                     var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
 
                     var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
+                    if (GUILayout.Button("Disconnect Avatar Output Assets"))
+                    {
+                        _root.ToEnv().CleanupAvatar();
+                    }
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
                         _root.ToEnv().BuildAvatar(true);

@@ -17,10 +17,13 @@ namespace Silksprite.EmoteWizard.Extensions
 
         public static AnimatorController FindAnimationLayer(this VRCAvatarDescriptor avatarDescriptor, VRCAvatarDescriptor.AnimLayerType vrcLayerType)
         {
+            return FindCustomAnimLayer(avatarDescriptor, vrcLayerType).animatorController as AnimatorController;
+        }
+
+        public static VRCAvatarDescriptor.CustomAnimLayer FindCustomAnimLayer(this VRCAvatarDescriptor avatarDescriptor, VRCAvatarDescriptor.AnimLayerType vrcLayerType)
+        {
             return AllCustomAnimLayers(avatarDescriptor)
-                .Where(layer => layer.type == vrcLayerType)
-                .Select(layer => layer.animatorController as AnimatorController)
-                .FirstOrDefault();
+                .FirstOrDefault(layer => layer.type == vrcLayerType);
         }
 
         static IEnumerable<VRCAvatarDescriptor.CustomAnimLayer> AllCustomAnimLayers(this VRCAvatarDescriptor avatarDescriptor)
