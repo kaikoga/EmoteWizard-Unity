@@ -94,7 +94,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                     // TODO: Reset lip sync blend shape states (if any) (should we?)
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(target.ToString());
             }
         }
     }

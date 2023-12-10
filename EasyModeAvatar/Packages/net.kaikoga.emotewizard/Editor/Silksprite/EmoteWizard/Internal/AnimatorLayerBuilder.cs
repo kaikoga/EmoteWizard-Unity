@@ -114,6 +114,7 @@ namespace Silksprite.EmoteWizard.Internal
                 .Where(item => item.Sequence.hasTrackingOverrides)
                 .SelectMany(item => item.Sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
                 .GroupBy(pair => pair.target)
+                .Where(group => group.Key != TrackingTarget.None && Enum.IsDefined(typeof(TrackingTarget), group.Key))
                 .ToDictionary(group => group.Key, group => group.Select(pair => pair.item).ToList());
 
             foreach (var kv in overriders)
