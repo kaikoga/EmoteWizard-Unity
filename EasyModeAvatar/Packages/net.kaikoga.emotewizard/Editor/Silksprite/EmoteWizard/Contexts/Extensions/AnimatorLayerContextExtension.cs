@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             var layerKind = context.LayerKind;
             var defaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller";
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
-            var builder = new AnimatorLayerBuilder(context, parametersSnapshot, animatorController);
+            var builder = new AnimatorLayerBuilder(context.Environment, context.LayerKind, parametersSnapshot, animatorController);
 
             if (context.DefaultAvatarMask)
             {
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         static void BuildResetClip(this AnimatorLayerContextBase context, AnimationClip targetClip)
         {
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(context.CollectEmoteItems().SelectMany(e => e.AllClips()))
+                .Concat(context.CollectEmoteItems().SelectMany(e => e.AllClipsRec()))
                 .Where(c => c != null).ToList();
             var curveBindings = allClips.SelectMany(AnimationUtility.GetCurveBindings)
                 .Distinct().OrderBy(curve => (curve.path, curve.propertyName, curve.type));

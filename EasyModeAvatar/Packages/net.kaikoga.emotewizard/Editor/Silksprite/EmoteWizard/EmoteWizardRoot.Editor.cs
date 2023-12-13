@@ -1,4 +1,3 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Extensions;
@@ -149,7 +148,7 @@ namespace Silksprite.EmoteWizard
             {
                 EmoteWizardGUILayout.OutputUIArea(true, null, () =>
                 {
-                    void EditAnimator(AnimatorController animatorController)
+                    void EditAnimator(RuntimeAnimatorController animatorController)
                     {
                         var animator = _root.ToEnv().ProvideProxyAnimator();
                         animator.runtimeAnimatorController = animatorController;
@@ -160,6 +159,7 @@ namespace Silksprite.EmoteWizard
                     var gestureController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture);
                     var fxController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.FX);
                     var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
+                    var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
 
                     var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
                     if (GUILayout.Button("Disconnect Avatar Output Assets"))
@@ -168,12 +168,18 @@ namespace Silksprite.EmoteWizard
                     }
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
+                        _root.EnsureComponent<EditorLayerWizard>();
                         _root.ToEnv().BuildAvatar(true);
                     }
 
                     if (avatarAnimator.runtimeAnimatorController == null)
                     {
                         // do nothing
+                    }
+                    else if (avatarAnimator.runtimeAnimatorController == editorController)
+                    {
+                        EditorGUILayout.HelpBox("Editing clips on avatar using Editor Animator.", MessageType.Warning);
+                        EditorGUILayout.HelpBox("Editor Animatorを利用して、アニメーションを編集中です。", MessageType.Warning);
                     }
                     else if (avatarAnimator.runtimeAnimatorController == gestureController)
                     {
@@ -198,6 +204,14 @@ namespace Silksprite.EmoteWizard
 
                     using (new GUILayout.HorizontalScope())
                     {
+                        using (new EditorGUI.DisabledScope(editorController == null))
+                        {
+                            if (GUILayout.Button("Edit"))
+                            {
+                                EditAnimator(editorController);
+                            }
+                        }
+
                         using (new EditorGUI.DisabledScope(gestureController == null || env.OverrideGesture == OverrideGeneratedControllerType2.Default1 || env.OverrideGesture == OverrideGeneratedControllerType2.Default2))
                         {
                             if (GUILayout.Button("Edit Gesture"))

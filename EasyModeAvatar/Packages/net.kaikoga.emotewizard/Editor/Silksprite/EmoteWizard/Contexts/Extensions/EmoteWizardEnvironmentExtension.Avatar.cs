@@ -102,6 +102,11 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 avatarDescriptor.customExpressions = true;
                 avatarDescriptor.expressionsMenu = environment.GetContext<ExpressionContext>()?.BuildOutputAsset();
                 avatarDescriptor.expressionParameters = environment.GetContext<ParametersContext>()?.BuildOutputAsset();
+
+                if (manualBuild)
+                {
+                    environment.GetContext<EditorLayerContext>().BuildOutputAsset(parameters);
+                }
             }
         }
 

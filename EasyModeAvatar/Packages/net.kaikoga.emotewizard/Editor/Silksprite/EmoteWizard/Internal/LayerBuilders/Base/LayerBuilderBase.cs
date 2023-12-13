@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
         protected readonly AnimatorLayerBuilder Builder;
         readonly AnimatorControllerLayer _layer;
 
-        AnimatorLayerContextBase Context => Builder.Context;
+        EmoteWizardEnvironment Environment => Builder.Environment;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 
         Vector3 _position = new Vector3(0f, 0f, 0f);
@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         AnimatorState AddStateWithoutTransition(string stateName, Motion motion, Vector3 position, bool isReallyEmptyState)
         {
-            if (motion == null && !isReallyEmptyState) motion = Context.Environment.ProvideEmptyClip();
+            if (motion == null && !isReallyEmptyState) motion = Environment.ProvideEmptyClip();
             var state = StateMachine.AddState(stateName, position);
             state.motion = motion;
             state.writeDefaultValues = false;

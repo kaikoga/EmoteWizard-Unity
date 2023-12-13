@@ -18,10 +18,10 @@ namespace Silksprite.EmoteWizard.Contexts
             Environment = env;
         }
 
-        protected ContextBase(EmoteWizardEnvironment env, TWizard wizard)
+        protected ContextBase(EmoteWizardEnvironment env, TWizard wizard, bool alwaysPersist = false)
         {
             Environment = env;
-            if (env.PersistGeneratedAssets) Wizard = wizard;
+            if (env.PersistGeneratedAssets || alwaysPersist) Wizard = wizard;
         }
 
         public abstract void DisconnectOutputAssets();
@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Contexts
         where TWizard : EmoteWizardBase
     {
         protected OutputContextBase(EmoteWizardEnvironment env) : base(env) { }
-        protected OutputContextBase(EmoteWizardEnvironment env, TWizard wizard) : base(env, wizard) { }
+        protected OutputContextBase(EmoteWizardEnvironment env, TWizard wizard, bool alwaysPersist = false) : base(env, wizard, alwaysPersist) { }
         public abstract TOut OutputAsset { get; set; }
     }
 }

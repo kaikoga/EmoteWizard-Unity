@@ -15,7 +15,8 @@ namespace Silksprite.EmoteWizard.Internal
 {
     public class AnimatorLayerBuilder
     {
-        public readonly AnimatorLayerContextBase Context;
+        public readonly EmoteWizardEnvironment Environment;
+        readonly LayerKind _layerKind;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
         readonly string _assetPath;
@@ -42,9 +43,10 @@ namespace Silksprite.EmoteWizard.Internal
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
 
-        public AnimatorLayerBuilder(AnimatorLayerContextBase context, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
+        public AnimatorLayerBuilder(EmoteWizardEnvironment environment, LayerKind layerKind, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
         {
-            Context = context;
+            Environment = environment;
+            _layerKind = layerKind;
             ParametersSnapshot = parametersSnapshot;
             _animatorController = animatorController;
             _assetPath = AssetDatabase.GetAssetPath(_animatorController);
@@ -91,11 +93,11 @@ namespace Silksprite.EmoteWizard.Internal
 
                 if (mirror)
                 {
-                    var avatarMaskLeft = Context.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
+                    var avatarMaskLeft = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
                     var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
                     new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Left))).Build();
 
-                    var avatarMaskRight = Context.LayerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
+                    var avatarMaskRight = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
                     var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
                     new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Right))).Build();
                 }
@@ -123,6 +125,16 @@ namespace Silksprite.EmoteWizard.Internal
                 var trackingControlLayer = PopulateLayer($"TrackingControl ({trackingTarget})");
                 new TrackingControlLayerBuilder(this, trackingControlLayer, trackingTarget, kv.Value).Build();
             }
+        }
+
+        public void BuildEditorLayer(IEnumerable<EmoteItem> allEmoteItems)
+        {
+            var clips = allEmoteItems
+                .SelectMany(item => item.AllClipRefs())
+                .Distinct();
+            
+            var editorLayer = PopulateLayer("Editor");
+            new EditorLayerBuilder(this, editorLayer, clips).Build();
         }
 
         public void BuildParameters()
