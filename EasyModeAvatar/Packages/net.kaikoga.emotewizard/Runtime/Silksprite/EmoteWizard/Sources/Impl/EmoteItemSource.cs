@@ -11,19 +11,25 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public EmoteTrigger trigger;
 
+        [Header("Sequence")]
+        [SerializeField] public EmoteSequenceSourceBase sequence;
+
         [Header("Expression Item")]
         [SerializeField] public bool hasExpressionItem;
         [SerializeField] public string expressionItemPath;
         [SerializeField] public Texture2D expressionItemIcon;
 
-        EmoteSequence FindEmoteSequence()
+        public EmoteSequenceSourceBase FindEmoteSequenceSource()
         {
+            if (sequence) return sequence;
+
             return GetComponents<EmoteSequenceSourceBase>() // Find in self
                 .Concat(GetComponentsInParent<EmoteSequenceSourceBase>()) // then find in parents
                 .Concat(GetComponentsInChildren<EmoteSequenceSourceBase>()) // then find in children
-                .Select(source => source.EmoteSequence)
                 .FirstOrDefault();
         }
+
+        EmoteSequence FindEmoteSequence() => FindEmoteSequenceSource()?.EmoteSequence;
 
         EmoteItem ToEmoteItem()
         {

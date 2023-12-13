@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources.Base;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
 using UnityEditor;
@@ -17,6 +18,8 @@ namespace Silksprite.EmoteWizard.Sources
         SerializedProperty _serializedExpressionItemPath;
         SerializedProperty _serializedExpressionItemIcon;
 
+        SerializedProperty _serializedSequence;
+
         EmoteItemSource _emoteItemSource;
 
         void OnEnable()
@@ -31,6 +34,8 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedExpressionItemPath = serializedObject.FindProperty(nameof(EmoteItemSource.expressionItemPath));
             _serializedExpressionItemIcon = serializedObject.FindProperty(nameof(EmoteItemSource.expressionItemIcon));
 
+            _serializedSequence = serializedObject.FindProperty(nameof(EmoteItemSource.sequence));
+
             _emoteItemSource = (EmoteItemSource)target;
         }
 
@@ -39,6 +44,15 @@ namespace Silksprite.EmoteWizard.Sources
             EditorGUILayout.PropertyField(_serializedName);
             EditorGUILayout.PropertyField(_serializedPriority);
             EditorGUILayout.PropertyField(_serializedConditions);
+
+            EditorGUILayout.PropertyField(_serializedSequence);
+            if (!_serializedSequence.objectReferenceValue)
+            {
+                using (new EditorGUI.DisabledScope(true))
+                {
+                    EditorGUILayout.ObjectField("Detected Emote Sequence", _emoteItemSource.FindEmoteSequenceSource(), typeof(EmoteSequenceSourceBase), true);
+                }
+            }
 
             using (new EditorGUI.DisabledScope(!_emoteItemSource.CanAutoExpression))
             {
@@ -52,7 +66,7 @@ namespace Silksprite.EmoteWizard.Sources
                     EditorGUILayout.PropertyField(_serializedExpressionItemIcon);
                 }
             }
-            
+
             serializedObject.ApplyModifiedProperties();
 
             if (_emoteItemSource.IsMirrorItem)
