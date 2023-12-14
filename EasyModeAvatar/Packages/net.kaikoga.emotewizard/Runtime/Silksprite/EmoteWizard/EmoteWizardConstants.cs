@@ -17,6 +17,20 @@ namespace Silksprite.EmoteWizard
             public const string GestureOther = "GestureOther";
             public const string GestureWeight = "GestureWeight";
             public const string GestureOtherWeight = "GestureOtherWeight";
+
+            public static bool IsMirrorParameter(string parameter)
+            {
+                switch (parameter)
+                {
+                    case Gesture:
+                    case GestureOther:
+                    case GestureWeight:
+                    case GestureOtherWeight:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
         }
 
         public static class Defaults

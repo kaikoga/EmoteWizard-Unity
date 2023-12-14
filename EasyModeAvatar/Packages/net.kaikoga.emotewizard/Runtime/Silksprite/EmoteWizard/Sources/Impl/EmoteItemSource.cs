@@ -46,14 +46,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             return new EmoteItem(trigger, sequence);
         }
 
-        public bool IsMirrorItem(EmoteWizardEnvironment environment)
-        {
-            // FIXME
-            var item = ToEmoteItem(environment);
-            if (item == null) return false;
-
-            return item.IsMirrorItem;
-        }
+        public bool LooksLikeMirrorItem => trigger.LooksLikeMirrorItem || sequence.LooksLikeMirrorItem;
 
         public bool CanAutoExpression
         {

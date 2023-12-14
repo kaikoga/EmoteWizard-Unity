@@ -16,32 +16,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             Sequence = sequence;
         }
 
-        public bool IsMirrorItem
-        {
-            get
-            {
-                bool IsMirrorParameter(string parameter)
-                {
-                    switch (parameter)
-                    {
-                        case EmoteWizardConstants.Params.Gesture:
-                        case EmoteWizardConstants.Params.GestureOther:
-                        case EmoteWizardConstants.Params.GestureWeight:
-                        case EmoteWizardConstants.Params.GestureOtherWeight:
-                            return true;
-                        default:
-                            return false;
-                    }
-                }
-                foreach (var condition in Trigger.conditions)
-                {
-                    if (IsMirrorParameter(condition.parameter)) return true;
-                }
-                if (Sequence.hasTimeParameter && IsMirrorParameter(Sequence.timeParameter)) return true;
-
-                return false;
-            }
-        }
+        public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || Sequence.LooksLikeMirrorItem;
 
         public EmoteInstance Mirror(EmoteHand handValue)
         {

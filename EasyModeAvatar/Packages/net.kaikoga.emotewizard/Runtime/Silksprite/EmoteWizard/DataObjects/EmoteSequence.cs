@@ -45,5 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [Header("Tracking Overrides")]
         [SerializeField] public bool hasTrackingOverrides;
         [SerializeField] public List<TrackingOverride> trackingOverrides = new List<TrackingOverride>();
+        
+        public bool LooksLikeMirrorItem => hasTimeParameter && EmoteWizardConstants.Params.IsMirrorParameter(timeParameter);
     }
 }

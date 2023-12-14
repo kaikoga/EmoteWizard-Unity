@@ -8,6 +8,8 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public EmoteSequence sequence;
 
+        public override bool LooksLikeMirrorItem => sequence.LooksLikeMirrorItem;
+
         public override EmoteSequence ToEmoteSequence() => sequence;
     }
 }
