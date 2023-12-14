@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizardSupport.Extensions;
@@ -10,21 +11,13 @@ namespace Silksprite.EmoteWizard.Utils
 {
     public static class SourceExploder
     {
-        public static void ExplodeAll(GameObject gameObject)
-        {
-            foreach (var container in gameObject.GetComponents<EmoteWizardDataSourceBase>())
-            {
-                Explode(container);
-            }
-        }
-
-        public static void Explode(EmoteWizardDataSourceBase container)
+        public static void Explode(EmoteWizardEnvironment environment, EmoteWizardDataSourceBase container)
         {
             var exploded = false;
 
             if (container is IExpressionItemSource expressionItemSource)
             {
-                ExplodeExpressionItems(expressionItemSource, container);
+                ExplodeExpressionItems(environment, expressionItemSource, container);
                 exploded = true;
             }
             if (container is IParameterSource parameterSource)
@@ -48,9 +41,9 @@ namespace Silksprite.EmoteWizard.Utils
             }
         }
 
-        static void ExplodeExpressionItems(IExpressionItemSource source, Component destination)
+        static void ExplodeExpressionItems(EmoteWizardEnvironment environment, IExpressionItemSource source, Component destination)
         {
-            foreach (var expressionItem in source.ExpressionItems)
+            foreach (var expressionItem in source.ToExpressionItems(environment.GetContext<ExpressionContext>()))
             {
                 var child = destination.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path, expressionItem.enabled);
                 child.expressionItem = SerializableUtils.Clone(expressionItem);

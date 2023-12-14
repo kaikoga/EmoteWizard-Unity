@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
@@ -75,32 +76,26 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public bool IsAutoExpression => hasExpressionItem && CanAutoExpression;
 
-        public IEnumerable<EmoteItem> EmoteItems
+        public IEnumerable<EmoteItem> ToEmoteItems()
         {
-            get
-            {
-                var emoteItem = ToEmoteItem();
-                if (emoteItem != null) yield return emoteItem;
-            }
+            var emoteItem = ToEmoteItem();
+            if (emoteItem != null) yield return emoteItem;
         }
 
-        public IEnumerable<ExpressionItem> ExpressionItems
+        public IEnumerable<ExpressionItem> ToExpressionItems(ExpressionContext context)
         {
-            get
-            {
-                if (!IsAutoExpression) yield break;
+            if (!IsAutoExpression) yield break;
 
-                var soleCondition = trigger.conditions[0];
-                yield return new ExpressionItem
-                {
-                    enabled = true,
-                    icon = expressionItemIcon,
-                    path = expressionItemPath,
-                    parameter = soleCondition.parameter,
-                    value = soleCondition.threshold,
-                    itemKind = FindEmoteSequence().hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
-                };
-            }
+            var soleCondition = trigger.conditions[0];
+            yield return new ExpressionItem
+            {
+                enabled = true,
+                icon = expressionItemIcon,
+                path = expressionItemPath,
+                parameter = soleCondition.parameter,
+                value = soleCondition.threshold,
+                itemKind = FindEmoteSequence().hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+            };
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Silksprite.EmoteWizard.Sources
 {
     public interface IEmoteItemSource
     {
-        IEnumerable<EmoteItem> EmoteItems { get; }
+        IEnumerable<EmoteItem> ToEmoteItems();
     }
 }
