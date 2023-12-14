@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             serializedObject.ApplyModifiedProperties();
 
-            if (_emoteItemSource.IsMirrorItem)
+            if (_emoteItemSource.IsMirrorItem(_emoteItemSource.CreateEnv()))
             {
                 EditorGUILayout.HelpBox(MirrorInfoText, MessageType.Info);
             }

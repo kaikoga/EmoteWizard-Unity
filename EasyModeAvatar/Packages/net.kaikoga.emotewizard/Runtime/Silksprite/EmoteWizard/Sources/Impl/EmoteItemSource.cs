@@ -30,25 +30,29 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 .FirstOrDefault();
         }
 
-        EmoteSequence FindEmoteSequence() => FindEmoteSequenceSource()?.EmoteSequence;
-
-        EmoteItem ToEmoteItem()
+        EmoteSequence FindEmoteSequence(EmoteWizardEnvironment environment)
         {
-            var sequence = FindEmoteSequence();
+            var source = FindEmoteSequenceSource();
+            if (!source) return null;
+
+            return environment.EmoteSequence(source);
+        }
+
+        EmoteItem ToEmoteItem(EmoteWizardEnvironment environment)
+        {
+            var sequence = FindEmoteSequence(environment);
             if (sequence == null) return null;
 
             return new EmoteItem(trigger, sequence);
         }
 
-        public bool IsMirrorItem
+        public bool IsMirrorItem(EmoteWizardEnvironment environment)
         {
-            get
-            {
-                var item = ToEmoteItem();
-                if (item == null) return false;
+            // FIXME
+            var item = ToEmoteItem(environment);
+            if (item == null) return false;
 
-                return item.IsMirrorItem;
-            }
+            return item.IsMirrorItem;
         }
 
         public bool CanAutoExpression
@@ -76,9 +80,9 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public bool IsAutoExpression => hasExpressionItem && CanAutoExpression;
 
-        public IEnumerable<EmoteItem> ToEmoteItems()
+        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
         {
-            var emoteItem = ToEmoteItem();
+            var emoteItem = ToEmoteItem(environment);
             if (emoteItem != null) yield return emoteItem;
         }
 
@@ -94,7 +98,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 path = expressionItemPath,
                 parameter = soleCondition.parameter,
                 value = soleCondition.threshold,
-                itemKind = FindEmoteSequence().hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+                itemKind = FindEmoteSequence(context.Environment).hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
             };
         }
     }
