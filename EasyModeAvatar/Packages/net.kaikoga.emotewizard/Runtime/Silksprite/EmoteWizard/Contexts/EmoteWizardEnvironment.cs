@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
@@ -145,11 +143,6 @@ namespace Silksprite.EmoteWizard.Contexts
         public string GeneratedAssetPath(string relativePath)
         {
             return _root ? Path.Combine(_root.generatedAssetRoot, relativePath.Replace("@@@Generated@@@", _root.generatedAssetPrefix)) : relativePath;
-        }
-
-        public IEnumerable<EmoteItem> CollectAllEmoteItems()
-        {
-            return GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.EmoteItems);
         }
 
         public Transform Find(string path)

@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             builder.BuildEmoteLayers(context.CollectEmoteItems());
             if (layerKind == context.Environment.GenerateTrackingControlLayer)
             {
-                builder.BuildTrackingControlLayers(context.Environment.CollectAllEmoteItems());
+                builder.BuildTrackingControlLayers(context.Environment.AllEmoteItems());
             }
             builder.BuildParameters();
             return context.OutputAsset;

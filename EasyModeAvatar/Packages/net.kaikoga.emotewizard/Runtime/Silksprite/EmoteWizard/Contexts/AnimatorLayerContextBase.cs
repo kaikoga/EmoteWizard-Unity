@@ -54,6 +54,6 @@ namespace Silksprite.EmoteWizard.Contexts
             ResetClip = null;
         }
 
-        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.CollectAllEmoteItems().Where(item => item.Sequence.layerKind == LayerKind);
+        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.EmoteItems(LayerKind);
     }
 }

@@ -30,6 +30,6 @@ namespace Silksprite.EmoteWizard.Contexts
             OutputAsset = null;
         }
 
-        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.CollectAllEmoteItems();
+        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.AllEmoteItems();
     }
 }

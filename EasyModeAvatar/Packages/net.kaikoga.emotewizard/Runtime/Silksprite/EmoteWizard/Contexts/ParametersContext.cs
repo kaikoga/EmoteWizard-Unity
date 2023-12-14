@@ -38,7 +38,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         IEnumerable<EmoteItem> CollectEmoteItems()
         {
-            return Environment.CollectAllEmoteItems();
+            return Environment.AllEmoteItems();
         }
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
