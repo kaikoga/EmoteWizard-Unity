@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             return new EmoteItem(trigger, sequence);
         }
 
-        public bool LooksLikeMirrorItem => trigger.LooksLikeMirrorItem || sequence.LooksLikeMirrorItem;
+        public bool LooksLikeMirrorItem => trigger.LooksLikeMirrorItem || (sequence != null && sequence.LooksLikeMirrorItem);
 
         public bool CanAutoExpression
         {
