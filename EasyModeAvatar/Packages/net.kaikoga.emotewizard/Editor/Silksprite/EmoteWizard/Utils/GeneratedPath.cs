@@ -13,13 +13,14 @@ namespace Silksprite.EmoteWizard.Utils
 
         public string Resolve(EmoteWizardEnvironment environment)
         {
-            if (!environment.Root)
+            var root = environment.Root;
+            if (!root)
             {
                 return Path.GetFileNameWithoutExtension(_relativePath.Replace(GeneratedPrefix, ""));
             }
 
-            var relativePath = _relativePath.Replace(GeneratedPrefix, environment.Root.generatedAssetPrefix);
-            return Path.Combine(environment.Root.generatedAssetRoot, relativePath);
+            var relativePath = _relativePath.Replace(GeneratedPrefix, root.generatedAssetPrefix);
+            return Path.Combine(root.generatedAssetRoot, relativePath);
         }
     }
 }
