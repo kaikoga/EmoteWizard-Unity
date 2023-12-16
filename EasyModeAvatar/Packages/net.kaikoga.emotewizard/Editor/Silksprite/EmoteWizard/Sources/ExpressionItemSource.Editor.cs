@@ -1,15 +1,10 @@
 using System;
-using System.IO;
-using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Sources
 {
@@ -100,20 +95,7 @@ namespace Silksprite.EmoteWizard.Sources
                 case ExpressionItemKind.Toggle:
                     break;
                 case ExpressionItemKind.SubMenu:
-                    CustomEditorGUILayout.PropertyFieldWithGenerate(
-                        _serializedSubMenu,
-                        () =>
-                        {
-                            var name = _serializedPath.stringValue;
-                            if (string.IsNullOrEmpty(name))
-                            {
-                                Debug.LogError("Expression name is required.");
-                                return null;
-                            }
-
-                            var relativePath = new GeneratedPath($"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.asset");
-                            return ((ExpressionItemSource)target).CreateEnv().EnsureAsset<VRCExpressionsMenu>(relativePath);
-                        });
+                    EditorGUILayout.PropertyField(_serializedSubMenu);
                     break;
                 case ExpressionItemKind.TwoAxisPuppet:
                     DrawSubParameters(2, 4);
