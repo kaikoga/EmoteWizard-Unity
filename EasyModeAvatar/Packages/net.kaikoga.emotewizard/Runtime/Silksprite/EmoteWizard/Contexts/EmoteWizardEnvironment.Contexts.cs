@@ -1,14 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizardSupport.Extensions;
-using UnityEngine;
-using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizard.Contexts
 {

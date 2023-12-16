@@ -1,8 +1,6 @@
-using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
