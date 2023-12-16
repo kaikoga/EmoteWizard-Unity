@@ -5,6 +5,8 @@ namespace Silksprite.EmoteWizard.Utils
 {
     public readonly struct GeneratedPath
     {
+        const string GeneratedPrefix = "@@@Generated@@@";
+
         readonly string _relativePath;
 
         public GeneratedPath(string relativePath) => _relativePath = relativePath;
@@ -13,10 +15,10 @@ namespace Silksprite.EmoteWizard.Utils
         {
             if (!environment.Root)
             {
-                return Path.GetFileNameWithoutExtension(_relativePath.Replace("@@@Generated@@@", ""));
+                return Path.GetFileNameWithoutExtension(_relativePath.Replace(GeneratedPrefix, ""));
             }
 
-            var relativePath = _relativePath.Replace("@@@Generated@@@", environment.Root.generatedAssetPrefix);
+            var relativePath = _relativePath.Replace(GeneratedPrefix, environment.Root.generatedAssetPrefix);
             return Path.Combine(environment.Root.generatedAssetRoot, relativePath);
         }
     }
