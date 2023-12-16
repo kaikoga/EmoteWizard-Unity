@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 else
                 {
                     outputAsset = ScriptableObject.CreateInstance<T>();
-                    var path = context.Environment.ResolveGeneratedPath(defaultPath);
+                    var path = defaultPath.Resolve(context.Environment);
                     EnsureDirectory(path);
                     AssetDatabase.CreateAsset(outputAsset, path);
                     context.OutputAsset = outputAsset;
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             }
             else
             {
-                var path = context.Environment.ResolveGeneratedPath(defaultPath);
+                var path = defaultPath.Resolve(context.Environment);
                 outputAsset = ScriptableObject.CreateInstance<T>();
                 outputAsset.name = Path.GetFileNameWithoutExtension(path);
                 context.OutputAsset = outputAsset;
@@ -73,7 +73,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 }
                 else
                 {
-                    var path = context.Environment.ResolveGeneratedPath(defaultPath);
+                    var path = defaultPath.Resolve(context.Environment);
                     EnsureDirectory(path);
                     animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                     animatorController.RemoveLayer(0); // Remove Base Layer
@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             }
             else
             {
-                var path = context.Environment.ResolveGeneratedPath(defaultPath);
+                var path = defaultPath.Resolve(context.Environment);
                 animatorController = new AnimatorController
                 {
                     name = Path.GetFileNameWithoutExtension(path)

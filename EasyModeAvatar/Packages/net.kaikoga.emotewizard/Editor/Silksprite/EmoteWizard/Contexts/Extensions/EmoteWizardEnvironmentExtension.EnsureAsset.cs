@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             where T : Object, new()
         {
             if (asset) return asset;
-            var assetPath = environment.ResolveGeneratedPath(relativePath);
+            var assetPath = relativePath.Resolve(environment);
             if (environment.PersistGeneratedAssets)
             {
                 asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);

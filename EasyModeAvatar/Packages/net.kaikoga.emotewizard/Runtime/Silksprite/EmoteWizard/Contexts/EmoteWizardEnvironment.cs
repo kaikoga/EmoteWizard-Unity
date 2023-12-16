@@ -139,12 +139,6 @@ namespace Silksprite.EmoteWizard.Contexts
             foreach (var context in _contexts) context.DisconnectOutputAssets();
         }
 
-        public string ResolveGeneratedPath(GeneratedPath generatedPath)
-        {
-            var relativePath = generatedPath.Value;
-            return _root ? Path.Combine(_root.generatedAssetRoot, relativePath.Replace("@@@Generated@@@", _root.generatedAssetPrefix)) : relativePath;
-        }
-
         public Transform Find(string path)
         {
             if (_root)
