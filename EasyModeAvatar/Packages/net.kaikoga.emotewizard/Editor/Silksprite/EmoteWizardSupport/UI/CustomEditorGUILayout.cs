@@ -10,10 +10,6 @@ namespace Silksprite.EmoteWizardSupport.UI
         {
             PropertyFieldWithGenerateImpl(serializedProperty, null, generate);
         }
-        public static void PropertyFieldWithGenerate(SerializedProperty serializedProperty, string label, Func<UnityEngine.Object> generate)
-        {
-            PropertyFieldWithGenerateImpl(serializedProperty, new GUIContent(label), generate);
-        }
 
         static void PropertyFieldWithGenerateImpl(SerializedProperty serializedProperty, GUIContent label, Func<UnityEngine.Object> generate)
         {
