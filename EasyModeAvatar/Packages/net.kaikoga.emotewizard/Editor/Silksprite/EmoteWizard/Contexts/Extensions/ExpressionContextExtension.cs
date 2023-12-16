@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static VRCExpressionsMenu BuildOutputAsset(this ExpressionContext context)
         {
-            var expressionMenu = context.ReplaceOrCreateOutputAsset("Expressions/@@@Generated@@@ExprMenu.asset");
+            var expressionMenu = context.ReplaceOrCreateOutputAsset(new GeneratedPath("Expressions/@@@Generated@@@ExprMenu.asset"));
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = string.IsNullOrEmpty(rootItemPath) ? null : $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";
@@ -59,9 +59,9 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             // populate folders first
             foreach (var group in groups)
             {
-                if (@group.Path == "")
+                if (group.Path == "")
                 {
-                    menus[@group.Path] = expressionMenu;
+                    menus[group.Path] = expressionMenu;
                     EditorUtility.SetDirty(expressionMenu);
                 }
                 else if (context.BuildAsSubAsset)
@@ -71,24 +71,24 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                     {
                         AssetDatabase.AddObjectToAsset(childMenu, rootItemPath);
                     }
-                    childMenu.name = @group.Path;
-                    menus[@group.Path] = childMenu;
+                    childMenu.name = group.Path;
+                    menus[group.Path] = childMenu;
                 }
                 else
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
-                    var childPath = $"{rootPath}{@group.Path}.asset";
+                    var childPath = new GeneratedPath($"{rootPath}{group.Path}.asset");
                     context.ReplaceOrCreateOutputAsset(childPath);
-                    menus[@group.Path] = childMenu;
+                    menus[group.Path] = childMenu;
                 }
             }
             
             foreach (var group in groups)
             {
-                var controls = @group.Items
+                var controls = group.Items
                     .Select(item => item.ToControl(path => menus.TryGetValue(path, out var v) ? v : null))
                     .ToList();
-                menus[@group.Path].controls = controls;
+                menus[group.Path].controls = controls;
             }
 
             AssetDatabase.SaveAssets();

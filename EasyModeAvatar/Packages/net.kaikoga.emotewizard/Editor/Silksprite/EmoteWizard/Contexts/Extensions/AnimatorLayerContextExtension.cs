@@ -2,6 +2,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -12,8 +13,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerContextBase context, ParametersSnapshot parametersSnapshot)
         {
             var layerKind = context.LayerKind;
-            var defaultRelativePath = $"{layerKind}/@@@Generated@@@{layerKind}.controller";
-            var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
+            var defaultPath = new GeneratedPath($"{layerKind}/@@@Generated@@@{layerKind}.controller");
+            var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
             var builder = new AnimatorLayerBuilder(context.Environment, context.LayerKind, parametersSnapshot, animatorController);
 
             if (context.DefaultAvatarMask)
@@ -24,7 +25,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             AnimationClip resetClip;
             if (context.HasResetClip)
             {
-                resetClip = context.Environment.EnsureAsset($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim", context.ResetClip);
+                resetClip = context.Environment.EnsureAsset(new GeneratedPath($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim"), context.ResetClip);
                 context.BuildResetClip(resetClip);
                 builder.BuildStaticLayer("Reset", resetClip, null);
             }

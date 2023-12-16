@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
@@ -111,7 +112,7 @@ namespace Silksprite.EmoteWizard.Sources
                             }
 
                             var relativePath =
-                                $"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.anim";
+                                new GeneratedPath($"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.anim");
                             return ((ExpressionItemSource)target).CreateEnv().EnsureAsset<VRCExpressionsMenu>(relativePath);
                         });
                     break;

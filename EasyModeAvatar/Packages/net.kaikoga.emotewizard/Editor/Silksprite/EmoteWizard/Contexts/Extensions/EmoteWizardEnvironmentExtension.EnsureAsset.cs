@@ -1,4 +1,5 @@
 using System.IO;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
@@ -7,11 +8,11 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
     public static partial class EmoteWizardEnvironmentExtension
     {
-        public static T EnsureAsset<T>(this EmoteWizardEnvironment environment, string relativePath, T asset = null)
+        public static T EnsureAsset<T>(this EmoteWizardEnvironment environment, GeneratedPath relativePath, T asset = null)
             where T : Object, new()
         {
             if (asset) return asset;
-            var assetPath = environment.GeneratedAssetPath(relativePath);
+            var assetPath = environment.ResolveGeneratedPath(relativePath);
             if (environment.PersistGeneratedAssets)
             {
                 asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);

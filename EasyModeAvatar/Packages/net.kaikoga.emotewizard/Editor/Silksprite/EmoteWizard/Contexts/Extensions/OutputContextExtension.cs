@@ -1,10 +1,10 @@
 using System.IO;
 using System.Linq;
+using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
-using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 .ForEach(subAsset => Object.DestroyImmediate(subAsset, true));
         }
 
-        public static T ReplaceOrCreateOutputAsset<T>(this IOutputContext<T> context, string defaultRelativePath)
+        public static T ReplaceOrCreateOutputAsset<T>(this IOutputContext<T> context, GeneratedPath defaultPath)
             where T : ScriptableObject
         {
             var outputAsset = context.OutputAsset;
@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 else
                 {
                     outputAsset = ScriptableObject.CreateInstance<T>();
-                    var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
+                    var path = context.Environment.ResolveGeneratedPath(defaultPath);
                     EnsureDirectory(path);
                     AssetDatabase.CreateAsset(outputAsset, path);
                     context.OutputAsset = outputAsset;
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             }
             else
             {
-                var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
+                var path = context.Environment.ResolveGeneratedPath(defaultPath);
                 outputAsset = ScriptableObject.CreateInstance<T>();
                 outputAsset.name = Path.GetFileNameWithoutExtension(path);
                 context.OutputAsset = outputAsset;
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             return outputAsset;
         }
 
-        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<RuntimeAnimatorController> context, string defaultRelativePath)
+        public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<RuntimeAnimatorController> context, GeneratedPath defaultPath)
         {
             AnimatorController animatorController;
 
@@ -73,7 +73,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 }
                 else
                 {
-                    var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
+                    var path = context.Environment.ResolveGeneratedPath(defaultPath);
                     EnsureDirectory(path);
                     animatorController = AnimatorController.CreateAnimatorControllerAtPath(path);
                     animatorController.RemoveLayer(0); // Remove Base Layer
@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             }
             else
             {
-                var path = context.Environment.GeneratedAssetPath(defaultRelativePath);
+                var path = context.Environment.ResolveGeneratedPath(defaultPath);
                 animatorController = new AnimatorController
                 {
                     name = Path.GetFileNameWithoutExtension(path)

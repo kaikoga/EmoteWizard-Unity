@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedDefaultAvatarMask, () =>
                     {
-                        var avatarMask = env.EnsureAsset<AvatarMask>("Gesture/@@@Generated@@@GestureDefaultMask.mask");
+                        var avatarMask = env.EnsureAsset<AvatarMask>(new GeneratedPath("Gesture/@@@Generated@@@GestureDefaultMask.mask"));
                         return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
                     });
                 }

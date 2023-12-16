@@ -1,5 +1,6 @@
 using System;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static AnimationClip ProvideEmptyClip(this EmoteWizardEnvironment environment)
         {
-            var emptyClip = EnsureAsset(environment, "@@@Generated@@@Empty.anim", environment.EmptyClip);
+            var emptyClip = EnsureAsset(environment, new GeneratedPath("@@@Generated@@@Empty.anim"), environment.EmptyClip);
             environment.EmptyClip = emptyClip;
             return emptyClip;
         }
