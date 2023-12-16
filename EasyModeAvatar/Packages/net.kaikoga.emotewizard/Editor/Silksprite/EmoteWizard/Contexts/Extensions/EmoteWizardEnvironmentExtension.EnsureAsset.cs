@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         static T CreateAsset<T>(this EmoteWizardEnvironment environment, string assetPath)
             where T : Object, new()
         {
-            var asset = new T();
+            var asset = typeof(ScriptableObject).IsAssignableFrom(typeof(T)) ? ScriptableObject.CreateInstance(typeof(T)) as T : new T();
             if (environment.PersistGeneratedAssets) 
             {
                 EnsureDirectory(assetPath);

@@ -78,7 +78,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 {
                     var childMenu = ScriptableObject.CreateInstance<VRCExpressionsMenu>();
                     var childPath = new GeneratedPath($"{rootPath}{group.Path}.asset");
-                    context.ReplaceOrCreateOutputAsset(childPath);
+                    childMenu = context.Environment.EnsureAsset(childPath, childMenu);
                     menus[group.Path] = childMenu;
                 }
             }
