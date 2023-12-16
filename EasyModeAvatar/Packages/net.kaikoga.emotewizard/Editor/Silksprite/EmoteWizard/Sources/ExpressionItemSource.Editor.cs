@@ -111,8 +111,7 @@ namespace Silksprite.EmoteWizard.Sources
                                 return null;
                             }
 
-                            var relativePath =
-                                new GeneratedPath($"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.anim");
+                            var relativePath = new GeneratedPath($"Expressions/@@@Generated@@@ExprSubmenu_{Path.GetFileName(name)}.asset");
                             return ((ExpressionItemSource)target).CreateEnv().EnsureAsset<VRCExpressionsMenu>(relativePath);
                         });
                     break;
