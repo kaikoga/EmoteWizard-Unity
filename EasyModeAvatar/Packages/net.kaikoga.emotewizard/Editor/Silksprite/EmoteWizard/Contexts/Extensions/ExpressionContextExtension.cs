@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static VRCExpressionsMenu BuildOutputAsset(this ExpressionContext context)
         {
-            var expressionMenu = context.ReplaceOrCreateOutputAsset(new GeneratedPath("Expressions/@@@Generated@@@ExprMenu.asset"));
+            var expressionMenu = context.ReplaceOrCreateOutputAsset(GeneratedPaths.GeneratedExprMenu);
 
             var rootItemPath = AssetDatabase.GetAssetPath(expressionMenu);
             var rootPath = string.IsNullOrEmpty(rootItemPath) ? null : $"{rootItemPath.Substring(0, rootItemPath.Length - 6)}/";

@@ -175,7 +175,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 if (manualBuild && !environment.PersistGeneratedAssets)
                 {
                     _gameObject = new GameObject("Temporary");
-                    _buildContext = new BuildContext(_gameObject, new GeneratedPath("Temporary").Resolve(environment));
+                    _buildContext = new BuildContext(_gameObject, GeneratedPaths.Temporary.Resolve(environment));
                 }
             }
 
