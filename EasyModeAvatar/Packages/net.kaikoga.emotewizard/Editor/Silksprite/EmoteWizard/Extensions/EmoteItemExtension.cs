@@ -21,7 +21,8 @@ namespace Silksprite.EmoteWizard.Extensions
             return Enumerable.Empty<AnimationClip>()
                 .Concat(sequence.clip.GetClipsRec())
                 .Concat((sequence.hasEntryClip ? sequence.entryClip : null).GetClipsRec())
-                .Concat((sequence.hasExitClip ? sequence.exitClip : null).GetClipsRec());
+                .Concat((sequence.hasExitClip ? sequence.exitClip : null).GetClipsRec())
+                .Where(c => c != null).Distinct().ToList();
         }
     }
 }
