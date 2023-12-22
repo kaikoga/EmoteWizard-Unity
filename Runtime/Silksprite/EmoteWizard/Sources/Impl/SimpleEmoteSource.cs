@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     public class SimpleEmoteSource : EmoteSequenceSourceBase
     {
-        [SerializeField] public SimpleEmote simpleEmote = new();
+        [SerializeField] public SimpleEmote simpleEmote = new SimpleEmote();
 
         public override bool LooksLikeMirrorItem => false;
 
