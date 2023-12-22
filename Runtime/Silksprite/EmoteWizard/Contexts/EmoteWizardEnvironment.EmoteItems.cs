@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             if (!_emoteSequences.TryGetValue(source, out var sequence))
             {
-                sequence = source.ToEmoteSequence(this);
+                sequence = source.ToEmoteFactory().Build(this);
                 _emoteSequences.Add(source, sequence);
             }
             return sequence;

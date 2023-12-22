@@ -1,5 +1,5 @@
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
@@ -12,10 +12,11 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public override bool LooksLikeMirrorItem => false;
 
-        public override EmoteSequence ToEmoteSequence(EmoteWizardEnvironment emoteWizardEnvironment) => new EmoteSequence
-        {
-            layerKind = layerKind,
-            groupName = groupName
-        };
+        public override IEmoteFactory ToEmoteFactory() =>
+            new StaticEmoteFactory(new EmoteSequence
+            {
+                layerKind = layerKind,
+                groupName = groupName
+            });
     }
 }

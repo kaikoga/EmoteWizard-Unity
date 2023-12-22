@@ -1,6 +1,5 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Base
@@ -10,6 +9,6 @@ namespace Silksprite.EmoteWizard.Sources.Base
     {
         public abstract bool LooksLikeMirrorItem { get; }
 
-        public abstract EmoteSequence ToEmoteSequence(EmoteWizardEnvironment emoteWizardEnvironment);
+        public abstract IEmoteFactory ToEmoteFactory();
     }
 }
