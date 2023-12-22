@@ -8,19 +8,19 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Sources
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(EmptyEmoteSequenceSource))]
-    public class EmptyEmoteSequenceSourceEditor : Editor
+    [CustomEditor(typeof(SimpleEmoteSequenceSource))]
+    public class SimpleEmoteSequenceSourceEditor : Editor
     {
         SerializedProperty _serializedLayerKind;
         SerializedProperty _serializedGroupName;
-        EmptyEmoteSequenceSource _emptyEmoteSequenceSource;
+        SimpleEmoteSequenceSource _simpleEmoteSequenceSource;
 
         void OnEnable()
         {
-            _serializedLayerKind = serializedObject.FindProperty(nameof(EmptyEmoteSequenceSource.layerKind));
-            _serializedGroupName = serializedObject.FindProperty(nameof(EmptyEmoteSequenceSource.groupName));
+            _serializedLayerKind = serializedObject.FindProperty(nameof(SimpleEmoteSequenceSource.layerKind));
+            _serializedGroupName = serializedObject.FindProperty(nameof(SimpleEmoteSequenceSource.groupName));
 
-            _emptyEmoteSequenceSource = (EmptyEmoteSequenceSource)target;
+            _simpleEmoteSequenceSource = (SimpleEmoteSequenceSource)target;
         }
 
         public override void OnInspectorGUI()
@@ -32,12 +32,12 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (GUILayout.Button("Explode"))
             {
-                SourceExploder.ExplodeEmoteSequences(_emptyEmoteSequenceSource);
+                SourceExploder.ExplodeEmoteSequences(_simpleEmoteSequenceSource);
                 return;
             }
 
-            _emptyEmoteSequenceSource = (EmptyEmoteSequenceSource)target;
-            EmoteWizardGUILayout.Tutorial(_emptyEmoteSequenceSource.CreateEnv(), Tutorial);
+            _simpleEmoteSequenceSource = (SimpleEmoteSequenceSource)target;
+            EmoteWizardGUILayout.Tutorial(_simpleEmoteSequenceSource.CreateEnv(), Tutorial);
         }
 
         static string Tutorial =>
