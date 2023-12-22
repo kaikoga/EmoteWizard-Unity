@@ -13,13 +13,18 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public override bool LooksLikeMirrorItem => false;
 
-        public override IEmoteFactory ToEmoteFactory() => new SimpleEmoteFactory(simpleEmote);
+        public override IEmoteFactory ToEmoteFactory() => new SimpleEmoteFactory(simpleEmote, $"{gameObject.name}_{gameObject.GetInstanceID()}");
 
         class SimpleEmoteFactory : IEmoteFactory
         {
             readonly SimpleEmote _simpleEmote;
+            readonly string _clipName;
 
-            public SimpleEmoteFactory(SimpleEmote simpleEmote) => _simpleEmote = simpleEmote;
+            public SimpleEmoteFactory(SimpleEmote simpleEmote, string clipName)
+            {
+                _simpleEmote = simpleEmote;
+                _clipName = clipName;
+            }
 
             public EmoteSequence Build(EmoteWizardEnvironment environment)
             {
