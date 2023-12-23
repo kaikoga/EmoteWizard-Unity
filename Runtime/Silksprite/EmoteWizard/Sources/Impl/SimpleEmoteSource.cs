@@ -44,13 +44,15 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
             EmoteSequence IEmoteFactory.Build(EmoteWizardEnvironment environment)
             {
+                var clip = new AnimationClip();
+
                 return new EmoteSequence
                 {
                     layerKind = _simpleEmote.layerKind,
                     groupName = _simpleEmote.groupName,
 
                     isFixedDuration = _simpleEmote.isFixedDuration,
-                    clip = environment.EmptyClip,
+                    clip = clip,
                     entryTransitionDuration = _simpleEmote.entryTransitionDuration,
                     exitTransitionDuration = _simpleEmote.exitTransitionDuration,
 
