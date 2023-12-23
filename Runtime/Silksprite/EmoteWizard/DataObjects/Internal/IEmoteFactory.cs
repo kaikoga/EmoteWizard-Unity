@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects.Impl;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -18,7 +20,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         interface IClipBuilder
         {
-            Motion Build(string clipName, Dictionary<string, float> floatValues);
+            EmoteWizardEnvironment Environment { get; }
+            Motion Build(string clipName, IEnumerable<SimpleEmoteFactory.AnimatedValue<float>> floatValues);
         }
     }
 

@@ -14,9 +14,9 @@ namespace Silksprite.EmoteWizard.Sources
         SerializedProperty _serializedLayerKind;
         SerializedProperty _serializedGroupName;
 
-        SerializedProperty _serializedIsFixedDuration;
+        SerializedProperty _serializedAnimatedEnable;
 
-        SerializedProperty _serializedClip;
+        SerializedProperty _serializedIsFixedDuration;
         SerializedProperty _serializedEntryTransitionDuration;
         SerializedProperty _serializedExitTransitionDuration;
 
@@ -36,8 +36,9 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedLayerKind = serializedItem.FindPropertyRelative(nameof(SimpleEmote.layerKind));
             _serializedGroupName = serializedItem.FindPropertyRelative(nameof(SimpleEmote.groupName));
 
+            _serializedAnimatedEnable = serializedItem.FindPropertyRelative(nameof(SimpleEmote.animatedEnable));
+
             _serializedIsFixedDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.isFixedDuration));
-            
             _serializedEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.entryTransitionDuration));
             _serializedExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.exitTransitionDuration));
             
@@ -55,6 +56,8 @@ namespace Silksprite.EmoteWizard.Sources
         {
             EditorGUILayout.PropertyField(_serializedLayerKind);
             EditorGUILayout.PropertyField(_serializedGroupName);
+
+            EditorGUILayout.PropertyField(_serializedAnimatedEnable);
 
             EditorGUILayout.PropertyField(_serializedIsFixedDuration);
             EditorGUILayout.PropertyField(_serializedEntryTransitionDuration);
