@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.Ndmf
         protected override void Execute(BuildContext buildContext)
         {
                 
-            foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>())
+            foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
             {
                 var context = root.ToEnv();
                 context.DisconnectAllOutputAssets();
@@ -71,7 +71,7 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-            foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>())
+            foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
             {
                 var env = root.ToEnv();
                 env.PersistGeneratedAssets = false;
@@ -85,7 +85,7 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-            foreach (var ewComponent in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardBehaviour>())
+            foreach (var ewComponent in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardBehaviour>(true))
             {
                 UnityEngine.Object.DestroyImmediate(ewComponent);
             }
