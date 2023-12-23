@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             var source = FindEmoteSequenceSource();
             if (!source) return null;
 
-            return environment.EmoteSequence(source);
+            return source.ToEmoteFactory().Build(environment);
         }
 
         EmoteItem ToEmoteItem(EmoteWizardEnvironment environment)
