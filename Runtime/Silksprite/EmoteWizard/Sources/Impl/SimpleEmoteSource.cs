@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -26,7 +27,22 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 _clipName = clipName;
             }
 
-            public EmoteSequence Build(EmoteWizardEnvironment environment)
+            LayerKind IEmoteFactory.LayerKind => _simpleEmote.layerKind;
+            string IEmoteFactory.GroupName => _simpleEmote.groupName;
+            bool IEmoteFactory.LooksLikeMirrorItem => false;
+            bool IEmoteFactory.LooksLikeToggle => true;
+
+            IEnumerable<Motion> IEmoteFactory.AllClipRefs()
+            {
+                return Enumerable.Empty<Motion>();
+            }
+
+            IEnumerable<TrackingOverride> IEmoteFactory.TrackingOverrides()
+            {
+                return _simpleEmote.hasTrackingOverrides ? _simpleEmote.trackingOverrides : Enumerable.Empty<TrackingOverride>();
+            }
+
+            EmoteSequence IEmoteFactory.Build(EmoteWizardEnvironment environment)
             {
                 return new EmoteSequence
                 {

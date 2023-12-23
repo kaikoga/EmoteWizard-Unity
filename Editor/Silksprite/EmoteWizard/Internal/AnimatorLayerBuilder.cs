@@ -86,7 +86,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
         {
-            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.Group))
+            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupName))
             {
                 var groupName = emoteItemGroup.Key;
                 var mirror = emoteItemGroup.Any(item => item.IsMirrorItem);
@@ -95,16 +95,16 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     var avatarMaskLeft = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
                     var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
-                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Left))).Build();
+                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(Environment, EmoteHand.Left))).Build();
 
                     var avatarMaskRight = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
                     var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
-                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(EmoteHand.Right))).Build();
+                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(Environment, EmoteHand.Right))).Build();
                 }
                 else
                 {
                     var layer = PopulateLayer(emoteItemGroup.Key);
-                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance())).Build();
+                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance(Environment))).Build();
                 }
             }
         }
@@ -113,8 +113,7 @@ namespace Silksprite.EmoteWizard.Internal
         {
             var overriders = allEmoteItems
                 .OrderBy(item => item.Trigger.priority)
-                .Where(item => item.Sequence.hasTrackingOverrides)
-                .SelectMany(item => item.Sequence.trackingOverrides.Select(trackingOverride => (item, trackingOverride.target)))
+                .SelectMany(item => item.TrackingOverrides().Select(trackingOverride => (item, trackingOverride.target)))
                 .GroupBy(pair => pair.target)
                 .Where(group => group.Key != TrackingTarget.None && Enum.IsDefined(typeof(TrackingTarget), group.Key))
                 .ToDictionary(group => group.Key, group => group.Select(pair => pair.item).ToList());

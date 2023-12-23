@@ -1,24 +1,31 @@
+using System.Collections.Generic;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
     public class EmoteItem
     {
         public readonly EmoteTrigger Trigger;
-        public readonly EmoteSequence Sequence;
+        readonly IEmoteFactory _emoteFactory;
 
-        public string Group => Sequence.groupName;
+        public LayerKind LayerKind => _emoteFactory.LayerKind;
+        public string GroupName => _emoteFactory.GroupName;
 
-        public EmoteItem(EmoteTrigger trigger, EmoteSequence sequence)
+        public IEnumerable<Motion> AllClipRefs() => _emoteFactory.AllClipRefs();
+        public IEnumerable<TrackingOverride> TrackingOverrides() => _emoteFactory.TrackingOverrides();
+
+        public EmoteItem(EmoteTrigger trigger, IEmoteFactory factory)
         {
             Trigger = trigger;
-            Sequence = sequence;
+            _emoteFactory = factory;
         }
 
-        public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || Sequence.LooksLikeMirrorItem;
+        public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || _emoteFactory.LooksLikeMirrorItem;
 
-        public EmoteInstance Mirror(EmoteHand handValue)
+        public EmoteInstance Mirror(EmoteWizardEnvironment environment, EmoteHand handValue)
         {
             string ResolveMirrorParameter(string parameter)
             {
@@ -38,7 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
 
             var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
-                SerializableUtils.Clone(Sequence));
+                SerializableUtils.Clone(_emoteFactory.Build(environment)));
 
             foreach (var condition in item.Trigger.conditions)
             {
@@ -49,9 +56,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             return item;
         }
 
-        public EmoteInstance ToEmoteInstance()
+        public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment)
         {
-            return new EmoteInstance(Trigger, Sequence);
+            return new EmoteInstance(Trigger, _emoteFactory.Build(environment));
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
 using UnityEngine;
 
@@ -30,17 +31,17 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 .FirstOrDefault();
         }
 
-        EmoteSequence FindEmoteSequence(EmoteWizardEnvironment environment)
+        IEmoteFactory FindEmoteFactory()
         {
             var source = FindEmoteSequenceSource();
             if (!source) return null;
 
-            return source.ToEmoteFactory().Build(environment);
+            return source.ToEmoteFactory();
         }
 
-        EmoteItem ToEmoteItem(EmoteWizardEnvironment environment)
+        EmoteItem ToEmoteItem()
         {
-            var sequence = FindEmoteSequence(environment);
+            var sequence = FindEmoteFactory();
             if (sequence == null) return null;
 
             return new EmoteItem(trigger, sequence);
@@ -73,9 +74,9 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public bool IsAutoExpression => hasExpressionItem && CanAutoExpression;
 
-        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
+        public IEnumerable<EmoteItem> ToEmoteItems()
         {
-            var emoteItem = ToEmoteItem(environment);
+            var emoteItem = ToEmoteItem();
             if (emoteItem != null) yield return emoteItem;
         }
 
@@ -91,7 +92,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 path = expressionItemPath,
                 parameter = soleCondition.parameter,
                 value = soleCondition.threshold,
-                itemKind = FindEmoteSequence(context.Environment).hasExitTime ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+                itemKind = FindEmoteFactory().LooksLikeToggle ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
             };
         }
     }
