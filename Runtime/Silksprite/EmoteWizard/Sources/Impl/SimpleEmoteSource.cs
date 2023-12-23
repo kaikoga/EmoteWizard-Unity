@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
@@ -42,7 +41,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 return _simpleEmote.hasTrackingOverrides ? _simpleEmote.trackingOverrides : Enumerable.Empty<TrackingOverride>();
             }
 
-            EmoteSequence IEmoteFactory.Build(EmoteWizardEnvironment environment)
+            EmoteSequence IEmoteFactory.Build()
             {
                 var clip = new AnimationClip();
 

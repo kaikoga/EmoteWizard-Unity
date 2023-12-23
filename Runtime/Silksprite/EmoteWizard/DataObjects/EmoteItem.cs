@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
 
             var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
-                _emoteFactory.Build(environment));
+                _emoteFactory.Build());
 
             foreach (var condition in item.Trigger.conditions)
             {
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment)
         {
-            return new EmoteInstance(Trigger, _emoteFactory.Build(environment));
+            return new EmoteInstance(Trigger, _emoteFactory.Build());
         }
     }
 }
