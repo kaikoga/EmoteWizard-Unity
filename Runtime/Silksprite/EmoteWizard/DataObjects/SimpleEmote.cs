@@ -13,7 +13,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         [Header("Common Settings")]
         [SerializeField] public bool isFixedDuration;
 
-        [SerializeField] public Motion clip;
         [SerializeField] public float entryTransitionDuration;
         [SerializeField] public float exitTransitionDuration = 0.25f;
 

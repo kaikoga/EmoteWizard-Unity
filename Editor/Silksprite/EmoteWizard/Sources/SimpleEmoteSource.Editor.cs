@@ -38,7 +38,6 @@ namespace Silksprite.EmoteWizard.Sources
 
             _serializedIsFixedDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.isFixedDuration));
             
-            _serializedClip = serializedItem.FindPropertyRelative(nameof(SimpleEmote.clip));
             _serializedEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.entryTransitionDuration));
             _serializedExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.exitTransitionDuration));
             
@@ -58,7 +57,6 @@ namespace Silksprite.EmoteWizard.Sources
             EditorGUILayout.PropertyField(_serializedGroupName);
 
             EditorGUILayout.PropertyField(_serializedIsFixedDuration);
-            EditorGUILayout.PropertyField(_serializedClip);
             EditorGUILayout.PropertyField(_serializedEntryTransitionDuration);
             EditorGUILayout.PropertyField(_serializedExitTransitionDuration);
 
