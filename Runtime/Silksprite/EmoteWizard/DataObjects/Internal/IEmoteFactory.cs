@@ -13,8 +13,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         IEnumerable<Motion> AllClipRefs();
 
-        EmoteSequence Build();
+        EmoteSequence Build(IClipBuilder builder);
         IEnumerable<TrackingOverride> TrackingOverrides();
+
+        interface IClipBuilder
+        {
+            Motion Build(string clipName, Dictionary<string, float> floatValues);
+        }
     }
 
     public class StaticEmoteFactory : IEmoteFactory
@@ -41,6 +46,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             return _sequence.hasTrackingOverrides ? _sequence.trackingOverrides : Enumerable.Empty<TrackingOverride>();
         }
 
-        EmoteSequence IEmoteFactory.Build() => _sequence;
+        EmoteSequence IEmoteFactory.Build(IEmoteFactory.IClipBuilder builder) => _sequence;
     }
 }

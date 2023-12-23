@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Base;
 using Silksprite.EmoteWizard.Sources.Impl;
@@ -75,7 +76,7 @@ namespace Silksprite.EmoteWizard.Utils
 
         static void ExplodeEmoteSequences(EmoteWizardEnvironment environment, EmoteSequenceSourceBase source, Component destination)
         {
-            var sequence = source.ToEmoteFactory().Build();
+            var sequence = source.ToEmoteFactory().Build(new ClipBuilderImpl(environment));
             var gameObject = destination.gameObject;
             Object.DestroyImmediate(source);
             

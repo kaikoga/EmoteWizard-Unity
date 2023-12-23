@@ -41,9 +41,9 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 return _simpleEmote.hasTrackingOverrides ? _simpleEmote.trackingOverrides : Enumerable.Empty<TrackingOverride>();
             }
 
-            EmoteSequence IEmoteFactory.Build()
+            EmoteSequence IEmoteFactory.Build(IEmoteFactory.IClipBuilder builder)
             {
-                var clip = new AnimationClip();
+                var clip = builder.Build(_clipName, new Dictionary<string, float>());
 
                 return new EmoteSequence
                 {

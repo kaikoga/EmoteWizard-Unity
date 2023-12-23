@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
@@ -25,7 +24,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || _emoteFactory.LooksLikeMirrorItem;
 
-        public EmoteInstance Mirror(EmoteWizardEnvironment environment, EmoteHand handValue)
+        public EmoteInstance Mirror(IEmoteFactory.IClipBuilder clipBuilder, EmoteHand handValue)
         {
             string ResolveMirrorParameter(string parameter)
             {
@@ -45,7 +44,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
 
             var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
-                _emoteFactory.Build());
+                _emoteFactory.Build(clipBuilder));
 
             foreach (var condition in item.Trigger.conditions)
             {
@@ -56,9 +55,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             return item;
         }
 
-        public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment)
+        public EmoteInstance ToEmoteInstance(IEmoteFactory.IClipBuilder clipBuilder)
         {
-            return new EmoteInstance(Trigger, _emoteFactory.Build());
+            return new EmoteInstance(Trigger, _emoteFactory.Build(clipBuilder));
         }
     }
 }
