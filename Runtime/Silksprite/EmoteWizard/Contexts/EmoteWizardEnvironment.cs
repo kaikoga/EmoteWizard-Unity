@@ -150,22 +150,22 @@ namespace Silksprite.EmoteWizard.Contexts
             return null;
         }
 
-        public T GetComponentInChildren<T>()
+        public T GetComponentInChildren<T>(bool includeInactive)
         {
             {
-                if (_root && _root.GetComponentInChildren<T>() is T c) return c;
+                if (_root && _root.GetComponentInChildren<T>(includeInactive) is T c) return c;
             }
             {
-                if (_avatarDescriptor && _avatarDescriptor.GetComponentInChildren<T>() is T c) return c;
+                if (_avatarDescriptor && _avatarDescriptor.GetComponentInChildren<T>(includeInactive) is T c) return c;
             }
             return default;
         }
 
-        public T[] GetComponentsInChildren<T>()
+        public T[] GetComponentsInChildren<T>(bool includeInactive)
         {
             return new Component[] { _root, _avatarDescriptor }
                 .Where(component => component)
-                .SelectMany(component => component.GetComponentsInChildren<T>())
+                .SelectMany(component => component.GetComponentsInChildren<T>(includeInactive))
                 .Distinct()
                 .ToArray();
         }

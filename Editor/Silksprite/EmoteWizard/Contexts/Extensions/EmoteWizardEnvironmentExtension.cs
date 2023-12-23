@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static void AddWizard<T>(this EmoteWizardEnvironment environment) where T : EmoteWizardBase
         {
-            var wizard = environment.GetComponentInChildren<T>();
+            var wizard = environment.GetComponentInChildren<T>(true);
             if (!wizard) Undo.AddComponent<T>(environment.ContainerTransform.gameObject);
         }
 

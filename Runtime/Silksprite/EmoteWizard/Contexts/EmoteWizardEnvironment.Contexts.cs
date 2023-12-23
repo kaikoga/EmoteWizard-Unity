@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         void CollectOtherContexts()
         {
-            var contexts = GetComponentsInChildren<IContextProvider>().Select(component => component.ToContext(this));
+            var contexts = GetComponentsInChildren<IContextProvider>(true).Select(component => component.ToContext(this));
             foreach (var context in contexts)
             {
                 if (_contexts.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;

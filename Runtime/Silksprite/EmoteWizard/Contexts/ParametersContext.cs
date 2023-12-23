@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
-            return Environment.GetComponentsInChildren<IParameterSource>()
+            return Environment.GetComponentsInChildren<IParameterSource>(true)
                 .SelectMany(source => source.ParameterItems);
         }
 

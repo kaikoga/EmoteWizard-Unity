@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         IEnumerable<EmoteItem> CollectAllEmoteItems()
         {
-            return GetComponentsInChildren<IEmoteItemSource>().SelectMany(source => source.ToEmoteItems());
+            return GetComponentsInChildren<IEmoteItemSource>(true).SelectMany(source => source.ToEmoteItems());
         }
 
         public IEnumerable<EmoteItem> AllEmoteItems()
