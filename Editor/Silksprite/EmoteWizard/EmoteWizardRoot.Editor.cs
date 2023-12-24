@@ -50,7 +50,7 @@ namespace Silksprite.EmoteWizard
 
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (!env.HasContext<SetupContext>())
+                if (!env.GetComponentInChildren<SetupWizard>(true))
                 {
                     if (GUILayout.Button("Setup"))
                     {
