@@ -16,6 +16,7 @@ namespace Silksprite.EmoteWizard
     public class EmoteWizardRootEditor : Editor
     {
         EmoteWizardRoot _root;
+        bool _isSetup;
 
         SerializedProperty _serializedAvatarDescriptor;
         SerializedProperty _serializedProxyAnimator;
@@ -48,19 +49,14 @@ namespace Silksprite.EmoteWizard
                 EditorGUILayout.PropertyField(_serializedShowTutorial);
             });
 
-            using (new EditorGUILayout.HorizontalScope())
+            if (GUILayout.Button("Add Empty Data Source"))
             {
-                if (!env.GetComponentInChildren<SetupWizard>(true))
-                {
-                    if (GUILayout.Button("Setup"))
-                    {
-                        _root.ToEnv().AddWizard<SetupWizard>();
-                    }
-                }
-                if (GUILayout.Button("Add Empty Data Source"))
-                {
-                    _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
-                }
+                _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
+            }
+            _isSetup = EditorGUILayout.Foldout(_isSetup, "Setup");
+            if (_isSetup)
+            {
+                SetupGUI.OnInspectorGUI(env);
             }
 
             EmoteWizardGUILayout.Header("Avatar");

@@ -9,24 +9,12 @@ using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.UI
 {
-    [CustomEditor(typeof(SetupWizard))]
-    public class SetupWizardEditor : Editor
+    public static class SetupGUI
     {
-        SetupWizard _wizard;
-
-        void OnEnable()
+        public static void OnInspectorGUI(EmoteWizardEnvironment env)
         {
-            _wizard = (SetupWizard) target;
-        }
-
-        public override void OnInspectorGUI()
-        {
-            var env = _wizard.CreateEnv();
-
-            serializedObject.ApplyModifiedProperties();
-
             if (GUILayout.Button("Quick Setup EmoteItems (All Sources)"))
             {
                 QuickSetupEmoteItems(env);
@@ -74,14 +62,6 @@ namespace Silksprite.EmoteWizard
             {
                 GenerateWizards(env);
             }
-
-            if (GUILayout.Button("Complete setup and remove me"))
-            {
-                DestroySelf(env);
-                return;
-            }
-            
-            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
 
         static void GenerateWizards(EmoteWizardEnvironment environment)
@@ -91,18 +71,6 @@ namespace Silksprite.EmoteWizard
             environment.AddWizard<FxLayerWizard>();
             environment.AddWizard<GestureLayerWizard>();
             environment.AddWizard<ActionLayerWizard>();
-        }
-
-        void DestroySelf(EmoteWizardEnvironment environment)
-        {
-            if (_wizard.gameObject != environment.ContainerTransform.gameObject)
-            {
-                DestroyImmediate(_wizard.gameObject, true);
-            }
-            else
-            {
-                DestroyImmediate(_wizard, true);
-            }
         }
 
         static void QuickSetupEmoteItems(EmoteWizardEnvironment environment)
@@ -170,11 +138,6 @@ namespace Silksprite.EmoteWizard
                 }
             });
         }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "EmoteWizardの初期セットアップと、破壊的な各設定のリセットを行います。",
-                "セットアップ中に表示される各ボタンは既存の設定を一括で消去して上書きするため、注意して扱ってください。");
 
         static class Names
         {
