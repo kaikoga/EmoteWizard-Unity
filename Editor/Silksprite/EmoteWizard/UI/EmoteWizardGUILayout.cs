@@ -17,23 +17,11 @@ namespace Silksprite.EmoteWizard.UI
             padding = new RectOffset(0, 0, 2, 0)
         };
 
-        static readonly Color SetupUIColor = new Color(1.0f, 0.1f, 0.6f);
         static readonly Color ConfigUIColor = new Color(0.80f, 0.80f, 0.82f);
         static readonly Color OutputUIColor = new Color(0.3f, 1.0f, 0.9f);
 
         public static void Header(string label) => EditorGUILayout.LabelField(label, HeaderStyle);
 
-        public static void SetupOnlyUI(EmoteWizardBehaviour emoteWizardBehaviour, Action action)
-        {
-            if (!emoteWizardBehaviour.IsSetupMode) return;
-
-            using (new BoxLayoutScope(SetupUIColor))
-            {
-                GUILayout.Label("Setup only zone");
-                action();
-            }
-        }
-        
 
         public static void ConfigUIArea(Action action)
         {

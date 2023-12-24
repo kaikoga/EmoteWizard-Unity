@@ -14,14 +14,5 @@ namespace Silksprite.EmoteWizard.Base
                 .Concat(GetComponentsInParent<VRCAvatarDescriptor>(true).Select(EmoteWizardEnvironment.FromAvatar))
                 .FirstOrDefault();
         }
-
-        public bool IsSetupMode
-        {
-            get
-            {
-                var setupContext = CreateEnv().GetContext<SetupContext>();
-                return setupContext != null && setupContext.IsSetupMode;
-            }
-        }
     }
 }
