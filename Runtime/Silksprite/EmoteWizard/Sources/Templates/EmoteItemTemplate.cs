@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Impl;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Templates
@@ -7,16 +9,16 @@ namespace Silksprite.EmoteWizard.Sources.Templates
     public class EmoteItemTemplate
     {
         public readonly EmoteTrigger Trigger;
-        public readonly EmoteSequence Sequence;
+        public readonly IEmoteFactoryTemplate Factory;
 
         public readonly bool HasExpressionItem;
         public readonly string ExpressionItemPath;
         public readonly Texture2D ExpressionItemIcon;
 
-        EmoteItemTemplate(EmoteTrigger trigger, EmoteSequence sequence, bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
+        public EmoteItemTemplate(EmoteTrigger trigger, IEmoteFactoryTemplate factory, bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
         {
             Trigger = trigger;
-            Sequence = sequence;
+            Factory = factory;
             HasExpressionItem = hasExpressionItem;
             ExpressionItemPath = expressionItemPath;
             ExpressionItemIcon = expressionItemIcon;
@@ -122,7 +124,7 @@ namespace Silksprite.EmoteWizard.Sources.Templates
                 return this;
             }
 
-            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, _sequence, _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, ((IEmoteFactory)new StaticEmoteFactory(_sequence)).ToTemplate(), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
     }
 }

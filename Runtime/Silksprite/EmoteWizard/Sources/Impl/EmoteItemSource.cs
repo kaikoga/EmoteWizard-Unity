@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
+using Silksprite.EmoteWizard.Sources.Templates;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
@@ -38,6 +39,11 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             if (!source) return null;
 
             return source.ToEmoteFactory();
+        }
+
+        public EmoteItemTemplate ToTemplate()
+        {
+            return new EmoteItemTemplate(trigger, FindEmoteFactory()?.ToTemplate(), hasExpressionItem, expressionItemPath, expressionItemIcon);
         }
 
         EmoteItem ToEmoteItem()

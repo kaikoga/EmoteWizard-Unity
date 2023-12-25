@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Sources.Base;
+using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Templates;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Impl
@@ -32,6 +35,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Impl
             return _simpleEmote.hasTrackingOverrides ? _simpleEmote.trackingOverrides : Enumerable.Empty<TrackingOverride>();
         }
 
+        IEmoteFactoryTemplate IEmoteFactory.ToTemplate()
+        {
+            return new SimpleEmoteFactoryTemplate(this);
+        }
+
         EmoteSequence IEmoteFactory.Build(IEmoteFactory.IClipBuilder builder)
         {
             var avatarRootTransform = builder.Environment.AvatarDescriptor.transform;
@@ -55,7 +63,23 @@ namespace Silksprite.EmoteWizard.DataObjects.Impl
                 trackingOverrides = _simpleEmote.trackingOverrides.ToList()
             };
         }
-            
+
+        class SimpleEmoteFactoryTemplate : IEmoteFactoryTemplate
+        {
+            readonly SimpleEmoteFactory _factory;
+
+            public SimpleEmoteFactoryTemplate(SimpleEmoteFactory factory) => _factory = factory;
+
+            public IEmoteFactory ToEmoteFactory() => _factory;
+
+            public EmoteSequenceSourceBase AddSequenceSource(Component target)
+            {
+                var source = target.gameObject.AddComponent<SimpleEmoteSource>();
+                source.simpleEmote = _factory._simpleEmote;
+                return source;
+            }
+        }
+
         public struct AnimatedValue<T>
         {
             public string Path;
