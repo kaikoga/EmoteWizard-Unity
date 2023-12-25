@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
@@ -11,7 +10,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public ExpressionItem expressionItem;
 
-        public IEnumerable<ExpressionItem> ToExpressionItems(ExpressionContext context)
+        public IEnumerable<ExpressionItem> ToExpressionItems()
         {
             yield return expressionItem;
         }

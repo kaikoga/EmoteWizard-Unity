@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Base;
@@ -41,66 +40,20 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             return source.ToEmoteFactory();
         }
 
-        public EmoteItemTemplate ToTemplate()
+        EmoteItemTemplate ToTemplate()
         {
+            // TODO cache me?
             return new EmoteItemTemplate(trigger, FindEmoteFactory()?.ToTemplate(), hasExpressionItem, expressionItemPath, expressionItemIcon);
         }
 
-        EmoteItem ToEmoteItem()
-        {
-            var sequence = FindEmoteFactory();
-            if (sequence == null) return null;
+        public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;
 
-            return new EmoteItem(trigger, sequence);
-        }
+        public bool CanAutoExpression => ToTemplate().CanAutoExpression;
 
-        public bool LooksLikeMirrorItem => trigger.LooksLikeMirrorItem || (sequence != null && sequence.LooksLikeMirrorItem);
+        public bool IsAutoExpression => ToTemplate().IsAutoExpression;
 
-        public bool CanAutoExpression
-        {
-            get
-            {
-                if (trigger.conditions.Count != 1) return false;
+        public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();
 
-                var soleCondition = trigger.conditions[0];
-                switch (soleCondition.kind)
-                {
-                    case ParameterItemKind.Auto:
-                    case ParameterItemKind.Int:
-                        break;
-                    case ParameterItemKind.Bool:
-                    case ParameterItemKind.Float:
-                    default:
-                        return false;
-                }
-                if (soleCondition.mode != EmoteConditionMode.Equals) return false;
-
-                return true;
-            }
-        }
-
-        public bool IsAutoExpression => hasExpressionItem && CanAutoExpression;
-
-        public IEnumerable<EmoteItem> ToEmoteItems()
-        {
-            var emoteItem = ToEmoteItem();
-            if (emoteItem != null) yield return emoteItem;
-        }
-
-        public IEnumerable<ExpressionItem> ToExpressionItems(ExpressionContext context)
-        {
-            if (!IsAutoExpression) yield break;
-
-            var soleCondition = trigger.conditions[0];
-            yield return new ExpressionItem
-            {
-                enabled = true,
-                icon = expressionItemIcon,
-                path = expressionItemPath,
-                parameter = soleCondition.parameter,
-                value = soleCondition.threshold,
-                itemKind = FindEmoteFactory().LooksLikeToggle ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
-            };
-        }
+        public IEnumerable<ExpressionItem> ToExpressionItems() => ToTemplate().ToExpressionItems();
     }
 }

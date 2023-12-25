@@ -6,6 +6,9 @@ namespace Silksprite.EmoteWizard.Sources.Templates
 {
     public interface IEmoteFactoryTemplate
     {
+        bool LooksLikeMirrorItem { get; }
+        bool LooksLikeToggle { get; }
+
         IEmoteFactory ToEmoteFactory();
 
         EmoteSequenceSourceBase AddSequenceSource(Component target);

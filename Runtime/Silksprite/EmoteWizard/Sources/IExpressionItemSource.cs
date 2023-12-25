@@ -6,6 +6,6 @@ namespace Silksprite.EmoteWizard.Sources
 {
     public interface IExpressionItemSource
     {
-        IEnumerable<ExpressionItem> ToExpressionItems(ExpressionContext context);
+        IEnumerable<ExpressionItem> ToExpressionItems();
     }
 }

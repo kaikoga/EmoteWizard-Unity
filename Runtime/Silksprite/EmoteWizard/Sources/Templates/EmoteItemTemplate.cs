@@ -24,6 +24,57 @@ namespace Silksprite.EmoteWizard.Sources.Templates
             ExpressionItemIcon = expressionItemIcon;
         }
 
+        public bool LooksLikeMirrorItem => Trigger.LooksLikeMirrorItem || (Factory != null && Factory.LooksLikeMirrorItem);
+
+        public bool CanAutoExpression
+        {
+            get
+            {
+                if (Trigger.conditions.Count != 1) return false;
+
+                var soleCondition = Trigger.conditions[0];
+                switch (soleCondition.kind)
+                {
+                    case ParameterItemKind.Auto:
+                    case ParameterItemKind.Int:
+                        break;
+                    case ParameterItemKind.Bool:
+                    case ParameterItemKind.Float:
+                    default:
+                        return false;
+                }
+                if (soleCondition.mode != EmoteConditionMode.Equals) return false;
+
+                return true;
+            }
+        }
+
+        public bool IsAutoExpression => HasExpressionItem && CanAutoExpression;
+
+        EmoteItem ToEmoteItem() => Factory == null ? null : new EmoteItem(Trigger, Factory.ToEmoteFactory());
+
+        public IEnumerable<EmoteItem> ToEmoteItems()
+        {
+            var emoteItem = ToEmoteItem();
+            if (emoteItem != null) yield return emoteItem;
+        }
+
+        public IEnumerable<ExpressionItem> ToExpressionItems()
+        {
+            if (!IsAutoExpression) yield break;
+
+            var soleCondition = Trigger.conditions[0];
+            yield return new ExpressionItem
+            {
+                enabled = true,
+                icon = ExpressionItemIcon,
+                path = ExpressionItemPath,
+                parameter = soleCondition.parameter,
+                value = soleCondition.threshold,
+                itemKind = Factory.LooksLikeToggle ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+            };
+        }
+
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName)
         {
             return new EmoteItemTemplateBuilder(

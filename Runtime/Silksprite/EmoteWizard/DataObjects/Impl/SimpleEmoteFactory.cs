@@ -70,6 +70,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Impl
 
             public SimpleEmoteFactoryTemplate(SimpleEmoteFactory factory) => _factory = factory;
 
+            public bool LooksLikeMirrorItem => ((IEmoteFactory)_factory).LooksLikeMirrorItem;
+            public bool LooksLikeToggle => ((IEmoteFactory)_factory).LooksLikeToggle;
+
             public IEmoteFactory ToEmoteFactory() => _factory;
 
             public EmoteSequenceSourceBase AddSequenceSource(Component target)
