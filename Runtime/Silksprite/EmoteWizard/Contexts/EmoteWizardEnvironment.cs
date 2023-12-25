@@ -107,7 +107,7 @@ namespace Silksprite.EmoteWizard.Contexts
         EmoteWizardEnvironment(VRCAvatarDescriptor avatarDescriptor)
         {
             _avatarDescriptor = avatarDescriptor;
-            _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>();
+            _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>(true);
             _rootOrAvatarDescriptor = _avatarDescriptor;
             
             _overrideGesture = OverrideGeneratedControllerType2.Default1;
