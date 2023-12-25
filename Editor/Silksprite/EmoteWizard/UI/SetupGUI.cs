@@ -1,12 +1,11 @@
+using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
-using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.UI
@@ -60,17 +59,17 @@ namespace Silksprite.EmoteWizard.UI
 
             if (GUILayout.Button("Generate Intermediate Wizards"))
             {
-                GenerateWizards(env);
+                GenerateConfigs(env);
             }
         }
 
-        static void GenerateWizards(EmoteWizardEnvironment environment)
+        static void GenerateConfigs(EmoteWizardEnvironment environment)
         {
-            environment.AddWizard<ExpressionWizard>();
-            environment.AddWizard<ParametersWizard>();
-            environment.AddWizard<FxLayerWizard>();
-            environment.AddWizard<GestureLayerWizard>();
-            environment.AddWizard<ActionLayerWizard>();
+            environment.AddWizard<ExpressionConfig>();
+            environment.AddWizard<ParametersConfig>();
+            environment.AddWizard<FxLayerConfig>();
+            environment.AddWizard<GestureLayerConfig>();
+            environment.AddWizard<ActionLayerConfig>();
         }
 
         static void QuickSetupEmoteItems(EmoteWizardEnvironment environment)

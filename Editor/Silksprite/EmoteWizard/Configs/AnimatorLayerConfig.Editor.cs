@@ -9,12 +9,12 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Configs
 {
-    [CustomEditor(typeof(AnimatorLayerWizardBase), true)]
-    public class AnimatorLayerWizardBaseEditor : Editor
+    [CustomEditor(typeof(AnimatorLayerConfigBase), true)]
+    public class AnimatorLayerConfigBaseEditor : Editor
     {
-        AnimatorLayerWizardBase _wizard;
+        AnimatorLayerConfigBase _config;
 
         SerializedProperty _serializedDefaultAvatarMask;
         SerializedProperty _serializedOutputAsset;
@@ -23,21 +23,21 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
-            _wizard = (AnimatorLayerWizardBase)target;
+            _config = (AnimatorLayerConfigBase)target;
 
-            _serializedDefaultAvatarMask = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.defaultAvatarMask));
-            _serializedOutputAsset = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.outputAsset));
+            _serializedDefaultAvatarMask = serializedObject.FindProperty(nameof(AnimatorLayerConfigBase.defaultAvatarMask));
+            _serializedOutputAsset = serializedObject.FindProperty(nameof(AnimatorLayerConfigBase.outputAsset));
             _serializedHasResetClip = serializedObject.FindProperty("hasResetClip");
-            _serializedResetClip = serializedObject.FindProperty(nameof(AnimatorLayerWizardBase.resetClip));
+            _serializedResetClip = serializedObject.FindProperty(nameof(AnimatorLayerConfigBase.resetClip));
         }
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.CreateEnv();
+            var env = _config.CreateEnv();
 
-            using (new ObjectChangeScope(_wizard))
+            using (new ObjectChangeScope(_config))
             {
-                if (_wizard.LayerKind == LayerKind.Gesture)
+                if (_config.LayerKind == LayerKind.Gesture)
                 {
                     CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedDefaultAvatarMask, () =>
                     {
@@ -56,11 +56,11 @@ namespace Silksprite.EmoteWizard
                 {
                     if (GUILayout.Button("Generate Animation Controller"))
                     {
-                        _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
+                        _config.GetContext(_config.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
                     }
 
                     EditorGUILayout.PropertyField(_serializedOutputAsset);
-                    using (new EditorGUI.DisabledScope(!_wizard.hasResetClip))
+                    using (new EditorGUI.DisabledScope(!_config.hasResetClip))
                     {
                         EditorGUILayout.PropertyField(_serializedResetClip);
                     }
@@ -74,11 +74,11 @@ namespace Silksprite.EmoteWizard
 
         string Tutorial => 
             string.Join("\n",
-                $"{_wizard.LayerKind} Layerの設定を行い、Animation Controllerを生成します。");
+                $"{_config.LayerKind} Layerの設定を行い、Animation Controllerを生成します。");
 
         string Tutorial2 => 
             string.Join("\n",
                 "Write Defaultsオフでセットアップされます。",
-                $"Has Reset Clipがオンの場合、各アニメーションで使われているパラメータをリセットするアニメーションが{_wizard.LayerKind} Layerの一番上に追加されます。");
+                $"Has Reset Clipがオンの場合、各アニメーションで使われているパラメータをリセットするアニメーションが{_config.LayerKind} Layerの一番上に追加されます。");
     }
 }

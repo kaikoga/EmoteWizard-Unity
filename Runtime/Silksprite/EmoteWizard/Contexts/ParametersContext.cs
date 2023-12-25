@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
@@ -8,7 +9,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class ParametersContext : OutputContextBase<ParametersWizard, VRCExpressionParameters>
+    public class ParametersContext : OutputContextBase<ParametersConfig, VRCExpressionParameters>
     {
         VRCExpressionParameters _outputAsset;
         public override VRCExpressionParameters OutputAsset
@@ -17,17 +18,17 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _outputAsset = value;
-                if (Wizard) Wizard.outputAsset = value;
+                if (Config) Config.outputAsset = value;
             }
         }
 
         [UsedImplicitly]
         public ParametersContext(EmoteWizardEnvironment env) : base(env) { }
-        public ParametersContext(EmoteWizardEnvironment env, ParametersWizard wizard) : base(env, wizard)
+        public ParametersContext(EmoteWizardEnvironment env, ParametersConfig config) : base(env, config)
         {
             if (env.PersistGeneratedAssets)
             {
-                _outputAsset = wizard.outputAsset;
+                _outputAsset = config.outputAsset;
             }
         }
 

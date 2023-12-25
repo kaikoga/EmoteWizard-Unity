@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
 {
-    public abstract class AnimatorLayerWizardBase : EmoteWizardBase
+    public abstract class AnimatorLayerConfigBase : EmoteWizardBase
     {
         [SerializeField] public AvatarMask defaultAvatarMask;
 

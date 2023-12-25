@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public abstract class AnimatorLayerContextBase : OutputContextBase<AnimatorLayerWizardBase, RuntimeAnimatorController>
+    public abstract class AnimatorLayerContextBase : OutputContextBase<AnimatorLayerConfigBase, RuntimeAnimatorController>
     {
         RuntimeAnimatorController _outputAsset;
         public override RuntimeAnimatorController OutputAsset
@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _outputAsset = value;
-                if (Wizard) Wizard.outputAsset = value;
+                if (Config) Config.outputAsset = value;
             }
         }
 
@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _resetClip = value;
-                if (Wizard) Wizard.resetClip = value;
+                if (Config) Config.resetClip = value;
             }
         }
 
@@ -35,17 +35,17 @@ namespace Silksprite.EmoteWizard.Contexts
         public bool HasResetClip { get; protected set; }
 
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env) : base(env) { }
-        protected AnimatorLayerContextBase(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard)
+        protected AnimatorLayerContextBase(EmoteWizardEnvironment env, AnimatorLayerConfigBase config) : base(env, config)
         {
             if (env.PersistGeneratedAssets)
             {
-                _outputAsset = wizard.outputAsset;
-                _resetClip = wizard.resetClip;
+                _outputAsset = config.outputAsset;
+                _resetClip = config.resetClip;
             }
 
-            DefaultAvatarMask = wizard.defaultAvatarMask;
-            LayerKind = wizard.LayerKind;
-            HasResetClip = wizard.hasResetClip;
+            DefaultAvatarMask = config.defaultAvatarMask;
+            LayerKind = config.LayerKind;
+            HasResetClip = config.hasResetClip;
         }
 
         public override void DisconnectOutputAssets()

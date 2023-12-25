@@ -3,27 +3,27 @@ using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Configs
 {
-    [CustomEditor(typeof(ExpressionWizard))]
-    public class ExpressionWizardEditor : Editor
+    [CustomEditor(typeof(ExpressionConfig))]
+    public class ExpressionConfigEditor : Editor
     {
-        ExpressionWizard _wizard;
+        ExpressionConfig _config;
 
         SerializedProperty _serializedBuildAsSubAsset;
         SerializedProperty _serializedOutputAsset;
 
         void OnEnable()
         {
-            _wizard = (ExpressionWizard)target;
+            _config = (ExpressionConfig)target;
 
-            _serializedBuildAsSubAsset = serializedObject.FindProperty(nameof(ExpressionWizard.buildAsSubAsset));
-            _serializedOutputAsset = serializedObject.FindProperty(nameof(ExpressionWizard.outputAsset));
+            _serializedBuildAsSubAsset = serializedObject.FindProperty(nameof(ExpressionConfig.buildAsSubAsset));
+            _serializedOutputAsset = serializedObject.FindProperty(nameof(ExpressionConfig.outputAsset));
         }
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.CreateEnv();
+            var env = _config.CreateEnv();
 
             EditorGUILayout.PropertyField(_serializedBuildAsSubAsset);
 
@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard
             {
                 if (GUILayout.Button("Generate Expression Menu"))
                 {
-                    _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset();
+                    _config.GetContext(_config.CreateEnv()).BuildOutputAsset();
                 }
 
                 EditorGUILayout.PropertyField(_serializedOutputAsset);

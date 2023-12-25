@@ -4,24 +4,24 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public abstract class ContextBase<TWizard> : IBehaviourContext
-        where TWizard : EmoteWizardBase
+    public abstract class ContextBase<TConfig> : IBehaviourContext
+        where TConfig : EmoteWizardBase
     {
         [CanBeNull]
-        protected readonly TWizard Wizard;
+        protected readonly TConfig Config;
 
         public EmoteWizardEnvironment Environment { get; }
-        public GameObject GameObject => Wizard != null ? Wizard.gameObject : null;
+        public GameObject GameObject => Config != null ? Config.gameObject : null;
 
         protected ContextBase(EmoteWizardEnvironment env)
         {
             Environment = env;
         }
 
-        protected ContextBase(EmoteWizardEnvironment env, TWizard wizard, bool alwaysPersist = false)
+        protected ContextBase(EmoteWizardEnvironment env, TConfig config, bool alwaysPersist = false)
         {
             Environment = env;
-            if (env.PersistGeneratedAssets || alwaysPersist) Wizard = wizard;
+            if (env.PersistGeneratedAssets || alwaysPersist) Config = config;
         }
 
         public abstract void DisconnectOutputAssets();
@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Contexts
         where TWizard : EmoteWizardBase
     {
         protected OutputContextBase(EmoteWizardEnvironment env) : base(env) { }
-        protected OutputContextBase(EmoteWizardEnvironment env, TWizard wizard, bool alwaysPersist = false) : base(env, wizard, alwaysPersist) { }
+        protected OutputContextBase(EmoteWizardEnvironment env, TWizard config, bool alwaysPersist = false) : base(env, config, alwaysPersist) { }
         public abstract TOut OutputAsset { get; set; }
     }
 }

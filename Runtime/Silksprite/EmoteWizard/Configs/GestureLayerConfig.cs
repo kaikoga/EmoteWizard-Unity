@@ -3,10 +3,10 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
-    public class GestureLayerWizard : AnimatorLayerWizardBase
+    public class GestureLayerConfig : AnimatorLayerConfigBase
     {
         public override LayerKind LayerKind => LayerKind.Gesture;
 

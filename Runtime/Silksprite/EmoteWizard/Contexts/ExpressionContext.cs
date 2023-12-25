@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class ExpressionContext : OutputContextBase<ExpressionWizard, VRCExpressionsMenu>
+    public class ExpressionContext : OutputContextBase<ExpressionConfig, VRCExpressionsMenu>
     {
         VRCExpressionsMenu _outputAsset;
         public override VRCExpressionsMenu OutputAsset
@@ -16,7 +17,7 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _outputAsset = value;
-                if (Wizard) Wizard.outputAsset = value;
+                if (Config) Config.outputAsset = value;
             }
         }
 
@@ -24,14 +25,14 @@ namespace Silksprite.EmoteWizard.Contexts
 
         [UsedImplicitly]
         public ExpressionContext(EmoteWizardEnvironment env) : base(env) { }
-        public ExpressionContext(EmoteWizardEnvironment env, ExpressionWizard wizard) : base(env, wizard)
+        public ExpressionContext(EmoteWizardEnvironment env, ExpressionConfig config) : base(env, config)
         {
             if (env.PersistGeneratedAssets)
             {
-                _outputAsset = wizard.outputAsset;
+                _outputAsset = config.outputAsset;
             }
 
-            BuildAsSubAsset = wizard.buildAsSubAsset;
+            BuildAsSubAsset = config.buildAsSubAsset;
         }
 
         public override void DisconnectOutputAssets()

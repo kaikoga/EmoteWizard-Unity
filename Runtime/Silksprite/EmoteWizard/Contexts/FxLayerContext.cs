@@ -13,6 +13,6 @@ namespace Silksprite.EmoteWizard.Contexts
             HasResetClip = true;
         }
 
-        public FxLayerContext(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard) { }
+        public FxLayerContext(EmoteWizardEnvironment env, AnimatorLayerConfigBase config) : base(env, config) { }
     }
 }

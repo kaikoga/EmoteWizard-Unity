@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Extensions;
@@ -5,7 +6,6 @@ using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
@@ -154,7 +154,7 @@ namespace Silksprite.EmoteWizard
                     }
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
-                        _root.EnsureComponent<EditorLayerWizard>();
+                        _root.EnsureComponent<EditorLayerConfig>();
                         _root.ToEnv().BuildAvatar(true);
                     }
 

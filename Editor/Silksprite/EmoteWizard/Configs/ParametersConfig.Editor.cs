@@ -3,31 +3,31 @@ using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Configs
 {
-    [CustomEditor(typeof(ParametersWizard))]
-    public class ParametersWizardEditor : Editor
+    [CustomEditor(typeof(ParametersConfig))]
+    public class ParametersConfigEditor : Editor
     {
-        ParametersWizard _wizard;
+        ParametersConfig _config;
 
         SerializedProperty _serializedOutputAsset;
 
         void OnEnable()
         {
-            _wizard = (ParametersWizard)target;
+            _config = (ParametersConfig)target;
 
-            _serializedOutputAsset = serializedObject.FindProperty(nameof(ParametersWizard.outputAsset));
+            _serializedOutputAsset = serializedObject.FindProperty(nameof(ParametersConfig.outputAsset));
         }
 
         public override void OnInspectorGUI()
         {
-            var env = _wizard.CreateEnv();
+            var env = _config.CreateEnv();
 
             EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
                 if (GUILayout.Button("Generate Expression Parameters"))
                 {
-                    _wizard.GetContext(_wizard.CreateEnv()).BuildOutputAsset();
+                    _config.GetContext(_config.CreateEnv()).BuildOutputAsset();
                 }
 
                 EditorGUILayout.PropertyField(_serializedOutputAsset);

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public class EditorLayerContext : OutputContextBase<EditorLayerWizard, RuntimeAnimatorController>
+    public class EditorLayerContext : OutputContextBase<EditorLayerConfig, RuntimeAnimatorController>
     {
         RuntimeAnimatorController _outputAsset;
         public override RuntimeAnimatorController OutputAsset
@@ -14,15 +15,15 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _outputAsset = value;
-                if (Wizard) Wizard.outputAsset = value;
+                if (Config) Config.outputAsset = value;
             }
         }
 
         [UsedImplicitly]
         public EditorLayerContext(EmoteWizardEnvironment env) : base(env) { }
-        public EditorLayerContext(EmoteWizardEnvironment env, EditorLayerWizard wizard) : base(env, wizard, true)
+        public EditorLayerContext(EmoteWizardEnvironment env, EditorLayerConfig config) : base(env, config, true)
         {
-            _outputAsset = wizard.outputAsset;
+            _outputAsset = config.outputAsset;
         }
 
         public override void DisconnectOutputAssets()

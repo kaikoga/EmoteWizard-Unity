@@ -14,6 +14,6 @@ namespace Silksprite.EmoteWizard.Contexts
             DefaultAvatarMask = VrcSdkAssetLocator.HandsOnly();
         }
 
-        public GestureLayerContext(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard) { }
+        public GestureLayerContext(EmoteWizardEnvironment env, AnimatorLayerConfigBase config) : base(env, config) { }
     }
 }

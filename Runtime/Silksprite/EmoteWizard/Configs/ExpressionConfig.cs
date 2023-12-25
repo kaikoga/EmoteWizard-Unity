@@ -3,10 +3,10 @@ using Silksprite.EmoteWizard.Contexts;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
-    public class ExpressionWizard : EmoteWizardBase
+    public class ExpressionConfig : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionsMenu outputAsset;
         [SerializeField] public string defaultPrefix = "Default/";

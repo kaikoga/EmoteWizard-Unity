@@ -12,6 +12,6 @@ namespace Silksprite.EmoteWizard.Contexts
             LayerKind = LayerKind.Action;
         }
 
-        public ActionLayerContext(EmoteWizardEnvironment env, AnimatorLayerWizardBase wizard) : base(env, wizard) { }
+        public ActionLayerContext(EmoteWizardEnvironment env, AnimatorLayerConfigBase config) : base(env, config) { }
     }
 }

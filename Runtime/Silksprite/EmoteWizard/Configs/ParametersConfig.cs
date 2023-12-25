@@ -3,10 +3,10 @@ using Silksprite.EmoteWizard.Contexts;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
-    public class ParametersWizard : EmoteWizardBase
+    public class ParametersConfig : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionParameters outputAsset;
 
