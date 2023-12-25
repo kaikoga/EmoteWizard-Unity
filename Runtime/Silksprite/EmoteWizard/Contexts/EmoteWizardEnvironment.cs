@@ -85,10 +85,10 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly bool ShowTutorial;
         public bool PersistGeneratedAssets { get; set; }
 
-        EmoteWizardEnvironment(EmoteWizardRoot root)
+        EmoteWizardEnvironment(EmoteWizardRoot root, VRCAvatarDescriptor avatarDescriptor)
         {
             _root = root;
-            _avatarDescriptor = root.avatarDescriptor ? root.avatarDescriptor : root.GetComponentInParent<VRCAvatarDescriptor>();
+            _avatarDescriptor = avatarDescriptor;
             _rootOrAvatarDescriptor = _root;
             _proxyAnimator = root.proxyAnimator;
             
@@ -107,7 +107,6 @@ namespace Silksprite.EmoteWizard.Contexts
         EmoteWizardEnvironment(VRCAvatarDescriptor avatarDescriptor)
         {
             _avatarDescriptor = avatarDescriptor;
-            _root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>(true);
             _rootOrAvatarDescriptor = _avatarDescriptor;
             
             _overrideGesture = OverrideGeneratedControllerType2.Default1;
@@ -117,14 +116,16 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public static EmoteWizardEnvironment FromRoot(EmoteWizardRoot root)
         {
-            var env = new EmoteWizardEnvironment(root);
+            var avatarDescriptor = root.avatarDescriptor ? root.avatarDescriptor : root.GetComponentInParent<VRCAvatarDescriptor>();
+            var env = new EmoteWizardEnvironment(root, avatarDescriptor);
             env.CollectOtherContexts();
             return env;
         }
 
         public static EmoteWizardEnvironment FromAvatar(VRCAvatarDescriptor avatarDescriptor)
         {
-            var env = new EmoteWizardEnvironment(avatarDescriptor);
+            var root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>(true);
+            var env = root ? new EmoteWizardEnvironment(root, avatarDescriptor) : new EmoteWizardEnvironment(avatarDescriptor);
             env.CollectOtherContexts();
             return env;
         }
