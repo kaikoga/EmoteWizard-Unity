@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects.Internal
+namespace Silksprite.EmoteWizard.Sources.Templates
 {
     public class EmoteItemTemplate
     {

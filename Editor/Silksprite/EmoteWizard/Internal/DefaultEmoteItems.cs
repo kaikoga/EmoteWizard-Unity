@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Sources.Templates;
 
 namespace Silksprite.EmoteWizard.Internal
 {
