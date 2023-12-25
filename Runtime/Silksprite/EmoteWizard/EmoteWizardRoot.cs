@@ -7,6 +7,7 @@ using VRC.SDK3.Avatars.Components;
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
+    [AddComponentMenu("Emote Wizard/Emote Wizard Root", -200)]
     public class EmoteWizardRoot : EmoteWizardBehaviour
     {
         [SerializeField] public VRCAvatarDescriptor avatarDescriptor;

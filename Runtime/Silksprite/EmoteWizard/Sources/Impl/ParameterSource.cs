@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
+    [AddComponentMenu("Emote Wizard/Sources/Parameter Source", 2000)]
     public class ParameterSource : EmoteWizardDataSourceBase, IParameterSource
     {
         [SerializeField] public ParameterItem parameterItem;

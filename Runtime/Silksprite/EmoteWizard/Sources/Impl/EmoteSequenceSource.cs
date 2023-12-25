@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
+    [AddComponentMenu("Emote Wizard/Sources/Emote Sequence Source", 100)]
     public class EmoteSequenceSource : EmoteSequenceSourceBase
     {
         [SerializeField] public EmoteSequence sequence = new();

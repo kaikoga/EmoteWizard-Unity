@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
+    [AddComponentMenu("Emote Wizard/Sources/Simple Emote Source", 101)]
     public class SimpleEmoteSource : EmoteSequenceSourceBase
     {
         [SerializeField] public SimpleEmote simpleEmote = new SimpleEmote();

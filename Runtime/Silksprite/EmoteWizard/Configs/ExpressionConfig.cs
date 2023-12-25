@@ -6,6 +6,7 @@ using VRC.SDK3.Avatars.ScriptableObjects;
 namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
+    [AddComponentMenu("Emote Wizard/Configs/Expression Wizard Config", 11000)]
     public class ExpressionConfig : EmoteWizardBase
     {
         [SerializeField] public VRCExpressionsMenu outputAsset;

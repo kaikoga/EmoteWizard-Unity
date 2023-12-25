@@ -6,6 +6,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
+    [AddComponentMenu("Emote Wizard/Configs/Fx Layer Wizard Config", 10000)]
     public class FxLayerConfig : AnimatorLayerConfigBase
     {
         public override LayerKind LayerKind => LayerKind.FX;
