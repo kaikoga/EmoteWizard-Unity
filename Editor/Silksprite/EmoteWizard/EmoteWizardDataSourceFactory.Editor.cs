@@ -415,8 +415,7 @@ namespace Silksprite.EmoteWizard
 
         static string Tutorial =>
             string.Join("\n",
-                "Emote Wizardに登録するデータの入力欄を生成します。",
-                "GameObjectを非アクティブにしたデータはビルドに含まれません。");
+                "Emote Wizardに登録するデータの入力欄を生成します。");
         
         enum DataSourceFactoryMode
         {

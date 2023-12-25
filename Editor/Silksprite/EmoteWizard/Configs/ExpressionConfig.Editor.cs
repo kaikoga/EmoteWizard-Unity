@@ -38,13 +38,6 @@ namespace Silksprite.EmoteWizard.Configs
             });
 
             serializedObject.ApplyModifiedProperties();
-
-            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "Expression Menuを生成します。");
-
     }
 }

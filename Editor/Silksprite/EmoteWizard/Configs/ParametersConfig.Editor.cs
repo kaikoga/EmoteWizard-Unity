@@ -33,12 +33,6 @@ namespace Silksprite.EmoteWizard.Configs
                 EditorGUILayout.PropertyField(_serializedOutputAsset);
             });
             serializedObject.ApplyModifiedProperties();
-
-            EmoteWizardGUILayout.Tutorial(env, Tutorial);
         }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "Expression Parametersを管理するために必要なコンポーネントです。");
     }
 }

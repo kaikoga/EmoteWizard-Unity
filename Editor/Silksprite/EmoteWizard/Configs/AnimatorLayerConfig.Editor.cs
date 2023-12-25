@@ -67,18 +67,6 @@ namespace Silksprite.EmoteWizard.Configs
                 });
             }
             serializedObject.ApplyModifiedProperties();
-
-            EmoteWizardGUILayout.Tutorial(env, Tutorial);
-            EmoteWizardGUILayout.Tutorial(env, Tutorial2);
         }
-
-        string Tutorial => 
-            string.Join("\n",
-                $"{_config.LayerKind} Layerの設定を行い、Animation Controllerを生成します。");
-
-        string Tutorial2 => 
-            string.Join("\n",
-                "Write Defaultsオフでセットアップされます。",
-                $"Has Reset Clipがオンの場合、各アニメーションで使われているパラメータをリセットするアニメーションが{_config.LayerKind} Layerの一番上に追加されます。");
     }
 }
