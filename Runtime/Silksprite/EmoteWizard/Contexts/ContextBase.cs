@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Contexts
 {
     public abstract class ContextBase<TConfig> : IBehaviourContext
-        where TConfig : EmoteWizardBase
+        where TConfig : EmoteConfigBase
     {
         [CanBeNull]
         protected readonly TConfig Config;
@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Contexts
     }
 
     public abstract class OutputContextBase<TWizard, TOut> : ContextBase<TWizard>, IOutputContext<TOut>
-        where TWizard : EmoteWizardBase
+        where TWizard : EmoteConfigBase
     {
         protected OutputContextBase(EmoteWizardEnvironment env) : base(env) { }
         protected OutputContextBase(EmoteWizardEnvironment env, TWizard config, bool alwaysPersist = false) : base(env, config, alwaysPersist) { }

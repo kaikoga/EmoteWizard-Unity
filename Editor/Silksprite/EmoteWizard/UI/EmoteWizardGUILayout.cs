@@ -43,16 +43,16 @@ namespace Silksprite.EmoteWizard.UI
             }
         }
 
-        public static void RequireAnotherContext<TContext, TComponent>(EmoteWizardBase emoteWizardBase, Action action)
+        public static void RequireAnotherContext<TContext, TComponent>(EmoteConfigBase emoteConfigBase, Action action)
             where TContext : IBehaviourContext
-            where TComponent : EmoteWizardBase
+            where TComponent : EmoteConfigBase
         {
-            RequireAnotherContext<TContext, TComponent>(emoteWizardBase, emoteWizardBase.CreateEnv().GetContext<TContext>(), action);
+            RequireAnotherContext<TContext, TComponent>(emoteConfigBase, emoteConfigBase.CreateEnv().GetContext<TContext>(), action);
         }
 
-        public static void RequireAnotherContext<TContext, TComponent>(EmoteWizardBase emoteWizardBase, TContext anotherContext, Action action)
+        public static void RequireAnotherContext<TContext, TComponent>(EmoteConfigBase emoteConfigBase, TContext anotherContext, Action action)
             where TContext : IBehaviourContext
-            where TComponent : EmoteWizardBase
+            where TComponent : EmoteConfigBase
         {
             if (anotherContext != null)
             {
@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 if (GUILayout.Button($"Add {typeName}"))
                 {
-                    emoteWizardBase.gameObject.AddComponent<TComponent>();
+                    emoteConfigBase.gameObject.AddComponent<TComponent>();
                 }
             }
         }

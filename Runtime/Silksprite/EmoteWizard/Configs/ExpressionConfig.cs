@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Emote Wizard/Configs/Expression Wizard Config", 11000)]
-    public class ExpressionConfig : EmoteWizardBase
+    public class ExpressionConfig : EmoteConfigBase
     {
         [SerializeField] public VRCExpressionsMenu outputAsset;
         [SerializeField] public string defaultPrefix = "Default/";

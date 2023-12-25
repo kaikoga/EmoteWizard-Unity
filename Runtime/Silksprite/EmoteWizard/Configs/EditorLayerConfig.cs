@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Emote Wizard/Configs/Editor Layer Wizard Config", 10003)]
-    public class EditorLayerConfig : EmoteWizardBase
+    public class EditorLayerConfig : EmoteConfigBase
     {
         [SerializeField] public RuntimeAnimatorController outputAsset;
 
