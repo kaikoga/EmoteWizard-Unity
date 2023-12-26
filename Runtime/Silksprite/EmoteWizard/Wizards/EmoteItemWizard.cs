@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Impl;
+using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Sources.Templates;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 
@@ -17,7 +18,18 @@ namespace Silksprite.EmoteWizard.Sources
         [SerializeField] public bool hasParameterName;
         [SerializeField] public string parameterName;
 
-        public IEnumerable<ExpressionItem> ToExpressionItems(ExpressionContext context)
+        protected override IEnumerable<EmoteItemTemplate> SourceTemplates()
+        {
+            yield return new EmoteItemTemplate(
+                new EmoteTrigger { name = itemPath },
+                ((IEmoteFactory)new StaticEmoteFactory(new EmoteSequence { groupName = hasGroupName ? groupName : itemPath })).ToTemplate(),
+                !hasExpressionItemSource,
+                itemPath,
+                VrcSdkAssetLocator.ItemWand()
+                );
+        }
+
+        public override IEnumerable<ExpressionItem> ToExpressionItems()
         {
             if (hasExpressionItemSource)
             {
@@ -30,18 +42,8 @@ namespace Silksprite.EmoteWizard.Sources
                     itemKind = ExpressionItemKind.Toggle
                 };
             }
-        }
 
-        public IEnumerable<EmoteItem> ToEmoteItems()
-        {
-            yield return new EmoteItem(
-                new EmoteTrigger { name = itemPath },
-                new StaticEmoteFactory(new EmoteSequence { groupName = hasGroupName ? groupName : itemPath }));
-            /*
-            emoteItemSource.hasExpressionItem = !hasExpressionItemSource;
-            emoteItemSource.expressionItemPath = itemPath;
-            emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.ItemWand();
-            */
+            foreach (var e in base.ToExpressionItems()) yield return e; 
         }
     }
 }
