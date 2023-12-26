@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardBase : EmoteWizardDataSourceBase, IExpressionItemSource, IEmoteItemSource
     {
-        protected abstract IEnumerable<EmoteItemTemplate> SourceTemplates();
+        protected abstract IEnumerable<IEmoteTemplate> SourceTemplates();
         
         public virtual IEnumerable<ExpressionItem> ToExpressionItems()
         {

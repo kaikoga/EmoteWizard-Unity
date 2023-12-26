@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Templates
 {
-    public class EmoteItemTemplate
+    public class EmoteItemTemplate : IEmoteTemplate
     {
         public readonly EmoteTrigger Trigger;
         public readonly IEmoteFactoryTemplate Factory;
