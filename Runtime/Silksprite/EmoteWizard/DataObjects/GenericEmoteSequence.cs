@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public string groupName;
 
         [Header("Animation")]
-        [SerializeField] public AnimatedEnable[] animatedEnable;
+        [SerializeField] public AnimatedEnable[] animatedEnable = { };
+        [SerializeField] public AnimatedBlendShape[] animatedBlendShapes = { };
         
         [Header("Common Settings")]
         [SerializeField] public bool isFixedDuration;
@@ -30,13 +32,26 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public bool hasTrackingOverrides;
         [SerializeField] public List<TrackingOverride> trackingOverrides = new();
 
+        public IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> ToAnimatedFloats(Transform avatarRootTransform)
+        {
+            return Enumerable.Empty<IAnimatedProperty<float>>()
+                .Concat(animatedEnable)
+                .Concat(animatedBlendShapes)
+                .Select(prop => prop.ToAnimatedValue(avatarRootTransform));
+        }
+
+        public interface IAnimatedProperty<T>
+        {
+            GenericEmoteSequenceFactory.AnimatedValue<T> ToAnimatedValue(Transform avatarRootTransform);
+        }
+
         [Serializable]
-        public class AnimatedEnable
+        public class AnimatedEnable : IAnimatedProperty<float>
         {
             [SerializeField] public Transform target;
             [SerializeField] public bool isEnable;
 
-            public GenericEmoteSequenceFactory.AnimatedValue<float> ToAnimatedValue(Transform avatarRootTransform)
+            GenericEmoteSequenceFactory.AnimatedValue<float> IAnimatedProperty<float>.ToAnimatedValue(Transform avatarRootTransform)
             {
                 return new GenericEmoteSequenceFactory.AnimatedValue<float>
                 {
@@ -44,6 +59,26 @@ namespace Silksprite.EmoteWizard.DataObjects
                     PropertyName = "m_IsActive",
                     Type = typeof(GameObject),
                     Value = isEnable ? 1 : 0
+                };
+            }
+        }
+
+        [Serializable]
+        public class AnimatedBlendShape : IAnimatedProperty<float>
+        {
+            [SerializeField] public SkinnedMeshRenderer target;
+            [SerializeField] public string blendShapeName;
+            [Range(0, 100)]
+            [SerializeField] public float value;
+
+            GenericEmoteSequenceFactory.AnimatedValue<float> IAnimatedProperty<float>.ToAnimatedValue(Transform avatarRootTransform)
+            {
+                return new GenericEmoteSequenceFactory.AnimatedValue<float>
+                {
+                    Path = target.transform.GetRelativePathFrom(avatarRootTransform),
+                    PropertyName = $"blendShape.{blendShapeName}",
+                    Type = typeof(SkinnedMeshRenderer),
+                    Value = value
                 };
             }
         }

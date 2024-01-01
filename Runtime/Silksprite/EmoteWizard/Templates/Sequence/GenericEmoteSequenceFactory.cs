@@ -38,7 +38,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
         EmoteSequence IEmoteSequenceFactory.Build(IEmoteSequenceFactory.IClipBuilder builder)
         {
             var avatarRootTransform = builder.Environment.AvatarDescriptor.transform;
-            var clip = builder.Build(_clipName, _genericEmoteSequence.animatedEnable.Select(ae => ae.ToAnimatedValue(avatarRootTransform)));
+            var clip = builder.Build(_clipName, _genericEmoteSequence.ToAnimatedFloats(avatarRootTransform));
 
             return new EmoteSequence
             {
