@@ -11,6 +11,6 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
     {
         [SerializeField] public SimpleEmote simpleEmote = new SimpleEmote();
 
-        public override IEmoteFactory ToEmoteFactory() => new SimpleEmoteFactory(simpleEmote, $"{gameObject.name}_{gameObject.GetInstanceID()}");
+        public override IEmoteFactoryTemplate ToEmoteFactoryTemplate() => new SimpleEmoteFactory(simpleEmote, $"{gameObject.name}_{gameObject.GetInstanceID()}");
     }
 }

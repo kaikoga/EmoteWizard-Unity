@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool IsAutoExpression => HasExpressionItem && CanAutoExpression;
 
-        EmoteItem ToEmoteItem() => Factory == null ? null : new EmoteItem(Trigger, Factory.ToEmoteFactory());
+        EmoteItem ToEmoteItem() => Factory == null ? null : new EmoteItem(Trigger, Factory);
 
         public IEnumerable<EmoteItem> ToEmoteItems()
         {
@@ -175,7 +175,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 return this;
             }
 
-            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, ((IEmoteFactory)new StaticEmoteFactory(_sequence)).ToTemplate(), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, (IEmoteFactoryTemplate)((IEmoteFactory)new StaticEmoteFactory(_sequence)), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
     }
 }

@@ -14,7 +14,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         IEnumerable<Motion> AllClipRefs();
 
-        IEmoteFactoryTemplate ToTemplate();
         EmoteSequence Build(IClipBuilder builder);
         IEnumerable<TrackingOverride> TrackingOverrides();
 

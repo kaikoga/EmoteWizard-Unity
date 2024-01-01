@@ -11,6 +11,6 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
     {
         [SerializeField] public EmoteSequence sequence = new();
 
-        public override IEmoteFactory ToEmoteFactory() => new StaticEmoteFactory(sequence);
+        public override IEmoteFactoryTemplate ToEmoteFactoryTemplate() => new StaticEmoteFactory(sequence);
     }
 }

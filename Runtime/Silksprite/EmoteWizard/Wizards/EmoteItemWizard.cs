@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
@@ -23,7 +22,7 @@ namespace Silksprite.EmoteWizard.Sources
         {
             yield return new EmoteItemTemplate(
                 new EmoteTrigger { name = itemPath },
-                ((IEmoteFactory)new StaticEmoteFactory(new EmoteSequence { groupName = hasGroupName ? groupName : itemPath })).ToTemplate(),
+                new StaticEmoteFactory(new EmoteSequence { groupName = hasGroupName ? groupName : itemPath }),
                 !hasExpressionItemSource,
                 itemPath,
                 VrcSdkAssetLocator.ItemWand()

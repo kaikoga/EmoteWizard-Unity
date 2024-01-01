@@ -4,13 +4,8 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
 {
-    public interface IEmoteFactoryTemplate
+    public interface IEmoteFactoryTemplate : IEmoteFactory
     {
-        bool LooksLikeMirrorItem { get; }
-        bool LooksLikeToggle { get; }
-
-        IEmoteFactory ToEmoteFactory();
-
         EmoteSequenceSourceBase AddSequenceSource(Component target);
     }
 }

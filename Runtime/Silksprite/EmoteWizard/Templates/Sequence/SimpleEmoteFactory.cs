@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
 {
-    public class SimpleEmoteFactory : IEmoteFactory
+    public class SimpleEmoteFactory : IEmoteFactoryTemplate
     {
         readonly SimpleEmote _simpleEmote;
         readonly string _clipName;
@@ -35,11 +35,6 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             return _simpleEmote.hasTrackingOverrides ? _simpleEmote.trackingOverrides : Enumerable.Empty<TrackingOverride>();
         }
 
-        IEmoteFactoryTemplate IEmoteFactory.ToTemplate()
-        {
-            return new SimpleEmoteFactoryTemplate(this);
-        }
-
         EmoteSequence IEmoteFactory.Build(IEmoteFactory.IClipBuilder builder)
         {
             var avatarRootTransform = builder.Environment.AvatarDescriptor.transform;
@@ -63,24 +58,12 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
                 trackingOverrides = _simpleEmote.trackingOverrides.ToList()
             };
         }
-
-        class SimpleEmoteFactoryTemplate : IEmoteFactoryTemplate
+        
+        EmoteSequenceSourceBase IEmoteFactoryTemplate.AddSequenceSource(Component target)
         {
-            readonly SimpleEmoteFactory _factory;
-
-            public SimpleEmoteFactoryTemplate(SimpleEmoteFactory factory) => _factory = factory;
-
-            public bool LooksLikeMirrorItem => ((IEmoteFactory)_factory).LooksLikeMirrorItem;
-            public bool LooksLikeToggle => ((IEmoteFactory)_factory).LooksLikeToggle;
-
-            public IEmoteFactory ToEmoteFactory() => _factory;
-
-            public EmoteSequenceSourceBase AddSequenceSource(Component target)
-            {
-                var source = target.gameObject.AddComponent<SimpleEmoteSource>();
-                source.simpleEmote = _factory._simpleEmote;
-                return source;
-            }
+            var source = target.gameObject.AddComponent<SimpleEmoteSource>();
+            source.simpleEmote = _simpleEmote;
+            return source;
         }
 
         public struct AnimatedValue<T>

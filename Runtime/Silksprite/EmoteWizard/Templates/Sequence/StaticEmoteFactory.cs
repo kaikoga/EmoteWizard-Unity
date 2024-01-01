@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
 {
-    public class StaticEmoteFactory : IEmoteFactory
+    public class StaticEmoteFactory : IEmoteFactoryTemplate
     {
         readonly EmoteSequence _sequence;
 
@@ -32,27 +32,13 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             return _sequence.hasTrackingOverrides ? _sequence.trackingOverrides : Enumerable.Empty<TrackingOverride>();
         }
 
-        IEmoteFactoryTemplate IEmoteFactory.ToTemplate() => new StaticEmoteFactoryTemplate(this);
-
         EmoteSequence IEmoteFactory.Build(IEmoteFactory.IClipBuilder builder) => _sequence;
 
-        class StaticEmoteFactoryTemplate : IEmoteFactoryTemplate
+        EmoteSequenceSourceBase IEmoteFactoryTemplate.AddSequenceSource(Component target)
         {
-            readonly StaticEmoteFactory _factory;
-
-            public StaticEmoteFactoryTemplate(StaticEmoteFactory staticEmoteFactory) => _factory = staticEmoteFactory;
-
-            public bool LooksLikeMirrorItem => ((IEmoteFactory)_factory).LooksLikeMirrorItem;
-            public bool LooksLikeToggle => ((IEmoteFactory)_factory).LooksLikeToggle;
-
-            public IEmoteFactory ToEmoteFactory() => _factory;
-
-            public EmoteSequenceSourceBase AddSequenceSource(Component target)
-            {
-                var source = target.gameObject.AddComponent<EmoteSequenceSource>();
-                source.sequence = _factory._sequence;
-                return source;
-            }
+            var source = target.gameObject.AddComponent<EmoteSequenceSource>();
+            source.sequence = _sequence;
+            return source;
         }
     }
 }
