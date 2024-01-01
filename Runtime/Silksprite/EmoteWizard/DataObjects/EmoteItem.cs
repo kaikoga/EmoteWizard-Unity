@@ -8,23 +8,23 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class EmoteItem
     {
         public readonly EmoteTrigger Trigger;
-        readonly IEmoteFactory _emoteFactory;
+        readonly IEmoteSequenceFactory _emoteSequenceFactory;
 
-        public LayerKind LayerKind => _emoteFactory.LayerKind;
-        public string GroupName => _emoteFactory.GroupName;
+        public LayerKind LayerKind => _emoteSequenceFactory.LayerKind;
+        public string GroupName => _emoteSequenceFactory.GroupName;
 
-        public IEnumerable<Motion> AllClipRefs() => _emoteFactory.AllClipRefs();
-        public IEnumerable<TrackingOverride> TrackingOverrides() => _emoteFactory.TrackingOverrides();
+        public IEnumerable<Motion> AllClipRefs() => _emoteSequenceFactory.AllClipRefs();
+        public IEnumerable<TrackingOverride> TrackingOverrides() => _emoteSequenceFactory.TrackingOverrides();
 
-        public EmoteItem(EmoteTrigger trigger, IEmoteFactory factory)
+        public EmoteItem(EmoteTrigger trigger, IEmoteSequenceFactory sequenceFactory)
         {
             Trigger = trigger;
-            _emoteFactory = factory;
+            _emoteSequenceFactory = sequenceFactory;
         }
 
-        public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || _emoteFactory.LooksLikeMirrorItem;
+        public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || _emoteSequenceFactory.LooksLikeMirrorItem;
 
-        public EmoteInstance Mirror(IEmoteFactory.IClipBuilder clipBuilder, EmoteHand handValue)
+        public EmoteInstance Mirror(IEmoteSequenceFactory.IClipBuilder clipBuilder, EmoteHand handValue)
         {
             string ResolveMirrorParameter(string parameter)
             {
@@ -44,7 +44,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
 
             var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
-                _emoteFactory.Build(clipBuilder));
+                _emoteSequenceFactory.Build(clipBuilder));
 
             foreach (var condition in item.Trigger.conditions)
             {
@@ -55,9 +55,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             return item;
         }
 
-        public EmoteInstance ToEmoteInstance(IEmoteFactory.IClipBuilder clipBuilder)
+        public EmoteInstance ToEmoteInstance(IEmoteSequenceFactory.IClipBuilder clipBuilder)
         {
-            return new EmoteInstance(Trigger, _emoteFactory.Build(clipBuilder));
+            return new EmoteInstance(Trigger, _emoteSequenceFactory.Build(clipBuilder));
         }
     }
 }

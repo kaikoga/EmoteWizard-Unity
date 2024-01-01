@@ -7,17 +7,17 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Internal.ClipBuilders
 {
-    public class ClipBuilderImpl : IEmoteFactory.IClipBuilder
+    public class ClipBuilderImpl : IEmoteSequenceFactory.IClipBuilder
     {
         readonly EmoteWizardEnvironment _environment;
-        EmoteWizardEnvironment IEmoteFactory.IClipBuilder.Environment => _environment;
+        EmoteWizardEnvironment IEmoteSequenceFactory.IClipBuilder.Environment => _environment;
 
         public ClipBuilderImpl(EmoteWizardEnvironment environment)
         {
             _environment = environment;
         }
 
-        Motion IEmoteFactory.IClipBuilder.Build(string clipName, IEnumerable<SimpleEmoteFactory.AnimatedValue<float>> floatValues)
+        Motion IEmoteSequenceFactory.IClipBuilder.Build(string clipName, IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> floatValues)
         {
             var clip = new AnimationClip
             {

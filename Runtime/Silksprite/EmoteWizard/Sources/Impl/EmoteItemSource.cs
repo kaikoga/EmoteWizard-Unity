@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         EmoteItemTemplate ToTemplate()
         {
-            IEmoteFactoryTemplate FindEmoteFactory()
+            IEmoteSequenceFactoryTemplate FindEmoteFactory()
             {
                 var source = FindEmoteSequenceSource();
                 if (!source) return null;

@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
                 Value = value;
             }
 
-            public static BoundFloatValue FromAnimatedValue(SimpleEmoteFactory.AnimatedValue<float> floatValue)
+            public static BoundFloatValue FromAnimatedValue(GenericEmoteSequenceFactory.AnimatedValue<float> floatValue)
             {
                 var editorCurveBinding = EditorCurveBinding.FloatCurve(floatValue.Path, floatValue.Type, floatValue.PropertyName);
                 return new BoundFloatValue(editorCurveBinding, floatValue.Value);

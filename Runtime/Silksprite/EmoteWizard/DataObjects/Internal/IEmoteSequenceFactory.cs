@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    public interface IEmoteFactory
+    public interface IEmoteSequenceFactory
     {
         LayerKind LayerKind { get; }
         string GroupName { get; }
@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         interface IClipBuilder
         {
             EmoteWizardEnvironment Environment { get; }
-            Motion Build(string clipName, IEnumerable<SimpleEmoteFactory.AnimatedValue<float>> floatValues);
+            Motion Build(string clipName, IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> floatValues);
         }
     }
 }

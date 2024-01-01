@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.Sources
         {
             yield return new EmoteItemTemplate(
                 new EmoteTrigger { name = itemPath },
-                new StaticEmoteFactory(new EmoteSequence { groupName = hasGroupName ? groupName : itemPath }),
+                new EmoteSequenceFactory(new EmoteSequence { groupName = hasGroupName ? groupName : itemPath }),
                 !hasExpressionItemSource,
                 itemPath,
                 VrcSdkAssetLocator.ItemWand()

@@ -8,6 +8,6 @@ namespace Silksprite.EmoteWizard.Sources.Sequence.Base
     [DisallowMultipleComponent]
     public abstract class EmoteSequenceSourceBase : EmoteWizardDataSourceBase
     {
-        public abstract IEmoteFactoryTemplate ToEmoteFactoryTemplate();
+        public abstract IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate();
     }
 }

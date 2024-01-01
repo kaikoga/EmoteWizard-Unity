@@ -9,22 +9,22 @@ namespace Silksprite.EmoteWizard.Templates.Impl
     public class EmoteItemTemplate : IEmoteTemplate
     {
         public readonly EmoteTrigger Trigger;
-        public readonly IEmoteFactoryTemplate Factory;
+        public readonly IEmoteSequenceFactoryTemplate SequenceFactory;
 
         public readonly bool HasExpressionItem;
         public readonly string ExpressionItemPath;
         public readonly Texture2D ExpressionItemIcon;
 
-        public EmoteItemTemplate(EmoteTrigger trigger, IEmoteFactoryTemplate factory, bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
+        public EmoteItemTemplate(EmoteTrigger trigger, IEmoteSequenceFactoryTemplate sequenceFactory, bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
         {
             Trigger = trigger;
-            Factory = factory;
+            SequenceFactory = sequenceFactory;
             HasExpressionItem = hasExpressionItem;
             ExpressionItemPath = expressionItemPath;
             ExpressionItemIcon = expressionItemIcon;
         }
 
-        public bool LooksLikeMirrorItem => Trigger.LooksLikeMirrorItem || (Factory != null && Factory.LooksLikeMirrorItem);
+        public bool LooksLikeMirrorItem => Trigger.LooksLikeMirrorItem || (SequenceFactory != null && SequenceFactory.LooksLikeMirrorItem);
 
         public bool CanAutoExpression
         {
@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool IsAutoExpression => HasExpressionItem && CanAutoExpression;
 
-        EmoteItem ToEmoteItem() => Factory == null ? null : new EmoteItem(Trigger, Factory);
+        EmoteItem ToEmoteItem() => SequenceFactory == null ? null : new EmoteItem(Trigger, SequenceFactory);
 
         public IEnumerable<EmoteItem> ToEmoteItems()
         {
@@ -71,7 +71,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 path = ExpressionItemPath,
                 parameter = soleCondition.parameter,
                 value = soleCondition.threshold,
-                itemKind = Factory.LooksLikeToggle ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+                itemKind = SequenceFactory.LooksLikeToggle ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
             };
         }
 
@@ -175,7 +175,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 return this;
             }
 
-            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, (IEmoteFactoryTemplate)((IEmoteFactory)new StaticEmoteFactory(_sequence)), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, (IEmoteSequenceFactoryTemplate)((IEmoteSequenceFactory)new EmoteSequenceFactory(_sequence)), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
     }
 }

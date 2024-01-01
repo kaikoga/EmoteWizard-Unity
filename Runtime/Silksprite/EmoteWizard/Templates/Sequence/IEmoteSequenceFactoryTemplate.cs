@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
 {
-    public interface IEmoteFactoryTemplate : IEmoteFactory
+    public interface IEmoteSequenceFactoryTemplate : IEmoteSequenceFactory
     {
         EmoteSequenceSourceBase AddSequenceSource(Component target);
     }

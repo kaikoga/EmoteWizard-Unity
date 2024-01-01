@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.DataObjects
 {
     [Serializable]
-    public class SimpleEmote
+    public class GenericEmoteSequence
     {
         [SerializeField] public LayerKind layerKind = LayerKind.FX;
         [SerializeField] public string groupName;
@@ -36,9 +36,9 @@ namespace Silksprite.EmoteWizard.DataObjects
             [SerializeField] public Transform target;
             [SerializeField] public bool isEnable;
 
-            public SimpleEmoteFactory.AnimatedValue<float> ToAnimatedValue(Transform avatarRootTransform)
+            public GenericEmoteSequenceFactory.AnimatedValue<float> ToAnimatedValue(Transform avatarRootTransform)
             {
-                return new SimpleEmoteFactory.AnimatedValue<float>
+                return new GenericEmoteSequenceFactory.AnimatedValue<float>
                 {
                     Path = target.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = "m_IsActive",

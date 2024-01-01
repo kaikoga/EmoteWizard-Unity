@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Sources
 {
     [CanEditMultipleObjects]
-    [CustomEditor(typeof(SimpleEmoteSource))]
+    [CustomEditor(typeof(GenericEmoteSequenceSource))]
     public class SimpleEmoteSourceEditor : Editor
     {
         SerializedProperty _serializedLayerKind;
@@ -28,29 +28,29 @@ namespace Silksprite.EmoteWizard.Sources
         SerializedProperty _serializedHasTrackingOverrides;
         SerializedProperty _serializedTrackingOverrides;
 
-        SimpleEmoteSource _simpleEmoteSource;
+        GenericEmoteSequenceSource _genericEmoteSequenceSource;
 
         void OnEnable()
         {
-            var serializedItem = serializedObject.FindProperty(nameof(SimpleEmoteSource.simpleEmote));
+            var serializedItem = serializedObject.FindProperty(nameof(GenericEmoteSequenceSource.sequence));
 
-            _serializedLayerKind = serializedItem.FindPropertyRelative(nameof(SimpleEmote.layerKind));
-            _serializedGroupName = serializedItem.FindPropertyRelative(nameof(SimpleEmote.groupName));
+            _serializedLayerKind = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.layerKind));
+            _serializedGroupName = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.groupName));
 
-            _serializedAnimatedEnable = serializedItem.FindPropertyRelative(nameof(SimpleEmote.animatedEnable));
+            _serializedAnimatedEnable = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.animatedEnable));
 
-            _serializedIsFixedDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.isFixedDuration));
-            _serializedEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.entryTransitionDuration));
-            _serializedExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(SimpleEmote.exitTransitionDuration));
+            _serializedIsFixedDuration = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.isFixedDuration));
+            _serializedEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.entryTransitionDuration));
+            _serializedExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.exitTransitionDuration));
             
-            _serializedHasLayerBlend = serializedItem.FindPropertyRelative(nameof(SimpleEmote.hasLayerBlend));
-            _serializedBlendIn = serializedItem.FindPropertyRelative(nameof(SimpleEmote.blendIn));
-            _serializedBlendOut = serializedItem.FindPropertyRelative(nameof(SimpleEmote.blendOut));
+            _serializedHasLayerBlend = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.hasLayerBlend));
+            _serializedBlendIn = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.blendIn));
+            _serializedBlendOut = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.blendOut));
 
-            _serializedHasTrackingOverrides = serializedItem.FindPropertyRelative(nameof(SimpleEmote.hasTrackingOverrides));
-            _serializedTrackingOverrides = serializedItem.FindPropertyRelative(nameof(SimpleEmote.trackingOverrides));
+            _serializedHasTrackingOverrides = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.hasTrackingOverrides));
+            _serializedTrackingOverrides = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.trackingOverrides));
 
-            _simpleEmoteSource = (SimpleEmoteSource)target;
+            _genericEmoteSequenceSource = (GenericEmoteSequenceSource)target;
         }
 
         public override void OnInspectorGUI()
@@ -81,12 +81,12 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (GUILayout.Button("Explode"))
             {
-                SourceExploder.ExplodeEmoteSequences(_simpleEmoteSource);
+                SourceExploder.ExplodeEmoteSequences(_genericEmoteSequenceSource);
                 return;
             }
 
-            _simpleEmoteSource = (SimpleEmoteSource)target;
-            EmoteWizardGUILayout.Tutorial(_simpleEmoteSource.CreateEnv(), Tutorial);
+            _genericEmoteSequenceSource = (GenericEmoteSequenceSource)target;
+            EmoteWizardGUILayout.Tutorial(_genericEmoteSequenceSource.CreateEnv(), Tutorial);
         }
 
         static string Tutorial =>
