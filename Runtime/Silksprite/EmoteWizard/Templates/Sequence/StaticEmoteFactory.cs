@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Sources.Base;
-using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Templates;
+using Silksprite.EmoteWizard.Sources.Sequence;
+using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects.Impl
+namespace Silksprite.EmoteWizard.Templates.Sequence
 {
     public class StaticEmoteFactory : IEmoteFactory
     {

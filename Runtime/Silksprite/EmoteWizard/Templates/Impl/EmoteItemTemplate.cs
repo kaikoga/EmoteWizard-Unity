@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Impl;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Templates
+namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class EmoteItemTemplate : IEmoteTemplate
     {

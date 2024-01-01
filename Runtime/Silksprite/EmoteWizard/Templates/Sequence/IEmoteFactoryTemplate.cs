@@ -1,8 +1,8 @@
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Sources.Base;
+using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Templates
+namespace Silksprite.EmoteWizard.Templates.Sequence
 {
     public interface IEmoteFactoryTemplate
     {

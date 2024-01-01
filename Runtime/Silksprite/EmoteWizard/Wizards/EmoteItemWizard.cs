@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Impl;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Sources.Templates;
+using Silksprite.EmoteWizard.Templates;
+using Silksprite.EmoteWizard.Templates.Impl;
+using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 

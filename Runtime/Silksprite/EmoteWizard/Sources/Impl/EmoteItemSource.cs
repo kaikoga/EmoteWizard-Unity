@@ -3,8 +3,8 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Sources.Base;
-using Silksprite.EmoteWizard.Sources.Templates;
+using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizard.Templates.Impl;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl

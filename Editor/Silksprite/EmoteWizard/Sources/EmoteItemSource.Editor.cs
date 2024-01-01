@@ -1,6 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources.Base;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizard.UI;
 using UnityEditor;
 

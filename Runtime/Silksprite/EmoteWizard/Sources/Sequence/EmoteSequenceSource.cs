@@ -1,17 +1,15 @@
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Impl;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Sources.Base;
+using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources.Impl
+namespace Silksprite.EmoteWizard.Sources.Sequence
 {
     [AddComponentMenu("Emote Wizard/Sources/Emote Sequence Source", 100)]
     public class EmoteSequenceSource : EmoteSequenceSourceBase
     {
         [SerializeField] public EmoteSequence sequence = new();
-
-        public override bool LooksLikeMirrorItem => sequence != null && sequence.LooksLikeMirrorItem;
 
         public override IEmoteFactory ToEmoteFactory() => new StaticEmoteFactory(sequence);
     }

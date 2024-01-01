@@ -4,7 +4,7 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Templates;
+using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
