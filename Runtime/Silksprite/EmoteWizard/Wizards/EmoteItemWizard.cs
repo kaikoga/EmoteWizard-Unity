@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources
 {
+    [AddComponentMenu("Emote Wizard/Wizards/Emote Item Wizard", 200)]
     public class EmoteItemWizard : EmoteWizardBase
     {
         [SerializeField] public bool hasExpressionItemSource;
