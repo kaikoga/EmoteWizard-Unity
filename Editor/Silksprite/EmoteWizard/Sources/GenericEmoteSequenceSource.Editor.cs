@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.UI;
@@ -14,7 +15,7 @@ namespace Silksprite.EmoteWizard.Sources
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(GenericEmoteSequenceSource))]
-    public class SimpleEmoteSourceEditor : Editor
+    public class GenericEmoteSequenceSourceEditor : Editor
     {
         SerializedProperty _serializedLayerKind;
         SerializedProperty _serializedGroupName;
@@ -34,6 +35,8 @@ namespace Silksprite.EmoteWizard.Sources
         SerializedProperty _serializedTrackingOverrides;
 
         GenericEmoteSequenceSource _genericEmoteSequenceSource;
+
+        AnimationClip _inputClip;
 
         AnimationPreview _preview;
 
@@ -113,6 +116,18 @@ namespace Silksprite.EmoteWizard.Sources
             serializedObject.ApplyModifiedProperties();
 
             var environment = _genericEmoteSequenceSource.CreateEnv(); 
+
+            using (new GUILayout.HorizontalScope())
+            {
+                _inputClip = EditorGUILayout.ObjectField("Clip", _inputClip, typeof(AnimationClip), true) as AnimationClip;
+                if (GUILayout.Button("Import"))
+                {
+                    var converted = _inputClip.ToGenericEmoteSequence(environment.AvatarDescriptor.gameObject);
+                    _genericEmoteSequenceSource.sequence.animatedEnable = converted.animatedEnable;
+                    _genericEmoteSequenceSource.sequence.animatedBlendShapes = converted.animatedBlendShapes;
+                }
+            }
+
             if (requireRefreshPreview)
             {
                 RefreshPreviewIfNeeded(environment);
