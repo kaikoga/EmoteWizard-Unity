@@ -1,5 +1,4 @@
 using System;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -40,34 +39,6 @@ namespace Silksprite.EmoteWizard.UI
             {
                 if (!string.IsNullOrEmpty(label)) GUILayout.Label(label);
                 action();
-            }
-        }
-
-        public static void RequireAnotherContext<TContext, TComponent>(EmoteConfigBase emoteConfigBase, Action action)
-            where TContext : IBehaviourContext
-            where TComponent : EmoteConfigBase
-        {
-            RequireAnotherContext<TContext, TComponent>(emoteConfigBase, emoteConfigBase.CreateEnv().GetContext<TContext>(), action);
-        }
-
-        public static void RequireAnotherContext<TContext, TComponent>(EmoteConfigBase emoteConfigBase, TContext anotherContext, Action action)
-            where TContext : IBehaviourContext
-            where TComponent : EmoteConfigBase
-        {
-            if (anotherContext != null)
-            {
-                action();
-                return;
-            }
-
-            var typeName = typeof(TComponent).Name;
-            EditorGUILayout.HelpBox($"{typeName} not found. Some functions might not work.", MessageType.Error);
-            using (new BoxLayoutScope(Color.magenta))
-            {
-                if (GUILayout.Button($"Add {typeName}"))
-                {
-                    emoteConfigBase.gameObject.AddComponent<TComponent>();
-                }
             }
         }
 
