@@ -1,4 +1,3 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -10,9 +9,15 @@ namespace Silksprite.EmoteWizard.Base
     {
         public EmoteWizardEnvironment CreateEnv()
         {
-            return GetComponentsInParent<EmoteWizardRoot>(true).Select(EmoteWizardEnvironment.FromRoot)
-                .Concat(GetComponentsInParent<VRCAvatarDescriptor>(true).Select(EmoteWizardEnvironment.FromAvatar))
-                .FirstOrDefault();
+            if (GetComponentInParent<EmoteWizardRoot>(true) is EmoteWizardRoot root)
+            {
+                return EmoteWizardEnvironment.FromRoot(root);
+            }
+            if (GetComponentInParent<VRCAvatarDescriptor>(true) is VRCAvatarDescriptor avatarDescriptor)
+            {
+                return EmoteWizardEnvironment.FromAvatar(avatarDescriptor);
+            }
+            return null;
         }
     }
 }
