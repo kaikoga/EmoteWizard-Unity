@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -20,7 +20,16 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         interface IClipBuilder
         {
             EmoteWizardEnvironment Environment { get; }
-            Motion Build(string clipName, IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> floatValues);
+            Motion Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues);
+        }
+
+        public struct AnimatedValue<T>
+        {
+            public string Path;
+            public string PropertyName;
+            public Type Type;
+
+            public T Value;
         }
     }
 }

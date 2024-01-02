@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
             _debug = debug;
         }
 
-        Motion IEmoteSequenceFactory.IClipBuilder.Build(string clipName, IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> floatValues)
+        Motion IEmoteSequenceFactory.IClipBuilder.Build(string clipName, IEnumerable<IEmoteSequenceFactory.AnimatedValue<float>> floatValues)
         {
             var clip = new AnimationClip
             {

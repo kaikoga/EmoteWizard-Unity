@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
@@ -64,15 +63,6 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             var source = target.gameObject.AddComponent<GenericEmoteSequenceSource>();
             source.sequence = _genericEmoteSequence;
             return source;
-        }
-
-        public struct AnimatedValue<T>
-        {
-            public string Path;
-            public string PropertyName;
-            public Type Type;
-
-            public T Value;
         }
     }
 }

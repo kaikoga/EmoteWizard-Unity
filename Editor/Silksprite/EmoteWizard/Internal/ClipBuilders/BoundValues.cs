@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEditor;
 using UnityEngine;
 
@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
                 Value = value;
             }
 
-            public static BoundFloatValue FromAnimatedValue(GenericEmoteSequenceFactory.AnimatedValue<float> floatValue)
+            public static BoundFloatValue FromAnimatedValue(IEmoteSequenceFactory.AnimatedValue<float> floatValue)
             {
                 var editorCurveBinding = EditorCurveBinding.FloatCurve(floatValue.Path, floatValue.Type, floatValue.PropertyName);
                 return new BoundFloatValue(editorCurveBinding, floatValue.Value);

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public bool hasTrackingOverrides;
         [SerializeField] public List<TrackingOverride> trackingOverrides = new();
 
-        public IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> ToAnimatedFloats(Transform avatarRootTransform)
+        public IEnumerable<IEmoteSequenceFactory.AnimatedValue<float>> ToAnimatedFloats(Transform avatarRootTransform)
         {
             return Enumerable.Empty<IAnimatedProperty<float>>()
                 .Concat(animatedEnable)
@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public interface IAnimatedProperty<T>
         {
-            IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<T>> ToAnimatedValues(Transform avatarRootTransform);
+            IEnumerable<IEmoteSequenceFactory.AnimatedValue<T>> ToAnimatedValues(Transform avatarRootTransform);
         }
 
         [Serializable]
@@ -51,10 +51,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             [SerializeField] public Transform target;
             [SerializeField] public bool isEnable;
 
-            IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
+            IEnumerable<IEmoteSequenceFactory.AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
             {
                 if (!target) yield break;
-                yield return new GenericEmoteSequenceFactory.AnimatedValue<float>
+                yield return new IEmoteSequenceFactory.AnimatedValue<float>
                 {
                     Path = target.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = "m_IsActive",
@@ -72,10 +72,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             [Range(0, 100)]
             [SerializeField] public float value;
 
-            IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
+            IEnumerable<IEmoteSequenceFactory.AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
             {
                 if (!target) yield break;
-                yield return new GenericEmoteSequenceFactory.AnimatedValue<float>
+                yield return new IEmoteSequenceFactory.AnimatedValue<float>
                 {
                     Path = target.transform.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = $"blendShape.{blendShapeName}",
