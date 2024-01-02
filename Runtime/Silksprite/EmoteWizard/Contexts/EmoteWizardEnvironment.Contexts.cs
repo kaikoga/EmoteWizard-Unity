@@ -7,27 +7,33 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public partial class EmoteWizardEnvironment
     {
-        readonly List<IBehaviourContext> _contexts = new List<IBehaviourContext>();
+        List<IBehaviourContext> _contextsCache;
+        IEnumerable<IBehaviourContext> ContextsCache => _contextsCache ?? (_contextsCache = CollectContexts());
 
-        void CollectOtherContexts()
+        List<IBehaviourContext> CollectContexts()
         {
+            _contextsCache = new List<IBehaviourContext>();
             var contexts = GetComponentsInChildren<IContextProvider>(true).Select(component => component.ToContext(this));
             foreach (var context in contexts)
             {
-                if (_contexts.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;
-                _contexts.Add(context);
+                if (_contextsCache.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;
+                _contextsCache.Add(context);
             }
+            return _contextsCache;
         }
 
-        public bool HasContext<T>() => _contexts.OfType<T>().Any();
+        public bool HasContext<T>()
+        {
+            return ContextsCache.OfType<T>().Any();
+        }
 
         public T GetContext<T>() where T : IBehaviourContext
         {
-            var context = _contexts.OfType<T>().FirstOrDefault();
+            var context = ContextsCache.OfType<T>().FirstOrDefault();
             if (context == null)
             {
                 context = (T)Activator.CreateInstance(typeof(T), this);
-                _contexts.Add(context);
+                _contextsCache.Add(context);
             }
             return context;
         }

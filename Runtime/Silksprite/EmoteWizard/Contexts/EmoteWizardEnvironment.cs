@@ -118,7 +118,6 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             var avatarDescriptor = root.avatarDescriptor ? root.avatarDescriptor : root.GetComponentInParent<VRCAvatarDescriptor>();
             var env = new EmoteWizardEnvironment(root, avatarDescriptor);
-            env.CollectOtherContexts();
             return env;
         }
 
@@ -126,7 +125,6 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             var root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>(true);
             var env = root ? new EmoteWizardEnvironment(root, avatarDescriptor) : new EmoteWizardEnvironment(avatarDescriptor);
-            env.CollectOtherContexts();
             return env;
         }
 
@@ -135,7 +133,7 @@ namespace Silksprite.EmoteWizard.Contexts
         public void DisconnectAllOutputAssets()
         {
             ProxyAnimator = null;
-            foreach (var context in _contexts) context.DisconnectOutputAssets();
+            foreach (var context in ContextsCache) context.DisconnectOutputAssets();
         }
 
         public Transform Find(string path)
