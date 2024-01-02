@@ -73,7 +73,7 @@ namespace Silksprite.EmoteWizard.UI
 
         public static void Tutorial(EmoteWizardEnvironment environment, Action action)
         {
-            if (!environment.ShowTutorial) return;
+            if (environment?.ShowTutorial != true) return;
             using (new BoxLayoutScope()) action();
         }
         

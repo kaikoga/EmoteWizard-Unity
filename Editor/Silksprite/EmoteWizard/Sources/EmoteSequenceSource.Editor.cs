@@ -88,7 +88,7 @@ namespace Silksprite.EmoteWizard.Sources
             _emoteSequenceSource = (EmoteSequenceSource)target;
 
             var environment = _emoteSequenceSource.CreateEnv();
-            if (environment.AvatarDescriptor)
+            if (environment?.AvatarDescriptor)
             {
                 // TODO: prevent multiple previews
                 _preview = new AnimationPreview();
