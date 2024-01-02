@@ -37,12 +37,12 @@ namespace Silksprite.EmoteWizard.DataObjects
             return Enumerable.Empty<IAnimatedProperty<float>>()
                 .Concat(animatedEnable)
                 .Concat(animatedBlendShapes)
-                .Select(prop => prop.ToAnimatedValue(avatarRootTransform));
+                .SelectMany(prop => prop.ToAnimatedValues(avatarRootTransform));
         }
 
         public interface IAnimatedProperty<T>
         {
-            GenericEmoteSequenceFactory.AnimatedValue<T> ToAnimatedValue(Transform avatarRootTransform);
+            IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<T>> ToAnimatedValues(Transform avatarRootTransform);
         }
 
         [Serializable]
@@ -51,9 +51,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             [SerializeField] public Transform target;
             [SerializeField] public bool isEnable;
 
-            GenericEmoteSequenceFactory.AnimatedValue<float> IAnimatedProperty<float>.ToAnimatedValue(Transform avatarRootTransform)
+            IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
             {
-                return new GenericEmoteSequenceFactory.AnimatedValue<float>
+                if (!target) yield break;
+                yield return new GenericEmoteSequenceFactory.AnimatedValue<float>
                 {
                     Path = target.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = "m_IsActive",
@@ -71,9 +72,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             [Range(0, 100)]
             [SerializeField] public float value;
 
-            GenericEmoteSequenceFactory.AnimatedValue<float> IAnimatedProperty<float>.ToAnimatedValue(Transform avatarRootTransform)
+            IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
             {
-                return new GenericEmoteSequenceFactory.AnimatedValue<float>
+                if (!target) yield break;
+                yield return new GenericEmoteSequenceFactory.AnimatedValue<float>
                 {
                     Path = target.transform.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = $"blendShape.{blendShapeName}",
