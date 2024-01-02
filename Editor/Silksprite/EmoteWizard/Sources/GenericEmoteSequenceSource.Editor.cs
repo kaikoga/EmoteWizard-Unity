@@ -1,6 +1,8 @@
 using System;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -33,6 +35,8 @@ namespace Silksprite.EmoteWizard.Sources
 
         GenericEmoteSequenceSource _genericEmoteSequenceSource;
 
+        AnimationPreview _preview;
+
         void OnEnable()
         {
             var serializedItem = serializedObject.FindProperty(nameof(GenericEmoteSequenceSource.sequence));
@@ -55,6 +59,28 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedTrackingOverrides = serializedItem.FindPropertyRelative(nameof(GenericEmoteSequence.trackingOverrides));
 
             _genericEmoteSequenceSource = (GenericEmoteSequenceSource)target;
+
+            var environment = _genericEmoteSequenceSource.CreateEnv();
+            if (environment.AvatarDescriptor)
+            {
+                // TODO: prevent multiple previews
+                _preview = new AnimationPreview();
+                RefreshPreviewIfNeeded(environment);
+            }
+        }
+
+        void RefreshPreviewIfNeeded(EmoteWizardEnvironment environment)
+        {
+            if (_preview == null) return;
+
+            var temporaryClip = (AnimationClip)_genericEmoteSequenceSource.ToEmoteFactoryTemplate().Build(new ClipBuilderImpl(environment)).clip;
+            _preview.Refresh(environment.AvatarDescriptor, temporaryClip, 0f);
+            DestroyImmediate(temporaryClip);
+        }
+
+        void OnDisable()
+        {
+            _preview?.Dispose();
         }
 
         public override void OnInspectorGUI()
@@ -62,8 +88,10 @@ namespace Silksprite.EmoteWizard.Sources
             EditorGUILayout.PropertyField(_serializedLayerKind);
             EditorGUILayout.PropertyField(_serializedGroupName);
 
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(_serializedAnimatedEnable);
             EditorGUILayout.PropertyField(_serializedAnimatedBlendShapes);
+            var requireRefreshPreview = EditorGUI.EndChangeCheck();
 
             EditorGUILayout.PropertyField(_serializedIsFixedDuration);
             EditorGUILayout.PropertyField(_serializedEntryTransitionDuration);
@@ -84,6 +112,12 @@ namespace Silksprite.EmoteWizard.Sources
 
             serializedObject.ApplyModifiedProperties();
 
+            var environment = _genericEmoteSequenceSource.CreateEnv(); 
+            if (requireRefreshPreview)
+            {
+                RefreshPreviewIfNeeded(environment);
+            }
+            
             if (GUILayout.Button("Explode"))
             {
                 SourceExploder.ExplodeEmoteSequences(_genericEmoteSequenceSource);
@@ -91,7 +125,7 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             _genericEmoteSequenceSource = (GenericEmoteSequenceSource)target;
-            EmoteWizardGUILayout.Tutorial(_genericEmoteSequenceSource.CreateEnv(), Tutorial);
+            EmoteWizardGUILayout.Tutorial(environment, Tutorial);
         }
 
         static string Tutorial =>

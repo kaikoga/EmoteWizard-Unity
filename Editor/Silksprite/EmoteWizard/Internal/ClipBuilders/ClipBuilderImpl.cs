@@ -3,6 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Templates.Sequence;
+using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Internal.ClipBuilders
@@ -12,9 +13,12 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
         readonly EmoteWizardEnvironment _environment;
         EmoteWizardEnvironment IEmoteSequenceFactory.IClipBuilder.Environment => _environment;
 
-        public ClipBuilderImpl(EmoteWizardEnvironment environment)
+        readonly bool _debug; 
+
+        public ClipBuilderImpl(EmoteWizardEnvironment environment, bool debug = false)
         {
             _environment = environment;
+            _debug = debug;
         }
 
         Motion IEmoteSequenceFactory.IClipBuilder.Build(string clipName, IEnumerable<GenericEmoteSequenceFactory.AnimatedValue<float>> floatValues)
@@ -23,6 +27,11 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
             {
                 name = clipName
             };
+
+            if (_debug)
+            {
+                AssetDatabase.CreateAsset(clip, AssetDatabase.GenerateUniqueAssetPath("Assets/EW_Debug.asset"));
+            }
 
             var boundValues = new BoundValues(
                 floatValues
