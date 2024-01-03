@@ -14,6 +14,11 @@ namespace Silksprite.EmoteWizard.Utils
 {
     public static class SourceExploder
     {
+        static string GetExplodePath(EmoteSequenceSourceBase source)
+        {
+            return string.IsNullOrWhiteSpace(source.gameObject.name) ? "Assets/EW_GeneratedClip.anim" : $"Assets/EW_GeneratedClip_{source.gameObject.name}.anim";
+        }
+
         public static void Explode(EmoteWizardDataSourceBase container)
         {
             var environment = container.CreateEnv();
@@ -77,7 +82,7 @@ namespace Silksprite.EmoteWizard.Utils
 
         static void ExplodeEmoteSequences(EmoteWizardEnvironment environment, EmoteSequenceSourceBase source, Component destination)
         {
-            var sequence = source.ToEmoteFactoryTemplate().Build(new ClipBuilderImpl(environment));
+            var sequence = source.ToEmoteFactoryTemplate().Build(new ClipBuilderImpl(environment, GetExplodePath(source)));
             var gameObject = destination.gameObject;
             Object.DestroyImmediate(source);
             

@@ -13,12 +13,12 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
         readonly EmoteWizardEnvironment _environment;
         EmoteWizardEnvironment IEmoteSequenceFactory.IClipBuilder.Environment => _environment;
 
-        readonly bool _debug; 
+        readonly string _explodePath; 
 
-        public ClipBuilderImpl(EmoteWizardEnvironment environment, bool debug = false)
+        public ClipBuilderImpl(EmoteWizardEnvironment environment, string explodePath = null)
         {
             _environment = environment;
-            _debug = debug;
+            _explodePath = explodePath;
         }
 
         Motion IEmoteSequenceFactory.IClipBuilder.Build(string clipName, IEnumerable<IEmoteSequenceFactory.AnimatedValue<float>> floatValues)
@@ -28,9 +28,9 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
                 name = clipName
             };
 
-            if (_debug)
+            if (!string.IsNullOrWhiteSpace(_explodePath))
             {
-                AssetDatabase.CreateAsset(clip, AssetDatabase.GenerateUniqueAssetPath("Assets/EW_Debug.asset"));
+                AssetDatabase.CreateAsset(clip, AssetDatabase.GenerateUniqueAssetPath(_explodePath));
             }
 
             var boundValues = new BoundValues(
