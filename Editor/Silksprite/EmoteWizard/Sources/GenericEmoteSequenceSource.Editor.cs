@@ -91,11 +91,6 @@ namespace Silksprite.EmoteWizard.Sources
             EditorGUILayout.PropertyField(_serializedLayerKind);
             EditorGUILayout.PropertyField(_serializedGroupName);
 
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(_serializedAnimatedEnable);
-            EditorGUILayout.PropertyField(_serializedAnimatedBlendShapes);
-            var requireRefreshPreview = EditorGUI.EndChangeCheck();
-
             EditorGUILayout.PropertyField(_serializedIsFixedDuration);
             EditorGUILayout.PropertyField(_serializedEntryTransitionDuration);
             EditorGUILayout.PropertyField(_serializedExitTransitionDuration);
@@ -112,6 +107,11 @@ namespace Silksprite.EmoteWizard.Sources
             {
                 EditorGUILayout.PropertyField(_serializedTrackingOverrides);
             }
+
+            EditorGUI.BeginChangeCheck();
+            EditorGUILayout.PropertyField(_serializedAnimatedEnable);
+            EditorGUILayout.PropertyField(_serializedAnimatedBlendShapes);
+            var requireRefreshPreview = EditorGUI.EndChangeCheck();
 
             serializedObject.ApplyModifiedProperties();
 
