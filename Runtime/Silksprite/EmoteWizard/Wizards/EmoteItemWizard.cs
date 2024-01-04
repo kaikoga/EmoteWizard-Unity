@@ -27,24 +27,19 @@ namespace Silksprite.EmoteWizard.Sources
                 !hasExpressionItemSource,
                 itemPath,
                 VrcSdkAssetLocator.ItemWand()
-                );
-        }
+            );
 
-        public override IEnumerable<ExpressionItem> ToExpressionItems()
-        {
             if (hasExpressionItemSource)
             {
-                yield return new ExpressionItem
+                yield return new ExpressionItemTemplate(new ExpressionItem
                 {
                     enabled = true,
                     icon = VrcSdkAssetLocator.ItemWand(),
                     path = itemPath,
                     parameter = hasParameterName ? parameterName : itemPath,
                     itemKind = ExpressionItemKind.Toggle
-                };
+                });
             }
-
-            foreach (var e in base.ToExpressionItems()) yield return e; 
         }
     }
 }
