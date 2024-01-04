@@ -180,9 +180,8 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, (IEmoteSequenceFactoryTemplate)((IEmoteSequenceFactory)new EmoteSequenceFactory(_sequence)), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
 
-        public void PopulateSources(Component target)
+        public void PopulateSources(IUndoable undoable, Component target)
         {
-            var undoable = RuntimeUndoable.Instance;
             var source = undoable.AddComponent<EmoteItemSource>(target);
             source.trigger = Trigger;
             SequenceFactory.PopulateSequenceSource(source);

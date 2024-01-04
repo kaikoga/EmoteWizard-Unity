@@ -33,8 +33,7 @@ namespace Silksprite.EmoteWizardSupport.Extensions
         public static T FindOrCreateChildComponent<T>(this Component component, string path = null, Action<T> initializer = null)
             where T : Component
         {
-            var child = component.transform.Find(path);
-            return child ? child.EnsureComponent<T>() : component.AddChildComponent(path, initializer);
+            return Undoable.AddChildComponent(component, path, initializer);
         }
 
         public static T AddChildComponentAndSelect<T>(this Component component, string path = null)

@@ -2,6 +2,7 @@ using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,19 +30,19 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             if (!wizard) Undo.AddComponent<T>(environment.ContainerTransform.gameObject);
         }
 
-        public static T FindOrCreateChildComponent<T>(this EmoteWizardEnvironment self, string path, Action<T> initializer = null) where T : Component
+        public static T FindOrCreateChildComponent<T>(this IUndoable undoable, EmoteWizardEnvironment self, string path, Action<T> initializer = null) where T : Component
         {
             if (self.Root)
             {
                 var child = self.Root.transform.Find(path);
-                if (child && child.EnsureComponent<T>() is T c) return c;
+                if (child && undoable.EnsureComponent<T>(child) is T c) return c;
             }
             if (self.AvatarDescriptor)
             {
                 var child = self.AvatarDescriptor.transform.Find(path);
-                if (child && child.EnsureComponent<T>() is T c) return c;
+                if (child && undoable.EnsureComponent<T>(child) is T c) return c;
             }
-            return self.ContainerTransform.AddChildComponent(path, initializer);
+            return undoable.AddChildComponent(self.ContainerTransform, path, initializer);
         }
     }
 }

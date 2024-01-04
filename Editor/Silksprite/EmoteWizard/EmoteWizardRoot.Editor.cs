@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard
             _isSetup = EditorGUILayout.Foldout(_isSetup, "Setup");
             if (_isSetup)
             {
-                SetupGUI.OnInspectorGUI(env);
+                if (SetupGUI.OnInspectorGUI(env)) return;
             }
 
             EmoteWizardGUILayout.Header("Avatar");

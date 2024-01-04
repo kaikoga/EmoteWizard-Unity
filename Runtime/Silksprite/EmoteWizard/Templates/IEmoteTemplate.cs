@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates
@@ -9,6 +10,6 @@ namespace Silksprite.EmoteWizard.Templates
         IEnumerable<EmoteItem> ToEmoteItems();
         IEnumerable<ExpressionItem> ToExpressionItems();
 
-        void PopulateSources(Component target);
+        void PopulateSources(IUndoable undoable, Component target);
     }
 }

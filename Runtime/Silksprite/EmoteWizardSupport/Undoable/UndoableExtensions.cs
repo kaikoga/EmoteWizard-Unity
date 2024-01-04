@@ -54,6 +54,11 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             return t;
         }
 
-
+        public static T FindOrCreateChildComponent<T>(this IUndoable undoable, Component component, string path = null, Action<T> initializer = null)
+            where T : Component
+        {
+            var child = component.transform.Find(path);
+            return child ? undoable.EnsureComponent<T>(child) : undoable.AddChildComponent(component, path, initializer);
+        }
     }
 }
