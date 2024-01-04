@@ -4,7 +4,6 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
@@ -91,23 +90,14 @@ namespace Silksprite.EmoteWizard.UI
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.ParameterSources);
         }
 
-        static void PopulateEmoteItemSource(EmoteItemSource source, EmoteItemTemplate template)
-        {
-            source.trigger = template.Trigger;
-            template.SequenceFactory.PopulateSequenceSource(source);
-            source.hasExpressionItem = template.HasExpressionItem;
-            source.expressionItemPath = template.ExpressionItemPath;
-            source.expressionItemIcon = template.ExpressionItemIcon;
-        }
-
         static void QuickSetupFXSources(EmoteWizardEnvironment environment)
         {
             environment.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(Names.FXSources, fxSources =>
             {
                 foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
                 {
-                    var fxSource = fxSources.FindOrCreateChildComponent<EmoteItemSource>(fxItem.Trigger.name);
-                    PopulateEmoteItemSource(fxSource, fxItem);
+                    var fxSource = fxSources.AddChildGameObject(fxItem.Trigger.name);
+                    fxItem.PopulateSources(fxSource.transform);
                 }
             });
         }
@@ -120,7 +110,7 @@ namespace Silksprite.EmoteWizard.UI
                 foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
                 {
                     var gestureSource = gestureSources.FindOrCreateChildComponent<EmoteItemSource>(gestureItem.Trigger.name);
-                    PopulateEmoteItemSource(gestureSource, gestureItem);
+                    gestureItem.PopulateSources(gestureSource.transform);
                 }
             });
         }
@@ -133,7 +123,7 @@ namespace Silksprite.EmoteWizard.UI
                 foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
                 {
                     var actionSource = actionSources.FindOrCreateChildComponent<EmoteItemSource>(actionItem.Trigger.name);
-                    PopulateEmoteItemSource(actionSource, actionItem);
+                    actionItem.PopulateSources(actionSource.transform);
                 }
             });
         }

@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Impl
@@ -180,8 +182,13 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public void PopulateSources(Component target)
         {
-            // FIXME: requires cross assembly UnityExtension
-            throw new System.NotImplementedException();
+            var undoable = RuntimeUndoable.Instance;
+            var source = undoable.AddComponent<EmoteItemSource>(target);
+            source.trigger = Trigger;
+            SequenceFactory.PopulateSequenceSource(source);
+            source.hasExpressionItem = HasExpressionItem;
+            source.expressionItemPath = ExpressionItemPath;
+            source.expressionItemIcon = ExpressionItemIcon;
         }
     }
 }
