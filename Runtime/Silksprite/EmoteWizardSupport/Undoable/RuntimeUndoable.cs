@@ -10,6 +10,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
 
         public GameObject CreateGameObject(string name) => new(name);
 
+        public T AddComponent<T>(GameObject gameObject) where T : Component => gameObject.AddComponent<T>();
         public T AddComponent<T>(Component component) where T : Component => component.gameObject.AddComponent<T>();
     }
 }

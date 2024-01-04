@@ -9,6 +9,7 @@ using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -196,14 +197,20 @@ namespace Silksprite.EmoteWizard
                     });
                     using (new EditorGUI.DisabledScope(disableAddButton))
                     {
-                        if (GUILayout.Button("Add")) GenerateExpressionMenu();
+                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        {
+                            GenerateExpressionMenu(undoable);
+                        }
                     }
                     break;
                 case DataSourceFactoryMode.Parameter:
                     ParameterName(true);
                     using (new EditorGUI.DisabledScope(disableAddButton))
                     {
-                        if (GUILayout.Button("Add")) GenerateParameter();
+                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        {
+                            GenerateParameter(undoable);
+                        }
                     }
                     break;
                 case DataSourceFactoryMode.Emote:
@@ -216,7 +223,10 @@ namespace Silksprite.EmoteWizard
                     });
                     using (new EditorGUI.DisabledScope(disableAddButton))
                     {
-                        if (GUILayout.Button("Add")) GenerateEmoteItem();
+                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        {
+                            GenerateEmoteItem(undoable);
+                        }
                     }
                     break;
                 case DataSourceFactoryMode.DressChange:
@@ -229,7 +239,10 @@ namespace Silksprite.EmoteWizard
                     });
                     using (new EditorGUI.DisabledScope(disableAddButton))
                     {
-                        if (GUILayout.Button("Add")) GenerateDressChangeTemplate();
+                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        {
+                            GenerateDressChangeTemplate(undoable);
+                        }
                     }
                     break;
                 case DataSourceFactoryMode.CustomAction:
@@ -242,7 +255,10 @@ namespace Silksprite.EmoteWizard
                     });
                     using (new EditorGUI.DisabledScope(disableAddButton))
                     {
-                        if (GUILayout.Button("Add")) GenerateCustomActionTemplate();
+                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        {
+                            GenerateCustomActionTemplate(undoable);
+                        }
                     }
                     break;
                 case DataSourceFactoryMode.SubMenu:
@@ -250,7 +266,10 @@ namespace Silksprite.EmoteWizard
                     ExpressionsMenu();
                     using (new EditorGUI.DisabledScope(disableAddButton))
                     {
-                        if (GUILayout.Button("Add")) GenerateSubMenuTemplate();
+                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        {
+                            GenerateSubMenuTemplate(undoable);
+                        }
                     }
                     break;
                 default:
@@ -259,25 +278,25 @@ namespace Silksprite.EmoteWizard
             EmoteWizardGUILayout.Tutorial(_sourceFactory.CreateEnv(), Tutorial);
         }
 
-        void GenerateExpressionMenu()
+        void GenerateExpressionMenu(IUndoable undoable)
         {
-            var expressionItemSource = _sourceFactory.AddChildComponent<ExpressionItemSource>(_itemPath);
+            var expressionItemSource = undoable.AddChildComponent<ExpressionItemSource>(_sourceFactory, _itemPath);
             expressionItemSource.expressionItem.path = _itemPath;
             expressionItemSource.expressionItem.parameter = _parameterName;
         }
 
-        void GenerateParameter()
+        void GenerateParameter(IUndoable undoable)
         {
-            var parameterSource = _sourceFactory.AddChildComponent<ParameterSource>(_parameterName);
+            var parameterSource = undoable.AddChildComponent<ParameterSource>(_sourceFactory, _parameterName);
             parameterSource.name = _parameterName;
         }
 
-        void GenerateEmoteItem()
+        void GenerateEmoteItem(IUndoable undoable)
         {
-            var child = _sourceFactory.AddChildGameObject(_itemPath);
+            var child = undoable.AddChildGameObject(_sourceFactory, _itemPath);
             if (_hasExpressionItemSource)
             {
-                child.AddComponent<ExpressionItemSource>().expressionItem = new ExpressionItem
+                undoable.AddComponent<ExpressionItemSource>(child).expressionItem = new ExpressionItem
                 {
                     enabled = true,
                     icon = VrcSdkAssetLocator.ItemWand(),
@@ -287,23 +306,23 @@ namespace Silksprite.EmoteWizard
                 };
             }
 
-            var emoteItemSource = child.AddComponent<EmoteItemSource>();
+            var emoteItemSource = undoable.AddComponent<EmoteItemSource>(child);
             emoteItemSource.trigger = new EmoteTrigger { name = _itemPath };
             emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
             emoteItemSource.expressionItemPath = _itemPath;
             emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.ItemWand();
-            child.AddComponent<EmoteSequenceSource>().sequence = new EmoteSequence { groupName = _groupName };
+            undoable.AddComponent<EmoteSequenceSource>(child).sequence = new EmoteSequence { groupName = _groupName };
         }
 
-        void GenerateDressChangeTemplate()
+        void GenerateDressChangeTemplate(IUndoable undoable)
         {
             foreach (var value in Enumerable.Range(0, 2))
             {
                 var childName = $"{_itemPath}/Item {value}";
-                var child = _sourceFactory.AddChildGameObject(childName);
+                var child = undoable.AddChildGameObject(_sourceFactory, childName);
                 if (_hasExpressionItemSource)
                 {
-                    child.AddComponent<ExpressionItemSource>().expressionItem = new ExpressionItem
+                    undoable.AddComponent<ExpressionItemSource>(child).expressionItem = new ExpressionItem
                     {
                         enabled = true,
                         icon = VrcSdkAssetLocator.ItemWand(),
@@ -314,7 +333,7 @@ namespace Silksprite.EmoteWizard
                     };
                 }
 
-                var emoteItemSource = child.AddComponent<EmoteItemSource>();
+                var emoteItemSource = undoable.AddComponent<EmoteItemSource>(child);
                 emoteItemSource.trigger = new EmoteTrigger
                 {
                     name = childName,
@@ -333,7 +352,7 @@ namespace Silksprite.EmoteWizard
                 emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
                 emoteItemSource.expressionItemPath = childName;
                 emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.ItemWand();
-                child.AddComponent<EmoteSequenceSource>().sequence = new EmoteSequence
+                undoable.AddComponent<EmoteSequenceSource>(child).sequence = new EmoteSequence
                 {
                     layerKind = LayerKind.FX,
                     groupName = _groupName
@@ -341,13 +360,13 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        void GenerateCustomActionTemplate()
+        void GenerateCustomActionTemplate(IUndoable undoable)
         {
-            var child = _sourceFactory.AddChildGameObject(_itemPath);
+            var child = undoable.AddChildGameObject(_sourceFactory, _itemPath);
 
             if (_hasExpressionItemSource)
             {
-                child.AddComponent<ExpressionItemSource>().expressionItem = new ExpressionItem
+                undoable.AddComponent<ExpressionItemSource>(child).expressionItem = new ExpressionItem
                 {
                     enabled = true,
                     icon = VrcSdkAssetLocator.PersonDance(),
@@ -358,7 +377,7 @@ namespace Silksprite.EmoteWizard
                 };
             }
 
-            var emoteItemSource = child.AddComponent<EmoteItemSource>();
+            var emoteItemSource = undoable.AddComponent<EmoteItemSource>(child);
             emoteItemSource.trigger = new EmoteTrigger
             {
                 name = _itemPath,
@@ -377,7 +396,7 @@ namespace Silksprite.EmoteWizard
             emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
             emoteItemSource.expressionItemPath = _itemPath;
             emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.PersonDance();
-            child.AddComponent<EmoteSequenceSource>().sequence = new EmoteSequence
+            undoable.AddComponent<EmoteSequenceSource>(child).sequence = new EmoteSequence
             {
                 layerKind = LayerKind.Action,
                 groupName = EmoteWizardConstants.Defaults.Groups.Action,
@@ -401,9 +420,9 @@ namespace Silksprite.EmoteWizard
             _actionIndex = -1;
         }
 
-        void GenerateSubMenuTemplate()
+        void GenerateSubMenuTemplate(IUndoable undoable)
         {
-            _sourceFactory.AddChildComponent<ExpressionItemSource>(_itemPath).expressionItem = new ExpressionItem
+            undoable.AddChildComponent<ExpressionItemSource>(_sourceFactory, _itemPath).expressionItem = new ExpressionItem
             {
                 enabled = true,
                 icon = VrcSdkAssetLocator.ItemFolder(),

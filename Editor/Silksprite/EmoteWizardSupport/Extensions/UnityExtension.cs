@@ -13,11 +13,6 @@ namespace Silksprite.EmoteWizardSupport.Extensions
     {
         static IUndoable Undoable => new EditorUndoable("Emote Wizard");
 
-        public static GameObject AddChildGameObject(this Component component, string path)
-        {
-            return Undoable.AddChildGameObject(component, path);
-        }
-
         public static T AddChildComponent<T>(this Component component, string path = null, Action<T> initializer = null)
             where T : Component
         {

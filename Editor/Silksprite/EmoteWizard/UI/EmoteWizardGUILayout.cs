@@ -2,6 +2,7 @@ using System;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ namespace Silksprite.EmoteWizard.UI
 
         public static void Header(string label) => EditorGUILayout.LabelField(label, HeaderStyle);
 
+        public static IUndoable Undoable(string name) => Undoable(name, name);
+
+        public static IUndoable Undoable(string name, string undoLabel) => GUILayout.Button(name) ? new EditorUndoable(undoLabel) : null;
 
         public static void ConfigUIArea(Action action)
         {
