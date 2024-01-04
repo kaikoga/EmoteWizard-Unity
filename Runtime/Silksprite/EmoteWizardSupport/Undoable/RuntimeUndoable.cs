@@ -8,6 +8,8 @@ namespace Silksprite.EmoteWizardSupport.Undoable
         [PublicAPI]
         public static IUndoable Instance => new RuntimeUndoable();
 
+        public void RecordObject(Object obj) { } // noop
+
         public GameObject CreateGameObject(string name) => new(name);
 
         public T AddComponent<T>(GameObject gameObject) where T : Component => gameObject.AddComponent<T>();

@@ -136,7 +136,7 @@ namespace Silksprite.EmoteWizard.Sources
             
             if (EmoteWizardGUILayout.Undoable("Explode", "Explode Generic Emote Sequence source") is IUndoable undoable)
             {
-                SourceExploder.ExplodeEmoteSequences(undoable, _genericEmoteSequenceSource);
+                SourceExploder.ExplodeEmoteSequencesImmediate(undoable, _genericEmoteSequenceSource);
                 return;
             }
 

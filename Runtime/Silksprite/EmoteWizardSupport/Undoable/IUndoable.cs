@@ -4,6 +4,8 @@ namespace Silksprite.EmoteWizardSupport.Undoable
 {
     public interface IUndoable
     {
+        void RecordObject(Object obj);
+
         GameObject CreateGameObject(string name);
 
         T AddComponent<T>(GameObject component) where T : Component;

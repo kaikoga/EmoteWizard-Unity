@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Sources
         [SerializeField] public bool hasParameterName;
         [SerializeField] public string parameterName;
 
-        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        public override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
             yield return new EmoteItemTemplate(
                 new EmoteTrigger { name = itemPath },

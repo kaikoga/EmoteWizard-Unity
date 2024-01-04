@@ -15,9 +15,13 @@ namespace Silksprite.EmoteWizard.Utils
 {
     public static class WizardExploder
     {
-        public static void Explode(IUndoable undoable, EmoteWizardBase wizard)
+        public static void ExplodeImmediate(IUndoable undoable, EmoteWizardBase wizard)
         {
-            SourceExploder.Explode(undoable, wizard);
+            foreach (var template in wizard.SourceTemplates())
+            {
+                template.PopulateSources(undoable, wizard);
+            }
+            undoable.DestroyObject(wizard);
         }
     }
 }

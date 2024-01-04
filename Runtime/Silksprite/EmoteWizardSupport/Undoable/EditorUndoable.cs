@@ -9,7 +9,9 @@ namespace Silksprite.EmoteWizardSupport.Undoable
     {
         readonly string _undoName;
         public EditorUndoable(string undoName) => _undoName = undoName;
-        
+
+        public void RecordObject(Object obj) => Undo.RecordObject(obj, _undoName);
+
         public GameObject CreateGameObject(string name)
         {
             var gameObject = new GameObject(name);
@@ -17,8 +19,14 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             return gameObject;
         }
 
-        public T AddComponent<T>(GameObject gameObject) where T : Component => Undo.AddComponent<T>(gameObject);
-        public T AddComponent<T>(Component component) where T : Component => Undo.AddComponent<T>(component.gameObject);
+        public T AddComponent<T>(GameObject gameObject) where T : Component
+        {
+            var component = gameObject.AddComponent<T>();
+            Undo.RegisterCreatedObjectUndo(component, _undoName);
+            return component;
+        }
+
+        public T AddComponent<T>(Component component) where T : Component => AddComponent<T>(component.gameObject);
 
         public void DestroyObject(Object obj) => Undo.DestroyObjectImmediate(obj);
     }

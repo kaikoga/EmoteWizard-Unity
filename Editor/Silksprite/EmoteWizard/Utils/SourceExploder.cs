@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
@@ -20,7 +19,7 @@ namespace Silksprite.EmoteWizard.Utils
             return string.IsNullOrWhiteSpace(source.gameObject.name) ? "Assets/EW_GeneratedClip.anim" : $"Assets/EW_GeneratedClip_{source.gameObject.name}.anim";
         }
 
-        public static void Explode(IUndoable undoable, EmoteWizardDataSourceBase container)
+        public static void ExplodeImmediate(IUndoable undoable, EmoteWizardDataSourceBase container)
         {
             var environment = container.CreateEnv();
             var exploded = false;
@@ -42,10 +41,10 @@ namespace Silksprite.EmoteWizard.Utils
 
             if (!exploded) return;
 
-            EditorApplication.delayCall += () => Object.DestroyImmediate(container); 
+            undoable.DestroyObject(container);
         }
 
-        public static void ExplodeEmoteSequences(IUndoable undoable, EmoteWizardDataSourceBase container)
+        public static void ExplodeEmoteSequencesImmediate(IUndoable undoable, EmoteWizardDataSourceBase container)
         {
             var environment = container.CreateEnv();
             var exploded = false;
@@ -58,7 +57,7 @@ namespace Silksprite.EmoteWizard.Utils
 
             if (!exploded) return;
 
-            EditorApplication.delayCall += () => Object.DestroyImmediate(container); 
+            undoable.DestroyObject(container);
         }
 
         static void ExplodeParameters(IUndoable undoable, IParameterSource source, Component destination)
@@ -95,7 +94,9 @@ namespace Silksprite.EmoteWizard.Utils
             where T : Component
         {
             var result = undoable.FindOrCreateChildComponent<T>(component, path);
-            result.gameObject.SetActive(enabled);
+            var gameObject = result.gameObject;
+            gameObject.SetActive(enabled);
+            undoable.RecordObject(gameObject);
             return result;
         }
     }

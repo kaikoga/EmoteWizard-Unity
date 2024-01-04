@@ -90,7 +90,8 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 if (EmoteWizardGUILayout.Undoable("Add", "Add from Emote Item Wizard") is IUndoable undoable)
                 {
-                    WizardExploder.Explode(undoable, _wizard);
+                    WizardExploder.ExplodeImmediate(undoable, _wizard);
+                    return;
                 }
             }
 
