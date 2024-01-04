@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEditor;
@@ -10,14 +9,10 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
 {
     public class ClipBuilderImpl : IEmoteSequenceFactory.IClipBuilder
     {
-        readonly EmoteWizardEnvironment _environment;
-        EmoteWizardEnvironment IEmoteSequenceFactory.IClipBuilder.Environment => _environment;
-
         readonly string _explodePath; 
 
-        public ClipBuilderImpl(EmoteWizardEnvironment environment, string explodePath = null)
+        public ClipBuilderImpl(string explodePath = null)
         {
-            _environment = environment;
             _explodePath = explodePath;
         }
 

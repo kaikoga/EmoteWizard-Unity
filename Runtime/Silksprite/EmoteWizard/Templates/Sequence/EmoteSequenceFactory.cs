@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence;
@@ -32,7 +33,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             return _sequence.hasTrackingOverrides ? _sequence.trackingOverrides : Enumerable.Empty<TrackingOverride>();
         }
 
-        EmoteSequence IEmoteSequenceFactory.Build(IEmoteSequenceFactory.IClipBuilder builder) => _sequence;
+        EmoteSequence IEmoteSequenceFactory.Build(EmoteWizardEnvironment environment, IEmoteSequenceFactory.IClipBuilder builder) => _sequence;
 
         EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(Component target)
         {

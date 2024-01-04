@@ -14,12 +14,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         IEnumerable<Motion> AllClipRefs();
 
-        EmoteSequence Build(IClipBuilder builder);
+        EmoteSequence Build(EmoteWizardEnvironment environment, IClipBuilder builder);
         IEnumerable<TrackingOverride> TrackingOverrides();
 
         interface IClipBuilder
         {
-            EmoteWizardEnvironment Environment { get; }
             Motion Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues);
         }
 

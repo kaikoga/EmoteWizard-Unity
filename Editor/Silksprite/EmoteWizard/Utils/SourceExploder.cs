@@ -82,7 +82,7 @@ namespace Silksprite.EmoteWizard.Utils
 
         static void ExplodeEmoteSequences(EmoteWizardEnvironment environment, EmoteSequenceSourceBase source, Component destination)
         {
-            var sequence = source.ToEmoteFactoryTemplate().Build(new ClipBuilderImpl(environment, GetExplodePath(source)));
+            var sequence = source.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl(GetExplodePath(source)));
             var gameObject = destination.gameObject;
             Object.DestroyImmediate(source);
             

@@ -76,7 +76,7 @@ namespace Silksprite.EmoteWizard.Sources
         {
             if (_preview == null) return;
 
-            var temporaryClip = (AnimationClip)_genericEmoteSequenceSource.ToEmoteFactoryTemplate().Build(new ClipBuilderImpl(environment)).clip;
+            var temporaryClip = (AnimationClip)_genericEmoteSequenceSource.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
             _preview.Refresh(environment.AvatarDescriptor, temporaryClip, 0f);
             DestroyImmediate(temporaryClip);
         }

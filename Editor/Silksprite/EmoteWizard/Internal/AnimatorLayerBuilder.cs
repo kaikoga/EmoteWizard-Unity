@@ -87,7 +87,7 @@ namespace Silksprite.EmoteWizard.Internal
 
         public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
         {
-            var clipBuilder = new ClipBuilderImpl(Environment);
+            var clipBuilder = new ClipBuilderImpl();
             foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupName))
             {
                 var groupName = emoteItemGroup.Key;
@@ -97,16 +97,16 @@ namespace Silksprite.EmoteWizard.Internal
                 {
                     var avatarMaskLeft = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
                     var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
-                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(clipBuilder, EmoteHand.Left))).Build();
+                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(Environment, clipBuilder, EmoteHand.Left))).Build();
 
                     var avatarMaskRight = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
                     var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
-                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(clipBuilder, EmoteHand.Right))).Build();
+                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(Environment, clipBuilder, EmoteHand.Right))).Build();
                 }
                 else
                 {
                     var layer = PopulateLayer(emoteItemGroup.Key);
-                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance(clipBuilder))).Build();
+                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance(Environment, clipBuilder))).Build();
                 }
             }
         }
