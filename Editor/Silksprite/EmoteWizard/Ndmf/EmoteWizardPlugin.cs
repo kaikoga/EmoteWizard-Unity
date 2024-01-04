@@ -3,7 +3,7 @@ using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Ndmf;
-using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
@@ -76,7 +76,7 @@ namespace Silksprite.EmoteWizard.Ndmf
                 var env = root.ToEnv();
                 env.PersistGeneratedAssets = false;
                 env.AvatarDescriptor = buildContext.AvatarDescriptor;
-                env.BuildAvatar(false);
+                env.BuildAvatar(new EditorUndoable("Build Emote Wizard from ndmf"), false);
             }
         }
     }

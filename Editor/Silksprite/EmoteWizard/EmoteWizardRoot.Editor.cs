@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -147,15 +148,16 @@ namespace Silksprite.EmoteWizard
                     var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
                     var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
 
-                    var avatarAnimator = env.AvatarDescriptor.EnsureComponent<Animator>();
+                    var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(env.AvatarDescriptor);
                     if (GUILayout.Button("Disconnect Avatar Output Assets"))
                     {
                         _root.ToEnv().CleanupAvatar();
                     }
                     if (GUILayout.Button("Generate Everything and Update Avatar"))
                     {
-                        _root.EnsureComponent<EditorLayerConfig>();
-                        _root.ToEnv().BuildAvatar(true);
+                        var undoable = new EditorUndoable("Generate Everything and Update Avatar");
+                        undoable.EnsureComponent<EditorLayerConfig>(_root);
+                        _root.ToEnv().BuildAvatar(undoable, true);
                     }
 
                     if (avatarAnimator.runtimeAnimatorController == null)

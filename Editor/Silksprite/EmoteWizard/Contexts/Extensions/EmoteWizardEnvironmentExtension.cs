@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         public static Animator ProvideProxyAnimator(this EmoteWizardEnvironment environment)
         {
-            var animator = environment.ProxyAnimator ? environment.ProxyAnimator : environment.AvatarDescriptor.EnsureComponent<Animator>();
+            var animator = environment.ProxyAnimator ? environment.ProxyAnimator : RuntimeUndoable.Instance.EnsureComponent<Animator>(environment.AvatarDescriptor);
             environment.ProxyAnimator = animator;
             return animator;
         }

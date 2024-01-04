@@ -5,6 +5,7 @@ using nadena.dev.ndmf.util;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
@@ -30,10 +31,10 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         }
 
-        public static void BuildAvatar(this EmoteWizardEnvironment environment, bool manualBuild)
+        public static void BuildAvatar(this EmoteWizardEnvironment environment, IUndoable undoable, bool manualBuild)
         {
             var avatarDescriptor = environment.AvatarDescriptor;
-            var avatarAnimator = avatarDescriptor.EnsureComponent<Animator>();
+            var avatarAnimator = undoable.EnsureComponent<Animator>(avatarDescriptor);
             avatarAnimator.runtimeAnimatorController = null;
 
             using (new ManualBundleGeneratedAssetsScope(environment, manualBuild))
