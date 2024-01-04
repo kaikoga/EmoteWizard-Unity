@@ -8,6 +8,7 @@ using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 
@@ -133,9 +134,9 @@ namespace Silksprite.EmoteWizard.Sources
                 RefreshPreviewIfNeeded(environment);
             }
             
-            if (GUILayout.Button("Explode"))
+            if (EmoteWizardGUILayout.Undoable("Explode", "Explode Generic Emote Sequence source") is IUndoable undoable)
             {
-                SourceExploder.ExplodeEmoteSequences(_genericEmoteSequenceSource);
+                SourceExploder.ExplodeEmoteSequences(undoable, _genericEmoteSequenceSource);
                 return;
             }
 

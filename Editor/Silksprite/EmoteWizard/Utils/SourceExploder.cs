@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -19,24 +20,24 @@ namespace Silksprite.EmoteWizard.Utils
             return string.IsNullOrWhiteSpace(source.gameObject.name) ? "Assets/EW_GeneratedClip.anim" : $"Assets/EW_GeneratedClip_{source.gameObject.name}.anim";
         }
 
-        public static void Explode(EmoteWizardDataSourceBase container)
+        public static void Explode(IUndoable undoable, EmoteWizardDataSourceBase container)
         {
             var environment = container.CreateEnv();
             var exploded = false;
 
             if (container is IExpressionItemSource expressionItemSource)
             {
-                ExplodeExpressionItems(environment, expressionItemSource, container);
+                ExplodeExpressionItems(undoable, environment, expressionItemSource, container);
                 exploded = true;
             }
             if (container is IParameterSource parameterSource)
             {
-                ExplodeParameters(parameterSource, container);
+                ExplodeParameters(undoable, parameterSource, container);
                 exploded = true;
             }
             if (container is EmoteSequenceSourceBase emoteSequenceSource)
             {
-                ExplodeEmoteSequences(environment, emoteSequenceSource, container);
+                ExplodeEmoteSequences(undoable, environment, emoteSequenceSource, container);
             }
 
             if (!exploded) return;
@@ -44,14 +45,14 @@ namespace Silksprite.EmoteWizard.Utils
             EditorApplication.delayCall += () => Object.DestroyImmediate(container); 
         }
 
-        public static void ExplodeEmoteSequences(EmoteWizardDataSourceBase container)
+        public static void ExplodeEmoteSequences(IUndoable undoable, EmoteWizardDataSourceBase container)
         {
             var environment = container.CreateEnv();
             var exploded = false;
             
             if (container is EmoteSequenceSourceBase emoteSequenceSource)
             {
-                ExplodeEmoteSequences(environment, emoteSequenceSource, container);
+                ExplodeEmoteSequences(undoable, environment, emoteSequenceSource, container);
                 exploded = true;
             }
 
@@ -60,40 +61,40 @@ namespace Silksprite.EmoteWizard.Utils
             EditorApplication.delayCall += () => Object.DestroyImmediate(container); 
         }
 
-        static void ExplodeParameters(IParameterSource source, Component destination)
+        static void ExplodeParameters(IUndoable undoable, IParameterSource source, Component destination)
         {
             foreach (var parameterItem in source.ParameterItems)
             {
-                var child = destination.FindOrCreateChildComponent<ParameterSource>(parameterItem.name, parameterItem.enabled);
+                var child = undoable.FindOrCreateChildComponent<ParameterSource>(destination, parameterItem.name, parameterItem.enabled);
                 child.parameterItem = SerializableUtils.Clone(parameterItem);
                 child.parameterItem.enabled = true;
             }
         }
 
-        static void ExplodeExpressionItems(EmoteWizardEnvironment environment, IExpressionItemSource source, Component destination)
+        static void ExplodeExpressionItems(IUndoable undoable, EmoteWizardEnvironment environment, IExpressionItemSource source, Component destination)
         {
             foreach (var expressionItem in source.ToExpressionItems())
             {
-                var child = destination.FindOrCreateChildComponent<ExpressionItemSource>(expressionItem.path, expressionItem.enabled);
+                var child = undoable.FindOrCreateChildComponent<ExpressionItemSource>(destination, expressionItem.path, expressionItem.enabled);
                 child.expressionItem = SerializableUtils.Clone(expressionItem);
                 child.expressionItem.enabled = true;
             }
         }
 
-        static void ExplodeEmoteSequences(EmoteWizardEnvironment environment, EmoteSequenceSourceBase source, Component destination)
+        static void ExplodeEmoteSequences(IUndoable undoable, EmoteWizardEnvironment environment, EmoteSequenceSourceBase source, Component destination)
         {
             var sequence = source.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl(GetExplodePath(source)));
             var gameObject = destination.gameObject;
-            Object.DestroyImmediate(source);
+            undoable.DestroyObject(source);
             
-            var child = gameObject.AddComponent<EmoteSequenceSource>();
+            var child = undoable.AddComponent<EmoteSequenceSource>(gameObject);
             child.sequence = sequence;
         }
 
-        static T FindOrCreateChildComponent<T>(this Component component, string path, bool enabled)
+        static T FindOrCreateChildComponent<T>(this IUndoable undoable, Component component, string path, bool enabled)
             where T : Component
         {
-            var result = component.FindOrCreateChildComponent<T>(path);
+            var result = undoable.FindOrCreateChildComponent<T>(component, path);
             result.gameObject.SetActive(enabled);
             return result;
         }

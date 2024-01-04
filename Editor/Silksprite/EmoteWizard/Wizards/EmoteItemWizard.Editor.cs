@@ -2,6 +2,7 @@ using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 
@@ -87,7 +88,10 @@ namespace Silksprite.EmoteWizard.Wizards
 
             using (new EditorGUI.DisabledScope(disableAddButton))
             {
-                if (GUILayout.Button("Add")) WizardExploder.Explode(_wizard);
+                if (EmoteWizardGUILayout.Undoable("Add", "Add from Emote Item Wizard") is IUndoable undoable)
+                {
+                    WizardExploder.Explode(undoable, _wizard);
+                }
             }
 
             EmoteWizardGUILayout.Tutorial(_wizard.CreateEnv(), Tutorial);

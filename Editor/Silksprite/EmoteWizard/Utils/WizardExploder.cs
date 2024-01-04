@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -14,9 +15,9 @@ namespace Silksprite.EmoteWizard.Utils
 {
     public static class WizardExploder
     {
-        public static void Explode(EmoteWizardBase wizard)
+        public static void Explode(IUndoable undoable, EmoteWizardBase wizard)
         {
-            SourceExploder.Explode(wizard);
+            SourceExploder.Explode(undoable, wizard);
         }
     }
 }
