@@ -94,7 +94,7 @@ namespace Silksprite.EmoteWizard.UI
         static void PopulateEmoteItemSource(EmoteItemSource source, EmoteItemTemplate template)
         {
             source.trigger = template.Trigger;
-            template.SequenceFactory.AddSequenceSource(source);
+            template.SequenceFactory.PopulateSequenceSource(source);
             source.hasExpressionItem = template.HasExpressionItem;
             source.expressionItemPath = template.ExpressionItemPath;
             source.expressionItemIcon = template.ExpressionItemIcon;

@@ -177,5 +177,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
             public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, (IEmoteSequenceFactoryTemplate)((IEmoteSequenceFactory)new EmoteSequenceFactory(_sequence)), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
+
+        public void PopulateSources(Component target)
+        {
+            // FIXME: requires cross assembly UnityExtension
+            throw new System.NotImplementedException();
+        }
     }
 }

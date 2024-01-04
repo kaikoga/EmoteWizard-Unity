@@ -6,6 +6,6 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
 {
     public interface IEmoteSequenceFactoryTemplate : IEmoteSequenceFactory
     {
-        EmoteSequenceSourceBase AddSequenceSource(Component target);
+        EmoteSequenceSourceBase PopulateSequenceSource(Component target);
     }
 }

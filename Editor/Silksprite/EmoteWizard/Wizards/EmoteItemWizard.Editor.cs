@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;

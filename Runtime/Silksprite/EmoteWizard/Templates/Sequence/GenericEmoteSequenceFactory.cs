@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             };
         }
         
-        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.AddSequenceSource(Component target)
+        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(Component target)
         {
             var source = target.gameObject.AddComponent<GenericEmoteSequenceSource>();
             source.sequence = _genericEmoteSequence;
