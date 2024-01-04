@@ -50,9 +50,9 @@ namespace Silksprite.EmoteWizard
                 EditorGUILayout.PropertyField(_serializedShowTutorial);
             });
 
-            if (GUILayout.Button("Add Empty Data Source"))
+            if (EmoteWizardGUILayout.Undoable("Add Empty Data Source") is IUndoable undoable)
             {
-                _root.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>("New Source");
+                undoable.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>(_root, "New Source");
             }
             _isSetup = EditorGUILayout.Foldout(_isSetup, "Setup");
             if (_isSetup)
