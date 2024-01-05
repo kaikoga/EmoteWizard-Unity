@@ -26,6 +26,13 @@ namespace Silksprite.EmoteWizard.UI
 
         public static IUndoable Undoable(string name, string undoLabel) => GUILayout.Button(name) ? new EditorUndoable(undoLabel) : null;
 
+        public static void Undoable(string name, Action<IUndoable> onClick) => Undoable(name, name, onClick);
+
+        public static void Undoable(string name, string undoLabel, Action<IUndoable> onClick)
+        {
+            if (GUILayout.Button(name)) onClick(new EditorUndoable(undoLabel)); 
+        }
+
         public static void ConfigUIArea(Action action)
         {
             using (new BoxLayoutScope(ConfigUIColor))

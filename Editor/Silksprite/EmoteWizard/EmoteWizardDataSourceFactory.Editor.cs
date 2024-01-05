@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.UI;
@@ -77,13 +78,27 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                ModeButton(DataSourceFactoryMode.ExpressionMenu, "Expression Item Source", "Expression Menuのメニュー項目", () =>
+                void UndoableButton(string label, string desc, Action<IUndoable> callback)
                 {
-                    _itemPath = "";
-                    _parameterName = "";
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        EmoteWizardGUILayout.Undoable(label, callback);
+                        GUILayout.Label(desc);
+                    }
+                }
+
+                UndoableButton("Expression Item Source", "ExpressionMenuのメニュー項目", undoable =>
+                {
+                    undoable.AddChildComponent<ExpressionItemSource>(_sourceFactory, "Expression Item Source");
                 });
-                ModeButton(DataSourceFactoryMode.Parameter, "Parameter Source", "外部アセットが利用するパラメータ", () => _parameterName = "");
-                ModeButton(DataSourceFactoryMode.Emote, "Emote Item Source", "アニメーションの発生条件", () => _itemPath = "");
+                UndoableButton("Parameter Source", "外部アセットが利用するパラメータ", undoable =>
+                {
+                    undoable.AddChildComponent<ParameterSource>(_sourceFactory, "Parameter Source");
+                });
+                UndoableButton("Emote Item Wizard", "アニメーションの発生条件", undoable =>
+                {
+                    undoable.AddChildComponent<EmoteItemWizard>(_sourceFactory, "Emote Item Wizard");
+                });
 
                 using (new EditorGUI.IndentLevelScope())
                 {
@@ -189,46 +204,6 @@ namespace Silksprite.EmoteWizard
             {
                 case DataSourceFactoryMode.Default:
                     break;
-                case DataSourceFactoryMode.ExpressionMenu:
-                    ItemPath();
-                    AdvancedSettings(() =>
-                    {
-                        ParameterName();
-                    });
-                    using (new EditorGUI.DisabledScope(disableAddButton))
-                    {
-                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
-                        {
-                            GenerateExpressionMenu(undoable);
-                        }
-                    }
-                    break;
-                case DataSourceFactoryMode.Parameter:
-                    ParameterName(true);
-                    using (new EditorGUI.DisabledScope(disableAddButton))
-                    {
-                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
-                        {
-                            GenerateParameter(undoable);
-                        }
-                    }
-                    break;
-                case DataSourceFactoryMode.Emote:
-                    ItemPath();
-                    AdvancedSettings(() =>
-                    {
-                        GroupName();
-                        ParameterName();
-                        HasExpressionItemSource();
-                    });
-                    using (new EditorGUI.DisabledScope(disableAddButton))
-                    {
-                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
-                        {
-                            GenerateEmoteItem(undoable);
-                        }
-                    }
-                    break;
                 case DataSourceFactoryMode.DressChange:
                     ItemPath();
                     AdvancedSettings(() =>
@@ -276,42 +251,6 @@ namespace Silksprite.EmoteWizard
                     throw new ArgumentOutOfRangeException();
             }
             EmoteWizardGUILayout.Tutorial(_sourceFactory.CreateEnv(), Tutorial);
-        }
-
-        void GenerateExpressionMenu(IUndoable undoable)
-        {
-            var expressionItemSource = undoable.AddChildComponent<ExpressionItemSource>(_sourceFactory, _itemPath);
-            expressionItemSource.expressionItem.path = _itemPath;
-            expressionItemSource.expressionItem.parameter = _parameterName;
-        }
-
-        void GenerateParameter(IUndoable undoable)
-        {
-            var parameterSource = undoable.AddChildComponent<ParameterSource>(_sourceFactory, _parameterName);
-            parameterSource.name = _parameterName;
-        }
-
-        void GenerateEmoteItem(IUndoable undoable)
-        {
-            var child = undoable.AddChildGameObject(_sourceFactory, _itemPath);
-            if (_hasExpressionItemSource)
-            {
-                undoable.AddComponent<ExpressionItemSource>(child).expressionItem = new ExpressionItem
-                {
-                    enabled = true,
-                    icon = VrcSdkAssetLocator.ItemWand(),
-                    path = _itemPath,
-                    parameter = _parameterName,
-                    itemKind = ExpressionItemKind.Toggle
-                };
-            }
-
-            var emoteItemSource = undoable.AddComponent<EmoteItemSource>(child);
-            emoteItemSource.trigger = new EmoteTrigger { name = _itemPath };
-            emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
-            emoteItemSource.expressionItemPath = _itemPath;
-            emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.ItemWand();
-            undoable.AddComponent<EmoteSequenceSource>(child).sequence = new EmoteSequence { groupName = _groupName };
         }
 
         void GenerateDressChangeTemplate(IUndoable undoable)
@@ -440,9 +379,6 @@ namespace Silksprite.EmoteWizard
         enum DataSourceFactoryMode
         {
             Default,
-            ExpressionMenu,
-            Parameter,
-            Emote,
             DressChange,
             CustomAction,
             SubMenu
