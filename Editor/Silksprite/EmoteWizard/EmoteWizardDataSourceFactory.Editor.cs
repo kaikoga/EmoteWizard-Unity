@@ -89,15 +89,15 @@ namespace Silksprite.EmoteWizard
 
                 UndoableButton("Expression Item Source", "ExpressionMenuのメニュー項目", undoable =>
                 {
-                    undoable.AddChildComponent<ExpressionItemSource>(_sourceFactory, "Expression Item Source");
+                    undoable.AddChildComponentAndSelect<ExpressionItemSource>(_sourceFactory, "Expression Item Source");
                 });
                 UndoableButton("Parameter Source", "外部アセットが利用するパラメータ", undoable =>
                 {
-                    undoable.AddChildComponent<ParameterSource>(_sourceFactory, "Parameter Source");
+                    undoable.AddChildComponentAndSelect<ParameterSource>(_sourceFactory, "Parameter Source");
                 });
                 UndoableButton("Emote Item Wizard", "アニメーションの発生条件", undoable =>
                 {
-                    undoable.AddChildComponent<EmoteItemWizard>(_sourceFactory, "Emote Item Wizard");
+                    undoable.AddChildComponentAndSelect<EmoteItemWizard>(_sourceFactory, "Emote Item Wizard");
                 });
 
                 using (new EditorGUI.IndentLevelScope())
