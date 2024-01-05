@@ -1,15 +1,7 @@
+using System.Linq;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.Internal.ClipBuilders;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizard.Sources.Sequence.Base;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
-using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Utils
 {
@@ -17,10 +9,28 @@ namespace Silksprite.EmoteWizard.Utils
     {
         public static void ExplodeImmediate(IUndoable undoable, EmoteWizardBase wizard)
         {
-            foreach (var template in wizard.SourceTemplates())
+            var sourceTemplates = wizard.SourceTemplates().ToArray();
+            if (sourceTemplates.Length > 1)
             {
-                template.PopulateSources(undoable, wizard);
+                // TODO: IEmoteTemplate should populate sources into children
+                for (var i = 0; i < sourceTemplates.Length; i++)
+                {
+                    var template = sourceTemplates[i];
+                    var child = undoable.AddChildGameObject(wizard, $"Item {i + 1}");
+                    template.PopulateSources(undoable, child.transform);
+                }
+
+                var firstChild = wizard.transform.GetChild(0);
+                Selection.SetActiveObjectWithContext(firstChild, firstChild);
             }
+            else
+            {
+                foreach (var template in sourceTemplates)
+                {
+                    template.PopulateSources(undoable, wizard);
+                }
+            }
+            
             undoable.DestroyObject(wizard);
         }
     }

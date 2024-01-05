@@ -105,10 +105,9 @@ namespace Silksprite.EmoteWizard
                     _templatesIsExpanded = EditorGUILayout.Foldout(_templatesIsExpanded, "More Templates");
                     if (_templatesIsExpanded)
                     {
-                        ModeButton(DataSourceFactoryMode.DressChange, "Dress Change", "着せ替えセット", () =>
+                        UndoableButton("Dress Change Wizard", "着せ替えセット", undoable =>
                         {
-                            _itemPath = "";
-                            _parameterName = "";
+                            undoable.AddChildComponentAndSelect<DressChangeWizard>(_sourceFactory, "Dress Change Wizard");
                         });
                         ModeButton(DataSourceFactoryMode.CustomAction, "Custom Action", "エモートセット", () =>
                         {
@@ -204,22 +203,6 @@ namespace Silksprite.EmoteWizard
             {
                 case DataSourceFactoryMode.Default:
                     break;
-                case DataSourceFactoryMode.DressChange:
-                    ItemPath();
-                    AdvancedSettings(() =>
-                    {
-                        GroupName();
-                        ParameterName();
-                        HasExpressionItemSource();
-                    });
-                    using (new EditorGUI.DisabledScope(disableAddButton))
-                    {
-                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
-                        {
-                            GenerateDressChangeTemplate(undoable);
-                        }
-                    }
-                    break;
                 case DataSourceFactoryMode.CustomAction:
                     ItemPath();
                     ActionIndex();
@@ -251,52 +234,6 @@ namespace Silksprite.EmoteWizard
                     throw new ArgumentOutOfRangeException();
             }
             EmoteWizardGUILayout.Tutorial(_sourceFactory.CreateEnv(), Tutorial);
-        }
-
-        void GenerateDressChangeTemplate(IUndoable undoable)
-        {
-            foreach (var value in Enumerable.Range(0, 2))
-            {
-                var childName = $"{_itemPath}/Item {value}";
-                var child = undoable.AddChildGameObject(_sourceFactory, childName);
-                if (_hasExpressionItemSource)
-                {
-                    undoable.AddComponent<ExpressionItemSource>(child).expressionItem = new ExpressionItem
-                    {
-                        enabled = true,
-                        icon = VrcSdkAssetLocator.ItemWand(),
-                        path = childName,
-                        parameter = _parameterName,
-                        value = value,
-                        itemKind = ExpressionItemKind.Toggle
-                    };
-                }
-
-                var emoteItemSource = undoable.AddComponent<EmoteItemSource>(child);
-                emoteItemSource.trigger = new EmoteTrigger
-                {
-                    name = childName,
-                    priority = 0,
-                    conditions = new List<EmoteCondition>
-                    {
-                        new EmoteCondition
-                        {
-                            kind = ParameterItemKind.Int,
-                            parameter = _parameterName,
-                            mode = EmoteConditionMode.Equals,
-                            threshold = value
-                        }
-                    }
-                };
-                emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
-                emoteItemSource.expressionItemPath = childName;
-                emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.ItemWand();
-                undoable.AddComponent<EmoteSequenceSource>(child).sequence = new EmoteSequence
-                {
-                    layerKind = LayerKind.FX,
-                    groupName = _groupName
-                };
-            }
         }
 
         void GenerateCustomActionTemplate(IUndoable undoable)
@@ -379,7 +316,6 @@ namespace Silksprite.EmoteWizard
         enum DataSourceFactoryMode
         {
             Default,
-            DressChange,
             CustomAction,
             SubMenu
         }
