@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
@@ -59,9 +60,9 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             };
         }
         
-        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(Component target)
+        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(IUndoable undoable, Component target)
         {
-            var source = target.gameObject.AddComponent<GenericEmoteSequenceSource>();
+            var source = undoable.AddComponent<GenericEmoteSequenceSource>(target);
             source.sequence = _genericEmoteSequence;
             return source;
         }

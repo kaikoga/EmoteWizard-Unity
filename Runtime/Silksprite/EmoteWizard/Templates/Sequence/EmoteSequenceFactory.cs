@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
@@ -35,9 +36,9 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
 
         EmoteSequence IEmoteSequenceFactory.Build(EmoteWizardEnvironment environment, IEmoteSequenceFactory.IClipBuilder builder) => _sequence;
 
-        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(Component target)
+        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(IUndoable undoable, Component target)
         {
-            var source = target.gameObject.AddComponent<EmoteSequenceSource>();
+            var source = undoable.AddComponent<EmoteSequenceSource>(target);
             source.sequence = _sequence;
             return source;
         }

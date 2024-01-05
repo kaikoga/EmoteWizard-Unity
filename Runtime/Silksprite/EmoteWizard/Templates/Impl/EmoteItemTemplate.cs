@@ -184,7 +184,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         {
             var source = undoable.AddComponent<EmoteItemSource>(target);
             source.trigger = Trigger;
-            SequenceFactory.PopulateSequenceSource(source);
+            SequenceFactory.PopulateSequenceSource(undoable, source);
             source.hasExpressionItem = HasExpressionItem;
             source.expressionItemPath = ExpressionItemPath;
             source.expressionItemIcon = ExpressionItemIcon;
