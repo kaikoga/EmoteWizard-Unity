@@ -1,97 +1,98 @@
+using System;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
+using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Sources
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EmoteSequenceSource))]
-    public class EmoteSequenceSourceEditor : Editor
+    public class EmoteSequenceSourceEditor : EmoteWizardEditorBase<EmoteSequenceSource>
     {
-        SerializedProperty _serializedLayerKind;
-        SerializedProperty _serializedGroupName;
+        LocalizedProperty _layerKind;
+        LocalizedProperty _groupName;
 
-        SerializedProperty _serializedIsFixedDuration;
+        LocalizedProperty _isFixedDuration;
 
-        SerializedProperty _serializedClip;
-        SerializedProperty _serializedEntryTransitionDuration;
-        SerializedProperty _serializedExitTransitionDuration;
+        LocalizedProperty _clip;
+        LocalizedProperty _entryTransitionDuration;
+        LocalizedProperty _exitTransitionDuration;
 
-        SerializedProperty _serializedHasExitTime;
-        SerializedProperty _serializedClipExitTime;
+        LocalizedProperty _hasExitTime;
+        LocalizedProperty _clipExitTime;
 
-        SerializedProperty _serializedHasTimeParameter;
-        SerializedProperty _serializedTimeParameter;
+        LocalizedProperty _hasTimeParameter;
+        LocalizedProperty _timeParameter;
 
-        SerializedProperty _serializedHasEntryClip;
-        SerializedProperty _serializedEntryClip;
-        SerializedProperty _serializedEntryClipExitTime;
-        SerializedProperty _serializedPostEntryTransitionDuration;
+        LocalizedProperty _hasEntryClip;
+        LocalizedProperty _entryClip;
+        LocalizedProperty _entryClipExitTime;
+        LocalizedProperty _postEntryTransitionDuration;
 
-        SerializedProperty _serializedHasExitClip;
-        SerializedProperty _serializedExitClip;
-        SerializedProperty _serializedExitClipExitTime;
-        SerializedProperty _serializedPostExitTransitionDuration;
+        LocalizedProperty _hasExitClip;
+        LocalizedProperty _exitClip;
+        LocalizedProperty _exitClipExitTime;
+        LocalizedProperty _postExitTransitionDuration;
 
-        SerializedProperty _serializedHasLayerBlend;
-        SerializedProperty _serializedBlendIn;
-        SerializedProperty _serializedBlendOut;
+        LocalizedProperty _serializedHasLayerBlend;
+        LocalizedProperty _serializedBlendIn;
+        LocalizedProperty _serializedBlendOut;
 
-        SerializedProperty _serializedHasTrackingOverrides;
-        SerializedProperty _serializedTrackingOverrides;
-
-        EmoteSequenceSource _emoteSequenceSource;
+        LocalizedProperty _serializedHasTrackingOverrides;
+        LocalizedProperty _serializedTrackingOverrides;
 
         AnimationPreview _preview;
 
         void OnEnable()
         {
-            var serializedItem = serializedObject.FindProperty(nameof(EmoteSequenceSource.sequence));
+            var serializedItem = Lop(nameof(EmoteSequenceSource.sequence), Loc("EmoteSequenceSource::sequence"));
 
-            _serializedLayerKind = serializedItem.FindPropertyRelative(nameof(EmoteSequence.layerKind));
-            _serializedGroupName = serializedItem.FindPropertyRelative(nameof(EmoteSequence.groupName));
+            _layerKind = serializedItem.Lop(nameof(EmoteSequence.layerKind), Loc("EmoteSequence::layerKind"));
+            _groupName = serializedItem.Lop(nameof(EmoteSequence.groupName), Loc("EmoteSequence::groupName"));
 
-            _serializedIsFixedDuration = serializedItem.FindPropertyRelative(nameof(EmoteSequence.isFixedDuration));
+            _isFixedDuration = serializedItem.Lop(nameof(EmoteSequence.isFixedDuration), Loc("EmoteSequence::isFixedDuration"));
             
-            _serializedClip = serializedItem.FindPropertyRelative(nameof(EmoteSequence.clip));
-            _serializedEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(EmoteSequence.entryTransitionDuration));
-            _serializedExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(EmoteSequence.exitTransitionDuration));
+            _clip = serializedItem.Lop(nameof(EmoteSequence.clip), Loc("EmoteSequence::clip"));
+            _entryTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.entryTransitionDuration), Loc("EmoteSequence::entryTransitionDuration"));
+            _exitTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.exitTransitionDuration), Loc("EmoteSequence::exitTransitionDuration"));
             
-            _serializedHasExitTime = serializedItem.FindPropertyRelative(nameof(EmoteSequence.hasExitTime));
-            _serializedClipExitTime = serializedItem.FindPropertyRelative(nameof(EmoteSequence.clipExitTime));
+            _hasExitTime = serializedItem.Lop(nameof(EmoteSequence.hasExitTime), Loc("EmoteSequence::hasExitTime"));
+            _clipExitTime = serializedItem.Lop(nameof(EmoteSequence.clipExitTime), Loc("EmoteSequence::clipExitTime"));
 
-            _serializedHasTimeParameter = serializedItem.FindPropertyRelative(nameof(EmoteSequence.hasTimeParameter));
-            _serializedTimeParameter = serializedItem.FindPropertyRelative(nameof(EmoteSequence.timeParameter));
+            _hasTimeParameter = serializedItem.Lop(nameof(EmoteSequence.hasTimeParameter), Loc("EmoteSequence::hasTimeParameter"));
+            _timeParameter = serializedItem.Lop(nameof(EmoteSequence.timeParameter), Loc("EmoteSequence::timeParameter"));
 
-            _serializedHasEntryClip = serializedItem.FindPropertyRelative(nameof(EmoteSequence.hasEntryClip));
-            _serializedEntryClip = serializedItem.FindPropertyRelative(nameof(EmoteSequence.entryClip));
-            _serializedEntryClipExitTime = serializedItem.FindPropertyRelative(nameof(EmoteSequence.entryClipExitTime));
-            _serializedPostEntryTransitionDuration = serializedItem.FindPropertyRelative(nameof(EmoteSequence.postEntryTransitionDuration));
+            _hasEntryClip = serializedItem.Lop(nameof(EmoteSequence.hasEntryClip), Loc("EmoteSequence::hasEntryClip"));
+            _entryClip = serializedItem.Lop(nameof(EmoteSequence.entryClip), Loc("EmoteSequence::entryClip"));
+            _entryClipExitTime = serializedItem.Lop(nameof(EmoteSequence.entryClipExitTime), Loc("EmoteSequence::entryClipExitTime"));
+            _postEntryTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.postEntryTransitionDuration), Loc("EmoteSequence::postEntryTransitionDuration"));
 
-            _serializedHasExitClip = serializedItem.FindPropertyRelative(nameof(EmoteSequence.hasExitClip));
-            _serializedExitClip = serializedItem.FindPropertyRelative(nameof(EmoteSequence.exitClip));
-            _serializedExitClipExitTime = serializedItem.FindPropertyRelative(nameof(EmoteSequence.exitClipExitTime));
-            _serializedPostExitTransitionDuration = serializedItem.FindPropertyRelative(nameof(EmoteSequence.postExitTransitionDuration));
+            _hasExitClip = serializedItem.Lop(nameof(EmoteSequence.hasExitClip), Loc("EmoteSequence::hasExitClip"));
+            _exitClip = serializedItem.Lop(nameof(EmoteSequence.exitClip), Loc("EmoteSequence::exitClip"));
+            _exitClipExitTime = serializedItem.Lop(nameof(EmoteSequence.exitClipExitTime), Loc("EmoteSequence::exitClipExitTime"));
+            _postExitTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.postExitTransitionDuration), Loc("EmoteSequence::postExitTransitionDuration"));
 
-            _serializedHasLayerBlend = serializedItem.FindPropertyRelative(nameof(EmoteSequence.hasLayerBlend));
-            _serializedBlendIn = serializedItem.FindPropertyRelative(nameof(EmoteSequence.blendIn));
-            _serializedBlendOut = serializedItem.FindPropertyRelative(nameof(EmoteSequence.blendOut));
+            _serializedHasLayerBlend = serializedItem.Lop(nameof(EmoteSequence.hasLayerBlend), Loc("EmoteSequence::hasLayerBlend"));
+            _serializedBlendIn = serializedItem.Lop(nameof(EmoteSequence.blendIn), Loc("EmoteSequence::blendIn"));
+            _serializedBlendOut = serializedItem.Lop(nameof(EmoteSequence.blendOut), Loc("EmoteSequence::blendOut"));
 
-            _serializedHasTrackingOverrides = serializedItem.FindPropertyRelative(nameof(EmoteSequence.hasTrackingOverrides));
-            _serializedTrackingOverrides = serializedItem.FindPropertyRelative(nameof(EmoteSequence.trackingOverrides));
+            _serializedHasTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.hasTrackingOverrides), Loc("EmoteSequence::hasTrackingOverrides"));
+            _serializedTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.trackingOverrides), Loc("EmoteSequence::trackingOverrides"));
 
-            _emoteSequenceSource = (EmoteSequenceSource)target;
-
-            var environment = _emoteSequenceSource.CreateEnv();
+            var environment = CreateEnv();
             if (environment?.AvatarDescriptor)
             {
                 // TODO: prevent multiple previews
-                _preview = new AnimationPreview();
+                _preview = new AnimationPreview(environment.AvatarDescriptor);
                 RefreshPreviewIfNeeded(environment);
             }
         }
@@ -100,8 +101,9 @@ namespace Silksprite.EmoteWizard.Sources
         {
             if (_preview == null) return;
 
-            var clip = _serializedClip.objectReferenceValue as AnimationClip;
-            if (clip) _preview.Refresh(environment.AvatarDescriptor, clip, 0f);
+            var clip = _clip.Property.objectReferenceValue as AnimationClip;
+            _preview.Clip = clip;
+            _preview.Refresh();
         }
 
         void OnDisable()
@@ -109,80 +111,67 @@ namespace Silksprite.EmoteWizard.Sources
             _preview?.Dispose();
         }
 
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_serializedLayerKind);
-            EditorGUILayout.PropertyField(_serializedGroupName);
+            EmoteWizardGUILayout.Prop(_layerKind);
+            EmoteWizardGUILayout.Prop(_groupName);
 
-            EditorGUILayout.PropertyField(_serializedIsFixedDuration);
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(_serializedClip);
-            var requireRefreshPreview = EditorGUI.EndChangeCheck();
-            EditorGUILayout.PropertyField(_serializedEntryTransitionDuration);
-            EditorGUILayout.PropertyField(_serializedExitTransitionDuration);
-
-            EditorGUILayout.PropertyField(_serializedHasExitTime);
-            if (_serializedHasExitTime.boolValue)
+            using (new LabelWidthScope(200f))
             {
-                EditorGUILayout.PropertyField(_serializedClipExitTime);
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Common Settings"));
+                EmoteWizardGUILayout.Prop(_isFixedDuration);
+                EditorGUI.BeginChangeCheck();
+                EmoteWizardGUILayout.Prop(_clip);
+                var requireRefreshPreview = EditorGUI.EndChangeCheck();
+                EmoteWizardGUILayout.Prop(_entryTransitionDuration);
+                EmoteWizardGUILayout.Prop(_exitTransitionDuration);
+
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Exit Time"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasExitTime, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_clipExitTime);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Time Parameter"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasTimeParameter, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_timeParameter);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Entry Clip"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasEntryClip, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_entryClip);
+                    EmoteWizardGUILayout.Prop(_entryClipExitTime);
+                    EmoteWizardGUILayout.Prop(_postEntryTransitionDuration);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Exit Clip"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasExitClip, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_exitClip);
+                    EmoteWizardGUILayout.Prop(_exitClipExitTime);
+                    EmoteWizardGUILayout.Prop(_postExitTransitionDuration);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Layer Blend"));
+                EmoteWizardGUILayout.PropertyFoldout(_serializedHasLayerBlend, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_serializedBlendIn);
+                    EmoteWizardGUILayout.Prop(_serializedBlendOut);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Tracking Overrides"));
+                EmoteWizardGUILayout.PropertyFoldout(_serializedHasTrackingOverrides, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_serializedTrackingOverrides);
+                });
+
+                serializedObject.ApplyModifiedProperties();
+
+                if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
+                _preview.OnInspectorGUI();
             }
-
-            EditorGUILayout.PropertyField(_serializedHasTimeParameter);
-            if (_serializedHasTimeParameter.boolValue)
-            {
-                EditorGUILayout.PropertyField(_serializedTimeParameter);
-            }
-
-            EditorGUILayout.PropertyField(_serializedHasEntryClip);
-            if (_serializedHasEntryClip.boolValue)
-            {
-                EditorGUILayout.PropertyField(_serializedEntryClip);
-                EditorGUILayout.PropertyField(_serializedEntryClipExitTime);
-                EditorGUILayout.PropertyField(_serializedPostEntryTransitionDuration);
-            }
-
-            EditorGUILayout.PropertyField(_serializedHasExitClip);
-            if (_serializedHasExitClip.boolValue)
-            {
-                EditorGUILayout.PropertyField(_serializedExitClip);
-                EditorGUILayout.PropertyField(_serializedExitClipExitTime);
-                EditorGUILayout.PropertyField(_serializedPostExitTransitionDuration);
-            }
-
-            EditorGUILayout.PropertyField(_serializedHasLayerBlend);
-            if (_serializedHasLayerBlend.boolValue)
-            {
-                EditorGUILayout.PropertyField(_serializedBlendIn);
-                EditorGUILayout.PropertyField(_serializedBlendOut);
-            }
-
-            EditorGUILayout.PropertyField(_serializedHasTrackingOverrides);
-            if (_serializedHasTrackingOverrides.boolValue)
-            {
-                EditorGUILayout.PropertyField(_serializedTrackingOverrides);
-            }
-
-            serializedObject.ApplyModifiedProperties();
-
-            var environment = _emoteSequenceSource.CreateEnv(); 
-            if (requireRefreshPreview)
-            {
-                RefreshPreviewIfNeeded(environment);
-            }
-
-            EmoteWizardGUILayout.Tutorial(environment, Tutorial);
         }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "アニメーションの内容をここに登録します。",
-                "Group Nameでアニメーションをグループ分けします。同時に再生したいアニメーションはGroupを分けてください。",
-                "",
-                "Exit Time: Exit Timeの設定をします。再生終了するタイプのアニメーションを設定します。",
-                "Time Parameter: Motion Timeの設定をします。グリップやRadial Puppetに反応するタイプのアニメーションを設定します。",
-                "Entry Clip: Clipに遷移する際にアニメーションを挿入します。",
-                "Exit Clip: Clipから遷移する際にアニメーションを挿入します。",
-                "Layer Blend: VRC Playable Layer Controlの設定をします。現状Actionレイヤー専用です。",
-                "Tracking Override: VRC Animator Tracking Controlの設定をします。アニメーションの再生中に一時的にAnimationにする項目を登録します。");
     }
 }

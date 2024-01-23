@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Internal;
@@ -14,7 +15,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
             var builder = new AnimatorLayerBuilder(context.Environment, LayerKind.None, parametersSnapshot, animatorController);
 
-            builder.BuildEditorLayer(context.CollectEmoteItems());
+            builder.BuildEditorLayer(context.Environment.GetContext<EmoteItemContext>().AllEmoteItems());
             builder.BuildParameters();
             return context.OutputAsset;
         }

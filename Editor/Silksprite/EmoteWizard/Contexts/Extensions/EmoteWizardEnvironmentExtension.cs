@@ -24,10 +24,10 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             return emptyClip;
         }
 
-        public static void AddWizard<T>(this EmoteWizardEnvironment environment) where T : EmoteWizardBehaviour
+        public static void AddWizard<T>(this IUndoable undoable, EmoteWizardEnvironment environment) where T : EmoteWizardBehaviour
         {
             var wizard = environment.GetComponentInChildren<T>(true);
-            if (!wizard) Undo.AddComponent<T>(environment.ContainerTransform.gameObject);
+            if (!wizard) undoable.AddComponent<T>(environment.ContainerTransform.gameObject);
         }
 
         public static T FindOrCreateChildComponent<T>(this IUndoable undoable, EmoteWizardEnvironment self, string path, Action<T> initializer = null) where T : Component

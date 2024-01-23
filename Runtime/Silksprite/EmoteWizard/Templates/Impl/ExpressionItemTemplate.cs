@@ -9,9 +9,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class ExpressionItemTemplate : IEmoteTemplate
     {
+        public string Path { get; }
         readonly ExpressionItem _expressionItem;
 
-        public ExpressionItemTemplate(ExpressionItem expressionItem) => _expressionItem = expressionItem;
+        public ExpressionItemTemplate(string path, ExpressionItem expressionItem)
+        {
+            Path = path;
+            _expressionItem = expressionItem;
+        }
 
         public IEnumerable<EmoteItem> ToEmoteItems() => Array.Empty<EmoteItem>();
 

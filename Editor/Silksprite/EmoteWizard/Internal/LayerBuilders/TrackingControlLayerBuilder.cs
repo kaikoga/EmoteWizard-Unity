@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             }
 
             NextStatePosition();
-            var trackingState = AddStateWithoutTransition("Tracking", null);
+            var trackingState = PopulateDefaultState("Tracking");
             var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue());
 
             PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);

@@ -2,9 +2,13 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public interface IBehaviourContext
+    public interface IContext
     {
         EmoteWizardEnvironment Environment { get; }
+    }
+
+    public interface IBehaviourContext : IContext
+    {
         GameObject GameObject { get; }
 
         void DisconnectOutputAssets();

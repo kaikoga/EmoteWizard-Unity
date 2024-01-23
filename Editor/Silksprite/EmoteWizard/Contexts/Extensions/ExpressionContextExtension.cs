@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         static IEnumerable<ExpressionItemSet> GroupExpressionItems(this ExpressionContext context)
         {
-            var activeExpressionItems = context.CollectExpressionItems().ToList();
+            var activeExpressionItems = context.AllExpressionItems().ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
 
             var folderNames = activeExpressionItems.SelectMany(item => item.Folders()).Distinct().ToList();

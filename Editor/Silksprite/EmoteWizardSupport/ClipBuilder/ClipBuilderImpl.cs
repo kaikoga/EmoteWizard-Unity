@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizard.ClipBuilder;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal.ClipBuilders
+namespace Silksprite.EmoteWizardSupport.ClipBuilder
 {
-    public class ClipBuilderImpl : IEmoteSequenceFactory.IClipBuilder
+    public class ClipBuilderImpl : IClipBuilder
     {
         readonly string _explodePath; 
 
@@ -16,7 +15,7 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
             _explodePath = explodePath;
         }
 
-        Motion IEmoteSequenceFactory.IClipBuilder.Build(string clipName, IEnumerable<IEmoteSequenceFactory.AnimatedValue<float>> floatValues)
+        Motion IClipBuilder.Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues)
         {
             var clip = new AnimationClip
             {

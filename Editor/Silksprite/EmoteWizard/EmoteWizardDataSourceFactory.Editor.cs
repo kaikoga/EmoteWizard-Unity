@@ -1,323 +1,91 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(EmoteWizardDataSourceFactory))]
-    public class EmoteWizardDataSourceFactoryEditor : Editor
+    public class EmoteWizardDataSourceFactoryEditor : EmoteWizardEditorBase<EmoteWizardDataSourceFactory>
     {
-        EmoteWizardDataSourceFactory _sourceFactory;
-        bool _templatesIsExpanded;
-
-        DataSourceFactoryMode _mode;
-
-        string _itemPath;
-        bool _hasGroupName;
-        string _groupName;
-        bool _hasParameterName;
-        string _parameterName;
-        string _actionParameterName;
-        int _actionIndex = -1;
-        bool _hasExpressionItemSource;
-        VRCExpressionsMenu _subMenu;
-
-        void OnEnable()
+        protected override void OnInnerInspectorGUI()
         {
-            _sourceFactory = (EmoteWizardDataSourceFactory)target;
-        }
-
-        static bool IsInvalidPathInput(string value) => string.IsNullOrWhiteSpace(value) || value.StartsWith("/") || value.EndsWith("/");
-        static bool IsInvalidParameterInput(string value) => string.IsNullOrWhiteSpace(value) || value.Contains("/");
-
-        string GuessActionFolderName()
-        {
-            var transform = _sourceFactory.transform;
-            return transform.childCount > 0 ? transform.GetChild(transform.childCount - 1).name : "More Emotes";
-        }
-
-        int GuessActionIndex()
-        {
-            var snapshot = _sourceFactory.CreateEnv().GetContext<ParametersContext>().Snapshot();
-            var newValue = 21;
-            var usages = snapshot.ParameterItems.FirstOrDefault(v => v.Name == EmoteWizardConstants.Defaults.Params.ActionSelect)?.ReadUsages;
-            if (usages != null)
+            void UndoableButton(LocalizedContent loc, LocalizedContent desc, Action<IUndoable> callback)
             {
-                while (usages.Any(usage => (int)usage.Value == newValue)) newValue++;
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    EmoteWizardGUILayout.Undoable(loc, callback);
+                    EmoteWizardGUILayout.Label(desc, new GUILayoutOption[0]);
+                }
             }
-            return newValue;
-        }
 
-        public override void OnInspectorGUI()
-        {
             using (new BoxLayoutScope())
             {
-                void ModeButton(DataSourceFactoryMode mode, string label, string desc, Action callback = null)
-                {
-                    using (new EditorGUILayout.HorizontalScope())
+                UndoableButton(Loc("EmoteWizardDataSourceFactory::Expression Item Source"),
+                    Loc("EmoteWizardDataSourceFactory::Expression Item Source::Desc"),
+                    undoable =>
                     {
-                        if (GUILayout.Button(new GUIContent(label, desc)))
+                        undoable.AddChildComponentAndSelect<ExpressionItemSource>(soleTarget, "Expression Item Source")
+                            .expressionItem = new ExpressionItem
                         {
-                            _mode = mode;
-                            callback?.Invoke();
-                        }
-                        GUILayout.Label(desc);
-                    }
-                }
-
-                void UndoableButton(string label, string desc, Action<IUndoable> callback)
-                {
-                    using (new EditorGUILayout.HorizontalScope())
-                    {
-                        EmoteWizardGUILayout.Undoable(label, callback);
-                        GUILayout.Label(desc);
-                    }
-                }
-
-                UndoableButton("Expression Item Source", "ExpressionMenuのメニュー項目", undoable =>
-                {
-                    undoable.AddChildComponentAndSelect<ExpressionItemSource>(_sourceFactory, "Expression Item Source");
-                });
-                UndoableButton("Parameter Source", "外部アセットが利用するパラメータ", undoable =>
-                {
-                    undoable.AddChildComponentAndSelect<ParameterSource>(_sourceFactory, "Parameter Source");
-                });
-                UndoableButton("Emote Item Wizard", "アニメーションの発生条件", undoable =>
-                {
-                    undoable.AddChildComponentAndSelect<EmoteItemWizard>(_sourceFactory, "Emote Item Wizard");
-                });
-
-                using (new EditorGUI.IndentLevelScope())
-                {
-                    _templatesIsExpanded = EditorGUILayout.Foldout(_templatesIsExpanded, "More Templates");
-                    if (_templatesIsExpanded)
-                    {
-                        UndoableButton("Dress Change Wizard", "着せ替えセット", undoable =>
-                        {
-                            undoable.AddChildComponentAndSelect<DressChangeWizard>(_sourceFactory, "Dress Change Wizard");
-                        });
-                        ModeButton(DataSourceFactoryMode.CustomAction, "Custom Action", "エモートセット", () =>
-                        {
-                            _itemPath = $"{GuessActionFolderName()}/";
-                            _actionParameterName = EmoteWizardConstants.Defaults.Params.ActionSelect;
-                        });
-                        ModeButton(DataSourceFactoryMode.SubMenu, "Sub Menu", "サブメニューセット", () => _itemPath = "");
-                    }
-                }
-            }
-
-            if (_mode != DataSourceFactoryMode.Default)
-            {
-                GUILayout.Label($"Add {_mode} Source", new GUIStyle { fontStyle = FontStyle.Bold });
-            }
-
-            var disableAddButton = false;
-
-            void GroupName()
-            {
-                var isInvalidNameInput = IsInvalidPathInput(_groupName);
-                disableAddButton |= isInvalidNameInput;
-                _hasGroupName = EditorGUILayout.Toggle("Set Group Name", _hasGroupName);
-                using (new EditorGUI.IndentLevelScope())
-                using (new InvalidValueScope(isInvalidNameInput))
-                {
-                    _groupName = _hasGroupName ? EditorGUILayout.TextField("Group Name", _groupName) : _itemPath;
-                }
-            }
-
-            void ItemPath()
-            {
-                var isInvalidNameInput = IsInvalidPathInput(_itemPath);
-                disableAddButton |= isInvalidNameInput;
-                using (new InvalidValueScope(isInvalidNameInput))
-                {
-                    _itemPath = EditorGUILayout.TextField("Item Path", _itemPath);
-                }
-            }
-
-            void ParameterName(bool mandatory = false)
-            {
-                var isInvalidNameInput = IsInvalidParameterInput(_parameterName);
-                disableAddButton |= isInvalidNameInput;
-                _hasParameterName = mandatory || EditorGUILayout.Toggle("Set Parameter Name", _hasParameterName);
-                using (new EditorGUI.IndentLevelScope(mandatory ? 0 : 1))
-                using (new InvalidValueScope(isInvalidNameInput))
-                {
-                    _parameterName = _hasParameterName ? EditorGUILayout.TextField("Parameter Name", _parameterName) : _itemPath;
-                }
-            }
-
-            void ActionParameterName()
-            {
-                var isInvalidNameInput = IsInvalidParameterInput(_actionParameterName);
-                disableAddButton |= isInvalidNameInput;
-                using (new InvalidValueScope(isInvalidNameInput))
-                {
-                    _actionParameterName = EditorGUILayout.TextField("Action Parameter Name", _actionParameterName);
-                }
-            }
-
-            void ActionIndex()
-            {
-                if (_actionIndex < 0) _actionIndex = GuessActionIndex();
-                _actionIndex = EditorGUILayout.IntField(_actionParameterName, _actionIndex);
-            }
-
-            void ExpressionsMenu()
-            {
-                disableAddButton |= !_subMenu;
-                using (new InvalidValueScope(!_subMenu))
-                {
-                    _subMenu = EditorGUILayout.ObjectField("Sub Menu", _subMenu, typeof(VRCExpressionsMenu), false) as VRCExpressionsMenu;
-                }
-            }
-
-            void HasExpressionItemSource()
-            {
-                _hasExpressionItemSource = EditorGUILayout.Toggle("Use Expression Item Source", _hasExpressionItemSource);
-            }
-
-            void AdvancedSettings(Action content)
-            {
-                using (new EditorGUI.IndentLevelScope())
-                using (new BoxLayoutScope())
-                {
-                    GUILayout.Label($"Advanced Settings", new GUIStyle { fontStyle = FontStyle.Bold });
-                    content();
-                }
-            }
-            switch (_mode)
-            {
-                case DataSourceFactoryMode.Default:
-                    break;
-                case DataSourceFactoryMode.CustomAction:
-                    ItemPath();
-                    ActionIndex();
-                    AdvancedSettings(() =>
-                    {
-                        ActionParameterName();
-                        HasExpressionItemSource();
+                            enabled = true,
+                            icon = VrcSdkAssetLocator.ItemWand(),
+                            itemKind = ExpressionItemKind.Button
+                        };
                     });
-                    using (new EditorGUI.DisabledScope(disableAddButton))
+                UndoableButton(Loc("EmoteWizardDataSourceFactory::Sub Menu Expression Item Source"),
+                    Loc("EmoteWizardDataSourceFactory::Sub Menu Expression Item Source::Desc"),
+                    undoable =>
                     {
-                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
+                        undoable.AddChildComponentAndSelect<ExpressionItemSource>(soleTarget, "Sub Menu")
+                            .expressionItem = new ExpressionItem
                         {
-                            GenerateCustomActionTemplate(undoable);
-                        }
-                    }
-                    break;
-                case DataSourceFactoryMode.SubMenu:
-                    ItemPath();
-                    ExpressionsMenu();
-                    using (new EditorGUI.DisabledScope(disableAddButton))
+                            enabled = true,
+                            icon = VrcSdkAssetLocator.ItemFolder(),
+                            value = 0,
+                            itemKind = ExpressionItemKind.SubMenu
+                        };
+                    });
+                UndoableButton(Loc("EmoteWizardDataSourceFactory::Parameter Source"),
+                    Loc("EmoteWizardDataSourceFactory::Parameter Source::Desc"),
+                    undoable =>
                     {
-                        if (EmoteWizardGUILayout.Undoable("Add") is IUndoable undoable)
-                        {
-                            GenerateSubMenuTemplate(undoable);
-                        }
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            EmoteWizardGUILayout.Tutorial(_sourceFactory.CreateEnv(), Tutorial);
-        }
-
-        void GenerateCustomActionTemplate(IUndoable undoable)
-        {
-            var child = undoable.AddChildGameObject(_sourceFactory, _itemPath);
-
-            if (_hasExpressionItemSource)
-            {
-                undoable.AddComponent<ExpressionItemSource>(child).expressionItem = new ExpressionItem
-                {
-                    enabled = true,
-                    icon = VrcSdkAssetLocator.PersonDance(),
-                    path = _itemPath,
-                    parameter = _actionParameterName,
-                    value = _actionIndex,
-                    itemKind = ExpressionItemKind.Toggle
-                };
+                        undoable.AddChildComponentAndSelect<ParameterSource>(soleTarget, "Parameter Source");
+                    });
             }
 
-            var emoteItemSource = undoable.AddComponent<EmoteItemSource>(child);
-            emoteItemSource.trigger = new EmoteTrigger
+            using (new BoxLayoutScope())
             {
-                name = _itemPath,
-                priority = 0,
-                conditions = new List<EmoteCondition>
-                {
-                    new EmoteCondition
+                UndoableButton(Loc("EmoteWizardDataSourceFactory::Emote Item Wizard"),
+                    Loc("EmoteWizardDataSourceFactory::Emote Item Wizard::Desc"),
+                    undoable =>
                     {
-                        kind = ParameterItemKind.Int,
-                        parameter = _actionParameterName,
-                        mode = EmoteConditionMode.Equals,
-                        threshold = _actionIndex
-                    }
-                }
-            };
-            emoteItemSource.hasExpressionItem = !_hasExpressionItemSource;
-            emoteItemSource.expressionItemPath = _itemPath;
-            emoteItemSource.expressionItemIcon = VrcSdkAssetLocator.PersonDance();
-            undoable.AddComponent<EmoteSequenceSource>(child).sequence = new EmoteSequence
-            {
-                layerKind = LayerKind.Action,
-                groupName = EmoteWizardConstants.Defaults.Groups.Action,
-                hasLayerBlend = true,
-                hasTrackingOverrides = true,
-                trackingOverrides = new[]
-                {
-                    TrackingTarget.Head,
-                    TrackingTarget.LeftHand,
-                    TrackingTarget.RightHand,
-                    TrackingTarget.Hip,
-                    TrackingTarget.LeftFoot,
-                    TrackingTarget.RightFoot,
-                    TrackingTarget.LeftFingers,
-                    TrackingTarget.RightFingers
-                }.Select(t => new TrackingOverride { target = t }).ToList(),
-                blendIn = 0.5f,
-                blendOut = 0.25f
-            };
+                        undoable.AddChildComponentAndSelect<EmoteItemWizard>(soleTarget, "Emote Item Wizard");
+                    });
 
-            _actionIndex = -1;
-        }
-
-        void GenerateSubMenuTemplate(IUndoable undoable)
-        {
-            undoable.AddChildComponent<ExpressionItemSource>(_sourceFactory, _itemPath).expressionItem = new ExpressionItem
-            {
-                enabled = true,
-                icon = VrcSdkAssetLocator.ItemFolder(),
-                path = _itemPath,
-                value = 0,
-                itemKind = ExpressionItemKind.SubMenu,
-                subMenu = _subMenu
-            };
-        }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "Emote Wizardに登録するデータの入力欄を生成します。");
-        
-        enum DataSourceFactoryMode
-        {
-            Default,
-            CustomAction,
-            SubMenu
+                UndoableButton(Loc("EmoteWizardDataSourceFactory::Dress Change Wizard"),
+                    Loc("EmoteWizardDataSourceFactory::Dress Change Wizard::Desc"),
+                    undoable =>
+                    {
+                        undoable.AddChildComponentAndSelect<DressChangeWizard>(soleTarget, "Dress Change Wizard");
+                    });
+                UndoableButton(Loc("EmoteWizardDataSourceFactory::Custom Action Wizard"),
+                    Loc("EmoteWizardDataSourceFactory::Custom Action Wizard::Desc"),
+                    undoable =>
+                    {
+                        undoable.AddChildComponentAndSelect<CustomActionWizard>(soleTarget, "Custom Action Wizard");
+                    });
+            }
         }
     }
 }

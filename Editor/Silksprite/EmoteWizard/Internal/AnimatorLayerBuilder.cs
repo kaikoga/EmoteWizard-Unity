@@ -5,9 +5,9 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -85,35 +85,39 @@ namespace Silksprite.EmoteWizard.Internal
             new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
         }
 
-        public void BuildEmoteLayers(IEnumerable<EmoteItem> emoteItems)
+        public void BuildEmoteLayers(IEnumerable<EmoteItem> mirroredEmoteItems)
         {
             var clipBuilder = new ClipBuilderImpl();
-            foreach (var emoteItemGroup in emoteItems.GroupBy(item => item.GroupName))
+
+            foreach (var mirroredEmoteGroup in mirroredEmoteItems.GroupBy(item => (item.GroupName, item.Hand)))
             {
-                var groupName = emoteItemGroup.Key;
-                var mirror = emoteItemGroup.Any(item => item.IsMirrorItem);
+                var (groupName, hand) = mirroredEmoteGroup.Key;
 
-                if (mirror)
+                AvatarMask avatarMask = null;
+                if (_layerKind == LayerKind.Gesture)
                 {
-                    var avatarMaskLeft = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandLeft() : null;
-                    var layerLeft = PopulateLayer($"{groupName} ({EmoteHand.Left})", avatarMaskLeft);
-                    new EmoteLayerBuilder(this, layerLeft, emoteItemGroup.Select(item => item.Mirror(Environment, clipBuilder, EmoteHand.Left))).Build();
-
-                    var avatarMaskRight = _layerKind == LayerKind.Gesture ? VrcSdkAssetLocator.HandRight() : null;
-                    var layerRight = PopulateLayer($"{groupName} ({EmoteHand.Right})", avatarMaskRight);
-                    new EmoteLayerBuilder(this, layerRight, emoteItemGroup.Select(item => item.Mirror(Environment, clipBuilder, EmoteHand.Right))).Build();
+                    switch (hand)
+                    {
+                        case EmoteHand.Neither:
+                            break;
+                        case EmoteHand.Left:
+                            avatarMask = VrcSdkAssetLocator.HandLeft();
+                            break;
+                        case EmoteHand.Right:
+                            avatarMask = VrcSdkAssetLocator.HandRight();
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
-                else
-                {
-                    var layer = PopulateLayer(emoteItemGroup.Key);
-                    new EmoteLayerBuilder(this, layer, emoteItemGroup.Select(item => item.ToEmoteInstance(Environment, clipBuilder))).Build();
-                }
+                var layer = PopulateLayer(groupName, avatarMask);
+                new EmoteLayerBuilder(this, layer, mirroredEmoteGroup.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder))).Build();
             }
         }
 
-        public void BuildTrackingControlLayers(IEnumerable<EmoteItem> allEmoteItems)
+        public void BuildTrackingControlLayers(IEnumerable<EmoteItem> allMirroredEmoteItems)
         {
-            var overriders = allEmoteItems
+            var overriders = allMirroredEmoteItems
                 .OrderBy(item => item.Trigger.priority)
                 .SelectMany(item => item.TrackingOverrides().Select(trackingOverride => (item, trackingOverride.target)))
                 .GroupBy(pair => pair.target)

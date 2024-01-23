@@ -2,36 +2,45 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Utils
 {
     public static class WizardExploder
     {
-        public static void ExplodeImmediate(IUndoable undoable, EmoteWizardBase wizard)
+        public static void ExplodeImmediate(IUndoable undoable, EmoteWizardBase wizard, bool andSelect = true)
         {
             var sourceTemplates = wizard.SourceTemplates().ToArray();
-            if (sourceTemplates.Length > 1)
-            {
-                // TODO: IEmoteTemplate should populate sources into children
-                for (var i = 0; i < sourceTemplates.Length; i++)
-                {
-                    var template = sourceTemplates[i];
-                    var child = undoable.AddChildGameObject(wizard, $"Item {i + 1}");
-                    template.PopulateSources(undoable, child.transform);
-                }
 
-                var firstChild = wizard.transform.GetChild(0);
-                Selection.SetActiveObjectWithContext(firstChild, firstChild);
+            var parent = wizard.transform.parent;
+
+            var children = sourceTemplates
+                .Select(template => template.Path)
+                .OrderBy(path => path.Length)
+                .Distinct()
+                .ToDictionary(path => path, path => undoable.AddChildGameObject(parent, path));
+
+            foreach (var template in sourceTemplates)
+            {
+                var child = children[template.Path];
+                template.PopulateSources(undoable, child.transform);
+            }
+
+            if (andSelect)
+            {
+                var firstChild = children.Values.FirstOrDefault();
+                if (firstChild) Selection.SetActiveObjectWithContext(firstChild, firstChild);
+            }
+
+            var gameObject = wizard.gameObject;
+            if (gameObject.GetComponents<Component>().Length == 2)
+            {
+                undoable.DestroyObject(gameObject);
             }
             else
             {
-                foreach (var template in sourceTemplates)
-                {
-                    template.PopulateSources(undoable, wizard);
-                }
+                undoable.DestroyObject(wizard);
             }
-            
-            undoable.DestroyObject(wizard);
         }
     }
 }

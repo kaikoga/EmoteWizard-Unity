@@ -1,36 +1,35 @@
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.L10n;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Configs
 {
     [CustomEditor(typeof(ParametersConfig))]
-    public class ParametersConfigEditor : Editor
+    public class ParametersConfigEditor : EmoteWizardEditorBase<ParametersConfig>
     {
-        ParametersConfig _config;
-
-        SerializedProperty _serializedOutputAsset;
+        LocalizedProperty _outputAsset;
 
         void OnEnable()
         {
-            _config = (ParametersConfig)target;
-
-            _serializedOutputAsset = serializedObject.FindProperty(nameof(ParametersConfig.outputAsset));
+            _outputAsset = Lop(nameof(ParametersConfig.outputAsset), Loc("ParametersConfig::outputAsset"));
         }
 
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            var env = _config.CreateEnv();
+            var env = CreateEnv();
 
             EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
-                if (GUILayout.Button("Generate Expression Parameters"))
+                if (EmoteWizardGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters")))
                 {
-                    _config.GetContext(_config.CreateEnv()).BuildOutputAsset();
+                    soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
 
-                EditorGUILayout.PropertyField(_serializedOutputAsset);
+                EmoteWizardGUILayout.Prop(_outputAsset);
             });
             serializedObject.ApplyModifiedProperties();
         }

@@ -1,105 +1,68 @@
+using System;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
-using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Wizards
 {
     [CustomEditor(typeof(EmoteItemWizard))]
-    public class EmoteItemWizardEditor : Editor
+    public class EmoteItemWizardEditor : EmoteWizardEditorBase<EmoteItemWizard>
     {
-        SerializedProperty _serializedHasExpressionItemSource;
-        SerializedProperty _serializedItemPath;
-        SerializedProperty _serializedHasGroupName;
-        SerializedProperty _serializedGroupName;
-        SerializedProperty _serializedHasParameterName;
-        SerializedProperty _serializedParameterName;
-
-        EmoteItemWizard _wizard;
+        LocalizedProperty _hasExpressionItemSource;
+        LocalizedProperty _emoteSequenceFactoryKind;
+        LocalizedProperty _itemPath;
+        LocalizedProperty _hasGroupName;
+        LocalizedProperty _groupName;
+        LocalizedProperty _hasParameterName;
+        LocalizedProperty _parameterName;
 
         void OnEnable()
         {
-            _serializedHasExpressionItemSource = serializedObject.FindProperty(nameof(EmoteItemWizard.hasExpressionItemSource));
-            _serializedItemPath = serializedObject.FindProperty(nameof(EmoteItemWizard.itemPath));
-            _serializedHasGroupName = serializedObject.FindProperty(nameof(EmoteItemWizard.hasGroupName));
-            _serializedGroupName = serializedObject.FindProperty(nameof(EmoteItemWizard.groupName));
-            _serializedHasParameterName = serializedObject.FindProperty(nameof(EmoteItemWizard.hasParameterName));
-            _serializedParameterName = serializedObject.FindProperty(nameof(EmoteItemWizard.parameterName));
-            _wizard = (EmoteItemWizard)target;
+            _hasExpressionItemSource = Lop(nameof(EmoteItemWizard.hasExpressionItemSource), Loc("EmoteItemWizard::hasExpressionItemSource"));
+            _emoteSequenceFactoryKind = Lop(nameof(EmoteItemWizard.emoteSequenceFactoryKind), Loc("EmoteItemWizard::emoteSequenceFactoryKind"));
+            _itemPath = Lop(nameof(EmoteItemWizard.itemPath), Loc("EmoteItemWizard::itemPath"));
+            _hasGroupName = Lop(nameof(EmoteItemWizard.hasGroupName), Loc("EmoteItemWizard::hasGroupName"));
+            _groupName = Lop(nameof(EmoteItemWizard.groupName), Loc("EmoteItemWizard::groupName"));
+            _hasParameterName = Lop(nameof(EmoteItemWizard.hasParameterName), Loc("EmoteItemWizard::hasParameterName"));
+            _parameterName = Lop(nameof(EmoteItemWizard.parameterName), Loc("EmoteItemWizard::parameterName"));
         }
 
-        static bool IsInvalidPathInput(string value) => string.IsNullOrWhiteSpace(value) || value.StartsWith("/") || value.EndsWith("/");
-        static bool IsInvalidParameterInput(string value) => string.IsNullOrWhiteSpace(value) || value.Contains("/");
-
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            var disableAddButton = false;
-
-            void ItemPath()
+            using (new LabelWidthScope(200f))
+            using (var checkInvalid = new CheckInvalidValueScope())
             {
-                var isInvalidNameInput = IsInvalidPathInput(_serializedItemPath.stringValue);
-                disableAddButton |= isInvalidNameInput;
-                using (new InvalidValueScope(isInvalidNameInput))
-                {
-                    EditorGUILayout.PropertyField(_serializedItemPath, new GUIContent("Item Path"));
-                }
-            }
+                EmoteWizardGUILayout.Prop(_itemPath);
 
-            void GroupName()
-            {
-                EditorGUILayout.PropertyField(_serializedHasGroupName, new GUIContent("Set Group Name"));
-                if (_serializedHasGroupName.boolValue)
+                EmoteWizardGUILayout.PropertyFoldout(_hasGroupName, () =>
                 {
-                    var isInvalidNameInput = IsInvalidPathInput(_serializedGroupName.stringValue);
-                    disableAddButton |= isInvalidNameInput;
-                    using (new EditorGUI.IndentLevelScope())
-                    using (new InvalidValueScope(isInvalidNameInput))
+                    EmoteWizardGUILayout.Prop(_groupName);
+                });
+
+                EmoteWizardGUILayout.PropertyFoldout(_hasParameterName, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_parameterName);
+                });
+
+                EmoteWizardGUILayout.Prop(_hasExpressionItemSource);
+                EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
+
+                serializedObject.ApplyModifiedProperties();
+
+                using (new EditorGUI.DisabledScope(checkInvalid.IsInvalid))
+                {
+                    if (EmoteWizardGUILayout.Undoable(Loc("EmoteItemWizard::Add"), "Add From Emote Item Wizard") is IUndoable undoable)
                     {
-                        EditorGUILayout.PropertyField(_serializedGroupName, new GUIContent("Group Name"));
+                        WizardExploder.ExplodeImmediate(undoable, soleTarget);
                     }
                 }
             }
-
-            void ParameterName()
-            {
-                EditorGUILayout.PropertyField(_serializedHasParameterName, new GUIContent("Set Parameter Name"));
-                if (_serializedHasParameterName.boolValue)
-                {
-                    var isInvalidNameInput = IsInvalidParameterInput(_serializedParameterName.stringValue);
-                    disableAddButton |= isInvalidNameInput;
-                    using (new EditorGUI.IndentLevelScope(1))
-                    using (new InvalidValueScope(isInvalidNameInput))
-                    {
-                        EditorGUILayout.PropertyField(_serializedParameterName, new GUIContent("Parameter Name"));
-                    }
-                }
-            }
-
-            ItemPath();
-            GroupName();
-            ParameterName();
-
-            EditorGUILayout.PropertyField(_serializedHasExpressionItemSource, new GUIContent("Use Expression Item Source"));
-
-            serializedObject.ApplyModifiedProperties();
-
-            using (new EditorGUI.DisabledScope(disableAddButton))
-            {
-                if (EmoteWizardGUILayout.Undoable("Add", "Add from Emote Item Wizard") is IUndoable undoable)
-                {
-                    WizardExploder.ExplodeImmediate(undoable, _wizard);
-                    return;
-                }
-            }
-
-            EmoteWizardGUILayout.Tutorial(_wizard.CreateEnv(), Tutorial);
         }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "Emote Wizardに登録するデータの入力欄を生成します。");
     }
 }

@@ -5,6 +5,6 @@ namespace Silksprite.EmoteWizard.Sources
 {
     public interface IParameterSource
     {
-        IEnumerable<ParameterItem> ParameterItems { get; }
+        IEnumerable<ParameterItem> ToParameterItems();
     }
 }

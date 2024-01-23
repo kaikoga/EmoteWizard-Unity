@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
@@ -53,7 +51,5 @@ namespace Silksprite.EmoteWizard.Contexts
             OutputAsset = null;
             ResetClip = null;
         }
-
-        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.EmoteItems(LayerKind);
     }
 }

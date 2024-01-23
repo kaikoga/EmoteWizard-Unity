@@ -7,27 +7,28 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public partial class EmoteWizardEnvironment
     {
-        List<IBehaviourContext> _contextsCache;
-        IEnumerable<IBehaviourContext> ContextsCache => _contextsCache ?? (_contextsCache = CollectContexts());
+        List<IContext> _contextsCache;
+        IEnumerable<IContext> ContextsCache => _contextsCache ?? (_contextsCache = CollectContexts());
 
-        List<IBehaviourContext> CollectContexts()
+        List<IContext> CollectContexts()
         {
-            _contextsCache = new List<IBehaviourContext>();
+            _contextsCache = new List<IContext>();
             var contexts = GetComponentsInChildren<IContextProvider>(true).Select(component => component.ToContext(this));
             foreach (var context in contexts)
             {
-                if (_contextsCache.Any(c => c.GetType() == context.GetType() && c.GameObject == context.GameObject)) continue;
+                if (_contextsCache.Any(c => c.GetType() == context.GetType() && c is IBehaviourContext bc && bc.GameObject == context.GameObject)) continue;
                 _contextsCache.Add(context);
             }
             return _contextsCache;
         }
 
         public bool HasContext<T>()
+        where T : IContext
         {
             return ContextsCache.OfType<T>().Any();
         }
 
-        public T GetContext<T>() where T : IBehaviourContext
+        public T GetContext<T>() where T : IContext
         {
             var context = ContextsCache.OfType<T>().FirstOrDefault();
             if (context == null)

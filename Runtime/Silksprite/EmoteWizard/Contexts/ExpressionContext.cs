@@ -10,7 +10,10 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public class ExpressionContext : OutputContextBase<ExpressionConfig, VRCExpressionsMenu>
     {
+        List<ExpressionItem> _expressionItems;
+
         VRCExpressionsMenu _outputAsset;
+
         public override VRCExpressionsMenu OutputAsset
         {
             get => _outputAsset;
@@ -24,7 +27,10 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly bool BuildAsSubAsset = true;
 
         [UsedImplicitly]
-        public ExpressionContext(EmoteWizardEnvironment env) : base(env) { }
+        public ExpressionContext(EmoteWizardEnvironment env) : base(env)
+        {
+        }
+
         public ExpressionContext(EmoteWizardEnvironment env, ExpressionConfig config) : base(env, config)
         {
             if (env.PersistGeneratedAssets)
@@ -40,9 +46,15 @@ namespace Silksprite.EmoteWizard.Contexts
             OutputAsset = null;
         }
 
-        public IEnumerable<ExpressionItem> CollectExpressionItems()
+        IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            return Environment.GetComponentsInChildren<IExpressionItemSource>(true).SelectMany(source => source.ToExpressionItems());
+            return Environment.GetComponentsInChildren<IExpressionItemSource>(true)
+                .SelectMany(source => source.ToExpressionItems());
+        }
+
+        public IEnumerable<ExpressionItem> AllExpressionItems()
+        {
+            return _expressionItems = _expressionItems ?? CollectExpressionItems().ToList();
         }
     }
 }

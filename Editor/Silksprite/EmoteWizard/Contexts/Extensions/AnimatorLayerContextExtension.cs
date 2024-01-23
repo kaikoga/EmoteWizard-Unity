@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal;
-using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
+using Silksprite.EmoteWizardSupport.Logger;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
@@ -36,10 +39,10 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             }
             context.ResetClip = resetClip;
 
-            builder.BuildEmoteLayers(context.CollectEmoteItems());
+            builder.BuildEmoteLayers(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(context.LayerKind));
             if (layerKind == context.Environment.GenerateTrackingControlLayer)
             {
-                builder.BuildTrackingControlLayers(context.Environment.AllEmoteItems());
+                builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             }
             builder.BuildParameters();
             return context.OutputAsset;
@@ -52,12 +55,16 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             if (!avatar)
             {
                 var gameObject = context.Environment.ContainerTransform.gameObject;
-                Debug.LogWarning($"{gameObject}: Failed to build reset clip because Avatar is not specified.\nProxyAnimator or AvatarDescriptor is required to build ResetClip.", gameObject);
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::WithoutAvatar."), gameObject,
+                    new Dictionary<string, string>
+                    {
+                        ["gameObjectName"] = gameObject.name 
+                    });
                 return;
             }
 
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(context.CollectEmoteItems().SelectMany(e => e.AllClipsRec()));
+                .Concat(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(context.LayerKind).SelectMany(e => e.AllClipsRec()));
 
             var curveBindings = CurveBindings.Collect(allClips);
             var boundValues = ResetValuesExtractor.ExtractFromAvatarRoot(curveBindings, avatar);

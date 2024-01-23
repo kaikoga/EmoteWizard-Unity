@@ -12,14 +12,28 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         [SerializeField] public bool enabled = true;
         [SerializeField] public Texture2D icon;
+        [ItemPath]
         [SerializeField] public string path;
+        [ParameterName(true, true)]
         [SerializeField] public string parameter;
         [SerializeField] public float value;
         [SerializeField] public ExpressionItemKind itemKind;
         [SerializeField] public VRCExpressionsMenu subMenu;
+        [ParameterName(false, true)]
         [SerializeField] public string[] subParameters;
         [SerializeField] public string[] labels;
         [SerializeField] public Texture2D[] labelIcons;
+
+        public bool IsValid
+        {
+            get
+            {
+                if (ItemPathAttribute.IsInvalidPathInput(path)) return false;
+                if (ParameterNameAttribute.IsInvalidParameterInput(parameter, true)) return false;
+                if (subParameters.Take(itemKind).Any(sub => ParameterNameAttribute.IsInvalidParameterInput(sub, false))) return false; 
+                return true;
+            }
+        }
 
         public string Name => GetFileName(path);
         public string Folder => GetDirectoryName(path);
@@ -76,7 +90,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                     case ExpressionItemKind.TwoAxisPuppet:
                     case ExpressionItemKind.FourAxisPuppet:
                     case ExpressionItemKind.RadialPuppet:
-                        return subParameters.Select(subParameter => new VRCExpressionsMenu.Control.Parameter
+                        return subParameters.Take(itemKind).Select(subParameter => new VRCExpressionsMenu.Control.Parameter
                         {
                             name = subParameter
                         }).ToArray();
@@ -107,7 +121,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                         {
                             icon = labelIcon,
                             name = label
-                        }).ToArray();
+                        }).Take(itemKind).ToArray();
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

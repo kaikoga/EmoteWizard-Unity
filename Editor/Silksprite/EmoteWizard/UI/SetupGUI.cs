@@ -1,12 +1,15 @@
+using System;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Internal;
-using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.L10n;
+using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
-using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.UI
 {
@@ -14,73 +17,26 @@ namespace Silksprite.EmoteWizard.UI
     {
         public static bool OnInspectorGUI(EmoteWizardEnvironment env)
         {
-            if (GUILayout.Button("Quick Setup EmoteItems (All Sources)"))
-            {
-                QuickSetupEmoteItems(new EditorUndoable("Quick Setup EmoteItems (All Sources)"), env);
-                return true;
-            }
+            var result = false;
 
-            GUILayout.Space(4f);
+            Action<IUndoable> onClick = undoable =>
+            {
+                QuickSetupDefaultSources(undoable, env);
+                result = true;
+            };
+            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup Default Data Sources"), onClick);
 
-            if (!env.Find(Names.ExpressionSources))
+            Action<IUndoable> onClick1 = undoable =>
             {
-                if (GUILayout.Button("Quick Setup Expression Sources"))
-                {
-                    QuickSetupExpressionSources(new EditorUndoable("Quick Setup Expression Sources"), env);
-                    return true;
-                }
-            }
-            if (!env.Find(Names.ParameterSources))
-            {
-                if (GUILayout.Button("Quick Setup Parameter Sources"))
-                {
-                    QuickSetupParameterSources(new EditorUndoable("Quick Setup Parameter Sources"), env);
-                    return true;
-                }
-            }
-            if (!env.Find(Names.FXSources))
-            {
-                if (GUILayout.Button("Quick Setup FX Sources"))
-                {
-                    QuickSetupFXSources(new EditorUndoable("Quick Setup FX Sources"), env);
-                    return true;
-                }
-            }
-            if (!env.Find(Names.GestureSources))
-            {
-                if (GUILayout.Button("Quick Setup Gesture Sources"))
-                {
-                    QuickSetupGestureSources(new EditorUndoable("Quick Setup Gesture Sources"), env);
-                    return true;
-                }
-            }
-            if (!env.Find(Names.ActionSources))
-            {
-                if (GUILayout.Button("Quick Setup Action Sources"))
-                {
-                    QuickSetupActionSources(new EditorUndoable("Quick Setup Action Sources"), env);
-                    return true;
-                }
-            }
+                GenerateConfigs(undoable, env);
+                result = true;
+            };
+            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), onClick1);
 
-            if (GUILayout.Button("Generate Intermediate Wizards"))
-            {
-                GenerateConfigs(env);
-                return true;
-            }
-            return false;
+            return result;
         }
 
-        static void GenerateConfigs(EmoteWizardEnvironment environment)
-        {
-            environment.AddWizard<ExpressionConfig>();
-            environment.AddWizard<ParametersConfig>();
-            environment.AddWizard<FxLayerConfig>();
-            environment.AddWizard<GestureLayerConfig>();
-            environment.AddWizard<ActionLayerConfig>();
-        }
-
-        static void QuickSetupEmoteItems(IUndoable undoable, EmoteWizardEnvironment environment)
+        static void QuickSetupDefaultSources(IUndoable undoable, EmoteWizardEnvironment environment)
         {
             QuickSetupExpressionSources(undoable, environment);
             QuickSetupParameterSources(undoable, environment);
@@ -89,61 +45,53 @@ namespace Silksprite.EmoteWizard.UI
             QuickSetupActionSources(undoable, environment);
         }
 
+        static void GenerateConfigs(IUndoable undoable, EmoteWizardEnvironment environment)
+        {
+            undoable.AddWizard<EditorLayerConfig>(environment);
+            undoable.AddWizard<ExpressionConfig>(environment);
+            undoable.AddWizard<ParametersConfig>(environment);
+            undoable.AddWizard<FxLayerConfig>(environment);
+            undoable.AddWizard<GestureLayerConfig>(environment);
+            undoable.AddWizard<ActionLayerConfig>(environment);
+        }
+
         static void QuickSetupExpressionSources(IUndoable undoable, EmoteWizardEnvironment environment)
         {
-            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, Names.ExpressionSources);
+            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Expression Sources");
         }
 
         static void QuickSetupParameterSources(IUndoable undoable, EmoteWizardEnvironment environment)
         {
-            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, Names.ParameterSources);
+            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Parameter Sources");
         }
 
         static void QuickSetupFXSources(IUndoable undoable, EmoteWizardEnvironment environment)
         {
-            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, Names.FXSources, fxSources =>
+            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "FX Sources", fxSources =>
             {
-                foreach (var fxItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX))
-                {
-                    var fxSource = undoable.AddChildGameObject(fxSources, fxItem.Trigger.name);
-                    fxItem.PopulateSources(undoable, fxSource.transform);
-                }
+                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(fxSources, "Default FX Items Wizard", wizard => wizard.layerKind = LayerKind.FX);
+                WizardExploder.ExplodeImmediate(undoable, wizard, false);
             });
         }
 
         static void QuickSetupGestureSources(IUndoable undoable, EmoteWizardEnvironment environment)
         {
             environment.OverrideGesture = OverrideGeneratedControllerType2.Generate;
-            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, Names.GestureSources, gestureSources =>
+            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Gesture Sources", gestureSources =>
             {
-                foreach (var gestureItem in DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture))
-                {
-                    var gestureSource = undoable.FindOrCreateChildComponent<EmoteItemSource>(gestureSources, gestureItem.Trigger.name);
-                    gestureItem.PopulateSources(undoable, gestureSource.transform);
-                }
+                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(gestureSources, "Default Gesture Items Wizard", wizard => wizard.layerKind = LayerKind.Gesture);
+                WizardExploder.ExplodeImmediate(undoable, wizard, false);
             });
         }
 
         static void QuickSetupActionSources(IUndoable undoable, EmoteWizardEnvironment environment)
         {
             environment.OverrideAction = OverrideGeneratedControllerType1.Generate;
-            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, Names.ActionSources, actionSources =>
+            undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Action Sources", actionSources =>
             {
-                foreach (var actionItem in DefaultActionEmote.EnumerateDefaultActionEmoteItems())
-                {
-                    var actionSource = undoable.FindOrCreateChildComponent<EmoteItemSource>(actionSources, actionItem.Trigger.name);
-                    actionItem.PopulateSources(undoable, actionSource.transform);
-                }
+                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(actionSources, "Default Action Items Wizard", wizard => wizard.layerKind = LayerKind.Action);
+                WizardExploder.ExplodeImmediate(undoable, wizard, false);
             });
-        }
-
-        static class Names
-        {
-            public const string ExpressionSources = "Expression Sources";
-            public const string ParameterSources = "Parameter Sources";
-            public const string FXSources = "FX Sources";
-            public const string GestureSources = "Gesture Sources";
-            public const string ActionSources = "Action Sources";
         }
     }
 }

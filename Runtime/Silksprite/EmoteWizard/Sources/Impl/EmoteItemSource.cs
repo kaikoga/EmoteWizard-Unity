@@ -14,11 +14,10 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public EmoteTrigger trigger;
 
-        [Header("Sequence")]
         [SerializeField] public EmoteSequenceSourceBase sequence;
 
-        [Header("Expression Item")]
         [SerializeField] public bool hasExpressionItem;
+        [ItemPath]
         [SerializeField] public string expressionItemPath;
         [SerializeField] public Texture2D expressionItemIcon;
 
@@ -43,7 +42,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new EmoteItemTemplate(trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
+            return new EmoteItemTemplate(gameObject.name, trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
         }
 
         public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;

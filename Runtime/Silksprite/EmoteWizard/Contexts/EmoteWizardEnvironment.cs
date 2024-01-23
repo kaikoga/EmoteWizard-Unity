@@ -1,6 +1,7 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 
@@ -133,7 +134,7 @@ namespace Silksprite.EmoteWizard.Contexts
         public void DisconnectAllOutputAssets()
         {
             ProxyAnimator = null;
-            foreach (var context in ContextsCache) context.DisconnectOutputAssets();
+            foreach (var context in ContextsCache.OfType<IBehaviourContext>()) context.DisconnectOutputAssets();
         }
 
         public Transform Find(string path)

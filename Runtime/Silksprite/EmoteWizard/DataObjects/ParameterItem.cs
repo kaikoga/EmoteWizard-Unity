@@ -8,10 +8,13 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class ParameterItem
     {
         public bool enabled = true;
+        [ParameterName(false,true)]
         public string name;
         public ParameterItemKind itemKind;
         public bool saved = true;
         public float defaultValue;
+
+        public bool IsValid => !ParameterNameAttribute.IsInvalidParameterInput(name, false);
 
         public static ParameterItem Build(string parameter, ParameterItemKind itemKind)
         {

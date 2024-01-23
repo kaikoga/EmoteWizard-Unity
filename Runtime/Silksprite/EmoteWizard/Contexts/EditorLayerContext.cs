@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Configs;
-using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
@@ -30,7 +28,5 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             OutputAsset = null;
         }
-
-        public IEnumerable<EmoteItem> CollectEmoteItems() => Environment.AllEmoteItems();
     }
 }

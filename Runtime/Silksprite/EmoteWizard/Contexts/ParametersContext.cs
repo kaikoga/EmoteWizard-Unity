@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Configs;
+using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
@@ -11,6 +12,8 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public class ParametersContext : OutputContextBase<ParametersConfig, VRCExpressionParameters>
     {
+        ParametersSnapshot _snapshot;
+
         VRCExpressionParameters _outputAsset;
         public override VRCExpressionParameters OutputAsset
         {
@@ -37,28 +40,17 @@ namespace Silksprite.EmoteWizard.Contexts
             OutputAsset = null;
         }
 
-        IEnumerable<EmoteItem> CollectEmoteItems()
-        {
-            return Environment.AllEmoteItems();
-        }
-
-        IEnumerable<ExpressionItem> CollectExpressionItems()
-        {
-            var expressionWizard = Environment.GetContext<ExpressionContext>();
-            return expressionWizard != null ? expressionWizard.CollectExpressionItems() : Enumerable.Empty<ExpressionItem>();
-        }
-
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
             return Environment.GetComponentsInChildren<IParameterSource>(true)
-                .SelectMany(source => source.ParameterItems);
+                .SelectMany(source => source.ToParameterItems());
         }
 
-        public ParametersSnapshot Snapshot()
+        ParametersSnapshot BuildSnapshot()
         {
             var builder = new ParameterSnapshotBuilder();
 
-            foreach (var expressionItem in CollectExpressionItems())
+            foreach (var expressionItem in Environment.GetContext<ExpressionContext>().AllExpressionItems())
             {
                 if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {
@@ -72,7 +64,7 @@ namespace Silksprite.EmoteWizard.Contexts
                 }
             }
 
-            foreach (var emoteItem in CollectEmoteItems())
+            foreach (var emoteItem in Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems())
             {
                 foreach (var condition in emoteItem.Trigger.conditions)
                 {
@@ -87,5 +79,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
             return builder.ToSnapshot();
         }
+
+        public ParametersSnapshot Snapshot() => _snapshot = _snapshot ?? BuildSnapshot();
     }
 }

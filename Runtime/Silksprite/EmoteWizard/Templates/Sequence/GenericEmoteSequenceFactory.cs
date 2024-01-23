@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -36,7 +37,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             return _genericEmoteSequence.hasTrackingOverrides ? _genericEmoteSequence.trackingOverrides : Enumerable.Empty<TrackingOverride>();
         }
 
-        EmoteSequence IEmoteSequenceFactory.Build(EmoteWizardEnvironment environment, IEmoteSequenceFactory.IClipBuilder builder)
+        EmoteSequence IEmoteSequenceFactory.Build(EmoteWizardEnvironment environment, IClipBuilder builder)
         {
             var avatarRootTransform = environment.AvatarDescriptor.transform;
             var clip = builder.Build(_clipName, _genericEmoteSequence.ToAnimatedFloats(avatarRootTransform));

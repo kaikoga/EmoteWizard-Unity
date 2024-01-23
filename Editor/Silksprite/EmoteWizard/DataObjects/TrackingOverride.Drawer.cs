@@ -1,5 +1,7 @@
+using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEditor;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
@@ -8,9 +10,10 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var target = property.Lop(nameof(TrackingOverride.target), Loc("TrackingOverride::target"));
             using (new EditorGUI.IndentLevelScope())
             {
-                EditorGUI.PropertyField(position, property.FindPropertyRelative("target"), new GUIContent("Override"));
+                EditorGUI.PropertyField(position, target.Property, target.GUIContent);
             }
         }
     }

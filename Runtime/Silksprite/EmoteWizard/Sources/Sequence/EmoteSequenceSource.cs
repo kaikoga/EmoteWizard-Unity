@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;

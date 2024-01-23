@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using Silksprite.EmoteWizardSupport.Logger;
 using UnityEditor;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
-namespace Silksprite.EmoteWizard.Internal.ClipBuilders
+namespace Silksprite.EmoteWizardSupport.ClipBuilder
 {
     public static class ResetValuesExtractor
     {
@@ -10,10 +12,15 @@ namespace Silksprite.EmoteWizard.Internal.ClipBuilders
         {
             void WarnBindingNotFound(EditorCurveBinding binding)
             {
-                Debug.LogWarning($@"{avatarRoot.name}: ResetClip may be insufficient because animated property is not found in avatar.
-Object Path: {binding.path}
-Property: {binding.type} {binding.propertyName}
-This property is not included in ResetClip.", avatarRoot);
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::MissingProperty."), avatarRoot,
+                    new Dictionary<string, string>
+                    {
+                        ["avatarRootName"] = avatarRoot.name,
+                        ["path"] = binding.path,
+                        ["type"] = $"{binding.type}",
+                        ["propertyName"] = binding.propertyName    
+                    }
+                );
             }
 
             var boundFloats = new List<BoundValues.BoundFloatValue>();

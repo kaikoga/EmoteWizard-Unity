@@ -6,9 +6,10 @@ namespace Silksprite.EmoteWizard.DataObjects
     [Serializable]
     public class EmoteCondition
     {
-        [SerializeField] public ParameterItemKind kind;
+        [SerializeField] public ParameterItemKind kind = ParameterItemKind.Auto;
+        [ParameterName(false, false)]
         [SerializeField] public string parameter;
-        [SerializeField] public EmoteConditionMode mode;
+        [SerializeField] public EmoteConditionMode mode = EmoteConditionMode.Equals;
         [SerializeField] public float threshold;
     }
 

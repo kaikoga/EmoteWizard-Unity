@@ -1,95 +1,80 @@
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Sources
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EmoteItemSource))]
-    public class EmoteItemSourceEditor : Editor
+    public class EmoteItemSourceEditor : EmoteWizardEditorBase<EmoteItemSource>
     {
-        SerializedProperty _serializedName;
-        SerializedProperty _serializedPriority;
-        SerializedProperty _serializedConditions;
+        LocalizedProperty _name;
+        LocalizedProperty _priority;
+        LocalizedProperty _conditions;
 
-        SerializedProperty _serializedHasExpressionItem;
-        SerializedProperty _serializedExpressionItemPath;
-        SerializedProperty _serializedExpressionItemIcon;
+        LocalizedProperty _hasExpressionItem;
+        LocalizedProperty _expressionItemPath;
+        LocalizedProperty _expressionItemIcon;
 
-        SerializedProperty _serializedSequence;
-
-        EmoteItemSource _emoteItemSource;
+        LocalizedProperty _sequence;
 
         void OnEnable()
         {
-            var serializedTrigger = serializedObject.FindProperty(nameof(EmoteItemSource.trigger));
+            var serializedTrigger = Lop(nameof(EmoteItemSource.trigger), Loc("EmoteItemSource::trigger"));
 
-            _serializedName = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.name));
-            _serializedPriority = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.priority));
-            _serializedConditions = serializedTrigger.FindPropertyRelative(nameof(EmoteTrigger.conditions));
+            _name = serializedTrigger.Lop(nameof(EmoteTrigger.name), Loc("EmoteTrigger::name"));
+            _priority = serializedTrigger.Lop(nameof(EmoteTrigger.priority), Loc("EmoteTrigger::priority"));
+            _conditions = serializedTrigger.Lop(nameof(EmoteTrigger.conditions), Loc("EmoteTrigger::conditions"));
 
-            _serializedHasExpressionItem = serializedObject.FindProperty(nameof(EmoteItemSource.hasExpressionItem));
-            _serializedExpressionItemPath = serializedObject.FindProperty(nameof(EmoteItemSource.expressionItemPath));
-            _serializedExpressionItemIcon = serializedObject.FindProperty(nameof(EmoteItemSource.expressionItemIcon));
+            _hasExpressionItem = Lop(nameof(EmoteItemSource.hasExpressionItem), Loc("EmoteItemSource::hasExpressionItem"));
+            _expressionItemPath = Lop(nameof(EmoteItemSource.expressionItemPath), Loc("EmoteItemSource::expressionItemPath"));
+            _expressionItemIcon = Lop(nameof(EmoteItemSource.expressionItemIcon), Loc("EmoteItemSource::expressionItemIcon"));
 
-            _serializedSequence = serializedObject.FindProperty(nameof(EmoteItemSource.sequence));
-
-            _emoteItemSource = (EmoteItemSource)target;
+            _sequence = Lop(nameof(EmoteItemSource.sequence), Loc("EmoteItemSource::sequence"));
         }
 
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_serializedName);
-            EditorGUILayout.PropertyField(_serializedPriority);
-            EditorGUILayout.PropertyField(_serializedConditions);
+            EmoteWizardGUILayout.Prop(_name);
+            EmoteWizardGUILayout.Prop(_priority);
+            EmoteWizardGUILayout.Prop(_conditions);
 
-            EditorGUILayout.PropertyField(_serializedSequence);
-            if (!_serializedSequence.objectReferenceValue)
+            EmoteWizardGUILayout.Prop(_sequence);
+            if (!_sequence.Property.objectReferenceValue)
             {
+                using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
-                    EditorGUILayout.ObjectField("Detected Emote Sequence", _emoteItemSource.FindEmoteSequenceSource(), typeof(EmoteSequenceSourceBase), true);
+                    EmoteSequenceSourceBase obj = soleTarget.FindEmoteSequenceSource();
+                    EmoteWizardGUILayout.ObjectField(Loc("EmoteItemSource::Detected Emote Sequence"), obj, true);
                 }
             }
 
-            using (new EditorGUI.DisabledScope(!_emoteItemSource.CanAutoExpression))
+            using (new EditorGUI.DisabledScope(!soleTarget.CanAutoExpression))
             {
-                EditorGUILayout.PropertyField(_serializedHasExpressionItem);
+                EmoteWizardGUILayout.Prop(_hasExpressionItem);
             }
-            if (_emoteItemSource.IsAutoExpression)
+            if (soleTarget.IsAutoExpression)
             {
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    EditorGUILayout.PropertyField(_serializedExpressionItemPath);
-                    EditorGUILayout.PropertyField(_serializedExpressionItemIcon);
+                    EmoteWizardGUILayout.Prop(_expressionItemPath);
+                    EmoteWizardGUILayout.Prop(_expressionItemIcon);
                 }
             }
 
             serializedObject.ApplyModifiedProperties();
 
-            if (_emoteItemSource.LooksLikeMirrorItem)
+            if (soleTarget.LooksLikeMirrorItem)
             {
-                EditorGUILayout.HelpBox(MirrorInfoText, MessageType.Info);
+                EmoteWizardGUILayout.HelpBox(Loc("EmoteItemSource:MirrorInfo"), MessageType.Info);
             }
-            
-            EmoteWizardGUILayout.Tutorial(((EmoteItemSource)target).CreateEnv(), Tutorial);
         }
-        
-        static string MirrorInfoText =>
-            string.Join("\n",
-                "パラメータのミラーリングが有効になっています。",
-                "Gesture: GestureLeft / GestureRight",
-                "GestureOther: GestureRight / GestureLeft",
-                "GestureWeight: GestureLeftWeight / GestureRightWeight",
-                "GestureOtherWeight: GestureRightWeight / GestureLeftWeight");
-
-        static string Tutorial =>
-            string.Join("\n",
-                "アニメーションの発生条件を設定します。",
-                "Priorityの小さい条件が優先的に判定されます。",
-                "単純な条件を設定している場合、Has Expression Itemを有効にすることでメニュー項目も生成されます。",
-                "条件を満たした場合に表示されるアニメーションは関連するEmote Sequence Sourceに登録します（いい感じに探してくれます）");
     }
 }

@@ -2,44 +2,41 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Configs
 {
     [CustomEditor(typeof(AnimatorLayerConfigBase), true)]
-    public class AnimatorLayerConfigBaseEditor : Editor
+    public class AnimatorLayerConfigBaseEditor : EmoteWizardEditorBase<AnimatorLayerConfigBase>
     {
-        AnimatorLayerConfigBase _config;
-
-        SerializedProperty _serializedDefaultAvatarMask;
-        SerializedProperty _serializedOutputAsset;
-        SerializedProperty _serializedHasResetClip;
-        SerializedProperty _serializedResetClip;
+        LocalizedProperty _defaultAvatarMask;
+        LocalizedProperty _outputAsset;
+        LocalizedProperty _hasResetClip;
+        LocalizedProperty _resetClip;
 
         void OnEnable()
         {
-            _config = (AnimatorLayerConfigBase)target;
-
-            _serializedDefaultAvatarMask = serializedObject.FindProperty(nameof(AnimatorLayerConfigBase.defaultAvatarMask));
-            _serializedOutputAsset = serializedObject.FindProperty(nameof(AnimatorLayerConfigBase.outputAsset));
-            _serializedHasResetClip = serializedObject.FindProperty("hasResetClip");
-            _serializedResetClip = serializedObject.FindProperty(nameof(AnimatorLayerConfigBase.resetClip));
+            _defaultAvatarMask = Lop(nameof(AnimatorLayerConfigBase.defaultAvatarMask), Loc("AnimatorLayerConfigBase::defaultAvatarMask"));
+            _outputAsset = Lop(nameof(AnimatorLayerConfigBase.outputAsset), Loc("AnimatorLayerConfigBase::outputAsset"));
+            _hasResetClip = Lop(nameof(AnimatorLayerConfigBase.hasResetClip), Loc("AnimatorLayerConfigBase::hasResetClip"));
+            _resetClip = Lop(nameof(AnimatorLayerConfigBase.resetClip), Loc("AnimatorLayerConfigBase::resetClip"));
         }
 
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            var env = _config.CreateEnv();
+            var env = CreateEnv();
 
-            using (new ObjectChangeScope(_config))
+            using (new ObjectChangeScope(soleTarget))
             {
-                if (_config.LayerKind == LayerKind.Gesture)
+                if (soleTarget.LayerKind == LayerKind.Gesture)
                 {
-                    CustomEditorGUILayout.PropertyFieldWithGenerate(_serializedDefaultAvatarMask, () =>
+                    EmoteWizardGUILayout.PropertyFieldWithGenerate(_defaultAvatarMask, () =>
                     {
                         var avatarMask = env.EnsureAsset<AvatarMask>(GeneratedPaths.GestureDefaultMask);
                         return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
@@ -47,22 +44,22 @@ namespace Silksprite.EmoteWizard.Configs
                 }
                 else
                 {
-                    EditorGUILayout.PropertyField(_serializedDefaultAvatarMask);
+                    EmoteWizardGUILayout.Prop(_defaultAvatarMask);
                 }
 
-                EditorGUILayout.PropertyField(_serializedHasResetClip);
+                EmoteWizardGUILayout.Prop(_hasResetClip);
 
                 EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
                 {
-                    if (GUILayout.Button("Generate Animation Controller"))
+                    if (EmoteWizardGUILayout.Button(Loc("AnimatorLayerConfigBase::Generate Animation Controller")))
                     {
-                        _config.GetContext(_config.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
+                        soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
                     }
 
-                    EditorGUILayout.PropertyField(_serializedOutputAsset);
-                    using (new EditorGUI.DisabledScope(!_config.hasResetClip))
+                    EmoteWizardGUILayout.Prop(_outputAsset);
+                    using (new EditorGUI.DisabledScope(!soleTarget.hasResetClip))
                     {
-                        EditorGUILayout.PropertyField(_serializedResetClip);
+                        EmoteWizardGUILayout.Prop(_resetClip);
                     }
                 });
             }

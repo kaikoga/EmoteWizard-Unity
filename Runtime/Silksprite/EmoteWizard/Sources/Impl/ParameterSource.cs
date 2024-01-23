@@ -10,9 +10,9 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public ParameterItem parameterItem;
 
-        public IEnumerable<ParameterItem> ParameterItems
+        public IEnumerable<ParameterItem> ToParameterItems()
         {
-            get { yield return parameterItem; }
+            if (parameterItem.IsValid) yield return parameterItem;
         }
     }
 }

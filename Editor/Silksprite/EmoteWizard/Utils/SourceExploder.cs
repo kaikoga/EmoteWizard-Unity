@@ -1,10 +1,10 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.Internal.ClipBuilders;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
@@ -62,7 +62,7 @@ namespace Silksprite.EmoteWizard.Utils
 
         static void ExplodeParameters(IUndoable undoable, IParameterSource source, Component destination)
         {
-            foreach (var parameterItem in source.ParameterItems)
+            foreach (var parameterItem in source.ToParameterItems())
             {
                 var child = undoable.FindOrCreateChildComponent<ParameterSource>(destination, parameterItem.name, parameterItem.enabled);
                 child.parameterItem = SerializableUtils.Clone(parameterItem);

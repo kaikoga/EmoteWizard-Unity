@@ -1,42 +1,40 @@
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Sources
 {
     [CustomEditor(typeof(ParameterSource))]
-    public class ParameterSourceEditor : Editor
+    public class ParameterSourceEditor : EmoteWizardEditorBase<ParameterSource>
     {
-        SerializedProperty _serializedName;
-        SerializedProperty _serializedItemKind;
-        SerializedProperty _serializedDefaultValue;
-        SerializedProperty _serializedSaved;
+        LocalizedProperty _name;
+        LocalizedProperty _itemKind;
+        LocalizedProperty _defaultValue;
+        LocalizedProperty _saved;
 
         void OnEnable()
         {
-            var serializedItem = serializedObject.FindProperty(nameof(ParameterSource.parameterItem));
+            var serializedItem = Lop(nameof(ParameterSource.parameterItem), Loc("ParameterSource::parameterItem"));
 
-            _serializedName = serializedItem.FindPropertyRelative(nameof(ParameterItem.name));
-            _serializedItemKind = serializedItem.FindPropertyRelative(nameof(ParameterItem.itemKind));
-            _serializedDefaultValue = serializedItem.FindPropertyRelative(nameof(ParameterItem.defaultValue));
-            _serializedSaved = serializedItem.FindPropertyRelative(nameof(ParameterItem.saved));
+            _name = serializedItem.Lop(nameof(ParameterItem.name), Loc("ParameterItem::name"));
+            _itemKind = serializedItem.Lop(nameof(ParameterItem.itemKind), Loc("ParameterItem::itemKind"));
+            _defaultValue = serializedItem.Lop(nameof(ParameterItem.defaultValue), Loc("ParameterItem::defaultValue"));
+            _saved = serializedItem.Lop(nameof(ParameterItem.saved), Loc("ParameterItem::saved"));
         }
 
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_serializedName);
-            EditorGUILayout.PropertyField(_serializedItemKind);
-            EditorGUILayout.PropertyField(_serializedDefaultValue);
-            EditorGUILayout.PropertyField(_serializedSaved);
+            EmoteWizardGUILayout.Prop(_name);
+            EmoteWizardGUILayout.Prop(_itemKind);
+            EmoteWizardGUILayout.Prop(_defaultValue);
+            EmoteWizardGUILayout.Prop(_saved);
 
             serializedObject.ApplyModifiedProperties();
-            
-            EmoteWizardGUILayout.Tutorial(((ParameterSource)target).CreateEnv(), Tutorial);
         }
-        
-        static string Tutorial =>
-            string.Join("\n",
-                "外部アセットが利用するExpression Parameterを任意に登録します。");
     }
 }

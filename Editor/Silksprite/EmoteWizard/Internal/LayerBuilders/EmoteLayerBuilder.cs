@@ -260,7 +260,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             {
                 var parameterName = conditions[0].parameter;
                 var parameter = Builder.ParametersSnapshot.ResolveParameter(parameterName);
-                switch (parameter.ValueKind)
+                switch (parameter?.ValueKind)
                 {
                     case ParameterValueKind.Int:
                     {

@@ -1,101 +1,130 @@
 using System;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.UI;
+using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Sources
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(ExpressionItemSource))]
-    public class ExpressionItemSourceEditor : Editor
+    public class ExpressionItemSourceEditor : EmoteWizardEditorBase<ExpressionItemSource>
     {
-        static readonly string[][] SubParameterLabels =
+        static readonly LocalizedContent[][] SubParameterLabels =
         {
             null,
-            new[] { "Rotation" },
-            new[] { "Horizontal", "Vertical" },
+            new[]
+            {
+                Loc("ExpressionItem::subParameter::Rotation")
+            },
+            new[]
+            {
+                Loc("ExpressionItem::subParameter::Horizontal"),
+                Loc("ExpressionItem::subParameter::Vertical")
+            },
             null,
-            new[] { "Up", "Right", "Down", "Left" }
+            new[]
+            {
+                Loc("ExpressionItem::subParameter::Up"),
+                Loc("ExpressionItem::subParameter::Right"),
+                Loc("ExpressionItem::subParameter::Down"),
+                Loc("ExpressionItem::subParameter::Left")
+            }
         };
 
-        SerializedProperty _serializedIcon;
-        SerializedProperty _serializedPath;
-        SerializedProperty _serializedParameter;
-        SerializedProperty _serializedValue;
-        SerializedProperty _serializedItemKind;
-        SerializedProperty _serializedSubParameters;
-        SerializedProperty _serializedLabels;
-        SerializedProperty _serializedLabelIcons;
-        SerializedProperty _serializedSubMenu;
+        LocalizedProperty _icon;
+        LocalizedProperty _path;
+        LocalizedProperty _parameter;
+        LocalizedProperty _value;
+        LocalizedProperty _itemKind;
+        LocalizedProperty _subParameters;
+        LocalizedProperty _labels;
+        LocalizedProperty _labelIcons;
+        LocalizedProperty _subMenu;
 
         void OnEnable()
         {
-            var serializedItem = serializedObject.FindProperty(nameof(ExpressionItemSource.expressionItem));
+            var serializedItem = Lop(nameof(ExpressionItemSource.expressionItem), Loc("ExpressionItemSource::expressionItem"));
 
-            _serializedIcon = serializedItem.FindPropertyRelative(nameof(ExpressionItem.icon));
-            _serializedPath = serializedItem.FindPropertyRelative(nameof(ExpressionItem.path));
-            _serializedParameter = serializedItem.FindPropertyRelative(nameof(ExpressionItem.parameter));
-            _serializedValue = serializedItem.FindPropertyRelative(nameof(ExpressionItem.value));
-            _serializedItemKind = serializedItem.FindPropertyRelative(nameof(ExpressionItem.itemKind));
-            _serializedSubParameters = serializedItem.FindPropertyRelative(nameof(ExpressionItem.subParameters));
-            _serializedLabels = serializedItem.FindPropertyRelative(nameof(ExpressionItem.labels));
-            _serializedLabelIcons = serializedItem.FindPropertyRelative(nameof(ExpressionItem.labelIcons));
-            _serializedSubMenu = serializedItem.FindPropertyRelative(nameof(ExpressionItem.subMenu));
+            _icon = serializedItem.Lop(nameof(ExpressionItem.icon), Loc("ExpressionItem::icon"));
+            _path = serializedItem.Lop(nameof(ExpressionItem.path), Loc("ExpressionItem::path"));
+            _parameter = serializedItem.Lop(nameof(ExpressionItem.parameter), Loc("ExpressionItem::parameter"));
+            _value = serializedItem.Lop(nameof(ExpressionItem.value), Loc("ExpressionItem::value"));
+            _itemKind = serializedItem.Lop(nameof(ExpressionItem.itemKind), Loc("ExpressionItem::itemKind"));
+            _subParameters = serializedItem.Lop(nameof(ExpressionItem.subParameters), Loc("ExpressionItem::subParameters"));
+            _labels = serializedItem.Lop(nameof(ExpressionItem.labels), Loc("ExpressionItem::labels"));
+            _labelIcons = serializedItem.Lop(nameof(ExpressionItem.labelIcons), Loc("ExpressionItem::labelIcons"));
+            _subMenu = serializedItem.Lop(nameof(ExpressionItem.subMenu), Loc("ExpressionItem::subMenu"));
         }
 
-        public override void OnInspectorGUI()
+        protected override void OnInnerInspectorGUI()
         {
-            EditorGUILayout.PropertyField(_serializedIcon);
-            EditorGUILayout.PropertyField(_serializedPath);
+            EmoteWizardGUILayout.Prop(_icon);
+            EmoteWizardGUILayout.Prop(_path);
             using (new EditorGUILayout.HorizontalScope())
             {
-                EditorGUILayout.PropertyField(_serializedParameter);
+                EmoteWizardGUILayout.Prop(_parameter);
                 using (new HideLabelsScope())
                 {
                     GUILayout.Label("=", GUILayout.ExpandWidth(false));
-                    EditorGUILayout.PropertyField(_serializedValue);
+                    EmoteWizardGUILayout.Prop(_value);
                 }
             }
-            EditorGUILayout.PropertyField(_serializedItemKind);
+            EmoteWizardGUILayout.Prop(_itemKind);
 
             void DrawSubParameters(int subParametersCount, int labelsCount)
             {
-                _serializedSubParameters.arraySize = subParametersCount;
+                _subParameters.Property.arraySize = subParametersCount;
                 if (subParametersCount > 0)
                 {
-                    GUILayout.Label("Puppet Parameters");
-                    for (var i = 0; i < subParametersCount; i++)
+                    EmoteWizardGUILayout.Header(Loc("ExpressionItem::Puppet Parameters"));
+                    using (new EditorGUI.IndentLevelScope())
                     {
-                        GUILayout.Label(SubParameterLabels[subParametersCount][i]);
-                        EditorGUILayout.PropertyField(_serializedSubParameters.GetArrayElementAtIndex(i));
+                        for (var i = 0; i < subParametersCount; i++)
+                        {
+                            EmoteWizardGUILayout.Header(SubParameterLabels[subParametersCount][i]);
+                            using (new EditorGUI.IndentLevelScope())
+                            {
+                                EmoteWizardGUILayout.Prop(_subParameters.GetArrayElementAtIndex(i, Loc("ExpressionItem::subParameters::subParameter")));
+                            }
+                        }
                     }
                 }
 
-                _serializedLabels.arraySize = labelsCount;
-                _serializedLabelIcons.arraySize = labelsCount;
+                _labels.Property.arraySize = labelsCount;
+                _labelIcons.Property.arraySize = labelsCount;
                 if (labelsCount > 0)
                 {
-                    GUILayout.Label("Puppet Labels");
-                    for (var i = 0; i < labelsCount; i++)
+                    EmoteWizardGUILayout.Header(Loc("ExpressionItem::Puppet Labels"));
+                    using (new EditorGUI.IndentLevelScope())
                     {
-                        GUILayout.Label(SubParameterLabels[labelsCount][i]);
-                        EditorGUILayout.PropertyField(_serializedLabels.GetArrayElementAtIndex(i));
-                        EditorGUILayout.PropertyField(_serializedLabelIcons.GetArrayElementAtIndex(i));
+                        for (var i = 0; i < labelsCount; i++)
+                        {
+                            EmoteWizardGUILayout.Header(SubParameterLabels[labelsCount][i]);
+                            using (new EditorGUI.IndentLevelScope())
+                            {
+                                EmoteWizardGUILayout.Prop(_labels.GetArrayElementAtIndex(i, Loc("ExpressionItem::labels::label")));
+                                EmoteWizardGUILayout.Prop(_labelIcons.GetArrayElementAtIndex(i, Loc("ExpressionItem::labelIcons::labelIcon")));
+                            }
+                        }
                     }
                 }
             }
 
-            if (_serializedItemKind.hasMultipleDifferentValues) return;
-            switch ((ExpressionItemKind)_serializedItemKind.intValue)
+            if (_itemKind.Property.hasMultipleDifferentValues) return;
+            switch ((ExpressionItemKind)_itemKind.Property.intValue)
             {
                 case ExpressionItemKind.Button:
                 case ExpressionItemKind.Toggle:
                     break;
                 case ExpressionItemKind.SubMenu:
-                    EditorGUILayout.PropertyField(_serializedSubMenu);
+                    EmoteWizardGUILayout.Prop(_subMenu);
                     break;
                 case ExpressionItemKind.TwoAxisPuppet:
                     DrawSubParameters(2, 4);
@@ -111,12 +140,6 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             serializedObject.ApplyModifiedProperties();
-            
-            EmoteWizardGUILayout.Tutorial(((ExpressionItemSource)target).CreateEnv(), Tutorial);
         }
-
-        static string Tutorial =>
-            string.Join("\n",
-                "Expression Menuを登録します。");
     }
 }

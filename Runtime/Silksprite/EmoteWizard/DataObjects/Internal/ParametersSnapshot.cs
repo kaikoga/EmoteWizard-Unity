@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Silksprite.EmoteWizardSupport.Logger;
 using VRC.SDK3.Avatars.ScriptableObjects;
+using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -21,7 +22,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 return item;
             }
 
-            Debug.LogWarning($"Possibly not found parameter: {parameterName}");
+
+            ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Dictionary<string, string>
+            {
+                ["parameterName"] = parameterName 
+            });
             return null;
         }
 
@@ -45,7 +50,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            Debug.LogWarning($"Possibly parameter type mismatch: {parameterName}, expected {itemKind}, was {resolvedValueKind}");
+
+            ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::TypeMismatch."),
+                new Dictionary<string, string>
+                {
+                    ["parameterName"] = parameterName,
+                    ["itemKind"] = $"{itemKind}",
+                    ["resolvedItemKind"] = $"{resolvedValueKind}"
+                });
             return resolvedValueKind;
         }
 

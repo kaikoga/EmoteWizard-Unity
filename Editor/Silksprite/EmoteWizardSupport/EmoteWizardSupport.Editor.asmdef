@@ -1,9 +1,10 @@
 {
     "name": "EmoteWizardSupport.Editor",
+    "rootNamespace": "Silksprite.EmoteWizardSupport",
     "references": [
+        "nadena.dev.ndmf",
         "EmoteWizardSupport"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -11,6 +12,14 @@
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": []
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "nadena.dev.ndmf",
+            "expression": "",
+            "define": "EW_NDMF"
+        }
+    ],
+    "noEngineReferences": false
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
@@ -11,8 +13,25 @@ namespace Silksprite.EmoteWizard.DataObjects
         public readonly EmoteTrigger Trigger;
         readonly IEmoteSequenceFactory _emoteSequenceFactory;
 
+        public EmoteHand Hand = EmoteHand.Neither;
+
         public LayerKind LayerKind => _emoteSequenceFactory.LayerKind;
-        public string GroupName => _emoteSequenceFactory.GroupName;
+        public string GroupName
+        {
+            get
+            {
+                switch (Hand)
+                {
+                    case EmoteHand.Neither:
+                        return _emoteSequenceFactory.GroupName;
+                    case EmoteHand.Left:
+                    case EmoteHand.Right:
+                        return $"{_emoteSequenceFactory.GroupName} ({Hand})";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
 
         public IEnumerable<Motion> AllClipRefs() => _emoteSequenceFactory.AllClipRefs();
         public IEnumerable<TrackingOverride> TrackingOverrides() => _emoteSequenceFactory.TrackingOverrides();
@@ -25,40 +44,72 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || _emoteSequenceFactory.LooksLikeMirrorItem;
 
-        public EmoteInstance Mirror(EmoteWizardEnvironment environment, IEmoteSequenceFactory.IClipBuilder clipBuilder, EmoteHand handValue)
+        public IEnumerable<EmoteItem> Mirror(bool force)
+        {
+            EmoteItem MirrorSide(EmoteHand handValue)
+            {
+                var item = new EmoteItem(Trigger, _emoteSequenceFactory)
+                {
+                    Hand = handValue
+                };
+
+                return item;
+            }
+
+            if (force || IsMirrorItem)
+            {
+                yield return MirrorSide(EmoteHand.Left);
+                yield return MirrorSide(EmoteHand.Right);
+            }
+            else
+            {
+                yield return this;
+            }
+        }
+
+        public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IClipBuilder clipBuilder)
         {
             string ResolveMirrorParameter(string parameter)
             {
                 switch (parameter)
                 {
                     case EmoteWizardConstants.Params.Gesture:
-                        return handValue == EmoteHand.Left ? "GestureLeft" : "GestureRight";
+                        return Hand == EmoteHand.Left ? "GestureLeft" : "GestureRight";
                     case EmoteWizardConstants.Params.GestureOther:
-                        return handValue == EmoteHand.Left ? "GestureRight" : "GestureLeft";
+                        return Hand == EmoteHand.Left ? "GestureRight" : "GestureLeft";
                     case EmoteWizardConstants.Params.GestureWeight:
-                        return handValue == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
+                        return Hand == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
                     case EmoteWizardConstants.Params.GestureOtherWeight:
-                        return handValue == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
+                        return Hand == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
                     default:
                         return parameter;
                 }
             }
 
-            var item = new EmoteInstance(SerializableUtils.Clone(Trigger),
-                _emoteSequenceFactory.Build(environment, clipBuilder));
-
-            foreach (var condition in item.Trigger.conditions)
+            var instance = new EmoteInstance(SerializableUtils.Clone(Trigger), _emoteSequenceFactory.Build(environment, clipBuilder))
             {
-                condition.parameter = ResolveMirrorParameter(condition.parameter);
+                Hand = Hand
+            };
+
+            switch (Hand)
+            {
+                case EmoteHand.Neither:
+                    break;
+                case EmoteHand.Left:
+                case EmoteHand.Right:
+                    instance.Sequence.groupName = GroupName;
+                    foreach (var condition in instance.Trigger.conditions)
+                    {
+                        condition.parameter = ResolveMirrorParameter(condition.parameter);
+                    }
+                    instance.Sequence.timeParameter = ResolveMirrorParameter(instance.Sequence.timeParameter);
+
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            item.Sequence.timeParameter = ResolveMirrorParameter(item.Sequence.timeParameter);
 
-            return item;
-        }
-
-        public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IEmoteSequenceFactory.IClipBuilder clipBuilder)
-        {
-            return new EmoteInstance(Trigger, _emoteSequenceFactory.Build(environment, clipBuilder));
+            return instance;
         }
     }
 }

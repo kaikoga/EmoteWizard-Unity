@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public IEnumerable<ExpressionItem> ToExpressionItems()
         {
-            yield return expressionItem;
+            if (expressionItem.IsValid) yield return expressionItem;
         }
     }
 }

@@ -1,4 +1,5 @@
 using System.IO;
+using Silksprite.EmoteWizardSupport.L10n;
 using UnityEditor;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardTools;
 
@@ -6,18 +7,9 @@ namespace Silksprite.EmoteWizardSupport.Tools
 {
     public static class EmoteWizardEditorTools
     {
-        public static bool SelectFolder(string title, ref string projectPath)
+        public static bool SelectFolder(LocalizedContent loc, SerializedProperty property)
         {
-            var absolutePath = EditorUtility.OpenFolderPanel(title, ProjectToAbsolutePath(projectPath), "");
-            if (absolutePath == null) return false;
-            if (!absolutePath.StartsWith(ProjectRoot)) return false;
-            projectPath = AbsoluteToProjectPath(absolutePath);
-            return true;
-        }
-
-        public static bool SelectFolder(string title, SerializedProperty property)
-        {
-            var absolutePath = EditorUtility.OpenFolderPanel(title, ProjectToAbsolutePath(property.stringValue), "");
+            var absolutePath = EditorUtility.OpenFolderPanel(loc.Tr, ProjectToAbsolutePath(property.stringValue), "");
             if (absolutePath == null) return false;
             if (!absolutePath.StartsWith(ProjectRoot)) return false;
             property.stringValue = AbsoluteToProjectPath(absolutePath);

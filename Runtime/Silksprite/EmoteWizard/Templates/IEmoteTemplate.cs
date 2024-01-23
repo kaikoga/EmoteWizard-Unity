@@ -7,6 +7,8 @@ namespace Silksprite.EmoteWizard.Templates
 {
     public interface IEmoteTemplate
     {
+        string Path { get; }
+
         IEnumerable<EmoteItem> ToEmoteItems();
         IEnumerable<ExpressionItem> ToExpressionItems();
 

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -10,6 +9,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class EmoteItemTemplate : IEmoteTemplate
     {
+        public string Path { get; }
         public readonly EmoteTrigger Trigger;
         public readonly IEmoteSequenceFactoryTemplate SequenceFactory;
 
@@ -17,8 +17,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         public readonly string ExpressionItemPath;
         public readonly Texture2D ExpressionItemIcon;
 
-        public EmoteItemTemplate(EmoteTrigger trigger, IEmoteSequenceFactoryTemplate sequenceFactory, bool hasExpressionItem, string expressionItemPath, Texture2D expressionItemIcon)
+        public EmoteItemTemplate(string path,
+            EmoteTrigger trigger,
+            IEmoteSequenceFactoryTemplate sequenceFactory,
+            bool hasExpressionItem,
+            string expressionItemPath,
+            Texture2D expressionItemIcon)
         {
+            Path = path;
             Trigger = trigger;
             SequenceFactory = sequenceFactory;
             HasExpressionItem = hasExpressionItem;
@@ -64,6 +70,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         public IEnumerable<ExpressionItem> ToExpressionItems()
         {
             if (!IsAutoExpression) yield break;
+            if (ItemPathAttribute.IsInvalidPathInput(ExpressionItemPath)) yield break;
 
             var soleCondition = Trigger.conditions[0];
             yield return new ExpressionItem
@@ -73,13 +80,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 path = ExpressionItemPath,
                 parameter = soleCondition.parameter,
                 value = soleCondition.threshold,
-                itemKind = SequenceFactory.LooksLikeToggle ? ExpressionItemKind.Button : ExpressionItemKind.Toggle
+                itemKind = SequenceFactory?.LooksLikeToggle == true ? ExpressionItemKind.Toggle : ExpressionItemKind.Button
             };
         }
 
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName)
         {
             return new EmoteItemTemplateBuilder(
+                name,
                 new EmoteTrigger
                 {
                     name = name,
@@ -93,14 +101,16 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         
         public class EmoteItemTemplateBuilder
         {
+            readonly string _path;
             readonly EmoteTrigger _trigger;
             readonly EmoteSequence _sequence;
             bool _hasExpressionItem;
             string _expressionItemPath;
             Texture2D _expressionItemIcon;
 
-            public EmoteItemTemplateBuilder(EmoteTrigger emoteTrigger, EmoteSequence emoteSequence)
+            public EmoteItemTemplateBuilder(string path, EmoteTrigger emoteTrigger, EmoteSequence emoteSequence)
             {
+                _path = path;
                 _trigger = emoteTrigger;
                 _sequence = emoteSequence;
             }
@@ -177,14 +187,19 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 return this;
             }
 
-            public EmoteItemTemplate ToEmoteItemTemplate() => new EmoteItemTemplate(_trigger, (IEmoteSequenceFactoryTemplate)((IEmoteSequenceFactory)new EmoteSequenceFactory(_sequence)), _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            public EmoteItemTemplate ToEmoteItemTemplate()
+            {
+                return new EmoteItemTemplate(_path, _trigger,
+                    new EmoteSequenceFactory(_sequence),
+                    _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            }
         }
 
         public void PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<EmoteItemSource>(target);
             source.trigger = Trigger;
-            SequenceFactory.PopulateSequenceSource(undoable, source);
+            SequenceFactory?.PopulateSequenceSource(undoable, source);
             source.hasExpressionItem = HasExpressionItem;
             source.expressionItemPath = ExpressionItemPath;
             source.expressionItemIcon = ExpressionItemIcon;

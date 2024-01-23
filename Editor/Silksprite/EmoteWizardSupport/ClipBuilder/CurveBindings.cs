@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal.ClipBuilders
+namespace Silksprite.EmoteWizardSupport.ClipBuilder
 {
     public struct CurveBindings
     {

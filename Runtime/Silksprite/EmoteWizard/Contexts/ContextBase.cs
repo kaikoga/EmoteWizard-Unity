@@ -4,23 +4,24 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
 {
-    public abstract class ContextBase<TConfig> : IBehaviourContext
+    public abstract class ContextBase : IContext
+    {
+        public EmoteWizardEnvironment Environment { get; }
+        protected ContextBase(EmoteWizardEnvironment env) => Environment = env;
+    }
+
+    public abstract class ContextBase<TConfig> : ContextBase, IBehaviourContext
         where TConfig : EmoteConfigBase
     {
         [CanBeNull]
         protected readonly TConfig Config;
 
-        public EmoteWizardEnvironment Environment { get; }
         public GameObject GameObject => Config != null ? Config.gameObject : null;
 
-        protected ContextBase(EmoteWizardEnvironment env)
-        {
-            Environment = env;
-        }
+        protected ContextBase(EmoteWizardEnvironment env) : base(env) { }
 
-        protected ContextBase(EmoteWizardEnvironment env, TConfig config, bool alwaysPersist = false)
+        protected ContextBase(EmoteWizardEnvironment env, TConfig config, bool alwaysPersist = false) : base(env)
         {
-            Environment = env;
             if (env.PersistGeneratedAssets || alwaysPersist) Config = config;
         }
 
