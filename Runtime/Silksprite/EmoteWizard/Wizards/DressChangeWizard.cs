@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard.Sources
         [ParameterName(false, true)]
         [SerializeField] public string parameterName;
 
-        public override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
             var paramName = hasParameterName ? parameterName : itemPath;
             var actualItemCount = expressionKind == ExpressionKind.SimpleToggle ? 2 : Mathf.Clamp(itemCount, 2, 64);

@@ -1,12 +1,9 @@
 using System;
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
@@ -70,7 +67,7 @@ namespace Silksprite.EmoteWizard.UI
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "FX Sources", fxSources =>
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(fxSources, "Default FX Items Wizard", wizard => wizard.layerKind = LayerKind.FX);
-                WizardExploder.ExplodeImmediate(undoable, wizard, false);
+                wizard.Explode(undoable, false);
             });
         }
 
@@ -80,7 +77,7 @@ namespace Silksprite.EmoteWizard.UI
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Gesture Sources", gestureSources =>
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(gestureSources, "Default Gesture Items Wizard", wizard => wizard.layerKind = LayerKind.Gesture);
-                WizardExploder.ExplodeImmediate(undoable, wizard, false);
+                wizard.Explode(undoable, false);
             });
         }
 
@@ -90,7 +87,7 @@ namespace Silksprite.EmoteWizard.UI
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Action Sources", actionSources =>
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(actionSources, "Default Action Items Wizard", wizard => wizard.layerKind = LayerKind.Action);
-                WizardExploder.ExplodeImmediate(undoable, wizard, false);
+                wizard.Explode(undoable, false);
             });
         }
     }

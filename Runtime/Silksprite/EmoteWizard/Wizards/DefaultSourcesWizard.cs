@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Sources
     {
         [SerializeField] public LayerKind layerKind;
 
-        public override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
             switch (layerKind)
             {

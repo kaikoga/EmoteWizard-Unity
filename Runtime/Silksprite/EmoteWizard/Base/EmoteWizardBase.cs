@@ -4,12 +4,14 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizardSupport.Undoable;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardBase : EmoteWizardBehaviour
     {
-        public abstract IEnumerable<IEmoteTemplate> SourceTemplates();
+        protected abstract IEnumerable<IEmoteTemplate> SourceTemplates();
 
         protected IEmoteSequenceFactoryTemplate GenerateEmoteSequenceFactoryTemplate(EmoteSequenceFactoryKind kind, LayerKind layerKind, string groupName)
         {
@@ -62,6 +64,40 @@ namespace Silksprite.EmoteWizard.Base
         {
             EmoteSequence,
             GenericEmoteSequence
+        }
+
+        public void Explode(IUndoable undoable, bool andSelect)
+        {
+            var sourceTemplates = SourceTemplates().ToArray();
+
+            var parent = transform.parent;
+
+            var children = sourceTemplates
+                .Select(template => template.Path)
+                .OrderBy(path => path.Length)
+                .Distinct()
+                .ToDictionary(path => path, path => undoable.AddChildGameObject(parent, path));
+
+            foreach (var template in sourceTemplates)
+            {
+                var child = children[template.Path];
+                template.PopulateSources(undoable, child.transform);
+            }
+
+            if (andSelect)
+            {
+                var firstChild = children.Values.FirstOrDefault();
+                if (firstChild) undoable.SetActiveObjectWithContext(firstChild, firstChild);
+            }
+
+            if (gameObject.GetComponents<Component>().Length == 2)
+            {
+                undoable.DestroyObject(gameObject);
+            }
+            else
+            {
+                undoable.DestroyObject(this);
+            }
         }
     }
 }

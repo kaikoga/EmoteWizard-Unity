@@ -1,6 +1,5 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
@@ -50,7 +49,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 {
                     if (EmoteWizardGUILayout.Undoable(Loc("CustomActionWizard::Add"), "Add from Custom Action Wizard") is IUndoable undoable)
                     {
-                        WizardExploder.ExplodeImmediate(undoable, soleTarget);
+                        soleTarget.Explode(undoable, true);
                     }
                 }
             }

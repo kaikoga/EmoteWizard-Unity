@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Sources
         [ParameterName(false, true)]
         [SerializeField] public string parameterName = EmoteWizardConstants.Defaults.Params.ActionSelect;
 
-        public override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
             int GuessActionIndex()
             {
