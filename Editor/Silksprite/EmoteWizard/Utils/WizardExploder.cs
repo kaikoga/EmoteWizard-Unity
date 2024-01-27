@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Utils
             if (andSelect)
             {
                 var firstChild = children.Values.FirstOrDefault();
-                if (firstChild) Selection.SetActiveObjectWithContext(firstChild, firstChild);
+                if (firstChild) undoable.SetActiveObjectWithContext(firstChild, firstChild);
             }
 
             var gameObject = wizard.gameObject;

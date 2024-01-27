@@ -29,6 +29,8 @@ namespace Silksprite.EmoteWizardSupport.Undoable
         public T AddComponent<T>(Component component) where T : Component => AddComponent<T>(component.gameObject);
 
         public void DestroyObject(Object obj) => Undo.DestroyObjectImmediate(obj);
+        
+        public void SetActiveObjectWithContext(Object obj, Object context) => Selection.SetActiveObjectWithContext(obj, context);
     }
 }
 
