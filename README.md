@@ -1,9 +1,29 @@
 # Emote Wizard
 
-Animation and Expression Editor for VRChat Avatar SDK3
+Animation and Expression Editor for VRChat Avatar SDK3.
 
-Emote Wizardは開発中のソフトウェアです。
-本ソフトウェアには [MIT License](LICENSE) が適用されます。
-本ソフトウェアの開発・保守・不具合・バグ修正などにつきまして、 kaikoga は一切の義務を負わないものとします。
+## Install by VCC
 
-詳しい使い方は https://github.com/kaikoga/EasyModeAvatar-Unity/blob/develop/docs/index.md にあります。
+[Add VPM Repo (VCC)](vcc://vpm/addRepo?url=https%3A%2F%2Fvpm.kaikoga.net%2Findex.json)
+
+or
+
+https://vpm.kaikoga.net/
+
+## Install from GitHub
+
+[ Window ] -> [ Package Manager ] -> [ + ] -> [ Add package from git URL... ]:
+
+https://github.com/kaikoga/EasyModeAvatar-Unity.git#v0.99.1
+
+or add to manifest.json:
+
+```
+"net.kaikoga.emotewizard": "https://github.com/kaikoga/EasyModeAvatar-Unity.git#v0.99.1",
+```
+
+---
+
+## ドキュメント（日本語）
+
+https://docs.kaikoga.net/emotewizard
