@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class DefaultActionEmote
     {
@@ -16,16 +15,7 @@ namespace Silksprite.EmoteWizard.Internal
         Motion _clip;
         Motion _exitClip;
 
-        static List<DefaultActionEmote> _defaults;
-        static IEnumerable<DefaultActionEmote> Defaults
-        {
-            get
-            {
-                return _defaults = _defaults ?? PopulateDefaults();
-            }
-        }
-
-        static List<DefaultActionEmote> PopulateDefaults()
+        static IEnumerable<DefaultActionEmote> Defaults()
         {
             return new List<DefaultActionEmote>
             {
@@ -116,7 +106,7 @@ namespace Silksprite.EmoteWizard.Internal
                 TrackingTarget.RightFingers
             }.Select(target => new TrackingOverride { target = target }).ToList();
 
-            foreach (var def in Defaults)
+            foreach (var def in Defaults())
             {
                 yield return EmoteItemTemplate.Builder(LayerKind.Action, def._name, EmoteWizardConstants.Defaults.Groups.Action)
                     .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Defaults.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = def._index })

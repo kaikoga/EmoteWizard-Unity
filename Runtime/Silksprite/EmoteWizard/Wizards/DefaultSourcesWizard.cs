@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Templates;
 using UnityEngine;
 
@@ -26,9 +26,9 @@ namespace Silksprite.EmoteWizard.Sources
                     switch (emoteSequenceFactoryKind)
                     {
                         case EmoteSequenceFactoryKind.EmoteSequence:
-                            return DefaultEmoteItems.EnumerateDefaultHandSigns(layerKind);
+                            return DefaultEmoteItem.EnumerateDefaultHandSigns(layerKind);
                         case EmoteSequenceFactoryKind.GenericEmoteSequence:
-                            return DefaultEmoteItems.EnumerateGenericDefaultHandSigns(layerKind);
+                            return DefaultEmoteItem.EnumerateGenericDefaultHandSigns(layerKind);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }

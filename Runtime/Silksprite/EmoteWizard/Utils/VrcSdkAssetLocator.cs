@@ -100,6 +100,51 @@ namespace Silksprite.EmoteWizard.Utils
             return DemoAsset<Motion>("Animation/ProxyAnim/proxy_sit2.anim");
         }
 
+        public static Motion ProxyHandsIdle()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_idle.anim");
+        }
+
+        public static Motion ProxyHandsIdle2()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_idle2.anim");
+        }
+
+        public static Motion ProxyHandsFist()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_fist.anim");
+        }
+
+        public static Motion ProxyHandsOpen()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_open.anim");
+        }
+
+        public static Motion ProxyHandsPoint()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_point.anim");
+        }
+
+        public static Motion ProxyHandsPeace()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_peace.anim");
+        }
+
+        public static Motion ProxyHandsRock()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_rock.anim");
+        }
+
+        public static Motion ProxyHandsGun()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_gun.anim");
+        }
+
+        public static Motion ProxyHandsThumbsUp()
+        {
+            return DemoAsset<Motion>("Animation/ProxyAnim/proxy_hands_thumbs_up.anim");
+        }
+
         public static Motion ProxyAfk()
         {
             return DemoAsset<Motion>("Animation/ProxyAnim/proxy_afk.anim");
