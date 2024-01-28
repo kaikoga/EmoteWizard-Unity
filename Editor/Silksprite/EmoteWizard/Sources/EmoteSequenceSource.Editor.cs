@@ -170,7 +170,7 @@ namespace Silksprite.EmoteWizard.Sources
                 serializedObject.ApplyModifiedProperties();
 
                 if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
-                _preview.OnInspectorGUI();
+                _preview?.OnInspectorGUI();
             }
         }
     }

@@ -131,7 +131,7 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
-            _preview.OnInspectorGUI();
+            _preview?.OnInspectorGUI();
 
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source") is IUndoable undoable)
             {
