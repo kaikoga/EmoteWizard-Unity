@@ -13,6 +13,7 @@ namespace Silksprite.EmoteWizard.Sources
     public class DefaultSourcesWizard : EmoteWizardBase
     {
         [SerializeField] public LayerKind layerKind;
+        [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
@@ -21,10 +22,18 @@ namespace Silksprite.EmoteWizard.Sources
                 case LayerKind.None:
                     break;
                 case LayerKind.FX:
-                    return DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.FX);
                 case LayerKind.Gesture:
-                    return DefaultEmoteItems.EnumerateDefaultHandSigns(LayerKind.Gesture);
+                    switch (emoteSequenceFactoryKind)
+                    {
+                        case EmoteSequenceFactoryKind.EmoteSequence:
+                            return DefaultEmoteItems.EnumerateDefaultHandSigns(layerKind);
+                        case EmoteSequenceFactoryKind.GenericEmoteSequence:
+                            return DefaultEmoteItems.EnumerateGenericDefaultHandSigns(layerKind);
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 case LayerKind.Action:
+                    // force EmoteSequence
                     return DefaultActionEmote.EnumerateDefaultActionEmoteItems();
                 default:
                     throw new ArgumentOutOfRangeException();

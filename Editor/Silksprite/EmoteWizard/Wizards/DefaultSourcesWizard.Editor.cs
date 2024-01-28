@@ -1,6 +1,6 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -13,15 +13,25 @@ namespace Silksprite.EmoteWizard.Wizards
     public class DefaultSourcesWizardEditor : EmoteWizardEditorBase<DefaultSourcesWizard>
     {
         LocalizedProperty _layerKind;
+        LocalizedProperty _emoteSequenceFactoryKind;
 
         void OnEnable()
         {
             _layerKind = Lop(nameof(DefaultSourcesWizard.layerKind), Loc("DefaultSourcesWizard::layerKind"));
+            _emoteSequenceFactoryKind = Lop(nameof(DefaultSourcesWizard.emoteSequenceFactoryKind), Loc("DefaultSourcesWizard::emoteSequenceFactoryKind"));
         }
 
         protected override void OnInnerInspectorGUI()
         {
             EmoteWizardGUILayout.Prop(_layerKind);
+
+            switch ((LayerKind) _layerKind.Property.enumValueIndex)
+            {
+                case LayerKind.FX:
+                case LayerKind.Gesture:
+                    EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
+                    break;
+            }
 
             serializedObject.ApplyModifiedProperties();
 

@@ -21,5 +21,13 @@ namespace Silksprite.EmoteWizard.Internal
                 .ToEmoteItemTemplate());
         }
 
+        public static IEnumerable<EmoteItemTemplate> EnumerateGenericDefaultHandSigns(LayerKind layerKind)
+        {
+            return HandSigns.Select(handSign => EmoteItemTemplate.GenericBuilder(layerKind, $"{handSign}", EmoteWizardConstants.Defaults.Groups.HandSign)
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)handSign })
+                .AddFixedDuration(true)
+                .AddTransitionDuration(0f, 0.1f)
+                .ToEmoteItemTemplate());
+        }
     }
 }
