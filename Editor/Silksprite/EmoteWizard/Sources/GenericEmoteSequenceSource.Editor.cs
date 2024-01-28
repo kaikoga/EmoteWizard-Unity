@@ -15,6 +15,7 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using Object = System.Object;
 
 namespace Silksprite.EmoteWizard.Sources
 {
@@ -42,6 +43,8 @@ namespace Silksprite.EmoteWizard.Sources
         AnimationClip _inputClip;
 
         AnimationPreview _preview;
+
+        AnimationClip _temporaryClip;
 
         void OnEnable()
         {
@@ -77,15 +80,17 @@ namespace Silksprite.EmoteWizard.Sources
         {
             if (_preview == null) return;
 
-            var temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
-            _preview.Clip = temporaryClip;
+            if (_temporaryClip) DestroyImmediate(_temporaryClip);
+            _temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
+            _preview.Clip = _temporaryClip;
             _preview.Refresh();
-            DestroyImmediate(temporaryClip);
         }
 
         void OnDisable()
         {
             _preview?.Dispose();
+            if (_temporaryClip) DestroyImmediate(_temporaryClip);
+            _temporaryClip = null;
         }
 
         protected override void OnInnerInspectorGUI()
