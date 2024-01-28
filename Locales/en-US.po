@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-01-28 11:02+0900\n"
+"POT-Creation-Date: 2024-01-28 14:00+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -541,135 +541,139 @@ msgstr "Label"
 msgid "ExpressionItem::labelIcons::labelIcon"
 msgstr "Label Icon"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:48
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:51
 msgid "GenericEmoteSequenceSource::sequence"
 msgstr "Sequence"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:50
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:53
 msgid "GenericEmoteSequenceSource::layerKind"
 msgstr "Layer Kind"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:51
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:54
 msgid "GenericEmoteSequenceSource::groupName"
 msgstr "Group Name"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:53
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:56
 msgid "GenericEmoteSequenceSource::animatedEnable"
 msgstr "Animated Enable"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:54
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:57
 msgid "GenericEmoteSequenceSource::animatedBlendShapes"
 msgstr "Animated Blend Shapes"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:56
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:59
 msgid "GenericEmoteSequenceSource::isFixedDuration"
 msgstr "Is Fixed Duration"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:57
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:60
 msgid "GenericEmoteSequenceSource::entryTransitionDuration"
 msgstr "Entry Transition Duration"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:58
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:61
 msgid "GenericEmoteSequenceSource::exitTransitionDuration"
 msgstr "Exit Transition Duration"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:60
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:63
 msgid "GenericEmoteSequenceSource::hasLayerBlend"
 msgstr "Has Layer Blend"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:61
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:64
 msgid "GenericEmoteSequenceSource::blendIn"
 msgstr "Blend In"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:62
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:65
 msgid "GenericEmoteSequenceSource::blendOut"
 msgstr "Blend Out"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:64
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:67
 msgid "GenericEmoteSequenceSource::hasTrackingOverrides"
 msgstr "Has Tracking Overrides"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:65
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:68
 msgid "GenericEmoteSequenceSource::trackingOverrides"
 msgstr "Tracking Overrides"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:96
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:101
 msgid "GenericEmoteSequence::Common Settings"
 msgstr "Common Settings"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:101
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:106
 msgid "GenericEmoteSequence::Layer Blend"
 msgstr "Layer Blend"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:108
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:113
 msgid "GenericEmoteSequence::Tracking Overrides"
 msgstr "Tracking Overrides"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:114
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:119
 msgid "GenericEmoteSequence::Animation"
 msgstr "Animation"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:124
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:129
 msgid "GenericEmoteSequenceSource::Clip"
 msgstr "Clip"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:125
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:130
 msgid "GenericEmoteSequenceSource::Import"
 msgstr "Import"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:136
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:141
 msgid "GenericEmoteSequenceSource::Explode"
 msgstr "Explode"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:149
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:154
 msgid "AnimatedEnable::target"
 msgstr "Target"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:150
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:155
 msgid "AnimatedEnable::isEnable"
 msgstr "Is Enable"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:171
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:176
 msgid "AnimatedBlendShape::target"
 msgstr "Target"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:174
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:179
 msgid "AnimatedBlendShape::blendShapeName"
 msgstr "Blend Shape"
 
-#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:176
+#: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteSequenceSource.Editor.cs:181
 msgid "AnimatedBlendShape::value"
 msgstr "Value"
 
-#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:22
+#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:23
 msgid "ParameterSource::parameterItem"
 msgstr "Parameter Item"
 
-#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:24
+#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:25
 msgid "ParameterItem::name"
 msgstr "Name"
 
-#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:25
+#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:26
 msgid "ParameterItem::itemKind"
 msgstr "Item Kind"
 
-#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:26
+#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:27
 msgid "ParameterItem::defaultValue"
 msgstr "Default Value"
 
-#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:27
+#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:28
 msgid "ParameterItem::saved"
 msgstr "Saved"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:22
+#: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:29
+msgid "ParameterItem::synced"
+msgstr "Synced"
+
+#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:21
 msgid "SetupGUI::emoteSequenceFactoryKindFx"
 msgstr "Generate FX Sequences as"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:24
+#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:23
 msgid "SetupGUI::Quick Setup Default Data Sources"
 msgstr "Quick Setup Default Data Sources"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:30
+#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:29
 msgid "SetupGUI::Generate Configs"
 msgstr "Generate Configs"
 

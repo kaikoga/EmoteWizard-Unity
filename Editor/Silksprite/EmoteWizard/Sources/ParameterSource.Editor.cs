@@ -16,6 +16,7 @@ namespace Silksprite.EmoteWizard.Sources
         LocalizedProperty _itemKind;
         LocalizedProperty _defaultValue;
         LocalizedProperty _saved;
+        LocalizedProperty _synced;
 
         void OnEnable()
         {
@@ -25,6 +26,7 @@ namespace Silksprite.EmoteWizard.Sources
             _itemKind = serializedItem.Lop(nameof(ParameterItem.itemKind), Loc("ParameterItem::itemKind"));
             _defaultValue = serializedItem.Lop(nameof(ParameterItem.defaultValue), Loc("ParameterItem::defaultValue"));
             _saved = serializedItem.Lop(nameof(ParameterItem.saved), Loc("ParameterItem::saved"));
+            _synced = serializedItem.Lop(nameof(ParameterItem.synced), Loc("ParameterItem::synced"));
         }
 
         protected override void OnInnerInspectorGUI()
@@ -33,6 +35,7 @@ namespace Silksprite.EmoteWizard.Sources
             EmoteWizardGUILayout.Prop(_itemKind);
             EmoteWizardGUILayout.Prop(_defaultValue);
             EmoteWizardGUILayout.Prop(_saved);
+            EmoteWizardGUILayout.Prop(_synced);
 
             serializedObject.ApplyModifiedProperties();
         }

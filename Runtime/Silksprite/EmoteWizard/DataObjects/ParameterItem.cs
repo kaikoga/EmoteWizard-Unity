@@ -13,6 +13,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         public ParameterItemKind itemKind;
         public bool saved = true;
         public float defaultValue;
+        public bool synced = true;
 
         public bool IsValid => !ParameterNameAttribute.IsInvalidParameterInput(name, false);
 
