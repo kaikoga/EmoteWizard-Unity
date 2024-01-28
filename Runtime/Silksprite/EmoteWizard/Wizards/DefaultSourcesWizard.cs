@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Templates;
+using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources

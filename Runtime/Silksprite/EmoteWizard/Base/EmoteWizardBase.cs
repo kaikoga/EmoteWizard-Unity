@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
@@ -59,12 +60,6 @@ namespace Silksprite.EmoteWizard.Base
                 blendIn = 0.5f,
                 blendOut = 0.25f
             });
-
-        public enum EmoteSequenceFactoryKind
-        {
-            EmoteSequence,
-            GenericEmoteSequence
-        }
 
         public void Explode(IUndoable undoable, bool andSelect)
         {

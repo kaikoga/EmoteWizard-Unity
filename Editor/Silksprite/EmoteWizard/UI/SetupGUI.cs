@@ -1,9 +1,9 @@
-using System;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
@@ -12,23 +12,25 @@ namespace Silksprite.EmoteWizard.UI
 {
     public static class SetupGUI
     {
+        static EmoteSequenceFactoryKind _emoteSequenceFactoryKindFx;
+
         public static bool OnInspectorGUI(EmoteWizardEnvironment env)
         {
             var result = false;
 
-            Action<IUndoable> onClick = undoable =>
+            _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
+
+            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup Default Data Sources"), undoable =>
             {
                 QuickSetupDefaultSources(undoable, env);
                 result = true;
-            };
-            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup Default Data Sources"), onClick);
+            });
 
-            Action<IUndoable> onClick1 = undoable =>
+            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
             {
                 GenerateConfigs(undoable, env);
                 result = true;
-            };
-            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), onClick1);
+            });
 
             return result;
         }
@@ -66,7 +68,9 @@ namespace Silksprite.EmoteWizard.UI
         {
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "FX Sources", fxSources =>
             {
-                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(fxSources, "Default FX Items Wizard", wizard => wizard.layerKind = LayerKind.FX);
+                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(fxSources, "Default FX Items Wizard");
+                wizard.layerKind = LayerKind.FX;
+                wizard.emoteSequenceFactoryKind = _emoteSequenceFactoryKindFx;
                 wizard.Explode(undoable, false);
             });
         }
@@ -76,7 +80,9 @@ namespace Silksprite.EmoteWizard.UI
             environment.OverrideGesture = OverrideGeneratedControllerType2.Generate;
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Gesture Sources", gestureSources =>
             {
-                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(gestureSources, "Default Gesture Items Wizard", wizard => wizard.layerKind = LayerKind.Gesture);
+                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(gestureSources, "Default Gesture Items Wizard");
+                wizard.layerKind = LayerKind.Gesture;
+                wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.Explode(undoable, false);
             });
         }
@@ -86,7 +92,9 @@ namespace Silksprite.EmoteWizard.UI
             environment.OverrideAction = OverrideGeneratedControllerType1.Generate;
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Action Sources", actionSources =>
             {
-                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(actionSources, "Default Action Items Wizard", wizard => wizard.layerKind = LayerKind.Action);
+                var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(actionSources, "Default Action Items Wizard");
+                wizard.layerKind = LayerKind.Action;
+                wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.Explode(undoable, false);
             });
         }

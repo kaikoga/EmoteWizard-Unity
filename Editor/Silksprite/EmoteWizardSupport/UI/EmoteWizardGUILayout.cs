@@ -98,6 +98,8 @@ namespace Silksprite.EmoteWizardSupport.UI
         public static void Label(LocalizedContent loc, GUILayoutOption[] options) => GUILayout.Label(loc.GUIContent, options);
 
         public static bool Foldout(bool foldout, LocalizedContent loc) => EditorGUILayout.Foldout(foldout, loc.GUIContent);
+
+        public static TEnum EnumPopup<TEnum>(LocalizedContent loc, TEnum value) where TEnum : Enum => (TEnum)EditorGUILayout.EnumPopup(loc.GUIContent, value);
         
         public static void HelpBox(LocalizedContent loc, MessageType type) => EditorGUILayout.HelpBox(loc.LongTr, type);
     }

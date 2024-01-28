@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-01-28 08:59+0900\n"
+"POT-Creation-Date: 2024-01-28 11:02+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -661,11 +661,15 @@ msgstr "Default Value"
 msgid "ParameterItem::saved"
 msgstr "Saved"
 
+#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:22
+msgid "SetupGUI::emoteSequenceFactoryKindFx"
+msgstr "Generate FX Sequences as"
+
 #: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:24
 msgid "SetupGUI::Quick Setup Default Data Sources"
 msgstr "Quick Setup Default Data Sources"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:31
+#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:30
 msgid "SetupGUI::Generate Configs"
 msgstr "Generate Configs"
 
