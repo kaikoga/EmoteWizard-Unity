@@ -16,35 +16,5 @@ namespace Silksprite.EmoteWizard.DataObjects
         public bool synced = true;
 
         public bool IsValid => !ParameterNameAttribute.IsInvalidParameterInput(name, false);
-
-        public static ParameterItem Build(string parameter, ParameterItemKind itemKind)
-        {
-            return new ParameterItem
-            {
-                enabled = true,
-                name = parameter,
-                itemKind = itemKind,
-                saved = false,
-                defaultValue = 0
-            };
-        }
-
-        public ParameterValueKind ValueKind => ToInstance().ValueKind;
-
-        public ParameterInstance ToInstance()
-        {
-            return new ParameterInstance
-            {
-                Name = name,
-                Saved = saved,
-                DefaultValue = defaultValue,
-                ItemKind = itemKind,
-            };
-        }
-
-        public VRCExpressionParameters.Parameter ToParameter()
-        {
-            return ToInstance().ToParameter();
-        }
     }
 }
