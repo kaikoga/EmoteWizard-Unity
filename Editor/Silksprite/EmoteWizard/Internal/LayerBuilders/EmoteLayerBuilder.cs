@@ -259,7 +259,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
             if (conditions.Count == 1 && conditions[0].kind != ParameterItemKind.Float)
             {
                 var parameterName = conditions[0].parameter;
-                var parameter = Builder.ParametersSnapshot.ResolveParameter(parameterName);
+                var parameter = Builder.ParametersSnapshot.ResolveParameterWithWarning(parameterName);
                 switch (parameter?.ValueKind)
                 {
                     case ParameterValueKind.Int:

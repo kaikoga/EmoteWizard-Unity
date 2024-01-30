@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Internal.Extensions;
 using UnityEditor.Animations;
@@ -37,7 +38,7 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders.Base
 
         protected ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
         {
-            return Builder.ParametersSnapshot.ResolveParameterType(parameterName, itemKind);
+            return Builder.ParametersSnapshot.ResolveParameterTypeWithWarning(parameterName, itemKind);
         }
 
         protected LayerBuilderBase(AnimatorLayerBuilder builder, AnimatorControllerLayer layer)

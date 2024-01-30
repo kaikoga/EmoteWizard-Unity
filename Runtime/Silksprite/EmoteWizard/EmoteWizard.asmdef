@@ -2,8 +2,7 @@
     "name": "EmoteWizard",
     "rootNamespace": "Silksprite.EmoteWizard",
     "references": [
-        "EmoteWizardSupport",
-        "EmoteWizardSupport.Editor"
+        "EmoteWizardSupport"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

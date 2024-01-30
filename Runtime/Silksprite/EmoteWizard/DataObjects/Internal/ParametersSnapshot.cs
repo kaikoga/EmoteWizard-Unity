@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizardSupport.Logger;
 using VRC.SDK3.Avatars.ScriptableObjects;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -16,22 +14,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public ParameterInstance ResolveParameter(string parameterName)
         {
-            foreach (var item in AllParameters)
-            {
-                if (item.Name != parameterName) continue;
-                return item;
-            }
-
-
-            ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Dictionary<string, string>
-            {
-                ["parameterName"] = parameterName 
-            });
-            return null;
+            return AllParameters.FirstOrDefault(item => item.Name == parameterName);
         }
 
-        public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
+        public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind, out bool mismatch)
         {
+            mismatch = false;
             var item = ResolveParameter(parameterName);
             if (item == null) return null;
 
@@ -51,13 +39,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     throw new ArgumentOutOfRangeException();
             }
 
-            ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::TypeMismatch."),
-                new Dictionary<string, string>
-                {
-                    ["parameterName"] = parameterName,
-                    ["itemKind"] = $"{itemKind}",
-                    ["resolvedItemKind"] = $"{resolvedValueKind}"
-                });
+            mismatch = true;
             return resolvedValueKind;
         }
 
