@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Logger;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
@@ -13,7 +14,7 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
             void WarnBindingNotFound(EditorCurveBinding binding)
             {
                 ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::MissingProperty."), avatarRoot,
-                    new Dictionary<string, string>
+                    new Substitution
                     {
                         ["avatarRootName"] = avatarRoot.name,
                         ["path"] = binding.path,

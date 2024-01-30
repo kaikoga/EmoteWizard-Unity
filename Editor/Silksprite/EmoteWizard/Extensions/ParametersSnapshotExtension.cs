@@ -1,7 +1,7 @@
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Logger;
+using Silksprite.EmoteWizardSupport.Utils;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Extensions
@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Extensions
             var result = snapshot.ResolveParameter(parameterName);
             if (result == null)
             {
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Dictionary<string, string>
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Substitution
                 {
                     ["parameterName"] = parameterName 
                 });
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
             if (result == null)
             {
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Dictionary<string, string>
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Substitution
                 {
                     ["parameterName"] = parameterName 
                 });
@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Extensions
             else if (mismatch)
             {
                 ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::TypeMismatch."),
-                    new Dictionary<string, string>
+                    new Substitution
                     {
                         ["parameterName"] = parameterName,
                         ["itemKind"] = $"{itemKind}",

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -7,6 +6,7 @@ using Silksprite.EmoteWizard.Internal;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Logger;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             {
                 var gameObject = context.Environment.ContainerTransform.gameObject;
                 ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::WithoutAvatar."), gameObject,
-                    new Dictionary<string, string>
+                    new Substitution
                     {
                         ["gameObjectName"] = gameObject.name 
                     });
