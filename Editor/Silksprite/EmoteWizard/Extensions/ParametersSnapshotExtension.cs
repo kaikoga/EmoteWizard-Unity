@@ -8,6 +8,7 @@ namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ParametersSnapshotExtension
     {
+        // TODO: could this be error?  
         public static ParameterInstance ResolveParameterWithWarning(this ParametersSnapshot snapshot, string parameterName)
         {
             var result = snapshot.ResolveParameter(parameterName);
@@ -21,6 +22,7 @@ namespace Silksprite.EmoteWizard.Extensions
             return result;
         }
 
+        // TODO: could this be error?  
         public static ParameterValueKind? ResolveParameterTypeWithWarning(this ParametersSnapshot snapshot, string parameterName, ParameterItemKind itemKind)
         {
             var result = snapshot.ResolveParameterType(parameterName, itemKind, out var mismatch);
