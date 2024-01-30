@@ -10,6 +10,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         ParameterItemKind _itemKind;
         bool _saved = true;
         float _defaultValue;
+        bool _synced = true;
         readonly List<ParameterWriteUsage> _writeUsages = new List<ParameterWriteUsage>();
         readonly List<ParameterReadUsage> _readUsages = new List<ParameterReadUsage>();
 
@@ -24,6 +25,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 _itemKind = ParameterItemKind.Auto,
                 _saved = false,
                 _defaultValue = 0,
+                _synced = false
             };
         }
 
@@ -73,12 +75,18 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, 1f));
         }
 
+        public void AddSynced()
+        {
+            _synced = true;
+        }
+
         public void Import(ParameterItem parameter)
         {
             _name = parameter.name;
             _itemKind = parameter.itemKind;
             _saved = parameter.saved;
             _defaultValue = parameter.defaultValue;
+            _synced = parameter.synced;
         }
 
         public ParameterInstance ToInstance()
@@ -88,6 +96,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 Name = _name,
                 Saved = _saved,
                 DefaultValue = _defaultValue,
+                Synced = _synced,
                 ItemKind = _itemKind,
                 WriteUsages = _writeUsages.Select(state => (valueKind: state.WriteUsageKind, value: state.Value))
                     .Distinct()

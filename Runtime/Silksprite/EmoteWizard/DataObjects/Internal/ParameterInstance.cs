@@ -11,6 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public ParameterItemKind ItemKind;
         public bool Saved = true;
         public float DefaultValue;
+        public bool Synced = true;
         public List<ParameterWriteUsage> WriteUsages;
         public List<ParameterReadUsage> ReadUsages;
 
@@ -60,7 +61,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 name = Name,
                 saved = Saved,
                 defaultValue = DefaultValue,
-                valueType = VrcValueType
+                valueType = VrcValueType,
+                networkSynced = Synced
             };
         }
     }
