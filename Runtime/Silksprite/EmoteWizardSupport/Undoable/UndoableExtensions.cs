@@ -2,10 +2,6 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 namespace Silksprite.EmoteWizardSupport.Undoable
 {
     public static class UndoableExtensions
@@ -33,9 +29,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
                 {
                     if (isLeaf)
                     {
-#if UNITY_EDITOR
-                        name = GameObjectUtility.GetUniqueNameForSibling(gameObject.transform, name);
-#endif
+                        name = undoable.GetUniqueNameForSibling(gameObject.transform, name);
                     }
                     else
                     {

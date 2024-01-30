@@ -14,5 +14,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
         void DestroyObject(Object obj);
         
         void SetActiveObjectWithContext(Object obj, Object context);
+        
+        string GetUniqueNameForSibling(Transform parent, string name);
     }
 }

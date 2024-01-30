@@ -1,5 +1,7 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.Undoable
 {
@@ -18,5 +20,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
         public void DestroyObject(Object obj) => Object.Destroy(obj);
         
         public void SetActiveObjectWithContext(Object obj, Object context) { } // noop
+
+        public string GetUniqueNameForSibling(Transform parent, string name) => parent.Find(name) ? new Guid().ToString() : name;
     }
 }
