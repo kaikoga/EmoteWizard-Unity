@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizardSupport.L10n
                         {
                             return CultureInfo.GetCultureInfo(lang).NativeName;
                         }
-                        catch (Exception ex)
+                        catch (Exception)
                         {
                             return lang;
                         }
