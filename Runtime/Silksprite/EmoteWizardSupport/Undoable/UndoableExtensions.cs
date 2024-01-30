@@ -1,7 +1,10 @@
 using System;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Silksprite.EmoteWizardSupport.Undoable
 {
@@ -30,7 +33,9 @@ namespace Silksprite.EmoteWizardSupport.Undoable
                 {
                     if (isLeaf)
                     {
+#if UNITY_EDITOR
                         name = GameObjectUtility.GetUniqueNameForSibling(gameObject.transform, name);
+#endif
                     }
                     else
                     {
@@ -52,6 +57,14 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             var t = undoable.AddComponent<T>(undoable.AddChildGameObject(component, string.IsNullOrEmpty(path) ? typeof(T).Name : path).transform);
             initializer?.Invoke(t);
             return t;
+        }
+        
+        public static T AddChildComponentAndSelect<T>(this IUndoable undoable, Component component, string path = null)
+            where T : Component
+        {
+            var result = undoable.AddChildComponent<T>(component, path);
+            undoable.SetActiveObjectWithContext(result.gameObject, result);
+            return result;
         }
 
         public static T FindOrCreateChildComponent<T>(this IUndoable undoable, Component component, string path = null, Action<T> initializer = null)
