@@ -17,7 +17,7 @@
     "versionDefines": [
         {
             "name": "nadena.dev.ndmf",
-            "expression": "(1.3.0-a,)",
+            "expression": "(1.3.0,)",
             "define": "EW_NDMF_SUPPORT"
         }
     ],
