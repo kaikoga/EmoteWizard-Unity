@@ -16,13 +16,13 @@ namespace Silksprite.EmoteWizardSupport.Logger
         readonly Substitution _substitution;
 
         #region unused ndmf API
-        protected override Localizer Localizer => null;
+        public override Localizer Localizer => null;
 
-        protected override string TitleKey => null;
+        public override string TitleKey => null;
 
-        protected override string[] TitleSubst => null;
-        protected override string[] DetailsSubst => null;
-        protected override string[] HintSubst => null;
+        public override string[] TitleSubst => null;
+        public override string[] DetailsSubst => null;
+        public override string[] HintSubst => null;
         #endregion
 
         public WrappedError(ErrorSeverity errorSeverity, LocalizedContent loc, Object context, Substitution substitution)
