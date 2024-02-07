@@ -14,12 +14,7 @@ namespace Silksprite.EmoteWizardSupport.L10n
     {
         public static string[] AllLangs = { "en-US", "ja-JP", "CSharp" };
 
-        static Dictionary<string, bool> Nowraps = new Dictionary<string, bool>()
-        {
-            ["en-US"] = false,
-            ["ja-JP"] = true,
-            ["CSharp"] = false
-        };
+        static HashSet<string> NowrapLangs = new HashSet<string> { "ja-JP" };
 
         static string[] _displayAllLangs; 
         public static string[] DisplayAllLangs
@@ -70,7 +65,7 @@ namespace Silksprite.EmoteWizardSupport.L10n
         }
 #endif
 
-        public static bool Nowrap => Nowraps[Lang];
+        public static bool Nowrap => NowrapLangs.Contains(Lang);
 
         internal static string PoPath(string lang)
         {
