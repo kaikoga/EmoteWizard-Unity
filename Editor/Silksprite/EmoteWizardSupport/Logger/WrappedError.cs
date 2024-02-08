@@ -1,6 +1,7 @@
 using System.Linq;
 using nadena.dev.ndmf;
 using nadena.dev.ndmf.localization;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Utils;
 using Object = UnityEngine.Object;
@@ -35,7 +36,7 @@ namespace Silksprite.EmoteWizardSupport.Logger
 
         public override string FormatTitle()
         {
-            return _loc.TrFormat(_substitution).Split("\n").FirstOrDefault();
+            return _loc.TrFormat(_substitution).SplitCompat("\n").FirstOrDefault();
         }
 
         public override string FormatDetails()

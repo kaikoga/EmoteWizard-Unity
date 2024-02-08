@@ -65,13 +65,12 @@ namespace Silksprite.EmoteWizard
                 EmoteWizardGUILayout.Prop(_showTutorial);
             });
 
-            if (EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source")) is IUndoable undoable)
+            EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source"), undoable =>
             {
                 undoable.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>(soleTarget, "New Source");
-            }
+            });
 
-            LocalizedContent loc = Loc("EmoteWizardRoot::Setup");
-            _isSetup = EmoteWizardGUILayout.Foldout(_isSetup, loc);
+            _isSetup = EmoteWizardGUILayout.Foldout(_isSetup, Loc("EmoteWizardRoot::Setup"));
             if (_isSetup)
             {
                 if (SetupGUI.OnInspectorGUI(env)) return;
@@ -216,12 +215,13 @@ namespace Silksprite.EmoteWizard
                     {
                         CreateEnv().CleanupAvatar();
                     }
-                    if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Generate Everything and Update Avatar")))
-                    {
-                        var undoable = new EditorUndoable("Generate Everything and Update Avatar");
-                        undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                        CreateEnv().BuildAvatar(undoable, true);
-                    }
+                    EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
+                        "Generate Everything and Update Avatar",
+                        undoable =>
+                        {
+                            undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
+                            CreateEnv().BuildAvatar(undoable, true);
+                        });
 
                     using (new GUILayout.HorizontalScope())
                     {

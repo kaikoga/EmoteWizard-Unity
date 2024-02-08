@@ -16,6 +16,9 @@ using nadena.dev.modular_avatar.core;
 
 namespace Silksprite.EmoteWizard.Utils
 {
+
+#if UNITY_2022_3_OR_NEWER
+
     public class AnimationPreview : IDisposable
     {
         readonly VRCAvatarDescriptor _originalAvatar;
@@ -119,4 +122,30 @@ namespace Silksprite.EmoteWizard.Utils
             _activePreviews.Remove(this);
         }
     }
+
+#else
+
+    public class AnimationPreview : IDisposable
+    {
+        public AnimationClip Clip;
+
+        public AnimationPreview(VRCAvatarDescriptor originalAvatar)
+        {
+        }
+
+        public void OnInspectorGUI()
+        {
+        }
+
+        public void Refresh()
+        {
+        }
+
+        public void Dispose()
+        {
+        }
+    }
+
+#endif
+
 }
