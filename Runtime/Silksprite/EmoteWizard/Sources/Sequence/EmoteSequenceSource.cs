@@ -8,7 +8,7 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
     [AddComponentMenu("Emote Wizard/Sources/Emote Sequence Source", 100)]
     public class EmoteSequenceSource : EmoteSequenceSourceBase
     {
-        [SerializeField] public EmoteSequence sequence = new();
+        [SerializeField] public EmoteSequence sequence = new EmoteSequence();
 
         public override IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate() => new EmoteSequenceFactory(sequence);
     }

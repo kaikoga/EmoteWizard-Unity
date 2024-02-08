@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public float blendOut = 0.25f;
             
         [SerializeField] public bool hasTrackingOverrides;
-        [SerializeField] public List<TrackingOverride> trackingOverrides = new();
+        [SerializeField] public List<TrackingOverride> trackingOverrides = new List<TrackingOverride>();
 
         public IEnumerable<AnimatedValue<float>> ToAnimatedFloats(Transform avatarRootTransform)
         {
