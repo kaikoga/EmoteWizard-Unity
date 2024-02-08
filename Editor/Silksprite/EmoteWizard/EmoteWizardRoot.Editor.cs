@@ -6,15 +6,17 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
+
+#if EW_VRCSDK3_AVATARS
+using VRC.SDK3.Avatars.Components;
+#endif
 
 namespace Silksprite.EmoteWizard
 {
@@ -78,7 +80,7 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
             EmoteWizardGUILayout.Prop(_avatarDescriptor);
-            var avatarDescriptor = env.AvatarDescriptor;
+            var avatarDescriptor = env.VrcAvatarDescriptor;
             if (!avatarDescriptor)
             {
                 EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::AvatarDescriptor::notFound."), MessageType.Error);
@@ -88,7 +90,7 @@ namespace Silksprite.EmoteWizard
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
-                    EmoteWizardGUILayout.ObjectField(Loc("EmoteWizardRoot::Detected Avatar Descriptor"), env.AvatarDescriptor, true);
+                    EmoteWizardGUILayout.ObjectField(Loc("EmoteWizardRoot::Detected Avatar Descriptor"), env.VrcAvatarDescriptor, true);
                 }
             }
 
@@ -210,7 +212,7 @@ namespace Silksprite.EmoteWizard
                     var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
                     var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
 
-                    var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(env.AvatarDescriptor);
+                    var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(env.VrcAvatarDescriptor);
                     if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
                         CreateEnv().CleanupAvatar();

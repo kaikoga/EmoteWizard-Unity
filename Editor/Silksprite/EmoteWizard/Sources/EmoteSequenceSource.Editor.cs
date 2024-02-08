@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -89,10 +88,10 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.trackingOverrides), Loc("EmoteSequence::trackingOverrides"));
 
             var environment = CreateEnv();
-            if (environment?.AvatarDescriptor)
+            if (environment?.AvatarRoot)
             {
                 // TODO: prevent multiple previews
-                _preview = new AnimationPreview(environment.AvatarDescriptor);
+                _preview = new AnimationPreview(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded(environment);
             }
         }

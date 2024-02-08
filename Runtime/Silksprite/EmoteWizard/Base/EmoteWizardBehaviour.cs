@@ -1,12 +1,18 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
+
+#if EW_VRCSDK3_AVATARS
 using VRC.SDKBase;
+#endif
 
 namespace Silksprite.EmoteWizard.Base
 {
-    public abstract class EmoteWizardBehaviour : MonoBehaviour, IEditorOnly
+    public abstract class EmoteWizardBehaviour : MonoBehaviour
+#if EW_VRCSDK3_AVATARS
+        , IEditorOnly
+#endif
     {
         public EmoteWizardEnvironment CreateEnv()
         {
@@ -14,9 +20,9 @@ namespace Silksprite.EmoteWizard.Base
             {
                 return EmoteWizardEnvironment.FromRoot(root);
             }
-            if (this.GetComponentInParent<VRCAvatarDescriptor>(true) is VRCAvatarDescriptor avatarDescriptor)
+            if (RuntimeUtil.FindAvatarInParents(transform) is Transform avatarRoot)
             {
-                return EmoteWizardEnvironment.FromAvatar(avatarDescriptor);
+                return EmoteWizardEnvironment.FromAvatar(avatarRoot);
             }
             return null;
         }

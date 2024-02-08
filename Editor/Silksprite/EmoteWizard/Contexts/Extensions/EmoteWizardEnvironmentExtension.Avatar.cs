@@ -4,7 +4,6 @@ using nadena.dev.ndmf;
 using nadena.dev.ndmf.util;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +16,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         public static void CleanupAvatar(this EmoteWizardEnvironment environment)
         {
-            var avatarDescriptor = environment.AvatarDescriptor;
+            var avatarDescriptor = environment.VrcAvatarDescriptor;
             if (avatarDescriptor.TryGetComponent<Animator>(out var avatarAnimator))
             {
                 avatarAnimator.runtimeAnimatorController = null;
@@ -33,7 +32,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static void BuildAvatar(this EmoteWizardEnvironment environment, IUndoable undoable, bool manualBuild)
         {
-            var avatarDescriptor = environment.AvatarDescriptor;
+            var avatarDescriptor = environment.VrcAvatarDescriptor;
             var avatarAnimator = undoable.EnsureComponent<Animator>(avatarDescriptor);
             avatarAnimator.runtimeAnimatorController = null;
 
@@ -185,7 +184,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 if (_buildContext == null) return;
 
                 // manually try to persist volatile layers because layers are what Emote Wizard generates
-                var layers = _environment.AvatarDescriptor.AllAnimationLayers()
+                var layers = _environment.VrcAvatarDescriptor.AllAnimationLayers()
                     .Where(layer => !EditorUtility.IsPersistent(layer));
                 // we are sure these are not prefabs
                 foreach (var layer in layers)

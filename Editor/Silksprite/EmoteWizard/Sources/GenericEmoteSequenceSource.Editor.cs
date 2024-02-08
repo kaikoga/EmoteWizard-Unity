@@ -68,10 +68,10 @@ namespace Silksprite.EmoteWizard.Sources
             _trackingOverrides = serializedItem.Lop(nameof(GenericEmoteSequence.trackingOverrides), Loc("GenericEmoteSequenceSource::trackingOverrides"));
 
             var environment = CreateEnv();
-            if (environment?.AvatarDescriptor)
+            if (environment?.AvatarRoot)
             {
                 // TODO: prevent multiple previews
-                _preview = new AnimationPreview(environment.AvatarDescriptor);
+                _preview = new AnimationPreview(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded(environment);
             }
         }
@@ -129,7 +129,7 @@ namespace Silksprite.EmoteWizard.Sources
                 _inputClip = EmoteWizardGUILayout.ObjectField(Loc("GenericEmoteSequenceSource::Clip"), _inputClip, true);
                 if (EmoteWizardGUILayout.Button(Loc("GenericEmoteSequenceSource::Import"), Array.Empty<GUILayoutOption>()))
                 {
-                    var converted = _inputClip.ToGenericEmoteSequence(CreateEnv().AvatarDescriptor.gameObject);
+                    var converted = _inputClip.ToGenericEmoteSequence(CreateEnv().AvatarRoot.gameObject);
                     soleTarget.sequence.animatedEnable = converted.animatedEnable;
                     soleTarget.sequence.animatedBlendShapes = converted.animatedBlendShapes;
                 }

@@ -1,9 +1,7 @@
 using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
-using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
@@ -12,7 +10,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         public static Animator ProvideProxyAnimator(this EmoteWizardEnvironment environment)
         {
-            var animator = environment.ProxyAnimator ? environment.ProxyAnimator : RuntimeUndoable.Instance.EnsureComponent<Animator>(environment.AvatarDescriptor);
+            var animator = environment.ProxyAnimator ? environment.ProxyAnimator : RuntimeUndoable.Instance.EnsureComponent<Animator>(environment.AvatarRoot);
             environment.ProxyAnimator = animator;
             return animator;
         }
@@ -37,9 +35,9 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 var child = self.Root.transform.Find(path);
                 if (child && undoable.EnsureComponent<T>(child) is T c) return c;
             }
-            if (self.AvatarDescriptor)
+            if (self.AvatarRoot)
             {
-                var child = self.AvatarDescriptor.transform.Find(path);
+                var child = self.AvatarRoot.Find(path);
                 if (child && undoable.EnsureComponent<T>(child) is T c) return c;
             }
             return undoable.AddChildComponent(self.ContainerTransform, path, initializer);

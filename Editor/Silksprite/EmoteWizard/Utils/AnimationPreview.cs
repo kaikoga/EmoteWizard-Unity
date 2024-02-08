@@ -6,7 +6,6 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 using Object = UnityEngine.Object;
 
@@ -21,7 +20,7 @@ namespace Silksprite.EmoteWizard.Utils
 
     public class AnimationPreview : IDisposable
     {
-        readonly VRCAvatarDescriptor _originalAvatar;
+        readonly GameObject _originalAvatar;
         GameObject _avatar;
         EmoteWizardEnvironment _environment;
 
@@ -32,7 +31,7 @@ namespace Silksprite.EmoteWizard.Utils
 
         bool _disposed = false;
 
-        public AnimationPreview(VRCAvatarDescriptor originalAvatar)
+        public AnimationPreview(GameObject originalAvatar)
         {
             _originalAvatar = originalAvatar;
             
@@ -79,7 +78,7 @@ namespace Silksprite.EmoteWizard.Utils
         {
             _currentPreview = this;
 
-            _avatar = Object.Instantiate(_originalAvatar.gameObject);
+            _avatar = Object.Instantiate(_originalAvatar);
             SceneVisibilityManager.instance.Isolate(_avatar.gameObject, true);
             _avatar.hideFlags = HideFlags.HideAndDontSave;
             if (Clip.isHumanMotion)
@@ -98,7 +97,7 @@ namespace Silksprite.EmoteWizard.Utils
             }
             else
             {
-                _environment = EmoteWizardEnvironment.FromAvatar(_avatar.GetComponent<VRCAvatarDescriptor>());
+                _environment = EmoteWizardEnvironment.FromAvatar(_avatar.transform);
                 _environment.ProvideProxyAnimator().avatar = null;
             }
             Clip.SampleAnimation(_avatar, 0f);
@@ -129,7 +128,7 @@ namespace Silksprite.EmoteWizard.Utils
     {
         public AnimationClip Clip;
 
-        public AnimationPreview(VRCAvatarDescriptor originalAvatar)
+        public AnimationPreview(GameObject originalAvatar)
         {
         }
 

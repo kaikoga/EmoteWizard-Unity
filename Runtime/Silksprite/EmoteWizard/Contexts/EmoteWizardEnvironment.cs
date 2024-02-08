@@ -1,9 +1,12 @@
 using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
+
+#if EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.Components;
+#endif
 
 namespace Silksprite.EmoteWizard.Contexts
 {
@@ -15,18 +18,27 @@ namespace Silksprite.EmoteWizard.Contexts
         public EmoteWizardRoot Root => _root;
 
         [CanBeNull]
-        VRCAvatarDescriptor _avatarDescriptor;
-        public VRCAvatarDescriptor AvatarDescriptor
+        Transform _avatarRoot;
+        public Transform AvatarRoot
         {
-            get => _avatarDescriptor;
+            get => _avatarRoot;
             set
             {
-                _avatarDescriptor = value;
-                if (_root) _root.avatarDescriptor = value;
+                _avatarRoot = value;
+                if (_root)
+                {
+#if EW_VRCSDK3_AVATARS
+                    _root.avatarDescriptor = value.GetComponent<VRCAvatarDescriptor>();
+#endif
+                }
             }
         }
 
-        readonly Component _rootOrAvatarDescriptor;
+#if EW_VRCSDK3_AVATARS
+        public VRCAvatarDescriptor VrcAvatarDescriptor => AvatarRoot.GetComponent<VRCAvatarDescriptor>();
+#endif
+
+        readonly Component _rootOrAvatarRoot;
 
         [CanBeNull]
         Animator _proxyAnimator;
@@ -86,11 +98,11 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly bool ShowTutorial;
         public bool PersistGeneratedAssets { get; set; }
 
-        EmoteWizardEnvironment(EmoteWizardRoot root, VRCAvatarDescriptor avatarDescriptor)
+        EmoteWizardEnvironment(EmoteWizardRoot root, Transform avatarRoot)
         {
             _root = root;
-            _avatarDescriptor = avatarDescriptor;
-            _rootOrAvatarDescriptor = _root;
+            _avatarRoot = avatarRoot;
+            _rootOrAvatarRoot = _root;
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
@@ -105,10 +117,10 @@ namespace Silksprite.EmoteWizard.Contexts
             PersistGeneratedAssets = root.persistGeneratedAssets;
         }
 
-        EmoteWizardEnvironment(VRCAvatarDescriptor avatarDescriptor)
+        EmoteWizardEnvironment(Transform avatarRoot)
         {
-            _avatarDescriptor = avatarDescriptor;
-            _rootOrAvatarDescriptor = _avatarDescriptor;
+            _avatarRoot = avatarRoot;
+            _rootOrAvatarRoot = _avatarRoot;
             
             _overrideGesture = OverrideGeneratedControllerType2.Default1;
             _overrideAction = OverrideGeneratedControllerType1.Default;
@@ -117,20 +129,20 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public static EmoteWizardEnvironment FromRoot(EmoteWizardRoot root)
         {
-            var avatarDescriptor = root.avatarDescriptor ? root.avatarDescriptor : root.GetComponentInParent<VRCAvatarDescriptor>();
-            var env = new EmoteWizardEnvironment(root, avatarDescriptor);
+            var avatarRoot = root.avatarDescriptor ? root.avatarDescriptor.transform : RuntimeUtil.FindAvatarInParents(root.transform);
+            var env = new EmoteWizardEnvironment(root, avatarRoot);
             return env;
         }
 
-        public static EmoteWizardEnvironment FromAvatar(VRCAvatarDescriptor avatarDescriptor)
+        public static EmoteWizardEnvironment FromAvatar(Transform avatarRoot)
         {
-            var root = avatarDescriptor.GetComponentInChildren<EmoteWizardRoot>(true);
-            var env = root ? new EmoteWizardEnvironment(root, avatarDescriptor) : new EmoteWizardEnvironment(avatarDescriptor);
+            var root = avatarRoot.GetComponentInChildren<EmoteWizardRoot>(true);
+            var env = root ? new EmoteWizardEnvironment(root, avatarRoot) : new EmoteWizardEnvironment(avatarRoot);
             return env;
         }
 
-        public Transform ContainerTransform => _rootOrAvatarDescriptor.transform;
-        
+        public Transform ContainerTransform => _rootOrAvatarRoot.transform;
+
         public void DisconnectAllOutputAssets()
         {
             ProxyAnimator = null;
@@ -143,9 +155,9 @@ namespace Silksprite.EmoteWizard.Contexts
             {
                 if (_root.transform.Find(path) is Transform transform) return transform;
             }
-            if (_avatarDescriptor)
+            if (_avatarRoot)
             {
-                if (_avatarDescriptor.transform.Find(path) is Transform transform) return transform;
+                if (_avatarRoot.Find(path) is Transform transform) return transform;
             }
             return null;
         }
@@ -156,14 +168,14 @@ namespace Silksprite.EmoteWizard.Contexts
                 if (_root && _root.GetComponentInChildren<T>(includeInactive) is T c) return c;
             }
             {
-                if (_avatarDescriptor && _avatarDescriptor.GetComponentInChildren<T>(includeInactive) is T c) return c;
+                if (_avatarRoot && _avatarRoot.GetComponentInChildren<T>(includeInactive) is T c) return c;
             }
             return default;
         }
 
         public T[] GetComponentsInChildren<T>(bool includeInactive)
         {
-            return new Component[] { _root, _avatarDescriptor }
+            return new Component[] { _root, _avatarRoot }
                 .Where(component => component)
                 .SelectMany(component => component.GetComponentsInChildren<T>(includeInactive))
                 .Distinct()
