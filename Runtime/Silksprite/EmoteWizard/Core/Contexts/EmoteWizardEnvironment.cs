@@ -17,6 +17,8 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public EmoteWizardRoot Root => _root;
 
+        public readonly bool IsDetectedAvatarRoot;
+
         [CanBeNull]
         Transform _avatarRoot;
         public Transform AvatarRoot
@@ -98,11 +100,12 @@ namespace Silksprite.EmoteWizard.Contexts
         public readonly bool ShowTutorial;
         public bool PersistGeneratedAssets { get; set; }
 
-        EmoteWizardEnvironment(EmoteWizardRoot root, Transform avatarRoot)
+        EmoteWizardEnvironment(EmoteWizardRoot root, Transform avatarRoot, bool isDetectedAvatarRoot)
         {
             _root = root;
             _avatarRoot = avatarRoot;
             _rootOrAvatarRoot = _root;
+            IsDetectedAvatarRoot = isDetectedAvatarRoot;
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
@@ -121,6 +124,7 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             _avatarRoot = avatarRoot;
             _rootOrAvatarRoot = _avatarRoot;
+            IsDetectedAvatarRoot = false;
             
             _overrideGesture = OverrideGeneratedControllerType2.Default1;
             _overrideAction = OverrideGeneratedControllerType1.Default;
@@ -129,15 +133,27 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public static EmoteWizardEnvironment FromRoot(EmoteWizardRoot root)
         {
-            var avatarRoot = root.avatarDescriptor ? root.avatarDescriptor.transform : RuntimeUtil.FindAvatarInParents(root.transform);
-            var env = new EmoteWizardEnvironment(root, avatarRoot);
+            var isDetectedAvatarRoot = false;
+            var avatarRoot = root.avatarRootTransform;
+#if EW_VRCSDK3_AVATARS
+            if (!avatarRoot && root.avatarDescriptor)
+            {
+                avatarRoot = root.avatarDescriptor.transform;
+            }
+#endif
+            if (!avatarRoot)
+            {
+                avatarRoot = RuntimeUtil.FindAvatarInParents(root.transform);
+                isDetectedAvatarRoot = true;
+            }
+            var env = new EmoteWizardEnvironment(root, avatarRoot, isDetectedAvatarRoot);
             return env;
         }
 
         public static EmoteWizardEnvironment FromAvatar(Transform avatarRoot)
         {
             var root = avatarRoot.GetComponentInChildren<EmoteWizardRoot>(true);
-            var env = root ? new EmoteWizardEnvironment(root, avatarRoot) : new EmoteWizardEnvironment(avatarRoot);
+            var env = root ? new EmoteWizardEnvironment(root, avatarRoot, false) : new EmoteWizardEnvironment(avatarRoot);
             return env;
         }
 

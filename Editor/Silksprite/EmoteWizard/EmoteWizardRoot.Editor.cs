@@ -25,7 +25,10 @@ namespace Silksprite.EmoteWizard
     {
         bool _isSetup;
 
+        LocalizedProperty _avatarRootTransform;
+#if EW_VRCSDK3_AVATARS
         LocalizedProperty _avatarDescriptor;
+#endif
         LocalizedProperty _proxyAnimator;
         LocalizedProperty _persistGeneratedAssets;
         LocalizedProperty _generatedAssetRoot;
@@ -42,7 +45,10 @@ namespace Silksprite.EmoteWizard
 
         void OnEnable()
         {
+            _avatarRootTransform = Lop(nameof(EmoteWizardRoot.avatarRootTransform), Loc("EmoteWizardRoot::avatarRootTransform"));
+#if EW_VRCSDK3_AVATARS
             _avatarDescriptor = Lop(nameof(EmoteWizardRoot.avatarDescriptor), Loc("EmoteWizardRoot::avatarDescriptor"));
+#endif
             _proxyAnimator = Lop(nameof(EmoteWizardRoot.proxyAnimator), Loc("EmoteWizardRoot::proxyAnimator"));
             _persistGeneratedAssets = Lop(nameof(EmoteWizardRoot.persistGeneratedAssets), Loc("EmoteWizardRoot::persistGeneratedAssets"));
             _generatedAssetRoot = Lop(nameof(EmoteWizardRoot.generatedAssetRoot), Loc("EmoteWizardRoot::generatedAssetRoot"));
@@ -79,18 +85,25 @@ namespace Silksprite.EmoteWizard
             }
 
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
-            EmoteWizardGUILayout.Prop(_avatarDescriptor);
-            var avatarDescriptor = env.VrcAvatarDescriptor;
-            if (!avatarDescriptor)
+            var hasAvatarRootTransform = (bool)_avatarRootTransform.Property.objectReferenceValue;
+            var hasAvatarDescriptor = (bool)_avatarDescriptor.Property.objectReferenceValue; 
+            var emptyAvatar = !(hasAvatarRootTransform || hasAvatarDescriptor);
+            if (emptyAvatar || hasAvatarRootTransform) EmoteWizardGUILayout.Prop(_avatarRootTransform);
+#if EW_VRCSDK3_AVATARS
+            if (emptyAvatar || hasAvatarDescriptor) EmoteWizardGUILayout.Prop(_avatarDescriptor);
+#endif
+
+            var avatarRoot = env.AvatarRoot;
+            if (!avatarRoot)
             {
-                EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::AvatarDescriptor::notFound."), MessageType.Error);
+                EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::AvatarRoot::notFound."), MessageType.Error);
             }
-            else if (!_avatarDescriptor.Property.objectReferenceValue)
+            else if (env.IsDetectedAvatarRoot)
             {
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
-                    EmoteWizardGUILayout.ObjectField(Loc("EmoteWizardRoot::Detected Avatar Descriptor"), env.VrcAvatarDescriptor, true);
+                    EmoteWizardGUILayout.ObjectField(Loc("EmoteWizardRoot::Detected Avatar Root"), env.AvatarRoot, true);
                 }
             }
 
@@ -124,14 +137,6 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Options"));
             EmoteWizardGUILayout.Prop(_generateTrackingControlLayer);
-
-            void DummyController(LocalizedProperty lop, RuntimeAnimatorController dummyController)
-            {
-                using (new EditorGUI.DisabledScope(true))
-                {
-                    EmoteWizardGUILayout.ObjectField(lop.Loc, dummyController, false);
-                }
-            }
 
             EmoteWizardGUILayout.Prop(_overrideGesture);
             using (new EditorGUI.IndentLevelScope())
@@ -193,8 +198,27 @@ namespace Silksprite.EmoteWizard
 
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
 
-            EmoteWizardGUILayout.Prop(_proxyAnimator);
 
+#if EW_VRCSDK3_AVATARS
+            AvatarOutputVrc(env);
+#endif
+ 
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        void DummyController(LocalizedProperty lop, RuntimeAnimatorController dummyController)
+        {
+            using (new EditorGUI.DisabledScope(true))
+            {
+                EmoteWizardGUILayout.ObjectField(lop.Loc, dummyController, false);
+            }
+        }
+
+#if EW_VRCSDK3_AVATARS
+        void AvatarOutputVrc(EmoteWizardEnvironment env)
+        {
+            EmoteWizardGUILayout.Prop(_proxyAnimator);
+            var avatarDescriptor = env.VrcAvatarDescriptor;
             if (avatarDescriptor)
             {
                 EmoteWizardGUILayout.OutputUIArea(true, default, () =>
@@ -293,8 +317,7 @@ namespace Silksprite.EmoteWizard
                     }
                 });
             }
- 
-            serializedObject.ApplyModifiedProperties();
         }
+#endif
     }
 }

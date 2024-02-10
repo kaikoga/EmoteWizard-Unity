@@ -2,7 +2,10 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
+
+#if EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.Components;
+#endif
 
 namespace Silksprite.EmoteWizard
 {
@@ -10,7 +13,11 @@ namespace Silksprite.EmoteWizard
     [AddComponentMenu("Emote Wizard/Emote Wizard Root", -200)]
     public class EmoteWizardRoot : EmoteWizardBehaviour
     {
+        [SerializeField] public Transform avatarRootTransform;
+#if EW_VRCSDK3_AVATARS
         [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
+#endif
+
         [SerializeField] public Animator proxyAnimator;
 
         [SerializeField] public bool persistGeneratedAssets;
