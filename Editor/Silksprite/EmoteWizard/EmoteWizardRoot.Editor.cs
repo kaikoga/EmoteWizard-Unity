@@ -85,9 +85,13 @@ namespace Silksprite.EmoteWizard
             }
 
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
+            var emptyAvatar = true;
             var hasAvatarRootTransform = (bool)_avatarRootTransform.Property.objectReferenceValue;
+            if (hasAvatarRootTransform) emptyAvatar = false; 
+#if EW_VRCSDK3_AVATARS
             var hasAvatarDescriptor = (bool)_avatarDescriptor.Property.objectReferenceValue; 
-            var emptyAvatar = !(hasAvatarRootTransform || hasAvatarDescriptor);
+            if (hasAvatarDescriptor) emptyAvatar = false; 
+#endif
             if (emptyAvatar || hasAvatarRootTransform) EmoteWizardGUILayout.Prop(_avatarRootTransform);
 #if EW_VRCSDK3_AVATARS
             if (emptyAvatar || hasAvatarDescriptor) EmoteWizardGUILayout.Prop(_avatarDescriptor);
