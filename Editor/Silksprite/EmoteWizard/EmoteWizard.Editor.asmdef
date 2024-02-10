@@ -6,6 +6,7 @@
         "nadena.dev.ndmf.runtime",
         "nadena.dev.modular-avatar.core",
         "EmoteWizard",
+        "EmoteWizard.Core",
         "EmoteWizardSupport",
         "EmoteWizardSupport.Editor"
     ],

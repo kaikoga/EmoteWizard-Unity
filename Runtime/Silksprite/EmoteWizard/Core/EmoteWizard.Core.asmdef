@@ -1,8 +1,7 @@
 {
-    "name": "EmoteWizard",
+    "name": "EmoteWizard.Core",
     "rootNamespace": "Silksprite.EmoteWizard",
     "references": [
-        "EmoteWizard.Core",
         "EmoteWizardSupport"
     ],
     "includePlatforms": [],
