@@ -7,12 +7,6 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
     public static class ParametersContextExtension
     {
-        public static bool IsInvalidParameter(this ParametersContext context, string parameterName)
-        {
-            if (string.IsNullOrEmpty(parameterName)) return false;
-            return context != null && context.Snapshot().IsInvalidParameter(parameterName);
-        }
-
         public static VRCExpressionParameters BuildOutputAsset(this ParametersContext context)
         {
             var expressionParams = context.ReplaceOrCreateOutputAsset(GeneratedPaths.GeneratedExprParams);
