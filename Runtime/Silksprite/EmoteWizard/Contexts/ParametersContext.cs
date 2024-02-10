@@ -6,14 +6,24 @@ using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
+
+#if EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.ScriptableObjects;
+#endif
 
 namespace Silksprite.EmoteWizard.Contexts
 {
+
+#if EW_VRCSDK3_AVATARS
     public class ParametersContext : OutputContextBase<ParametersConfig, VRCExpressionParameters>
+#else
+    public class ParametersContext : ContextBase<ParametersConfig>
+#endif
+
     {
         ParametersSnapshot _snapshot;
 
+#if EW_VRCSDK3_AVATARS
         VRCExpressionParameters _outputAsset;
         public override VRCExpressionParameters OutputAsset
         {
@@ -24,6 +34,7 @@ namespace Silksprite.EmoteWizard.Contexts
                 if (Config) Config.outputAsset = value;
             }
         }
+#endif
 
         [UsedImplicitly]
         public ParametersContext(EmoteWizardEnvironment env) : base(env) { }
@@ -31,13 +42,17 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             if (env.PersistGeneratedAssets)
             {
+#if EW_VRCSDK3_AVATARS
                 _outputAsset = config.outputAsset;
+#endif
             }
         }
 
         public override void DisconnectOutputAssets()
         {
+#if EW_VRCSDK3_AVATARS
             OutputAsset = null;
+#endif
         }
 
         IEnumerable<ParameterItem> CollectSourceParameterItems()

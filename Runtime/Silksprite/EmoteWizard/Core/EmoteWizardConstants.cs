@@ -2,6 +2,15 @@ namespace Silksprite.EmoteWizard
 {
     public static class EmoteWizardConstants
     {
+        public static class Platforms
+        {
+#if EW_VRCSDK3_AVATARS
+            public const bool VRCSDK3_AVATARS = true;
+#else
+            public const bool VRCSDK3_AVATARS = false;
+#endif
+        }
+
         public static class LayerNames
         {
             public const string Gesture = "Gesture";

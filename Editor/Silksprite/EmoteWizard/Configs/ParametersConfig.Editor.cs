@@ -3,7 +3,6 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
-using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Configs
@@ -15,7 +14,10 @@ namespace Silksprite.EmoteWizard.Configs
 
         void OnEnable()
         {
-            _outputAsset = Lop(nameof(ParametersConfig.outputAsset), Loc("ParametersConfig::outputAsset"));
+            using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
+            {
+                _outputAsset = Lop(nameof(ParametersConfig.outputAsset), Loc("ParametersConfig::outputAsset"));
+            }
         }
 
         protected override void OnInnerInspectorGUI()
