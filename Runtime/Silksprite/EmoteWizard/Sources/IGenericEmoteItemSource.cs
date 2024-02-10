@@ -3,8 +3,8 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 
 namespace Silksprite.EmoteWizard.Sources
 {
-    public interface IEmoteItemSource
+    public interface IGenericEmoteItemSource
     {
-        IEnumerable<EmoteItem> ToEmoteItems();
+        IEnumerable<GenericEmoteItem> ToGenericEmoteItems();
     }
 }
