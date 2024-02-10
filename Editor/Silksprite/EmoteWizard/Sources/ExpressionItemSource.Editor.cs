@@ -124,7 +124,10 @@ namespace Silksprite.EmoteWizard.Sources
                 case ExpressionItemKind.Toggle:
                     break;
                 case ExpressionItemKind.SubMenu:
-                    EmoteWizardGUILayout.Prop(_subMenu);
+                    using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
+                    {
+                        EmoteWizardGUILayout.Prop(_subMenu);
+                    }
                     break;
                 case ExpressionItemKind.TwoAxisPuppet:
                     DrawSubParameters(2, 4);
