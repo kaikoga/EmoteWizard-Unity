@@ -5,7 +5,10 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Ndmf;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
+
+#if EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.Components;
+#endif
 
 [assembly: ExportsPlugin(typeof(EmoteWizardPlugin))]
 
@@ -35,7 +38,7 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-                
+#if EW_VRCSDK3_AVATARS
             foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
             {
                 var context = root.ToEnv();
@@ -64,6 +67,7 @@ namespace Silksprite.EmoteWizard.Ndmf
                     layers[i] = layer;
                 }
             }
+#endif
         }
     }
 
