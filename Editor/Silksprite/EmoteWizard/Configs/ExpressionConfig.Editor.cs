@@ -16,10 +16,7 @@ namespace Silksprite.EmoteWizard.Configs
         void OnEnable()
         {
             _buildAsSubAsset = Lop(nameof(ExpressionConfig.buildAsSubAsset), Loc("ExpressionConfig::buildAsSubAsset"));
-            using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
-            {
-                _outputAsset = Lop(nameof(ExpressionConfig.outputAsset), Loc("ExpressionConfig::outputAsset"));
-            }
+            _outputAsset = Lop(nameof(ExpressionConfig.outputAsset), Loc("ExpressionConfig::outputAsset"));
         }
 
         protected override void OnInnerInspectorGUI()
@@ -36,7 +33,10 @@ namespace Silksprite.EmoteWizard.Configs
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
 #endif
-                EmoteWizardGUILayout.Prop(_outputAsset);
+                using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
+                {
+                    EmoteWizardGUILayout.Prop(_outputAsset);
+                }
             });
 
             serializedObject.ApplyModifiedProperties();
