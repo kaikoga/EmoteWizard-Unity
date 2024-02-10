@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects
+namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class EmoteItem
     {

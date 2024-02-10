@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
