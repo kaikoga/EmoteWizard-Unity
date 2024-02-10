@@ -12,9 +12,9 @@ using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
-    public static partial class EmoteWizardEnvironmentExtension
+    public static class EmoteWizardEnvironmentExtension
     {
-        public static void CleanupAvatar(this EmoteWizardEnvironment environment)
+        public static void CleanupVrcAvatar(this EmoteWizardEnvironment environment)
         {
             var avatarDescriptor = environment.VrcAvatarDescriptor;
             if (avatarDescriptor.TryGetComponent<Animator>(out var avatarAnimator))
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         }
 
-        public static void BuildAvatar(this EmoteWizardEnvironment environment, IUndoable undoable, bool manualBuild)
+        public static void BuildVrcAvatar(this EmoteWizardEnvironment environment, IUndoable undoable, bool manualBuild)
         {
             var avatarDescriptor = environment.VrcAvatarDescriptor;
             var avatarAnimator = undoable.EnsureComponent<Animator>(avatarDescriptor);

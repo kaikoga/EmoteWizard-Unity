@@ -239,14 +239,14 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(env.VrcAvatarDescriptor);
                     if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
-                        CreateEnv().CleanupAvatar();
+                        CreateEnv().CleanupVrcAvatar();
                     }
                     EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
                         "Generate Everything and Update Avatar",
                         undoable =>
                         {
                             undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                            CreateEnv().BuildAvatar(undoable, true);
+                            CreateEnv().BuildVrcAvatar(undoable, true);
                         });
 
                     using (new GUILayout.HorizontalScope())
