@@ -1,6 +1,4 @@
 using System;
-using Silksprite.EmoteWizard.DataObjects.Internal;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
