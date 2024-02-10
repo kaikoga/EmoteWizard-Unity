@@ -51,10 +51,12 @@ namespace Silksprite.EmoteWizard.Configs
 
                 EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
                 {
+#if EW_VRCSDK3_AVATARS
                     if (EmoteWizardGUILayout.Button(Loc("AnimatorLayerConfigBase::Generate Animation Controller")))
                     {
                         soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
                     }
+#endif
 
                     EmoteWizardGUILayout.Prop(_outputAsset);
                     using (new EditorGUI.DisabledScope(!soleTarget.hasResetClip))

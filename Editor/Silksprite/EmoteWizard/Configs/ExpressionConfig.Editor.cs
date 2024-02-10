@@ -30,11 +30,12 @@ namespace Silksprite.EmoteWizard.Configs
 
             EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
+#if EW_VRCSDK3_AVATARS
                 if (EmoteWizardGUILayout.Button(Loc("ExpressionConfig::Generate Expression Menu")))
                 {
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
-
+#endif
                 EmoteWizardGUILayout.Prop(_outputAsset);
             });
 
