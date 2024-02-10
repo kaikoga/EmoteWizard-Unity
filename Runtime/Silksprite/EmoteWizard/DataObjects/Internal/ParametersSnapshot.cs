@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -41,13 +40,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
             mismatch = true;
             return resolvedValueKind;
-        }
-
-        public VRCExpressionParameters.Parameter[] ToParameters()
-        {
-            return ParameterItems
-                .Select(parameter => parameter.ToParameter())
-                .ToArray();
         }
 
         public bool IsInvalidParameter(string parameterName)

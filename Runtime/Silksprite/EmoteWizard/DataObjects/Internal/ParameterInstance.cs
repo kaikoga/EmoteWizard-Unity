@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -34,36 +33,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                         throw new ArgumentOutOfRangeException();
                 }
             }
-        }
-
-        VRCExpressionParameters.ValueType VrcValueType
-        {
-            get
-            {
-                switch (ValueKind)
-                {
-                    case ParameterValueKind.Bool:
-                        return VRCExpressionParameters.ValueType.Bool;
-                    case ParameterValueKind.Int:
-                        return VRCExpressionParameters.ValueType.Int;
-                    case ParameterValueKind.Float:
-                        return VRCExpressionParameters.ValueType.Float;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
-        public VRCExpressionParameters.Parameter ToParameter()
-        {
-            return new VRCExpressionParameters.Parameter
-            {
-                name = Name,
-                saved = Saved,
-                defaultValue = DefaultValue,
-                valueType = VrcValueType,
-                networkSynced = Synced
-            };
         }
     }
 }

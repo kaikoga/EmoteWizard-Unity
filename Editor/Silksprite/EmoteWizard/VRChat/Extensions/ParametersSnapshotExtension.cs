@@ -1,7 +1,9 @@
+using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.EmoteWizardSupport.Utils;
+using VRC.SDK3.Avatars.ScriptableObjects;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Extensions
@@ -47,5 +49,11 @@ namespace Silksprite.EmoteWizard.Extensions
             return result;
         }
 
+        public static VRCExpressionParameters.Parameter[] ToParameters(this ParametersSnapshot snapshot)
+        {
+            return snapshot.ParameterItems
+                .Select(parameter => parameter.ToParameter())
+                .ToArray();
+        }
     }
 }

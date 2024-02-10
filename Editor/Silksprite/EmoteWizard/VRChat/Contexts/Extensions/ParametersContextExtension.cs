@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using VRC.SDK3.Avatars.ScriptableObjects;
