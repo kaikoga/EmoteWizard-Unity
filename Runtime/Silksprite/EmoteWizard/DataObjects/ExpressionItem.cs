@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using VRC.SDK3.Avatars.ScriptableObjects;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardTools;
+
+#if EW_VRCSDK3_AVATARS
+using VRC.SDK3.Avatars.ScriptableObjects;
+#endif
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
@@ -18,7 +21,11 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public string parameter;
         [SerializeField] public float value;
         [SerializeField] public ExpressionItemKind itemKind;
+#if EW_VRCSDK3_AVATARS
         [SerializeField] public VRCExpressionsMenu subMenu;
+#else
+        [SerializeField] public ScriptableObject subMenu;
+#endif
         [ParameterName(false, true)]
         [SerializeField] public string[] subParameters;
         [SerializeField] public string[] labels;
@@ -74,91 +81,6 @@ namespace Silksprite.EmoteWizard.DataObjects
                 icon = icon,
                 path = path,
                 itemKind = ExpressionItemKind.SubMenu
-            };
-        }
-        
-        public VRCExpressionsMenu.Control ToControl(Func<string, VRCExpressionsMenu> subMenuResolver)
-        {
-            VRCExpressionsMenu.Control.Parameter[] ToSubParameters()
-            {
-                switch (itemKind)
-                {
-                    case ExpressionItemKind.Button:
-                    case ExpressionItemKind.Toggle:
-                    case ExpressionItemKind.SubMenu:
-                        return new VRCExpressionsMenu.Control.Parameter[] { };
-                    case ExpressionItemKind.TwoAxisPuppet:
-                    case ExpressionItemKind.FourAxisPuppet:
-                    case ExpressionItemKind.RadialPuppet:
-                        return subParameters.Take(itemKind).Select(subParameter => new VRCExpressionsMenu.Control.Parameter
-                        {
-                            name = subParameter
-                        }).ToArray();
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-
-            }
-
-            VRCExpressionsMenu ToSubMenu()
-            {
-                if (itemKind != ExpressionItemKind.SubMenu) return null;
-                return subMenuResolver(path) ?? subMenu;
-            }
-
-            VRCExpressionsMenu.Control.Label[] ToLabels()
-            {
-                switch (itemKind)
-                {
-                    case ExpressionItemKind.Button:
-                    case ExpressionItemKind.Toggle:
-                    case ExpressionItemKind.SubMenu:
-                    case ExpressionItemKind.RadialPuppet:
-                        return new VRCExpressionsMenu.Control.Label[] { };
-                    case ExpressionItemKind.TwoAxisPuppet:
-                    case ExpressionItemKind.FourAxisPuppet:
-                        return labels.Zip(labelIcons, (label, labelIcon) => new VRCExpressionsMenu.Control.Label
-                        {
-                            icon = labelIcon,
-                            name = label
-                        }).Take(itemKind).ToArray();
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            VRCExpressionsMenu.Control.ControlType ToType()
-            {
-                switch (itemKind)
-                {
-                    case ExpressionItemKind.Button:
-                        return VRCExpressionsMenu.Control.ControlType.Button;
-                    case ExpressionItemKind.Toggle:
-                        return VRCExpressionsMenu.Control.ControlType.Toggle;
-                    case ExpressionItemKind.SubMenu:
-                        return VRCExpressionsMenu.Control.ControlType.SubMenu;
-                    case ExpressionItemKind.TwoAxisPuppet:
-                        return VRCExpressionsMenu.Control.ControlType.TwoAxisPuppet;
-                    case ExpressionItemKind.FourAxisPuppet:
-                        return VRCExpressionsMenu.Control.ControlType.FourAxisPuppet;
-                    case ExpressionItemKind.RadialPuppet:
-                        return VRCExpressionsMenu.Control.ControlType.RadialPuppet;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            return new VRCExpressionsMenu.Control
-            {
-                icon = icon,
-                labels = ToLabels(),
-                name = Name,
-                parameter = new VRCExpressionsMenu.Control.Parameter { name = parameter },
-                style = VRCExpressionsMenu.Control.Style.Style1,
-                subMenu = ToSubMenu(),
-                subParameters = ToSubParameters(),
-                type = ToType(),
-                value = value
             };
         }
     }
