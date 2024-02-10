@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Sequence
 {
-    public class GenericEmoteSequenceFactory : IEmoteSequenceFactoryTemplate
+    public class GenericEmoteSequenceFactory : IEmoteSequenceFactoryTemplate, IGenericEmoteSequenceFactory
     {
         readonly GenericEmoteSequence _genericEmoteSequence;
         readonly string _clipName;
@@ -61,6 +61,8 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             };
         }
         
+        public GenericEmoteSequence BuildGeneric() => _genericEmoteSequence;
+
         EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<GenericEmoteSequenceSource>(target);

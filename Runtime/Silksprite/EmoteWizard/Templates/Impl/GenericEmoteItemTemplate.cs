@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         EmoteItem ToEmoteItem()
         {
-            if (SequenceFactory == null) return null;
+            if (!(SequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
 
             return new EmoteItem(new EmoteTrigger
                 {
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                         }
                     }
                 },
-                SequenceFactory);
+                genericSequenceFactory);
         }
 
         public IEnumerable<EmoteItem> ToEmoteItems()
