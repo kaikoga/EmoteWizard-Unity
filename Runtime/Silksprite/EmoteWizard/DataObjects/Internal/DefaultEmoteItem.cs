@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
+using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -70,24 +72,30 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             };
         }
 
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(LayerKind layerKind)
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            return Defaults(layerKind).Select(def => EmoteItemTemplate.Builder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
-                .AddTimeParameter(def._handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
-                .AddFixedDuration(true)
-                .AddClip(def._clip, 0f, 0.1f)
-                .ToEmoteItemTemplate());
-        }
+            return Defaults(layerKind).Select(def =>
+            {
 
-        public static IEnumerable<IEmoteTemplate> EnumerateGenericDefaultHandSigns(LayerKind layerKind)
-        {
-            return Defaults(layerKind).Select(def => EmoteItemTemplate.GenericBuilder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
-                .AddTimeParameter(def._handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
-                .AddFixedDuration(true)
-                .AddClip(def._clip, 0f, 0.1f)
-                .ToEmoteItemTemplate());
+                EmoteItemTemplateBuilder builder;
+                switch (emoteSequenceFactoryKind)
+                {
+                    case EmoteSequenceFactoryKind.EmoteSequence:
+                        builder = EmoteItemTemplate.Builder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign);
+                        break;
+                    case EmoteSequenceFactoryKind.GenericEmoteSequence:
+                        builder = EmoteItemTemplate.GenericBuilder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(emoteSequenceFactoryKind), emoteSequenceFactoryKind, null);
+                }
+                return builder
+                    .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
+                    .AddTimeParameter(def._handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
+                    .AddFixedDuration(true)
+                    .AddClip(def._clip, 0f, 0.1f)
+                    .ToEmoteItemTemplate();
+            });
         }
     }
 }

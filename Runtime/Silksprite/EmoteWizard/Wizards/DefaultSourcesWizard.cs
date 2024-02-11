@@ -23,15 +23,7 @@ namespace Silksprite.EmoteWizard.Wizards
                     break;
                 case LayerKind.FX:
                 case LayerKind.Gesture:
-                    switch (emoteSequenceFactoryKind)
-                    {
-                        case EmoteSequenceFactoryKind.EmoteSequence:
-                            return DefaultEmoteItem.EnumerateDefaultHandSigns(layerKind);
-                        case EmoteSequenceFactoryKind.GenericEmoteSequence:
-                            return DefaultEmoteItem.EnumerateGenericDefaultHandSigns(layerKind);
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteSequenceFactoryKind, layerKind);
                 case LayerKind.Action:
                     // force EmoteSequence
                     return DefaultActionEmote.EnumerateDefaultActionEmoteItems();
