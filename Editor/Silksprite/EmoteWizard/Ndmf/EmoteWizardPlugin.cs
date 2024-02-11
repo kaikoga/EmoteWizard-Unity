@@ -6,8 +6,12 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
 #if EW_VRCSDK3_AVATARS
-using Silksprite.EmoteWizard.Contexts.Extensions;
 using VRC.SDK3.Avatars.Components;
+using Silksprite.EmoteWizard.Contexts.Extensions;
+#endif
+
+#if EW_VRM0
+using Silksprite.EmoteWizard.Contexts.Extensions;
 #endif
 
 [assembly: ExportsPlugin(typeof(EmoteWizardPlugin))]
@@ -82,6 +86,9 @@ namespace Silksprite.EmoteWizard.Ndmf
                 env.AvatarRoot = buildContext.AvatarRootTransform;
 #if EW_VRCSDK3_AVATARS
                 env.BuildVrcAvatar(new EditorUndoable("Build Emote Wizard from ndmf"), false);
+#endif
+#if EW_VRM0
+                env.BuildVrm0Avatar(new EditorUndoable("Build Emote Wizard from ndmf"), false);
 #endif
             }
         }

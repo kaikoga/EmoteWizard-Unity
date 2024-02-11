@@ -1,14 +1,14 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
-using nadena.dev.ndmf;
-using nadena.dev.ndmf.util;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
-using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
@@ -162,43 +162,20 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                 ikPoseLayer
             };
         }
+    }
 
-        class ManualBundleGeneratedAssetsScope : IDisposable
+    class ManualBundleGeneratedAssetsScope : ManualBundleGeneratedAssetsScopeBase
+    {
+        public ManualBundleGeneratedAssetsScope(EmoteWizardEnvironment environment, bool manualBuild) : base(environment, manualBuild)
         {
-            readonly EmoteWizardEnvironment _environment;
-            readonly GameObject _gameObject;
-            readonly BuildContext _buildContext;
+        }
 
-            public ManualBundleGeneratedAssetsScope(EmoteWizardEnvironment environment, bool manualBuild)
-            {
-                _environment = environment;
-                if (manualBuild && !environment.PersistGeneratedAssets)
-                {
-                    _gameObject = new GameObject("Temporary");
-                    _buildContext = new BuildContext(_gameObject, "Assets/ZZZ_GeneratedAssets/__EmoteWizard");
-                }
-            }
-
-            void IDisposable.Dispose()
-            {
-                if (_buildContext == null) return;
-
-                // manually try to persist volatile layers because layers are what Emote Wizard generates
-                var layers = _environment.VrcAvatarDescriptor.AllAnimationLayers()
-                    .Where(layer => !EditorUtility.IsPersistent(layer));
-                // we are sure these are not prefabs
-                foreach (var layer in layers)
-                {
-                    foreach (var asset in layer.ReferencedAssets(traverseSaved: false, includeScene: true))
-                    {
-                        AssetDatabase.AddObjectToAsset(asset, _buildContext.AssetContainer);
-                        asset.hideFlags = HideFlags.None; // match Modular Avatar behavior 
-                    }
-                }
-
-                AssetDatabase.SaveAssets();
-                Object.DestroyImmediate(_gameObject);
-            }
+        protected override IEnumerable<AnimatorController> CollectVolatileAssets(EmoteWizardEnvironment environment)
+        {
+            // manually try to persist volatile layers because layers are what Emote Wizard generates
+            var layers = environment.VrcAvatarDescriptor.AllAnimationLayers()
+                .Where(layer => !EditorUtility.IsPersistent(layer));
+            return layers;
         }
     }
 }
