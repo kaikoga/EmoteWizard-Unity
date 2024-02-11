@@ -45,15 +45,19 @@ namespace Silksprite.EmoteWizard.Ndmf
 #if EW_VRCSDK3_AVATARS
             foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
             {
-                var context = root.ToEnv();
-                context.DisconnectAllOutputAssets();
+                var avatarDescriptor = buildContext.AvatarDescriptor;
+                if (avatarDescriptor)
+                {
+                    var context = root.ToEnv();
+                    context.DisconnectAllOutputAssets();
 
-                DeleteLayer(buildContext.AvatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.FX);
-                DeleteLayer(buildContext.AvatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Gesture);
-                DeleteLayer(buildContext.AvatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Action);
-                DeleteLayer(buildContext.AvatarDescriptor.specialAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Sitting);
+                    DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.FX);
+                    DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Gesture);
+                    DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Action);
+                    DeleteLayer(avatarDescriptor.specialAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Sitting);
 
-                break;
+                    break;
+                }
             }
             
             void DeleteLayer(VRCAvatarDescriptor.CustomAnimLayer[] layers, VRCAvatarDescriptor.AnimLayerType animLayerType)
