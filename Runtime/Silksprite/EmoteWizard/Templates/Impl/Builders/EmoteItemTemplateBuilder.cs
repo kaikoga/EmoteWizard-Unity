@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
@@ -7,7 +8,8 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
     public class EmoteItemTemplateBuilder
     {
         readonly string _path;
-        readonly EmoteTrigger _trigger;
+        readonly HandSign _handSign;
+        [CanBeNull] readonly EmoteTriggerBuilder _trigger;
         readonly IEmoteSequenceBuilder _sequence;
         bool _hasExpressionItem;
         string _expressionItemPath;
@@ -16,26 +18,33 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
         public EmoteItemTemplateBuilder(string path, EmoteTrigger emoteTrigger, EmoteSequence emoteSequence)
         {
             _path = path;
-            _trigger = emoteTrigger;
+            _trigger = new EmoteTriggerBuilder(emoteTrigger);
             _sequence = new EmoteSequenceBuilder(emoteSequence);
         }
 
         public EmoteItemTemplateBuilder(string path, EmoteTrigger emoteTrigger, GenericEmoteSequence genericEmoteSequence)
         {
             _path = path;
-            _trigger = emoteTrigger;
+            _trigger = new EmoteTriggerBuilder(emoteTrigger);
+            _sequence = new GenericEmoteSequenceBuilder(genericEmoteSequence);
+        }
+
+        public EmoteItemTemplateBuilder(string path, HandSign handSign, GenericEmoteSequence genericEmoteSequence)
+        {
+            _path = path;
+            _handSign = handSign;
             _sequence = new GenericEmoteSequenceBuilder(genericEmoteSequence);
         }
 
         public EmoteItemTemplateBuilder AddPriority(int priority)
         {
-            _trigger.priority = priority;
+            _trigger?.AddPriority(priority);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddCondition(EmoteCondition condition)
         {
-            _trigger.conditions.Add(condition);
+            _trigger?.AddCondition(condition);
             return this;
         }
 
@@ -91,9 +100,16 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
 
         public IEmoteTemplate ToEmoteItemTemplate()
         {
-            return new EmoteItemTemplate(_path, _trigger,
-                _sequence.ToEmoteSequenceFactory(),
-                _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            if (_trigger != null)
+            {
+                return new EmoteItemTemplate(_path, _trigger.ToEmoteTrigger(),
+                    _sequence.ToEmoteSequenceFactory(),
+                    _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
+            }
+            else
+            {
+                return new GenericEmoteItemTemplate(_path, _handSign, _sequence.ToEmoteSequenceFactory());
+            }
         }
     }
 }
