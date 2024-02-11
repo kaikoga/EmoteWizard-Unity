@@ -9,6 +9,8 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static GenericEmoteSequence ToGenericEmoteSequence(this AnimationClip clip, GameObject animationRoot)
         {
+            var sampleTime = clip.length;
+            
             var animatedEnable = new List<GenericEmoteSequence.AnimatedEnable>();
             var animatedBlendShapes = new List<GenericEmoteSequence.AnimatedBlendShape>();
 
@@ -25,7 +27,7 @@ namespace Silksprite.EmoteWizard.Extensions
                             animatedEnable.Add(new GenericEmoteSequence.AnimatedEnable
                             {
                                 target = animationRoot.transform.Find(curveBinding.path),
-                                isEnable = AnimationUtility.GetEditorCurve(clip, curveBinding).Evaluate(0f) != 0f 
+                                isEnable = AnimationUtility.GetEditorCurve(clip, curveBinding).Evaluate(sampleTime) != 0f 
                             });
                             break;
                     }
@@ -37,7 +39,7 @@ namespace Silksprite.EmoteWizard.Extensions
                         {
                             target = animationRoot.transform.Find(curveBinding.path).GetComponent<SkinnedMeshRenderer>(),
                             blendShapeName = curveBinding.propertyName.Substring("blendShape.".Length),
-                            value = AnimationUtility.GetEditorCurve(clip, curveBinding).Evaluate(0f)
+                            value = AnimationUtility.GetEditorCurve(clip, curveBinding).Evaluate(sampleTime)
                         });
                     }
                 }
