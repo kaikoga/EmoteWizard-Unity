@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             var clip = builder.Build(_clipName,
                 _genericEmoteSequence.ToAnimatedFloats(avatarRootTransform),
                 avatarRootTransform,
-                false);
+                _genericEmoteSequence.hasTimeParameter);
 
             return new EmoteSequence
             {
@@ -54,6 +54,9 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
                 clip = clip,
                 entryTransitionDuration = _genericEmoteSequence.entryTransitionDuration,
                 exitTransitionDuration = _genericEmoteSequence.exitTransitionDuration,
+
+                hasTimeParameter = _genericEmoteSequence.hasTimeParameter,
+                timeParameter = _genericEmoteSequence.timeParameter,
 
                 hasLayerBlend = _genericEmoteSequence.hasLayerBlend,
                 blendIn = _genericEmoteSequence.blendIn,

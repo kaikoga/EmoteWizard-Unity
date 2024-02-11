@@ -33,6 +33,9 @@ namespace Silksprite.EmoteWizard.Sources
         LocalizedProperty _entryTransitionDuration;
         LocalizedProperty _exitTransitionDuration;
 
+        LocalizedProperty _hasTimeParameter;
+        LocalizedProperty _timeParameter;
+
         LocalizedProperty _hasLayerBlend;
         LocalizedProperty _blendIn;
         LocalizedProperty _blendOut;
@@ -59,7 +62,10 @@ namespace Silksprite.EmoteWizard.Sources
             _isFixedDuration = serializedItem.Lop(nameof(GenericEmoteSequence.isFixedDuration), Loc("GenericEmoteSequenceSource::isFixedDuration"));
             _entryTransitionDuration = serializedItem.Lop(nameof(GenericEmoteSequence.entryTransitionDuration), Loc("GenericEmoteSequenceSource::entryTransitionDuration"));
             _exitTransitionDuration = serializedItem.Lop(nameof(GenericEmoteSequence.exitTransitionDuration), Loc("GenericEmoteSequenceSource::exitTransitionDuration"));
-            
+
+            _hasTimeParameter = serializedItem.Lop(nameof(EmoteSequence.hasTimeParameter), Loc("EmoteSequence::hasTimeParameter"));
+            _timeParameter = serializedItem.Lop(nameof(EmoteSequence.timeParameter), Loc("EmoteSequence::timeParameter"));
+
             _hasLayerBlend = serializedItem.Lop(nameof(GenericEmoteSequence.hasLayerBlend), Loc("GenericEmoteSequenceSource::hasLayerBlend"));
             _blendIn = serializedItem.Lop(nameof(GenericEmoteSequence.blendIn), Loc("GenericEmoteSequenceSource::blendIn"));
             _blendOut = serializedItem.Lop(nameof(GenericEmoteSequence.blendOut), Loc("GenericEmoteSequenceSource::blendOut"));
@@ -102,6 +108,12 @@ namespace Silksprite.EmoteWizard.Sources
             EmoteWizardGUILayout.Prop(_isFixedDuration);
             EmoteWizardGUILayout.Prop(_entryTransitionDuration);
             EmoteWizardGUILayout.Prop(_exitTransitionDuration);
+
+            EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Time Parameter"));
+            EmoteWizardGUILayout.PropertyFoldout(_hasTimeParameter, () =>
+            {
+                EmoteWizardGUILayout.Prop(_timeParameter);
+            });
 
             EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Layer Blend"));
             EmoteWizardGUILayout.PropertyFoldout(_hasLayerBlend, () =>

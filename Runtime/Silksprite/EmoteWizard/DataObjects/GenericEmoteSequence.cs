@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.DataObjects.Builders;
-using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
@@ -22,6 +21,10 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         [SerializeField] public float entryTransitionDuration;
         [SerializeField] public float exitTransitionDuration = 0.25f;
+
+        [SerializeField] public bool hasTimeParameter;
+        [ParameterName(false, false)]
+        [SerializeField] public string timeParameter;
 
         [SerializeField] public bool hasLayerBlend;
         [SerializeField] public float blendIn = 0.25f;
