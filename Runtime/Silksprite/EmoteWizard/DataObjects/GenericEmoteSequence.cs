@@ -66,7 +66,8 @@ namespace Silksprite.EmoteWizard.DataObjects
                     Path = target.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = "m_IsActive",
                     Type = typeof(GameObject),
-                    Value = isEnable ? 1 : 0
+                    ValueOff = isEnable ? 1 : 0,
+                    ValueOn = isEnable ? 1 : 0,
                 };
             }
         }
@@ -87,7 +88,8 @@ namespace Silksprite.EmoteWizard.DataObjects
                     Path = target.transform.GetRelativePathFrom(avatarRootTransform),
                     PropertyName = $"blendShape.{blendShapeName}",
                     Type = typeof(SkinnedMeshRenderer),
-                    Value = value
+                    ValueOff = value,
+                    ValueOn = value
                 };
             }
         }

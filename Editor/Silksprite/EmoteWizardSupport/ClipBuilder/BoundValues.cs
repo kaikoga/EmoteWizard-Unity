@@ -24,14 +24,14 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
             foreach (var boundFloat in _boundFloats)
             {
                 var binding = boundFloat.Binding;
-                clip.SetCurve(binding.path, binding.type, binding.propertyName, AnimationCurve.Constant(0f, 1 / 60f, boundFloat.Value));
+                clip.SetCurve(binding.path, binding.type, binding.propertyName, AnimationCurve.Linear(0f, boundFloat.ValueOff, 1 / 60f, boundFloat.ValueOn));
             }
             foreach (var boundObject in _boundObjects)
             {
                 AnimationUtility.SetObjectReferenceCurve(clip, boundObject.Binding, new []
                 {
-                    new ObjectReferenceKeyframe { time = 0, value = boundObject.Value },
-                    new ObjectReferenceKeyframe { time = 1 / 60f, value = boundObject.Value }
+                    new ObjectReferenceKeyframe { time = 0, value = boundObject.ValueOff },
+                    new ObjectReferenceKeyframe { time = 1 / 60f, value = boundObject.ValueOn }
                 });
             }
         }
@@ -39,30 +39,34 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
         public struct BoundObjectValue
         {
             public readonly EditorCurveBinding Binding;
-            public readonly Object Value;
+            public readonly Object ValueOff;
+            public readonly Object ValueOn;
 
-            public BoundObjectValue(EditorCurveBinding binding, Object value)
+            public BoundObjectValue(EditorCurveBinding binding, Object valueOff, Object valueOn)
             {
                 Binding = binding;
-                Value = value;
+                ValueOff = valueOff;
+                ValueOn = valueOn;
             }
         }
 
         public struct BoundFloatValue
         {
             public readonly EditorCurveBinding Binding;
-            public readonly float Value;
+            public readonly float ValueOff;
+            public readonly float ValueOn;
 
-            public BoundFloatValue(EditorCurveBinding binding, float value)
+            public BoundFloatValue(EditorCurveBinding binding, float valueOff, float valueOn)
             {
                 Binding = binding;
-                Value = value;
+                ValueOff = valueOff;
+                ValueOn = valueOn;
             }
 
             public static BoundFloatValue FromAnimatedValue(AnimatedValue<float> floatValue)
             {
                 var editorCurveBinding = EditorCurveBinding.FloatCurve(floatValue.Path, floatValue.Type, floatValue.PropertyName);
-                return new BoundFloatValue(editorCurveBinding, floatValue.Value);
+                return new BoundFloatValue(editorCurveBinding, floatValue.ValueOff, floatValue.ValueOn);
             }
         }
     }

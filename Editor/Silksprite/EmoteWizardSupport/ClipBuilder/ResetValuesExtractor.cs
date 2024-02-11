@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
             {
                 if (AnimationUtility.GetFloatValue(avatarRoot, binding, out var value))
                 {
-                    boundFloats.Add(new BoundValues.BoundFloatValue(binding, value));
+                    boundFloats.Add(new BoundValues.BoundFloatValue(binding, value, value));
                 }
                 else
                 {
@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
             {
                 if (AnimationUtility.GetObjectReferenceValue(avatarRoot, objectBinding, out var value))
                 {
-                    boundObjects.Add(new BoundValues.BoundObjectValue(objectBinding, value));
+                    boundObjects.Add(new BoundValues.BoundObjectValue(objectBinding, value, value));
                 }
                 else
                 {

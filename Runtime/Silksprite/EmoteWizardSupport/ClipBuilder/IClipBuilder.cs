@@ -15,6 +15,7 @@ namespace Silksprite.EmoteWizard.ClipBuilder
         public string PropertyName;
         public Type Type;
 
-        public T Value;
+        public T ValueOff;
+        public T ValueOn;
     }
 }
