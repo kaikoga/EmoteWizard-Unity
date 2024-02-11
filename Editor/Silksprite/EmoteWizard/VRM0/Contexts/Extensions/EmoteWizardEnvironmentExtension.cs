@@ -1,5 +1,7 @@
 using System;
 using Silksprite.AdLib.Utils.VRM0;
+using Silksprite.EmoteWizard.Contexts.Ephemeral;
+using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
 using VRM;
 
@@ -21,6 +23,13 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             if (!blendShapeAvatar) return;
 
             blendShapeAvatar = new CustomCloneBlendShapeAvatar().Clone(blendShapeAvatar).mainAsset;
+            blendShapeProxy.BlendShapeAvatar = blendShapeAvatar;
+            
+            foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().AllGenericEmoteItems())
+            {
+                var clip = genericEmoteItem.ToBlendShapeClip(environment);
+                blendShapeAvatar.SetClip(clip.Key, clip);
+            }
         }
     }
 }
