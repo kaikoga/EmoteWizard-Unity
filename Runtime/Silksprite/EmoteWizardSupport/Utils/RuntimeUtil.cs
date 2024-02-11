@@ -10,13 +10,13 @@ using VRC.SDK3.Avatars.Components;
 
 namespace Silksprite.EmoteWizardSupport.Utils
 {
-    public class RuntimeUtil
+    public static class RuntimeUtil
     {
         public static Transform FindAvatarInParents(Transform transform)
         {
             if (!transform) return null;
 
-#if EW_NDMF_SUPPORT_
+#if EW_NDMF_SUPPORT
             return NdmfRuntimeUtil.FindAvatarInParents(transform);
 #endif
             
