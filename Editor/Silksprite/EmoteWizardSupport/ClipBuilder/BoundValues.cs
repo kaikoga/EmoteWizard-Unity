@@ -63,9 +63,16 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
                 ValueOn = valueOn;
             }
 
-            public static BoundFloatValue FromAnimatedValue(AnimatedValue<float> floatValue)
+            public static BoundFloatValue FromAnimatedValue(AnimatedValue<float> floatValue, Transform avatarRootTransform, bool useSceneOffValue)
             {
                 var editorCurveBinding = EditorCurveBinding.FloatCurve(floatValue.Path, floatValue.Type, floatValue.PropertyName);
+                if (useSceneOffValue)
+                {
+                    if (AnimationUtility.GetFloatValue(avatarRootTransform.gameObject, editorCurveBinding, out var sceneValue))
+                    {
+                        return new BoundFloatValue(editorCurveBinding, sceneValue, floatValue.ValueOn);
+                    }
+                }
                 return new BoundFloatValue(editorCurveBinding, floatValue.ValueOff, floatValue.ValueOn);
             }
         }

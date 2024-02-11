@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
             _explodePath = explodePath;
         }
 
-        Motion IClipBuilder.Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues)
+        Motion IClipBuilder.Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues, Transform avatarRootTransform, bool useSceneOffValues)
         {
             var clip = new AnimationClip
             {
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
 
             var boundValues = new BoundValues(
                 floatValues
-                    .Select(BoundValues.BoundFloatValue.FromAnimatedValue)
+                    .Select(value => BoundValues.BoundFloatValue.FromAnimatedValue(value, avatarRootTransform, useSceneOffValues))
                     .ToList(),
                 new List<BoundValues.BoundObjectValue>());
             boundValues.Build(clip);

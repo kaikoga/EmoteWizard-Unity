@@ -6,7 +6,7 @@ namespace Silksprite.EmoteWizard.ClipBuilder
 {
     public interface IClipBuilder
     {
-        Motion Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues);
+        Motion Build(string clipName, IEnumerable<AnimatedValue<float>> floatValues, Transform avatarRootTransform, bool useSceneOffValues);
     }
     
     public struct AnimatedValue<T>
