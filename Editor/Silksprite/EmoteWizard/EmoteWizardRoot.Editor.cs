@@ -222,7 +222,7 @@ namespace Silksprite.EmoteWizard
         void AvatarOutputVrc(EmoteWizardEnvironment env)
         {
             EmoteWizardGUILayout.Prop(_proxyAnimator);
-            var avatarDescriptor = env.VrcAvatarDescriptor;
+            var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
             if (avatarDescriptor)
             {
                 EmoteWizardGUILayout.OutputUIArea(true, default, () =>
@@ -240,7 +240,7 @@ namespace Silksprite.EmoteWizard
                     var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
                     var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
 
-                    var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(env.VrcAvatarDescriptor);
+                    var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(avatarDescriptor);
                     if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
                         CreateEnv().CleanupVrcAvatar();

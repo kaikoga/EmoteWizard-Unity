@@ -4,10 +4,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
-#if EW_VRCSDK3_AVATARS
-using VRC.SDK3.Avatars.Components;
-#endif
-
 namespace Silksprite.EmoteWizard.Contexts
 {
     public partial class EmoteWizardEnvironment
@@ -24,21 +20,8 @@ namespace Silksprite.EmoteWizard.Contexts
         public Transform AvatarRoot
         {
             get => _avatarRoot;
-            set
-            {
-                _avatarRoot = value;
-                if (_root)
-                {
-#if EW_VRCSDK3_AVATARS
-                    _root.avatarDescriptor = value.GetComponent<VRCAvatarDescriptor>();
-#endif
-                }
-            }
+            set => _avatarRoot = value;
         }
-
-#if EW_VRCSDK3_AVATARS
-        public VRCAvatarDescriptor VrcAvatarDescriptor => AvatarRoot.GetComponent<VRCAvatarDescriptor>();
-#endif
 
         readonly Component _rootOrAvatarRoot;
 

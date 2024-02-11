@@ -16,7 +16,9 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         public static void CleanupVrcAvatar(this EmoteWizardEnvironment environment)
         {
-            var avatarDescriptor = environment.VrcAvatarDescriptor;
+            var avatarDescriptor = environment.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
+            if (!avatarDescriptor) return;
+
             if (avatarDescriptor.TryGetComponent<Animator>(out var avatarAnimator))
             {
                 avatarAnimator.runtimeAnimatorController = null;
@@ -32,7 +34,9 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static void BuildVrcAvatar(this EmoteWizardEnvironment environment, IUndoable undoable, bool manualBuild)
         {
-            var avatarDescriptor = environment.VrcAvatarDescriptor;
+            var avatarDescriptor = environment.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
+            if (!avatarDescriptor) return;
+
             var avatarAnimator = undoable.EnsureComponent<Animator>(avatarDescriptor);
             avatarAnimator.runtimeAnimatorController = null;
 
@@ -173,7 +177,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         protected override IEnumerable<AnimatorController> CollectVolatileAssets(EmoteWizardEnvironment environment)
         {
             // manually try to persist volatile layers because layers are what Emote Wizard generates
-            var layers = environment.VrcAvatarDescriptor.AllAnimationLayers()
+            var avatarDescriptor = environment.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
+            var layers = avatarDescriptor.AllAnimationLayers()
                 .Where(layer => !EditorUtility.IsPersistent(layer));
             return layers;
         }
