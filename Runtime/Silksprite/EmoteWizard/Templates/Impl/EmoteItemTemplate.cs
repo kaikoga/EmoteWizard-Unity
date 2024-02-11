@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -100,9 +101,9 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 });
         }
 
-        public static EmoteItemTemplateGenericBuilder GenericBuilder(LayerKind layerKind, string name, string groupName)
+        public static EmoteItemTemplateBuilder GenericBuilder(LayerKind layerKind, string name, string groupName)
         {
-            return new EmoteItemTemplateGenericBuilder(
+            return new EmoteItemTemplateBuilder(
                 name,
                 new EmoteTrigger
                 {

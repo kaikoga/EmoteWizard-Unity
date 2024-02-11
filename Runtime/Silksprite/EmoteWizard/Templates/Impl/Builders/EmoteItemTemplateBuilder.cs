@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Templates.Impl
+namespace Silksprite.EmoteWizard.Templates.Impl.Builders
 {
     public class EmoteItemTemplateBuilder
     {
         readonly string _path;
         readonly EmoteTrigger _trigger;
-        readonly EmoteSequence _sequence;
+        readonly IEmoteSequenceBuilder _sequence;
         bool _hasExpressionItem;
         string _expressionItemPath;
         Texture2D _expressionItemIcon;
@@ -18,7 +17,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         {
             _path = path;
             _trigger = emoteTrigger;
-            _sequence = emoteSequence;
+            _sequence = new EmoteSequenceBuilder(emoteSequence);
+        }
+
+        public EmoteItemTemplateBuilder(string path, EmoteTrigger emoteTrigger, GenericEmoteSequence genericEmoteSequence)
+        {
+            _path = path;
+            _trigger = emoteTrigger;
+            _sequence = new GenericEmoteSequenceBuilder(genericEmoteSequence);
         }
 
         public EmoteItemTemplateBuilder AddPriority(int priority)
@@ -35,53 +41,43 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public EmoteItemTemplateBuilder AddFixedDuration(bool isFixedDuration)
         {
-            _sequence.isFixedDuration = isFixedDuration;
+            _sequence.AddFixedDuration(isFixedDuration);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
-            _sequence.clip = clip;
-            _sequence.entryTransitionDuration = entryTransitionDuration;
-            _sequence.exitTransitionDuration = exitTransitionDuration;
+            _sequence.AddClip(clip, entryTransitionDuration, exitTransitionDuration);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddClipExitTime(bool hasExitTime, float clipExitTime)
         {
-            _sequence.hasExitTime = hasExitTime;
-            _sequence.clipExitTime = clipExitTime;
+            _sequence.AddClipExitTime(hasExitTime, clipExitTime);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddTimeParameter(bool hasTimeParameter, string timeParameter)
         {
-            _sequence.hasTimeParameter = hasTimeParameter;
-            _sequence.timeParameter = timeParameter;
+            _sequence.AddTimeParameter(hasTimeParameter, timeParameter);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddExitClip(bool hasExitClip, Motion exitClip, float exitClipExitTime, float postExitTransitionDuration)
         {
-            _sequence.hasExitClip = hasExitClip;
-            _sequence.exitClip = exitClip;
-            _sequence.exitClipExitTime = exitClipExitTime;
-            _sequence.postExitTransitionDuration = postExitTransitionDuration;
+            _sequence.AddExitClip(hasExitClip, exitClip, exitClipExitTime, postExitTransitionDuration);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddLayerBlend(bool hasLayerBlend, float blendIn, float blendOut)
         {
-            _sequence.hasLayerBlend = hasLayerBlend;
-            _sequence.blendIn = blendIn;
-            _sequence.blendOut = blendOut;
+            _sequence.AddLayerBlend(hasLayerBlend, blendIn, blendOut);
             return this;
         }
 
         public EmoteItemTemplateBuilder AddTrackingOverrides(bool hasTrackingOverrides, IEnumerable<TrackingOverride> trackingOverrides)
         {
-            _sequence.hasTrackingOverrides = hasTrackingOverrides;
-            _sequence.trackingOverrides.AddRange(trackingOverrides);
+            _sequence.AddTrackingOverrides(hasTrackingOverrides, trackingOverrides);
             return this;
         }
 
@@ -96,7 +92,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         public EmoteItemTemplate ToEmoteItemTemplate()
         {
             return new EmoteItemTemplate(_path, _trigger,
-                new EmoteSequenceFactory(_sequence),
+                _sequence.ToEmoteSequenceFactory(),
                 _hasExpressionItem, _expressionItemPath, _expressionItemIcon);
         }
     }

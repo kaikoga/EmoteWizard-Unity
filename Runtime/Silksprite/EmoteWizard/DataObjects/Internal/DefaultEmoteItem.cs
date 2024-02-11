@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
@@ -69,7 +70,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             };
         }
 
-        public static IEnumerable<EmoteItemTemplate> EnumerateDefaultHandSigns(LayerKind layerKind)
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(LayerKind layerKind)
         {
             return Defaults(layerKind).Select(def => EmoteItemTemplate.Builder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
@@ -79,12 +80,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 .ToEmoteItemTemplate());
         }
 
-        public static IEnumerable<EmoteItemTemplate> EnumerateGenericDefaultHandSigns(LayerKind layerKind)
+        public static IEnumerable<IEmoteTemplate> EnumerateGenericDefaultHandSigns(LayerKind layerKind)
         {
             return Defaults(layerKind).Select(def => EmoteItemTemplate.GenericBuilder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
+                .AddTimeParameter(def._handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
                 .AddFixedDuration(true)
-                .AddTransitionDuration(0f, 0.1f)
+                .AddClip(def._clip, 0f, 0.1f)
                 .ToEmoteItemTemplate());
         }
     }
