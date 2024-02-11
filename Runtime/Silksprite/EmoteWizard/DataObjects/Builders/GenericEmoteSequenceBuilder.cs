@@ -1,21 +1,22 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Templates.Impl.Builders
+namespace Silksprite.EmoteWizard.DataObjects.Builders
 {
-    public class EmoteSequenceBuilder : IEmoteSequenceBuilder
+    public class GenericEmoteSequenceBuilder : IEmoteSequenceBuilder
     {
-        readonly EmoteSequence _sequence;
+        readonly GenericEmoteSequence _sequence;
+        string _path;
 
-        public EmoteSequenceBuilder(EmoteSequence emoteSequence)
+        public GenericEmoteSequenceBuilder(GenericEmoteSequence genericEmoteSequence)
         {
-            _sequence = emoteSequence;
+            _sequence = genericEmoteSequence;
         }
 
         public void AddPath(string path)
         {
+            _path = path;
         }
 
         public void AddFixedDuration(bool isFixedDuration)
@@ -25,29 +26,20 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
 
         public void AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
-            _sequence.clip = clip;
             _sequence.entryTransitionDuration = entryTransitionDuration;
             _sequence.exitTransitionDuration = exitTransitionDuration;
         }
 
         public void AddClipExitTime(bool hasExitTime, float clipExitTime)
         {
-            _sequence.hasExitTime = hasExitTime;
-            _sequence.clipExitTime = clipExitTime;
         }
 
         public void AddTimeParameter(bool hasTimeParameter, string timeParameter)
         {
-            _sequence.hasTimeParameter = hasTimeParameter;
-            _sequence.timeParameter = timeParameter;
         }
 
         public void AddExitClip(bool hasExitClip, Motion exitClip, float exitClipExitTime, float postExitTransitionDuration)
         {
-            _sequence.hasExitClip = hasExitClip;
-            _sequence.exitClip = exitClip;
-            _sequence.exitClipExitTime = exitClipExitTime;
-            _sequence.postExitTransitionDuration = postExitTransitionDuration;
         }
 
         public void AddLayerBlend(bool hasLayerBlend, float blendIn, float blendOut)
@@ -65,7 +57,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
 
         public IEmoteSequenceFactoryTemplate ToEmoteSequenceFactory()
         {
-            return new EmoteSequenceFactory(_sequence);
+            return new GenericEmoteSequenceFactory(_sequence, _path);
         }
     }
 }

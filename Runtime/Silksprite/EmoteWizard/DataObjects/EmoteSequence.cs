@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.DataObjects.Builders;
+using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -41,5 +43,14 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public List<TrackingOverride> trackingOverrides = new List<TrackingOverride>();
         
         public bool LooksLikeMirrorItem => hasTimeParameter && EmoteWizardConstants.Params.IsMirrorParameter(timeParameter);
+
+        public static EmoteSequenceBuilder Builder(LayerKind layerKind, string groupName)
+        {
+            return new EmoteSequenceBuilder(new EmoteSequence
+            {
+                layerKind = layerKind,
+                groupName = groupName
+            });
+        }
     }
 }

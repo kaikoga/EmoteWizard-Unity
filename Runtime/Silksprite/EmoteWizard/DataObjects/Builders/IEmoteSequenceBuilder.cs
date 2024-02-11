@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Templates.Impl.Builders
+namespace Silksprite.EmoteWizard.DataObjects.Builders
 {
     public interface IEmoteSequenceBuilder
     {

@@ -1,6 +1,4 @@
-using Silksprite.EmoteWizard.DataObjects;
-
-namespace Silksprite.EmoteWizard.Templates.Impl.Builders
+namespace Silksprite.EmoteWizard.DataObjects.Builders
 {
     public class EmoteTriggerBuilder
     {

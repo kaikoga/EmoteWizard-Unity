@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Builders;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Impl.Builders
@@ -15,25 +16,13 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
         string _expressionItemPath;
         Texture2D _expressionItemIcon;
 
-        public EmoteItemTemplateBuilder(string path, EmoteTrigger emoteTrigger, EmoteSequence emoteSequence)
-        {
-            _path = path;
-            _trigger = new EmoteTriggerBuilder(emoteTrigger);
-            _sequence = new EmoteSequenceBuilder(emoteSequence);
-        }
-
-        public EmoteItemTemplateBuilder(string path, EmoteTrigger emoteTrigger, GenericEmoteSequence genericEmoteSequence)
-        {
-            _path = path;
-            _trigger = new EmoteTriggerBuilder(emoteTrigger);
-            _sequence = new GenericEmoteSequenceBuilder(genericEmoteSequence);
-        }
-
-        public EmoteItemTemplateBuilder(string path, HandSign handSign, GenericEmoteSequence genericEmoteSequence)
+        public EmoteItemTemplateBuilder(string path, HandSign handSign, EmoteTriggerBuilder trigger, IEmoteSequenceBuilder sequence)
         {
             _path = path;
             _handSign = handSign;
-            _sequence = new GenericEmoteSequenceBuilder(genericEmoteSequence);
+            _trigger = trigger;
+            _sequence = sequence;
+            _sequence.AddPath(_path);
         }
 
         public EmoteItemTemplateBuilder AddPriority(int priority)

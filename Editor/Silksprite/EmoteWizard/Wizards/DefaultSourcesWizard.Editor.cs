@@ -13,11 +13,13 @@ namespace Silksprite.EmoteWizard.Wizards
     public class DefaultSourcesWizardEditor : EmoteWizardEditorBase<DefaultSourcesWizard>
     {
         LocalizedProperty _layerKind;
+        LocalizedProperty _emoteItemKind;
         LocalizedProperty _emoteSequenceFactoryKind;
 
         void OnEnable()
         {
             _layerKind = Lop(nameof(DefaultSourcesWizard.layerKind), Loc("DefaultSourcesWizard::layerKind"));
+            _emoteItemKind = Lop(nameof(DefaultSourcesWizard.emoteItemKind), Loc("DefaultSourcesWizard::emoteItemKind"));
             _emoteSequenceFactoryKind = Lop(nameof(DefaultSourcesWizard.emoteSequenceFactoryKind), Loc("DefaultSourcesWizard::emoteSequenceFactoryKind"));
         }
 
@@ -29,6 +31,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 case LayerKind.FX:
                 case LayerKind.Gesture:
+                    EmoteWizardGUILayout.Prop(_emoteItemKind);
                     EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
                     break;
             }

@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Builders;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
@@ -87,33 +90,35 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         }
 
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName)
-        {
-            return new EmoteItemTemplateBuilder(
-                name,
-                new EmoteTrigger
-                {
-                    name = name,
-                },
-                new EmoteSequence
-                {
-                    layerKind = layerKind,
-                    groupName = groupName
-                });
-        }
+            => Builder(layerKind, name, groupName, HandSign.Idle, EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence);
 
-        public static EmoteItemTemplateBuilder GenericBuilder(LayerKind layerKind, string name, string groupName)
+        public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName, HandSign handSign, EmoteItemKind itemKind, EmoteSequenceFactoryKind sequenceKind)
         {
-            return new EmoteItemTemplateBuilder(
-                name,
-                new EmoteTrigger
-                {
-                    name = name,
-                },
-                new GenericEmoteSequence
-                {
-                    layerKind = layerKind,
-                    groupName = groupName
-                });
+            EmoteTriggerBuilder trigger;
+            switch (itemKind)
+            {
+                case EmoteItemKind.EmoteItem:
+                    trigger = EmoteTrigger.Builder(name);
+                    break;
+                case EmoteItemKind.GenericEmoteItem:
+                    trigger = null;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(itemKind), itemKind, null);
+            }
+            IEmoteSequenceBuilder sequence;
+            switch (sequenceKind)
+            {
+                case EmoteSequenceFactoryKind.EmoteSequence:
+                    sequence = EmoteSequence.Builder(layerKind, groupName);
+                    break;
+                case EmoteSequenceFactoryKind.GenericEmoteSequence:
+                    sequence = GenericEmoteSequence.Builder(layerKind, groupName);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sequenceKind), sequenceKind, null);
+            }
+            return new EmoteItemTemplateBuilder(name, handSign, trigger, sequence);
         }
 
         public void PopulateSources(IUndoable undoable, Component target)

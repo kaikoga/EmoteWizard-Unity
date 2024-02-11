@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.ClipBuilder;
+using Silksprite.EmoteWizard.DataObjects.Builders;
+using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
@@ -34,6 +36,15 @@ namespace Silksprite.EmoteWizard.DataObjects
                 .Concat(animatedEnable)
                 .Concat(animatedBlendShapes)
                 .SelectMany(prop => prop.ToAnimatedValues(avatarRootTransform));
+        }
+
+        public static GenericEmoteSequenceBuilder Builder(LayerKind layerKind, string groupName)
+        {
+            return new GenericEmoteSequenceBuilder(new GenericEmoteSequence
+            {
+                layerKind = layerKind,
+                groupName = groupName
+            });
         }
 
         public interface IAnimatedProperty<T>

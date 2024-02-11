@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.DataObjects.Builders;
+using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -22,6 +24,14 @@ namespace Silksprite.EmoteWizard.DataObjects
 
                 return false;
             }
+        }
+
+        public static EmoteTriggerBuilder Builder(string name)
+        {
+            return new EmoteTriggerBuilder(new EmoteTrigger
+            {
+                name = name,
+            });
         }
     }
 }

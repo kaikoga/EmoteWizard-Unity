@@ -3,6 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
