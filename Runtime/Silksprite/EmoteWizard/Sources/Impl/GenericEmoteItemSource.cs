@@ -10,8 +10,8 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
-    [AddComponentMenu("Emote Wizard/Sources/Emote Item Source", 0)]
-    public class GenericEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource
+    [AddComponentMenu("Emote Wizard/Sources/Generic Emote Item Source", 1)]
+    public class GenericEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
     {
         [SerializeField] public HandSign handSign;
 
@@ -42,6 +42,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         }
 
         public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();
+        public IEnumerable<GenericEmoteItem> ToGenericEmoteItems() => ToTemplate().ToGenericEmoteItems();
 
         public IEnumerable<ExpressionItem> ToExpressionItems() => ToTemplate().ToExpressionItems();
     }

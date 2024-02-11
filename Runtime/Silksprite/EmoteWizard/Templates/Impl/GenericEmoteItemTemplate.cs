@@ -54,6 +54,19 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             if (emoteItem != null) yield return emoteItem;
         }
 
+        GenericEmoteItem ToGenericEmoteItem()
+        {
+            if (!(SequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
+
+            return new GenericEmoteItem(HandSign, genericSequenceFactory);
+        }
+
+        public IEnumerable<GenericEmoteItem> ToGenericEmoteItems()
+        {
+            var emoteItem = ToGenericEmoteItem();
+            if (emoteItem != null) yield return emoteItem;
+        }
+
         public IEnumerable<ExpressionItem> ToExpressionItems() => Enumerable.Empty<ExpressionItem>();
 
         public void PopulateSources(IUndoable undoable, Component target)
