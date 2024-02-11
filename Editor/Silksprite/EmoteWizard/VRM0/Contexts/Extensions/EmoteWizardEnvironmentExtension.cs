@@ -1,4 +1,5 @@
 using System;
+using Silksprite.AdLib.Utils.VRM0;
 using Silksprite.EmoteWizardSupport.Undoable;
 using VRM;
 
@@ -11,6 +12,15 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             if (manualBuild) throw new InvalidOperationException("manual build is not supported");
 
             var vrmMeta = environment.AvatarRoot.GetComponent<VRMMeta>();
+            if (!vrmMeta) return;
+
+            var blendShapeProxy = vrmMeta.GetComponent<VRMBlendShapeProxy>();
+            if (!blendShapeProxy) return;
+
+            var blendShapeAvatar = blendShapeProxy.BlendShapeAvatar;
+            if (!blendShapeAvatar) return;
+
+            blendShapeAvatar = new CustomCloneBlendShapeAvatar().Clone(blendShapeAvatar).mainAsset;
         }
     }
 }
