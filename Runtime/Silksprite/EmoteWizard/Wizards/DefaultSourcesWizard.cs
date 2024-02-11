@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Wizards
 {
-    [AddComponentMenu("Emote Wizard/Wizards/Default Items Wizard", 900)]
+    [AddComponentMenu("Emote Wizard/Wizards/Default Sources Wizard", 900)]
     public class DefaultSourcesWizard : EmoteWizardBase
     {
         [SerializeField] public LayerKind layerKind;
