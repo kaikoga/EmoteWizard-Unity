@@ -89,7 +89,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
             return this;
         }
 
-        public EmoteItemTemplate ToEmoteItemTemplate()
+        public IEmoteTemplate ToEmoteItemTemplate()
         {
             return new EmoteItemTemplate(_path, _trigger,
                 _sequence.ToEmoteSequenceFactory(),

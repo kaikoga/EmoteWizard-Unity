@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
@@ -90,7 +91,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             };
         }
 
-        public static IEnumerable<EmoteItemTemplate> EnumerateDefaultActionEmoteItems()
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems()
         {
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
 
