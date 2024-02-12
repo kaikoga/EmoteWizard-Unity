@@ -71,5 +71,14 @@ namespace Silksprite.EmoteWizard.DataObjects
                 value = (int)vrm0BlendShape
             };
         }
+
+        public static GenericEmoteTrigger FromVrm1Expression(Vrm1ExpressionPreset vrm1Expression)
+        {
+            return new GenericEmoteTrigger
+            {
+                platform = Platform.VRM1,
+                value = (int)vrm1Expression
+            };
+        }
     }
 }

@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
         
         public GenericEmoteSequence BuildGeneric() => _genericEmoteSequence;
 
-        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(IUndoable undoable, Component target)
+        public EmoteSequenceSourceBase PopulateSequenceSource(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<GenericEmoteSequenceSource>(target);
             source.sequence = _genericEmoteSequence;

@@ -55,9 +55,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
             _sequence.trackingOverrides.AddRange(trackingOverrides);
         }
 
-        public IEmoteSequenceFactoryTemplate ToEmoteSequenceFactory()
-        {
-            return new GenericEmoteSequenceFactory(_sequence, _path);
-        }
+
+        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new(_sequence, _path);
+
+        public IEmoteSequenceFactoryTemplate ToEmoteSequenceFactory() => ToGenericEmoteSequenceFactory();
     }
 }
