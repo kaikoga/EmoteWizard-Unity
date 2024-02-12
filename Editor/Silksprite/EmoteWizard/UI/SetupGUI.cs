@@ -2,7 +2,6 @@ using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -12,12 +11,14 @@ namespace Silksprite.EmoteWizard.UI
 {
     public static class SetupGUI
     {
+        static EmoteItemKind _emoteItemKind;
         static EmoteSequenceFactoryKind _emoteSequenceFactoryKindFx;
 
         public static bool OnInspectorGUI(EmoteWizardEnvironment env)
         {
             var result = false;
 
+            _emoteItemKind = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
             _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
 
             EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup Default Data Sources"), undoable =>
@@ -70,6 +71,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(fxSources, "Default FX Items Wizard");
                 wizard.layerKind = LayerKind.FX;
+                wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = _emoteSequenceFactoryKindFx;
                 wizard.Explode(undoable, false);
             });
@@ -82,6 +84,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(gestureSources, "Default Gesture Items Wizard");
                 wizard.layerKind = LayerKind.Gesture;
+                wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.Explode(undoable, false);
             });
@@ -94,6 +97,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(actionSources, "Default Action Items Wizard");
                 wizard.layerKind = LayerKind.Action;
+                wizard.emoteItemKind = EmoteItemKind.EmoteItem;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.Explode(undoable, false);
             });
