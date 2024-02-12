@@ -28,11 +28,13 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         EmoteItem ToEmoteItem()
         {
-            if (!(SequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
+            if (SequenceFactory == null) return null;
 
+            if (!Trigger.TryGetHandSign(out var handSign)) return null;
+            
             return new EmoteItem(new EmoteTrigger
                 {
-                    name = Trigger.handSign.ToString(),
+                    name = handSign.ToString(),
                     priority = 0,
                     conditions = new List<EmoteCondition>
                     {
@@ -41,11 +43,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                             kind = ParameterItemKind.Auto,
                             parameter = EmoteWizardConstants.Params.Gesture,
                             mode = EmoteConditionMode.Equals,
-                            threshold = (int)Trigger.handSign
+                            threshold = Trigger.value
                         }
                     }
                 },
-                genericSequenceFactory);
+                SequenceFactory);
         }
 
         public IEnumerable<EmoteItem> ToEmoteItems()

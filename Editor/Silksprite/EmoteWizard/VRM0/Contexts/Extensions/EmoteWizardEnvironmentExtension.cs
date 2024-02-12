@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             blendShapeAvatar = new CustomCloneBlendShapeAvatar().Clone(blendShapeAvatar).mainAsset;
             blendShapeProxy.BlendShapeAvatar = blendShapeAvatar;
             
-            foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(Platform.VRChat))
+            foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(Platform.VRM0))
             {
                 var clip = genericEmoteItem.ToBlendShapeClip(environment);
                 blendShapeAvatar.SetClip(clip.Key, clip);

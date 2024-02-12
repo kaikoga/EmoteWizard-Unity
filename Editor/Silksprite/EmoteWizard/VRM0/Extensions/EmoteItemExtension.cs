@@ -13,10 +13,21 @@ namespace Silksprite.EmoteWizard.Extensions
     {
         public static BlendShapeClip ToBlendShapeClip(this GenericEmoteItem genericEmoteItem, EmoteWizardEnvironment environment)
         {
+            genericEmoteItem.Trigger.TryGetVrm0BlendShape(out var vrm0BlendShape);
+            var blendShapePreset = vrm0BlendShape.ToBlendShapePreset();
             var blendShapeClip = ScriptableObject.CreateInstance<BlendShapeClip>();
-            blendShapeClip.name = genericEmoteItem.Trigger.handSign.ToString();
-            blendShapeClip.BlendShapeName = genericEmoteItem.Trigger.handSign.ToString();
-            blendShapeClip.Preset = BlendShapePreset.Unknown;
+
+            if (blendShapePreset == BlendShapePreset.Unknown)
+            {
+                blendShapeClip.name = genericEmoteItem.Trigger.name;
+                blendShapeClip.BlendShapeName = genericEmoteItem.Trigger.name;
+            }
+            else
+            {
+                blendShapeClip.name = vrm0BlendShape.ToString();
+            }
+            blendShapeClip.Preset = blendShapePreset;
+
             blendShapeClip.Values = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
                 .Select(animatedBlendShape => new BlendShapeBinding
                 {
