@@ -18,10 +18,15 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
         {
             return Environment.GetComponentsInChildren<IGenericEmoteItemSource>(true).SelectMany(source => source.ToGenericEmoteItems());
         }
-        
+
         public IEnumerable<GenericEmoteItem> AllGenericEmoteItems()
         {
             return _genericEmoteItems = _genericEmoteItems ?? CollectAllGenericEmoteItems().ToList();
+        }
+
+        public IEnumerable<GenericEmoteItem> GenericEmoteItems(Platform platform)
+        {
+            return AllGenericEmoteItems().Where(item => item.Trigger.platform == platform);
         }
     }
 }
