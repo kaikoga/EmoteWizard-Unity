@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace Silksprite.EmoteWizard
 {
     public static class EmoteWizardConstants
@@ -9,6 +11,22 @@ namespace Silksprite.EmoteWizard
 #else
             public const bool VRCSDK3_AVATARS = false;
 #endif
+            
+#if EW_VRM0
+            public const bool VRM0 = true;
+#else
+            public const bool VRM0 = false;
+#endif
+            
+#if EW_VRM1
+            public const bool VRM1 = true;
+#else
+            public const bool VRM1 = false;
+#endif
+
+            public const bool VRM = VRM0 || VRM1;
+
+            public static readonly bool IsMultiple = new [] {VRCSDK3_AVATARS, VRM0, VRM1}.Count(b => b) > 1;
         }
 
         public static class LayerNames
