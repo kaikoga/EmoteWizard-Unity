@@ -67,6 +67,9 @@ namespace Silksprite.EmoteWizard
                 public const string HandSign = "HandSign";
                 public const string Action = "Action";
                 public const string LipSync = "LipSync";
+                public const string Blink = "Blink";
+                public const string LookAt = "LookAt";
+                public const string Emotion = "Emotion";
             }
 
             public static class Params
