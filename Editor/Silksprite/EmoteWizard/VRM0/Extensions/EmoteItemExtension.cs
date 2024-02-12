@@ -1,3 +1,5 @@
+#if EW_VRM0
+
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -26,3 +28,5 @@ namespace Silksprite.EmoteWizard.Extensions
         }
     }
 }
+
+#endif

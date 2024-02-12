@@ -1,3 +1,5 @@
+#if EW_VRM0
+
 using System;
 using Silksprite.AdLib.Utils.VRM0;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
@@ -34,3 +36,5 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         }
     }
 }
+
+#endif
