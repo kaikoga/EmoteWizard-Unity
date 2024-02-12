@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.Base
 
             var children = sourceTemplates
                 .Select(template => template.Path)
-                .OrderBy(path => path.Length)
+                .OrderBy(path => path.Count(c => c == '/'))
                 .Distinct()
                 .ToDictionary(path => path, path => undoable.AddChildGameObject(parent, path));
 
