@@ -74,6 +74,20 @@ namespace Silksprite.EmoteWizardSupport.UI
         }
 
         public static void Prop(LocalizedProperty lop) => EditorGUILayout.PropertyField(lop.Property, lop.Loc.GUIContent);
+        public static void PropAsEnumPopup<TEnum>(LocalizedProperty lop)
+        where TEnum : Enum
+        {
+            EditorGUI.BeginChangeCheck();
+            if (lop.Property.hasMultipleDifferentValues)
+            {
+                EditorGUI.showMixedValue = true;
+            }
+            var newValue = (TEnum)EditorGUILayout.EnumPopup(lop.GUIContent, (TEnum)(object)lop.Property.intValue);
+            EditorGUI.showMixedValue = false;
+
+            if (!EditorGUI.EndChangeCheck()) return;
+            lop.Property.intValue = Convert.ToInt32(newValue);
+        }
 
         public static void PropertyFieldWithGenerate(LocalizedProperty lop, Func<Object> generate)
         {
