@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     {
         static readonly int[] Empty = {};
 
-        static readonly (string, ParameterItemKind Int, int[])[] DefaultParameterData = {
+        static readonly (string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
             ("IsLocal", ParameterItemKind.Bool, Empty),
             (EmoteWizardConstants.Params.Viseme, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
             ("GestureLeft", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
@@ -49,6 +49,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     ReadUsages = states.Select(state => new ParameterReadUsage(ParameterItemKind.Int, state)).ToList(),
                 };
             }).ToList();
+        }
+
+        public static bool IsDefaultParameter(string parameter)
+        {
+            return DefaultParameterData.Any(data => parameter == data.name);
         }
     }
 }

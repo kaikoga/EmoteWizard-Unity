@@ -46,6 +46,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 if (Trigger.conditions.Count != 1) return false;
 
                 var soleCondition = Trigger.conditions[0];
+                if (DefaultParameters.IsDefaultParameter(soleCondition.parameter)) return false;
                 switch (soleCondition.kind)
                 {
                     case ParameterItemKind.Auto:
