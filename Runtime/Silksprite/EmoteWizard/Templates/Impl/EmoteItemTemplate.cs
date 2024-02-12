@@ -90,9 +90,12 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         }
 
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName)
-            => Builder(layerKind, name, groupName, HandSign.Idle, EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence);
+            => Builder(layerKind, name, groupName, default, EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence);
 
-        public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName, HandSign handSign, EmoteItemKind itemKind, EmoteSequenceFactoryKind sequenceKind)
+        public static EmoteItemTemplateBuilder Builder(LayerKind layerKind,
+            string name, string groupName,
+            GenericEmoteTrigger genericTrigger,
+            EmoteItemKind itemKind, EmoteSequenceFactoryKind sequenceKind)
         {
             EmoteTriggerBuilder trigger;
             switch (itemKind)
@@ -118,7 +121,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceKind), sequenceKind, null);
             }
-            return new EmoteItemTemplateBuilder(name, handSign, trigger, sequence);
+            return new EmoteItemTemplateBuilder(name, trigger, genericTrigger, sequence);
         }
 
         public void PopulateSources(IUndoable undoable, Component target)

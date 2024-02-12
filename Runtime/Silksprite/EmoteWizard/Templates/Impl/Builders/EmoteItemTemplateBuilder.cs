@@ -9,18 +9,18 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
     public class EmoteItemTemplateBuilder
     {
         readonly string _path;
-        readonly HandSign _handSign;
         [CanBeNull] readonly EmoteTriggerBuilder _trigger;
+        readonly GenericEmoteTrigger _genericTrigger;
         readonly IEmoteSequenceBuilder _sequence;
         bool _hasExpressionItem;
         string _expressionItemPath;
         Texture2D _expressionItemIcon;
 
-        public EmoteItemTemplateBuilder(string path, HandSign handSign, EmoteTriggerBuilder trigger, IEmoteSequenceBuilder sequence)
+        public EmoteItemTemplateBuilder(string path, EmoteTriggerBuilder trigger, GenericEmoteTrigger genericTrigger, IEmoteSequenceBuilder sequence)
         {
             _path = path;
-            _handSign = handSign;
             _trigger = trigger;
+            _genericTrigger = genericTrigger;
             _sequence = sequence;
             _sequence.AddPath(_path);
         }
@@ -97,7 +97,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
             }
             else
             {
-                return new GenericEmoteItemTemplate(_path, _handSign, _sequence.ToEmoteSequenceFactory());
+                return new GenericEmoteItemTemplate(_path, _genericTrigger, _sequence.ToEmoteSequenceFactory());
             }
         }
     }

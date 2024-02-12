@@ -13,8 +13,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     [AddComponentMenu("Emote Wizard/Sources/Generic Emote Item Source", 1)]
     public class GenericEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
     {
-        [SerializeField] public HandSign handSign;
-
+        [SerializeField] public GenericEmoteTrigger trigger;
         [SerializeField] public EmoteSequenceSourceBase sequence;
 
         public EmoteSequenceSourceBase FindEmoteSequenceSource()
@@ -38,7 +37,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new GenericEmoteItemTemplate(gameObject.name, handSign, FindEmoteFactory());
+            return new GenericEmoteItemTemplate(gameObject.name, trigger, FindEmoteFactory());
         }
 
         public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();

@@ -12,8 +12,8 @@ namespace Silksprite.EmoteWizard.Extensions
         public static BlendShapeClip ToBlendShapeClip(this GenericEmoteItem genericEmoteItem, EmoteWizardEnvironment environment)
         {
             var blendShapeClip = ScriptableObject.CreateInstance<BlendShapeClip>();
-            blendShapeClip.name = genericEmoteItem.HandSign.ToString();
-            blendShapeClip.BlendShapeName = genericEmoteItem.HandSign.ToString();
+            blendShapeClip.name = genericEmoteItem.Trigger.handSign.ToString();
+            blendShapeClip.BlendShapeName = genericEmoteItem.Trigger.handSign.ToString();
             blendShapeClip.Preset = BlendShapePreset.Unknown;
             blendShapeClip.Values = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
                 .Select(animatedBlendShape => new BlendShapeBinding

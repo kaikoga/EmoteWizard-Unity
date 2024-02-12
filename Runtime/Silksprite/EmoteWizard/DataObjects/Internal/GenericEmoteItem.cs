@@ -2,14 +2,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class GenericEmoteItem
     {
-        public readonly HandSign HandSign;
+        public readonly GenericEmoteTrigger Trigger;
         readonly IGenericEmoteSequenceFactory _emoteSequenceFactory;
 
         public GenericEmoteSequence GenericEmoteSequence => _emoteSequenceFactory.BuildGeneric();
 
-        public GenericEmoteItem(HandSign handSign, IGenericEmoteSequenceFactory sequenceFactory)
+        public GenericEmoteItem(GenericEmoteTrigger trigger, IGenericEmoteSequenceFactory sequenceFactory)
         {
-            HandSign = handSign;
+            Trigger = trigger;
             _emoteSequenceFactory = sequenceFactory;
         }
     }

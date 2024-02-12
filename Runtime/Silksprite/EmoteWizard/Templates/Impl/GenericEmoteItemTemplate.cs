@@ -12,15 +12,15 @@ namespace Silksprite.EmoteWizard.Templates.Impl
     public class GenericEmoteItemTemplate : IEmoteTemplate
     {
         public string Path { get; }
-        public readonly HandSign HandSign;
+        public readonly GenericEmoteTrigger Trigger;
         public readonly IEmoteSequenceFactoryTemplate SequenceFactory;
 
         public GenericEmoteItemTemplate(string path,
-            HandSign handSign,
+            GenericEmoteTrigger trigger, 
             IEmoteSequenceFactoryTemplate sequenceFactory)
         {
             Path = path;
-            HandSign = handSign;
+            Trigger = trigger;
             SequenceFactory = sequenceFactory;
         }
 
@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
             return new EmoteItem(new EmoteTrigger
                 {
-                    name = HandSign.ToString(),
+                    name = Trigger.handSign.ToString(),
                     priority = 0,
                     conditions = new List<EmoteCondition>
                     {
@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                             kind = ParameterItemKind.Auto,
                             parameter = EmoteWizardConstants.Params.Gesture,
                             mode = EmoteConditionMode.Equals,
-                            threshold = (int)HandSign
+                            threshold = (int)Trigger.handSign
                         }
                     }
                 },
@@ -58,7 +58,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         {
             if (!(SequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
 
-            return new GenericEmoteItem(HandSign, genericSequenceFactory);
+            return new GenericEmoteItem(Trigger, genericSequenceFactory);
         }
 
         public IEnumerable<GenericEmoteItem> ToGenericEmoteItems()
@@ -72,7 +72,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         public void PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<GenericEmoteItemSource>(target);
-            source.handSign = HandSign;
+            source.trigger = Trigger;
             SequenceFactory?.PopulateSequenceSource(undoable, source);
         }
     }

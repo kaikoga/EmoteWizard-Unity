@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
-using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
@@ -74,7 +73,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            return Defaults(layerKind).Select(def => EmoteItemTemplate.Builder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, def._handSign, emoteItemKind, emoteSequenceFactoryKind)
+            return Defaults(layerKind).Select(def => EmoteItemTemplate.Builder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, GenericEmoteTrigger.FromHandSign(def._handSign), emoteItemKind, emoteSequenceFactoryKind)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
                 .AddTimeParameter(def._handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
                 .AddFixedDuration(true)
