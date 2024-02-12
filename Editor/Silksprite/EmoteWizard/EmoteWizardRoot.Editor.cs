@@ -200,11 +200,13 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
-
 
 #if EW_VRCSDK3_AVATARS
-            AvatarOutputVrc(env);
+            if (env.AvatarRoot)
+            {
+                EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
+                AvatarOutputVrc(env);
+            }
 #endif
  
             serializedObject.ApplyModifiedProperties();
