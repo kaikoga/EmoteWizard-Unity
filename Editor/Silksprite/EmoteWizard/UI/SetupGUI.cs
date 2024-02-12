@@ -76,7 +76,7 @@ namespace Silksprite.EmoteWizard.UI
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "FX Sources", fxSources =>
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(fxSources, "Default FX Items Wizard");
-                wizard.layerKind = LayerKind.FX;
+                wizard.defaultSourceKind = DefaultSourceKind.Fx;
                 wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = _emoteSequenceFactoryKindFx;
                 wizard.Explode(undoable, false);
@@ -86,7 +86,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 environment.OverrideGesture = OverrideGeneratedControllerType2.Generate;
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(gestureSources, "Default Gesture Items Wizard");
-                wizard.layerKind = LayerKind.Gesture;
+                wizard.defaultSourceKind = DefaultSourceKind.Gesture;
                 wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.Explode(undoable, false);
@@ -96,7 +96,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 environment.OverrideAction = OverrideGeneratedControllerType1.Generate;
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(actionSources, "Default Action Items Wizard");
-                wizard.layerKind = LayerKind.Action;
+                wizard.defaultSourceKind = DefaultSourceKind.Action;
                 wizard.emoteItemKind = EmoteItemKind.EmoteItem;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.Explode(undoable, false);
@@ -108,7 +108,7 @@ namespace Silksprite.EmoteWizard.UI
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "BlendShape Sources", bsSources =>
             {
                 var wizard = undoable.AddChildComponent<DefaultSourcesWizard>(bsSources, "Default BlendShape Items Wizard");
-                wizard.layerKind = LayerKind.None;
+                wizard.defaultSourceKind = DefaultSourceKind.Vrm;
                 wizard.emoteItemKind = EmoteItemKind.GenericEmoteItem;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.GenericEmoteSequence;
                 wizard.Explode(undoable, false);

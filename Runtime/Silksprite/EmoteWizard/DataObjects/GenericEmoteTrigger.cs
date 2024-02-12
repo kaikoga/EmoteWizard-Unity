@@ -62,5 +62,14 @@ namespace Silksprite.EmoteWizard.DataObjects
                 value = (int)fromHandSign
             };
         }
+
+        public static GenericEmoteTrigger FromVrm0BlendShape(Vrm0BlendShapePreset vrm0BlendShape)
+        {
+            return new GenericEmoteTrigger
+            {
+                platform = Platform.VRM0,
+                value = (int)vrm0BlendShape
+            };
+        }
     }
 }

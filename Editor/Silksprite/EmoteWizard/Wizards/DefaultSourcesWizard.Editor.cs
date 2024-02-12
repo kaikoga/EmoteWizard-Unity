@@ -1,6 +1,4 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -12,25 +10,25 @@ namespace Silksprite.EmoteWizard.Wizards
     [CustomEditor(typeof(DefaultSourcesWizard))]
     public class DefaultSourcesWizardEditor : EmoteWizardEditorBase<DefaultSourcesWizard>
     {
-        LocalizedProperty _layerKind;
+        LocalizedProperty _defaultSourceKind;
         LocalizedProperty _emoteItemKind;
         LocalizedProperty _emoteSequenceFactoryKind;
 
         void OnEnable()
         {
-            _layerKind = Lop(nameof(DefaultSourcesWizard.layerKind), Loc("DefaultSourcesWizard::layerKind"));
+            _defaultSourceKind = Lop(nameof(DefaultSourcesWizard.defaultSourceKind), Loc("DefaultSourcesWizard::defaultSourceKind"));
             _emoteItemKind = Lop(nameof(DefaultSourcesWizard.emoteItemKind), Loc("DefaultSourcesWizard::emoteItemKind"));
             _emoteSequenceFactoryKind = Lop(nameof(DefaultSourcesWizard.emoteSequenceFactoryKind), Loc("DefaultSourcesWizard::emoteSequenceFactoryKind"));
         }
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_layerKind);
+            EmoteWizardGUILayout.Prop(_defaultSourceKind);
 
-            switch ((LayerKind) _layerKind.Property.enumValueIndex)
+            switch ((DefaultSourceKind) _defaultSourceKind.Property.enumValueIndex)
             {
-                case LayerKind.FX:
-                case LayerKind.Gesture:
+                case DefaultSourceKind.Fx:
+                case DefaultSourceKind.Gesture:
                     EmoteWizardGUILayout.Prop(_emoteItemKind);
                     EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
                     break;
@@ -38,7 +36,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
             serializedObject.ApplyModifiedProperties();
 
-            string undoLabel = $"Add Default {soleTarget.layerKind} Items";
+            string undoLabel = $"Add Default {soleTarget.defaultSourceKind} Items";
             if (EmoteWizardGUILayout.Undoable(Loc("DefaultSourcesWizard::Add"), undoLabel) is IUndoable undoable)
             {
                 soleTarget.Explode(undoable, true);

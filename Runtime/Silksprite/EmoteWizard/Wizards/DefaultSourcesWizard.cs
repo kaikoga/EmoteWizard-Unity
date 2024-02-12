@@ -12,26 +12,36 @@ namespace Silksprite.EmoteWizard.Wizards
     [AddComponentMenu("Emote Wizard/Wizards/Default Sources Wizard", 900)]
     public class DefaultSourcesWizard : EmoteWizardBase
     {
-        [SerializeField] public LayerKind layerKind;
+        [SerializeField] public DefaultSourceKind defaultSourceKind;
         [SerializeField] public EmoteItemKind emoteItemKind;
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
-            switch (layerKind)
+            switch (defaultSourceKind)
             {
-                case LayerKind.None:
-                    break;
-                case LayerKind.FX:
-                case LayerKind.Gesture:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, layerKind);
-                case LayerKind.Action:
+                case DefaultSourceKind.Fx:
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, LayerKind.FX);
+                case DefaultSourceKind.Gesture:
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, LayerKind.Gesture);
+                case DefaultSourceKind.Action:
                     // force EmoteSequence
                     return DefaultActionEmote.EnumerateDefaultActionEmoteItems();
-                default:
-                    throw new ArgumentOutOfRangeException();
+                case DefaultSourceKind.Vrm:
+                    // force Generic EmoteItem / EmoteSequence
+                    return DefaultBlendShape.EnumerateDefaultBlendShapes();
             }
             return Enumerable.Empty<IEmoteTemplate>();
         }
+    }
+
+    public enum DefaultSourceKind
+    {
+        [InspectorName("FX")]
+        Fx,
+        Gesture,
+        Action,
+        [InspectorName("VRM 0+1")]
+        Vrm
     }
 }
