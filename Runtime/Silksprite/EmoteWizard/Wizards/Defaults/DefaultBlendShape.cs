@@ -169,7 +169,10 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
 
         IEnumerable<IEmoteTemplate> ToEmoteTemplates()
         {
-            yield return new GenericEmoteSequenceTemplate(_name, GenericEmoteSequence.Builder(LayerKind.None, _group).ToGenericEmoteSequenceFactory());
+            var builder = GenericEmoteSequence.Builder(LayerKind.None, _group);
+            builder.AddFixedDuration(true);
+            builder.AddClip(null, 0f, 0.1f);
+            yield return new GenericEmoteSequenceTemplate(_name, builder.ToGenericEmoteSequenceFactory());
             if (_vrm0BlendShape != Vrm0BlendShapePreset.Unknown)
             {
                 yield return new GenericEmoteTriggerTemplate($"{_name}/VRM0_{_vrm0BlendShape}", GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
