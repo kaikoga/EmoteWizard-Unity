@@ -4,6 +4,7 @@ using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizard.Base
@@ -36,7 +37,11 @@ namespace Silksprite.EmoteWizard.Base
                 }
                 else
                 {
-                    EmoteWizardGUILayout.HelpBox(LocalizationTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info);
+                    EmoteWizardGUILayout.HelpBox(LocalizationTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info,
+                        new Substitution
+                        {
+                            ["platform"] = env.Platform.ToSolePlatformString()
+                        });
                 }
 
                 if (!target) return;

@@ -26,5 +26,20 @@ namespace Silksprite.EmoteWizard.DataObjects
         public static bool IsVRM0(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRM0);
         public static bool IsVRM1(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRM1);
         public static bool IsVRM(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRM0) ||  platform.HasFlag(DetectedPlatform.VRM1);
+
+        public static string ToSolePlatformString(this DetectedPlatform platform)
+        {
+            switch (platform)
+            {
+                case DetectedPlatform.VRChat:
+                    return "VRChat";
+                case DetectedPlatform.VRM0:
+                    return "VRM0.x";
+                case DetectedPlatform.VRM1:
+                    return "VRM1.0";
+                default:
+                    return "Unknown";
+            }
+        }
     }
 }

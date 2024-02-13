@@ -17,5 +17,6 @@ namespace Silksprite.EmoteWizardSupport.L10n
         public GUIContent GUIContent => GUIContent(_key);
 
         public string TrFormat(Substitution substitution) => LocalizationTool.TrFormat(_key, substitution);
+        public string LongTrFormat(Substitution substitution) => LocalizationSetting.Nowrap ? TrFormat(substitution).Nowrap() : TrFormat(substitution);
     }
 }

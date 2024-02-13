@@ -2,6 +2,7 @@ using System;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
@@ -116,5 +117,6 @@ namespace Silksprite.EmoteWizardSupport.UI
         public static TEnum EnumPopup<TEnum>(LocalizedContent loc, TEnum value) where TEnum : Enum => (TEnum)EditorGUILayout.EnumPopup(loc.GUIContent, value);
         
         public static void HelpBox(LocalizedContent loc, MessageType type) => EditorGUILayout.HelpBox(loc.LongTr, type);
+        public static void HelpBox(LocalizedContent loc, MessageType type, Substitution substitution) => EditorGUILayout.HelpBox(loc.LongTrFormat(substitution), type);
     }
 }
