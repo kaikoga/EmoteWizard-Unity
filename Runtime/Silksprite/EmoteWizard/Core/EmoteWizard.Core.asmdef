@@ -2,7 +2,9 @@
     "name": "EmoteWizard.Core",
     "rootNamespace": "Silksprite.EmoteWizard",
     "references": [
-        "EmoteWizardSupport"
+        "EmoteWizardSupport",
+        "VRM",
+        "VRM10"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

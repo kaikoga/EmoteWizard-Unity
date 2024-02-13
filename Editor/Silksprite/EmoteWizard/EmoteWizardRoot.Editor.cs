@@ -3,6 +3,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -42,6 +43,7 @@ namespace Silksprite.EmoteWizard
         LocalizedProperty _overrideSitting;
         LocalizedProperty _overrideSittingController;
         LocalizedProperty _showTutorial;
+        LocalizedProperty _detectPlatform;
 
         void OnEnable()
         {
@@ -62,6 +64,7 @@ namespace Silksprite.EmoteWizard
             _overrideSitting = Lop(nameof(EmoteWizardRoot.overrideSitting), Loc("EmoteWizardRoot::overrideSitting"));
             _overrideSittingController = Lop(nameof(EmoteWizardRoot.overrideSittingController), Loc("EmoteWizardRoot::overrideSittingController"));
             _showTutorial = Lop(nameof(EmoteWizardRoot.showTutorial), Loc("EmoteWizardRoot::showTutorial"));
+            _detectPlatform = Lop(nameof(EmoteWizardRoot.detectPlatform), Loc("EmoteWizardRoot::detectPlatform"));
         }
 
         protected override void OnInnerInspectorGUI()
@@ -71,6 +74,7 @@ namespace Silksprite.EmoteWizard
             {
                 LocalizationSettingGUI.LocalizationSelector();
                 EmoteWizardGUILayout.Prop(_showTutorial);
+                EmoteWizardGUILayout.Prop(_detectPlatform);
             });
 
             EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source"), undoable =>
@@ -87,10 +91,10 @@ namespace Silksprite.EmoteWizard
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
             var emptyAvatar = true;
             var hasAvatarRootTransform = (bool)_avatarRootTransform.Property.objectReferenceValue;
-            if (hasAvatarRootTransform) emptyAvatar = false; 
+            if (hasAvatarRootTransform) emptyAvatar = false;
 #if EW_VRCSDK3_AVATARS
-            var hasAvatarDescriptor = (bool)_avatarDescriptor.Property.objectReferenceValue; 
-            if (hasAvatarDescriptor) emptyAvatar = false; 
+            var hasAvatarDescriptor = (bool)_avatarDescriptor.Property.objectReferenceValue;
+            if (hasAvatarDescriptor) emptyAvatar = false;
 #endif
             if (emptyAvatar || hasAvatarRootTransform) EmoteWizardGUILayout.Prop(_avatarRootTransform);
 #if EW_VRCSDK3_AVATARS
@@ -123,12 +127,10 @@ namespace Silksprite.EmoteWizard
                         SelectFolder(Loc("EmoteWizardRoot::Select Generated Assets Root"), _generatedAssetRoot.Property);
                     }
                 }
+
                 EmoteWizardGUILayout.Prop(_generatedAssetPrefix);
 
-                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
-                {
-                    EmoteWizardGUILayout.PropertyFieldWithGenerate(_emptyClip, () => CreateEnv().ProvideEmptyClip());
-                });
+                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardGUILayout.PropertyFieldWithGenerate(_emptyClip, () => CreateEnv().ProvideEmptyClip()); });
                 if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Output Assets")))
                 {
                     CreateEnv().DisconnectAllOutputAssets();
@@ -139,70 +141,72 @@ namespace Silksprite.EmoteWizard
                 env.DisconnectAllOutputAssets();
             }
 
-            EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Options"));
-            EmoteWizardGUILayout.Prop(_generateTrackingControlLayer);
-
-            EmoteWizardGUILayout.Prop(_overrideGesture);
-            using (new EditorGUI.IndentLevelScope())
+            if (env.Platform.IsVRChat())
             {
-                switch (env.OverrideGesture)
+                EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Options"));
+                EmoteWizardGUILayout.Prop(_generateTrackingControlLayer);
+
+                EmoteWizardGUILayout.Prop(_overrideGesture);
+                using (new EditorGUI.IndentLevelScope())
                 {
-                    case OverrideGeneratedControllerType2.Generate:
-                        break;
-                    case OverrideGeneratedControllerType2.Override:
-                        EmoteWizardGUILayout.Prop(_overrideGestureController);
-                        break;
-                    case OverrideGeneratedControllerType2.Default1:
-                        DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController1());
-                        break;
-                    case OverrideGeneratedControllerType2.Default2:
-                        DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController2());
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    switch (env.OverrideGesture)
+                    {
+                        case OverrideGeneratedControllerType2.Generate:
+                            break;
+                        case OverrideGeneratedControllerType2.Override:
+                            EmoteWizardGUILayout.Prop(_overrideGestureController);
+                            break;
+                        case OverrideGeneratedControllerType2.Default1:
+                            DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController1());
+                            break;
+                        case OverrideGeneratedControllerType2.Default2:
+                            DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController2());
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+                EmoteWizardGUILayout.Prop(_overrideAction);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    switch (env.OverrideAction)
+                    {
+                        case OverrideGeneratedControllerType1.Generate:
+                            break;
+                        case OverrideGeneratedControllerType1.Override:
+                            EmoteWizardGUILayout.Prop(_overrideActionController);
+                            break;
+                        case OverrideGeneratedControllerType1.Default:
+                            DummyController(_overrideActionController, VrcSdkAssetLocator.ActionLayerController());
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
+                }
+
+                EmoteWizardGUILayout.Prop(_overrideSitting);
+                using (new EditorGUI.IndentLevelScope())
+                {
+                    switch (env.OverrideSitting)
+                    {
+                        case OverrideControllerType2.Override:
+                            EmoteWizardGUILayout.Prop(_overrideSittingController);
+                            break;
+                        case OverrideControllerType2.Default1:
+                            DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController1());
+                            break;
+                        case OverrideControllerType2.Default2:
+                            DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController2());
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
             }
-
-            EmoteWizardGUILayout.Prop(_overrideAction);
-            using (new EditorGUI.IndentLevelScope())
-            {
-                switch (env.OverrideAction)
-                {
-                    case OverrideGeneratedControllerType1.Generate:
-                        break;
-                    case OverrideGeneratedControllerType1.Override:
-                        EmoteWizardGUILayout.Prop(_overrideActionController);
-                        break;
-                    case OverrideGeneratedControllerType1.Default:
-                        DummyController(_overrideActionController, VrcSdkAssetLocator.ActionLayerController());
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
-            EmoteWizardGUILayout.Prop(_overrideSitting);
-            using (new EditorGUI.IndentLevelScope())
-            {
-                switch (env.OverrideSitting)
-                {
-                    case OverrideControllerType2.Override:
-                        EmoteWizardGUILayout.Prop(_overrideSittingController);
-                        break;
-                    case OverrideControllerType2.Default1:
-                        DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController1());
-                        break;
-                    case OverrideControllerType2.Default2:
-                        DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController2());
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-
 
 #if EW_VRCSDK3_AVATARS
-            if (env.AvatarRoot)
+            if (env.AvatarRoot && env.Platform.IsVRChat())
             {
                 EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
                 AvatarOutputVrc(env);

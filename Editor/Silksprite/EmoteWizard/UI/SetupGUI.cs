@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
-using UnityEditor;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.UI
@@ -19,50 +18,43 @@ namespace Silksprite.EmoteWizard.UI
         {
             var result = false;
 
-#if EW_VRCSDK3_AVATARS
-            _emoteItemKind = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
-            _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
-#endif
-
-            if (EmoteWizardConstants.SupportedPlatforms.IsMultiple)
+            if (env.Platform.IsVRChat())
             {
-#if EW_VRCSDK3_AVATARS
-                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup VRChat Sources"), undoable =>
+                _emoteItemKind = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
+                _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
+            }
+
+            var isMultiPlatform = EmoteWizardConstants.SupportedPlatforms.IsMultiple;
+            var singleLoc = Loc("SetupGUI::Quick Setup Default Data Sources");
+
+            if (env.Platform.IsVRChat())
+            {
+                var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRChat Sources") : singleLoc;
+                EmoteWizardGUILayout.Undoable(loc, undoable =>
                 {
                     QuickSetupDefaultVRChatSources(undoable, env);
                     result = true;
                 });
-#endif
+            }
 
-#if EW_VRM0 || EW_VRM1
-                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup VRM Sources"), undoable =>
+            if (env.Platform.IsVRM())
+            {
+                var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRM Sources") : singleLoc;
+                EmoteWizardGUILayout.Undoable(loc, undoable =>
                 {
                     QuickSetupDefaultVrmSources(undoable, env);
                     result = true;
                 });
-#endif
             }
-            else
+
+            if (env.Platform.IsVRChat())
             {
-                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup Default Data Sources"), undoable =>
+                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {
-#if EW_VRCSDK3_AVATARS
-                    QuickSetupDefaultVRChatSources(undoable, env);
-#endif
-#if EW_VRM0 || EW_VRM1
-                    QuickSetupDefaultVrmSources(undoable, env);
-#endif
+                    GenerateConfigs(undoable, env);
                     result = true;
                 });
             }
-
-#if EW_VRCSDK3_AVATARS
-            EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
-            {
-                GenerateConfigs(undoable, env);
-                result = true;
-            });
-#endif
 
             return result;
         }

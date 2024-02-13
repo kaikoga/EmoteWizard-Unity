@@ -4,6 +4,18 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
+#if EW_VRCSDK3_AVATARS
+using VRC.SDK3.Avatars.Components;
+#endif
+
+#if EW_VRM0
+using VRM;
+#endif
+
+#if EW_VRM1
+using UniVRM10;
+#endif
+
 namespace Silksprite.EmoteWizard.Contexts
 {
     public partial class EmoteWizardEnvironment
@@ -24,6 +36,49 @@ namespace Silksprite.EmoteWizard.Contexts
         }
 
         readonly Component _rootOrAvatarRoot;
+
+        readonly bool _detectPlatform;
+        DetectedPlatform? _detectedPlatform;
+        public DetectedPlatform Platform
+        {
+            get
+            {
+                return _detectedPlatform ?? DetectPlatform();
+
+                DetectedPlatform DetectPlatform()
+                {
+                    var detected = DoDetect();
+                    _detectedPlatform = detected;
+                    return detected;
+                }
+
+                DetectedPlatform DoDetect()
+                {
+                    if (!_detectPlatform) return DetectedPlatform.Mixed;
+                    if (!_avatarRoot) return DetectedPlatform.Mixed;
+
+                    var detectedPlatform = DetectedPlatform.None;
+
+#if EW_VRCSDK3_AVATARS
+                    if (_avatarRoot.GetComponent<VRCAvatarDescriptor>()) detectedPlatform |= DetectedPlatform.VRChat;
+#endif
+#if EW_VRM0
+                    if (_avatarRoot.GetComponent<VRMMeta>()) detectedPlatform |= DetectedPlatform.VRM0;
+#endif
+#if EW_VRM1
+                    if (_avatarRoot.GetComponent<Vrm10Instance>()) detectedPlatform |= DetectedPlatform.VRM1;
+#endif
+
+                    switch (detectedPlatform)
+                    {
+                        case DetectedPlatform.VRChat: return DetectedPlatform.VRChat;
+                        case DetectedPlatform.VRM0: return DetectedPlatform.VRM0;
+                        case DetectedPlatform.VRM1: return DetectedPlatform.VRM1;
+                        default: return DetectedPlatform.Mixed;
+                    }
+                }
+            }
+        }
 
         [CanBeNull]
         Animator _proxyAnimator;
@@ -89,6 +144,7 @@ namespace Silksprite.EmoteWizard.Contexts
             _avatarRoot = avatarRoot;
             _rootOrAvatarRoot = _root;
             IsDetectedAvatarRoot = isDetectedAvatarRoot;
+            _detectPlatform = root.detectPlatform;
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;
@@ -108,6 +164,7 @@ namespace Silksprite.EmoteWizard.Contexts
             _avatarRoot = avatarRoot;
             _rootOrAvatarRoot = _avatarRoot;
             IsDetectedAvatarRoot = false;
+            _detectPlatform = true;
             
             _overrideGesture = OverrideGeneratedControllerType2.Default1;
             _overrideAction = OverrideGeneratedControllerType1.Default;
