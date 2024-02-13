@@ -9,10 +9,11 @@ namespace Silksprite.EmoteWizardSupport.Extensions
         {
             var cursor = child;
             var path = child.gameObject.name;
-            while (cursor != null)
+            while (true)
             {
                 cursor = cursor.parent;
                 if (cursor == parent) break;
+                if (!cursor) break;
                 path = Path.Combine(cursor.gameObject.name, path);
             }
             return path;
