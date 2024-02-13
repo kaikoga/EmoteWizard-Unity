@@ -63,20 +63,21 @@ namespace Silksprite.EmoteWizard.Ndmf
                 if (buildContext.AvatarRootTransform.GetComponent<VRMMeta>() is VRMMeta meta)
                 {
                     if (!meta.Meta) meta.Meta = ScriptableObject.CreateInstance<VRMMetaObject>();
+
+                    var blendShapeProxy = undoable.EnsureComponent<VRMBlendShapeProxy>(buildContext.AvatarRootTransform);
+                    if (!blendShapeProxy.BlendShapeAvatar) blendShapeProxy.BlendShapeAvatar = ScriptableObject.CreateInstance<BlendShapeAvatar>();
+
+                    undoable.EnsureComponent<VRMFirstPerson>(buildContext.AvatarRootTransform);
                 }
 
-                var blendShapeProxy = undoable.EnsureComponent<VRMBlendShapeProxy>(buildContext.AvatarRootTransform);
-                if (!blendShapeProxy.BlendShapeAvatar) blendShapeProxy.BlendShapeAvatar = ScriptableObject.CreateInstance<BlendShapeAvatar>();
-
-                undoable.EnsureComponent<VRMFirstPerson>(buildContext.AvatarRootTransform);
 #endif
 #if EW_VRM1
                 if (buildContext.AvatarRootTransform.GetComponent<Vrm10Instance>() is Vrm10Instance instance)
                 {
                     if (!instance.Vrm) instance.Vrm = ScriptableObject.CreateInstance<VRM10Object>();
-                }
 
-                undoable.EnsureComponent<Humanoid>(buildContext.AvatarRootTransform, humanoid => humanoid.AssignBonesFromAnimator());
+                    undoable.EnsureComponent<Humanoid>(buildContext.AvatarRootTransform, humanoid => humanoid.AssignBonesFromAnimator());
+                }
 #endif
             }
         }
