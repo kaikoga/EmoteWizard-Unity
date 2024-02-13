@@ -10,7 +10,10 @@
         "EmoteWizard.VRM0.Editor",
         "EmoteWizard.VRM1.Editor",
         "EmoteWizardSupport",
-        "EmoteWizardSupport.Editor"
+        "EmoteWizardSupport.Editor",
+        "VRM",
+        "VRM10",
+        "UniHumanoid"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

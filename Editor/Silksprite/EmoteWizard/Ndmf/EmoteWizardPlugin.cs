@@ -6,12 +6,19 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
 #if EW_VRCSDK3_AVATARS
-using VRC.SDK3.Avatars.Components;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using VRC.SDK3.Avatars.Components;
 #endif
 
 #if EW_VRM0
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using VRM;
+#endif
+
+#if EW_VRM1
+using Silksprite.EmoteWizard.Contexts.Extensions;
+using UniHumanoid;
+using UniVRM10;
 #endif
 
 [assembly: ExportsPlugin(typeof(EmoteWizardPlugin))]
@@ -42,24 +49,48 @@ namespace Silksprite.EmoteWizard.Ndmf
     {
         protected override void Execute(BuildContext buildContext)
         {
-#if EW_VRCSDK3_AVATARS
+            var undoable = new EditorUndoable("Prepare Emote Wizard from ndmf");
+
             foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
             {
-                var avatarDescriptor = buildContext.AvatarDescriptor;
-                if (avatarDescriptor)
+#if EW_VRCSDK3_AVATARS
+                if (buildContext.AvatarDescriptor is VRCAvatarDescriptor avatarDescriptor)
                 {
-                    var context = root.ToEnv();
-                    context.DisconnectAllOutputAssets();
-
-                    DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.FX);
-                    DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Gesture);
-                    DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Action);
-                    DeleteLayer(avatarDescriptor.specialAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Sitting);
-
-                    break;
+                    DeleteVrcLayers(root, avatarDescriptor);
                 }
+#endif
+#if EW_VRM0
+                if (buildContext.AvatarRootTransform.GetComponent<VRMMeta>() is VRMMeta meta)
+                {
+                    if (!meta.Meta) meta.Meta = ScriptableObject.CreateInstance<VRMMetaObject>();
+                }
+
+                var blendShapeProxy = undoable.EnsureComponent<VRMBlendShapeProxy>(buildContext.AvatarRootTransform);
+                if (!blendShapeProxy.BlendShapeAvatar) blendShapeProxy.BlendShapeAvatar = ScriptableObject.CreateInstance<BlendShapeAvatar>();
+
+                undoable.EnsureComponent<VRMFirstPerson>(buildContext.AvatarRootTransform);
+#endif
+#if EW_VRM1
+                if (buildContext.AvatarRootTransform.GetComponent<Vrm10Instance>() is Vrm10Instance instance)
+                {
+                    if (!instance.Vrm) instance.Vrm = ScriptableObject.CreateInstance<VRM10Object>();
+                }
+
+                undoable.EnsureComponent<Humanoid>(buildContext.AvatarRootTransform, humanoid => humanoid.AssignBonesFromAnimator());
+#endif
             }
-            
+        }
+
+#if EW_VRCSDK3_AVATARS
+        static void DeleteVrcLayers(EmoteWizardRoot root, VRCAvatarDescriptor avatarDescriptor)
+        {
+            root.ToEnv().DisconnectAllOutputAssets();
+
+            DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.FX);
+            DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Gesture);
+            DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Action);
+            DeleteLayer(avatarDescriptor.specialAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Sitting);
+
             void DeleteLayer(VRCAvatarDescriptor.CustomAnimLayer[] layers, VRCAvatarDescriptor.AnimLayerType animLayerType)
             {
                 for (var i = 0; i < layers.Length; i++)
@@ -75,8 +106,8 @@ namespace Silksprite.EmoteWizard.Ndmf
                     layers[i] = layer;
                 }
             }
-#endif
         }
+#endif
     }
 
     class EmoteWizardPass : Pass<EmoteWizardPass>
