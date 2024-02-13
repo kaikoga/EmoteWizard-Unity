@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.UI
             _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
 #endif
 
-            if (EmoteWizardConstants.Platforms.IsMultiple)
+            if (EmoteWizardConstants.SupportedPlatforms.IsMultiple)
             {
 #if EW_VRCSDK3_AVATARS
                 EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Quick Setup VRChat Sources"), undoable =>

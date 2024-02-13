@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Configs
                 }
 #endif
                 using (new EditorGUI.DisabledScope())
-                using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
+                using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
                 {
                     EmoteWizardGUILayout.Prop(_outputAsset);
                 }

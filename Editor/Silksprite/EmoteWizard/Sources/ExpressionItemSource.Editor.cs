@@ -124,7 +124,7 @@ namespace Silksprite.EmoteWizard.Sources
                 case ExpressionItemKind.Toggle:
                     break;
                 case ExpressionItemKind.SubMenu:
-                    using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
+                    using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
                     {
                         EmoteWizardGUILayout.Prop(_subMenu);
                     }

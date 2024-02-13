@@ -4,7 +4,7 @@ namespace Silksprite.EmoteWizard
 {
     public static class EmoteWizardConstants
     {
-        public static class Platforms
+        public static class SupportedPlatforms
         {
 #if EW_VRCSDK3_AVATARS
             public const bool VRCSDK3_AVATARS = true;

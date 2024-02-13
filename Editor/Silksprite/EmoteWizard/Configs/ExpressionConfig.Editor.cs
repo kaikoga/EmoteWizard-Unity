@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.Configs
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
 #endif
-                using (new EditorGUI.DisabledScope(!EmoteWizardConstants.Platforms.VRCSDK3_AVATARS))
+                using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
                 {
                     EmoteWizardGUILayout.Prop(_outputAsset);
                 }
