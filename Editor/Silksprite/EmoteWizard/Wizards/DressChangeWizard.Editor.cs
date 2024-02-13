@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -12,6 +13,8 @@ namespace Silksprite.EmoteWizard.Wizards
     [CustomEditor(typeof(DressChangeWizard))]
     public class DressChangeWizardEditor : EmoteWizardEditorBase<DressChangeWizard>
     {
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRChat;
+
         LocalizedProperty _expressionKind;
         LocalizedProperty _itemCount;
         LocalizedProperty _emoteSequenceFactoryKind;

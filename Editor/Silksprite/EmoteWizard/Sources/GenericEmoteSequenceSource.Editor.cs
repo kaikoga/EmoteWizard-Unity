@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using NUnit;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -101,36 +102,45 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_layerKind);
-            EmoteWizardGUILayout.Prop(_groupName);
+            var environment = CreateEnv();
 
-            EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Common Settings"));
-            EmoteWizardGUILayout.Prop(_isFixedDuration);
-            EmoteWizardGUILayout.Prop(_entryTransitionDuration);
-            EmoteWizardGUILayout.Prop(_exitTransitionDuration);
-
-            EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Time Parameter"));
-            EmoteWizardGUILayout.PropertyFoldout(_hasTimeParameter, () =>
+            if (environment.Platform.IsVRChat())
             {
-                EmoteWizardGUILayout.Prop(_timeParameter);
-            });
+                EmoteWizardGUILayout.Prop(_layerKind);
+                EmoteWizardGUILayout.Prop(_groupName);
 
-            EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Layer Blend"));
-            EmoteWizardGUILayout.PropertyFoldout(_hasLayerBlend, () =>
-            {
-                EmoteWizardGUILayout.Prop(_blendIn);
-                EmoteWizardGUILayout.Prop(_blendOut);
-            });
+                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Common Settings"));
+                EmoteWizardGUILayout.Prop(_isFixedDuration);
+                EmoteWizardGUILayout.Prop(_entryTransitionDuration);
+                EmoteWizardGUILayout.Prop(_exitTransitionDuration);
 
-            EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Tracking Overrides"));
-            EmoteWizardGUILayout.PropertyFoldout(_hasTrackingOverrides, () =>
-            {
-                EmoteWizardGUILayout.Prop(_trackingOverrides);
-            });
+                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Time Parameter"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasTimeParameter, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_timeParameter);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Layer Blend"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasLayerBlend, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_blendIn);
+                    EmoteWizardGUILayout.Prop(_blendOut);
+                });
+
+                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Tracking Overrides"));
+                EmoteWizardGUILayout.PropertyFoldout(_hasTrackingOverrides, () =>
+                {
+                    EmoteWizardGUILayout.Prop(_trackingOverrides);
+                });
+            }
 
             EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Animation"));
             EditorGUI.BeginChangeCheck();
-            EmoteWizardGUILayout.Prop(_animatedEnable);
+            if (environment.Platform.IsVRChat())
+            {
+                EmoteWizardGUILayout.Prop(_animatedEnable);
+            }
+
             EmoteWizardGUILayout.Prop(_animatedBlendShapes);
             var requireRefreshPreview = EditorGUI.EndChangeCheck();
             

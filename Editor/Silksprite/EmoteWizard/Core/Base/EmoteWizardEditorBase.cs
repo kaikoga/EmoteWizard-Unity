@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -13,7 +12,7 @@ namespace Silksprite.EmoteWizard.Base
     {
         static EmoteWizardEnvironment _cachedEnvironment; 
         static bool _isDrawingInnerInspectorGUI;
-
+        
         EmoteWizardBehaviour soleTarget => target as EmoteWizardBehaviour;
 
         protected EmoteWizardEnvironment CreateEnv()
@@ -30,10 +29,18 @@ namespace Silksprite.EmoteWizard.Base
             EditorGUIUtility.hierarchyMode = false; // false because we use Headers to group things
             try
             {
-                OnInnerInspectorGUI();
+                var env = CreateEnv();
+                if ((env.Platform & SupportedPlatforms) != 0)
+                {
+                    OnInnerInspectorGUI();
+                }
+                else
+                {
+                    EmoteWizardGUILayout.HelpBox(LocalizationTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info);
+                }
 
                 if (!target) return;
-                if (CreateEnv()?.ShowTutorial != true) return;
+                if (env?.ShowTutorial != true) return;
                 var tutorial = TutorialContent;
                 if (tutorial.IsNullOrEmpty()) return;
                 using (new BoxLayoutScope())
@@ -48,6 +55,8 @@ namespace Silksprite.EmoteWizard.Base
                 EditorGUIUtility.hierarchyMode = hierarchyMode;
             }
         }
+
+        protected virtual DetectedPlatform SupportedPlatforms => DetectedPlatform.Mixed;
 
         protected abstract void OnInnerInspectorGUI();
 

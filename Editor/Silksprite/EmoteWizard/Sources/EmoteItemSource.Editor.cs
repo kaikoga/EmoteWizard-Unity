@@ -14,6 +14,8 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(EmoteItemSource))]
     public class EmoteItemSourceEditor : EmoteWizardEditorBase<EmoteItemSource>
     {
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRChat;
+
         LocalizedProperty _name;
         LocalizedProperty _priority;
         LocalizedProperty _conditions;
