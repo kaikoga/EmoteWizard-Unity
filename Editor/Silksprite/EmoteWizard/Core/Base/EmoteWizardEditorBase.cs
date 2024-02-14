@@ -21,7 +21,16 @@ namespace Silksprite.EmoteWizard.Base
             if (_isDrawingInnerInspectorGUI) return _cachedEnvironment = _cachedEnvironment ?? soleTarget.CreateEnv();
             return soleTarget.CreateEnv();
         }
-        
+
+        LocalizedContent _lastHeader;
+        protected void HeaderOnce(LocalizedContent loc)
+        {
+            if (_lastHeader == loc) return;
+            
+            EmoteWizardGUILayout.Header(loc);
+            _lastHeader = loc;
+        }
+
         public sealed override void OnInspectorGUI()
         {
             _isDrawingInnerInspectorGUI = true;
@@ -33,6 +42,7 @@ namespace Silksprite.EmoteWizard.Base
                 var env = CreateEnv();
                 if ((env.Platform & SupportedPlatforms) != 0)
                 {
+                    _lastHeader = default;
                     OnInnerInspectorGUI();
                 }
                 else

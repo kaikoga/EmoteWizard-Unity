@@ -42,6 +42,7 @@ namespace Silksprite.EmoteWizard
         LocalizedProperty _overrideActionController;
         LocalizedProperty _overrideSitting;
         LocalizedProperty _overrideSittingController;
+        LocalizedProperty _author;
         LocalizedProperty _showTutorial;
         LocalizedProperty _detectPlatform;
 
@@ -63,6 +64,7 @@ namespace Silksprite.EmoteWizard
             _overrideActionController = Lop(nameof(EmoteWizardRoot.overrideActionController), Loc("EmoteWizardRoot::overrideActionController"));
             _overrideSitting = Lop(nameof(EmoteWizardRoot.overrideSitting), Loc("EmoteWizardRoot::overrideSitting"));
             _overrideSittingController = Lop(nameof(EmoteWizardRoot.overrideSittingController), Loc("EmoteWizardRoot::overrideSittingController"));
+            _author = Lop(nameof(EmoteWizardRoot.author), Loc("EmoteWizardRoot::author"));
             _showTutorial = Lop(nameof(EmoteWizardRoot.showTutorial), Loc("EmoteWizardRoot::showTutorial"));
             _detectPlatform = Lop(nameof(EmoteWizardRoot.detectPlatform), Loc("EmoteWizardRoot::detectPlatform"));
         }
@@ -143,7 +145,7 @@ namespace Silksprite.EmoteWizard
 
             if (env.Platform.IsVRChat())
             {
-                EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Options"));
+                HeaderOnce(Loc("EmoteWizardRoot::Options"));
                 EmoteWizardGUILayout.Prop(_generateTrackingControlLayer);
 
                 EmoteWizardGUILayout.Prop(_overrideGesture);
@@ -203,6 +205,12 @@ namespace Silksprite.EmoteWizard
                             throw new ArgumentOutOfRangeException();
                     }
                 }
+            }
+
+            if (env.Platform.IsVRM())
+            {
+                HeaderOnce(Loc("EmoteWizardRoot::Options"));
+                EmoteWizardGUILayout.Prop(_author);
             }
 
 #if EW_VRCSDK3_AVATARS

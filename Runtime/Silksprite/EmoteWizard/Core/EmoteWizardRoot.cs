@@ -24,7 +24,9 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
-        
+
+        [SerializeField] public string author;
+
         [SerializeField] public AnimationClip emptyClip;
         [SerializeField] public LayerKind generateTrackingControlLayer = LayerKind.FX;
         [SerializeField] public OverrideGeneratedControllerType2 overrideGesture = OverrideGeneratedControllerType2.Default1;
@@ -33,7 +35,6 @@ namespace Silksprite.EmoteWizard
         [SerializeField] public RuntimeAnimatorController overrideActionController;
         [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
         [SerializeField] public RuntimeAnimatorController overrideSittingController;
-
 
         [SerializeField] public bool showTutorial;
         [SerializeField] public bool detectPlatform = true;
