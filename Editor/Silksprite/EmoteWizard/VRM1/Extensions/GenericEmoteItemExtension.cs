@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 {
                     RelativePath = EditorUtil.RelativePath(environment.AvatarRoot.gameObject, animatedBlendShape.target.gameObject),
                     Index = animatedBlendShape.target.sharedMesh.GetBlendShapeIndex(animatedBlendShape.blendShapeName),
-                    Weight = animatedBlendShape.value
+                    Weight = animatedBlendShape.value / 100f
                 }).ToArray();
             return expression;
         }
