@@ -6,9 +6,9 @@ using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 using VRC.SDK3.Avatars.Components;
+using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {
@@ -174,7 +174,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         {
         }
 
-        protected override IEnumerable<AnimatorController> CollectVolatileAssets(EmoteWizardEnvironment environment)
+        protected override IEnumerable<Object> CollectVolatileAssets(EmoteWizardEnvironment environment)
         {
             // manually try to persist volatile layers because layers are what Emote Wizard generates
             var avatarDescriptor = environment.AvatarRoot.GetComponent<VRCAvatarDescriptor>();

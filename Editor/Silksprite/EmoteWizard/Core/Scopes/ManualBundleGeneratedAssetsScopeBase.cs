@@ -4,7 +4,6 @@ using nadena.dev.ndmf;
 using nadena.dev.ndmf.util;
 using Silksprite.EmoteWizard.Contexts;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -44,6 +43,6 @@ namespace Silksprite.EmoteWizard.Scopes
             Object.DestroyImmediate(_gameObject);
         }
 
-        protected abstract IEnumerable<AnimatorController> CollectVolatileAssets(EmoteWizardEnvironment environment);
+        protected abstract IEnumerable<Object> CollectVolatileAssets(EmoteWizardEnvironment environment);
     }
 }
