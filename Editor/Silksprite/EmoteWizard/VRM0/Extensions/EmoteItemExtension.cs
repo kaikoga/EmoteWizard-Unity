@@ -31,8 +31,8 @@ namespace Silksprite.EmoteWizard.Extensions
             blendShapeClip.Values = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
                 .Select(animatedBlendShape => new BlendShapeBinding
                 {
-                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, animatedBlendShape.target.transform),
-                    Index = animatedBlendShape.target.sharedMesh.GetBlendShapeIndex(animatedBlendShape.blendShapeName),
+                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, animatedBlendShape.relativeRef.target.transform),
+                    Index = animatedBlendShape.relativeRef.target.sharedMesh.GetBlendShapeIndex(animatedBlendShape.blendShapeName),
                     Weight = animatedBlendShape.value
                 }).ToArray();
             return blendShapeClip;

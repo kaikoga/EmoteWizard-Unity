@@ -13,17 +13,17 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
         {
             using (new LabelWidthScope(100f))
             {
-                var target = serializedProperty.Lop(nameof(AnimatedEnable.target), LocalizationTool.Loc("AnimatedEnable::target"));
+                var relativeRef = serializedProperty.Lop(nameof(AnimatedEnable.relativeRef), LocalizationTool.Loc("AnimatedEnable::relativeRef"));
                 var isEnable = serializedProperty.Lop(nameof(AnimatedEnable.isEnable), LocalizationTool.Loc("AnimatedEnable::isEnable"));
 
-                EditorGUI.PropertyField(position.UISliceV(0), target.Property, target.GUIContent);
-                EditorGUI.PropertyField(position.UISliceV(1), isEnable.Property, isEnable.GUIContent);
+                EditorGUI.PropertyField(position.UISliceV(0), relativeRef.Property, relativeRef.GUIContent);
+                EditorGUI.PropertyField(position.UISliceV(2), isEnable.Property, isEnable.GUIContent);
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing * 1;
+            return EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing * 2;
         }
     }
 }

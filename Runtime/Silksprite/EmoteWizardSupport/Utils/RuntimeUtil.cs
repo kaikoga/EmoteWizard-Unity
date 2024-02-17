@@ -45,10 +45,16 @@ namespace Silksprite.EmoteWizardSupport.Utils
             return FromRelativePath(root, relativePath, AvatarRootMagic);
         }
 
+        public static Transform FromAnimationTransformPath(Transform root, string relativePath)
+        {
+            return FromRelativePath(root, relativePath, "");
+        }
+
         static string RelativePath(Transform root, Transform child, string rootName)
         {
-            if (root == child) return rootName;
+            if (!root) return null;
             if (!child) return null;
+            if (root == child) return rootName;
 
             var cursor = child;
             var path = child.gameObject.name;
@@ -64,7 +70,7 @@ namespace Silksprite.EmoteWizardSupport.Utils
 
         static Transform FromRelativePath(Transform root, string relativePath, string rootName)
         {
-            return relativePath == rootName ? root : root.Find(relativePath);
+            return !root ? null : relativePath == rootName ? root : root.Find(relativePath);
         }
     }
 }

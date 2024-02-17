@@ -8,16 +8,16 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.DataObjects.Animations
 {
     [Serializable]
-    public class AnimatedEnable : AnimatedPropertyBase<Transform>, IAnimatedProperty<float>
+    public class AnimatedEnable : AnimatedPropertyBase<Transform, RelativeTransformRef>, IAnimatedProperty<float>
     {
         [SerializeField] public bool isEnable;
 
         IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
         {
-            if (!target) yield break;
+            if (!relativeRef.GetOrResolveTarget(avatarRootTransform)) yield break;
             yield return new AnimatedValue<float>
             {
-                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, target),
+                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, relativeRef.target),
                 PropertyName = "m_IsActive",
                 Type = typeof(GameObject),
                 ValueOff = isEnable ? 1 : 0,

@@ -4,8 +4,10 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.DataObjects.Animations.Base
 {
     [Serializable]
-    public abstract class AnimatedPropertyBase<TTarget>
+    public abstract class AnimatedPropertyBase<TTarget, TRelativeRef>
+    where TTarget : Component
+    where TRelativeRef : RelativeRef<TTarget>
     {
-        [SerializeField] public TTarget target;
+        [SerializeField] public TRelativeRef relativeRef;
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.DataObjects.Animations
 {
     [Serializable]
-    public class AnimatedBlendShape : AnimatedPropertyBase<SkinnedMeshRenderer>, IAnimatedProperty<float>
+    public class AnimatedBlendShape : AnimatedPropertyBase<SkinnedMeshRenderer, RelativeSkinnedMeshRendererRef>, IAnimatedProperty<float>
     {
         [SerializeField] public string blendShapeName;
         [Range(0, 100)]
@@ -16,10 +16,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
 
         IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
         {
-            if (!target) yield break;
+            if (!relativeRef.GetOrResolveTarget(avatarRootTransform)) yield break;
             yield return new AnimatedValue<float>
             {
-                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, target.transform),
+                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, relativeRef.target.transform),
                 PropertyName = $"blendShape.{blendShapeName}",
                 Type = typeof(SkinnedMeshRenderer),
                 ValueOff = value,

@@ -15,17 +15,17 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
         {
             using (new LabelWidthScope(100f))
             {
-                var target = serializedProperty.Lop(nameof(AnimatedBlendShape.target),
-                    LocalizationTool.Loc("AnimatedBlendShape::target"));
+                var relativeRef = serializedProperty.Lop(nameof(AnimatedBlendShape.relativeRef),
+                    LocalizationTool.Loc("AnimatedBlendShape::relativeRef"));
                 var blendShapeName = serializedProperty.Lop(
                     nameof(AnimatedBlendShape.blendShapeName),
                     LocalizationTool.Loc("AnimatedBlendShape::blendShapeName"));
                 var value = serializedProperty.Lop(nameof(AnimatedBlendShape.value),
                     LocalizationTool.Loc("AnimatedBlendShape::value"));
 
-                EditorGUI.PropertyField(position.UISliceV(0), target.Property, target.GUIContent);
+                EditorGUI.PropertyField(position.UISliceV(0), relativeRef.Property, relativeRef.GUIContent);
 
-                var skinnedMeshRenderer = (SkinnedMeshRenderer)target.Property.objectReferenceValue;
+                var skinnedMeshRenderer = (SkinnedMeshRenderer)relativeRef.Property.FindPropertyRelative(nameof(RelativeSkinnedMeshRendererRef.target)).objectReferenceValue;
                 if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is Mesh sharedMesh)
                 {
                     EditorGUI.BeginChangeCheck();
@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                         .Select(i => sharedMesh.GetBlendShapeName(i))
                         .ToArray();
                     var newBlendShapeNameValue = EditorGUI.Popup(
-                        position.UISliceV(1),
+                        position.UISliceV(2),
                         blendShapeName.Loc.Tr,
                         Array.IndexOf(options, blendShapeName.Property.stringValue),
                         options
@@ -43,14 +43,18 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                         blendShapeName.Property.stringValue = options[newBlendShapeNameValue];
                     }
                 }
+                else
+                {
+                    EditorGUI.LabelField(position.UISliceV(2), blendShapeName.GUIContent, new GUIContent(blendShapeName.Property.stringValue));
+                }
 
-                EditorGUI.PropertyField(position.UISliceV(2), value.Property, value.GUIContent);
+                EditorGUI.PropertyField(position.UISliceV(3), value.Property, value.GUIContent);
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing * 2;
+            return EditorGUIUtility.singleLineHeight * 4 + EditorGUIUtility.standardVerticalSpacing * 3;
         }
     }
 }
