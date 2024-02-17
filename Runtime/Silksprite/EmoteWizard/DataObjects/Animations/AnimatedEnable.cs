@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.DataObjects.Animations.Base;
-using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Animations
@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
             if (!target) yield break;
             yield return new AnimatedValue<float>
             {
-                Path = target.GetRelativePathFrom(avatarRootTransform),
+                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, target),
                 PropertyName = "m_IsActive",
                 Type = typeof(GameObject),
                 ValueOff = isEnable ? 1 : 0,

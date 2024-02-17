@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.Extensions
             expression.MorphTargetBindings = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
                 .Select(animatedBlendShape => new MorphTargetBinding
                 {
-                    RelativePath = EditorUtil.RelativePath(environment.AvatarRoot.gameObject, animatedBlendShape.target.gameObject),
+                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, animatedBlendShape.target.transform),
                     Index = animatedBlendShape.target.sharedMesh.GetBlendShapeIndex(animatedBlendShape.blendShapeName),
                     Weight = animatedBlendShape.value / 100f
                 }).ToArray();
