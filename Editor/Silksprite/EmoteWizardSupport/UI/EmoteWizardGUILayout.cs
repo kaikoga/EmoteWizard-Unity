@@ -21,10 +21,21 @@ namespace Silksprite.EmoteWizardSupport.UI
             padding = new RectOffset(-4, 0, 4, 0)
         };
 
+        static readonly GUIStyle HeaderFoldoutStyle = GetHeaderFoldoutStyle();
+
+        static GUIStyle GetHeaderFoldoutStyle()
+        {
+            return new GUIStyle(EditorStyles.foldout)
+            {
+                fontStyle = FontStyle.Bold
+            };
+        } 
+        
         static readonly Color ConfigUIColor = new Color(0.80f, 0.80f, 0.82f);
         static readonly Color OutputUIColor = new Color(0.3f, 1.0f, 0.9f);
 
         public static void Header(LocalizedContent loc) => EditorGUILayout.LabelField(loc.Tr, HeaderStyle);
+        public static bool HeaderFoldout(bool foldout, LocalizedContent loc) => EditorGUILayout.Foldout(foldout, loc.GUIContent, HeaderFoldoutStyle);
 
         public static void PropertyFoldout(LocalizedProperty lop, Action content = null)
         {
@@ -47,7 +58,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static IUndoable Undoable(LocalizedContent loc, string undoLabel) => GUILayout.Button(loc.GUIContent) ? new EditorUndoable(undoLabel) : null;
 
-        public static void Undoable(LocalizedContent loc, Action<IUndoable> onClick) => Undoable(loc, loc.Tr, onClick);
+        public static void Undoable(LocalizedContent loc, Action<IUndoable> onClick, params GUILayoutOption[] options) => Undoable(loc, loc.Tr, onClick);
 
         public static void Undoable(LocalizedContent loc, string undoLabel, Action<IUndoable> onClick)
         {
@@ -110,7 +121,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static bool Button(LocalizedContent loc, params GUILayoutOption[] options) => GUILayout.Button(loc.GUIContent, options);
 
-        public static void Label(LocalizedContent loc, GUILayoutOption[] options) => GUILayout.Label(loc.GUIContent, options);
+        public static void Label(LocalizedContent loc) => GUILayout.Label(loc.GUIContent);
 
         public static bool Foldout(bool foldout, LocalizedContent loc) => EditorGUILayout.Foldout(foldout, loc.GUIContent);
 

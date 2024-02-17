@@ -3,13 +3,13 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
-using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard
@@ -17,6 +17,8 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(EmoteWizardDataSourceFactory))]
     public class EmoteWizardDataSourceFactoryEditor : EmoteWizardEditorBase<EmoteWizardDataSourceFactory>
     {
+        bool _advanced;
+
         protected override void OnInnerInspectorGUI()
         {
             void UndoableButton(LocalizedContent loc, LocalizedContent desc, Action<IUndoable> callback)
@@ -24,11 +26,12 @@ namespace Silksprite.EmoteWizard
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     EmoteWizardGUILayout.Undoable(loc, callback);
-                    EmoteWizardGUILayout.Label(desc, new GUILayoutOption[0]);
+                    if (!desc.IsNullOrEmpty()) EmoteWizardGUILayout.Label(desc);
                 }
             }
 
             var env = CreateEnv();
+            
             if (env.Platform.IsVRChat())
             {
                 using (new BoxLayoutScope())
@@ -83,6 +86,42 @@ namespace Silksprite.EmoteWizard
                         undoable =>
                         {
                             undoable.AddChildComponentAndSelect<CustomActionWizard>(soleTarget, "Custom Action Wizard");
+                        });
+                }
+            }
+
+            using (new BoxLayoutScope())
+            {
+                var advanced = _advanced = EmoteWizardGUILayout.HeaderFoldout(_advanced, Loc("EmoteWizardDataSourceFactory::advanced"));
+                if (advanced)
+                {
+                    if (env.Platform.IsVRChat())
+                    {
+                        UndoableButton(Loc("EmoteWizardDataSourceFactory::Emote Item Source"),
+                            default,
+                            undoable =>
+                            {
+                                undoable.AddChildComponentAndSelect<EmoteItemSource>(soleTarget, "Emote Item Source");
+                            });
+                        UndoableButton(Loc("EmoteWizardDataSourceFactory::Emote Sequence Source"),
+                            default,
+                            undoable =>
+                            {
+                                undoable.AddChildComponentAndSelect<EmoteSequenceSource>(soleTarget, "Emote Sequence Source");
+                            });
+                    }
+
+                    UndoableButton(Loc("EmoteWizardDataSourceFactory::Generic Emote Item Source"),
+                        default,
+                        undoable =>
+                        {
+                            undoable.AddChildComponentAndSelect<GenericEmoteItemSource>(soleTarget, "Generic Emote Item Source");
+                        });
+                    UndoableButton(Loc("EmoteWizardDataSourceFactory::Generic Emote Sequence Source"),
+                        default,
+                        undoable =>
+                        {
+                            undoable.AddChildComponentAndSelect<GenericEmoteSequenceSource>(soleTarget, "Generic Emote Sequence Source");
                         });
                 }
             }

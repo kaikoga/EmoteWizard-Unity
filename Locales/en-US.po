@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-02-15 05:47+0900\n"
+"POT-Creation-Date: 2024-02-17 17:23+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -91,53 +91,73 @@ msgstr "Threshold"
 msgid "TrackingOverride::target"
 msgstr "Override"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:36
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:39
 msgid "EmoteWizardDataSourceFactory::Expression Item Source"
 msgstr "Expression Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:37
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:40
 msgid "EmoteWizardDataSourceFactory::Expression Item Source::Desc"
 msgstr "Items in Expression Menu"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:48
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:51
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source"
 msgstr "Sub Menu Expression Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:49
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:52
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source::Desc"
 msgstr "Sub Menu preset"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:61
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:64
 msgid "EmoteWizardDataSourceFactory::Parameter Source"
 msgstr "Parameter Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:62
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:65
 msgid "EmoteWizardDataSourceFactory::Parameter Source::Desc"
 msgstr "Parameters for external assets"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:68
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:71
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard"
 msgstr "Emote Item Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:69
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:72
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard::Desc"
 msgstr "Conditional animations"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:75
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:78
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard"
 msgstr "Dress Change Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:76
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:79
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard::Desc"
 msgstr "Outfit swapping preset"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:81
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:84
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard"
 msgstr "Custom Action Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:82
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:85
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard::Desc"
 msgstr "Action Emote preset"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:93
+msgid "EmoteWizardDataSourceFactory::advanced"
+msgstr "Advanced"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:100
+msgid "EmoteWizardDataSourceFactory::Emote Item Source"
+msgstr "Emote Item Source"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:106
+msgid "EmoteWizardDataSourceFactory::Emote Sequence Source"
+msgstr "Emote Sequence Source"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:114
+msgid "EmoteWizardDataSourceFactory::Generic Emote Item Source"
+msgstr "Generic Emote Item Source"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:120
+msgid "EmoteWizardDataSourceFactory::Generic Emote Sequence Source"
+msgstr "Generic Emote Sequence Source"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:51
 msgid "EmoteWizardRoot::avatarRootTransform"

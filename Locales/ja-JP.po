@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-02-15 05:47+0900\n"
+"POT-Creation-Date: 2024-02-17 17:23+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -66,8 +66,8 @@ msgstr "{platform}では、このコンポーネントは何もしません。"
 #: Editor/Silksprite/EmoteWizard/Core/Utils/AnimationPreview.cs:49
 msgid "AnimationPreview::Active."
 msgstr ""
-"このインスペクタで設定されたアニメーションのプレビューをシーンに表示して"
-"います。"
+"このインスペクタで設定されたアニメーションのプレビューをシーンに表示してい"
+"ます。"
 
 #: Editor/Silksprite/EmoteWizard/Core/Utils/AnimationPreview.cs:53
 msgid "AnimationPreview::Blocked."
@@ -93,53 +93,73 @@ msgstr "閾値"
 msgid "TrackingOverride::target"
 msgstr "オーバーライド"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:36
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:39
 msgid "EmoteWizardDataSourceFactory::Expression Item Source"
 msgstr "Expression Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:37
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:40
 msgid "EmoteWizardDataSourceFactory::Expression Item Source::Desc"
 msgstr "ExpressionMenuのメニュー項目"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:48
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:51
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source"
 msgstr "Sub Menu Expression Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:49
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:52
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source::Desc"
 msgstr "サブメニュープリセット"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:61
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:64
 msgid "EmoteWizardDataSourceFactory::Parameter Source"
 msgstr "Parameter Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:62
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:65
 msgid "EmoteWizardDataSourceFactory::Parameter Source::Desc"
 msgstr "外部アセットが利用するパラメータ"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:68
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:71
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard"
 msgstr "Emote Item Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:69
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:72
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard::Desc"
 msgstr "条件に応じて再生されるアニメーション"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:75
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:78
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard"
 msgstr "Dress Change Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:76
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:79
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard::Desc"
 msgstr "着せ替えプリセット"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:81
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:84
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard"
 msgstr "Custom Action Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:82
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:85
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard::Desc"
 msgstr "エモートプリセット"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:93
+msgid "EmoteWizardDataSourceFactory::advanced"
+msgstr "上級設定"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:100
+msgid "EmoteWizardDataSourceFactory::Emote Item Source"
+msgstr "Emote Item Source"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:106
+msgid "EmoteWizardDataSourceFactory::Emote Sequence Source"
+msgstr "Emote Sequence Source"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:114
+msgid "EmoteWizardDataSourceFactory::Generic Emote Item Source"
+msgstr "Generic Emote Item Source"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:120
+msgid "EmoteWizardDataSourceFactory::Generic Emote Sequence Source"
+msgstr "Generic Emote Sequence Source"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:51
 msgid "EmoteWizardRoot::avatarRootTransform"
@@ -881,8 +901,8 @@ msgstr "発動"
 #: Editor/Silksprite/EmoteWizardSupport/ClipBuilder/ResetValuesExtractor.cs:16
 msgid "Warn::ResetClip::MissingProperty."
 msgstr ""
-"{avatarRootName}: アニメーションに含まれるプロパティがアバターに見つから"
-"なかったため、Reset Clipの生成が不完全かもしれません。\n"
+"{avatarRootName}: アニメーションに含まれるプロパティがアバターに見つからな"
+"かったため、Reset Clipの生成が不完全かもしれません。\n"
 "パス: {path}\n"
 "プロパティ: {type} {propertyName}\n"
 "このプロパティはReset Clipに含まれません。"
@@ -931,17 +951,17 @@ msgstr ""
 msgid "EmoteSequenceSource::Tutorial."
 msgstr ""
 "アニメーションの内容をここに登録します。\n"
-"「グループ」でアニメーションを排他制御します。同時に再生したいアニメー"
-"ションはグループを分けてください。\n"
+"「グループ」でアニメーションを排他制御します。同時に再生したいアニメーショ"
+"ンはグループを分けてください。\n"
 "\n"
-"Exit Time: Exit Timeの設定をします。再生終了するタイプのアニメーションを"
-"設定します。\n"
+"Exit Time: Exit Timeの設定をします。再生終了するタイプのアニメーションを設"
+"定します。\n"
 "Time パラメータ: Motion Timeの設定をします。グリップやRadial Puppetに反応"
 "するタイプのアニメーションを設定します。\n"
 "Entry Clip: Clipに遷移する際にアニメーションを挿入します。\n"
 "Exit Clip: Clipから遷移する際にアニメーションを挿入します。\n"
-"レイヤーブレンド: VRC Playable Layer Controlの設定をします。現状Actionレ"
-"イヤー専用です。\n"
+"レイヤーブレンド: VRC Playable Layer Controlの設定をします。現状Actionレイ"
+"ヤー専用です。\n"
 "トラッキングオーバーライド: VRC Animator Tracking Controlの設定をします。"
 "アニメーションの再生中に一時的にAnimationにする項目を登録します。"
 
@@ -953,11 +973,11 @@ msgstr "Expression Menuを登録します。"
 msgid "GenericEmoteSequenceSource::Tutorial."
 msgstr ""
 "アニメーションの内容をここに登録します。\n"
-"「グループ」でアニメーションを排他制御します。同時に再生したいアニメー"
-"ションはグループを分けてください。\n"
+"「グループ」でアニメーションを排他制御します。同時に再生したいアニメーショ"
+"ンはグループを分けてください。\n"
 "\n"
-"レイヤーブレンド: VRC Playable Layer Controlの設定をします。現状Actionレ"
-"イヤー専用です。\n"
+"レイヤーブレンド: VRC Playable Layer Controlの設定をします。現状Actionレイ"
+"ヤー専用です。\n"
 "トラッキングオーバーライド: VRC Animator Tracking Controlの設定をします。"
 "アニメーションの再生中に一時的にAnimationにする項目を登録します。"
 
@@ -972,8 +992,8 @@ msgstr ""
 "カスタムエモートはActionレイヤーに追加されます。\n"
 "\n"
 "Emote Sequence: AnimationClipを設定します。細かい制御が可能です。\n"
-"Generic Emote Sequence: ブレンドシェイプを直接設定します。アニメーション"
-"は自動生成されます。"
+"Generic Emote Sequence: ブレンドシェイプを直接設定します。アニメーションは"
+"自動生成されます。"
 
 #: Locales/Translations.cs:22
 msgid "DefaultSourcesWizard::Tutorial."
@@ -988,15 +1008,15 @@ msgstr ""
 "\n"
 "Builtin: Expressionメニューにサブメニューが追加され、トグルで切り替えま"
 "す。（Expression Item Sourceは生成されません。）\n"
-"Toggle Items: Expressionメニューにサブメニューが追加され、トグルで切り替"
-"えます。\n"
+"Toggle Items: Expressionメニューにサブメニューが追加され、トグルで切り替え"
+"ます。\n"
 "Simple Toggle: Expressionメニューにトグルが追加されます。２つの着せ替えパ"
 "ターンを切り替えられます。\n"
 "Simple Radial: Expressionメニューにラジアルパペットが追加されます。\n"
 "\n"
 "Emote Sequence: AnimationClipを設定します。細かい制御が可能です。\n"
-"Generic Emote Sequence: ブレンドシェイプを直接設定します。アニメーション"
-"は自動生成されます。"
+"Generic Emote Sequence: ブレンドシェイプを直接設定します。アニメーションは"
+"自動生成されます。"
 
 #: Locales/Translations.cs:24
 msgid "EmoteItemWizard::Tutorial."
@@ -1006,8 +1026,8 @@ msgstr ""
 "表情や着せ替えパターンはFXレイヤーに追加されます。\n"
 "\n"
 "Emote Sequence: AnimationClipを設定します。細かい制御が可能です。\n"
-"Generic Emote Sequence: ブレンドシェイプを直接設定します。アニメーション"
-"は自動生成されます。"
+"Generic Emote Sequence: ブレンドシェイプを直接設定します。アニメーションは"
+"自動生成されます。"
 
 #: Locales/Translations.cs:25
 msgid "EmoteWizardDataSourceFactory::Tutorial."
@@ -1040,10 +1060,10 @@ msgstr ""
 "4. ハンドサインを差し替える場合はGesture Sourcesに設定してください。\n"
 "5. 必要に応じてAction SourcesからエモートとAFKモーションを編集してくださ"
 "い。\n"
-"6. 外部アセットと連携する場合はExpression SourcesとParameter Sourcesを設"
-"定してください。\n"
-"7. AnimationClipを設定した場合、「全てを生成してアバターを更新する」を押"
-"した後に「編集」を押すことで、アニメーションを編集するためのAnimator "
+"6. 外部アセットと連携する場合はExpression SourcesとParameter Sourcesを設定"
+"してください。\n"
+"7. AnimationClipを設定した場合、「全てを生成してアバターを更新する」を押し"
+"た後に「編集」を押すことで、アニメーションを編集するためのAnimator "
 "Controllerが自動生成されて開きます。"
 
 #, fuzzy
