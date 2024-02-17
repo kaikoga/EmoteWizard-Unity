@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.ClipBuilder;
+using Silksprite.EmoteWizard.DataObjects.Animations.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Animations
 {
     [Serializable]
-    public class AnimatedEnable : IAnimatedProperty<float>
+    public class AnimatedEnable : AnimatedPropertyBase<Transform>, IAnimatedProperty<float>
     {
-        [SerializeField] public Transform target;
         [SerializeField] public bool isEnable;
 
         IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)

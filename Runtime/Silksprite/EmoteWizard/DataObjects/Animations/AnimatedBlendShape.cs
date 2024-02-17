@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.ClipBuilder;
+using Silksprite.EmoteWizard.DataObjects.Animations.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Animations
 {
     [Serializable]
-    public class AnimatedBlendShape : IAnimatedProperty<float>
+    public class AnimatedBlendShape : AnimatedPropertyBase<SkinnedMeshRenderer>, IAnimatedProperty<float>
     {
-        [SerializeField] public SkinnedMeshRenderer target;
         [SerializeField] public string blendShapeName;
         [Range(0, 100)]
         [SerializeField] public float value;
