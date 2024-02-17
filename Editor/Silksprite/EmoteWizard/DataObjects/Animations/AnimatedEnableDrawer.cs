@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -16,8 +17,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 var relativeRef = serializedProperty.Lop(nameof(AnimatedEnable.relativeRef), LocalizationTool.Loc("AnimatedEnable::relativeRef"));
                 var isEnable = serializedProperty.Lop(nameof(AnimatedEnable.isEnable), LocalizationTool.Loc("AnimatedEnable::isEnable"));
 
-                EditorGUI.PropertyField(position.UISliceV(0), relativeRef.Property, relativeRef.GUIContent);
-                EditorGUI.PropertyField(position.UISliceV(2), isEnable.Property, isEnable.GUIContent);
+                EmoteWizardGUI.Prop(position.UISliceV(0), relativeRef, label);
+                EmoteWizardGUI.Prop(position.UISliceV(2), isEnable);
             }
         }
 

@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
@@ -13,12 +14,12 @@ namespace Silksprite.EmoteWizard.DataObjects
         public override void OnGUI(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
             var target = serializedProperty.FindPropertyRelative(nameof(RelativeRef<TTarget>.target));
-            var relativePath = serializedProperty.FindPropertyRelative(nameof(RelativeRef<TTarget>.relativePath));
+            var relativePath = serializedProperty.Lop(nameof(RelativeRef<TTarget>.relativePath), Loc("RelativeRef.relativePath"));
 
-            if (!target.objectReferenceValue && !string.IsNullOrEmpty(relativePath.stringValue))
+            if (!target.objectReferenceValue && !string.IsNullOrEmpty(relativePath.Property.stringValue))
             {
                 var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                target.objectReferenceValue = RelativeRef<TTarget>.ResolveTarget(env?.AvatarRoot, relativePath.stringValue);
+                target.objectReferenceValue = RelativeRef<TTarget>.ResolveTarget(env?.AvatarRoot, relativePath.Property.stringValue);
             }
 
             EditorGUI.BeginProperty(position, label, serializedProperty);
@@ -27,13 +28,11 @@ namespace Silksprite.EmoteWizard.DataObjects
             if (EditorGUI.EndChangeCheck())
             {
                 var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                relativePath.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
+                relativePath.Property.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
             }
             EditorGUI.EndProperty();
 
-            EditorGUI.BeginProperty(position, Loc("RelativeRef.relativePath").GUIContent, relativePath);
-            EditorGUI.LabelField(position.UISliceV(1), Loc("RelativeRef.relativePath").GUIContent, new GUIContent(relativePath.stringValue));
-            EditorGUI.EndProperty();
+            EmoteWizardGUI.PropAsLabel(position.UISliceV(1), relativePath);
         }
     }
 

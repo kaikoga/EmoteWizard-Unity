@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
@@ -19,10 +20,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {
-                EditorGUI.PropertyField(position.UISliceH(0.0f, 0.4f), parameter.Property, parameter.GUIContent);
-                EditorGUI.PropertyField(position.UISliceH(0.4f, 0.2f), kind.Property, kind.GUIContent);
-                EditorGUI.PropertyField(position.UISliceH(0.6f, 0.2f), mode.Property, mode.GUIContent);
-                EditorGUI.PropertyField(position.UISliceH(0.8f, 0.2f), threshold.Property, threshold.GUIContent);
+                EmoteWizardGUI.Prop(position.UISliceH(0.0f, 0.4f), parameter);
+                EmoteWizardGUI.Prop(position.UISliceH(0.4f, 0.2f), kind);
+                EmoteWizardGUI.Prop(position.UISliceH(0.6f, 0.2f), mode);
+                EmoteWizardGUI.Prop(position.UISliceH(0.8f, 0.2f), threshold);
             }
         }
     }
