@@ -22,17 +22,36 @@ namespace Silksprite.EmoteWizard.DataObjects
                 target.objectReferenceValue = RelativeRef<TTarget>.ResolveTarget(env?.AvatarRoot, relativePath.Property.stringValue);
             }
 
-            EditorGUI.BeginProperty(position, label, serializedProperty);
-            EditorGUI.BeginChangeCheck();
-            target.objectReferenceValue = EditorGUI.ObjectField(position.UISliceV(0), label, target.objectReferenceValue, typeof(TTarget), true);
-            if (EditorGUI.EndChangeCheck())
+            if (target.objectReferenceValue || string.IsNullOrEmpty(relativePath.Property.stringValue))
             {
-                var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                relativePath.Property.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
+                EditorGUI.BeginProperty(position, label, serializedProperty);
+                EditorGUI.BeginChangeCheck();
+                target.objectReferenceValue = EditorGUI.ObjectField(position, label, target.objectReferenceValue, typeof(TTarget), true);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
+                    relativePath.Property.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
+                }
+                EditorGUI.EndProperty();
             }
-            EditorGUI.EndProperty();
+            else
+            {
+                EditorGUI.BeginProperty(position, label, serializedProperty);
+                EditorGUI.BeginChangeCheck();
+                var pos = position;
+                pos.width = EditorGUIUtility.labelWidth + 80f;
+                target.objectReferenceValue = EditorGUI.ObjectField(pos, label, target.objectReferenceValue, typeof(TTarget), true);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
+                    relativePath.Property.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
+                }
 
-            EmoteWizardGUI.PropAsLabel(position.UISliceV(1), relativePath);
+                EditorGUI.EndProperty();
+
+                position.x += pos.width;
+                EmoteWizardGUI.PropAsLabel(position, relativePath, UnityEngine.GUIContent.none);
+            }
         }
     }
 

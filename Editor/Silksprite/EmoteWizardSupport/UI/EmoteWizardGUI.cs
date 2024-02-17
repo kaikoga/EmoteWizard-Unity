@@ -7,17 +7,19 @@ namespace Silksprite.EmoteWizardSupport.UI
 {
     public static class EmoteWizardGUI
     {
-        public static void Prop(Rect position, LocalizedProperty lop) => EditorGUI.PropertyField(position, lop.Property, lop.Loc.GUIContent);
+        public static void Prop(Rect position, LocalizedProperty lop) => Prop(position, lop, lop.GUIContent);
         public static void Prop(Rect position, LocalizedProperty lop, GUIContent label) => EditorGUI.PropertyField(position, lop.Property, label);
 
-        public static void PropAsLabel(Rect position, LocalizedProperty lop)
+        public static void PropAsLabel(Rect position, LocalizedProperty lop) => PropAsLabel(position, lop, lop.GUIContent);
+
+        public static void PropAsLabel(Rect position, LocalizedProperty lop, GUIContent label)
         {
-            EditorGUI.BeginProperty(position, lop.GUIContent, lop.Property);
+            EditorGUI.BeginProperty(position, label, lop.Property);
             if (lop.Property.hasMultipleDifferentValues)
             {
                 EditorGUI.showMixedValue = true;
             }
-            EditorGUI.LabelField(position, lop.GUIContent, new GUIContent(lop.Property.stringValue));
+            EditorGUI.LabelField(position, label, new GUIContent(lop.Property.stringValue));
             EditorGUI.showMixedValue = false;
             EditorGUI.EndProperty();
         }

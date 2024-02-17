@@ -18,13 +18,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 var isEnable = serializedProperty.Lop(nameof(AnimatedEnable.isEnable), LocalizationTool.Loc("AnimatedEnable::isEnable"));
 
                 EmoteWizardGUI.Prop(position.UISliceV(0), relativeRef, label);
-                EmoteWizardGUI.Prop(position.UISliceV(2), isEnable);
+                EmoteWizardGUI.Prop(position.UISliceV(1), isEnable);
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing * 2;
+            return EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing * 1;
         }
     }
 }

@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                         .Select(i => sharedMesh.GetBlendShapeName(i))
                         .ToArray();
                     var newBlendShapeNameValue = EditorGUI.Popup(
-                        position.UISliceV(2),
+                        position.UISliceV(1),
                         blendShapeName.Loc.Tr,
                         Array.IndexOf(options, blendShapeName.Property.stringValue),
                         options
@@ -46,16 +46,16 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 }
                 else
                 {
-                    EmoteWizardGUI.PropAsLabel(position.UISliceV(2), blendShapeName);
+                    EmoteWizardGUI.PropAsLabel(position.UISliceV(1), blendShapeName);
                 }
 
-                EmoteWizardGUI.Prop(position.UISliceV(3), value);
+                EmoteWizardGUI.Prop(position.UISliceV(2), value);
             }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 4 + EditorGUIUtility.standardVerticalSpacing * 3;
+            return EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing * 2;
         }
     }
 }
