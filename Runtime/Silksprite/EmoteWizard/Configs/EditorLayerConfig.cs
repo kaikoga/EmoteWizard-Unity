@@ -1,6 +1,5 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Configs

@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using UnityEditor;
 
 #if EW_NDMF_SUPPORT
 using nadena.dev.ndmf.localization;
+#else
+using UnityEditor;
 #endif
 
 namespace Silksprite.EmoteWizardSupport.L10n

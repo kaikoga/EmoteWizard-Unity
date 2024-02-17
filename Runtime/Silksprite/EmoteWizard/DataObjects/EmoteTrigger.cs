@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Builders;
-using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects

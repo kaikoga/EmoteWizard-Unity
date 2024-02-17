@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using NUnit;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -16,7 +15,6 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
-using Object = System.Object;
 
 namespace Silksprite.EmoteWizard.Sources
 {
