@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Animations;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,8 +12,8 @@ namespace Silksprite.EmoteWizard.Extensions
         {
             var sampleTime = clip.length;
             
-            var animatedEnable = new List<GenericEmoteSequence.AnimatedEnable>();
-            var animatedBlendShapes = new List<GenericEmoteSequence.AnimatedBlendShape>();
+            var animatedEnable = new List<AnimatedEnable>();
+            var animatedBlendShapes = new List<AnimatedBlendShape>();
 
             var curveBindings = AnimationUtility.GetCurveBindings(clip);
             var objectReferenceCurveBindings = AnimationUtility.GetObjectReferenceCurveBindings(clip);
@@ -24,7 +25,7 @@ namespace Silksprite.EmoteWizard.Extensions
                     switch (curveBinding.propertyName)
                     {
                         case "m_IsActive":
-                            animatedEnable.Add(new GenericEmoteSequence.AnimatedEnable
+                            animatedEnable.Add(new AnimatedEnable
                             {
                                 target = animationRoot.transform.Find(curveBinding.path),
                                 isEnable = AnimationUtility.GetEditorCurve(clip, curveBinding).Evaluate(sampleTime) != 0f 
@@ -35,7 +36,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 {
                     if (curveBinding.propertyName.StartsWith("blendShape."))
                     {
-                        animatedBlendShapes.Add(new GenericEmoteSequence.AnimatedBlendShape
+                        animatedBlendShapes.Add(new AnimatedBlendShape
                         {
                             target = animationRoot.transform.Find(curveBinding.path).GetComponent<SkinnedMeshRenderer>(),
                             blendShapeName = curveBinding.propertyName.Substring("blendShape.".Length),

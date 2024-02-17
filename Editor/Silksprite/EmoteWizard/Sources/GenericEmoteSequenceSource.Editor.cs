@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -9,7 +8,6 @@ using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
@@ -161,73 +159,6 @@ namespace Silksprite.EmoteWizard.Sources
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source") is IUndoable undoable)
             {
                 SourceExploder.ExplodeEmoteSequencesImmediate(undoable, soleTarget);
-            }
-        }
-
-        [CustomPropertyDrawer(typeof(GenericEmoteSequence.AnimatedEnable))]
-        public class AnimatedEnableDrawer : PropertyDrawer
-        {
-            public override void OnGUI(Rect position, SerializedProperty serializedProperty, GUIContent label)
-            {
-                using (new LabelWidthScope(100f))
-                {
-                    var target = serializedProperty.Lop(nameof(GenericEmoteSequence.AnimatedEnable.target), Loc("AnimatedEnable::target"));
-                    var isEnable = serializedProperty.Lop(nameof(GenericEmoteSequence.AnimatedEnable.isEnable), Loc("AnimatedEnable::isEnable"));
-
-                    EditorGUI.PropertyField(position.UISliceV(0), target.Property, target.GUIContent);
-                    EditorGUI.PropertyField(position.UISliceV(1), isEnable.Property, isEnable.GUIContent);
-                }
-            }
-
-            public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-            {
-                return EditorGUIUtility.singleLineHeight * 2 + EditorGUIUtility.standardVerticalSpacing * 1;
-            }
-        }
-
-        [CustomPropertyDrawer(typeof(GenericEmoteSequence.AnimatedBlendShape))]
-        public class AnimatedBlendShapeDrawer : PropertyDrawer
-        {
-            public override void OnGUI(Rect position, SerializedProperty serializedProperty, GUIContent label)
-            {
-                using (new LabelWidthScope(100f))
-                {
-                    var target = serializedProperty.Lop(nameof(GenericEmoteSequence.AnimatedBlendShape.target),
-                        Loc("AnimatedBlendShape::target"));
-                    var blendShapeName = serializedProperty.Lop(
-                        nameof(GenericEmoteSequence.AnimatedBlendShape.blendShapeName),
-                        Loc("AnimatedBlendShape::blendShapeName"));
-                    var value = serializedProperty.Lop(nameof(GenericEmoteSequence.AnimatedBlendShape.value),
-                        Loc("AnimatedBlendShape::value"));
-
-                    EditorGUI.PropertyField(position.UISliceV(0), target.Property, target.GUIContent);
-
-                    var skinnedMeshRenderer = (SkinnedMeshRenderer)target.Property.objectReferenceValue;
-                    if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is Mesh sharedMesh)
-                    {
-                        EditorGUI.BeginChangeCheck();
-                        var options = Enumerable.Range(0, sharedMesh.blendShapeCount)
-                            .Select(i => sharedMesh.GetBlendShapeName(i))
-                            .ToArray();
-                        var newBlendShapeNameValue = EditorGUI.Popup(
-                            position.UISliceV(1),
-                            blendShapeName.Loc.Tr,
-                            Array.IndexOf(options, blendShapeName.Property.stringValue),
-                            options
-                        );
-                        if (EditorGUI.EndChangeCheck())
-                        {
-                            blendShapeName.Property.stringValue = options[newBlendShapeNameValue];
-                        }
-                    }
-
-                    EditorGUI.PropertyField(position.UISliceV(2), value.Property, value.GUIContent);
-                }
-            }
-
-            public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-            {
-                return EditorGUIUtility.singleLineHeight * 3 + EditorGUIUtility.standardVerticalSpacing * 2;
             }
         }
     }

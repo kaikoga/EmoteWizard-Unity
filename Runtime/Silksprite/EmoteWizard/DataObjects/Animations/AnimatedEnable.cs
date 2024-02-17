@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using Silksprite.EmoteWizard.ClipBuilder;
+using Silksprite.EmoteWizardSupport.Extensions;
+using UnityEngine;
+
+namespace Silksprite.EmoteWizard.DataObjects.Animations
+{
+    [Serializable]
+    public class AnimatedEnable : IAnimatedProperty<float>
+    {
+        [SerializeField] public Transform target;
+        [SerializeField] public bool isEnable;
+
+        IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
+        {
+            if (!target) yield break;
+            yield return new AnimatedValue<float>
+            {
+                Path = target.GetRelativePathFrom(avatarRootTransform),
+                PropertyName = "m_IsActive",
+                Type = typeof(GameObject),
+                ValueOff = isEnable ? 1 : 0,
+                ValueOn = isEnable ? 1 : 0,
+            };
+        }
+    }
+}

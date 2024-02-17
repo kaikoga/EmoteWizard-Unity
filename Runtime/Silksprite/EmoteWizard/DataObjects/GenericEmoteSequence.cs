@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.ClipBuilder;
+using Silksprite.EmoteWizard.DataObjects.Animations;
 using Silksprite.EmoteWizard.DataObjects.Builders;
-using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -48,53 +48,6 @@ namespace Silksprite.EmoteWizard.DataObjects
                 layerKind = layerKind,
                 groupName = groupName
             });
-        }
-
-        public interface IAnimatedProperty<T>
-        {
-            IEnumerable<AnimatedValue<T>> ToAnimatedValues(Transform avatarRootTransform);
-        }
-
-        [Serializable]
-        public class AnimatedEnable : IAnimatedProperty<float>
-        {
-            [SerializeField] public Transform target;
-            [SerializeField] public bool isEnable;
-
-            IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
-            {
-                if (!target) yield break;
-                yield return new AnimatedValue<float>
-                {
-                    Path = target.GetRelativePathFrom(avatarRootTransform),
-                    PropertyName = "m_IsActive",
-                    Type = typeof(GameObject),
-                    ValueOff = isEnable ? 1 : 0,
-                    ValueOn = isEnable ? 1 : 0,
-                };
-            }
-        }
-
-        [Serializable]
-        public class AnimatedBlendShape : IAnimatedProperty<float>
-        {
-            [SerializeField] public SkinnedMeshRenderer target;
-            [SerializeField] public string blendShapeName;
-            [Range(0, 100)]
-            [SerializeField] public float value;
-
-            IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
-            {
-                if (!target) yield break;
-                yield return new AnimatedValue<float>
-                {
-                    Path = target.transform.GetRelativePathFrom(avatarRootTransform),
-                    PropertyName = $"blendShape.{blendShapeName}",
-                    Type = typeof(SkinnedMeshRenderer),
-                    ValueOff = value,
-                    ValueOn = value
-                };
-            }
         }
     }
 }
