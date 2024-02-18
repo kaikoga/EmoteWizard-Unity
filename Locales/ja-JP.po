@@ -243,7 +243,7 @@ msgstr "上書きする"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:67
 msgid "EmoteWizardRoot::author"
-msgstr "Set Author (VRM)"
+msgstr "Authorを設定 (VRM)"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:68
 msgid "EmoteWizardRoot::showTutorial"
