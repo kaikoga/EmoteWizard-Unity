@@ -70,7 +70,10 @@ namespace Silksprite.EmoteWizardSupport.Utils
 
         static Transform FromRelativePath(Transform root, string relativePath, string rootName)
         {
-            return !root ? null : relativePath == rootName ? root : root.Find(relativePath);
+            return !root ? null :
+                relativePath == null ? null :
+                relativePath == rootName ? root :
+                root.Find(relativePath);
         }
     }
 }
