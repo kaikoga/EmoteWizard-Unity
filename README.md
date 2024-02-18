@@ -19,7 +19,7 @@ https://github.com/kaikoga/EasyModeAvatar-Unity.git#v0.99.1
 or add to manifest.json:
 
 ```
-"net.kaikoga.emotewizard": "https://github.com/kaikoga/EasyModeAvatar-Unity.git#v0.99.2",
+"net.kaikoga.emotewizard": "https://github.com/kaikoga/EmoteWizard-Unity.git#v0.100.0",
 ```
 
 ---
