@@ -5,20 +5,19 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ParameterSnapshotBuilder
     {
-        readonly List<ParameterInstanceBuilder> _parameterItems;
+        readonly List<ParameterInstanceBuilder> _parameterItems = new List<ParameterInstanceBuilder>();
+        readonly List<ParameterInstanceBuilder> _implicitParameterItems = new List<ParameterInstanceBuilder>();
 
-        public ParameterSnapshotBuilder()
-        {
-            _parameterItems = new List<ParameterInstanceBuilder>();
-        }
+        public ParameterInstanceBuilder FindOrCreate(string name) => DoFindOrCreate(name, _parameterItems);
+        public ParameterInstanceBuilder FindOrCreateImplicit(string name) => DoFindOrCreate(name, _implicitParameterItems);
 
-        public ParameterInstanceBuilder FindOrCreate(string name)
+        static ParameterInstanceBuilder DoFindOrCreate(string name, List<ParameterInstanceBuilder> list)
         {
-            var result = _parameterItems.FirstOrDefault(parameter => parameter.Name == name);
+            var result = list.FirstOrDefault(parameter => parameter.Name == name);
             if (result == null)
             {
                 result = ParameterInstanceBuilder.Populate(name);
-                _parameterItems.Add(result);
+                list.Add(result);
             }
 
             return result;
@@ -28,7 +27,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             return new ParametersSnapshot
             {
-                ParameterItems = _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList()
+                ParameterItems = _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList(),
+                ImplicitParameterItems = _implicitParameterItems.Select(item => item.ToInstance()).ToList()
             };
         }
     }

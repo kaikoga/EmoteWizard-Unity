@@ -8,7 +8,10 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
 
 #if EW_VRCSDK3_AVATARS
+using VRC.Dynamics;
 using VRC.SDK3.Avatars.ScriptableObjects;
+using VRC.SDK3.Dynamics.Contact.Components;
+using VRC.SDK3.Dynamics.PhysBone.Components;
 #endif
 
 namespace Silksprite.EmoteWizard.Contexts
@@ -91,6 +94,39 @@ namespace Silksprite.EmoteWizard.Contexts
             {
                 builder.FindOrCreate(parameter.name).Import(parameter);
             }
+
+#if EW_VRCSDK3_AVATARS
+            foreach (var contactReceiver in Environment.AvatarRoot.GetComponentsInChildren<VRCContactReceiver>())
+            {
+                var parameter = contactReceiver.parameter;
+                if (string.IsNullOrEmpty(parameter)) continue;
+
+                switch (contactReceiver.receiverType)
+                {
+                    case ContactReceiver.ReceiverType.Constant:
+                    case ContactReceiver.ReceiverType.OnEnter:
+                        builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Auto, 1f);
+                        break;
+                    case ContactReceiver.ReceiverType.Proximity:
+                        builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                        break;
+                    default:
+                        // ignore
+                        break;
+                }
+            }
+
+            foreach (var physBone in Environment.AvatarRoot.GetComponentsInChildren<VRCPhysBone>())
+            {
+                var parameter = physBone.parameter;
+                if (string.IsNullOrEmpty(parameter)) continue;
+
+                builder.FindOrCreateImplicit($"{parameter}_IsGrabbed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
+                builder.FindOrCreateImplicit($"{parameter}_IsPosed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
+                builder.FindOrCreateImplicit($"{parameter}_Angle").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                builder.FindOrCreateImplicit($"{parameter}_Stretch").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+            }
+#endif
 
             return builder.ToSnapshot();
         }

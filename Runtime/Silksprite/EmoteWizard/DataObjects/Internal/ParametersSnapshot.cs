@@ -7,9 +7,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     public class ParametersSnapshot
     {
         public List<ParameterInstance> ParameterItems;
+        public List<ParameterInstance> ImplicitParameterItems;
         static readonly List<ParameterInstance> DefaultParameterItems = DefaultParameters.Populate();
 
-        public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(DefaultParameterItems);
+        public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(ImplicitParameterItems).Concat(DefaultParameterItems);
 
         public ParameterInstance ResolveParameter(string parameterName)
         {

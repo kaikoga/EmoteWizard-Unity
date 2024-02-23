@@ -45,6 +45,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             }
         }
 
+        public void AddWriteValue(ParameterWriteUsageKind kind, float value)
+        {
+            AddWriteDefault();
+            _writeUsages.Add(new ParameterWriteUsage(kind, value));
+        }
+
         public void AddWriteValue(float value)
         {
             AddWriteDefault();
