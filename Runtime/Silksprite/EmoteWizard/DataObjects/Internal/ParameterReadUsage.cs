@@ -1,6 +1,6 @@
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    public class ParameterReadUsage
+    public readonly struct ParameterReadUsage
     {
         public readonly ParameterItemKind ItemKind;
         public readonly float Value;

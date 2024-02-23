@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -104,13 +105,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 DefaultValue = _defaultValue,
                 Synced = _synced,
                 ItemKind = _itemKind,
-                WriteUsages = _writeUsages.Select(state => (valueKind: state.WriteUsageKind, value: state.Value))
-                    .Distinct()
-                    .Select(usageValue => new ParameterWriteUsage(usageValue.valueKind, usageValue.value))
+                WriteUsages = _writeUsages.Distinct()
                     .OrderBy(usage => usage.Value)
                     .ToList(),
-                ReadUsages = _readUsages.GroupBy(state => state.Value)
-                    .Select(group => group.First())
+                ReadUsages = _readUsages.DistinctBy(usage => usage.Value)
                     .OrderBy(usage => usage.Value)
                     .ToList()
             };
