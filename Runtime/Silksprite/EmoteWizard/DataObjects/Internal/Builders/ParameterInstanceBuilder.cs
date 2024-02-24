@@ -3,7 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Extensions;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects.Internal
+namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 {
     public class ParameterInstanceBuilder
     {

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Silksprite.EmoteWizard.DataObjects.Internal
+namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 {
-    public class ParameterSnapshotBuilder
+    public class ParametersSnapshotBuilder
     {
         readonly List<ParameterInstanceBuilder> _parameterItems = new List<ParameterInstanceBuilder>();
         readonly List<ParameterInstanceBuilder> _implicitParameterItems = new List<ParameterInstanceBuilder>();
