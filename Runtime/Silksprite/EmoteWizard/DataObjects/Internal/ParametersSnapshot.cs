@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
+    [Serializable]
     public class ParametersSnapshot
     {
-        public List<ParameterInstance> ParameterItems;
-        public List<ParameterInstance> ImplicitParameterItems;
+        [SerializeField] public List<ParameterInstance> ParameterItems;
+        [SerializeField] public List<ParameterInstance> ImplicitParameterItems;
         static readonly List<ParameterInstance> DefaultParameterItems = DefaultParameters.Populate();
 
         public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(ImplicitParameterItems).Concat(DefaultParameterItems);

@@ -1,11 +1,13 @@
 using System;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    public readonly struct ParameterWriteUsage : IEquatable<ParameterWriteUsage>
+    [Serializable]
+    public struct ParameterWriteUsage : IEquatable<ParameterWriteUsage>
     {
-        public readonly ParameterWriteUsageKind WriteUsageKind;
-        public readonly float Value;
+        [SerializeField] public ParameterWriteUsageKind WriteUsageKind;
+        [SerializeField] public float Value;
 
         public ParameterWriteUsage(ParameterWriteUsageKind writeUsageKind, float value)
         {

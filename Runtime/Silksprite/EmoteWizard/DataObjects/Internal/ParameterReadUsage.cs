@@ -1,9 +1,13 @@
+using System;
+using UnityEngine;
+
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    public readonly struct ParameterReadUsage
+    [Serializable]
+    public struct ParameterReadUsage
     {
-        public readonly ParameterItemKind ItemKind;
-        public readonly float Value;
+        [SerializeField] public ParameterItemKind ItemKind;
+        [SerializeField] public float Value;
 
         public ParameterReadUsage(ParameterItemKind itemKind, float value)
         {

@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
+    [Serializable]
     public class ParameterInstance
     {
-        public string Name;
-        public ParameterItemKind ItemKind;
-        public bool Saved = true;
-        public float DefaultValue;
-        public bool Synced = true;
-        public List<ParameterWriteUsage> WriteUsages;
-        public List<ParameterReadUsage> ReadUsages;
+        [SerializeField] public string Name;
+        [SerializeField] public ParameterItemKind ItemKind;
+        [SerializeField] public bool Saved = true;
+        [SerializeField] public float DefaultValue;
+        [SerializeField] public bool Synced = true;
+        [SerializeField] public List<ParameterWriteUsage> WriteUsages;
+        [SerializeField] public List<ParameterReadUsage> ReadUsages;
 
         public ParameterValueKind ValueKind
         {
