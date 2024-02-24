@@ -1,8 +1,11 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
+using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
 
 namespace Silksprite.EmoteWizard.Configs
@@ -11,6 +14,9 @@ namespace Silksprite.EmoteWizard.Configs
     public class ParametersConfigEditor : EmoteWizardEditorBase<ParametersConfig>
     {
         LocalizedProperty _outputAsset;
+        LocalizedProperty _debugSnapshot;
+
+        [SerializeField] ParametersSnapshot debugSnapshot;
 
         void OnEnable()
         {
@@ -20,6 +26,19 @@ namespace Silksprite.EmoteWizard.Configs
         protected override void OnInnerInspectorGUI()
         {
             var env = CreateEnv();
+
+            if (_debugSnapshot == default)
+            {
+                if (EmoteWizardGUILayout.Button(Loc("ParametersConfig::debugSnapshot")))
+                {
+                    debugSnapshot = soleTarget.GetContext(soleTarget.CreateEnv()).Snapshot();
+                    _debugSnapshot = new SerializedObject(this).Lop(nameof(debugSnapshot), Loc("ParametersConfig::debugSnapshot"));
+                }
+            }
+            else
+            {
+                EmoteWizardGUILayout.Prop(_debugSnapshot);
+            }
 
             EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {

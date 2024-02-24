@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-02-18 05:39+0900\n"
+"POT-Creation-Date: 2024-02-24 10:28+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -51,11 +51,16 @@ msgstr "出力アセット"
 msgid "ExpressionConfig::Generate Expression Menu"
 msgstr "Expressions Menuを出力"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:17
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:23
 msgid "ParametersConfig::outputAsset"
 msgstr "出力アセット"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:27
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:33
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:36
+msgid "ParametersConfig::debugSnapshot"
+msgstr "[DEBUG] Snapshot"
+
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:47
 msgid "ParametersConfig::Generate Expression Parameters"
 msgstr "Expression Parametersを出力"
 
@@ -63,7 +68,7 @@ msgstr "Expression Parametersを出力"
 msgid "EWS::IgnoredByPlatform."
 msgstr "{platform}では、このコンポーネントは何もしません。"
 
-#: Editor/Silksprite/EmoteWizard/Core/DataObjects/RelativeRef.Drawer.cs:34
+#: Editor/Silksprite/EmoteWizard/Core/DataObjects/RelativeRef.Drawer.cs:17
 msgid "RelativeRef.relativePath"
 msgstr "相対パス"
 
@@ -77,43 +82,43 @@ msgstr ""
 msgid "AnimationPreview::Blocked."
 msgstr "他のインスペクタでアニメーションのプレビューを表示中です。"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:19
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:20
 msgid "AnimatedBlendShape::relativeRef"
 msgstr "対象"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:22
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:23
 msgid "AnimatedBlendShape::blendShapeName"
 msgstr "ブレンドシェイプ"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:24
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:25
 msgid "AnimatedBlendShape::value"
 msgstr "値"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:16
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:17
 msgid "AnimatedEnable::relativeRef"
 msgstr "対象"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:17
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:18
 msgid "AnimatedEnable::isEnable"
 msgstr "有効化"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:14
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:15
 msgid "EmoteCondition::parameter"
 msgstr "パラメータ"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:15
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:16
 msgid "EmoteCondition::kind"
 msgstr "種類"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:16
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:17
 msgid "EmoteCondition::mode"
 msgstr "モード"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:17
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:18
 msgid "EmoteCondition::threshold"
 msgstr "閾値"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/TrackingOverride.Drawer.cs:13
+#: Editor/Silksprite/EmoteWizard/DataObjects/TrackingOverride.Drawer.cs:14
 msgid "TrackingOverride::target"
 msgstr "オーバーライド"
 

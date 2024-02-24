@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2024-02-18 05:39+0900\n"
+"POT-Creation-Date: 2024-02-24 10:28+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -51,11 +51,16 @@ msgstr "Output Asset"
 msgid "ExpressionConfig::Generate Expression Menu"
 msgstr "Generate Expression Menu"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:17
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:23
 msgid "ParametersConfig::outputAsset"
 msgstr "Output Asset"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:27
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:33
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:36
+msgid "ParametersConfig::debugSnapshot"
+msgstr "[DEBUG] Snapshot"
+
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:47
 msgid "ParametersConfig::Generate Expression Parameters"
 msgstr "Generate Expression Parameters"
 
@@ -63,7 +68,7 @@ msgstr "Generate Expression Parameters"
 msgid "EWS::IgnoredByPlatform."
 msgstr "This component does nothing in {platform}."
 
-#: Editor/Silksprite/EmoteWizard/Core/DataObjects/RelativeRef.Drawer.cs:34
+#: Editor/Silksprite/EmoteWizard/Core/DataObjects/RelativeRef.Drawer.cs:17
 msgid "RelativeRef.relativePath"
 msgstr "Relative Path"
 
@@ -75,43 +80,43 @@ msgstr "Showing animation preview in this inspector to scene view."
 msgid "AnimationPreview::Blocked."
 msgstr "Showing animation preview in other inspector."
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:19
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:20
 msgid "AnimatedBlendShape::relativeRef"
 msgstr "Target"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:22
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:23
 msgid "AnimatedBlendShape::blendShapeName"
 msgstr "Blend Shape"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:24
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:25
 msgid "AnimatedBlendShape::value"
 msgstr "Value"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:16
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:17
 msgid "AnimatedEnable::relativeRef"
 msgstr "Target"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:17
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedEnableDrawer.cs:18
 msgid "AnimatedEnable::isEnable"
 msgstr "Is Enable"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:14
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:15
 msgid "EmoteCondition::parameter"
 msgstr "Parameter"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:15
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:16
 msgid "EmoteCondition::kind"
 msgstr "Kind"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:16
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:17
 msgid "EmoteCondition::mode"
 msgstr "Mode"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:17
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:18
 msgid "EmoteCondition::threshold"
 msgstr "Threshold"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/TrackingOverride.Drawer.cs:13
+#: Editor/Silksprite/EmoteWizard/DataObjects/TrackingOverride.Drawer.cs:14
 msgid "TrackingOverride::target"
 msgstr "Override"
 
