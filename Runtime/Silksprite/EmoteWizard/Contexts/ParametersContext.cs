@@ -82,14 +82,6 @@ namespace Silksprite.EmoteWizard.Contexts
                 }
             }
 
-            foreach (var emoteItem in Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems())
-            {
-                foreach (var condition in emoteItem.Trigger.conditions)
-                {
-                    builder.FindOrCreate(condition.parameter).AddReadValue(condition.kind, condition.threshold);
-                }
-            }
-
             foreach (var parameter in CollectSourceParameterItems())
             {
                 builder.FindOrCreate(parameter.name).Import(parameter);
@@ -128,6 +120,14 @@ namespace Silksprite.EmoteWizard.Contexts
             }
 #endif
 
+            foreach (var emoteItem in Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems())
+            {
+                foreach (var condition in emoteItem.Trigger.conditions)
+                {
+                    builder.FindOrCreateAny(condition.parameter).AddReadValue(condition.kind, condition.threshold);
+                }
+            }
+            
             return builder.ToSnapshot();
         }
 
