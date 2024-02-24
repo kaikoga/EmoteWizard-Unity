@@ -27,8 +27,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         {
             return new ParametersSnapshot
             {
-                ParameterItems = _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList(),
-                ImplicitParameterItems = _implicitParameterItems.Select(item => item.ToInstance()).ToList()
+                parameterItems = _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList(),
+                implicitParameterItems = _implicitParameterItems.Select(item => item.ToInstance()).ToList()
             };
         }
     }

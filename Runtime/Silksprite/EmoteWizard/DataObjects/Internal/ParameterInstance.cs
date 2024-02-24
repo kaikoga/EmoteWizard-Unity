@@ -8,23 +8,23 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public class ParameterInstance
     {
-        [SerializeField] public string Name;
-        [SerializeField] public ParameterItemKind ItemKind;
-        [SerializeField] public bool Saved = true;
-        [SerializeField] public float DefaultValue;
-        [SerializeField] public bool Synced = true;
-        [SerializeField] public List<ParameterWriteUsage> WriteUsages;
-        [SerializeField] public List<ParameterReadUsage> ReadUsages;
+        [SerializeField] public string name;
+        [SerializeField] public ParameterItemKind itemKind;
+        [SerializeField] public bool saved = true;
+        [SerializeField] public float defaultValue;
+        [SerializeField] public bool synced = true;
+        [SerializeField] public List<ParameterWriteUsage> writeUsages;
+        [SerializeField] public List<ParameterReadUsage> readUsages;
 
         public ParameterValueKind ValueKind
         {
             get
             {
-                switch (ItemKind)
+                switch (itemKind)
                 {
                     case ParameterItemKind.Auto:
-                        if (WriteUsages.Any(usage => usage.WriteUsageKind == ParameterWriteUsageKind.Float)) return ParameterValueKind.Float;
-                        return WriteUsages.Count(usage => usage.WriteUsageKind != ParameterWriteUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
+                        if (writeUsages.Any(usage => usage.writeUsageKind == ParameterWriteUsageKind.Float)) return ParameterValueKind.Float;
+                        return writeUsages.Count(usage => usage.writeUsageKind != ParameterWriteUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
                     case ParameterItemKind.Bool:
                         return ParameterValueKind.Bool;
                     case ParameterItemKind.Int:

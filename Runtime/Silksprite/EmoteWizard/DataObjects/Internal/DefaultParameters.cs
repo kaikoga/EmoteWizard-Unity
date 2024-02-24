@@ -52,12 +52,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 var (name, kind, states) = tuple;
                 return new ParameterInstance
                 {
-                    DefaultValue = 0,
-                    Name = name,
-                    Saved = false,
-                    ItemKind = kind,
-                    WriteUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state)).ToList(),
-                    ReadUsages = states.Select(state => new ParameterReadUsage(ParameterItemKind.Int, state)).ToList(),
+                    defaultValue = 0,
+                    name = name,
+                    saved = false,
+                    itemKind = kind,
+                    writeUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state)).ToList(),
+                    readUsages = states.Select(state => new ParameterReadUsage(ParameterItemKind.Int, state)).ToList(),
                 };
             }).ToList();
         }

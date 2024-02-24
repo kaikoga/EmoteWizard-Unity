@@ -9,15 +9,15 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public class ParametersSnapshot
     {
-        [SerializeField] public List<ParameterInstance> ParameterItems;
-        [SerializeField] public List<ParameterInstance> ImplicitParameterItems;
+        [SerializeField] public List<ParameterInstance> parameterItems;
+        [SerializeField] public List<ParameterInstance> implicitParameterItems;
         static readonly List<ParameterInstance> DefaultParameterItems = DefaultParameters.Populate();
 
-        public IEnumerable<ParameterInstance> AllParameters => ParameterItems.Concat(ImplicitParameterItems).Concat(DefaultParameterItems);
+        public IEnumerable<ParameterInstance> AllParameters => parameterItems.Concat(implicitParameterItems).Concat(DefaultParameterItems);
 
         public ParameterInstance ResolveParameter(string parameterName)
         {
-            return AllParameters.FirstOrDefault(item => item.Name == parameterName);
+            return AllParameters.FirstOrDefault(item => item.name == parameterName);
         }
 
         public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind, out bool mismatch)
@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public bool IsInvalidParameter(string parameterName)
         {
-            return !string.IsNullOrEmpty(parameterName) && AllParameters.All(item => item.Name != parameterName);
+            return !string.IsNullOrEmpty(parameterName) && AllParameters.All(item => item.name != parameterName);
         }
 
         public static ParametersSnapshotBuilder Builder() => new ParametersSnapshotBuilder();

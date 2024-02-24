@@ -263,11 +263,11 @@ namespace Silksprite.EmoteWizard.Internal.LayerBuilders
                 {
                     case ParameterValueKind.Int:
                     {
-                        var readUsages = parameter.ReadUsages;
+                        var readUsages = parameter.readUsages;
                         var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
                             .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
                         var values = equalConditions.Select(cond => cond[0].threshold);
-                        var elseValues = readUsages.Select(usage => usage.Value).Where(value => !values.Contains(value)).ToArray();
+                        var elseValues = readUsages.Select(usage => usage.value).Where(value => !values.Contains(value)).ToArray();
                         if (elseValues.Length == 1)
                         {
                             currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();

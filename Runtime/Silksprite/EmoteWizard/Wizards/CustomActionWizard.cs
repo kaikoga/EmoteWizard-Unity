@@ -28,10 +28,10 @@ namespace Silksprite.EmoteWizard.Sources
             {
                 var snapshot = CreateEnv().GetContext<ParametersContext>().Snapshot();
                 var newValue = 21;
-                var usages = snapshot.ParameterItems.FirstOrDefault(v => v.Name == EmoteWizardConstants.Defaults.Params.ActionSelect)?.ReadUsages;
+                var usages = snapshot.parameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Defaults.Params.ActionSelect)?.readUsages;
                 if (usages != null)
                 {
-                    while (usages.Any(usage => (int)usage.Value == newValue)) newValue++;
+                    while (usages.Any(usage => (int)usage.value == newValue)) newValue++;
                 }
                 return newValue;
             }

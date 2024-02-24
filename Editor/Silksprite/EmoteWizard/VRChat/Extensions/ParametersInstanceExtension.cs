@@ -25,11 +25,11 @@ namespace Silksprite.EmoteWizard.Extensions
         {
             return new VRCExpressionParameters.Parameter
             {
-                name = parameter.Name,
-                saved = parameter.Saved,
-                defaultValue = parameter.DefaultValue,
+                name = parameter.name,
+                saved = parameter.saved,
+                defaultValue = parameter.defaultValue,
                 valueType = parameter.VrcValueType(),
-                networkSynced = parameter.Synced
+                networkSynced = parameter.synced
             };
         }
     }

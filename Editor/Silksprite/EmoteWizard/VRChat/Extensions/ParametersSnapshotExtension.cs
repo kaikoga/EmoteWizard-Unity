@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Extensions
 
         public static VRCExpressionParameters.Parameter[] ToParameters(this ParametersSnapshot snapshot)
         {
-            return snapshot.ParameterItems
+            return snapshot.parameterItems
                 .Select(parameter => parameter.ToParameter())
                 .ToArray();
         }

@@ -147,7 +147,7 @@ namespace Silksprite.EmoteWizard.Internal
             MarkParameter(EmoteWizardConstants.Params.Viseme); // for AlwaysTrueCondition
             foreach (var parameter in ParametersSnapshot.AllParameters)
             {
-                var parameterName = parameter.Name;
+                var parameterName = parameter.name;
                 if (!_referencedParameters.Contains(parameterName)) continue;
 
                 AnimatorControllerParameterType parameterType;

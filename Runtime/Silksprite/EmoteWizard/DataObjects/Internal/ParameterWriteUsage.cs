@@ -6,18 +6,18 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public struct ParameterWriteUsage : IEquatable<ParameterWriteUsage>
     {
-        [SerializeField] public ParameterWriteUsageKind WriteUsageKind;
-        [SerializeField] public float Value;
+        [SerializeField] public ParameterWriteUsageKind writeUsageKind;
+        [SerializeField] public float value;
 
         public ParameterWriteUsage(ParameterWriteUsageKind writeUsageKind, float value)
         {
-            WriteUsageKind = writeUsageKind;
-            Value = value;
+            this.writeUsageKind = writeUsageKind;
+            this.value = value;
         }
 
         public bool Equals(ParameterWriteUsage other)
         {
-            return WriteUsageKind == other.WriteUsageKind && Value.Equals(other.Value);
+            return writeUsageKind == other.writeUsageKind && value.Equals(other.value);
         }
 
         public override bool Equals(object obj)
@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public override int GetHashCode()
         {
-            return HashCode.Combine((int)WriteUsageKind, Value);
+            return HashCode.Combine((int)writeUsageKind, value);
         }
 
         public static bool operator ==(ParameterWriteUsage left, ParameterWriteUsage right)
