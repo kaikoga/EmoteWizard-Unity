@@ -39,10 +39,22 @@ namespace Silksprite.EmoteWizardSupport.L10n
         }
 
 #if EW_NDMF_SUPPORT
+        static Dictionary<string, string> NdmfLangs = new Dictionary<string, string>()
+        {
+            ["en-us"] = "en-US",
+            ["ja-jp"] = "ja-JP",
+            ["en"] = "en-US",
+            ["ja"] = "ja-JP",
+            ["CSharp"] = "CSharp"
+        };
+
         public static string Lang
         {
-            get => LanguagePrefs.Language;
-            set => LanguagePrefs.Language = value;
+            get => NdmfLangs.TryGetValue(LanguagePrefs.Language, out var ewLang) ? ewLang : LanguagePrefs.Language;
+            set
+            {
+                LanguagePrefs.Language = NdmfLangs.FirstOrDefault(kv => kv.Value == value).Key ?? value;
+            }
         }
 #else
         private const string EditorPrefKey = "net.kaikoga.emotewizard.lang";
