@@ -3,7 +3,9 @@
     "rootNamespace": "Silksprite.EmoteWizard.Ndmf",
     "references": [
         "nadena.dev.ndmf",
+        "nadena.dev.ndmf.vrchat",
         "nadena.dev.ndmf.runtime",
+        "EmoteWizard",
         "EmoteWizard.Core",
         "EmoteWizard.Editor",
         "EmoteWizard.VRChat.Editor",
