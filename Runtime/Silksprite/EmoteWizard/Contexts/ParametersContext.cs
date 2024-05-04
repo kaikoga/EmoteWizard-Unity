@@ -88,35 +88,38 @@ namespace Silksprite.EmoteWizard.Contexts
             }
 
 #if EW_VRCSDK3_AVATARS
-            foreach (var contactReceiver in Environment.AvatarRoot.GetComponentsInChildren<VRCContactReceiver>())
+            if (Environment.AvatarRoot)
             {
-                var parameter = contactReceiver.parameter;
-                if (string.IsNullOrEmpty(parameter)) continue;
-
-                switch (contactReceiver.receiverType)
+                foreach (var contactReceiver in Environment.AvatarRoot.GetComponentsInChildren<VRCContactReceiver>())
                 {
-                    case ContactReceiver.ReceiverType.Constant:
-                    case ContactReceiver.ReceiverType.OnEnter:
-                        builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Auto, 1f);
-                        break;
-                    case ContactReceiver.ReceiverType.Proximity:
-                        builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Float, 1f);
-                        break;
-                    default:
-                        // ignore
-                        break;
+                    var parameter = contactReceiver.parameter;
+                    if (string.IsNullOrEmpty(parameter)) continue;
+
+                    switch (contactReceiver.receiverType)
+                    {
+                        case ContactReceiver.ReceiverType.Constant:
+                        case ContactReceiver.ReceiverType.OnEnter:
+                            builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Auto, 1f);
+                            break;
+                        case ContactReceiver.ReceiverType.Proximity:
+                            builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                            break;
+                        default:
+                            // ignore
+                            break;
+                    }
                 }
-            }
 
-            foreach (var physBone in Environment.AvatarRoot.GetComponentsInChildren<VRCPhysBone>())
-            {
-                var parameter = physBone.parameter;
-                if (string.IsNullOrEmpty(parameter)) continue;
+                foreach (var physBone in Environment.AvatarRoot.GetComponentsInChildren<VRCPhysBone>())
+                {
+                    var parameter = physBone.parameter;
+                    if (string.IsNullOrEmpty(parameter)) continue;
 
-                builder.FindOrCreateImplicit($"{parameter}_IsGrabbed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
-                builder.FindOrCreateImplicit($"{parameter}_IsPosed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
-                builder.FindOrCreateImplicit($"{parameter}_Angle").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
-                builder.FindOrCreateImplicit($"{parameter}_Stretch").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                    builder.FindOrCreateImplicit($"{parameter}_IsGrabbed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
+                    builder.FindOrCreateImplicit($"{parameter}_IsPosed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
+                    builder.FindOrCreateImplicit($"{parameter}_Angle").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                    builder.FindOrCreateImplicit($"{parameter}_Stretch").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                }
             }
 #endif
 
