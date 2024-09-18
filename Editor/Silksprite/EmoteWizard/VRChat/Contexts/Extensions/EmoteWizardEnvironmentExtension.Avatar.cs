@@ -56,6 +56,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                             return VrcSdkAssetLocator.HandsLayerController1();
                         case OverrideGeneratedControllerType2.Default2:
                             return VrcSdkAssetLocator.HandsLayerController2();
+                        case OverrideGeneratedControllerType2.Inherit:
+                            return avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -71,6 +73,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                             return environment.OverrideActionController;
                         case OverrideGeneratedControllerType1.Default:
                             return VrcSdkAssetLocator.ActionLayerController();
+                        case OverrideGeneratedControllerType1.Inherit:
+                            return avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
@@ -91,6 +95,8 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
                             return VrcSdkAssetLocator.SittingLayerController1();
                         case OverrideControllerType2.Default2:
                             return VrcSdkAssetLocator.SittingLayerController2();
+                        case OverrideControllerType2.Inherit:
+                            return avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Sitting);
                         default:
                             throw new ArgumentOutOfRangeException();
                     }

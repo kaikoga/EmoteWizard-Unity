@@ -5,6 +5,7 @@ namespace Silksprite.EmoteWizard.Contexts
         Generate = 0x10,
         Override = 0x11,
         Default = 0x00,
+        Inherit = 0x7f
     }
 
     public enum OverrideGeneratedControllerType2
@@ -12,13 +13,15 @@ namespace Silksprite.EmoteWizard.Contexts
         Generate = 0x10,
         Override = 0x11,
         Default1 = 0x00,
-        Default2 = 0x01
+        Default2 = 0x01,
+        Inherit = 0x7f
     }
 
     public enum OverrideControllerType2
     {
         Override = 0x11,
         Default1 = 0x00,
-        Default2 = 0x01
+        Default2 = 0x01,
+        Inherit = 0x7f
     }
 }

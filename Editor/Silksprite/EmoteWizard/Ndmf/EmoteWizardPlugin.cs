@@ -2,6 +2,7 @@
 using System.Linq;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Ndmf;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -149,12 +150,23 @@ namespace Silksprite.EmoteWizard.Ndmf
 #if EW_VRCSDK3_AVATARS
         static void DeleteVrcLayers(EmoteWizardRoot root, VRCAvatarDescriptor avatarDescriptor)
         {
-            root.ToEnv().DisconnectAllOutputAssets();
+            var env = root.ToEnv(); 
+            env.DisconnectAllOutputAssets();
 
             DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.FX);
-            DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Gesture);
-            DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Action);
-            DeleteLayer(avatarDescriptor.specialAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Sitting);
+            if (env.OverrideGesture != OverrideGeneratedControllerType2.Inherit)
+            {
+                DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Gesture);
+            }
+            if (env.OverrideAction != OverrideGeneratedControllerType1.Inherit)
+            {
+                DeleteLayer(avatarDescriptor.baseAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Action);
+            }
+            if (env.OverrideSitting != OverrideControllerType2.Inherit)
+            {
+                DeleteLayer(avatarDescriptor.specialAnimationLayers, VRCAvatarDescriptor.AnimLayerType.Sitting);
+            }
+                
 
             void DeleteLayer(VRCAvatarDescriptor.CustomAnimLayer[] layers, VRCAvatarDescriptor.AnimLayerType animLayerType)
             {
