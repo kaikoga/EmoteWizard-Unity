@@ -1,12 +1,13 @@
 using System;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Extensions
 {
     public static class ParametersInstanceExtension
     {
-        static VRCExpressionParameters.ValueType VrcValueType(this ParameterInstance parameter)
+        static VRCExpressionParameters.ValueType GetVrcValueType(this ParameterInstance parameter)
         {
             switch (parameter.ValueKind)
             {
@@ -21,6 +22,21 @@ namespace Silksprite.EmoteWizard.Extensions
             }
         }
 
+        public static AnimatorControllerParameterType GetParameterType(this ParameterInstance parameter)
+        {
+            switch (parameter.ValueKind)
+            {
+                case ParameterValueKind.Int:
+                    return AnimatorControllerParameterType.Int;
+                case ParameterValueKind.Float:
+                    return AnimatorControllerParameterType.Float;
+                case ParameterValueKind.Bool:
+                    return AnimatorControllerParameterType.Bool;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
         public static VRCExpressionParameters.Parameter ToParameter(this ParameterInstance parameter)
         {
             return new VRCExpressionParameters.Parameter
@@ -28,7 +44,7 @@ namespace Silksprite.EmoteWizard.Extensions
                 name = parameter.name,
                 saved = parameter.saved,
                 defaultValue = parameter.defaultValue,
-                valueType = parameter.VrcValueType(),
+                valueType = parameter.GetVrcValueType(),
                 networkSynced = parameter.synced
             };
         }

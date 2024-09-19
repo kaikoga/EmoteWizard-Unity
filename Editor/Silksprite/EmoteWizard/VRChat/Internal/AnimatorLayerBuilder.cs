@@ -149,23 +149,7 @@ namespace Silksprite.EmoteWizard.Internal
             {
                 var parameterName = parameter.name;
                 if (!_referencedParameters.Contains(parameterName)) continue;
-
-                AnimatorControllerParameterType parameterType;
-                switch (parameter.ValueKind)
-                {
-                    case ParameterValueKind.Int:
-                        parameterType = AnimatorControllerParameterType.Int;
-                        break;
-                    case ParameterValueKind.Float:
-                        parameterType = AnimatorControllerParameterType.Float;
-                        break;
-                    case ParameterValueKind.Bool:
-                        parameterType = AnimatorControllerParameterType.Bool;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-                _animatorController.AddParameter(parameterName, parameterType);
+                _animatorController.AddParameter(parameterName, parameter.GetParameterType());
             }
             foreach (var trackingTarget in _referencedTrackingTargets)
             {
