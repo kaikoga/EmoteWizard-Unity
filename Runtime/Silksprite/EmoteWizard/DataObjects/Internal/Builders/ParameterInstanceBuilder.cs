@@ -93,9 +93,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         {
             _name = parameter.name;
             _itemKind = parameter.itemKind;
-            _saved = parameter.saved;
+            _saved |= parameter.saved;
             _defaultValue = parameter.defaultValue;
-            _synced = parameter.synced;
+            _synced |= parameter.synced;
         }
 
         public ParameterInstance ToInstance()
