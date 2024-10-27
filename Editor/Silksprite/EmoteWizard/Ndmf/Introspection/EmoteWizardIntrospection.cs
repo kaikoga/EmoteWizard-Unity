@@ -1,3 +1,5 @@
+#if EW_VRCSDK3_AVATARS
+
 using System.Collections.Generic;
 using System.Linq;
 using nadena.dev.ndmf;
@@ -27,3 +29,5 @@ namespace Silksprite.EmoteWizard.Ndmf
         }
     }
 }
+
+#endif
