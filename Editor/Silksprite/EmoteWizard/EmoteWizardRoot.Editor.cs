@@ -143,6 +143,7 @@ namespace Silksprite.EmoteWizard
                 env.DisconnectAllOutputAssets();
             }
 
+#if EW_VRCSDK3_AVATARS
             if (env.Platform.IsVRChat())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
@@ -217,12 +218,15 @@ namespace Silksprite.EmoteWizard
                     }
                 }
             }
+#endif
 
+#if EW_VRM0 || EW_VRM1
             if (env.Platform.IsVRM())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
                 EmoteWizardGUILayout.Prop(_author);
             }
+#endif
 
 #if EW_VRCSDK3_AVATARS
             if (env.AvatarRoot && env.Platform.IsVRChat())
