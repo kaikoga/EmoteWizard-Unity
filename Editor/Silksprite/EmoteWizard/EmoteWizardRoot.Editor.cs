@@ -144,12 +144,12 @@ namespace Silksprite.EmoteWizard
             }
 
 #if EW_VRCSDK3_AVATARS
-            if (env.Platform.IsVRChat())
+            if (env.IsVRChatAvatar())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
                 EmoteWizardGUILayout.Prop(_generateTrackingControlLayer);
 
-                var avatarDescriptor = env.AvatarRoot?.GetComponent<VRCAvatarDescriptor>();
+                var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
 
                 EmoteWizardGUILayout.Prop(_overrideGesture);
                 using (new EditorGUI.IndentLevelScope())
@@ -168,7 +168,7 @@ namespace Silksprite.EmoteWizard
                             DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController2());
                             break;
                         case OverrideGeneratedControllerType2.Inherit:
-                            DummyController(_overrideGestureController, avatarDescriptor?.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture));
+                            DummyController(_overrideGestureController, avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -189,7 +189,7 @@ namespace Silksprite.EmoteWizard
                             DummyController(_overrideActionController, VrcSdkAssetLocator.ActionLayerController());
                             break;
                         case OverrideGeneratedControllerType1.Inherit:
-                            DummyController(_overrideActionController, avatarDescriptor?.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action));
+                            DummyController(_overrideActionController, avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -211,7 +211,7 @@ namespace Silksprite.EmoteWizard
                             DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController2());
                             break;
                         case OverrideControllerType2.Inherit:
-                            DummyController(_overrideSittingController, avatarDescriptor?.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Sitting));
+                            DummyController(_overrideSittingController, avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Sitting));
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -221,7 +221,7 @@ namespace Silksprite.EmoteWizard
 #endif
 
 #if EW_VRM0 || EW_VRM1
-            if (env.Platform.IsVRM())
+            if (env.MaybeVRM())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
                 EmoteWizardGUILayout.Prop(_author);
@@ -229,7 +229,7 @@ namespace Silksprite.EmoteWizard
 #endif
 
 #if EW_VRCSDK3_AVATARS
-            if (env.AvatarRoot && env.Platform.IsVRChat())
+            if (env.IsVRChatAvatar())
             {
                 EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
                 AvatarOutputVrc(env);

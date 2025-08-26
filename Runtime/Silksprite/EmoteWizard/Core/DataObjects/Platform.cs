@@ -22,11 +22,6 @@ namespace Silksprite.EmoteWizard.DataObjects
     
     public static class DetectedPlatformExtension
     {
-        public static bool IsVRChat(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRChat);
-        public static bool IsVRM0(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRM0);
-        public static bool IsVRM1(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRM1);
-        public static bool IsVRM(this DetectedPlatform platform) => platform.HasFlag(DetectedPlatform.VRM0) ||  platform.HasFlag(DetectedPlatform.VRM1);
-
         public static string ToSolePlatformString(this DetectedPlatform platform)
         {
             switch (platform)

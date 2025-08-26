@@ -100,7 +100,7 @@ namespace Silksprite.EmoteWizard.Sources
         {
             var environment = CreateEnv();
 
-            if (environment.Platform.IsVRChat())
+            if (environment.MaybeVRChat())
             {
                 EmoteWizardGUILayout.Prop(_layerKind);
                 EmoteWizardGUILayout.Prop(_groupName);
@@ -132,7 +132,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Animation"));
             EditorGUI.BeginChangeCheck();
-            if (environment.Platform.IsVRChat())
+            if (environment.MaybeVRChat())
             {
                 EmoteWizardGUILayout.Prop(_animatedEnable);
             }

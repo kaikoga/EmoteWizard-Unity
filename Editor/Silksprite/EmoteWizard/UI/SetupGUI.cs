@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.UI
         {
             var result = false;
 
-            if (env.Platform.IsVRChat())
+            if (env.MaybeVRChat())
             {
                 _emoteItemKind = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
                 _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.UI
             var isMultiPlatform = EmoteWizardConstants.SupportedPlatforms.IsMultiple;
             var singleLoc = Loc("SetupGUI::Quick Setup Default Data Sources");
 
-            if (env.Platform.IsVRChat())
+            if (env.MaybeVRChat())
             {
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRChat Sources") : singleLoc;
                 EmoteWizardGUILayout.Undoable(loc, undoable =>
@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.UI
                 });
             }
 
-            if (env.Platform.IsVRM())
+            if (env.MaybeVRM())
             {
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRM Sources") : singleLoc;
                 EmoteWizardGUILayout.Undoable(loc, undoable =>
@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.UI
                 });
             }
 
-            if (env.Platform.IsVRChat())
+            if (env.MaybeVRChat())
             {
                 EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {

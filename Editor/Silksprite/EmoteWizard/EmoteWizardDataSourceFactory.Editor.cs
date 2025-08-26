@@ -1,5 +1,6 @@
 using System;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
@@ -32,7 +33,7 @@ namespace Silksprite.EmoteWizard
 
             var env = CreateEnv();
             
-            if (env.Platform.IsVRChat())
+            if (env.MaybeVRChat())
             {
                 using (new BoxLayoutScope())
                 {
@@ -95,7 +96,7 @@ namespace Silksprite.EmoteWizard
                 var advanced = _advanced = EmoteWizardGUILayout.HeaderFoldout(_advanced, Loc("EmoteWizardDataSourceFactory::advanced"));
                 if (advanced)
                 {
-                    if (env.Platform.IsVRChat())
+                    if (env.MaybeVRChat())
                     {
                         UndoableButton(Loc("EmoteWizardDataSourceFactory::Emote Item Source"),
                             default,
