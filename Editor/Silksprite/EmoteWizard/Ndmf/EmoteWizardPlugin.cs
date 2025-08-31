@@ -32,6 +32,8 @@ using UniVRM10;
 
 namespace Silksprite.EmoteWizard.Ndmf
 {
+    // runs independently of NDMF platform
+    [RunsOnAllPlatforms]
     class EmoteWizardPlugin : Plugin<EmoteWizardPlugin>
     {
         public override string QualifiedName => "net.kaikoga.emotewizard";
