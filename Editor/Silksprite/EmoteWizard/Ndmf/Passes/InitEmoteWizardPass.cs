@@ -99,7 +99,7 @@ namespace Silksprite.EmoteWizard.Ndmf.Passes
         (bool nameOrTitle, bool author, bool version) MissingMetaDefaults(Transform avatarRootTransform)
         {
 #if EW_ATIV_SUPPORT
-            var overwrites = avatarRootTransform.GetComponentsInChildren<AtivOverwriteVrmMeta>();
+            var overwrites = avatarRootTransform.GetComponentsInChildren<AtivOverwriteVRMMeta>();
             return (overwrites.All(c => !c.nameOrTitle.willOverwrite),
                 overwrites.All(c => !c.author.willOverwrite),
                 overwrites.All(c => !c.version.willOverwrite));
