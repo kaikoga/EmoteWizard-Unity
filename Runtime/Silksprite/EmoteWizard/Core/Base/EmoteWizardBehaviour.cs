@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.Base
     {
         public EmoteWizardEnvironment CreateEnv()
         {
-            if (this.GetComponentInParent<EmoteWizardRoot>(true) is EmoteWizardRoot root)
+            if (GetComponentInParent<EmoteWizardRoot>(true) is EmoteWizardRoot root)
             {
                 return EmoteWizardEnvironment.FromRoot(root);
             }
@@ -24,7 +24,13 @@ namespace Silksprite.EmoteWizard.Base
             {
                 return EmoteWizardEnvironment.FromAvatar(avatarRoot);
             }
-            return null;
+            // We are dealing with avatar modules, it's okay env.Platform would be None
+            var pseudoAvatarRoot = transform;
+            while (pseudoAvatarRoot.parent)
+            {
+                pseudoAvatarRoot = pseudoAvatarRoot.parent;
+            }
+            return EmoteWizardEnvironment.FromAvatar(pseudoAvatarRoot);
         }
     }
 
