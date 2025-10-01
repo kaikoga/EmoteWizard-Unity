@@ -1,4 +1,4 @@
-#if EW_VRM1
+#if ATIV_DETECTED_VRM1
 
 using Silksprite.EmoteWizard.DataObjects;
 using UniVRM10;

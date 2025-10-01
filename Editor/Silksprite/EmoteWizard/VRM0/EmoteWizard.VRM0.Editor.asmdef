@@ -31,7 +31,7 @@
         {
             "name": "com.vrmc.univrm",
             "expression": "[0.0.0,1.0.0)",
-            "define": "EW_VRM0"
+            "define": "ATIV_DETECTED_VRM0"
         }
     ],
     "noEngineReferences": false

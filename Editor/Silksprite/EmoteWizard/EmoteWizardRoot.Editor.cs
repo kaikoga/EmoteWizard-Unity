@@ -220,7 +220,7 @@ namespace Silksprite.EmoteWizard
             }
 #endif
 
-#if EW_VRM0 || EW_VRM1
+#if ATIV_DETECTED_VRM0 || ATIV_DETECTED_VRM1
             if (env.MaybeVRM())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
