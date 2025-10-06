@@ -1,4 +1,3 @@
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
@@ -7,6 +6,7 @@ namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Emote Wizard/Configs/Gesture Layer Wizard Config", 10001)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/configs#gesture-wizard-config")]
     public class GestureLayerConfig : AnimatorLayerConfigBase
     {
         public override LayerKind LayerKind => LayerKind.Gesture;

@@ -6,6 +6,7 @@ namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Emote Wizard/Configs/Editor Layer Wizard Config", 10003)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/configs#editor-layer-wizard-config")]
     public class EditorLayerConfig : EmoteConfigBase
     {
         [SerializeField] public RuntimeAnimatorController outputAsset;

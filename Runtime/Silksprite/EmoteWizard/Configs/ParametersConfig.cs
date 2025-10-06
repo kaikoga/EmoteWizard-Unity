@@ -10,6 +10,7 @@ namespace Silksprite.EmoteWizard.Configs
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Emote Wizard/Configs/Parameters Wizard Config", 12000)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/configs#parameters-wizard-config")]
     public class ParametersConfig : EmoteConfigBase
     {
 #if EW_VRCSDK3_AVATARS

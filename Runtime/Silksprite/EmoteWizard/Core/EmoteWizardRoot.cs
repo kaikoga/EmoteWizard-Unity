@@ -11,6 +11,7 @@ namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
     [AddComponentMenu("Emote Wizard/Emote Wizard Root", -200)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/emote_wizard_root")]
     public class EmoteWizardRoot : EmoteWizardBehaviour
     {
         [SerializeField] public Transform avatarRootTransform;

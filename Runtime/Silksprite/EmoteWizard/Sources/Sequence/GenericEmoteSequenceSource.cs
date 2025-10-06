@@ -10,6 +10,7 @@ using UnityEditor;
 namespace Silksprite.EmoteWizard.Sources.Sequence
 {
     [AddComponentMenu("Emote Wizard/Sources/Generic Emote Sequence Source", 101)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/sources/generic_emote_sequence_source")]
     public class GenericEmoteSequenceSource : EmoteSequenceSourceBase
     {
         [SerializeField] public GenericEmoteSequence sequence = new GenericEmoteSequence();

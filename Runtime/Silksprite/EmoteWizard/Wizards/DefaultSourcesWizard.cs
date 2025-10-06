@@ -9,6 +9,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Wizards
 {
     [AddComponentMenu("Emote Wizard/Wizards/Default Sources Wizard", 900)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/wizards/default_sources_wizard")]
     public class DefaultSourcesWizard : EmoteWizardBase
     {
         [SerializeField] public DefaultSourceKind defaultSourceKind;

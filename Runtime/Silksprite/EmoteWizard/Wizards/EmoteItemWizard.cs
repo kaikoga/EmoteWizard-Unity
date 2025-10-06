@@ -4,12 +4,12 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Wizards
 {
     [AddComponentMenu("Emote Wizard/Wizards/Emote Item Wizard", 200)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/wizards/emote_item_wizard")]
     public class EmoteItemWizard : EmoteWizardBase
     {
         [SerializeField] public bool hasExpressionItemSource;

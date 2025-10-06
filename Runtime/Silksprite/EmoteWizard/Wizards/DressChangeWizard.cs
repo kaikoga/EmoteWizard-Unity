@@ -5,12 +5,12 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Wizards
 {
     [AddComponentMenu("Emote Wizard/Wizards/Dress Change Wizard", 300)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/wizards/dress_change_wizard")]
     public class DressChangeWizard : EmoteWizardBase
     {
         [SerializeField] public int itemCount = 2;

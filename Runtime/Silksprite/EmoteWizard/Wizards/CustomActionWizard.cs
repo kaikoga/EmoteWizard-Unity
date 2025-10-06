@@ -6,12 +6,12 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Sources
+namespace Silksprite.EmoteWizard.Wizards
 {
     [AddComponentMenu("Emote Wizard/Wizards/Custom Action Wizard", 301)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/wizards/custom_action_wizard")]
     public class CustomActionWizard : EmoteWizardBase
     {
         [SerializeField] public bool hasExpressionItemSource;

@@ -11,6 +11,7 @@ using UnityEngine;
 namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Generic Emote Item Source", 1)]
+    [HelpURL("https://docs.kaikoga.net/emotewizard/sources/generic_emote_item_source")]
     public class GenericEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
     {
         [SerializeField] public GenericEmoteTrigger trigger;
