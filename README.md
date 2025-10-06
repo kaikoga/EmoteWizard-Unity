@@ -14,12 +14,12 @@ https://vpm.kaikoga.net/
 
 [ Window ] -> [ Package Manager ] -> [ + ] -> [ Add package from git URL... ]:
 
-https://github.com/kaikoga/EasyModeAvatar-Unity.git#v0.99.1
+https://github.com/kaikoga/EmoteWizard-Unity.git#v1.0.0
 
 or add to manifest.json:
 
 ```
-"net.kaikoga.emotewizard": "https://github.com/kaikoga/EmoteWizard-Unity.git#v0.100.0",
+"net.kaikoga.emotewizard": "https://github.com/kaikoga/EmoteWizard-Unity.git#v1.0.0",
 ```
 
 ---
