@@ -13,7 +13,7 @@ using Object = UnityEngine.Object;
 using nadena.dev.modular_avatar.core;
 #endif
 
-namespace Silksprite.EmoteWizard.Utils
+namespace Silksprite.EmoteWizard.Preview
 {
 
 #if UNITY_2022_3_OR_NEWER
