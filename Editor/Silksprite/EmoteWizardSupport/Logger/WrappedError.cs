@@ -1,3 +1,5 @@
+#if EW_NDMF_SUPPORT
+
 using System.Linq;
 using nadena.dev.ndmf;
 using nadena.dev.ndmf.localization;
@@ -50,3 +52,5 @@ namespace Silksprite.EmoteWizardSupport.Logger
         }
     }
 }
+
+#endif

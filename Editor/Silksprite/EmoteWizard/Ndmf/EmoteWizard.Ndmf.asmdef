@@ -31,7 +31,7 @@
         "VRCSDK3A.dll"
     ],
     "autoReferenced": true,
-    "defineConstraints": [],
+    "defineConstraints": ["EW_NDMF_SUPPORT"],
     "versionDefines": [
         {
             "name": "nadena.dev.ndmf",
