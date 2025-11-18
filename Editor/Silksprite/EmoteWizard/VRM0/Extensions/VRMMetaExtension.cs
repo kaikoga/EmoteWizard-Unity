@@ -1,5 +1,5 @@
 using System.Linq;
-using Silksprite.AvatarTinkerVista.Ndmf;
+using Silksprite.AvatarTinkerVista.Nondestructive;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 using VRM;

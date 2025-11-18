@@ -7,7 +7,7 @@
         "nadena.dev.modular-avatar.core",
         "AdLib.Editor",
         "AvatarTinkerVista",
-        "AvatarTinkerVista.Ndmf",
+        "AvatarTinkerVista.Common",
         "EmoteWizard",
         "EmoteWizard.Core",
         "EmoteWizard.Core.Editor",

@@ -1,4 +1,5 @@
 ﻿using System;
+using Ablet.API;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Ndmf;
 using Silksprite.EmoteWizard.Ndmf.Passes;
@@ -22,6 +23,9 @@ namespace Silksprite.EmoteWizard.Ndmf
 
         protected override void Configure()
         {
+#if EW_ABLET_SUPPORT
+            if (AbletSymbols.PreferAblet) return;
+#endif
             var platformInit = InPhase(BuildPhase.PlatformInit);
             platformInit.Run(InitEmoteWizardPass.Instance);
             var resolving = InPhase(BuildPhase.Resolving);
