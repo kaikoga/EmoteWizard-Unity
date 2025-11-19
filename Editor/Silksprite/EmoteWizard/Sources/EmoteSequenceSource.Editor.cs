@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Preview;
 using Silksprite.EmoteWizard.Sources.Sequence;
@@ -52,7 +51,7 @@ namespace Silksprite.EmoteWizard.Sources
         LocalizedProperty _serializedHasTrackingOverrides;
         LocalizedProperty _serializedTrackingOverrides;
 
-        AnimationPreview _preview;
+        InplacePreviewRequest _previewRequest;
 
         void OnEnable()
         {
@@ -94,23 +93,22 @@ namespace Silksprite.EmoteWizard.Sources
             if (environment?.AvatarRoot)
             {
                 // TODO: prevent multiple previews
-                _preview = new AnimationPreview(environment.AvatarRoot.gameObject);
-                RefreshPreviewIfNeeded(environment);
+                _previewRequest = new InplacePreviewRequest(environment.AvatarRoot.gameObject);
+                RefreshPreviewIfNeeded();
             }
         }
 
-        void RefreshPreviewIfNeeded(EmoteWizardEnvironment environment)
+        void RefreshPreviewIfNeeded()
         {
-            if (_preview == null) return;
+            if (_previewRequest?.IsCurrentPreview != true) return;
 
             var clip = _clip.Property.objectReferenceValue as AnimationClip;
-            _preview.Clip = clip;
-            _preview.Refresh();
+            _previewRequest.SetClip(new InplaceAnimationPreview(clip));
         }
 
         void OnDisable()
         {
-            _preview?.Dispose();
+            _previewRequest?.Dispose();
         }
 
         protected override void OnInnerInspectorGUI()
@@ -171,8 +169,8 @@ namespace Silksprite.EmoteWizard.Sources
 
                 serializedObject.ApplyModifiedProperties();
 
-                if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
-                _preview?.OnInspectorGUI();
+                if (requireRefreshPreview) RefreshPreviewIfNeeded();
+                _previewRequest?.OnInspectorGUI();
             }
         }
     }

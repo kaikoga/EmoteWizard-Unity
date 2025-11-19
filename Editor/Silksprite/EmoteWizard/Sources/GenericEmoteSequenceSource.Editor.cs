@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         AnimationClip _inputClip;
 
-        AnimationPreview _preview;
+        InplacePreviewRequest _previewRequest;
 
         AnimationClip _temporaryClip;
 
@@ -75,24 +75,23 @@ namespace Silksprite.EmoteWizard.Sources
             if (environment?.AvatarRoot)
             {
                 // TODO: prevent multiple previews
-                _preview = new AnimationPreview(environment.AvatarRoot.gameObject);
+                _previewRequest = new InplacePreviewRequest(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded(environment);
             }
         }
 
         void RefreshPreviewIfNeeded(EmoteWizardEnvironment environment)
         {
-            if (_preview == null) return;
+            if (_previewRequest?.IsCurrentPreview != true) return;
 
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
-            _preview.Clip = _temporaryClip;
-            _preview.Refresh();
+            _previewRequest.SetClip(new InplaceAnimationPreview(_temporaryClip));
         }
 
         void OnDisable()
         {
-            _preview?.Dispose();
+            _previewRequest?.Dispose();
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = null;
         }
@@ -155,7 +154,7 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
-            _preview?.OnInspectorGUI();
+            _previewRequest?.OnInspectorGUI();
 
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source") is IUndoable undoable)
             {
