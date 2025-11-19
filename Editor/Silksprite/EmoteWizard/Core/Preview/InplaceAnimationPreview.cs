@@ -2,7 +2,8 @@ using System;
 using System.Reflection;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.Preview.Presentation;
+using Silksprite.EmoteWizard.Preview.Core;
+using Silksprite.EmoteWizard.Preview.Core.Internal.Presentation;
 using UnityEngine;
 
 #if EW_MODULAR_AVATAR
@@ -11,7 +12,7 @@ using nadena.dev.modular_avatar.core;
 
 namespace Silksprite.EmoteWizard.Preview
 {
-    public class InplaceAnimationPreview
+    public class InplaceAnimationPreview : IInplacePreviewPosing
     {
         readonly AnimationClip _clip;
 
@@ -20,7 +21,7 @@ namespace Silksprite.EmoteWizard.Preview
             _clip = clip;
         }
 
-        public void Apply(IInplacePreviewPresenter presenter)
+        void IInplacePreviewPosing.Apply(IInplacePreviewPresenter presenter)
         {
             if (_clip.isHumanMotion)
             {

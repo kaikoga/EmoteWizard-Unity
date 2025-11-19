@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Preview;
+using Silksprite.EmoteWizard.Preview.Core;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
@@ -86,7 +87,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
-            _previewRequest.SetClip(new InplaceAnimationPreview(_temporaryClip));
+            _previewRequest.SetPosing(new InplaceAnimationPreview(_temporaryClip));
         }
 
         void OnDisable()
@@ -154,7 +155,7 @@ namespace Silksprite.EmoteWizard.Sources
             }
 
             if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
-            _previewRequest?.OnInspectorGUI();
+            _previewRequest.OnInspectorGUI();
 
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source") is IUndoable undoable)
             {

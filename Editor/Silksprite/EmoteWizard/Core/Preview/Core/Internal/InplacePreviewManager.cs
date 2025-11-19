@@ -1,8 +1,7 @@
-using Silksprite.EmoteWizard.Preview.Presentation;
+using Silksprite.EmoteWizard.Preview.Core.Internal.Presentation;
 using UnityEditor;
-using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Preview
+namespace Silksprite.EmoteWizard.Preview.Core.Internal
 {
     public class InplacePreviewManager
     {

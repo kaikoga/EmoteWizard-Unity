@@ -1,8 +1,8 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Preview;
+using Silksprite.EmoteWizard.Preview.Core;
 using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -103,7 +103,7 @@ namespace Silksprite.EmoteWizard.Sources
             if (_previewRequest?.IsCurrentPreview != true) return;
 
             var clip = _clip.Property.objectReferenceValue as AnimationClip;
-            _previewRequest.SetClip(new InplaceAnimationPreview(clip));
+            _previewRequest.SetPosing(new InplaceAnimationPreview(clip));
         }
 
         void OnDisable()
@@ -170,7 +170,7 @@ namespace Silksprite.EmoteWizard.Sources
                 serializedObject.ApplyModifiedProperties();
 
                 if (requireRefreshPreview) RefreshPreviewIfNeeded();
-                _previewRequest?.OnInspectorGUI();
+                _previewRequest.OnInspectorGUI();
             }
         }
     }

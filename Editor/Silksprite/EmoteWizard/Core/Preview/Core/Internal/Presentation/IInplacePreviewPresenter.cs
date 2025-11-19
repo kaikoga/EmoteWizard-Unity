@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Preview.Presentation
+namespace Silksprite.EmoteWizard.Preview.Core.Internal.Presentation
 {
     public interface IInplacePreviewPresenter
     {

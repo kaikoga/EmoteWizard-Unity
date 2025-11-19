@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Silksprite.EmoteWizard.Preview.Presentation
+namespace Silksprite.EmoteWizard.Preview.Core.Internal.Presentation
 {
     class InplacePreviewPresenter : IInplacePreviewPresenter
     {
