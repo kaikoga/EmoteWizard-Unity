@@ -1,4 +1,6 @@
-using Silksprite.EmoteWizard.Preview.Core;
+#if EW_ABLET_SUPPORT
+
+using Ablet.Previewing;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 
@@ -10,7 +12,7 @@ namespace Silksprite.EmoteWizard.Preview
     {
         public static void OnInspectorGUI(this InplacePreviewRequest request)
         {
-            if (request.IsCurrentPreview)
+            if (!request.IsBlocked)
             {
                 EmoteWizardGUILayout.HelpBox(Loc("AnimationPreview::Active."), MessageType.Info);
             }
@@ -21,3 +23,5 @@ namespace Silksprite.EmoteWizard.Preview
         }
     }
 }
+
+#endif

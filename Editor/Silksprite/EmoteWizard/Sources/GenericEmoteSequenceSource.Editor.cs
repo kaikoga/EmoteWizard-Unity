@@ -3,8 +3,6 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Preview;
-using Silksprite.EmoteWizard.Preview.Core;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
@@ -15,6 +13,11 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+
+#if EW_ABLET_SUPPORT
+using Ablet.Previewing;
+using Silksprite.EmoteWizard.Preview;
+#endif
 
 namespace Silksprite.EmoteWizard.Sources
 {
@@ -44,8 +47,9 @@ namespace Silksprite.EmoteWizard.Sources
 
         AnimationClip _inputClip;
 
+#if EW_ABLET_SUPPORT
         InplacePreviewRequest _previewRequest;
-
+#endif
         AnimationClip _temporaryClip;
 
         void OnEnable()
@@ -72,6 +76,7 @@ namespace Silksprite.EmoteWizard.Sources
             _hasTrackingOverrides = serializedItem.Lop(nameof(GenericEmoteSequence.hasTrackingOverrides), Loc("GenericEmoteSequenceSource::hasTrackingOverrides"));
             _trackingOverrides = serializedItem.Lop(nameof(GenericEmoteSequence.trackingOverrides), Loc("GenericEmoteSequenceSource::trackingOverrides"));
 
+#if EW_ABLET_SUPPORT
             var environment = CreateEnv();
             if (environment?.AvatarRoot)
             {
@@ -79,15 +84,17 @@ namespace Silksprite.EmoteWizard.Sources
                 _previewRequest = new InplacePreviewRequest(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded(environment);
             }
+#endif
         }
 
+#if EW_ABLET_SUPPORT
         void RefreshPreviewIfNeeded(EmoteWizardEnvironment environment)
         {
-            if (_previewRequest?.IsCurrentPreview != true) return;
+            if (!_previewRequest?.IsBlocked != true) return;
 
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
-            _previewRequest.SetPosing(new InplaceAnimationPreview(_temporaryClip));
+            _previewRequest.Posing = new InplaceAnimationPreview(_temporaryClip);
         }
 
         void OnDisable()
@@ -96,6 +103,7 @@ namespace Silksprite.EmoteWizard.Sources
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = null;
         }
+#endif
 
         protected override void OnInnerInspectorGUI()
         {
@@ -154,8 +162,10 @@ namespace Silksprite.EmoteWizard.Sources
                 }
             }
 
+#if EW_ABLET_SUPPORT
             if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
             _previewRequest.OnInspectorGUI();
+#endif
 
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source") is IUndoable undoable)
             {

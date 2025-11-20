@@ -1,9 +1,12 @@
+#if EW_ABLET_SUPPORT
+
 using System;
 using System.Reflection;
+using Ablet.API.V1;
+using Ablet.API.V1.Building;
+using Ablet.Previewing;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.Preview.Core;
-using Silksprite.EmoteWizard.Preview.Core.Internal.Presentation;
 using UnityEngine;
 
 #if EW_MODULAR_AVATAR
@@ -12,7 +15,7 @@ using nadena.dev.modular_avatar.core;
 
 namespace Silksprite.EmoteWizard.Preview
 {
-    public class InplaceAnimationPreview : IInplacePreviewPosing
+    public class InplaceAnimationPreview : IAbletObservableProcedure
     {
         readonly AnimationClip _clip;
 
@@ -21,13 +24,23 @@ namespace Silksprite.EmoteWizard.Preview
             _clip = clip;
         }
 
-        void IInplacePreviewPosing.Apply(IInplacePreviewPresenter presenter)
+        void IAbletObservableProcedure.Observe(IObserveContext observeContext)
+        {
+            observeContext.RootObject.Observe(Apply);
+        }
+
+        void IAbletProcedure.Process(IBuildContext context)
+        {
+            context.RootObject.Observe(Apply);
+        }
+
+        public void Apply(GameObject avatarObject)
         {
             if (_clip.isHumanMotion)
             {
 #if EW_MODULAR_AVATAR
                 var setLockModeMethod = typeof(ModularAvatarMergeArmature).GetMethod("SetLockMode", BindingFlags.NonPublic | BindingFlags.Instance);
-                foreach (var ma in presenter.Avatar.GetComponentsInChildren<ModularAvatarMergeArmature>())
+                foreach (var ma in avatarObject.GetComponentsInChildren<ModularAvatarMergeArmature>())
                 {
                     if (ma.LockMode == ArmatureLockMode.NotLocked)
                     {
@@ -39,9 +52,11 @@ namespace Silksprite.EmoteWizard.Preview
             }
             else
             {
-                EmoteWizardEnvironment.FromAvatar(presenter.Avatar.transform).ProvideProxyAnimator().avatar = null;
+                EmoteWizardEnvironment.FromAvatar(avatarObject.transform).ProvideProxyAnimator().avatar = null;
             }
-            _clip.SampleAnimation(presenter.Avatar, 0f);
+            _clip.SampleAnimation(avatarObject, 0f);
         }
     }
 }
+
+#endif
