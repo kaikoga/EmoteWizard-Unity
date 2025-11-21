@@ -15,7 +15,7 @@ using nadena.dev.modular_avatar.core;
 
 namespace Silksprite.EmoteWizard.Preview
 {
-    public class InplaceAnimationPreview : IAbletObservableProcedure
+    public class InplaceAnimationPreview : AbletObservableProcedure
     {
         readonly AnimationClip _clip;
 
@@ -24,14 +24,9 @@ namespace Silksprite.EmoteWizard.Preview
             _clip = clip;
         }
 
-        void IAbletObservableProcedure.Observe(IObserveContext observeContext)
+        public override void Observe(IObserveContext observeContext)
         {
             observeContext.RootObject.Observe(Apply);
-        }
-
-        void IAbletProcedure.Process(IBuildContext context)
-        {
-            context.RootObject.Observe(Apply);
         }
 
         public void Apply(GameObject avatarObject)

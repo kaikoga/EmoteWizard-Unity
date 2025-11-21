@@ -21,11 +21,11 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
             config.AddDependency<PruningPhase>();
         }
 
-        IAbletProcedure IAbletLayer.ToProcedure(IBuildArgument argument)
+        AbletProcedure IAbletLayer.ToProcedure(IBuildArgument argument)
         {
             if (!AbletSymbols.PreferAblet) return null;
 
-            return new AbletBuildProcedure(context =>
+            return AbletBuildProcedure.Create((IBuildContext context) =>
             {
                 var avatarRootTransform = context.CurrentRootTransform;
 

@@ -16,11 +16,11 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
         {
             config.AddDependency<AfterLayer<EmoteWizardLayer>>();
         }
-        IAbletProcedure IAbletLayer.ToProcedure(IBuildArgument argument)
+        AbletProcedure IAbletLayer.ToProcedure(IBuildArgument argument)
         {
             if (!AbletSymbols.PreferAblet) return null;
 
-            return new AbletBuildProcedure(context =>
+            return AbletBuildProcedure.Create((IBuildContext context) =>
             {
                 foreach (var ewComponent in context.CurrentRootObject.GetComponentsInChildren<EmoteWizardBehaviour>(true))
                 {
