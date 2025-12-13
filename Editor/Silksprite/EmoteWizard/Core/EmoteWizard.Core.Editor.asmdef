@@ -6,7 +6,6 @@
         "nadena.dev.ndmf.runtime",
         "nadena.dev.modular-avatar.core",
         "Ablet.API",
-        "Ablet.Querying",
         "Ablet.Editor",
         "EmoteWizard",
         "EmoteWizard.Core",

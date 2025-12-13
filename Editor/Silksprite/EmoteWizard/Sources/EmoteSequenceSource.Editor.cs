@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Preview;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
@@ -8,11 +9,6 @@ using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
-
-#if EW_ABLET_SUPPORT
-using Ablet.Previewing;
-using Silksprite.EmoteWizard.Preview;
-#endif
 
 namespace Silksprite.EmoteWizard.Sources
 {
@@ -54,9 +50,7 @@ namespace Silksprite.EmoteWizard.Sources
         LocalizedProperty _serializedHasTrackingOverrides;
         LocalizedProperty _serializedTrackingOverrides;
 
-#if EW_ABLET_SUPPORT
-        InplacePreviewRequest _previewRequest;
-#endif
+        IAnimationPreviewWrapper _previewWrapper;
 
         void OnEnable()
         {
@@ -94,31 +88,26 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedHasTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.hasTrackingOverrides), Loc("EmoteSequence::hasTrackingOverrides"));
             _serializedTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.trackingOverrides), Loc("EmoteSequence::trackingOverrides"));
 
-#if EW_ABLET_SUPPORT
             var environment = CreateEnv();
             if (environment?.AvatarRoot)
             {
-                // TODO: prevent multiple previews
-                _previewRequest = new InplacePreviewRequest(environment.AvatarRoot.gameObject);
+                _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded();
             }
-#endif
         }
 
-#if EW_ABLET_SUPPORT
         void RefreshPreviewIfNeeded()
         {
-            if (!_previewRequest?.IsBlocked != true) return;
+            if (!_previewWrapper?.IsBlocked != true) return;
 
             var clip = _clip.Property.objectReferenceValue as AnimationClip;
-            _previewRequest.Posing = new InplaceAnimationPreview(clip);
+            _previewWrapper.RefreshPreview(clip);
         }
 
         void OnDisable()
         {
-            _previewRequest?.Dispose();
+            _previewWrapper.Dispose();
         }
-#endif
 
         protected override void OnInnerInspectorGUI()
         {
@@ -178,10 +167,8 @@ namespace Silksprite.EmoteWizard.Sources
 
                 serializedObject.ApplyModifiedProperties();
 
-#if EW_ABLET_SUPPORT
                 if (requireRefreshPreview) RefreshPreviewIfNeeded();
-                _previewRequest.OnInspectorGUI();
-#endif
+                _previewWrapper.OnInspectorGUI();
             }
         }
     }

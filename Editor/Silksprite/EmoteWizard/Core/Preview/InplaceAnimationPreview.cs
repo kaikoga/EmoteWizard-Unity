@@ -4,7 +4,6 @@ using System;
 using System.Reflection;
 using Ablet.API.V1;
 using Ablet.API.V1.Building;
-using Ablet.Previewing;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using UnityEngine;
@@ -29,7 +28,7 @@ namespace Silksprite.EmoteWizard.Preview
             observeContext.RootObject.Observe(Apply);
         }
 
-        public void Apply(GameObject avatarObject)
+        void Apply(GameObject avatarObject)
         {
             if (_clip.isHumanMotion)
             {
