@@ -5,6 +5,10 @@ using UnityEngine;
 using NdmfRuntimeUtil = nadena.dev.ndmf.runtime.RuntimeUtil;
 #endif
 
+#if EW_ABLET_SUPPORT
+using Ablet;
+#endif
+
 #if EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.Components;
 #endif
@@ -21,6 +25,10 @@ namespace Silksprite.EmoteWizardSupport.Utils
 
 #if EW_NDMF_SUPPORT
             return NdmfRuntimeUtil.FindAvatarInParents(transform);
+#endif
+            
+#if EW_ABLET_SUPPORT
+            return AbletFacade.GetEntrypointFor(transform.gameObject).gameObject.transform;
 #endif
             
 #if EW_VRCSDK3_AVATARS
