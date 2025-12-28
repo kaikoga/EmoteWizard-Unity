@@ -30,6 +30,10 @@ namespace Silksprite.EmoteWizard.Preview
 
         void Apply(GameObject avatarObject)
         {
+            if (!_clip)
+            {
+                return;
+            }
             if (_clip.isHumanMotion)
             {
 #if EW_MODULAR_AVATAR
