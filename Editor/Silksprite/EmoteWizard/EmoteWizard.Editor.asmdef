@@ -31,7 +31,7 @@
     "versionDefines": [
         {
             "name": "net.kaikoga.ablet",
-            "expression": "[0.1.0,999.0.0)",
+            "expression": "[1.0.0,2.0.0)",
             "define": "EW_ABLET_SUPPORT"
         },
         {
@@ -46,13 +46,13 @@
         },
         {
             "name": "com.vrmc.univrm",
-            "expression": "[0.0.0,1.0.0)",
-            "define": "ATIV_DETECTED_VRM0"
+            "expression": "0.131.0",
+            "define": "EW_UNIVRM_VRM0"
         },
         {
             "name": "com.vrmc.vrm",
-            "expression": "[0.0.0,1.0.0)",
-            "define": "ATIV_DETECTED_VRM1"
+            "expression": "0.131.0",
+            "define": "EW_UNIVRM_VRM1"
         }
     ],
     "noEngineReferences": false

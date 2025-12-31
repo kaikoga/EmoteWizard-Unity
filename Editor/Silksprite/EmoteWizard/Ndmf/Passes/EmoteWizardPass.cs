@@ -16,10 +16,10 @@ namespace Silksprite.EmoteWizard.Ndmf.Passes
 #if EW_VRCSDK3_AVATARS
                 env.BuildVrcAvatar(new EditorUndoable("Build Emote Wizard from ndmf"), false);
 #endif
-#if ATIV_DETECTED_VRM0
+#if EW_UNIVRM_VRM0
                 env.BuildVrm0Avatar(new EditorUndoable("Build Emote Wizard from ndmf"), false);
 #endif
-#if ATIV_DETECTED_VRM1
+#if EW_UNIVRM_VRM1
                 env.BuildVrm1Avatar(new EditorUndoable("Build Emote Wizard from ndmf"), false);
 #endif
             }

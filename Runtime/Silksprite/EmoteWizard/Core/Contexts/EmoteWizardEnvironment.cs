@@ -8,11 +8,11 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 #endif
 
-#if ATIV_DETECTED_VRM0
+#if EW_UNIVRM_VRM0
 using VRM;
 #endif
 
-#if ATIV_DETECTED_VRM1
+#if EW_UNIVRM_VRM1
 using UniVRM10;
 #endif
 
@@ -62,10 +62,10 @@ namespace Silksprite.EmoteWizard.Contexts
 #if EW_VRCSDK3_AVATARS
                     if (_avatarRoot.GetComponent<VRCAvatarDescriptor>()) detectedPlatform |= DetectedPlatform.VRChat;
 #endif
-#if ATIV_DETECTED_VRM0
+#if EW_UNIVRM_VRM0
                     if (_avatarRoot.GetComponent<VRMMeta>()) detectedPlatform |= DetectedPlatform.VRM0;
 #endif
-#if ATIV_DETECTED_VRM1
+#if EW_UNIVRM_VRM1
                     if (_avatarRoot.GetComponent<Vrm10Instance>()) detectedPlatform |= DetectedPlatform.VRM1;
 #endif
 

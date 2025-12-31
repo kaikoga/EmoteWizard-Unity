@@ -12,13 +12,13 @@ namespace Silksprite.EmoteWizard
             public const bool VRCSDK3_AVATARS = false;
 #endif
             
-#if ATIV_DETECTED_VRM0
+#if EW_UNIVRM_VRM0
             public const bool VRM0 = true;
 #else
             public const bool VRM0 = false;
 #endif
             
-#if ATIV_DETECTED_VRM1
+#if EW_UNIVRM_VRM1
             public const bool VRM1 = true;
 #else
             public const bool VRM1 = false;

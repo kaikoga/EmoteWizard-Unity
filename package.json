@@ -10,5 +10,8 @@
     "name": "kaikoga",
     "email": "info@mail.kaikoga.net",
     "url": "https://www.kaikoga.net/"
+  },
+  "vpmDependencies": {
+    "net.kaikoga.ablet": "^1.0.0"
   }
 }
