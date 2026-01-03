@@ -3,10 +3,6 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
-#if EW_VRCSDK3_AVATARS
-using VRC.SDK3.Avatars.Components;
-#endif
-
 namespace Silksprite.EmoteWizard
 {
     [DisallowMultipleComponent]
@@ -15,10 +11,6 @@ namespace Silksprite.EmoteWizard
     public class EmoteWizardRoot : EmoteWizardBehaviour
     {
         [SerializeField] public Transform avatarRootTransform;
-#if EW_VRCSDK3_AVATARS
-        [SerializeField] public VRCAvatarDescriptor avatarDescriptor;
-#endif
-
         [SerializeField] public Animator proxyAnimator;
 
         [SerializeField] public bool persistGeneratedAssets;

@@ -273,8 +273,8 @@ msgstr "アバター設定"
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:109
 msgid "EmoteWizardRoot::AvatarRoot::notFound."
 msgstr ""
-"VRCAvatarDescriptorの子にEmote Wizard Rootを配置するか、"
-"VRCAvatarDescriptorを設定してください。"
+"アバターの子にEmote Wizard Rootを配置するか、"
+"アバターのルートとなるオブジェクトを指定してください。"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:116
 msgid "EmoteWizardRoot::Detected Avatar Root"

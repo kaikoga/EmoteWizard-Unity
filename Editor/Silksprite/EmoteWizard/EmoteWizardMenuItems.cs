@@ -1,10 +1,6 @@
 using UnityEditor;
 using UnityEngine;
 
-#if EW_VRCSDK3_AVATARS
-using VRC.SDK3.Avatars.Components;
-#endif
-
 namespace Silksprite.EmoteWizard
 {
     public static class EmoteWizardMenuItems
@@ -17,18 +13,7 @@ namespace Silksprite.EmoteWizard
             if (menuCommand.context is GameObject avatar)
             {
                 root.transform.SetParent(avatar.transform);
-                var avatarRootIsConfigured = false;
-#if EW_VRCSDK3_AVATARS
-                if (avatar.TryGetComponent<VRCAvatarDescriptor>(out var avatarDescriptor))
-                {
-                    root.avatarDescriptor = avatarDescriptor;
-                    avatarRootIsConfigured = true;
-                }
-#endif
-                if (!avatarRootIsConfigured)
-                {
-                    root.avatarRootTransform = avatar.transform;
-                }
+                root.avatarRootTransform = avatar.transform;
             }
             Undo.RegisterCreatedObjectUndo(gameObject, "Create Emote Wizard");
         }

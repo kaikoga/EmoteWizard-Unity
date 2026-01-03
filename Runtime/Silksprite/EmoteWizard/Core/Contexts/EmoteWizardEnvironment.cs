@@ -175,12 +175,6 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             var isDetectedAvatarRoot = false;
             var avatarRoot = root.avatarRootTransform;
-#if EW_VRCSDK3_AVATARS
-            if (!avatarRoot && root.avatarDescriptor)
-            {
-                avatarRoot = root.avatarDescriptor.transform;
-            }
-#endif
             if (!avatarRoot)
             {
                 avatarRoot = RuntimeUtil.FindAvatarInParents(root.transform);

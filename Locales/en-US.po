@@ -271,8 +271,8 @@ msgstr "Avatar"
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:109
 msgid "EmoteWizardRoot::AvatarRoot::notFound."
 msgstr ""
-"Please place Emote Wizard Root as child of VRC Avatar Descriptor or assign "
-"VRC Avatar Descriptor here."
+"Please place Emote Wizard Root as child of avatar or specify "
+"avatar root transform here."
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:116
 msgid "EmoteWizardRoot::Detected Avatar Root"

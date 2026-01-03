@@ -3,7 +3,6 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
@@ -27,9 +26,6 @@ namespace Silksprite.EmoteWizard
         bool _isSetup;
 
         LocalizedProperty _avatarRootTransform;
-#if EW_VRCSDK3_AVATARS
-        LocalizedProperty _avatarDescriptor;
-#endif
         LocalizedProperty _proxyAnimator;
         LocalizedProperty _persistGeneratedAssets;
         LocalizedProperty _generatedAssetRoot;
@@ -49,9 +45,6 @@ namespace Silksprite.EmoteWizard
         void OnEnable()
         {
             _avatarRootTransform = Lop(nameof(EmoteWizardRoot.avatarRootTransform), Loc("EmoteWizardRoot::avatarRootTransform"));
-#if EW_VRCSDK3_AVATARS
-            _avatarDescriptor = Lop(nameof(EmoteWizardRoot.avatarDescriptor), Loc("EmoteWizardRoot::avatarDescriptor"));
-#endif
             _proxyAnimator = Lop(nameof(EmoteWizardRoot.proxyAnimator), Loc("EmoteWizardRoot::proxyAnimator"));
             _persistGeneratedAssets = Lop(nameof(EmoteWizardRoot.persistGeneratedAssets), Loc("EmoteWizardRoot::persistGeneratedAssets"));
             _generatedAssetRoot = Lop(nameof(EmoteWizardRoot.generatedAssetRoot), Loc("EmoteWizardRoot::generatedAssetRoot"));
@@ -91,17 +84,7 @@ namespace Silksprite.EmoteWizard
             }
 
             EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
-            var emptyAvatar = true;
-            var hasAvatarRootTransform = (bool)_avatarRootTransform.Property.objectReferenceValue;
-            if (hasAvatarRootTransform) emptyAvatar = false;
-#if EW_VRCSDK3_AVATARS
-            var hasAvatarDescriptor = (bool)_avatarDescriptor.Property.objectReferenceValue;
-            if (hasAvatarDescriptor) emptyAvatar = false;
-#endif
-            if (emptyAvatar || hasAvatarRootTransform) EmoteWizardGUILayout.Prop(_avatarRootTransform);
-#if EW_VRCSDK3_AVATARS
-            if (emptyAvatar || hasAvatarDescriptor) EmoteWizardGUILayout.Prop(_avatarDescriptor);
-#endif
+            EmoteWizardGUILayout.Prop(_avatarRootTransform);
 
             var avatarRoot = env.AvatarRoot;
             if (!avatarRoot)
