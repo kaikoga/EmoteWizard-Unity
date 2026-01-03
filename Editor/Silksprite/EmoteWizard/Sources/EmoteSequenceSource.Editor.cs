@@ -94,11 +94,18 @@ namespace Silksprite.EmoteWizard.Sources
                 _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded();
             }
+            else
+            {
+                _previewWrapper = AnimationPreviewWrapper.Null;
+            }
         }
 
         void RefreshPreviewIfNeeded()
         {
-            if (!_previewWrapper?.IsBlocked != true) return;
+            if (_previewWrapper.IsBlocked)
+            {
+                return;
+            }
 
             var clip = _clip.Property.objectReferenceValue as AnimationClip;
             _previewWrapper.RefreshPreview(clip);

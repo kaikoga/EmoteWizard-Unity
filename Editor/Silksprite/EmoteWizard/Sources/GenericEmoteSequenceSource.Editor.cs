@@ -76,11 +76,18 @@ namespace Silksprite.EmoteWizard.Sources
                 _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded(environment);
             }
+            else
+            {
+                _previewWrapper = AnimationPreviewWrapper.Null;
+            }
         }
 
         void RefreshPreviewIfNeeded(EmoteWizardEnvironment environment)
         {
-            if (!_previewWrapper?.IsBlocked != true) return;
+            if (_previewWrapper.IsBlocked)
+            {
+                return;
+            }
 
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
@@ -89,7 +96,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         void OnDisable()
         {
-            _previewWrapper?.Dispose();
+            _previewWrapper.Dispose();
             if (_temporaryClip) DestroyImmediate(_temporaryClip);
             _temporaryClip = null;
         }

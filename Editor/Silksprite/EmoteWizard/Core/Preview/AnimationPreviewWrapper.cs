@@ -12,6 +12,8 @@ namespace Silksprite.EmoteWizard.Preview
 {
     public static class AnimationPreviewWrapper
     {
+        public static IAnimationPreviewWrapper Null = new NullApplicationPreviewWrapper();
+
         public static IAnimationPreviewWrapper Create(GameObject avatarRootObject)
         {
 #if EW_ABLET_SUPPORT
