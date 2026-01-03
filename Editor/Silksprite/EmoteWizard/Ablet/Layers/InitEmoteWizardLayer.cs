@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
     [AbletLayer]
     class InitEmoteWizardPass : IAbletLayer
     {
-        string IAbletDefinition.Id => "net.kaikoga.emotewizard.init";
+        string IAbletDefinition.Id => "Silksprite.EmoteWizard.Init";
         string IAbletDefinition.DisplayName => "EmoteWizard Init";
         void IAbletLayer.Configure(IDependencyConfigurator config)
         {

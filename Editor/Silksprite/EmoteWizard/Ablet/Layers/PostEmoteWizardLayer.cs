@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
     [AbletLayer]
     class PostEmoteWizardLayer : IAbletLayer
     {
-        string IAbletDefinition.Id => "net.kaikoga.emotewizard.post";
+        string IAbletDefinition.Id => "Silksprite.EmoteWizard.Post";
         string IAbletDefinition.DisplayName => "EmoteWizard Post";
         void IAbletLayer.Configure(IDependencyConfigurator config)
         {

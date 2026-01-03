@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
     [AbletLayer]
     class PreEmoteWizardLayer : IAbletLayer
     {
-        string IAbletDefinition.Id => "net.kaikoga.emotewizard.pre";
+        string IAbletDefinition.Id => "Silksprite.EmoteWizard.Pre";
         string IAbletDefinition.DisplayName => "EmoteWizard Pre";
         void IAbletLayer.Configure(IDependencyConfigurator config)
         {

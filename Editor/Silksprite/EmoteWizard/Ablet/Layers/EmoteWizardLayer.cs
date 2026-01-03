@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
     [AbletLayer]
     class EmoteWizardLayer : IAbletLayer
     {
-        public string Id => "net.kaikoga.emotewizard";
+        public string Id => "Silksprite.EmoteWizard";
         public string DisplayName => "EmoteWizard";
         public void Configure(IDependencyConfigurator config)
         {
