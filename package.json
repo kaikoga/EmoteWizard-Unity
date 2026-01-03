@@ -1,6 +1,6 @@
 {
   "name": "net.kaikoga.emotewizard",
-  "url": "https://vpm.kaikoga.net/net.kaikoga.emotewizard/net.kaikoga.emotewizard-1.0.0.zip",
+  "url": "https://vpm.kaikoga.net/net.kaikoga.emotewizard/net.kaikoga.emotewizard-2.0.0.zip",
   "displayName": "Emote Wizard",
   "version": "2.0.0",
   "unity": "2021.3",
@@ -12,6 +12,6 @@
     "url": "https://www.kaikoga.net/"
   },
   "vpmDependencies": {
-    "net.kaikoga.ablet": "^1.0.0"
+    "net.kaikoga.ablet": "^2.0.0"
   }
 }
