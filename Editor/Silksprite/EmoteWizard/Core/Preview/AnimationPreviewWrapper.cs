@@ -1,9 +1,12 @@
 using System;
-using Ablet.Previewing;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using UnityEditor;
 using UnityEngine;
+
+#if EW_ABLET_SUPPORT
+using Ablet.Previewing;
+#endif
 
 namespace Silksprite.EmoteWizard.Preview
 {

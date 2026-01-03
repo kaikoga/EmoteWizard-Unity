@@ -1,9 +1,12 @@
 ﻿using System;
-using Ablet.API;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Ndmf;
 using Silksprite.EmoteWizard.Ndmf.Passes;
 using UnityEngine;
+
+#if EW_ABLET_SUPPORT
+using Ablet.API;
+#endif
 
 [assembly: ExportsPlugin(typeof(EmoteWizardPlugin))]
 
