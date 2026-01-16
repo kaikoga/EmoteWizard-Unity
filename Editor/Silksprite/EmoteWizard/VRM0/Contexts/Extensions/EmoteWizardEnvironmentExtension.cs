@@ -1,4 +1,4 @@
-#if EW_UNIVRM_VRM0
+#if ATIV_DETECTED_VRM0
 
 using System;
 using System.Collections.Generic;

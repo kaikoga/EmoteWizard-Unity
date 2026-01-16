@@ -3,16 +3,8 @@ using Ablet.API.V1;
 using Ablet.API.V1.Attributes;
 using Ablet.API.V1.Building;
 using Ablet.Builtin;
-
-#if EW_VRCSDK3_AVATARS
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
-#endif
-
-#if EW_UNIVRM_VRM0 || EW_UNIVRM_VRM1
-using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizardSupport.Undoable;
-#endif
 
 namespace Silksprite.EmoteWizard.Ablet.Layers
 {
@@ -39,10 +31,10 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
 #if EW_VRCSDK3_AVATARS
                     env.BuildVrcAvatar(new EditorUndoable("Build Emote Wizard from Ablet"), false);
 #endif
-#if EW_UNIVRM_VRM0
+#if ATIV_DETECTED_VRM0
                     env.BuildVrm0Avatar(new EditorUndoable("Build Emote Wizard from Ablet"), false);
 #endif
-#if EW_UNIVRM_VRM1
+#if ATIV_DETECTED_VRM1
                     env.BuildVrm1Avatar(new EditorUndoable("Build Emote Wizard from Ablet"), false);
 #endif
                 }

@@ -24,7 +24,7 @@
     "overrideReferences": true,
     "precompiledReferences": [],
     "autoReferenced": false,
-    "defineConstraints": ["EW_UNIVRM_VRM1"],
+    "defineConstraints": ["ATIV_DETECTED_VRM1"],
     "versionDefines": [
         {
             "name": "nadena.dev.modular-avatar",
@@ -38,8 +38,8 @@
         },
         {
             "name": "com.vrmc.vrm",
-            "expression": "0.131.0",
-            "define": "EW_UNIVRM_VRM1"
+            "expression": "[0.0.0,1.0.0)",
+            "define": "ATIV_DETECTED_VRM1"
         }
     ],
     "noEngineReferences": false

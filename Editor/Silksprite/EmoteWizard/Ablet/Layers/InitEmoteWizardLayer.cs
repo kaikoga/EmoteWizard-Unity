@@ -6,11 +6,11 @@ using Ablet.Builtin;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
 
-#if EW_UNIVRM_VRM0
+#if ATIV_DETECTED_VRM0
 using VRM;
 #endif
 
-#if EW_UNIVRM_VRM1
+#if ATIV_DETECTED_VRM1
 using UniVRM10;
 #endif
 
@@ -37,14 +37,14 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
 
                 foreach (var root in avatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
                 {
-#if EW_UNIVRM_VRM0
+#if ATIV_DETECTED_VRM0
                     if (avatarRootTransform.TryGetComponent<VRMMeta>(out var meta))
                     {
                         meta.EnsureVRM0Components(avatarRootTransform, root, undoable);
                     }
 
 #endif
-#if EW_UNIVRM_VRM1
+#if ATIV_DETECTED_VRM1
                     if (avatarRootTransform.TryGetComponent<Vrm10Instance>(out var instance))
                     {
                         instance.EnsureVRM1Components(avatarRootTransform, root, undoable);
