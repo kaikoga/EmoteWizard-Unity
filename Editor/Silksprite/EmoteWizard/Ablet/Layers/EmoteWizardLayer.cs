@@ -3,8 +3,11 @@ using Ablet.API.V1;
 using Ablet.API.V1.Attributes;
 using Ablet.API.V1.Building;
 using Ablet.Builtin;
+
+#if EW_VRCSDK3_AVATARS || ATIV_DETECTED_VRM0 || ATIV_DETECTED_VRM1
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
+#endif
 
 namespace Silksprite.EmoteWizard.Ablet.Layers
 {
