@@ -25,17 +25,13 @@ namespace Silksprite.EmoteWizardSupport.Utils
 
 #if EW_NDMF_SUPPORT
             return NdmfRuntimeUtil.FindAvatarInParents(transform);
-#endif
-            
-#if EW_ABLET_SUPPORT
+#elif EW_ABLET_SUPPORT
             return AbletFacade.GetEntrypointFor(transform.gameObject).gameObject.transform;
-#endif
-            
-#if EW_VRCSDK3_AVATARS
+#elif EW_VRCSDK3_AVATARS
             return transform.GetComponentInParent<VRCAvatarDescriptor>()?.transform;
-#endif
-
+#else
             return null;
+#endif
         }
 
         public static string RelativePath(Transform root, Transform child)
