@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Preview
 #if EW_ABLET_SUPPORT
             return new AbletAnimationPreviewWrapper(avatarRootObject);
 #else
-            return new NullApplicationPreviewWrapper(avatarRootObject);
+            return Null;
 #endif
         }
     }
