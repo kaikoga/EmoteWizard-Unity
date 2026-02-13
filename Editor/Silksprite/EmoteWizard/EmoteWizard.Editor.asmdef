@@ -5,6 +5,8 @@
         "nadena.dev.ndmf",
         "nadena.dev.ndmf.runtime",
         "nadena.dev.modular-avatar.core",
+        "Loch",
+        "Loch.Editor",
         "Ablet.API",
         "Ablet.Editor",
         "EmoteWizard",

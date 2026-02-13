@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Base
                 if (!target) return;
                 if (env?.ShowTutorial != true) return;
                 var tutorial = TutorialContent;
-                if (tutorial.IsNullOrEmpty()) return;
+                if (tutorial == null) return;
                 using (new BoxLayoutScope())
                 {
                     EmoteWizardGUILayout.HelpBox(TutorialContent, MessageType.Info);

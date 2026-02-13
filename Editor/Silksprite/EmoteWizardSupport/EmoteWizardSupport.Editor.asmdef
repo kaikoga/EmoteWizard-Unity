@@ -4,6 +4,8 @@
     "references": [
         "nadena.dev.ndmf",
         "nadena.dev.ndmf.runtime",
+        "Loch",
+        "Loch.Editor",
         "EmoteWizardSupport"
     ],
     "includePlatforms": [

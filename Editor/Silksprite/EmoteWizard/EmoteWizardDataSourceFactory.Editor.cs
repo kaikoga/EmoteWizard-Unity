@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     EmoteWizardGUILayout.Undoable(loc, callback);
-                    if (!desc.IsNullOrEmpty()) EmoteWizardGUILayout.Label(desc);
+                    if (desc != null) EmoteWizardGUILayout.Label(desc);
                 }
             }
 

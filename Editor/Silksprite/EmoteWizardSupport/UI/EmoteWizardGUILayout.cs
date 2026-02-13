@@ -81,7 +81,7 @@ namespace Silksprite.EmoteWizardSupport.UI
             if (!persistGeneratedAssets) return;
             using (new BoxLayoutScope(OutputUIColor))
             {
-                if (!loc.IsNullOrEmpty()) GUILayout.Label(loc.GUIContent);
+                if (loc != null) GUILayout.Label(loc.GUIContent);
                 action();
             }
         }
