@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.EmoteWizardSupport.Utils;
+using Silksprite.Loch;
 using UnityEditor;
 using UnityEngine;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizardSupport.ClipBuilder
 {

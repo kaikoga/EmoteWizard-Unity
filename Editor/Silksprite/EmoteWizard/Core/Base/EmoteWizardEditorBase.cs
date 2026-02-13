@@ -5,6 +5,8 @@ using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Utils;
+using Silksprite.Loch;
+using Silksprite.Loch.Tools;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizard.Base
@@ -47,7 +49,7 @@ namespace Silksprite.EmoteWizard.Base
                 }
                 else
                 {
-                    EmoteWizardGUILayout.HelpBox(LocalizationTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info,
+                    EmoteWizardGUILayout.HelpBox(LochTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info,
                         new Substitution
                         {
                             ["platform"] = env.Platform.ToSolePlatformString()
@@ -85,6 +87,6 @@ namespace Silksprite.EmoteWizard.Base
     {
         protected T soleTarget => target as T;
 
-        protected sealed override LocalizedContent TutorialContent => LocalizationTool._Loc(typeof(T).Name + "::Tutorial.");
+        protected sealed override LocalizedContent TutorialContent => LochTool._Loc(typeof(T).Name + "::Tutorial.");
     }
 }

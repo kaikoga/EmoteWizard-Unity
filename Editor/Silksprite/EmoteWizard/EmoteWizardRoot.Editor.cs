@@ -9,9 +9,10 @@ using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
+using Silksprite.Loch;
 using UnityEditor;
 using UnityEngine;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
 #if EW_VRCSDK3_AVATARS

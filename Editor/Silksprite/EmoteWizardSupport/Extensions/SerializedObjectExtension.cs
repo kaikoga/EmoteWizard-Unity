@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizardSupport.L10n;
+using Silksprite.Loch;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizardSupport.Extensions

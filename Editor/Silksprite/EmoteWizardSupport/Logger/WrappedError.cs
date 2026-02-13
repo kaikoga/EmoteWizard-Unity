@@ -6,6 +6,7 @@ using nadena.dev.ndmf.localization;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Utils;
+using Silksprite.Loch;
 using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.Logger

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Silksprite.EmoteWizardSupport.Utils
+namespace Silksprite.Loch
 {
     public class Substitution
     {

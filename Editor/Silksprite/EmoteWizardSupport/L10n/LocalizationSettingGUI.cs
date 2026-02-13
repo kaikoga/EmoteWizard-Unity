@@ -1,6 +1,6 @@
 using System;
 using UnityEditor;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 using static Silksprite.EmoteWizardSupport.L10n.LocalizationSetting;
 
 namespace Silksprite.EmoteWizardSupport.L10n

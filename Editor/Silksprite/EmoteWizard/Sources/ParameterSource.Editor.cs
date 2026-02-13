@@ -4,8 +4,9 @@ using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch;
 using UnityEditor;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Sources
 {

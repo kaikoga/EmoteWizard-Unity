@@ -3,9 +3,10 @@ using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizardSupport.Utils;
+using Silksprite.Loch;
 using UnityEditor;
 using UnityEngine;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.UI

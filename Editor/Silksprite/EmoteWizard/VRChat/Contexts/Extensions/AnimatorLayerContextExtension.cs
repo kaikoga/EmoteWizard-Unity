@@ -7,8 +7,9 @@ using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.EmoteWizardSupport.Utils;
+using Silksprite.Loch;
 using UnityEngine;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Contexts.Extensions
 {

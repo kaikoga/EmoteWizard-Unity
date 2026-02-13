@@ -1,8 +1,9 @@
 using System;
+using Silksprite.EmoteWizardSupport.L10n;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizardSupport.L10n
+namespace Silksprite.Loch
 {
     public readonly struct LocalizedProperty : IEquatable<LocalizedProperty>
     {

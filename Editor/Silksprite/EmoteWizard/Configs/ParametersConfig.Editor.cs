@@ -4,9 +4,10 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch;
 using UnityEditor;
 using UnityEngine;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Configs
 {

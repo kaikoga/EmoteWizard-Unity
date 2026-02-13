@@ -4,6 +4,7 @@ using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch.Tools;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,12 +18,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
             using (new LabelWidthScope(100f))
             {
                 var relativeRef = serializedProperty.Lop(nameof(AnimatedBlendShape.relativeRef),
-                    LocalizationTool.Loc("AnimatedBlendShape::relativeRef"));
+                    LochTool.Loc("AnimatedBlendShape::relativeRef"));
                 var blendShapeName = serializedProperty.Lop(
                     nameof(AnimatedBlendShape.blendShapeName),
-                    LocalizationTool.Loc("AnimatedBlendShape::blendShapeName"));
+                    LochTool.Loc("AnimatedBlendShape::blendShapeName"));
                 var value = serializedProperty.Lop(nameof(AnimatedBlendShape.value),
-                    LocalizationTool.Loc("AnimatedBlendShape::value"));
+                    LochTool.Loc("AnimatedBlendShape::value"));
 
                 EmoteWizardGUI.Prop(position.UISliceV(0), relativeRef);
 

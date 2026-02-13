@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizardSupport.L10n
+namespace Silksprite.Loch.Tools
 {
-    public static class LocalizationTool
+    public static class LochTool
     {
         static LocalizationAsset Po => PoCache.FindOrCreate("po", (lang, key) => AssetDatabase.LoadAssetAtPath<LocalizationAsset>(LocalizationSetting.PoPath(lang)));
         static readonly LocalizationCache<LocalizationAsset> PoCache = new LocalizationCache<LocalizationAsset>();

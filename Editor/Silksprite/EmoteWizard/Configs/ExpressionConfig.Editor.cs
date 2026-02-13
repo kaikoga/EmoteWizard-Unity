@@ -2,8 +2,9 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch;
 using UnityEditor;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Configs
 {

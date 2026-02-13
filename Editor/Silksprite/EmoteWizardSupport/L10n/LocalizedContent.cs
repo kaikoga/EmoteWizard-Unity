@@ -1,10 +1,11 @@
 using System;
 using Silksprite.EmoteWizardSupport.Extensions;
+using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
-using static Silksprite.EmoteWizardSupport.L10n.LocalizationTool;
+using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizardSupport.L10n
+namespace Silksprite.Loch
 {
     public readonly struct LocalizedContent : IEquatable<LocalizedContent>
     {
@@ -17,7 +18,7 @@ namespace Silksprite.EmoteWizardSupport.L10n
         public string LongTr => LocalizationSetting.Nowrap ? Tr(_key).Nowrap() : Tr(_key);
         public GUIContent GUIContent => GUIContent(_key);
 
-        public string TrFormat(Substitution substitution) => LocalizationTool.TrFormat(_key, substitution);
+        public string TrFormat(Substitution substitution) => Silksprite.Loch.Tools.LochTool.TrFormat(_key, substitution);
         public string LongTrFormat(Substitution substitution) => LocalizationSetting.Nowrap ? TrFormat(substitution).Nowrap() : TrFormat(substitution);
 
         public static bool operator ==(LocalizedContent left, LocalizedContent right)
