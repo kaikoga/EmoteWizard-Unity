@@ -1,12 +1,10 @@
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.Utils;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
 using Silksprite.Loch.Tools;
+using Silksprite.Loch.UI;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizard.Base
@@ -29,7 +27,7 @@ namespace Silksprite.EmoteWizard.Base
         {
             if (_lastHeader == loc) return;
             
-            EmoteWizardGUILayout.Header(loc);
+            LGUILayout.Header(loc);
             _lastHeader = loc;
         }
 
@@ -49,11 +47,11 @@ namespace Silksprite.EmoteWizard.Base
                 }
                 else
                 {
-                    EmoteWizardGUILayout.HelpBox(LochTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info,
-                        new Substitution
-                        {
-                            ["platform"] = env.Platform.ToSolePlatformString()
-                        });
+                    Substitution substitution = new Substitution
+                    {
+                        ["platform"] = env.Platform.ToSolePlatformString()
+                    };
+                    LEditorGUILayout.HelpBox(LochTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info, substitution);
                 }
 
                 if (!target) return;
@@ -62,7 +60,7 @@ namespace Silksprite.EmoteWizard.Base
                 if (tutorial == null) return;
                 using (new BoxLayoutScope())
                 {
-                    EmoteWizardGUILayout.HelpBox(TutorialContent, MessageType.Info);
+                    LEditorGUILayout.HelpBox(TutorialContent, MessageType.Info);
                 }
             }
             finally

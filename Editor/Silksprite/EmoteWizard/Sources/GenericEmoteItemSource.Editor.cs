@@ -2,10 +2,9 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -39,7 +38,7 @@ namespace Silksprite.EmoteWizard.Sources
         protected override void OnInnerInspectorGUI()
         {
             EditorGUI.BeginChangeCheck();
-            EmoteWizardGUILayout.Prop(_platform);
+            LEditorGUILayout.Prop(_platform);
             if (EditorGUI.EndChangeCheck())
             {
                 _vrcHandSign.Property.intValue = 0;
@@ -49,33 +48,33 @@ namespace Silksprite.EmoteWizard.Sources
                 switch ((Platform)_platform.Property.intValue)
                 {
                     case Platform.VRChat:
-                        EmoteWizardGUILayout.PropAsEnumPopup<HandSign>(_vrcHandSign);
+                        LEditorGUILayout.PropAsEnumPopup<HandSign>(_vrcHandSign);
                         break;
                     case Platform.VRM0:
-                        EmoteWizardGUILayout.PropAsEnumPopup<Vrm0BlendShapePreset>(_vrm0BlendShape);
+                        LEditorGUILayout.PropAsEnumPopup<Vrm0BlendShapePreset>(_vrm0BlendShape);
                         if (_vrm0BlendShape.Property.intValue == (int)Vrm0BlendShapePreset.Unknown)
                         {
-                            EmoteWizardGUILayout.Prop(_name);
+                            LEditorGUILayout.Prop(_name);
                         }
                         break;
                     case Platform.VRM1:
-                        EmoteWizardGUILayout.PropAsEnumPopup<Vrm1ExpressionPreset>(_vrm1Expression);
+                        LEditorGUILayout.PropAsEnumPopup<Vrm1ExpressionPreset>(_vrm1Expression);
                         if (_vrm1Expression.Property.intValue == (int)Vrm1ExpressionPreset.Custom)
                         {
-                            EmoteWizardGUILayout.Prop(_name);
+                            LEditorGUILayout.Prop(_name);
                         }
                         break;
                 }
             }
 
-            EmoteWizardGUILayout.Prop(_sequence);
+            LEditorGUILayout.Prop(_sequence);
             if (!_sequence.Property.objectReferenceValue)
             {
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
                     EmoteSequenceSourceBase obj = soleTarget.FindEmoteSequenceSource();
-                    EmoteWizardGUILayout.ObjectField(Loc("GenericEmoteItemSource::Detected Emote Sequence"), obj, true);
+                    LEditorGUILayout.ObjectField(Loc("GenericEmoteItemSource::Detected Emote Sequence"), obj, true);
                 }
             }
 

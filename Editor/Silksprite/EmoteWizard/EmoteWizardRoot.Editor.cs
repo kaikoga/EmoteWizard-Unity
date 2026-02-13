@@ -6,10 +6,10 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -68,9 +68,9 @@ namespace Silksprite.EmoteWizard
             var env = CreateEnv();
             EmoteWizardGUILayout.ConfigUIArea(() =>
             {
-                LocalizationSettingGUI.LocalizationSelector();
-                EmoteWizardGUILayout.Prop(_showTutorial);
-                EmoteWizardGUILayout.Prop(_detectPlatform);
+                LEditorGUILayout.LanguageSelector();
+                LEditorGUILayout.Prop(_showTutorial);
+                LEditorGUILayout.Prop(_detectPlatform);
             });
 
             EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source"), undoable =>
@@ -78,50 +78,52 @@ namespace Silksprite.EmoteWizard
                 undoable.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>(soleTarget, "New Source");
             });
 
-            _isSetup = EmoteWizardGUILayout.Foldout(_isSetup, Loc("EmoteWizardRoot::Setup"));
+            LocalizedContent loc = Loc("EmoteWizardRoot::Setup");
+            _isSetup = LEditorGUILayout.Foldout(_isSetup, loc);
             if (_isSetup)
             {
                 if (SetupGUI.OnInspectorGUI(env)) return;
             }
 
-            EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
-            EmoteWizardGUILayout.Prop(_avatarRootTransform);
+            LGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
+            LEditorGUILayout.Prop(_avatarRootTransform);
 
             var avatarRoot = env.AvatarRoot;
             if (!avatarRoot)
             {
-                EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::AvatarRoot::notFound."), MessageType.Error);
+                LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::AvatarRoot::notFound."), MessageType.Error);
             }
             else if (env.IsDetectedAvatarRoot)
             {
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
-                    EmoteWizardGUILayout.ObjectField(Loc("EmoteWizardRoot::Detected Avatar Root"), env.AvatarRoot, true);
+                    LEditorGUILayout.ObjectField(Loc("EmoteWizardRoot::Detected Avatar Root"), env.AvatarRoot, true);
                 }
             }
 
-            EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Assets Generation"));
+            LGUILayout.Header(Loc("EmoteWizardRoot::Assets Generation"));
             EditorGUI.BeginChangeCheck();
-            EmoteWizardGUILayout.PropertyFoldout(_persistGeneratedAssets, () =>
+            Action content = () =>
             {
                 using (new GUILayout.HorizontalScope())
                 {
-                    EmoteWizardGUILayout.Prop(_generatedAssetRoot);
-                    if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Browse...")))
+                    LEditorGUILayout.Prop(_generatedAssetRoot);
+                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Browse..."), new GUILayoutOption[0]))
                     {
                         SelectFolder(Loc("EmoteWizardRoot::Select Generated Assets Root"), _generatedAssetRoot.Property);
                     }
                 }
 
-                EmoteWizardGUILayout.Prop(_generatedAssetPrefix);
+                LEditorGUILayout.Prop(_generatedAssetPrefix);
 
-                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardGUILayout.PropertyFieldWithGenerate(_emptyClip, () => CreateEnv().ProvideEmptyClip()); });
-                if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Output Assets")))
+                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardGUILayout.PropWithGenerate(_emptyClip, () => CreateEnv().ProvideEmptyClip()); });
+                if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Output Assets"), new GUILayoutOption[0]))
                 {
                     CreateEnv().DisconnectAllOutputAssets();
                 }
-            });
+            };
+            LEditorGUILayout.PropAsFoldout(_persistGeneratedAssets, content);
             if (EditorGUI.EndChangeCheck() && !_persistGeneratedAssets.Property.boolValue)
             {
                 env.DisconnectAllOutputAssets();
@@ -131,11 +133,11 @@ namespace Silksprite.EmoteWizard
             if (env.IsVRChatAvatar())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
-                EmoteWizardGUILayout.Prop(_generateTrackingControlLayer);
+                LEditorGUILayout.Prop(_generateTrackingControlLayer);
 
                 var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
 
-                EmoteWizardGUILayout.Prop(_overrideGesture);
+                LEditorGUILayout.Prop(_overrideGesture);
                 using (new EditorGUI.IndentLevelScope())
                 {
                     switch (env.OverrideGesture)
@@ -143,7 +145,7 @@ namespace Silksprite.EmoteWizard
                         case OverrideGeneratedControllerType2.Generate:
                             break;
                         case OverrideGeneratedControllerType2.Override:
-                            EmoteWizardGUILayout.Prop(_overrideGestureController);
+                            LEditorGUILayout.Prop(_overrideGestureController);
                             break;
                         case OverrideGeneratedControllerType2.Default1:
                             DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController1());
@@ -159,7 +161,7 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                EmoteWizardGUILayout.Prop(_overrideAction);
+                LEditorGUILayout.Prop(_overrideAction);
                 using (new EditorGUI.IndentLevelScope())
                 {
                     switch (env.OverrideAction)
@@ -167,7 +169,7 @@ namespace Silksprite.EmoteWizard
                         case OverrideGeneratedControllerType1.Generate:
                             break;
                         case OverrideGeneratedControllerType1.Override:
-                            EmoteWizardGUILayout.Prop(_overrideActionController);
+                            LEditorGUILayout.Prop(_overrideActionController);
                             break;
                         case OverrideGeneratedControllerType1.Default:
                             DummyController(_overrideActionController, VrcSdkAssetLocator.ActionLayerController());
@@ -180,13 +182,13 @@ namespace Silksprite.EmoteWizard
                     }
                 }
 
-                EmoteWizardGUILayout.Prop(_overrideSitting);
+                LEditorGUILayout.Prop(_overrideSitting);
                 using (new EditorGUI.IndentLevelScope())
                 {
                     switch (env.OverrideSitting)
                     {
                         case OverrideControllerType2.Override:
-                            EmoteWizardGUILayout.Prop(_overrideSittingController);
+                            LEditorGUILayout.Prop(_overrideSittingController);
                             break;
                         case OverrideControllerType2.Default1:
                             DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController1());
@@ -208,14 +210,14 @@ namespace Silksprite.EmoteWizard
             if (env.MaybeVRM())
             {
                 HeaderOnce(Loc("EmoteWizardRoot::Options"));
-                EmoteWizardGUILayout.Prop(_author);
+                LEditorGUILayout.Prop(_author);
             }
 #endif
 
 #if EW_VRCSDK3_AVATARS
             if (env.IsVRChatAvatar())
             {
-                EmoteWizardGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
+                LGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
                 AvatarOutputVrc(env);
             }
 #endif
@@ -227,14 +229,14 @@ namespace Silksprite.EmoteWizard
         {
             using (new EditorGUI.DisabledScope(true))
             {
-                EmoteWizardGUILayout.ObjectField(lop.Loc, dummyController, false);
+                LEditorGUILayout.ObjectField(lop.Loc, dummyController, false);
             }
         }
 
 #if EW_VRCSDK3_AVATARS
         void AvatarOutputVrc(EmoteWizardEnvironment env)
         {
-            EmoteWizardGUILayout.Prop(_proxyAnimator);
+            LEditorGUILayout.Prop(_proxyAnimator);
             var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
             if (avatarDescriptor)
             {
@@ -254,7 +256,7 @@ namespace Silksprite.EmoteWizard
                     var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
 
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(avatarDescriptor);
-                    if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
+                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets"), new GUILayoutOption[0]))
                     {
                         CreateEnv().CleanupVrcAvatar();
                     }
@@ -270,7 +272,7 @@ namespace Silksprite.EmoteWizard
                     {
                         using (new EditorGUI.DisabledScope(editorController == null))
                         {
-                            if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Edit")))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit"), new GUILayoutOption[0]))
                             {
                                 EditAnimator(editorController);
                             }
@@ -278,7 +280,7 @@ namespace Silksprite.EmoteWizard
 
                         using (new EditorGUI.DisabledScope(gestureController == null || env.OverrideGesture == OverrideGeneratedControllerType2.Default1 || env.OverrideGesture == OverrideGeneratedControllerType2.Default2))
                         {
-                            if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Edit Gesture")))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Gesture"), new GUILayoutOption[0]))
                             {
                                 EditAnimator(gestureController);
                             }
@@ -286,7 +288,7 @@ namespace Silksprite.EmoteWizard
 
                         using (new EditorGUI.DisabledScope(fxController == null))
                         {
-                            if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Edit FX")))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit FX"), new GUILayoutOption[0]))
                             {
                                 EditAnimator(fxController);
                             }
@@ -294,14 +296,14 @@ namespace Silksprite.EmoteWizard
 
                         using (new EditorGUI.DisabledScope(actionController == null || env.OverrideAction == OverrideGeneratedControllerType1.Default))
                         {
-                            if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Edit Action")))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Action"), new GUILayoutOption[0]))
                             {
                                 EditAnimator(actionController);
                             }
                         }
                     }
 
-                    if (EmoteWizardGUILayout.Button(Loc("EmoteWizardRoot::Remove Animator Controller")))
+                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Remove Animator Controller"), new GUILayoutOption[0]))
                     {
                         EditAnimator(null);
                     }
@@ -314,23 +316,23 @@ namespace Silksprite.EmoteWizard
                     }
                     else if (avatarAnimator.runtimeAnimatorController == editorController)
                     {
-                        EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::editor."), MessageType.Warning);
+                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::editor."), MessageType.Warning);
                     }
                     else if (avatarAnimator.runtimeAnimatorController == gestureController)
                     {
-                        EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::gesture."), MessageType.Warning);
+                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::gesture."), MessageType.Warning);
                     }
                     else if (avatarAnimator.runtimeAnimatorController == fxController)
                     {
-                        EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::fx."), MessageType.Warning);
+                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::fx."), MessageType.Warning);
                     }
                     else if (avatarAnimator.runtimeAnimatorController == actionController)
                     {
-                        EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::action."), MessageType.Warning);
+                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::action."), MessageType.Warning);
                     }
                     else
                     {
-                        EmoteWizardGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::unknown."), MessageType.Warning);
+                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::unknown."), MessageType.Warning);
                     }
                 });
             }

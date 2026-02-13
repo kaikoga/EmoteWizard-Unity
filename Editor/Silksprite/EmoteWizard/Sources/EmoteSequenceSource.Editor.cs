@@ -1,12 +1,12 @@
+using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Preview;
 using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -119,59 +119,65 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_layerKind);
-            EmoteWizardGUILayout.Prop(_groupName);
+            LEditorGUILayout.Prop(_layerKind);
+            LEditorGUILayout.Prop(_groupName);
 
             using (new LabelWidthScope(200f))
             {
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Common Settings"));
-                EmoteWizardGUILayout.Prop(_isFixedDuration);
+                LGUILayout.Header(Loc("EmoteSequence::Common Settings"));
+                LEditorGUILayout.Prop(_isFixedDuration);
                 EditorGUI.BeginChangeCheck();
-                EmoteWizardGUILayout.Prop(_clip);
+                LEditorGUILayout.Prop(_clip);
                 var requireRefreshPreview = EditorGUI.EndChangeCheck();
-                EmoteWizardGUILayout.Prop(_entryTransitionDuration);
-                EmoteWizardGUILayout.Prop(_exitTransitionDuration);
+                LEditorGUILayout.Prop(_entryTransitionDuration);
+                LEditorGUILayout.Prop(_exitTransitionDuration);
 
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Exit Time"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasExitTime, () =>
+                LGUILayout.Header(Loc("EmoteSequence::Exit Time"));
+                Action content = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_clipExitTime);
-                });
+                    LEditorGUILayout.Prop(_clipExitTime);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasExitTime, content);
 
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Time Parameter"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasTimeParameter, () =>
+                LGUILayout.Header(Loc("EmoteSequence::Time Parameter"));
+                Action content1 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_timeParameter);
-                });
+                    LEditorGUILayout.Prop(_timeParameter);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasTimeParameter, content1);
 
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Entry Clip"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasEntryClip, () =>
+                LGUILayout.Header(Loc("EmoteSequence::Entry Clip"));
+                Action content2 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_entryClip);
-                    EmoteWizardGUILayout.Prop(_entryClipExitTime);
-                    EmoteWizardGUILayout.Prop(_postEntryTransitionDuration);
-                });
+                    LEditorGUILayout.Prop(_entryClip);
+                    LEditorGUILayout.Prop(_entryClipExitTime);
+                    LEditorGUILayout.Prop(_postEntryTransitionDuration);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasEntryClip, content2);
 
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Exit Clip"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasExitClip, () =>
+                LGUILayout.Header(Loc("EmoteSequence::Exit Clip"));
+                Action content3 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_exitClip);
-                    EmoteWizardGUILayout.Prop(_exitClipExitTime);
-                    EmoteWizardGUILayout.Prop(_postExitTransitionDuration);
-                });
+                    LEditorGUILayout.Prop(_exitClip);
+                    LEditorGUILayout.Prop(_exitClipExitTime);
+                    LEditorGUILayout.Prop(_postExitTransitionDuration);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasExitClip, content3);
 
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Layer Blend"));
-                EmoteWizardGUILayout.PropertyFoldout(_serializedHasLayerBlend, () =>
+                LGUILayout.Header(Loc("EmoteSequence::Layer Blend"));
+                Action content4 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_serializedBlendIn);
-                    EmoteWizardGUILayout.Prop(_serializedBlendOut);
-                });
+                    LEditorGUILayout.Prop(_serializedBlendIn);
+                    LEditorGUILayout.Prop(_serializedBlendOut);
+                };
+                LEditorGUILayout.PropAsFoldout(_serializedHasLayerBlend, content4);
 
-                EmoteWizardGUILayout.Header(Loc("EmoteSequence::Tracking Overrides"));
-                EmoteWizardGUILayout.PropertyFoldout(_serializedHasTrackingOverrides, () =>
+                LGUILayout.Header(Loc("EmoteSequence::Tracking Overrides"));
+                Action content5 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_serializedTrackingOverrides);
-                });
+                    LEditorGUILayout.Prop(_serializedTrackingOverrides);
+                };
+                LEditorGUILayout.PropAsFoldout(_serializedHasTrackingOverrides, content5);
 
                 serializedObject.ApplyModifiedProperties();
 

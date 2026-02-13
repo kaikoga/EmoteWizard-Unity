@@ -7,7 +7,6 @@ using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizardSupport.Utils;
-using UnityEditor;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Utils

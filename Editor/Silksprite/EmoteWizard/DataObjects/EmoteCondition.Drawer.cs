@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -20,10 +21,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             using (new EditorGUI.IndentLevelScope())
             using (new HideLabelsScope())
             {
-                EmoteWizardGUI.Prop(position.UISliceH(0.0f, 0.4f), parameter);
-                EmoteWizardGUI.Prop(position.UISliceH(0.4f, 0.2f), kind);
-                EmoteWizardGUI.Prop(position.UISliceH(0.6f, 0.2f), mode);
-                EmoteWizardGUI.Prop(position.UISliceH(0.8f, 0.2f), threshold);
+                LEditorGUI.Prop(position.UISliceH(0.0f, 0.4f), parameter);
+                LEditorGUI.Prop(position.UISliceH(0.4f, 0.2f), kind);
+                LEditorGUI.Prop(position.UISliceH(0.6f, 0.2f), mode);
+                LEditorGUI.Prop(position.UISliceH(0.8f, 0.2f), threshold);
             }
         }
     }

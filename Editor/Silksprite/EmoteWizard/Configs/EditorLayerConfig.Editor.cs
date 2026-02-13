@@ -1,7 +1,6 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -19,7 +18,7 @@ namespace Silksprite.EmoteWizard.Configs
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_outputAsset);
+            LEditorGUILayout.Prop(_outputAsset);
             serializedObject.ApplyModifiedProperties();
         }
     }

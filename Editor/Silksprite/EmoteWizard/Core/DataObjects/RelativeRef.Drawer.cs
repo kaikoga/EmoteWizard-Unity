@@ -1,7 +1,7 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Utils;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -50,7 +50,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 EditorGUI.EndProperty();
 
                 position.x += pos.width;
-                EmoteWizardGUI.PropAsLabel(position, relativePath, UnityEngine.GUIContent.none);
+                LEditorGUI.PropAsLabel(position, relativePath, UnityEngine.GUIContent.none);
             }
         }
     }

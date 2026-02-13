@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch.Extensions;
 using Silksprite.Loch.Tools;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 var value = serializedProperty.Lop(nameof(AnimatedBlendShape.value),
                     LochTool.Loc("AnimatedBlendShape::value"));
 
-                EmoteWizardGUI.Prop(position.UISliceV(0), relativeRef);
+                LEditorGUI.Prop(position.UISliceV(0), relativeRef);
 
                 var skinnedMeshRenderer = (SkinnedMeshRenderer)relativeRef.Property.FindPropertyRelative(nameof(RelativeSkinnedMeshRendererRef.target)).objectReferenceValue;
                 if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is Mesh sharedMesh)
@@ -47,10 +47,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 }
                 else
                 {
-                    EmoteWizardGUI.PropAsLabel(position.UISliceV(1), blendShapeName);
+                    LEditorGUI.PropAsLabel(position.UISliceV(1), blendShapeName);
                 }
 
-                EmoteWizardGUI.Prop(position.UISliceV(2), value);
+                LEditorGUI.Prop(position.UISliceV(2), value);
             }
         }
 

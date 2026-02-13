@@ -1,10 +1,10 @@
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
+using Silksprite.Loch.UI;
 using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.UI
@@ -20,8 +20,8 @@ namespace Silksprite.EmoteWizard.UI
 
             if (env.MaybeVRChat())
             {
-                _emoteItemKind = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
-                _emoteSequenceFactoryKindFx = EmoteWizardGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
+                _emoteItemKind = LEditorGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
+                _emoteSequenceFactoryKindFx = LEditorGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
             }
 
             var isMultiPlatform = EmoteWizardConstants.SupportedPlatforms.IsMultiple;

@@ -1,5 +1,3 @@
-using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.Utils;
 using Silksprite.Loch;
 using UnityEngine;
 

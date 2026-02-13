@@ -1,11 +1,10 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -36,15 +35,15 @@ namespace Silksprite.EmoteWizard.Wizards
             using (new LabelWidthScope(200f))
             using (var checkInvalid = new CheckInvalidValueScope())
             {
-                EmoteWizardGUILayout.Prop(_itemPath);
-                EmoteWizardGUILayout.Prop(_actionIndex);
+                LEditorGUILayout.Prop(_itemPath);
+                LEditorGUILayout.Prop(_actionIndex);
 
                 using (new BoxLayoutScope())
                 {
-                    EmoteWizardGUILayout.Header(Loc("CustomActionWizard::Advanced Settings"));
-                    EmoteWizardGUILayout.Prop(_parameterName);
-                    EmoteWizardGUILayout.Prop(_hasExpressionItemSource);
-                    EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
+                    LGUILayout.Header(Loc("CustomActionWizard::Advanced Settings"));
+                    LEditorGUILayout.Prop(_parameterName);
+                    LEditorGUILayout.Prop(_hasExpressionItemSource);
+                    LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
                 }
 
                 serializedObject.ApplyModifiedProperties();

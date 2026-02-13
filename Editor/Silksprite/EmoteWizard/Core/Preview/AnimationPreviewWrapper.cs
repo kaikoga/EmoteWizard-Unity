@@ -1,7 +1,6 @@
 using System;
-using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch.Tools;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 
@@ -47,11 +46,11 @@ namespace Silksprite.EmoteWizard.Preview
         {
             if (!_previewRequest.IsBlocked)
             {
-                EmoteWizardGUILayout.HelpBox(LochTool.Loc("AnimationPreview::Active."), MessageType.Info);
+                LEditorGUILayout.HelpBox(LochTool.Loc("AnimationPreview::Active."), MessageType.Info);
             }
             else
             {
-                EmoteWizardGUILayout.HelpBox(LochTool.Loc("AnimationPreview::Blocked."), MessageType.Warning);
+                LEditorGUILayout.HelpBox(LochTool.Loc("AnimationPreview::Blocked."), MessageType.Warning);
             }
         }
 

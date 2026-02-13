@@ -2,16 +2,15 @@ using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -29,7 +28,7 @@ namespace Silksprite.EmoteWizard
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     EmoteWizardGUILayout.Undoable(loc, callback);
-                    if (desc != null) EmoteWizardGUILayout.Label(desc);
+                    if (desc != null) LGUILayout.Label(desc);
                 }
             }
 
@@ -95,7 +94,8 @@ namespace Silksprite.EmoteWizard
 
             using (new BoxLayoutScope())
             {
-                var advanced = _advanced = EmoteWizardGUILayout.HeaderFoldout(_advanced, Loc("EmoteWizardDataSourceFactory::advanced"));
+                LocalizedContent loc = Loc("EmoteWizardDataSourceFactory::advanced");
+                var advanced = _advanced = LEditorGUILayout.HeaderFoldout(_advanced, loc);
                 if (advanced)
                 {
                     if (env.MaybeVRChat())

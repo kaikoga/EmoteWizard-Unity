@@ -7,11 +7,11 @@ using Silksprite.EmoteWizard.Preview;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -108,50 +108,53 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (environment.MaybeVRChat())
             {
-                EmoteWizardGUILayout.Prop(_layerKind);
-                EmoteWizardGUILayout.Prop(_groupName);
+                LEditorGUILayout.Prop(_layerKind);
+                LEditorGUILayout.Prop(_groupName);
 
-                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Common Settings"));
-                EmoteWizardGUILayout.Prop(_isFixedDuration);
-                EmoteWizardGUILayout.Prop(_entryTransitionDuration);
-                EmoteWizardGUILayout.Prop(_exitTransitionDuration);
+                LGUILayout.Header(Loc("GenericEmoteSequence::Common Settings"));
+                LEditorGUILayout.Prop(_isFixedDuration);
+                LEditorGUILayout.Prop(_entryTransitionDuration);
+                LEditorGUILayout.Prop(_exitTransitionDuration);
 
-                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Time Parameter"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasTimeParameter, () =>
+                LGUILayout.Header(Loc("GenericEmoteSequence::Time Parameter"));
+                Action content = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_timeParameter);
-                });
+                    LEditorGUILayout.Prop(_timeParameter);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasTimeParameter, content);
 
-                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Layer Blend"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasLayerBlend, () =>
+                LGUILayout.Header(Loc("GenericEmoteSequence::Layer Blend"));
+                Action content1 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_blendIn);
-                    EmoteWizardGUILayout.Prop(_blendOut);
-                });
+                    LEditorGUILayout.Prop(_blendIn);
+                    LEditorGUILayout.Prop(_blendOut);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasLayerBlend, content1);
 
-                EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Tracking Overrides"));
-                EmoteWizardGUILayout.PropertyFoldout(_hasTrackingOverrides, () =>
+                LGUILayout.Header(Loc("GenericEmoteSequence::Tracking Overrides"));
+                Action content2 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_trackingOverrides);
-                });
+                    LEditorGUILayout.Prop(_trackingOverrides);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasTrackingOverrides, content2);
             }
 
-            EmoteWizardGUILayout.Header(Loc("GenericEmoteSequence::Animation"));
+            LGUILayout.Header(Loc("GenericEmoteSequence::Animation"));
             EditorGUI.BeginChangeCheck();
             if (environment.MaybeVRChat())
             {
-                EmoteWizardGUILayout.Prop(_animatedEnable);
+                LEditorGUILayout.Prop(_animatedEnable);
             }
 
-            EmoteWizardGUILayout.Prop(_animatedBlendShapes);
+            LEditorGUILayout.Prop(_animatedBlendShapes);
             var requireRefreshPreview = EditorGUI.EndChangeCheck();
             
             serializedObject.ApplyModifiedProperties();
 
             using (new GUILayout.HorizontalScope())
             {
-                _inputClip = EmoteWizardGUILayout.ObjectField(Loc("GenericEmoteSequenceSource::Clip"), _inputClip, true);
-                if (EmoteWizardGUILayout.Button(Loc("GenericEmoteSequenceSource::Import"), Array.Empty<GUILayoutOption>()))
+                _inputClip = LEditorGUILayout.ObjectField(Loc("GenericEmoteSequenceSource::Clip"), _inputClip, true);
+                if (LGUILayout.Button(Loc("GenericEmoteSequenceSource::Import"), Array.Empty<GUILayoutOption>()))
                 {
                     var converted = _inputClip.ToGenericEmoteSequence(CreateEnv().AvatarRoot.gameObject);
                     soleTarget.sequence.animatedEnable = converted.animatedEnable;

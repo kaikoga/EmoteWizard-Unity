@@ -1,9 +1,10 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
+using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Configs
@@ -24,19 +25,19 @@ namespace Silksprite.EmoteWizard.Configs
         {
             var env = CreateEnv();
 
-            EmoteWizardGUILayout.Prop(_buildAsSubAsset);
+            LEditorGUILayout.Prop(_buildAsSubAsset);
 
             EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
 #if EW_VRCSDK3_AVATARS
-                if (EmoteWizardGUILayout.Button(Loc("ExpressionConfig::Generate Expression Menu")))
+                if (LGUILayout.Button(Loc("ExpressionConfig::Generate Expression Menu"), new GUILayoutOption[0]))
                 {
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
 #endif
                 using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
                 {
-                    EmoteWizardGUILayout.Prop(_outputAsset);
+                    LEditorGUILayout.Prop(_outputAsset);
                 }
             });
 

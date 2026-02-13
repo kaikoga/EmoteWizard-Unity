@@ -1,5 +1,4 @@
 using System.IO;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.Loch;
 using UnityEditor;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardTools;

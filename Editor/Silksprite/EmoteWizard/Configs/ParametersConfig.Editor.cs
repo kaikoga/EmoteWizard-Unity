@@ -1,10 +1,10 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Configs
 
             if (_debugSnapshot == default)
             {
-                if (EmoteWizardGUILayout.Button(Loc("ParametersConfig::debugSnapshot")))
+                if (LGUILayout.Button(Loc("ParametersConfig::debugSnapshot"), new GUILayoutOption[0]))
                 {
                     debugSnapshot = soleTarget.GetContext(soleTarget.CreateEnv()).Snapshot();
                     _debugSnapshot = new SerializedObject(this).Lop(nameof(debugSnapshot), Loc("ParametersConfig::debugSnapshot"));
@@ -38,13 +38,13 @@ namespace Silksprite.EmoteWizard.Configs
             }
             else
             {
-                EmoteWizardGUILayout.Prop(_debugSnapshot);
+                LEditorGUILayout.Prop(_debugSnapshot);
             }
 
             EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
 #if EW_VRCSDK3_AVATARS
-                if (EmoteWizardGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters")))
+                if (LGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters"), new GUILayoutOption[0]))
                 {
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard.Configs
                 using (new EditorGUI.DisabledScope())
                 using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
                 {
-                    EmoteWizardGUILayout.Prop(_outputAsset);
+                    LEditorGUILayout.Prop(_outputAsset);
                 }
             });
             serializedObject.ApplyModifiedProperties();

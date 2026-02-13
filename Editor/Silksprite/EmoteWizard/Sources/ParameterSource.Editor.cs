@@ -1,10 +1,9 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -34,11 +33,11 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_name);
-            EmoteWizardGUILayout.Prop(_itemKind);
-            EmoteWizardGUILayout.Prop(_defaultValue);
-            EmoteWizardGUILayout.Prop(_saved);
-            EmoteWizardGUILayout.Prop(_synced);
+            LEditorGUILayout.Prop(_name);
+            LEditorGUILayout.Prop(_itemKind);
+            LEditorGUILayout.Prop(_defaultValue);
+            LEditorGUILayout.Prop(_saved);
+            LEditorGUILayout.Prop(_synced);
 
             serializedObject.ApplyModifiedProperties();
         }

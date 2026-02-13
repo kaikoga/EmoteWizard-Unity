@@ -1,11 +1,11 @@
+using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -40,20 +40,22 @@ namespace Silksprite.EmoteWizard.Wizards
             using (new LabelWidthScope(200f))
             using (var checkInvalid = new CheckInvalidValueScope())
             {
-                EmoteWizardGUILayout.Prop(_itemPath);
+                LEditorGUILayout.Prop(_itemPath);
 
-                EmoteWizardGUILayout.PropertyFoldout(_hasGroupName, () =>
+                Action content = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_groupName);
-                });
+                    LEditorGUILayout.Prop(_groupName);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasGroupName, content);
 
-                EmoteWizardGUILayout.PropertyFoldout(_hasParameterName, () =>
+                Action content1 = () =>
                 {
-                    EmoteWizardGUILayout.Prop(_parameterName);
-                });
+                    LEditorGUILayout.Prop(_parameterName);
+                };
+                LEditorGUILayout.PropAsFoldout(_hasParameterName, content1);
 
-                EmoteWizardGUILayout.Prop(_hasExpressionItemSource);
-                EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
+                LEditorGUILayout.Prop(_hasExpressionItemSource);
+                LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
 
                 serializedObject.ApplyModifiedProperties();
 

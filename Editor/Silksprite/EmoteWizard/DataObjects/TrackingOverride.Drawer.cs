@@ -1,5 +1,5 @@
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var target = property.Lop(nameof(TrackingOverride.target), Loc("TrackingOverride::target"));
             using (new EditorGUI.IndentLevelScope())
             {
-                EmoteWizardGUI.Prop(position, target);
+                LEditorGUI.Prop(position, target);
             }
         }
     }

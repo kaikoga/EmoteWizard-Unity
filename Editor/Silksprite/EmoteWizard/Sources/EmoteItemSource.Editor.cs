@@ -2,10 +2,9 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -44,31 +43,31 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_name);
-            EmoteWizardGUILayout.Prop(_priority);
-            EmoteWizardGUILayout.Prop(_conditions);
+            LEditorGUILayout.Prop(_name);
+            LEditorGUILayout.Prop(_priority);
+            LEditorGUILayout.Prop(_conditions);
 
-            EmoteWizardGUILayout.Prop(_sequence);
+            LEditorGUILayout.Prop(_sequence);
             if (!_sequence.Property.objectReferenceValue)
             {
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
                     EmoteSequenceSourceBase obj = soleTarget.FindEmoteSequenceSource();
-                    EmoteWizardGUILayout.ObjectField(Loc("EmoteItemSource::Detected Emote Sequence"), obj, true);
+                    LEditorGUILayout.ObjectField(Loc("EmoteItemSource::Detected Emote Sequence"), obj, true);
                 }
             }
 
             using (new EditorGUI.DisabledScope(!soleTarget.CanAutoExpression))
             {
-                EmoteWizardGUILayout.Prop(_hasExpressionItem);
+                LEditorGUILayout.Prop(_hasExpressionItem);
             }
             if (soleTarget.IsAutoExpression)
             {
                 using (new EditorGUI.IndentLevelScope())
                 {
-                    EmoteWizardGUILayout.Prop(_expressionItemPath);
-                    EmoteWizardGUILayout.Prop(_expressionItemIcon);
+                    LEditorGUILayout.Prop(_expressionItemPath);
+                    LEditorGUILayout.Prop(_expressionItemIcon);
                 }
             }
 
@@ -76,7 +75,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (soleTarget.LooksLikeMirrorItem)
             {
-                EmoteWizardGUILayout.HelpBox(Loc("EmoteItemSource:MirrorInfo"), MessageType.Info);
+                LEditorGUILayout.HelpBox(Loc("EmoteItemSource:MirrorInfo"), MessageType.Info);
             }
         }
     }

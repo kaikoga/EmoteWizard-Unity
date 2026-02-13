@@ -1,8 +1,8 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
@@ -24,14 +24,14 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_defaultSourceKind);
+            LEditorGUILayout.Prop(_defaultSourceKind);
 
             switch ((DefaultSourceKind) _defaultSourceKind.Property.enumValueIndex)
             {
                 case DefaultSourceKind.Fx:
                 case DefaultSourceKind.Gesture:
-                    EmoteWizardGUILayout.Prop(_emoteItemKind);
-                    EmoteWizardGUILayout.Prop(_emoteSequenceFactoryKind);
+                    LEditorGUILayout.Prop(_emoteItemKind);
+                    LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
                     break;
             }
 

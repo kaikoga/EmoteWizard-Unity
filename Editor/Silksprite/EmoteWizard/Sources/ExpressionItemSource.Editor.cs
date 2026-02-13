@@ -2,11 +2,10 @@ using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
-using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.Extensions;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -68,33 +67,33 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            EmoteWizardGUILayout.Prop(_icon);
-            EmoteWizardGUILayout.Prop(_path);
+            LEditorGUILayout.Prop(_icon);
+            LEditorGUILayout.Prop(_path);
             using (new EditorGUILayout.HorizontalScope())
             {
-                EmoteWizardGUILayout.Prop(_parameter);
+                LEditorGUILayout.Prop(_parameter);
                 using (new HideLabelsScope())
                 {
                     GUILayout.Label("=", GUILayout.ExpandWidth(false));
-                    EmoteWizardGUILayout.Prop(_value);
+                    LEditorGUILayout.Prop(_value);
                 }
             }
-            EmoteWizardGUILayout.Prop(_itemKind);
+            LEditorGUILayout.Prop(_itemKind);
 
             void DrawSubParameters(int subParametersCount, int labelsCount)
             {
                 _subParameters.Property.arraySize = subParametersCount;
                 if (subParametersCount > 0)
                 {
-                    EmoteWizardGUILayout.Header(Loc("ExpressionItem::Puppet Parameters"));
+                    LGUILayout.Header(Loc("ExpressionItem::Puppet Parameters"));
                     using (new EditorGUI.IndentLevelScope())
                     {
                         for (var i = 0; i < subParametersCount; i++)
                         {
-                            EmoteWizardGUILayout.Header(SubParameterLabels[subParametersCount][i]);
+                            LGUILayout.Header(SubParameterLabels[subParametersCount][i]);
                             using (new EditorGUI.IndentLevelScope())
                             {
-                                EmoteWizardGUILayout.Prop(_subParameters.GetArrayElementAtIndex(i, Loc("ExpressionItem::subParameters::subParameter")));
+                                LEditorGUILayout.Prop(_subParameters.GetArrayElementAtIndex(i, Loc("ExpressionItem::subParameters::subParameter")));
                             }
                         }
                     }
@@ -104,16 +103,16 @@ namespace Silksprite.EmoteWizard.Sources
                 _labelIcons.Property.arraySize = labelsCount;
                 if (labelsCount > 0)
                 {
-                    EmoteWizardGUILayout.Header(Loc("ExpressionItem::Puppet Labels"));
+                    LGUILayout.Header(Loc("ExpressionItem::Puppet Labels"));
                     using (new EditorGUI.IndentLevelScope())
                     {
                         for (var i = 0; i < labelsCount; i++)
                         {
-                            EmoteWizardGUILayout.Header(SubParameterLabels[labelsCount][i]);
+                            LGUILayout.Header(SubParameterLabels[labelsCount][i]);
                             using (new EditorGUI.IndentLevelScope())
                             {
-                                EmoteWizardGUILayout.Prop(_labels.GetArrayElementAtIndex(i, Loc("ExpressionItem::labels::label")));
-                                EmoteWizardGUILayout.Prop(_labelIcons.GetArrayElementAtIndex(i, Loc("ExpressionItem::labelIcons::labelIcon")));
+                                LEditorGUILayout.Prop(_labels.GetArrayElementAtIndex(i, Loc("ExpressionItem::labels::label")));
+                                LEditorGUILayout.Prop(_labelIcons.GetArrayElementAtIndex(i, Loc("ExpressionItem::labelIcons::labelIcon")));
                             }
                         }
                     }
@@ -129,7 +128,7 @@ namespace Silksprite.EmoteWizard.Sources
                 case ExpressionItemKind.SubMenu:
                     using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
                     {
-                        EmoteWizardGUILayout.Prop(_subMenu);
+                        LEditorGUILayout.Prop(_subMenu);
                     }
                     break;
                 case ExpressionItemKind.TwoAxisPuppet:

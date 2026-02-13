@@ -3,10 +3,10 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Utils;
-using Silksprite.EmoteWizardSupport.L10n;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
+using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Configs
             {
                 if (soleTarget.LayerKind == LayerKind.Gesture)
                 {
-                    EmoteWizardGUILayout.PropertyFieldWithGenerate(_defaultAvatarMask, () =>
+                    EmoteWizardGUILayout.PropWithGenerate(_defaultAvatarMask, () =>
                     {
                         var avatarMask = env.EnsureAsset<AvatarMask>(GeneratedPaths.GestureDefaultMask);
                         return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
@@ -45,24 +45,24 @@ namespace Silksprite.EmoteWizard.Configs
                 }
                 else
                 {
-                    EmoteWizardGUILayout.Prop(_defaultAvatarMask);
+                    LEditorGUILayout.Prop(_defaultAvatarMask);
                 }
 
-                EmoteWizardGUILayout.Prop(_hasResetClip);
+                LEditorGUILayout.Prop(_hasResetClip);
 
                 EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
                 {
 #if EW_VRCSDK3_AVATARS
-                    if (EmoteWizardGUILayout.Button(Loc("AnimatorLayerConfigBase::Generate Animation Controller")))
+                    if (LGUILayout.Button(Loc("AnimatorLayerConfigBase::Generate Animation Controller"), new GUILayoutOption[0]))
                     {
                         soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset(env.GetContext<ParametersContext>().Snapshot());
                     }
 #endif
 
-                    EmoteWizardGUILayout.Prop(_outputAsset);
+                    LEditorGUILayout.Prop(_outputAsset);
                     using (new EditorGUI.DisabledScope(!soleTarget.hasResetClip))
                     {
-                        EmoteWizardGUILayout.Prop(_resetClip);
+                        LEditorGUILayout.Prop(_resetClip);
                     }
                 });
             }
