@@ -3,8 +3,8 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
+using Silksprite.Loch.IMGUI;
 using Silksprite.Loch.Tools;
-using Silksprite.Loch.UI;
 using UnityEditor;
 
 namespace Silksprite.EmoteWizard.Base

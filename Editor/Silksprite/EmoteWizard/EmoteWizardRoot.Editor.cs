@@ -9,7 +9,7 @@ using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
-using Silksprite.Loch.UI;
+using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;

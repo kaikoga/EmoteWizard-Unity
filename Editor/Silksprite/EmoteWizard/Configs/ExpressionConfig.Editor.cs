@@ -2,7 +2,7 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
-using Silksprite.Loch.UI;
+using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;

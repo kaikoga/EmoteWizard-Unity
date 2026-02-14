@@ -4,7 +4,7 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
-using Silksprite.Loch.UI;
+using Silksprite.Loch.IMGUI;
 using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.UI

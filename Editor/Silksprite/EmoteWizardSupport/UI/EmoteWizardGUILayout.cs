@@ -2,7 +2,7 @@ using System;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
-using Silksprite.Loch.UI;
+using Silksprite.Loch.IMGUI;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 using Object = UnityEngine.Object;

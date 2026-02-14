@@ -3,8 +3,8 @@ using System.Linq;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.Loch.Extensions;
+using Silksprite.Loch.IMGUI;
 using Silksprite.Loch.Tools;
-using Silksprite.Loch.UI;
 using UnityEditor;
 using UnityEngine;
 
