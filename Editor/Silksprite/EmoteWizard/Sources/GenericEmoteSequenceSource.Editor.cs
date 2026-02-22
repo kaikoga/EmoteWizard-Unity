@@ -111,19 +111,19 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.Prop(_layerKind);
                 LEditorGUILayout.Prop(_groupName);
 
-                LGUILayout.Header(Loc("GenericEmoteSequence::Common Settings"));
+                LGUILayout.Heading(Loc("GenericEmoteSequence::Common Settings"));
                 LEditorGUILayout.Prop(_isFixedDuration);
                 LEditorGUILayout.Prop(_entryTransitionDuration);
                 LEditorGUILayout.Prop(_exitTransitionDuration);
 
-                LGUILayout.Header(Loc("GenericEmoteSequence::Time Parameter"));
+                LGUILayout.Heading(Loc("GenericEmoteSequence::Time Parameter"));
                 Action content = () =>
                 {
                     LEditorGUILayout.Prop(_timeParameter);
                 };
                 LEditorGUILayout.PropAsFoldout(_hasTimeParameter, content);
 
-                LGUILayout.Header(Loc("GenericEmoteSequence::Layer Blend"));
+                LGUILayout.Heading(Loc("GenericEmoteSequence::Layer Blend"));
                 Action content1 = () =>
                 {
                     LEditorGUILayout.Prop(_blendIn);
@@ -131,7 +131,7 @@ namespace Silksprite.EmoteWizard.Sources
                 };
                 LEditorGUILayout.PropAsFoldout(_hasLayerBlend, content1);
 
-                LGUILayout.Header(Loc("GenericEmoteSequence::Tracking Overrides"));
+                LGUILayout.Heading(Loc("GenericEmoteSequence::Tracking Overrides"));
                 Action content2 = () =>
                 {
                     LEditorGUILayout.Prop(_trackingOverrides);
@@ -139,7 +139,7 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.PropAsFoldout(_hasTrackingOverrides, content2);
             }
 
-            LGUILayout.Header(Loc("GenericEmoteSequence::Animation"));
+            LGUILayout.Heading(Loc("GenericEmoteSequence::Animation"));
             EditorGUI.BeginChangeCheck();
             if (environment.MaybeVRChat())
             {

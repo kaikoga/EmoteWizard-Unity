@@ -124,7 +124,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             using (new LabelWidthScope(200f))
             {
-                LGUILayout.Header(Loc("EmoteSequence::Common Settings"));
+                LGUILayout.Heading(Loc("EmoteSequence::Common Settings"));
                 LEditorGUILayout.Prop(_isFixedDuration);
                 EditorGUI.BeginChangeCheck();
                 LEditorGUILayout.Prop(_clip);
@@ -132,21 +132,21 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.Prop(_entryTransitionDuration);
                 LEditorGUILayout.Prop(_exitTransitionDuration);
 
-                LGUILayout.Header(Loc("EmoteSequence::Exit Time"));
+                LGUILayout.Heading(Loc("EmoteSequence::Exit Time"));
                 Action content = () =>
                 {
                     LEditorGUILayout.Prop(_clipExitTime);
                 };
                 LEditorGUILayout.PropAsFoldout(_hasExitTime, content);
 
-                LGUILayout.Header(Loc("EmoteSequence::Time Parameter"));
+                LGUILayout.Heading(Loc("EmoteSequence::Time Parameter"));
                 Action content1 = () =>
                 {
                     LEditorGUILayout.Prop(_timeParameter);
                 };
                 LEditorGUILayout.PropAsFoldout(_hasTimeParameter, content1);
 
-                LGUILayout.Header(Loc("EmoteSequence::Entry Clip"));
+                LGUILayout.Heading(Loc("EmoteSequence::Entry Clip"));
                 Action content2 = () =>
                 {
                     LEditorGUILayout.Prop(_entryClip);
@@ -155,7 +155,7 @@ namespace Silksprite.EmoteWizard.Sources
                 };
                 LEditorGUILayout.PropAsFoldout(_hasEntryClip, content2);
 
-                LGUILayout.Header(Loc("EmoteSequence::Exit Clip"));
+                LGUILayout.Heading(Loc("EmoteSequence::Exit Clip"));
                 Action content3 = () =>
                 {
                     LEditorGUILayout.Prop(_exitClip);
@@ -164,7 +164,7 @@ namespace Silksprite.EmoteWizard.Sources
                 };
                 LEditorGUILayout.PropAsFoldout(_hasExitClip, content3);
 
-                LGUILayout.Header(Loc("EmoteSequence::Layer Blend"));
+                LGUILayout.Heading(Loc("EmoteSequence::Layer Blend"));
                 Action content4 = () =>
                 {
                     LEditorGUILayout.Prop(_serializedBlendIn);
@@ -172,7 +172,7 @@ namespace Silksprite.EmoteWizard.Sources
                 };
                 LEditorGUILayout.PropAsFoldout(_serializedHasLayerBlend, content4);
 
-                LGUILayout.Header(Loc("EmoteSequence::Tracking Overrides"));
+                LGUILayout.Heading(Loc("EmoteSequence::Tracking Overrides"));
                 Action content5 = () =>
                 {
                     LEditorGUILayout.Prop(_serializedTrackingOverrides);

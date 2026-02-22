@@ -40,7 +40,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
                 using (new BoxLayoutScope())
                 {
-                    LGUILayout.Header(Loc("CustomActionWizard::Advanced Settings"));
+                    LGUILayout.Heading(Loc("CustomActionWizard::Advanced Settings"));
                     LEditorGUILayout.Prop(_parameterName);
                     LEditorGUILayout.Prop(_hasExpressionItemSource);
                     LEditorGUILayout.Prop(_emoteSequenceFactoryKind);

@@ -95,7 +95,7 @@ namespace Silksprite.EmoteWizard
             using (new BoxLayoutScope())
             {
                 LocalizedContent loc = Loc("EmoteWizardDataSourceFactory::advanced");
-                var advanced = _advanced = LEditorGUILayout.HeaderFoldout(_advanced, loc);
+                var advanced = _advanced = LEditorGUILayout.HeadingFoldout(_advanced, loc);
                 if (advanced)
                 {
                     if (env.MaybeVRChat())

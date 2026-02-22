@@ -68,7 +68,7 @@ namespace Silksprite.EmoteWizard
             var env = CreateEnv();
             EmoteWizardGUILayout.ConfigUIArea(() =>
             {
-                LEditorGUILayout.LanguageSelector();
+                LEditorGUILayout.LocaleSelector();
                 LEditorGUILayout.Prop(_showTutorial);
                 LEditorGUILayout.Prop(_detectPlatform);
             });
@@ -85,7 +85,7 @@ namespace Silksprite.EmoteWizard
                 if (SetupGUI.OnInspectorGUI(env)) return;
             }
 
-            LGUILayout.Header(Loc("EmoteWizardRoot::Avatar"));
+            LGUILayout.Heading(Loc("EmoteWizardRoot::Avatar"));
             LEditorGUILayout.Prop(_avatarRootTransform);
 
             var avatarRoot = env.AvatarRoot;
@@ -102,7 +102,7 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            LGUILayout.Header(Loc("EmoteWizardRoot::Assets Generation"));
+            LGUILayout.Heading(Loc("EmoteWizardRoot::Assets Generation"));
             EditorGUI.BeginChangeCheck();
             Action content = () =>
             {
@@ -217,7 +217,7 @@ namespace Silksprite.EmoteWizard
 #if EW_VRCSDK3_AVATARS
             if (env.IsVRChatAvatar())
             {
-                LGUILayout.Header(Loc("EmoteWizardRoot::Avatar Output"));
+                LGUILayout.Heading(Loc("EmoteWizardRoot::Avatar Output"));
                 AvatarOutputVrc(env);
             }
 #endif

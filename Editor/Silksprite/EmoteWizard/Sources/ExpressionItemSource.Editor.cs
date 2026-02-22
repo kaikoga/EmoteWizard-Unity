@@ -85,12 +85,12 @@ namespace Silksprite.EmoteWizard.Sources
                 _subParameters.Property.arraySize = subParametersCount;
                 if (subParametersCount > 0)
                 {
-                    LGUILayout.Header(Loc("ExpressionItem::Puppet Parameters"));
+                    LGUILayout.Heading(Loc("ExpressionItem::Puppet Parameters"));
                     using (new EditorGUI.IndentLevelScope())
                     {
                         for (var i = 0; i < subParametersCount; i++)
                         {
-                            LGUILayout.Header(SubParameterLabels[subParametersCount][i]);
+                            LGUILayout.Heading(SubParameterLabels[subParametersCount][i]);
                             using (new EditorGUI.IndentLevelScope())
                             {
                                 LEditorGUILayout.Prop(_subParameters.GetArrayElementAtIndex(i, Loc("ExpressionItem::subParameters::subParameter")));
@@ -103,12 +103,12 @@ namespace Silksprite.EmoteWizard.Sources
                 _labelIcons.Property.arraySize = labelsCount;
                 if (labelsCount > 0)
                 {
-                    LGUILayout.Header(Loc("ExpressionItem::Puppet Labels"));
+                    LGUILayout.Heading(Loc("ExpressionItem::Puppet Labels"));
                     using (new EditorGUI.IndentLevelScope())
                     {
                         for (var i = 0; i < labelsCount; i++)
                         {
-                            LGUILayout.Header(SubParameterLabels[labelsCount][i]);
+                            LGUILayout.Heading(SubParameterLabels[labelsCount][i]);
                             using (new EditorGUI.IndentLevelScope())
                             {
                                 LEditorGUILayout.Prop(_labels.GetArrayElementAtIndex(i, Loc("ExpressionItem::labels::label")));

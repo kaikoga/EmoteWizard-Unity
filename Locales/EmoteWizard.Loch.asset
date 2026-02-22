@@ -14,7 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: Silksprite.EmoteWizard
   assemblies:
-  - EmoteWizard.
+  - EmoteWizard
+  - EmoteWizard.Ablet
+  - EmoteWizard.Core
+  - EmoteWizard.Core.Editor
+  - EmoteWizard.Editor
+  - EmoteWizard.Locales
+  - EmoteWizard.Ndmf
+  - EmoteWizard.VRChat.Editor
+  - EmoteWizard.VRM0.Editor
+  - EmoteWizard.VRM1.Editor
+  - EmoteWizardSupport
+  - EmoteWizardSupport.Editor
+  assemblyPrefixes: []
   po:
   - {fileID: 9010515335742159986, guid: 62b33ed3f922641ebaa964c725440f3f, type: 3}
   - {fileID: 9010515335742159986, guid: 00fc03cb65d946a987870a75b58163c4, type: 3}

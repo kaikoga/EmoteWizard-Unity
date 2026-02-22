@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Base
         {
             if (_lastHeader == loc) return;
             
-            LGUILayout.Header(loc);
+            LGUILayout.Heading(loc);
             _lastHeader = loc;
         }
 
