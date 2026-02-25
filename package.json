@@ -1,8 +1,8 @@
 {
   "name": "net.kaikoga.emotewizard",
-  "url": "https://vpm.kaikoga.net/net.kaikoga.emotewizard/net.kaikoga.emotewizard-2.0.1.zip",
+  "url": "https://vpm.kaikoga.net/net.kaikoga.emotewizard/net.kaikoga.emotewizard-2.1.0.zip",
   "displayName": "Emote Wizard",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "unity": "2019.4",
   "description": "Animation and Expression Editor for VRChat Avatar SDK3.",
   "author": {
