@@ -1,19 +1,20 @@
 {
-    "name": "EmoteWizard.VRM0.Editor",
+    "name": "EmoteWizard.Platforms.VRM1.Editor",
     "rootNamespace": "Silksprite.EmoteWizard",
     "references": [
         "nadena.dev.ndmf",
         "nadena.dev.ndmf.runtime",
         "nadena.dev.modular-avatar.core",
+        "AdLib.Editor",
         "AvatarTinkerVista",
         "AvatarTinkerVista.Common",
-        "AdLib.Editor",
         "EmoteWizard",
         "EmoteWizard.Core",
         "EmoteWizard.Core.Editor",
         "EmoteWizardSupport",
         "EmoteWizardSupport.Editor",
-        "VRM"
+        "VRM10",
+        "UniHumanoid"
     ],
     "includePlatforms": [
         "Editor"
@@ -23,7 +24,7 @@
     "overrideReferences": true,
     "precompiledReferences": [],
     "autoReferenced": false,
-    "defineConstraints": ["ATIV_DETECTED_VRM0"],
+    "defineConstraints": ["ATIV_DETECTED_VRM1"],
     "versionDefines": [
         {
             "name": "nadena.dev.modular-avatar",
@@ -36,9 +37,9 @@
             "define": "EW_ATIV_SUPPORT"
         },
         {
-            "name": "com.vrmc.univrm",
+            "name": "com.vrmc.vrm",
             "expression": "[0.0.0,1.0.0)",
-            "define": "ATIV_DETECTED_VRM0"
+            "define": "ATIV_DETECTED_VRM1"
         }
     ],
     "noEngineReferences": false
