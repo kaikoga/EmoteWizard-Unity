@@ -3,7 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class ExpressionItemExtension
     {

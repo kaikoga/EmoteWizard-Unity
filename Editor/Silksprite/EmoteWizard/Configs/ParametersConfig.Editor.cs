@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
@@ -8,6 +7,10 @@ using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
+
+#if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+#endif
 
 namespace Silksprite.EmoteWizard.Configs
 {

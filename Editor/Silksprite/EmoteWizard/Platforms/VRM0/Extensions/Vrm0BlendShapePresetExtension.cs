@@ -3,7 +3,7 @@
 using Silksprite.EmoteWizard.DataObjects;
 using VRM;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRM0.Extensions
 {
     public static class Vrm0BlendShapePresetExtension
     {

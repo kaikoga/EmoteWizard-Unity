@@ -1,8 +1,8 @@
-using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 {
     public class StaticLayerBuilder : LayerBuilderBase
     {

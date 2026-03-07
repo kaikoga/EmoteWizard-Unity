@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Internal.Extensions;
-using Silksprite.EmoteWizard.Internal.LayerBuilders.Base;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
 
-namespace Silksprite.EmoteWizard.Internal.LayerBuilders
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 {
     public class EmoteLayerBuilder : LayerBuilderBase
     {

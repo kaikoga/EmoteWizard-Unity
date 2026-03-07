@@ -3,7 +3,7 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class ParametersInstanceExtension
     {

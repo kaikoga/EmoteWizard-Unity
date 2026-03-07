@@ -4,15 +4,15 @@ using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal.LayerBuilders;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
 {
     public class AnimatorLayerBuilder
     {

@@ -1,17 +1,18 @@
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
+using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Logger;
-using Silksprite.EmoteWizardSupport.Utils;
 using Silksprite.Loch;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizard.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
 {
     public static class AnimatorLayerContextExtension
     {

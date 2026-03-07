@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal.ConditionBuilders
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders
 {
     public class ConditionBuilder
     {

@@ -11,6 +11,10 @@ using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
+#if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+#endif
+
 namespace Silksprite.EmoteWizard.Configs
 {
     [CustomEditor(typeof(AnimatorLayerConfigBase), true)]

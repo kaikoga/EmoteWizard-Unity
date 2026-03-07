@@ -1,7 +1,7 @@
-using Silksprite.EmoteWizard.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders;
 using UnityEditor.Animations;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class AnimatorStateTransitionExtension
     {

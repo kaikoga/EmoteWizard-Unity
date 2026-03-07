@@ -5,6 +5,7 @@ using System.Linq;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 
 namespace Silksprite.EmoteWizard.Ndmf
 {

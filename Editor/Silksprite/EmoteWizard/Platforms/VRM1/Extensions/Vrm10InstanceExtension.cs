@@ -5,7 +5,7 @@ using UniHumanoid;
 using UnityEngine;
 using UniVRM10;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRM1.Extensions
 {
     public static class Vrm10InstanceExtension
     {

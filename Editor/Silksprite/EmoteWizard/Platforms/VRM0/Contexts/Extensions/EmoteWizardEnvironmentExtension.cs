@@ -3,14 +3,15 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.AdLib.Utils.VRM0;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRM0.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using VRM;
 
-namespace Silksprite.EmoteWizard.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Extensions
 {
     public static class EmoteWizardEnvironmentExtension
     {

@@ -1,11 +1,13 @@
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
+using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Internal;
+using Silksprite.EmoteWizard.Platforms.VRChat.Internal;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
 {
     public static class EditorLayerContextExtension
     {

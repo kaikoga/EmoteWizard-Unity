@@ -2,7 +2,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Internal.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions
 {
     public static class AnimatorLayerBuilderExtensions
     {

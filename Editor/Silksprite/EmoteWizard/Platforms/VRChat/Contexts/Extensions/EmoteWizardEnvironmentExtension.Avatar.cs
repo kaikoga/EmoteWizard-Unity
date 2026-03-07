@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -10,7 +11,7 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using Object = UnityEngine.Object;
 
-namespace Silksprite.EmoteWizard.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
 {
     public static class EmoteWizardEnvironmentExtension
     {

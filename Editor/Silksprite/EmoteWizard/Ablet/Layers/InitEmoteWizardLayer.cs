@@ -3,14 +3,15 @@ using Ablet.API.V1;
 using Ablet.API.V1.Attributes;
 using Ablet.API.V1.Building;
 using Ablet.Builtin;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
 
 #if ATIV_DETECTED_VRM0
+using Silksprite.EmoteWizard.Platforms.VRM0.Extensions;
 using VRM;
 #endif
 
 #if ATIV_DETECTED_VRM1
+using Silksprite.EmoteWizard.Platforms.VRM1.Extensions;
 using UniVRM10;
 #endif
 

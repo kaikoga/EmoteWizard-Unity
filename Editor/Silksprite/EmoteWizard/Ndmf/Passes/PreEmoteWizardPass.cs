@@ -1,7 +1,7 @@
 using nadena.dev.ndmf;
-using Silksprite.EmoteWizard.Extensions;
 
 #if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using VRC.SDK3.Avatars.Components;
 #endif
 

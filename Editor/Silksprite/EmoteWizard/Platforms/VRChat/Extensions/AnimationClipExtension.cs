@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class AnimationClipExtension
     {

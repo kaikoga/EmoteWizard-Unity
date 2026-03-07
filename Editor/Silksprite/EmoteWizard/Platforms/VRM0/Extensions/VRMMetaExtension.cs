@@ -4,7 +4,7 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 using VRM;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRM0.Extensions
 {
     public static class VRMMetaExtension
     {

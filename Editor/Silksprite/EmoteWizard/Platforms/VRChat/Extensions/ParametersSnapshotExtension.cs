@@ -2,12 +2,11 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Logger;
-using Silksprite.EmoteWizardSupport.Utils;
 using Silksprite.Loch;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class ParametersSnapshotExtension
     {

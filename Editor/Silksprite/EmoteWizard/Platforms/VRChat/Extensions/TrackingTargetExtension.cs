@@ -1,6 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class TrackingTargetExtension
     {

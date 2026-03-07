@@ -3,15 +3,16 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.AdLib.Utils.VRM1;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRM1.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UniVRM10;
 using Object = UnityEngine.Object;
 
-namespace Silksprite.EmoteWizard.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRM1.Contexts.Extensions
 {
     public static class EmoteWizardEnvironmentExtension
     {

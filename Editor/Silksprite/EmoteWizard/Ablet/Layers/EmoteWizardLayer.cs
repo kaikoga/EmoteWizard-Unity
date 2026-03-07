@@ -3,10 +3,18 @@ using Ablet.API.V1;
 using Ablet.API.V1.Attributes;
 using Ablet.API.V1.Building;
 using Ablet.Builtin;
-
-#if EW_VRCSDK3_AVATARS || ATIV_DETECTED_VRM0 || ATIV_DETECTED_VRM1
-using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
+
+#if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+#endif
+
+#if ATIV_DETECTED_VRM0
+using Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Extensions;
+#endif
+
+#if ATIV_DETECTED_VRM1
+using Silksprite.EmoteWizard.Platforms.VRM1.Contexts.Extensions;
 #endif
 
 namespace Silksprite.EmoteWizard.Ablet.Layers
@@ -26,19 +34,21 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
 
             return AbletBuildProcedure.Create((IBuildContext context) =>
             {
+                var undoable = new EditorUndoable("Build Emote Wizard from Ablet");
+
                 foreach (var root in context.CurrentRootObject.GetComponentsInChildren<EmoteWizardRoot>(true))
                 {
                     var env = root.ToEnv();
                     env.PersistGeneratedAssets = false;
                     env.AvatarRoot = context.CurrentRootTransform;
 #if EW_VRCSDK3_AVATARS
-                    env.BuildVrcAvatar(new EditorUndoable("Build Emote Wizard from Ablet"), false);
+                    env.BuildVrcAvatar(undoable, false);
 #endif
 #if ATIV_DETECTED_VRM0
-                    env.BuildVrm0Avatar(new EditorUndoable("Build Emote Wizard from Ablet"), false);
+                    env.BuildVrm0Avatar(undoable, false);
 #endif
 #if ATIV_DETECTED_VRM1
-                    env.BuildVrm1Avatar(new EditorUndoable("Build Emote Wizard from Ablet"), false);
+                    env.BuildVrm1Avatar(undoable, false);
 #endif
                 }
                 

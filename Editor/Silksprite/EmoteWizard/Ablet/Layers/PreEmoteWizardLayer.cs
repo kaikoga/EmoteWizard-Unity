@@ -3,9 +3,9 @@ using Ablet.API.V1;
 using Ablet.API.V1.Attributes;
 using Ablet.API.V1.Building;
 using Ablet.Builtin;
-using Silksprite.EmoteWizard.Extensions;
 
 #if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using VRC.SDK3.Avatars.Components;
 #endif
 

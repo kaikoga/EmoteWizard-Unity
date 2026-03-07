@@ -3,7 +3,6 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.UI;
@@ -16,6 +15,8 @@ using static Silksprite.Loch.Tools.LochTool;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
 #if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using VRC.SDK3.Avatars.Components;
 #endif
 

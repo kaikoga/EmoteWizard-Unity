@@ -4,7 +4,7 @@ using Silksprite.EmoteWizard.Contexts;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class AvatarDescriptorExtension
     {

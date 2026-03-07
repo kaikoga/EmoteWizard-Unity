@@ -1,6 +1,6 @@
 {
     "name": "EmoteWizard.Platforms.VRM1.Editor",
-    "rootNamespace": "Silksprite.EmoteWizard",
+    "rootNamespace": "Silksprite.EmoteWizard.Platforms.VRM1",
     "references": [
         "nadena.dev.ndmf",
         "nadena.dev.ndmf.runtime",

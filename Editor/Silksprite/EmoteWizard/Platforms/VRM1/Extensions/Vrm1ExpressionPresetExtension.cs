@@ -3,7 +3,7 @@
 using Silksprite.EmoteWizard.DataObjects;
 using UniVRM10;
 
-namespace Silksprite.EmoteWizard.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRM1.Extensions
 {
     public static class Vrm1ExpressionPresetExtension
     {

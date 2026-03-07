@@ -1,6 +1,6 @@
 {
     "name": "EmoteWizard.Platforms.VRChat.Editor",
-    "rootNamespace": "Silksprite.EmoteWizard",
+    "rootNamespace": "Silksprite.EmoteWizard.Platforms.VRChat",
     "references": [
         "nadena.dev.ndmf",
         "nadena.dev.ndmf.runtime",

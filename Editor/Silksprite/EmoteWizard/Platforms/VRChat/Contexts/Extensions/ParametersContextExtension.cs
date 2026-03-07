@@ -1,9 +1,11 @@
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
-namespace Silksprite.EmoteWizard.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
 {
     public static class ParametersContextExtension
     {
