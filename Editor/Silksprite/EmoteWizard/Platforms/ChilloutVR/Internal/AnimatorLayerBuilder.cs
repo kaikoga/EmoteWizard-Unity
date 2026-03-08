@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Platforms;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;
