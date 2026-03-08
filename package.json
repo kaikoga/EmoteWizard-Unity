@@ -11,6 +11,7 @@
     "url": "https://www.kaikoga.net/"
   },
   "vpmDependencies": {
+    "net.kaikoga.adlib": "^2.0.0",
     "net.kaikoga.ablet": "^2.0.0",
     "net.kaikoga.loch": "^2.0.0"
   }

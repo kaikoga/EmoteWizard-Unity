@@ -8,6 +8,10 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 #endif
 
+#if CVR_CCK_EXISTS
+using Silksprite.AdLib.ChilloutVR.Extensions;
+#endif
+
 #if ATIV_DETECTED_VRM0
 using VRM;
 #endif
@@ -62,6 +66,9 @@ namespace Silksprite.EmoteWizard.Contexts
 #if EW_VRCSDK3_AVATARS
                     if (_avatarRoot.GetComponent<VRCAvatarDescriptor>()) detectedPlatform |= DetectedPlatform.VRChat;
 #endif
+#if CVR_CCK_EXISTS
+                    if (_avatarRoot.TryGetCVRAvatarAccess(out _)) detectedPlatform |= DetectedPlatform.ChilloutVR;
+#endif
 #if ATIV_DETECTED_VRM0
                     if (_avatarRoot.GetComponent<VRMMeta>()) detectedPlatform |= DetectedPlatform.VRM0;
 #endif
@@ -72,6 +79,7 @@ namespace Silksprite.EmoteWizard.Contexts
                     switch (detectedPlatform)
                     {
                         case DetectedPlatform.VRChat: return DetectedPlatform.VRChat;
+                        case DetectedPlatform.ChilloutVR: return DetectedPlatform.ChilloutVR;
                         case DetectedPlatform.VRM0: return DetectedPlatform.VRM0;
                         case DetectedPlatform.VRM1: return DetectedPlatform.VRM1;
                         default: return DetectedPlatform.Mixed;

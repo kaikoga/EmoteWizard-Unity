@@ -9,6 +9,10 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
 #endif
 
+#if CVR_CCK_EXISTS
+using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions;
+#endif
+
 #if ATIV_DETECTED_VRM0
 using Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Extensions;
 #endif
@@ -43,6 +47,9 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
                     env.AvatarRoot = context.CurrentRootTransform;
 #if EW_VRCSDK3_AVATARS
                     env.BuildVrcAvatar(undoable, false);
+#endif
+#if CVR_CCK_EXISTS
+                    env.BuildCvrAvatar(undoable, false);
 #endif
 #if ATIV_DETECTED_VRM0
                     env.BuildVrm0Avatar(undoable, false);

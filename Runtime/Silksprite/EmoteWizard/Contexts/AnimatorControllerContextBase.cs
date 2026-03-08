@@ -1,0 +1,52 @@
+using Silksprite.EmoteWizard.Configs;
+using UnityEngine;
+
+namespace Silksprite.EmoteWizard.Contexts
+{
+    public abstract class AnimatorControllerContextBase : OutputContextBase<AnimatorControllerConfigBase, RuntimeAnimatorController>
+    {
+        RuntimeAnimatorController _outputAsset;
+        public override RuntimeAnimatorController OutputAsset
+        {
+            get => _outputAsset;
+            set
+            {
+                _outputAsset = value;
+                if (Config) Config.outputAsset = value;
+            }
+        }
+
+        AnimationClip _resetClip;
+        public AnimationClip ResetClip
+        {
+            get => _resetClip;
+            set
+            {
+                _resetClip = value;
+                if (Config) Config.resetClip = value;
+            }
+        }
+
+        public AvatarMask DefaultAvatarMask { get; protected set; }
+        public bool HasResetClip { get; protected set; }
+
+        protected AnimatorControllerContextBase(EmoteWizardEnvironment env) : base(env) { }
+        protected AnimatorControllerContextBase(EmoteWizardEnvironment env, AnimatorControllerConfigBase config) : base(env, config)
+        {
+            if (env.PersistGeneratedAssets)
+            {
+                _outputAsset = config.outputAsset;
+                _resetClip = config.resetClip;
+            }
+
+            DefaultAvatarMask = config.defaultAvatarMask;
+            HasResetClip = config.hasResetClip;
+        }
+
+        public override void DisconnectOutputAssets()
+        {
+            OutputAsset = null;
+            ResetClip = null;
+        }
+    }
+}

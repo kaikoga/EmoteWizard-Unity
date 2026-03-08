@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Silksprite.EmoteWizard.Utils;
@@ -99,5 +100,48 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             return animatorController;
         }
 
+        public static AnimatorOverrideController ReplaceOrCreateOutputAsset(this IOutputContext<AnimatorOverrideController> context, GeneratedPath defaultPath)
+        {
+            AnimatorOverrideController overrideController;
+
+            if (context.Environment.PersistGeneratedAssets)
+            {
+                overrideController = context.OutputAsset;
+                if (overrideController)
+                {
+                    var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(overrideController.overridesCount);
+                    overrideController.GetOverrides(overrides);
+                    overrideController.ApplyOverrides(overrides.Select(o => new KeyValuePair<AnimationClip, AnimationClip>(o.Key, null)).ToList());
+                }
+                else
+                {
+                    var path = defaultPath.Resolve(context.Environment);
+                    EnsureDirectory(path);
+                    overrideController = new AnimatorOverrideController
+                    {
+                        name = Path.GetFileNameWithoutExtension(path)
+                    };
+                    AssetDatabase.CreateAsset(overrideController, path);
+                    context.OutputAsset = overrideController;
+                }
+
+                EditorUtility.SetDirty(overrideController);
+            }
+            else
+            {
+                var path = defaultPath.Resolve(context.Environment);
+                overrideController = new AnimatorOverrideController
+                {
+                    name = Path.GetFileNameWithoutExtension(path)
+                };
+                context.OutputAsset = overrideController;
+            }
+
+            if (context.GameObject)
+            {
+                EditorUtility.SetDirty(context.GameObject);
+            }
+            return overrideController;
+        }
     }
 }

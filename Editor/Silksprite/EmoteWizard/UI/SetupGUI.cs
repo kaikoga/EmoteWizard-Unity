@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.UI
             var isMultiPlatform = EmoteWizardConstants.SupportedPlatforms.IsMultiple;
             var singleLoc = Loc("SetupGUI::Quick Setup Default Data Sources");
 
-            if (env.MaybeVRChat())
+            if (env.MaybeVRChat() || env.MaybeChilloutVR())
             {
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRChat Sources") : singleLoc;
                 EmoteWizardGUILayout.Undoable(loc, undoable =>
@@ -51,7 +51,16 @@ namespace Silksprite.EmoteWizard.UI
             {
                 EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {
-                    GenerateConfigs(undoable, env);
+                    GenerateConfigsForVrc(undoable, env);
+                    result = true;
+                });
+            }
+
+            if (env.MaybeChilloutVR())
+            {
+                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
+                {
+                    GenerateConfigsForCvr(undoable, env);
                     result = true;
                 });
             }
@@ -107,7 +116,7 @@ namespace Silksprite.EmoteWizard.UI
             });
         }
 
-        static void GenerateConfigs(IUndoable undoable, EmoteWizardEnvironment environment)
+        static void GenerateConfigsForVrc(IUndoable undoable, EmoteWizardEnvironment environment)
         {
             undoable.AddWizard<EditorLayerConfig>(environment);
             undoable.AddWizard<ExpressionConfig>(environment);
@@ -115,6 +124,13 @@ namespace Silksprite.EmoteWizard.UI
             undoable.AddWizard<FxLayerConfig>(environment);
             undoable.AddWizard<GestureLayerConfig>(environment);
             undoable.AddWizard<ActionLayerConfig>(environment);
+        }
+
+        static void GenerateConfigsForCvr(IUndoable undoable, EmoteWizardEnvironment environment)
+        {
+            undoable.AddWizard<EditorLayerConfig>(environment);
+            undoable.AddWizard<BaseControllerConfig>(environment);
+            undoable.AddWizard<OverrideControllerConfig>(environment);
         }
     }
 }

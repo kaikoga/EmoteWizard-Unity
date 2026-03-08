@@ -1,0 +1,29 @@
+{
+    "name": "EmoteWizard.Platforms.ChilloutVR.Editor",
+    "rootNamespace": "Silksprite.EmoteWizard.Platforms.ChilloutVR",
+    "references": [
+        "AdLib.ChilloutVR",
+        "Loch",
+        "Loch.Editor", 
+        "EmoteWizard",
+        "EmoteWizard.Core",
+        "EmoteWizard.Core.Editor",
+        "EmoteWizardSupport",
+        "EmoteWizardSupport.Editor",
+        "AdLib.Reflection"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [
+        "VRCSDKBase.dll",
+        "VRCSDK3A.dll"
+    ],
+    "autoReferenced": false,
+    "defineConstraints": ["CVR_CCK_EXISTS"],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

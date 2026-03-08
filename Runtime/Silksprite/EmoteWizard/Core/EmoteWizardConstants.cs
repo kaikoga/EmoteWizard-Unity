@@ -12,6 +12,12 @@ namespace Silksprite.EmoteWizard
             public const bool VRCSDK3_AVATARS = false;
 #endif
             
+#if CVR_CCK_EXISTS
+            public const bool CHILLOUTVR_AVATARS = true;
+#else
+            public const bool CHILLOUTVR_AVATARS = false;
+#endif
+            
 #if ATIV_DETECTED_VRM0
             public const bool VRM0 = true;
 #else
@@ -26,7 +32,7 @@ namespace Silksprite.EmoteWizard
 
             public const bool VRM = VRM0 || VRM1;
 
-            public static readonly bool IsMultiple = new [] {VRCSDK3_AVATARS, VRM0, VRM1}.Count(b => b) > 1;
+            public static readonly bool IsMultiple = new [] {VRCSDK3_AVATARS, CHILLOUTVR_AVATARS, VRM0, VRM1}.Count(b => b) > 1;
         }
 
         public static class LayerNames

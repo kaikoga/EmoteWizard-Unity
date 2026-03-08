@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
             return _mirroredEmoteItems = _mirroredEmoteItems ?? CollectAllMirroredEmoteItems().ToList();
         }
 
-        IEnumerable<EmoteItem> AllForceMirroredEmoteItems()
+        public IEnumerable<EmoteItem> AllForceMirroredEmoteItems()
         {
             return _forceMirroredEmoteItems = _forceMirroredEmoteItems ?? CollectAllForceMirroredEmoteItems().ToList();;
         }
