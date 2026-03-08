@@ -35,13 +35,6 @@ namespace Silksprite.EmoteWizard
             public static readonly bool IsMultiple = new [] {VRCSDK3_AVATARS, CHILLOUTVR_AVATARS, VRM0, VRM1}.Count(b => b) > 1;
         }
 
-        public static class LayerNames
-        {
-            public const string Gesture = "Gesture";
-            public const string Fx = "FX";
-            public const string Action = "Action";
-        }
-
         public static class Params
         {
             public const string Viseme = "Viseme";
@@ -80,10 +73,7 @@ namespace Silksprite.EmoteWizard
 
             public static class Params
             {
-                public const string GestureHandSignOverride = "EmoteWizardGesture";
-                public const string FxHandSignOverride = "EmoteWizardFx";
                 public const string ActionSelect = "VRCEmote";
-                public const string AfkSelect = "EmoteWizardAFK";
             }
         }
     }
