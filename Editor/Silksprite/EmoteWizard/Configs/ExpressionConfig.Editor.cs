@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
@@ -38,7 +39,7 @@ namespace Silksprite.EmoteWizard.Configs
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }
 #endif
-                using (new EditorGUI.DisabledScope(!EmoteWizardConstants.SupportedPlatforms.VRCSDK3_AVATARS))
+                using (new EditorGUI.DisabledScope(!SupportedPlatform.VRCSDK3_AVATARS))
                 {
                     LEditorGUILayout.Prop(_outputAsset);
                 }

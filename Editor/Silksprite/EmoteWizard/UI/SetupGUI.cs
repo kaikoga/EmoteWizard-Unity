@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -24,7 +25,7 @@ namespace Silksprite.EmoteWizard.UI
                 _emoteSequenceFactoryKindFx = LEditorGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
             }
 
-            var isMultiPlatform = EmoteWizardConstants.SupportedPlatforms.IsMultiple;
+            var isMultiPlatform = SupportedPlatform.IsMultiple;
             var singleLoc = Loc("SetupGUI::Quick Setup Default Data Sources");
 
             if (env.MaybeUnityPlatforms())
