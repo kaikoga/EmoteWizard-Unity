@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    // FIXME: this should be type related to GenericEmoteTrigger
     public enum Platform
     {
         [InspectorName("VRChat")] VRChat = 0,
@@ -11,14 +12,17 @@ namespace Silksprite.EmoteWizard.DataObjects
         [InspectorName("VRM1.0")] VRM1 = 0x101
     }
 
+    // FIXME: maybe move to PlatformFeature
     [Flags]
     public enum DetectedPlatform
     {
         None = 0,
         VRChat = 0x1,
         ChilloutVR = 0x2,
+        UnityPlatforms = 0x3,
         VRM0 = 0x100,
         VRM1 = 0x200,
+        VRMPlatforms = 0x300,
         Mixed = -1
     }
     

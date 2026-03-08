@@ -98,7 +98,7 @@ namespace Silksprite.EmoteWizard
                 var advanced = _advanced = LEditorGUILayout.HeadingFoldout(_advanced, loc);
                 if (advanced)
                 {
-                    if (env.MaybeVRChat())
+                    if (env.MaybeUnityPlatforms())
                     {
                         UndoableButton(Loc("EmoteWizardDataSourceFactory::Emote Item Source"),
                             default,

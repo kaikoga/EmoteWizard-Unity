@@ -6,6 +6,7 @@ namespace Silksprite.EmoteWizard.Contexts
     {
         public static bool MaybeVRChat(this EmoteWizardEnvironment env) => env.Platform.HasFlag(DetectedPlatform.VRChat);
         public static bool MaybeChilloutVR(this EmoteWizardEnvironment env) => env.Platform.HasFlag(DetectedPlatform.ChilloutVR);
+        public static bool MaybeUnityPlatforms(this EmoteWizardEnvironment env) => env.MaybeVRChat() || env.MaybeChilloutVR();
         public static bool MaybeVRM0(this EmoteWizardEnvironment env) => env.Platform.HasFlag(DetectedPlatform.VRM0);
         public static bool MaybeVRM1(this EmoteWizardEnvironment env) => env.Platform.HasFlag(DetectedPlatform.VRM1);
         public static bool MaybeVRM(this EmoteWizardEnvironment env) => env.MaybeVRM0() || env.MaybeVRM1();

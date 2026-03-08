@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(ParameterSource))]
     public class ParameterSourceEditor : EmoteWizardEditorBase<ParameterSource>
     {
-        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRChat;
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
         LocalizedProperty _name;
         LocalizedProperty _itemKind;

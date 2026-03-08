@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Wizards
     [CustomEditor(typeof(DressChangeWizard))]
     public class DressChangeWizardEditor : EmoteWizardEditorBase<DressChangeWizard>
     {
-        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRChat;
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
         LocalizedProperty _expressionKind;
         LocalizedProperty _itemCount;
