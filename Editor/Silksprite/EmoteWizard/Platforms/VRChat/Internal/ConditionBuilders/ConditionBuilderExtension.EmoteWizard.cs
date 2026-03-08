@@ -1,6 +1,7 @@
 using System;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Platforms;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -79,7 +80,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders
 
         public static ConditionBuilder AlwaysTrue(this ConditionBuilder builder)
         {
-            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, EmoteWizardConstants.Params.Viseme, -1);
+            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, PlatformFeatures.VRChat.ParameterForAlwaysTrue, -1);
             return builder;
         }
     }

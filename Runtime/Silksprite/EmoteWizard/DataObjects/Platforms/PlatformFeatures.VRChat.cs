@@ -48,6 +48,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 (EmoteWizardConstants.Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
             };
 
+            public string ParameterForAlwaysTrue => EmoteWizardConstants.Params.Viseme;
+
             public List<ParameterInstance> Populate()
             {
                 return DefaultParameterData.Select(tuple =>

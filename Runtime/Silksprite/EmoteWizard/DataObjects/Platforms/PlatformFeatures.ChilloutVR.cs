@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
             static readonly int[] Empty = {};
         
             static readonly (string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
-                (EmoteWizardConstants.Params.Viseme, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
+                (EmoteWizardConstants.Params.VisemeIdx, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
                 ("MovementX", ParameterItemKind.Float, Empty),
                 ("MovementY", ParameterItemKind.Float, Empty),
                 ("Grounded", ParameterItemKind.Bool, Empty),
@@ -26,6 +26,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 ("Flying", ParameterItemKind.Bool, Empty),
                 ("Swimming", ParameterItemKind.Bool, Empty),
             };
+
+            public string ParameterForAlwaysTrue => EmoteWizardConstants.Params.VisemeIdx;
 
             public List<ParameterInstance> Populate()
             {
