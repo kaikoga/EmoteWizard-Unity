@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.Loch;

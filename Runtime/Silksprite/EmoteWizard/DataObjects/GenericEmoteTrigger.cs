@@ -1,5 +1,6 @@
 using System;
 using JetBrains.Annotations;
+using Silksprite.EmoteWizard.DataObjects.Platforms;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
