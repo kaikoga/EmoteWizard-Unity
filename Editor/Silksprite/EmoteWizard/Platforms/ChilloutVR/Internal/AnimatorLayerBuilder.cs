@@ -150,7 +150,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
         {
             MarkParameter(EmoteWizardConstants.Params.Viseme); // for AlwaysTrueCondition
 
-            foreach (var cvrParameter in DefaultParametersCVR.Populate())
+            foreach (var cvrParameter in PlatformFeatures.ChilloutVR.Populate())
             {
                 _animatorController.AddParameter(cvrParameter.name, cvrParameter.GetParameterType());
             }

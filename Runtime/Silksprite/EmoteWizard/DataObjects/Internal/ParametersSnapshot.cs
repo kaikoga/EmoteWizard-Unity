@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     {
         [SerializeField] public List<ParameterInstance> parameterItems;
         [SerializeField] public List<ParameterInstance> implicitParameterItems;
-        static readonly List<ParameterInstance> DefaultParameterItems = DefaultParameters.Populate();
+        static readonly List<ParameterInstance> DefaultParameterItems = PlatformFeatures.VRChat.Populate();
 
         public IEnumerable<ParameterInstance> AllParameters => parameterItems.Concat(implicitParameterItems).Concat(DefaultParameterItems);
 
