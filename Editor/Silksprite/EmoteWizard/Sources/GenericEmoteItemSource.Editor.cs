@@ -47,8 +47,7 @@ namespace Silksprite.EmoteWizard.Sources
             {
                 switch ((GenericEmotePlatform)_platform.Property.intValue)
                 {
-                    case GenericEmotePlatform.VRChat:
-                    case GenericEmotePlatform.ChilloutVR:
+                    case GenericEmotePlatform.HandSigns:
                         LEditorGUILayout.PropAsEnumPopup<HandSign>(_vrcHandSign);
                         break;
                     case GenericEmotePlatform.VRM0:

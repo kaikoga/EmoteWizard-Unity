@@ -8,7 +8,6 @@ namespace Silksprite.EmoteWizard.DataObjects
     public struct GenericEmoteTrigger
     {
         [SerializeField] public string name;
-        // FIXME: should not be a Platform because VRChat and ChilloutVR is synonym 
         [SerializeField] public GenericEmotePlatform platform;
 
         [SerializeField] public int value;
@@ -18,8 +17,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             switch (platform)
             {
-                case GenericEmotePlatform.VRChat:
-                case GenericEmotePlatform.ChilloutVR:
+                case GenericEmotePlatform.HandSigns:
                     handSign = (HandSign)value;
                     return true;
                 default:
@@ -60,7 +58,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new GenericEmoteTrigger
             {
-                platform = GenericEmotePlatform.VRChat,
+                platform = GenericEmotePlatform.HandSigns,
                 value = (int)fromHandSign
             };
         }
