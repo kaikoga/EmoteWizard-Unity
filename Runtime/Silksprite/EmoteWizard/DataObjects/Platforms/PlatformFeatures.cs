@@ -7,8 +7,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
         [Obsolete("PlatformFeature.VRChat should be handled in a better way.")]
         public static readonly IPlatformFeatures VRChat = new VRChatFeatures();
 
+        [Obsolete("PlatformFeature.ChilloutVR should be handled in a better way.")]
+        public static readonly IPlatformFeatures ChilloutVR = new ChilloutVRFeatures();
+
         [Obsolete("PlatformFeature.Current should be handled in a better way.")]
         public static readonly IPlatformFeatures Current = VRChat;
     }
-
 }
