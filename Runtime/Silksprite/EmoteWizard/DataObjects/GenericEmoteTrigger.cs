@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         [SerializeField] public string name;
         // FIXME: should not be a Platform because VRChat and ChilloutVR is synonym 
-        [SerializeField] public Platform platform;
+        [SerializeField] public GenericEmotePlatform platform;
 
         [SerializeField] public int value;
 
@@ -18,8 +18,8 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             switch (platform)
             {
-                case Platform.VRChat:
-                case Platform.ChilloutVR:
+                case GenericEmotePlatform.VRChat:
+                case GenericEmotePlatform.ChilloutVR:
                     handSign = (HandSign)value;
                     return true;
                 default:
@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             switch (platform)
             {
-                case Platform.VRM0:
+                case GenericEmotePlatform.VRM0:
                     vrm0BlendShape = (Vrm0BlendShapePreset)value;
                     return true;
                 default:
@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             switch (platform)
             {
-                case Platform.VRM1:
+                case GenericEmotePlatform.VRM1:
                     vrm1Expression = (Vrm1ExpressionPreset)value;
                     return true;
                 default:
@@ -60,7 +60,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new GenericEmoteTrigger
             {
-                platform = Platform.VRChat,
+                platform = GenericEmotePlatform.VRChat,
                 value = (int)fromHandSign
             };
         }
@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new GenericEmoteTrigger
             {
-                platform = Platform.VRM0,
+                platform = GenericEmotePlatform.VRM0,
                 value = (int)vrm0BlendShape
             };
         }
@@ -78,7 +78,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             return new GenericEmoteTrigger
             {
-                platform = Platform.VRM1,
+                platform = GenericEmotePlatform.VRM1,
                 value = (int)vrm1Expression
             };
         }

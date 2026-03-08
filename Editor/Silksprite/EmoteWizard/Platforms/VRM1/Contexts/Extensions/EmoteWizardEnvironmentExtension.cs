@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRM1.Contexts.Extensions
 
                 var expression = vrm10Object.Expression;
 
-                foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(Platform.VRM1))
+                foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(GenericEmotePlatform.VRM1))
                 {
                     genericEmoteItem.Trigger.TryGetVrm1ExpressionPreset(out var key);
                     var clip = genericEmoteItem.ToVRM10Expression(environment, out var expressionPreset);

@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Extensions
                 blendShapeAvatar = new CustomCloneBlendShapeAvatar().Clone(blendShapeAvatar).mainAsset;
                 blendShapeProxy.BlendShapeAvatar = blendShapeAvatar;
 
-                foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(Platform.VRM0))
+                foreach (var genericEmoteItem in environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(GenericEmotePlatform.VRM0))
                 {
                     var clip = genericEmoteItem.ToBlendShapeClip(environment);
                     blendShapeAvatar.SetClip(clip.Key, clip);

@@ -45,20 +45,20 @@ namespace Silksprite.EmoteWizard.Sources
             }
             if (!_platform.Property.hasMultipleDifferentValues)
             {
-                switch ((Platform)_platform.Property.intValue)
+                switch ((GenericEmotePlatform)_platform.Property.intValue)
                 {
-                    case Platform.VRChat:
-                    case Platform.ChilloutVR:
+                    case GenericEmotePlatform.VRChat:
+                    case GenericEmotePlatform.ChilloutVR:
                         LEditorGUILayout.PropAsEnumPopup<HandSign>(_vrcHandSign);
                         break;
-                    case Platform.VRM0:
+                    case GenericEmotePlatform.VRM0:
                         LEditorGUILayout.PropAsEnumPopup<Vrm0BlendShapePreset>(_vrm0BlendShape);
                         if (_vrm0BlendShape.Property.intValue == (int)Vrm0BlendShapePreset.Unknown)
                         {
                             LEditorGUILayout.Prop(_name);
                         }
                         break;
-                    case Platform.VRM1:
+                    case GenericEmotePlatform.VRM1:
                         LEditorGUILayout.PropAsEnumPopup<Vrm1ExpressionPreset>(_vrm1Expression);
                         if (_vrm1Expression.Property.intValue == (int)Vrm1ExpressionPreset.Custom)
                         {

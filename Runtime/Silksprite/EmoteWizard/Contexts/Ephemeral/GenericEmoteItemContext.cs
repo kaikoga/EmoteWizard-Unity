@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
             return _genericEmoteItems = _genericEmoteItems ?? CollectAllGenericEmoteItems().ToList();
         }
 
-        public IEnumerable<GenericEmoteItem> GenericEmoteItems(Platform platform)
+        public IEnumerable<GenericEmoteItem> GenericEmoteItems(GenericEmotePlatform platform)
         {
             return AllGenericEmoteItems().Where(item => item.Trigger.platform == platform);
         }
