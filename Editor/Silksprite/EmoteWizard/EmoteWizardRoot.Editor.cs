@@ -1,10 +1,8 @@
 using System;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.UI;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
@@ -14,16 +12,10 @@ using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 
-#if EW_VRCSDK3_AVATARS
-using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
-using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
-using VRC.SDK3.Avatars.Components;
-#endif
-
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(EmoteWizardRoot))]
-    public class EmoteWizardRootEditor : EmoteWizardEditorBase<EmoteWizardRoot>
+    public partial class EmoteWizardRootEditor : EmoteWizardEditorBase<EmoteWizardRoot>
     {
         // NOTE: EmoteWizardRoot Editor is not in Core asmdef because Platform extensions 
         bool _isSetup;
@@ -134,211 +126,25 @@ namespace Silksprite.EmoteWizard
 #if EW_VRCSDK3_AVATARS
             if (env.IsVRChatAvatar())
             {
-                HeaderOnce(Loc("EmoteWizardRoot::Options"));
-                LEditorGUILayout.Prop(_generateTrackingControlLayer);
-
-                var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
-
-                LEditorGUILayout.Prop(_overrideGesture);
-                using (new EditorGUI.IndentLevelScope())
-                {
-                    switch (env.OverrideGesture)
-                    {
-                        case OverrideGeneratedControllerType2.Generate:
-                            break;
-                        case OverrideGeneratedControllerType2.Override:
-                            LEditorGUILayout.Prop(_overrideGestureController);
-                            break;
-                        case OverrideGeneratedControllerType2.Default1:
-                            DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController1());
-                            break;
-                        case OverrideGeneratedControllerType2.Default2:
-                            DummyController(_overrideGestureController, VrcSdkAssetLocator.HandsLayerController2());
-                            break;
-                        case OverrideGeneratedControllerType2.Inherit:
-                            DummyController(_overrideGestureController, avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-
-                LEditorGUILayout.Prop(_overrideAction);
-                using (new EditorGUI.IndentLevelScope())
-                {
-                    switch (env.OverrideAction)
-                    {
-                        case OverrideGeneratedControllerType1.Generate:
-                            break;
-                        case OverrideGeneratedControllerType1.Override:
-                            LEditorGUILayout.Prop(_overrideActionController);
-                            break;
-                        case OverrideGeneratedControllerType1.Default:
-                            DummyController(_overrideActionController, VrcSdkAssetLocator.ActionLayerController());
-                            break;
-                        case OverrideGeneratedControllerType1.Inherit:
-                            DummyController(_overrideActionController, avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
-
-                LEditorGUILayout.Prop(_overrideSitting);
-                using (new EditorGUI.IndentLevelScope())
-                {
-                    switch (env.OverrideSitting)
-                    {
-                        case OverrideControllerType2.Override:
-                            LEditorGUILayout.Prop(_overrideSittingController);
-                            break;
-                        case OverrideControllerType2.Default1:
-                            DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController1());
-                            break;
-                        case OverrideControllerType2.Default2:
-                            DummyController(_overrideSittingController, VrcSdkAssetLocator.SittingLayerController2());
-                            break;
-                        case OverrideControllerType2.Inherit:
-                            DummyController(_overrideSittingController, avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Sitting));
-                            break;
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
-                }
+                LayerOptionsVrc(env);
             }
 #endif
 
 #if ATIV_DETECTED_VRM0 || ATIV_DETECTED_VRM1
             if (env.MaybeVRM())
             {
-                HeaderOnce(Loc("EmoteWizardRoot::Options"));
-                LEditorGUILayout.Prop(_author);
+                ExportOptionsVrm();
             }
 #endif
 
 #if EW_VRCSDK3_AVATARS
             if (env.IsVRChatAvatar())
             {
-                LGUILayout.Heading(Loc("EmoteWizardRoot::Avatar Output"));
                 AvatarOutputVrc(env);
             }
 #endif
  
             serializedObject.ApplyModifiedProperties();
         }
-
-        void DummyController(LocalizedProperty lop, RuntimeAnimatorController dummyController)
-        {
-            using (new EditorGUI.DisabledScope(true))
-            {
-                LEditorGUILayout.ObjectField(lop.Loc, dummyController, false);
-            }
-        }
-
-#if EW_VRCSDK3_AVATARS
-        void AvatarOutputVrc(EmoteWizardEnvironment env)
-        {
-            LEditorGUILayout.Prop(_proxyAnimator);
-            var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
-            if (avatarDescriptor)
-            {
-                EmoteWizardGUILayout.OutputUIArea(true, default, () =>
-                {
-                    void EditAnimator(RuntimeAnimatorController animatorController)
-                    {
-                        var animator = CreateEnv().ProvideProxyAnimator();
-                        animator.runtimeAnimatorController = animatorController;
-                        if (!animatorController) return;
-                        Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
-                    }
-
-                    var gestureController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture);
-                    var fxController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.FX);
-                    var actionController = avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
-                    var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
-
-                    var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(avatarDescriptor);
-                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets"), new GUILayoutOption[0]))
-                    {
-                        CreateEnv().CleanupVrcAvatar();
-                    }
-                    EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
-                        "Generate Everything and Update Avatar",
-                        undoable =>
-                        {
-                            undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                            CreateEnv().BuildVrcAvatar(undoable, true);
-                        });
-
-                    using (new GUILayout.HorizontalScope())
-                    {
-                        using (new EditorGUI.DisabledScope(editorController == null))
-                        {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit"), new GUILayoutOption[0]))
-                            {
-                                EditAnimator(editorController);
-                            }
-                        }
-
-                        using (new EditorGUI.DisabledScope(gestureController == null || env.OverrideGesture == OverrideGeneratedControllerType2.Default1 || env.OverrideGesture == OverrideGeneratedControllerType2.Default2))
-                        {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Gesture"), new GUILayoutOption[0]))
-                            {
-                                EditAnimator(gestureController);
-                            }
-                        }
-
-                        using (new EditorGUI.DisabledScope(fxController == null))
-                        {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit FX"), new GUILayoutOption[0]))
-                            {
-                                EditAnimator(fxController);
-                            }
-                        }
-
-                        using (new EditorGUI.DisabledScope(actionController == null || env.OverrideAction == OverrideGeneratedControllerType1.Default))
-                        {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Action"), new GUILayoutOption[0]))
-                            {
-                                EditAnimator(actionController);
-                            }
-                        }
-                    }
-
-                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Remove Animator Controller"), new GUILayoutOption[0]))
-                    {
-                        EditAnimator(null);
-                    }
-
-                    DummyController(_proxyAnimator, avatarAnimator.runtimeAnimatorController);
-
-                    if (avatarAnimator.runtimeAnimatorController == null)
-                    {
-                        // do nothing
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == editorController)
-                    {
-                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::editor."), MessageType.Warning);
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == gestureController)
-                    {
-                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::gesture."), MessageType.Warning);
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == fxController)
-                    {
-                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::fx."), MessageType.Warning);
-                    }
-                    else if (avatarAnimator.runtimeAnimatorController == actionController)
-                    {
-                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::action."), MessageType.Warning);
-                    }
-                    else
-                    {
-                        LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::unknown."), MessageType.Warning);
-                    }
-                });
-            }
-        }
-#endif
     }
 }
