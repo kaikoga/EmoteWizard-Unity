@@ -25,6 +25,7 @@ namespace Silksprite.EmoteWizard
     [CustomEditor(typeof(EmoteWizardRoot))]
     public class EmoteWizardRootEditor : EmoteWizardEditorBase<EmoteWizardRoot>
     {
+        // NOTE: EmoteWizardRoot Editor is not in Core asmdef because Platform extensions 
         bool _isSetup;
 
         LocalizedProperty _avatarRootTransform;
