@@ -144,6 +144,13 @@ namespace Silksprite.EmoteWizard
             }
 #endif
  
+#if CVR_CCK_EXISTS
+            if (env.IsChilloutVRAvatar())
+            {
+                AvatarOutputCvr(env);
+            }
+#endif
+ 
             serializedObject.ApplyModifiedProperties();
         }
     }
