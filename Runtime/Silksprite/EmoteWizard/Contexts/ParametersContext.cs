@@ -72,13 +72,13 @@ namespace Silksprite.EmoteWizard.Contexts
             {
                 if (!string.IsNullOrEmpty(expressionItem.parameter))
                 {
-                    builder.FindOrCreate(expressionItem.parameter).AddWriteValue(expressionItem.value);
+                    builder.FindOrCreate(expressionItem.parameter).AddWriteValue(expressionItem.value, expressionItem.itemKind.ToWriteSourceKind());
                 }
 
                 if (!expressionItem.IsPuppet) continue;
                 foreach (var subParameter in expressionItem.subParameters.Where(subParameter => !string.IsNullOrEmpty(subParameter)))
                 {
-                    builder.FindOrCreate(subParameter).AddWritePuppet(expressionItem.itemKind == ExpressionItemKind.TwoAxisPuppet);
+                    builder.FindOrCreate(subParameter).AddWritePuppet(expressionItem.itemKind.ToWriteSourceKind());
                 }
             }
 
@@ -99,10 +99,10 @@ namespace Silksprite.EmoteWizard.Contexts
                     {
                         case ContactReceiver.ReceiverType.Constant:
                         case ContactReceiver.ReceiverType.OnEnter:
-                            builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Auto, 1f);
+                            builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Auto, 1f, ParameterWriteSourceKind.NoUI);
                             break;
                         case ContactReceiver.ReceiverType.Proximity:
-                            builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                            builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Float, 1f, ParameterWriteSourceKind.NoUI);
                             break;
                         default:
                             // ignore
@@ -115,10 +115,10 @@ namespace Silksprite.EmoteWizard.Contexts
                     var parameter = physBone.parameter;
                     if (string.IsNullOrEmpty(parameter)) continue;
 
-                    builder.FindOrCreateImplicit($"{parameter}_IsGrabbed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
-                    builder.FindOrCreateImplicit($"{parameter}_IsPosed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f);
-                    builder.FindOrCreateImplicit($"{parameter}_Angle").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
-                    builder.FindOrCreateImplicit($"{parameter}_Stretch").AddWriteValue(ParameterWriteUsageKind.Float, 1f);
+                    builder.FindOrCreateImplicit($"{parameter}_IsGrabbed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f, ParameterWriteSourceKind.NoUI);
+                    builder.FindOrCreateImplicit($"{parameter}_IsPosed").AddWriteValue(ParameterWriteUsageKind.Bool, 1f, ParameterWriteSourceKind.NoUI);
+                    builder.FindOrCreateImplicit($"{parameter}_Angle").AddWriteValue(ParameterWriteUsageKind.Float, 1f, ParameterWriteSourceKind.NoUI);
+                    builder.FindOrCreateImplicit($"{parameter}_Stretch").AddWriteValue(ParameterWriteUsageKind.Float, 1f, ParameterWriteSourceKind.NoUI);
                 }
             }
 #endif

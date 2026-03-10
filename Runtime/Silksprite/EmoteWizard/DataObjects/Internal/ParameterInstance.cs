@@ -36,5 +36,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 }
             }
         }
+
+        public ParameterWriteSourceKind WriteSourceKind => writeUsages.Select(usage => usage.writeSourceKind)
+                .FirstOrDefault(writeUsage => writeUsage is not ParameterWriteSourceKind.NoUI);
     }
 }

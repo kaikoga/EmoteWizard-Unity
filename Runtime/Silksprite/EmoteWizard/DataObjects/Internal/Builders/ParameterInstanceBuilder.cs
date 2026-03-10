@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             AddSynced();
             if (_writeUsages.All(state => state.value != 0))
             {
-                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Default, 0));
+                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Default, 0, ParameterWriteSourceKind.NoUI));
             }
         }
 
@@ -48,26 +48,26 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             }
         }
 
-        public void AddWriteValue(ParameterWriteUsageKind kind, float value)
+        public void AddWriteValue(ParameterWriteUsageKind kind, float value, ParameterWriteSourceKind sourceKind)
         {
             AddWriteDefault();
-            _writeUsages.Add(new ParameterWriteUsage(kind, value));
+            _writeUsages.Add(new ParameterWriteUsage(kind, value, sourceKind));
         }
 
-        public void AddWriteValue(float value)
+        public void AddWriteValue(float value, ParameterWriteSourceKind sourceKind)
         {
             AddWriteDefault();
             if (value > 1)
             {
-                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Int, value));
+                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Int, value, sourceKind));
             }
             else if (Mathf.Abs(value % 1f) > 0f)
             {
-                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, value));
+                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, value, sourceKind));
             }
             else if (value != 0)
             {
-                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Int, value));
+                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Int, value, sourceKind));
             }
         }
 
@@ -77,11 +77,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             _readUsages.Add(new ParameterReadUsage(itemKind, value));
         }
 
-        public void AddWritePuppet(bool hasNegativeRange)
+        public void AddWritePuppet(ParameterWriteSourceKind sourceKind)
         {
-            if (hasNegativeRange) _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, -1f));
+            if (sourceKind is ParameterWriteSourceKind.TwoAxisPuppet)
+            {
+                _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, -1f, sourceKind));
+            }
             AddWriteDefault();
-            _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, 1f));
+            _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, 1f, sourceKind));
         }
 
         public void AddSynced()
@@ -107,10 +110,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
                 defaultValue = _defaultValue,
                 synced = _synced,
                 itemKind = _itemKind,
-                writeUsages = _writeUsages.Distinct()
+                writeUsages = _writeUsages
+                    .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.value))
                     .OrderBy(usage => usage.value)
                     .ToList(),
-                readUsages = _readUsages.DistinctBy(usage => usage.value)
+                readUsages = _readUsages
+                    .DistinctBy(usage => usage.value)
                     .OrderBy(usage => usage.value)
                     .ToList()
             };

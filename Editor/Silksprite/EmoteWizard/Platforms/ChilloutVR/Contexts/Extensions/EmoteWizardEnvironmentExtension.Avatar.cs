@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.AdLib.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -20,11 +23,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 avatarAnimator.runtimeAnimatorController = null;
             }
             
-            CustomizeAnimationLayers(cvrAvatar, null);
-            if (cvrAvatar.avatarSettings is { } avatarSettings)
-            {
-                avatarSettings.settings = new List<CVRAdvancedSettingsEntryAccess>();
-            }
+            CustomizeAnimationLayers(cvrAvatar, null, null);
         }
 
         public static void BuildCvrAvatar(this EmoteWizardEnvironment environment, IUndoable undoable, bool manualBuild)
@@ -41,10 +40,10 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 var baseController = environment.GetContext<BaseControllerContext>().BuildOutputAsset(parameters);
                 var overrideController = environment.GetContext<OverrideControllerContext>().BuildOutputAsset(baseController);
 
-                CustomizeAnimationLayers(cvrAvatar, overrideController);
+                CustomizeAnimationLayers(cvrAvatar, baseController, overrideController);
                 if (cvrAvatar.avatarSettings is { } avatarSettings)
                 {
-                    avatarSettings.settings = new List<CVRAdvancedSettingsEntryAccess>();
+                    avatarSettings.settings = parameters.ExtractAdvancedSettingsEntries().ToList();
                 }
 
                 if (manualBuild)
@@ -54,9 +53,95 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             }
         }
 
-        static void CustomizeAnimationLayers(CVRAvatarAccess cvrAvatar, AnimatorOverrideController overrideController)
+        static IEnumerable<CVRAdvancedSettingsEntryAccess> ExtractAdvancedSettingsEntries(this ParametersSnapshot snapshot)
+        {
+            foreach (var parameter in snapshot.AllParameters)
+            {
+                var valueKind = parameter.ValueKind;
+                var writeSourceKind = parameter.WriteSourceKind;
+
+                var usedType = new CVRAdvancesAvatarSettingBase_ParameterTypeAccess(valueKind switch
+                {
+                    ParameterValueKind.Bool => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Bool,
+                    ParameterValueKind.Int => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Int,
+                    ParameterValueKind.Float => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Float,
+                    _ => throw new ArgumentOutOfRangeException()
+                });
+                
+                if (writeSourceKind switch
+                {
+                    ParameterWriteSourceKind.NoUI => (CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues?)null,
+                    ParameterWriteSourceKind.Button => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle,
+                    ParameterWriteSourceKind.Toggle => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle,
+                    ParameterWriteSourceKind.SubMenu => null,
+                    ParameterWriteSourceKind.TwoAxisPuppet => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D,
+                    ParameterWriteSourceKind.FourAxisPuppet => null,
+                    ParameterWriteSourceKind.RadialPuppet => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Slider,
+                    _ => throw new ArgumentOutOfRangeException()
+                } is not { } maybeSettingsType)
+                {
+                    continue;
+                }
+                CVRAdvancesAvatarSettingBaseAccess setting;
+                CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues settingsType;
+                switch (valueKind, maybeSettingsType)
+                {
+                    case (ParameterValueKind.Bool, CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle):
+                        setting = new CVRAdvancesAvatarSettingGameObjectToggleAccess
+                        {
+                            usedType = usedType,
+                            defaultValue = parameter.defaultValue != 0
+                        };
+                        settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle;
+                        break;
+                    case (ParameterValueKind.Float, CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D):
+                        setting = new CVRAdvancesAvatarSettingJoystick2DAccess
+                        {
+                            usedType = usedType,
+                            defaultValue = Vector2.zero,
+                            rangeMin = new Vector2(-1f, -1f),
+                            rangeMax = new Vector2(1f, 1f)
+                        };
+                        settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D;
+                        break;
+                    case (_, _):
+                        setting = new CVRAdvancesAvatarSettingSliderAccess
+                        {
+                            usedType = usedType,
+                            defaultValue = parameter.defaultValue,
+                            materialPropertyTargets = new List<CVRAdvancedSettingsTargetEntryMaterialPropertyAccess>
+                            {
+                                new CVRAdvancedSettingsTargetEntryMaterialPropertyAccess
+                                {
+                                    minValue = parameter.readUsages.Select(usage => usage.value).Min(),
+                                    maxValue = parameter.readUsages.Select(usage => usage.value).Max()
+                                }
+                            }
+                        };
+                        settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Slider;
+                        break;
+                }
+                yield return new CVRAdvancedSettingsEntryAccess
+                {
+                    type = new CVRAdvancedSettingsEntry_SettingsTypeAccess(settingsType),
+                    setting = setting,
+                    name = parameter.name,
+                    machineName = parameter.name,
+                };
+
+            }
+        }
+
+        static void CustomizeAnimationLayers(CVRAvatarAccess cvrAvatar, RuntimeAnimatorController baseController, AnimatorOverrideController overrideController)
         {
             cvrAvatar.overrides = overrideController;
+            cvrAvatar.avatarSettings = new CVRAdvancedAvatarSettingsAccess
+            {
+                settings = new List<CVRAdvancedSettingsEntryAccess>(),
+                baseController = baseController,
+                baseOverrideController = overrideController,
+                initialized = true
+            };
             cvrAvatar.avatarUsesAdvancedSettings = true;
         }
     }
