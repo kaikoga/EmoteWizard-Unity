@@ -8,6 +8,7 @@
         "Loch",
         "Loch.Editor",
         "Ablet.API",
+        "Ablet.Editor",
         "Ablet.Previewing.Editor",
         "EmoteWizard",
         "EmoteWizard.Core",
