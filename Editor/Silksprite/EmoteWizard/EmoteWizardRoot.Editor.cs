@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
@@ -20,6 +19,7 @@ namespace Silksprite.EmoteWizard
         // NOTE: EmoteWizardRoot Editor is not in Core asmdef because Platform extensions 
         bool _isSetup;
 
+        // ReSharper disable NotAccessedField.Local
         LocalizedProperty _avatarRootTransform;
         LocalizedProperty _proxyAnimator;
         LocalizedProperty _persistGeneratedAssets;
@@ -36,6 +36,7 @@ namespace Silksprite.EmoteWizard
         LocalizedProperty _author;
         LocalizedProperty _showTutorial;
         LocalizedProperty _detectPlatform;
+        // ReSharper restore NotAccessedField.Local
 
         void OnEnable()
         {
@@ -98,7 +99,7 @@ namespace Silksprite.EmoteWizard
 
             LGUILayout.Heading(Loc("EmoteWizardRoot::Assets Generation"));
             EditorGUI.BeginChangeCheck();
-            Action content = () =>
+            LEditorGUILayout.PropAsFoldout(_persistGeneratedAssets, () =>
             {
                 using (new GUILayout.HorizontalScope())
                 {
@@ -116,8 +117,7 @@ namespace Silksprite.EmoteWizard
                 {
                     CreateEnv().DisconnectAllOutputAssets();
                 }
-            };
-            LEditorGUILayout.PropAsFoldout(_persistGeneratedAssets, content);
+            });
             if (EditorGUI.EndChangeCheck() && !_persistGeneratedAssets.Property.boolValue)
             {
                 env.DisconnectAllOutputAssets();

@@ -104,7 +104,7 @@ namespace Silksprite.EmoteWizard
             var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
             if (avatarDescriptor)
             {
-                EmoteWizardGUILayout.OutputUIArea(true, default, () =>
+                EmoteWizardGUILayout.OutputUIArea(true, null, () =>
                 {
                     void EditAnimator(RuntimeAnimatorController animatorController)
                     {
@@ -120,7 +120,7 @@ namespace Silksprite.EmoteWizard
                     var editorController = env.GetContext<EditorLayerContext>().OutputAsset;
 
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(avatarDescriptor);
-                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets"), new GUILayoutOption[0]))
+                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
                         CreateEnv().CleanupVrcAvatar();
                     }
@@ -136,7 +136,7 @@ namespace Silksprite.EmoteWizard
                     {
                         using (new EditorGUI.DisabledScope(editorController == null))
                         {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit"), new GUILayoutOption[0]))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit")))
                             {
                                 EditAnimator(editorController);
                             }
@@ -144,7 +144,7 @@ namespace Silksprite.EmoteWizard
 
                         using (new EditorGUI.DisabledScope(gestureController == null || env.OverrideGesture == OverrideGeneratedControllerType2.Default1 || env.OverrideGesture == OverrideGeneratedControllerType2.Default2))
                         {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Gesture"), new GUILayoutOption[0]))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Gesture")))
                             {
                                 EditAnimator(gestureController);
                             }
@@ -152,7 +152,7 @@ namespace Silksprite.EmoteWizard
 
                         using (new EditorGUI.DisabledScope(fxController == null))
                         {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit FX"), new GUILayoutOption[0]))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit FX")))
                             {
                                 EditAnimator(fxController);
                             }
@@ -160,14 +160,14 @@ namespace Silksprite.EmoteWizard
 
                         using (new EditorGUI.DisabledScope(actionController == null || env.OverrideAction == OverrideGeneratedControllerType1.Default))
                         {
-                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Action"), new GUILayoutOption[0]))
+                            if (LGUILayout.Button(Loc("EmoteWizardRoot::Edit Action")))
                             {
                                 EditAnimator(actionController);
                             }
                         }
                     }
 
-                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Remove Animator Controller"), new GUILayoutOption[0]))
+                    if (LGUILayout.Button(Loc("EmoteWizardRoot::Remove Animator Controller")))
                     {
                         EditAnimator(null);
                     }
