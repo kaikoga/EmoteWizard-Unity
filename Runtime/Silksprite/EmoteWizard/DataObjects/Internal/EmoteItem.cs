@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects.Platforms;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
@@ -70,16 +71,17 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             string ResolveMirrorParameter(string parameter)
             {
+                var platformFeatures = PlatformFeatures.Of(environment);
                 switch (parameter)
                 {
                     case EmoteWizardConstants.Params.Gesture:
-                        return Hand == EmoteHand.Left ? "GestureLeft" : "GestureRight";
+                        return Hand == EmoteHand.Left ? platformFeatures.GestureLeft : platformFeatures.GestureRight;
                     case EmoteWizardConstants.Params.GestureOther:
-                        return Hand == EmoteHand.Left ? "GestureRight" : "GestureLeft";
+                        return Hand == EmoteHand.Left ? platformFeatures.GestureRight : platformFeatures.GestureLeft;
                     case EmoteWizardConstants.Params.GestureWeight:
-                        return Hand == EmoteHand.Left ? "GestureLeftWeight" : "GestureRightWeight";
+                        return Hand == EmoteHand.Left ? platformFeatures.GestureLeftWeight : platformFeatures.GestureRightWeight;
                     case EmoteWizardConstants.Params.GestureOtherWeight:
-                        return Hand == EmoteHand.Left ? "GestureRightWeight" : "GestureLeftWeight";
+                        return Hand == EmoteHand.Left ? platformFeatures.GestureRightWeight : platformFeatures.GestureLeftWeight;
                     default:
                         return parameter;
                 }

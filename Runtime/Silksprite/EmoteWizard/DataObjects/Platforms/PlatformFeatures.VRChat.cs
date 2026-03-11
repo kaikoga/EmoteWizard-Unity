@@ -8,6 +8,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
     {
         class VRChatFeatures : IPlatformFeatures
         {
+            string IPlatformFeatures.ParameterForAlwaysTrue => EmoteWizardConstants.Params.Viseme;
+            string IPlatformFeatures.GestureLeft => "GestureLeft";
+            string IPlatformFeatures.GestureLeftWeight => "GestureLeftWeight";
+            string IPlatformFeatures.GestureRight => "GestureRight";
+            string IPlatformFeatures.GestureRightWeight => "GestureRightWeight";
+
             static readonly int[] Empty = {};
 
             static readonly (string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
@@ -48,9 +54,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 (EmoteWizardConstants.Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
             };
 
-            public string ParameterForAlwaysTrue => EmoteWizardConstants.Params.Viseme;
 
-            public List<ParameterInstance> DefaultParameters()
+            List<ParameterInstance> IPlatformFeatures.DefaultParameters()
             {
                 return DefaultParameterData.Select(tuple =>
                 {
@@ -67,7 +72,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 }).ToList();
             }
 
-            public bool IsDefaultParameter(string parameter)
+            bool IPlatformFeatures.IsDefaultParameter(string parameter)
             {
                 return DefaultParameterData.Any(data => parameter == data.name);
             }

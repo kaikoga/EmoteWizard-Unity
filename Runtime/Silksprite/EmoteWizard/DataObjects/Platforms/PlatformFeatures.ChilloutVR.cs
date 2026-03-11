@@ -8,6 +8,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
     {
         class ChilloutVRFeatures : IPlatformFeatures
         {
+            public string ParameterForAlwaysTrue => EmoteWizardConstants.Params.VisemeIdx;
+            string IPlatformFeatures.GestureLeft => "GestureLeftIdx";
+            string IPlatformFeatures.GestureLeftWeight => "GestureLeft";
+            string IPlatformFeatures.GestureRight => "GestureRightIdx";
+            string IPlatformFeatures.GestureRightWeight => "GestureRight";
+
             static readonly int[] Empty = {};
         
             static readonly (string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
@@ -26,8 +32,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 ("Flying", ParameterItemKind.Bool, Empty),
                 ("Swimming", ParameterItemKind.Bool, Empty),
             };
-
-            public string ParameterForAlwaysTrue => EmoteWizardConstants.Params.VisemeIdx;
 
             public List<ParameterInstance> DefaultParameters()
             {
