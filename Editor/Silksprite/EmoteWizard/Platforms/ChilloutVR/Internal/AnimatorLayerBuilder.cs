@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -37,6 +38,14 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
             {
                 _referencedParameters.Add(childMotion.directBlendParameter);
                 MarkParameter(childMotion.motion);
+            }
+        }
+
+        public void MarkDefaultParameters()
+        {
+            foreach (var parameter in ParametersSnapshot.DefaultParameterItems)
+            {
+                _referencedParameters.Add(parameter.name);
             }
         }
 
@@ -151,10 +160,6 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
             var platformFeatures = PlatformFeatures.Of(Environment);
             MarkParameter(platformFeatures.ParameterForAlwaysTrue); // for AlwaysTrueCondition
 
-            foreach (var cvrParameter in platformFeatures.DefaultParameters())
-            {
-                _animatorController.AddParameter(cvrParameter.name, cvrParameter.GetParameterType());
-            }
             foreach (var parameter in ParametersSnapshot.AllParameters)
             {
                 var parameterName = parameter.name;

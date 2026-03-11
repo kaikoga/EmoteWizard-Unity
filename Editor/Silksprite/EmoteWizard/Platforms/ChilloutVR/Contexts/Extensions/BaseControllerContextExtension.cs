@@ -31,6 +31,8 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
             var builder = new AnimatorLayerBuilder(context.Environment, parametersSnapshot, animatorController);
 
+            builder.MarkDefaultParameters();
+
             var avatarAnimator = (AnimatorController)CvrCckAssetLocator.AvatarAnimator();
             builder.AddExternalLayer(avatarAnimator.layers[0]);
             
