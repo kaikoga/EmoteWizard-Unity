@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.Ndmf
         public IEnumerable<ProvidedParameter> GetSuppliedParameters(BuildContext context = null)
         {
             return _root.ToEnv()
-                .GetContext<ParametersContext>().Snapshot().parameterItems
+                .GetContext<ParametersContext>().Snapshot().ParameterItems
                 .Select(parameterItem => new ProvidedParameter(parameterItem.name, ParameterNamespace.Animator, _root, EmoteWizardPlugin.Instance, parameterItem.GetParameterType())
                 {
                     WantSynced = parameterItem.synced

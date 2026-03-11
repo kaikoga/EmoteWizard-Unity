@@ -34,12 +34,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 
         public ParametersSnapshot ToSnapshot()
         {
-            return new ParametersSnapshot
-            {
-                parameterItems = _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList(),
-                implicitParameterItems = _implicitParameterItems.Select(item => item.ToInstance()).ToList(),
-                defaultParameterItems = PlatformFeatures.Of(_environment).DefaultParameters()
-            };
+            return new ParametersSnapshot(
+                parameterItems: _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList(),
+                implicitParameterItems: _implicitParameterItems.Select(item => item.ToInstance()).ToList(),
+                defaultParameterItems: PlatformFeatures.Of(_environment).DefaultParameters());
         }
     }
 }

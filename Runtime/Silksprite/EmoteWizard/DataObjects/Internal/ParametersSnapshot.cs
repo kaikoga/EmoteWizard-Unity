@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
-using Silksprite.EmoteWizard.DataObjects.Platforms;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -11,11 +10,21 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public class ParametersSnapshot
     {
-        [SerializeField] public List<ParameterInstance> parameterItems;
-        [SerializeField] public List<ParameterInstance> implicitParameterItems;
-        [SerializeField] public List<ParameterInstance> defaultParameterItems;
+        [SerializeField] List<ParameterInstance> parameterItems;
+        [SerializeField] List<ParameterInstance> implicitParameterItems;
+        [SerializeField] List<ParameterInstance> defaultParameterItems;
 
+        public IEnumerable<ParameterInstance> ParameterItems => parameterItems;
+        public IEnumerable<ParameterInstance> ImplicitParameterItems => implicitParameterItems;
+        public IEnumerable<ParameterInstance> DefaultParameterItems => defaultParameterItems;
         public IEnumerable<ParameterInstance> AllParameters => parameterItems.Concat(implicitParameterItems).Concat(defaultParameterItems);
+
+        public ParametersSnapshot(List<ParameterInstance> parameterItems, List<ParameterInstance> implicitParameterItems, List<ParameterInstance> defaultParameterItems)
+        {
+            this.parameterItems = parameterItems;
+            this.implicitParameterItems = implicitParameterItems;
+            this.defaultParameterItems = defaultParameterItems;
+        }
 
         public ParameterInstance ResolveParameter(string parameterName)
         {
