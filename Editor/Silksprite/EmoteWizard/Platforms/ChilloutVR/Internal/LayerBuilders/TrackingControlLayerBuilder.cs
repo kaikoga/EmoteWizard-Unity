@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders
 
             NextStatePosition();
             var trackingState = PopulateDefaultState("Tracking");
-            var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue());
+            var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue(Builder.Environment));
 
             PopulateBodyControl(trackingTransition, _target, 1f);
 

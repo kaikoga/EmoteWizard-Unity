@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -145,7 +146,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
 
         public void BuildParameters()
         {
-            MarkParameter(PlatformFeatures.VRChat.ParameterForAlwaysTrue); // for AlwaysTrueCondition
+            var platformFeatures = PlatformFeatures.Of(Environment);
+            MarkParameter(platformFeatures.ParameterForAlwaysTrue); // for AlwaysTrueCondition
             foreach (var parameter in ParametersSnapshot.AllParameters)
             {
                 var parameterName = parameter.name;

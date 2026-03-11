@@ -1,4 +1,5 @@
 using System;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.DataObjects.Platforms;
@@ -78,9 +79,10 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.ConditionBuilders
             return builder;
         }
 
-        public static ConditionBuilder AlwaysTrue(this ConditionBuilder builder)
+        public static ConditionBuilder AlwaysTrue(this ConditionBuilder builder, EmoteWizardEnvironment env)
         {
-            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, PlatformFeatures.Current.ParameterForAlwaysTrue, -1);
+            var platformFeatures = PlatformFeatures.Of(env); 
+            builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, platformFeatures.ParameterForAlwaysTrue, -1);
             return builder;
         }
     }

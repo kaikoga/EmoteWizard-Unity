@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 
             NextStatePosition();
             var trackingState = PopulateDefaultState("Tracking");
-            var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue());
+            var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue(Builder.Environment));
 
             PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
 
