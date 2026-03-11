@@ -25,12 +25,15 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 ("CancelEmote", ParameterItemKind.Bool, Empty),
                 ("GestureLeft", ParameterItemKind.Float, Empty),
                 ("GestureRight", ParameterItemKind.Float, Empty),
+                ("GestureLeftIdx", ParameterItemKind.Int, new[]{-1, 0, 1, 2, 3, 4, 5, 6}),
+                ("GestureRightIdx", ParameterItemKind.Int, new[]{-1, 0, 1, 2, 3, 4, 5, 6}),
                 ("Toggle", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
                 ("Sitting", ParameterItemKind.Bool, Empty),
                 ("Crouching", ParameterItemKind.Bool, Empty),
                 ("Prone", ParameterItemKind.Bool, Empty),
                 ("Flying", ParameterItemKind.Bool, Empty),
                 ("Swimming", ParameterItemKind.Bool, Empty),
+                (EmoteWizardConstants.Params.AFK, ParameterItemKind.Bool, Empty),
             };
 
             public List<ParameterInstance> DefaultParameters()
