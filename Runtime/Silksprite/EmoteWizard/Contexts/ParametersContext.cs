@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         ParametersSnapshot BuildSnapshot()
         {
-            var builder = ParametersSnapshot.Builder();
+            var builder = ParametersSnapshot.Builder(Environment);
 
             foreach (var expressionItem in Environment.GetContext<ExpressionContext>().AllExpressionItems())
             {

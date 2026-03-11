@@ -6,7 +6,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
     public interface IPlatformFeatures
     {
         string ParameterForAlwaysTrue { get; }
-        List<ParameterInstance> Populate();
+        List<ParameterInstance> DefaultParameters();
         bool IsDefaultParameter(string parameter);
     }
 }

@@ -151,7 +151,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
             var platformFeatures = PlatformFeatures.Of(Environment);
             MarkParameter(platformFeatures.ParameterForAlwaysTrue); // for AlwaysTrueCondition
 
-            foreach (var cvrParameter in platformFeatures.Populate())
+            foreach (var cvrParameter in platformFeatures.DefaultParameters())
             {
                 _animatorController.AddParameter(cvrParameter.name, cvrParameter.GetParameterType());
             }

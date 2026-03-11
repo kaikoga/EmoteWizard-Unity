@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.EmoteWizard.DataObjects.Platforms;
 using UnityEngine;
@@ -12,9 +13,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     {
         [SerializeField] public List<ParameterInstance> parameterItems;
         [SerializeField] public List<ParameterInstance> implicitParameterItems;
-        static readonly List<ParameterInstance> DefaultParameterItems = PlatformFeatures.VRChat.Populate();
+        [SerializeField] public List<ParameterInstance> defaultParameterItems;
 
-        public IEnumerable<ParameterInstance> AllParameters => parameterItems.Concat(implicitParameterItems).Concat(DefaultParameterItems);
+        public IEnumerable<ParameterInstance> AllParameters => parameterItems.Concat(implicitParameterItems).Concat(defaultParameterItems);
 
         public ParameterInstance ResolveParameter(string parameterName)
         {
@@ -52,6 +53,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             return !string.IsNullOrEmpty(parameterName) && AllParameters.All(item => item.name != parameterName);
         }
 
-        public static ParametersSnapshotBuilder Builder() => new ParametersSnapshotBuilder();
+        public static ParametersSnapshotBuilder Builder(EmoteWizardEnvironment env) => new ParametersSnapshotBuilder(env);
     }
 }

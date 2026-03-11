@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
 
             public string ParameterForAlwaysTrue => EmoteWizardConstants.Params.VisemeIdx;
 
-            public List<ParameterInstance> Populate()
+            public List<ParameterInstance> DefaultParameters()
             {
                 return DefaultParameterData.Select(tuple =>
                 {
