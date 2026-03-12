@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
             var builder = new AnimatorLayerBuilder(context.Environment, parametersSnapshot, animatorController);
 
-            builder.BuildEditorLayer(context.Environment.GetContext<EmoteItemContext>().AllEmoteItems());
+            builder.BuildEditorLayer(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             builder.BuildParameters();
             return context.OutputAsset;
         }

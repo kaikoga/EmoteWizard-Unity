@@ -122,7 +122,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-                var layer = PopulateLayer(groupName, avatarMask);
+                var layer = PopulateLayer($"{layerKind} {groupName}", avatarMask);
                 new EmoteLayerBuilder(this, layer, mirroredEmoteGroup.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder))).Build();
             }
         }

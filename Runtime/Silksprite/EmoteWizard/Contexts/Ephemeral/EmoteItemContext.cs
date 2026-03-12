@@ -12,32 +12,22 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
     {
         public EmoteItemContext(EmoteWizardEnvironment env) : base(env) { }
         
-        List<EmoteItem> _emoteItems;
         List<EmoteItem> _mirroredEmoteItems;
         List<EmoteItem> _forceMirroredEmoteItems;
 
-        IEnumerable<EmoteItem> CollectAllEmoteItems()
-        {
-            return Environment.GetComponentsInChildren<IEmoteItemSource>(true).SelectMany(source => source.ToEmoteItems());
-        }
-
         IEnumerable<EmoteItem> CollectAllMirroredEmoteItems()
         {
-            return AllEmoteItems().SelectMany(item => item.Mirror(false));
+            return Environment.GetComponentsInChildren<IEmoteItemSource>(true)
+                .SelectMany(source => source.ToEmoteItems())
+                .SelectMany(item => item.IsMirrorItem ? item.Mirror() : item.NoMirror());
         }
 
         IEnumerable<EmoteItem> CollectAllForceMirroredEmoteItems()
         {
-            return AllEmoteItems().GroupBy(item => item.GroupName)
-                .SelectMany(group =>
-                {
-                    return group.Any(item => item.IsMirrorItem) ? group.SelectMany(item => item.Mirror(true)) : group;
-                });
-        }
-
-        public IEnumerable<EmoteItem> AllEmoteItems()
-        {
-            return _emoteItems = _emoteItems ?? CollectAllEmoteItems().ToList();
+            return AllMirroredEmoteItems().GroupBy(item => item.GroupNameNoMirror)
+                .SelectMany(group => group.All(item => item.Hand is EmoteHand.Neither)
+                    ? group
+                    : group.SelectMany(item => item.Mirror()));
         }
 
         public IEnumerable<EmoteItem> AllMirroredEmoteItems()
@@ -47,7 +37,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 
         public IEnumerable<EmoteItem> AllForceMirroredEmoteItems()
         {
-            return _forceMirroredEmoteItems = _forceMirroredEmoteItems ?? CollectAllForceMirroredEmoteItems().ToList();;
+            return _forceMirroredEmoteItems = _forceMirroredEmoteItems ?? CollectAllForceMirroredEmoteItems().ToList();
         }
 
         public IEnumerable<EmoteItem> ForceMirroredEmoteItems(LayerKind layerKind)

@@ -14,9 +14,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public readonly EmoteTriggerInstance Trigger;
         readonly IEmoteSequenceFactory _emoteSequenceFactory;
 
-        public EmoteHand Hand = EmoteHand.Neither;
+        public readonly EmoteHand Hand;
 
         public LayerKind LayerKind => _emoteSequenceFactory.LayerKind;
+        public string GroupNameNoMirror => _emoteSequenceFactory.GroupName;
+
         public string GroupName
         {
             get
@@ -24,10 +26,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 switch (Hand)
                 {
                     case EmoteHand.Neither:
-                        return _emoteSequenceFactory.GroupName;
+                        return GroupNameNoMirror;
                     case EmoteHand.Left:
                     case EmoteHand.Right:
-                        return $"{_emoteSequenceFactory.GroupName} ({Hand})";
+                        return $"{GroupNameNoMirror} ({Hand})";
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
@@ -41,31 +43,34 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         {
             Trigger = trigger;
             _emoteSequenceFactory = sequenceFactory;
+            Hand = EmoteHand.Neither;
+        }
+
+        EmoteItem(EmoteTriggerInstance trigger, IEmoteSequenceFactory sequenceFactory, EmoteHand hand)
+        {
+            Trigger = trigger;
+            _emoteSequenceFactory = sequenceFactory;
+            Hand = hand;
         }
 
         public bool IsMirrorItem => Trigger.LooksLikeMirrorItem || _emoteSequenceFactory.LooksLikeMirrorItem;
 
-        public IEnumerable<EmoteItem> Mirror(bool force)
+        public IEnumerable<EmoteItem> Mirror()
         {
-            EmoteItem MirrorSide(EmoteHand handValue)
+            if (Hand is EmoteHand.Neither)
             {
-                var item = new EmoteItem(Trigger, _emoteSequenceFactory)
-                {
-                    Hand = handValue
-                };
-
-                return item;
-            }
-
-            if (force || IsMirrorItem)
-            {
-                yield return MirrorSide(EmoteHand.Left);
-                yield return MirrorSide(EmoteHand.Right);
+                yield return new EmoteItem(Trigger, _emoteSequenceFactory, EmoteHand.Left);
+                yield return new EmoteItem(Trigger, _emoteSequenceFactory, EmoteHand.Right);
             }
             else
             {
                 yield return this;
             }
+        }
+
+        public IEnumerable<EmoteItem> NoMirror()
+        {
+            yield return this;
         }
 
         public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IClipBuilder clipBuilder)
