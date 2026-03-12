@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
@@ -44,6 +45,6 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();
         public IEnumerable<GenericEmoteItem> ToGenericEmoteItems() => ToTemplate().ToGenericEmoteItems();
 
-        public IEnumerable<ExpressionItem> ToExpressionItems() => ToTemplate().ToExpressionItems();
+        public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment) => ToTemplate().ToExpressionItems();
     }
 }

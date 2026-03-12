@@ -71,7 +71,7 @@ namespace Silksprite.EmoteWizard.Utils
 
         static void ExplodeExpressionItems(IUndoable undoable, EmoteWizardEnvironment environment, IExpressionItemSource source, Component destination)
         {
-            foreach (var expressionItem in source.ToExpressionItems())
+            foreach (var expressionItem in source.ToExpressionItems(environment))
             {
                 var child = undoable.FindOrCreateChildComponent<ExpressionItemSource>(destination, expressionItem.path, expressionItem.enabled);
                 child.expressionItem = SerializableUtils.Clone(expressionItem);

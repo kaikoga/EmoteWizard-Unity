@@ -43,6 +43,8 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
+            var env = CreateEnv();
+
             LEditorGUILayout.Prop(_name);
             LEditorGUILayout.Prop(_priority);
             LEditorGUILayout.Prop(_conditions);
@@ -58,11 +60,11 @@ namespace Silksprite.EmoteWizard.Sources
                 }
             }
 
-            using (new EditorGUI.DisabledScope(!soleTarget.CanAutoExpression))
+            using (new EditorGUI.DisabledScope(!soleTarget.CanAutoExpression(env)))
             {
                 LEditorGUILayout.Prop(_hasExpressionItem);
             }
-            if (soleTarget.IsAutoExpression)
+            if (soleTarget.IsAutoExpression(env))
             {
                 using (new EditorGUI.IndentLevelScope())
                 {

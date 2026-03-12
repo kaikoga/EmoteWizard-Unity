@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
@@ -49,12 +50,12 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;
 
-        public bool CanAutoExpression => ToTemplate().CanAutoExpression;
+        public bool CanAutoExpression(EmoteWizardEnvironment environment) => ToTemplate().CanAutoExpression(environment);
 
-        public bool IsAutoExpression => ToTemplate().IsAutoExpression;
+        public bool IsAutoExpression(EmoteWizardEnvironment environment) => ToTemplate().IsAutoExpression(environment);
 
         public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();
 
-        public IEnumerable<ExpressionItem> ToExpressionItems() => ToTemplate().ToExpressionItems();
+        public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment) => ToTemplate().ToExpressionItems(environment);
     }
 }

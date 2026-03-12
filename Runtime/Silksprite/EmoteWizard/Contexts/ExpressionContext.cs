@@ -61,7 +61,7 @@ namespace Silksprite.EmoteWizard.Contexts
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
             return Environment.GetComponentsInChildren<IExpressionItemSource>(true)
-                .SelectMany(source => source.ToExpressionItems());
+                .SelectMany(source => source.ToExpressionItems(Environment));
         }
 
         public IEnumerable<ExpressionItem> AllExpressionItems()

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Builders;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -40,31 +41,29 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool LooksLikeMirrorItem => Trigger.LooksLikeMirrorItem || (SequenceFactory != null && SequenceFactory.LooksLikeMirrorItem);
 
-        public bool CanAutoExpression
+        public bool CanAutoExpression(EmoteWizardEnvironment environment)
         {
-            get
+            if (Trigger.conditions.Count != 1) return false;
+
+            var platformFeatures = PlatformFeatures.Of(environment);
+            var soleCondition = Trigger.conditions[0];
+            if (platformFeatures.IsDefaultParameterReference(soleCondition.parameter)) return false;
+            switch (soleCondition.kind)
             {
-                if (Trigger.conditions.Count != 1) return false;
-
-                var soleCondition = Trigger.conditions[0];
-                if (PlatformFeatures.Current.IsDefaultParameterReference(soleCondition.parameter)) return false;
-                switch (soleCondition.kind)
-                {
-                    case ParameterItemKind.Auto:
-                    case ParameterItemKind.Int:
-                        break;
-                    case ParameterItemKind.Bool:
-                    case ParameterItemKind.Float:
-                    default:
-                        return false;
-                }
-                if (soleCondition.mode != EmoteConditionMode.Equals) return false;
-
-                return true;
+                case ParameterItemKind.Auto:
+                case ParameterItemKind.Int:
+                    break;
+                case ParameterItemKind.Bool:
+                case ParameterItemKind.Float:
+                default:
+                    return false;
             }
+            if (soleCondition.mode != EmoteConditionMode.Equals) return false;
+
+            return true;
         }
 
-        public bool IsAutoExpression => HasExpressionItem && CanAutoExpression;
+        public bool IsAutoExpression(EmoteWizardEnvironment environment) => HasExpressionItem && CanAutoExpression(environment);
 
         EmoteItem ToEmoteItem() => SequenceFactory == null ? null : new EmoteItem(Trigger.ToInstance(), SequenceFactory);
 
@@ -74,9 +73,9 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             if (emoteItem != null) yield return emoteItem;
         }
 
-        public IEnumerable<ExpressionItem> ToExpressionItems()
+        public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)
         {
-            if (!IsAutoExpression) yield break;
+            if (!IsAutoExpression(environment)) yield break;
             if (ItemPathAttribute.IsInvalidPathInput(ExpressionItemPath)) yield break;
 
             var soleCondition = Trigger.conditions[0];
