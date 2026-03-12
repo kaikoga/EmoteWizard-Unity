@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Builders;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
@@ -35,6 +36,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             });
         }
 
-        public EmoteTriggerInstance ToInstance() => new EmoteTriggerInstance(name, priority, conditions.Select(condition => condition.ToInstance()));
+        public EmoteTriggerInstance ToInstance(EmoteWizardEnvironment environment) =>
+            new EmoteTriggerInstance(name, priority, conditions.Select(condition => condition.ToInstance(environment)));
     }
 }

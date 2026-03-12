@@ -15,6 +15,25 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
             string IPlatformFeatures.GestureRight => "GestureRight";
             string IPlatformFeatures.GestureRightWeight => "GestureRightWeight";
 
+            bool IPlatformFeatures.IsHandSignParameterReference(string parameterReference) =>
+                parameterReference switch
+                {
+                    "GestureLeft" => true,
+                    "GestureLeftWeight" => true,
+                    "GestureRight" => true,
+                    "GestureRightWeight" => true,
+                    Params.Gesture => true,
+                    Params.GestureOther => true,
+                    Params.GestureWeight => true,
+                    Params.GestureOtherWeight => true,
+                    _ => false
+                };
+
+            int IPlatformFeatures.HandSignValue(HandSign handSign)
+            {
+                return (int)handSign;
+            }
+            
             static readonly int[] Empty = {};
 
             static readonly (string reference, string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {

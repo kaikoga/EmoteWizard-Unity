@@ -54,7 +54,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public bool IsAutoExpression(EmoteWizardEnvironment environment) => ToTemplate().IsAutoExpression(environment);
 
-        public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();
+        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment) => ToTemplate().ToEmoteItems(environment);
 
         public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment) => ToTemplate().ToExpressionItems(environment);
     }

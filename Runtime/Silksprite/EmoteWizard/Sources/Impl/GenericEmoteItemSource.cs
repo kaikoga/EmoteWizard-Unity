@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             return new GenericEmoteItemTemplate(gameObject.name, trigger, FindEmoteFactory());
         }
 
-        public IEnumerable<EmoteItem> ToEmoteItems() => ToTemplate().ToEmoteItems();
+        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment) => ToTemplate().ToEmoteItems(environment);
         public IEnumerable<GenericEmoteItem> ToGenericEmoteItems() => ToTemplate().ToGenericEmoteItems();
 
         public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment) => ToTemplate().ToExpressionItems();

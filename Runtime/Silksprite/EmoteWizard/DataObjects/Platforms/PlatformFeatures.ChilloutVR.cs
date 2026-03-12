@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -14,6 +15,36 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
             string IPlatformFeatures.GestureLeftWeight => "GestureLeft";
             string IPlatformFeatures.GestureRight => "GestureRightIdx";
             string IPlatformFeatures.GestureRightWeight => "GestureRight";
+
+            bool IPlatformFeatures.IsHandSignParameterReference(string parameterReference) =>
+                parameterReference switch
+                {
+                    "GestureLeft" => true,
+                    "GestureLeftIdx" => true,
+                    "GestureRight" => true,
+                    "GestureRightIdx" => true,
+                    Params.Gesture => true,
+                    Params.GestureOther => true,
+                    Params.GestureWeight => true,
+                    Params.GestureOtherWeight => true,
+                    _ => false
+                };
+
+            int IPlatformFeatures.HandSignValue(HandSign handSign)
+            {
+                return handSign switch
+                {
+                    HandSign.Idle => 0,
+                    HandSign.Fist => 1,
+                    HandSign.Open => -1,
+                    HandSign.Point => 4,
+                    HandSign.Peace => 5,
+                    HandSign.RockNRoll => 6,
+                    HandSign.Gun => 3,
+                    HandSign.ThumbsUp => 2,
+                    _ => throw new ArgumentOutOfRangeException(nameof(handSign), handSign, null)
+                };
+            }
 
             static readonly int[] Empty = {};
         

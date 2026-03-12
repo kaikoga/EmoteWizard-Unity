@@ -65,12 +65,12 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool IsAutoExpression(EmoteWizardEnvironment environment) => HasExpressionItem && CanAutoExpression(environment);
 
-        EmoteItem ToEmoteItem() => SequenceFactory == null ? null : new EmoteItem(Trigger.ToInstance(), SequenceFactory);
-
-        public IEnumerable<EmoteItem> ToEmoteItems()
+        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
         {
-            var emoteItem = ToEmoteItem();
-            if (emoteItem != null) yield return emoteItem;
+            if (SequenceFactory != null)
+            {
+                yield return new EmoteItem(Trigger.ToInstance(environment), SequenceFactory);
+            }
         }
 
         public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)

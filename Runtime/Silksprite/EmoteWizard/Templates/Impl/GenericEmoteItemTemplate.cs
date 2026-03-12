@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -26,12 +28,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool LooksLikeMirrorItem => true;
 
-        EmoteItem ToEmoteItem()
+        EmoteItem ToEmoteItem(EmoteWizardEnvironment environment)
         {
             if (SequenceFactory == null) return null;
 
             if (!Trigger.TryGetHandSign(out var handSign)) return null;
             
+            var platformFeatures = PlatformFeatures.Of(environment);
+
             return new EmoteItem(new EmoteTriggerInstance
                 (
                     name: handSign.ToString(),
@@ -42,16 +46,16 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                             kind: ParameterItemKind.Auto,
                             parameter: EmoteWizardConstants.Params.Gesture,
                             mode: EmoteConditionMode.Equals,
-                            threshold: Trigger.value
+                            threshold: platformFeatures.HandSignValue(handSign)
                         )
                     }
                 ),
                 SequenceFactory);
         }
 
-        public IEnumerable<EmoteItem> ToEmoteItems()
+        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
         {
-            var emoteItem = ToEmoteItem();
+            var emoteItem = ToEmoteItem(environment);
             if (emoteItem != null) yield return emoteItem;
         }
 

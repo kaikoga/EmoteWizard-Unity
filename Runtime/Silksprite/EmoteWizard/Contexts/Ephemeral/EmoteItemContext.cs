@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
         IEnumerable<EmoteItem> CollectAllMirroredEmoteItems()
         {
             return Environment.GetComponentsInChildren<IEmoteItemSource>(true)
-                .SelectMany(source => source.ToEmoteItems())
+                .SelectMany(source => source.ToEmoteItems(Environment))
                 .SelectMany(item => item.IsMirrorItem ? item.Mirror() : item.NoMirror());
         }
 
