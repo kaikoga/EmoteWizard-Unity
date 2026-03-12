@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.DataObjects.Animations;
 using Silksprite.EmoteWizard.DataObjects.Builders;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects

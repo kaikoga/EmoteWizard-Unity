@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 

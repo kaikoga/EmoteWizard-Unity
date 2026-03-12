@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal

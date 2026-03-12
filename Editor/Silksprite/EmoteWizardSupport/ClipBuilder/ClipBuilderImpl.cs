@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.ClipBuilder;
 using UnityEditor;
 using UnityEngine;
 

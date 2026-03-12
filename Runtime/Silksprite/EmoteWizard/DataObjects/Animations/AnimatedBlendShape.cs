@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.DataObjects.Animations.Base;
+using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 

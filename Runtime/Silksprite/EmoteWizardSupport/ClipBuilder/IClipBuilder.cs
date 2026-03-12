@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.ClipBuilder
+namespace Silksprite.EmoteWizardSupport.ClipBuilder
 {
     public interface IClipBuilder
     {
