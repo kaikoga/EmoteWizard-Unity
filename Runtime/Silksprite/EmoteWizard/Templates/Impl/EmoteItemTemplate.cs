@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 if (Trigger.conditions.Count != 1) return false;
 
                 var soleCondition = Trigger.conditions[0];
-                if (PlatformFeatures.Current.IsDefaultParameter(soleCondition.parameter)) return false;
+                if (PlatformFeatures.Current.IsDefaultParameterReference(soleCondition.parameter)) return false;
                 switch (soleCondition.kind)
                 {
                     case ParameterItemKind.Auto:
@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool IsAutoExpression => HasExpressionItem && CanAutoExpression;
 
-        EmoteItem ToEmoteItem() => SequenceFactory == null ? null : new EmoteItem(Trigger, SequenceFactory);
+        EmoteItem ToEmoteItem() => SequenceFactory == null ? null : new EmoteItem(Trigger.ToInstance(), SequenceFactory);
 
         public IEnumerable<EmoteItem> ToEmoteItems()
         {

@@ -12,6 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         bool _saved = true;
         float _defaultValue;
         bool _synced = true;
+        readonly HashSet<string> _referenceUsages = new HashSet<string>();
         readonly List<ParameterWriteUsage> _writeUsages = new List<ParameterWriteUsage>();
         readonly List<ParameterReadUsage> _readUsages = new List<ParameterReadUsage>();
 
@@ -87,6 +88,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Float, 1f, sourceKind));
         }
 
+        public void AddReferenceUsage(string name)
+        {
+            _referenceUsages.Add(name);
+        }
+
         public void AddSynced()
         {
             _synced = true;
@@ -99,6 +105,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             _saved |= parameter.saved;
             _defaultValue = parameter.defaultValue;
             _synced |= parameter.synced;
+            AddReferenceUsage(parameter.name);
         }
 
         public ParameterInstance ToInstance()
@@ -110,6 +117,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
                 defaultValue = _defaultValue,
                 synced = _synced,
                 itemKind = _itemKind,
+                referenceUsages = _referenceUsages.ToList(),
                 writeUsages = _writeUsages
                     .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.value))
                     .OrderBy(usage => usage.value)

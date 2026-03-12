@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders
 {
     public static class ConditionBuilderEmoteWizardExtension
     {
-        public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteCondition emoteCondition, ParameterValueKind? actualValueKind)
+        public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteConditionInstance emoteCondition, ParameterValueKind? actualValueKind)
         {
             AnimatorControllerParameterType type;
             AnimatorConditionMode mode;
@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders
             {
                 case ParameterValueKind.Bool:
                     type = AnimatorControllerParameterType.Bool;
-                    switch (emoteCondition.mode)
+                    switch (emoteCondition.Mode)
                     {
                         case EmoteConditionMode.If:
                             mode = AnimatorConditionMode.If;
@@ -33,17 +33,17 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders
                             mode = AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.Equals:
-                            mode = emoteCondition.threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
+                            mode = emoteCondition.Threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.NotEqual:
-                            mode = emoteCondition.threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
+                            mode = emoteCondition.Threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                     break;
                 default:
-                    switch (emoteCondition.mode)
+                    switch (emoteCondition.Mode)
                     {
                         case EmoteConditionMode.If:
                             type = AnimatorControllerParameterType.Bool;
@@ -75,7 +75,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders
                     break;
             }
 
-            builder.AddCondition(type, mode, emoteCondition.parameter, emoteCondition.threshold);
+            builder.AddCondition(type, mode, emoteCondition.Parameter, emoteCondition.Threshold);
             return builder;
         }
 

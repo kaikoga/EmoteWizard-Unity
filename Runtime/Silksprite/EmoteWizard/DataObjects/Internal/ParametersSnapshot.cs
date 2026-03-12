@@ -10,6 +10,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public class ParametersSnapshot
     {
+        [SerializeField] List<string> validReferenceUsages;
+
         [SerializeField] List<ParameterInstance> parameterItems;
         [SerializeField] List<ParameterInstance> implicitParameterItems;
         [SerializeField] List<ParameterInstance> defaultParameterItems;
@@ -24,6 +26,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             this.parameterItems = parameterItems;
             this.implicitParameterItems = implicitParameterItems;
             this.defaultParameterItems = defaultParameterItems;
+            validReferenceUsages = AllParameters.SelectMany(item => item.referenceUsages).ToList();
         }
 
         public ParameterInstance ResolveParameter(string parameterName)
@@ -57,9 +60,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             return resolvedValueKind;
         }
 
-        public bool IsInvalidParameter(string parameterName)
+        public bool IsInvalidParameterReference(string parameterReference)
         {
-            return !string.IsNullOrEmpty(parameterName) && AllParameters.All(item => item.name != parameterName);
+            return !string.IsNullOrEmpty(parameterReference) && !validReferenceUsages.Contains(parameterReference);
         }
 
         public static ParametersSnapshotBuilder Builder(EmoteWizardEnvironment env) => new ParametersSnapshotBuilder(env);

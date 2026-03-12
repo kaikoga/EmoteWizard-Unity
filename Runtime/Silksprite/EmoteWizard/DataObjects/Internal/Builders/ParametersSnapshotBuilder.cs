@@ -29,6 +29,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
                 list.Add(result);
             }
 
+            result.AddReferenceUsage(name);
             return result;
         }
 

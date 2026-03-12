@@ -12,6 +12,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
         string GestureRightWeight { get; }
 
         List<ParameterInstance> DefaultParameters();
-        bool IsDefaultParameter(string parameter);
+        bool IsDefaultParameterReference(string parameterReference);
     }
 }

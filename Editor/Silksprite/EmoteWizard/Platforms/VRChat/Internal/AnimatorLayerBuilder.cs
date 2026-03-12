@@ -120,7 +120,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
         public void BuildTrackingControlLayers(IEnumerable<EmoteItem> allMirroredEmoteItems)
         {
             var overriders = allMirroredEmoteItems
-                .OrderBy(item => item.Trigger.priority)
+                .OrderBy(item => item.Trigger.Priority)
                 .SelectMany(item => item.TrackingOverrides().Select(trackingOverride => (item, trackingOverride.target)))
                 .GroupBy(pair => pair.target)
                 .Where(group => group.Key != TrackingTarget.None && Enum.IsDefined(typeof(TrackingTarget), group.Key))

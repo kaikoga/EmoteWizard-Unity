@@ -32,21 +32,20 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
             if (!Trigger.TryGetHandSign(out var handSign)) return null;
             
-            return new EmoteItem(new EmoteTrigger
-                {
-                    name = handSign.ToString(),
-                    priority = 0,
-                    conditions = new List<EmoteCondition>
+            return new EmoteItem(new EmoteTriggerInstance
+                (
+                    name: handSign.ToString(),
+                    priority: 0,
+                    conditions: new List<EmoteConditionInstance>
                     {
-                        new EmoteCondition
-                        {
-                            kind = ParameterItemKind.Auto,
-                            parameter = EmoteWizardConstants.Params.Gesture,
-                            mode = EmoteConditionMode.Equals,
-                            threshold = Trigger.value
-                        }
+                        new EmoteConditionInstance(
+                            kind: ParameterItemKind.Auto,
+                            parameter: EmoteWizardConstants.Params.Gesture,
+                            mode: EmoteConditionMode.Equals,
+                            threshold: Trigger.value
+                        )
                     }
-                },
+                ),
                 SequenceFactory);
         }
 

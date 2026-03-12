@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using static Silksprite.EmoteWizard.EmoteWizardConstants;
 
 namespace Silksprite.EmoteWizard.DataObjects.Platforms
 {
@@ -8,7 +9,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
     {
         class VRChatFeatures : IPlatformFeatures
         {
-            string IPlatformFeatures.ParameterForAlwaysTrue => EmoteWizardConstants.Params.Viseme;
+            string IPlatformFeatures.ParameterForAlwaysTrue => Params.Viseme;
             string IPlatformFeatures.GestureLeft => "GestureLeft";
             string IPlatformFeatures.GestureLeftWeight => "GestureLeftWeight";
             string IPlatformFeatures.GestureRight => "GestureRight";
@@ -16,42 +17,42 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
 
             static readonly int[] Empty = {};
 
-            static readonly (string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
-                ("IsLocal", ParameterItemKind.Bool, Empty),
-                (EmoteWizardConstants.Params.Viseme, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
-                ("Voice", ParameterItemKind.Float, Empty),
-                ("GestureLeft", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("GestureRight", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("GestureLeftWeight", ParameterItemKind.Float, Empty),
-                ("GestureRightWeight", ParameterItemKind.Float, Empty),
-                ("AngularY", ParameterItemKind.Float, Empty),
-                ("VelocityX", ParameterItemKind.Float, Empty),
-                ("VelocityY", ParameterItemKind.Float, Empty),
-                ("VelocityZ", ParameterItemKind.Float, Empty),
-                ("VelocityMagnitude", ParameterItemKind.Float, Empty),
-                ("Upright", ParameterItemKind.Float, Empty),
-                ("Grounded", ParameterItemKind.Bool, Empty),
-                ("Seated", ParameterItemKind.Bool, Empty),
-                (EmoteWizardConstants.Params.AFK, ParameterItemKind.Bool, Empty),
-                ("TrackingType", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6}),
-                ("VRMode", ParameterItemKind.Int, new[]{0, 1}),
-                ("MuteSelf", ParameterItemKind.Bool, Empty),
-                ("InStation", ParameterItemKind.Bool, Empty),
-                ("Earmuffs", ParameterItemKind.Bool, Empty),
-                ("IsOnFriendList", ParameterItemKind.Bool, Empty),
-                ("AvatarVersion", ParameterItemKind.Int, new[]{0, 3}),
-                ("InStation", ParameterItemKind.Bool, Empty),
-                ("ScaleModified", ParameterItemKind.Bool, Empty),
-                ("ScaleFactor", ParameterItemKind.Float, Empty),
-                ("ScaleFactorInverse", ParameterItemKind.Float, Empty),
-                ("EyeHeightAsMeters", ParameterItemKind.Float, Empty),
-                ("EyeHeightAsPercent", ParameterItemKind.Float, Empty),
+            static readonly (string reference, string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
+                ("IsLocal", "IsLocal", ParameterItemKind.Bool, Empty),
+                (Params.Viseme, Params.Viseme, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
+                ("Voice", "Voice", ParameterItemKind.Float, Empty),
+                ("GestureLeft", "GestureLeft", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                ("GestureRight", "GestureRight", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                ("GestureLeftWeight", "GestureLeftWeight", ParameterItemKind.Float, Empty),
+                ("GestureRightWeight", "GestureRightWeight", ParameterItemKind.Float, Empty),
+                ("AngularY", "AngularY", ParameterItemKind.Float, Empty),
+                ("VelocityX", "VelocityX", ParameterItemKind.Float, Empty),
+                ("VelocityY", "VelocityY", ParameterItemKind.Float, Empty),
+                ("VelocityZ", "VelocityZ", ParameterItemKind.Float, Empty),
+                ("VelocityMagnitude", "VelocityMagnitude", ParameterItemKind.Float, Empty),
+                ("Upright", "Upright", ParameterItemKind.Float, Empty),
+                ("Grounded", "Grounded", ParameterItemKind.Bool, Empty),
+                ("Seated", "Seated", ParameterItemKind.Bool, Empty),
+                (Params.AFK, Params.AFK, ParameterItemKind.Bool, Empty),
+                ("TrackingType", "TrackingType", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6}),
+                ("VRMode", "VRMode", ParameterItemKind.Int, new[]{0, 1}),
+                ("MuteSelf", "MuteSelf", ParameterItemKind.Bool, Empty),
+                ("InStation", "InStation", ParameterItemKind.Bool, Empty),
+                ("Earmuffs", "Earmuffs", ParameterItemKind.Bool, Empty),
+                ("IsOnFriendList", "IsOnFriendList", ParameterItemKind.Bool, Empty),
+                ("AvatarVersion", "AvatarVersion", ParameterItemKind.Int, new[]{0, 3}),
+                ("InStation", "InStation", ParameterItemKind.Bool, Empty),
+                ("ScaleModified", "ScaleModified", ParameterItemKind.Bool, Empty),
+                ("ScaleFactor", "ScaleFactor", ParameterItemKind.Float, Empty),
+                ("ScaleFactorInverse", "ScaleFactorInverse", ParameterItemKind.Float, Empty),
+                ("EyeHeightAsMeters", "EyeHeightAsMeters", ParameterItemKind.Float, Empty),
+                ("EyeHeightAsPercent", "EyeHeightAsPercent", ParameterItemKind.Float, Empty),
 
                 // These are mirrored into appropriate VRC default parameters
-                (EmoteWizardConstants.Params.Gesture, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                (EmoteWizardConstants.Params.GestureOther, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                (EmoteWizardConstants.Params.GestureWeight, ParameterItemKind.Float, Empty),
-                (EmoteWizardConstants.Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
+                (Params.Gesture, Params.Gesture, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (Params.GestureOther, Params.GestureOther, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (Params.GestureWeight, Params.GestureWeight, ParameterItemKind.Float, Empty),
+                (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
             };
 
 
@@ -59,22 +60,23 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
             {
                 return DefaultParameterData.Select(tuple =>
                 {
-                    var (name, kind, states) = tuple;
+                    var (reference, name, kind, states) = tuple;
                     return new ParameterInstance
                     {
                         defaultValue = 0,
                         name = name,
                         saved = false,
                         itemKind = kind,
+                        referenceUsages = new List<string> { reference },
                         writeUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state, ParameterWriteSourceKind.NoUI)).ToList(),
                         readUsages = states.Select(state => new ParameterReadUsage(ParameterItemKind.Int, state)).ToList(),
                     };
                 }).ToList();
             }
 
-            bool IPlatformFeatures.IsDefaultParameter(string parameter)
+            bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference)
             {
-                return DefaultParameterData.Any(data => parameter == data.name);
+                return DefaultParameterData.Any(data => parameterReference == data.name);
             }
         }
     }

@@ -1,4 +1,5 @@
 using System;
+using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -11,6 +12,9 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public string parameter;
         [SerializeField] public EmoteConditionMode mode = EmoteConditionMode.Equals;
         [SerializeField] public float threshold;
+        
+        public EmoteConditionInstance ToInstance() => new EmoteConditionInstance(kind, parameter, mode, threshold);
+
     }
 
     public enum EmoteConditionMode

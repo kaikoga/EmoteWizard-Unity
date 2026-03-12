@@ -33,9 +33,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             foreach (var emoteItem in _overriders)
             {
                 NextStatePosition();
-                var state = AddStateWithoutTransition(emoteItem.Trigger.name, null);
+                var state = AddStateWithoutTransition(emoteItem.Trigger.Name, null);
                 var conditions = new ConditionBuilder();
-                ApplyEmoteConditions(conditions, emoteItem.Trigger.conditions);
+                ApplyEmoteConditions(conditions, emoteItem.Trigger.Conditions);
                 var transition = AddEntryTransition(state, conditions);
 
                 PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);

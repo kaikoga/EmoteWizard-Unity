@@ -30,8 +30,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                 defaultState = PopulateDefaultState();
             }
             var currentTrackingTargets = _emoteInstances.SelectMany(instance => instance.Sequence.trackingOverrides).Select(trackingOverride => trackingOverride.target).Distinct().ToArray();
-            var currentForcedConditions = new List<List<EmoteCondition>>();
-            foreach (var priority in _emoteInstances.OrderBy(instance => instance.Trigger.priority).GroupBy(instance => instance.Trigger.priority))
+            var currentForcedConditions = new List<List<EmoteConditionInstance>>();
+            foreach (var priority in _emoteInstances.OrderBy(instance => instance.Trigger.Priority).GroupBy(instance => instance.Trigger.Priority))
             {
                 foreach (var emoteInstance in priority)
                 {
@@ -40,7 +40,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 
                 foreach (var emoteInstance in priority)
                 {
-                    currentForcedConditions = MergeForcedConditions(currentForcedConditions, emoteInstance.Trigger.conditions);
+                    currentForcedConditions = MergeForcedConditions(currentForcedConditions, emoteInstance.Trigger.Conditions);
                 }
             }
 
@@ -60,7 +60,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             exitDefaultTransition.duration = 0f;
         }
 
-        void PopulateSequence(EmoteInstance emoteInstance, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteCondition>> currentForcedConditions)
+        void PopulateSequence(EmoteInstance emoteInstance, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteConditionInstance>> currentForcedConditions)
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
@@ -87,7 +87,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             // emoteItem.sequence.clip.SetLoopTimeRec(!emoteItem.sequence.hasExitTime);
 
             var conditions = new ConditionBuilder();
-            ApplyEmoteConditions(conditions, emoteInstance.Trigger.conditions);
+            ApplyEmoteConditions(conditions, emoteInstance.Trigger.Conditions);
 
             AnimatorState entryState = null;
             AnimatorState mainState = null;
@@ -96,18 +96,18 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             
             if (sequence.hasEntryClip)
             {
-                entryState = AddStateWithoutTransition($"Entry {emoteInstance.Trigger.name}", sequence.entryClip);
+                entryState = AddStateWithoutTransition($"Entry {emoteInstance.Trigger.Name}", sequence.entryClip);
             }
             else
             {
                 NextStatePosition();
             }
 
-            mainState = AddStateWithoutTransition(emoteInstance.Trigger.name, sequence.clip);
+            mainState = AddStateWithoutTransition(emoteInstance.Trigger.Name, sequence.clip);
 
             if (sequence.hasExitClip)
             {
-                exitState = AddStateWithoutTransition($"Exit {emoteInstance.Trigger.name}", sequence.exitClip);
+                exitState = AddStateWithoutTransition($"Exit {emoteInstance.Trigger.Name}", sequence.exitClip);
             }
             else
             {
@@ -116,7 +116,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             
             if (sequence.hasTrackingOverrides)
             {
-                releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.name}", null);
+                releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
                 AddTrackingParameterDrivers(entryState ? entryState : mainState, true);
                 AddTrackingParameterDrivers(releaseState, false);
             }
@@ -249,15 +249,15 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             }
         }
         
-        List<List<EmoteCondition>> MergeForcedConditions(List<List<EmoteCondition>> currentForcedConditions, List<EmoteCondition> conditions)
+        List<List<EmoteConditionInstance>> MergeForcedConditions(List<List<EmoteConditionInstance>> currentForcedConditions, List<EmoteConditionInstance> conditions)
         {
             currentForcedConditions.Add(conditions);
 
             // quick and dirty optimization starts here
             // TODO: how about optimizing multiple conditions
-            if (conditions.Count == 1 && conditions[0].kind != ParameterItemKind.Float)
+            if (conditions.Count == 1 && conditions[0].Kind != ParameterItemKind.Float)
             {
-                var parameterName = conditions[0].parameter;
+                var parameterName = conditions[0].Parameter;
                 var parameter = Builder.ParametersSnapshot.ResolveParameterWithWarning(parameterName);
                 switch (parameter?.ValueKind)
                 {
@@ -265,21 +265,20 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                     {
                         var readUsages = parameter.readUsages;
                         var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
-                            .Where(cond => cond[0].parameter == parameterName && cond[0].mode == EmoteConditionMode.Equals).ToArray();
-                        var values = equalConditions.Select(cond => cond[0].threshold);
+                            .Where(cond => cond[0].Parameter == parameterName && cond[0].Mode == EmoteConditionMode.Equals).ToArray();
+                        var values = equalConditions.Select(cond => cond[0].Threshold);
                         var elseValues = readUsages.Select(usage => usage.value).Where(value => !values.Contains(value)).ToArray();
                         if (elseValues.Length == 1)
                         {
                             currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();
-                            currentForcedConditions.Add(new List<EmoteCondition>
+                            currentForcedConditions.Add(new List<EmoteConditionInstance>
                             {
-                                new EmoteCondition
-                                {
-                                    kind = conditions[0].kind,
-                                    parameter = conditions[0].parameter,
-                                    mode = EmoteConditionMode.NotEqual,
-                                    threshold = elseValues[0]
-                                }
+                                new EmoteConditionInstance(
+                                    kind: conditions[0].Kind,
+                                    parameter: conditions[0].Parameter,
+                                    mode: EmoteConditionMode.NotEqual,
+                                    threshold: elseValues[0]
+                                )
                             });
                         }
                         break;
@@ -287,10 +286,10 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                     case ParameterValueKind.Bool:
                     {
                         var boolConditions = currentForcedConditions.Where(cond => cond.Count == 1)
-                            .Where(cond => cond[0].parameter == parameterName).ToArray();
+                            .Where(cond => cond[0].Parameter == parameterName).ToArray();
                         var values = boolConditions.Select(cond =>
                         {
-                            switch (cond[0].mode)
+                            switch (cond[0].Mode)
                             {
                                 case EmoteConditionMode.If:
                                     return EmoteConditionMode.If;
@@ -301,9 +300,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                                 case EmoteConditionMode.Less:
                                     return EmoteConditionMode.IfNot;
                                 case EmoteConditionMode.Equals:
-                                    return cond[0].threshold != 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
+                                    return cond[0].Threshold != 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
                                 case EmoteConditionMode.NotEqual:
-                                    return cond[0].threshold == 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
+                                    return cond[0].Threshold == 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
@@ -312,15 +311,14 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                         {
                             var combinedMode = values[0];
                             currentForcedConditions = currentForcedConditions.Where(cond => !boolConditions.Contains(cond)).ToList();
-                            currentForcedConditions.Add(new List<EmoteCondition>
+                            currentForcedConditions.Add(new List<EmoteConditionInstance>
                             {
-                                new EmoteCondition
-                                {
-                                    kind = ParameterItemKind.Bool,
-                                    parameter = conditions[0].parameter,
-                                    mode = combinedMode,
-                                    threshold = 0
-                                }
+                                new EmoteConditionInstance(
+                                    kind: ParameterItemKind.Bool,
+                                    parameter: conditions[0].Parameter,
+                                    mode: combinedMode,
+                                    threshold: 0
+                                )
                             });
                         }
 

@@ -106,12 +106,12 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders.Bas
             return defaultState;
         }
 
-        protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteCondition> emoteConditions)
+        protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteConditionInstance> emoteConditions)
         {
             foreach (var condition in emoteConditions)
             {
-                conditions.EmoteCondition(condition, ResolveParameterType(condition.parameter, condition.kind));
-                Builder.MarkParameter(condition.parameter);
+                conditions.EmoteCondition(condition, ResolveParameterType(condition.Parameter, condition.Kind));
+                Builder.MarkParameter(condition.Parameter);
             }
         }
         

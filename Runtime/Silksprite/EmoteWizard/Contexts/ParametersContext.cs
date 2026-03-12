@@ -125,9 +125,9 @@ namespace Silksprite.EmoteWizard.Contexts
 
             foreach (var emoteItem in Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems())
             {
-                foreach (var condition in emoteItem.Trigger.conditions)
+                foreach (var condition in emoteItem.Trigger.Conditions)
                 {
-                    builder.FindOrCreateAny(condition.parameter).AddReadValue(condition.kind, condition.threshold);
+                    builder.FindOrCreateAny(condition.Parameter).AddReadValue(condition.Kind, condition.Threshold);
                 }
             }
             

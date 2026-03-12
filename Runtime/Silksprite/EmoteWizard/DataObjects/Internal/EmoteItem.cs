@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Silksprite.EmoteWizard.ClipBuilder;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Platforms;
@@ -10,7 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class EmoteItem
     {
-        public readonly EmoteTrigger Trigger;
+        public readonly EmoteTriggerInstance Trigger;
         readonly IEmoteSequenceFactory _emoteSequenceFactory;
 
         public EmoteHand Hand = EmoteHand.Neither;
@@ -36,7 +37,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public IEnumerable<Motion> AllClipRefs() => _emoteSequenceFactory.AllClipRefs();
         public IEnumerable<TrackingOverride> TrackingOverrides() => _emoteSequenceFactory.TrackingOverrides();
 
-        public EmoteItem(EmoteTrigger trigger, IEmoteSequenceFactory sequenceFactory)
+        public EmoteItem(EmoteTriggerInstance trigger, IEmoteSequenceFactory sequenceFactory)
         {
             Trigger = trigger;
             _emoteSequenceFactory = sequenceFactory;
@@ -87,7 +88,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 }
             }
 
-            var instance = new EmoteInstance(SerializableUtils.Clone(Trigger), _emoteSequenceFactory.Build(environment, clipBuilder))
+            var instance = new EmoteInstance(new EmoteTriggerInstance(Trigger), _emoteSequenceFactory.Build(environment, clipBuilder))
             {
                 Hand = Hand
             };
@@ -99,9 +100,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 case EmoteHand.Left:
                 case EmoteHand.Right:
                     instance.Sequence.groupName = GroupName;
-                    foreach (var condition in instance.Trigger.conditions)
+                    foreach (var condition in instance.Trigger.Conditions)
                     {
-                        condition.parameter = ResolveMirrorParameter(condition.parameter);
+                        condition.Parameter = ResolveMirrorParameter(condition.Parameter);
                     }
                     instance.Sequence.timeParameter = ResolveMirrorParameter(instance.Sequence.timeParameter);
 
