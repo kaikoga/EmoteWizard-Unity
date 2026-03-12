@@ -35,6 +35,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                 ("Flying", "Flying", ParameterItemKind.Bool, Empty),
                 ("Swimming", "Swimming", ParameterItemKind.Bool, Empty),
                 (Params.AFK, Params.AFK, ParameterItemKind.Bool, Empty),
+
+                // These are mirrored into appropriate CVR default parameters
+                (Params.Gesture, Params.Gesture, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (Params.GestureOther, Params.GestureOther, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (Params.GestureWeight, Params.GestureWeight, ParameterItemKind.Float, Empty),
+                (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
             };
 
             public List<ParameterInstance> DefaultParameters()
