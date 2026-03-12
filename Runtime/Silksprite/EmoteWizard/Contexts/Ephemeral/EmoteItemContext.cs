@@ -24,17 +24,20 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 
         IEnumerable<EmoteItem> CollectAllForceMirroredEmoteItems()
         {
+            // note: try to reuse mirroredEmoteItems as possible
             return AllMirroredEmoteItems().GroupBy(item => item.GroupNameNoMirror)
                 .SelectMany(group => group.All(item => item.Hand is EmoteHand.Neither)
                     ? group
                     : group.SelectMany(item => item.Mirror()));
         }
 
+        // Mirrors Mirror Parameters per EmoteItem
         public IEnumerable<EmoteItem> AllMirroredEmoteItems()
         {
             return _mirroredEmoteItems = _mirroredEmoteItems ?? CollectAllMirroredEmoteItems().ToList();
         }
 
+        // Mirrors Mirror Parameters per Group
         public IEnumerable<EmoteItem> AllForceMirroredEmoteItems()
         {
             return _forceMirroredEmoteItems = _forceMirroredEmoteItems ?? CollectAllForceMirroredEmoteItems().ToList();
