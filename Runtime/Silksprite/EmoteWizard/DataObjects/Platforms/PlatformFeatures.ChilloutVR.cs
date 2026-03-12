@@ -30,6 +30,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
                     _ => false
                 };
 
+            string IPlatformFeatures.ResolveParameterReference(string parameterReference)
+            {
+                return DefaultParameterData.FirstOrDefault(tuple => tuple.reference == parameterReference).name ?? parameterReference;
+            }
+
             int IPlatformFeatures.HandSignValue(HandSign handSign)
             {
                 return handSign switch

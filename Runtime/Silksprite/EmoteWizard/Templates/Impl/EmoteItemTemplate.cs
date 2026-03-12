@@ -79,13 +79,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             if (ItemPathAttribute.IsInvalidPathInput(ExpressionItemPath)) yield break;
 
             var soleCondition = Trigger.conditions[0];
+            var (parameter, threshold) = soleCondition.ResolveParameter(environment);
             yield return new ExpressionItem
             {
                 enabled = true,
                 icon = ExpressionItemIcon,
                 path = ExpressionItemPath,
-                parameter = soleCondition.parameter,
-                value = soleCondition.threshold,
+                parameter = parameter,
+                value = threshold,
                 itemKind = SequenceFactory?.LooksLikeToggle == true ? ExpressionItemKind.Toggle : ExpressionItemKind.Button
             };
         }

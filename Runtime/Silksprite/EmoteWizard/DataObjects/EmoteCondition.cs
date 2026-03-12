@@ -14,14 +14,24 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public string parameter;
         [SerializeField] public EmoteConditionMode mode = EmoteConditionMode.Equals;
         [SerializeField] public float threshold;
-        
-        public EmoteConditionInstance ToInstance(EmoteWizardEnvironment environment)
+
+        public (string resolvedParameter, float resolvedThreshold) ResolveParameter(EmoteWizardEnvironment environment)
         {
             var platformFeatures = PlatformFeatures.Of(environment);
-            return new EmoteConditionInstance(kind, parameter, mode,
-                platformFeatures.IsHandSignParameterReference(parameter) ? platformFeatures.HandSignValue((HandSign)threshold) : threshold);
+            var resolvedParameter = PlatformFeatures.Of(environment).ResolveParameterReference(parameter);
+            var resolvedThreshold = platformFeatures.IsHandSignParameterReference(parameter) ? platformFeatures.HandSignValue((HandSign)threshold) : threshold;
+            return (resolvedParameter, resolvedThreshold);
         }
 
+        public EmoteConditionInstance ToInstance(EmoteWizardEnvironment environment)
+        {
+            var (resolvedParameter, resolvedThreshold) = ResolveParameter(environment);
+            return new EmoteConditionInstance(
+                kind,
+                resolvedParameter,
+                mode,
+                resolvedThreshold);
+        }
     }
 
     public enum EmoteConditionMode
