@@ -19,23 +19,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public LayerKind LayerKind => _emoteSequenceFactory.LayerKind;
         public string GroupNameNoMirror => _emoteSequenceFactory.GroupName;
 
-        public string GroupName
-        {
-            get
-            {
-                switch (Hand)
-                {
-                    case EmoteHand.Neither:
-                        return GroupNameNoMirror;
-                    case EmoteHand.Left:
-                    case EmoteHand.Right:
-                        return $"{GroupNameNoMirror} ({Hand})";
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
         public IEnumerable<Motion> AllClipRefs() => _emoteSequenceFactory.AllClipRefs();
         public IEnumerable<TrackingOverride> TrackingOverrides() => _emoteSequenceFactory.TrackingOverrides();
 
@@ -104,7 +87,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     break;
                 case EmoteHand.Left:
                 case EmoteHand.Right:
-                    instance.Sequence.groupName = GroupName;
+                    instance.Sequence.groupName = $"{GroupNameNoMirror} ({Hand})";
                     foreach (var condition in instance.Trigger.Conditions)
                     {
                         condition.Parameter = ResolveMirrorParameter(condition.Parameter);

@@ -90,8 +90,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
         public void BuildEmoteLayers(IEnumerable<EmoteItem> mirroredEmoteItems)
         {
             var clipBuilder = new ClipBuilderImpl();
+            var emoteInstances = mirroredEmoteItems.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder));
 
-            foreach (var mirroredEmoteGroup in mirroredEmoteItems.GroupBy(item => (item.GroupName, item.Hand)))
+            foreach (var mirroredEmoteGroup in emoteInstances.GroupBy(item => (item.GroupName, item.Hand)))
             {
                 var (groupName, hand) = mirroredEmoteGroup.Key;
 
@@ -113,7 +114,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
                     }
                 }
                 var layer = PopulateLayer(groupName, avatarMask);
-                new EmoteLayerBuilder(this, layer, mirroredEmoteGroup.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder))).Build();
+                new EmoteLayerBuilder(this, layer, mirroredEmoteGroup).Build();
             }
         }
 

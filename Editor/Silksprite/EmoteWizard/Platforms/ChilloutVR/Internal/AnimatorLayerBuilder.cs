@@ -100,8 +100,9 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
         public void BuildEmoteLayers(IEnumerable<EmoteItem> mirroredEmoteItems, LayerKind layerKind)
         {
             var clipBuilder = new ClipBuilderImpl();
+            var emoteInstances = mirroredEmoteItems.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder));
 
-            foreach (var mirroredEmoteGroup in mirroredEmoteItems.GroupBy(item => (item.GroupName, item.Hand)))
+            foreach (var mirroredEmoteGroup in emoteInstances.GroupBy(item => (item.GroupName, item.Hand)))
             {
                 var (groupName, hand) = mirroredEmoteGroup.Key;
 
@@ -123,7 +124,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
                     }
                 }
                 var layer = PopulateLayer($"{layerKind} {groupName}", avatarMask);
-                new EmoteLayerBuilder(this, layer, mirroredEmoteGroup.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder))).Build();
+                new EmoteLayerBuilder(this, layer, mirroredEmoteGroup).Build();
             }
         }
 
