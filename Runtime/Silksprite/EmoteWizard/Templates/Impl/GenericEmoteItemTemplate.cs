@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.DataObjects.Platforms;
+using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -34,7 +35,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
             if (!Trigger.TryGetHandSign(out var handSign)) return null;
             
-            var platformFeatures = PlatformFeatures.Of(environment);
+            var platformFeatures = environment.GetPlatformFeatures();
 
             return new EmoteItem(new EmoteTriggerInstance
                 (

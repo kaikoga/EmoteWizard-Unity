@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Builders;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.DataObjects.Platforms;
+using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Templates.Sequence;
@@ -45,7 +46,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         {
             if (Trigger.conditions.Count != 1) return false;
 
-            var platformFeatures = PlatformFeatures.Of(environment);
+            var platformFeatures = environment.GetPlatformFeatures();
             var soleCondition = Trigger.conditions[0];
             if (platformFeatures.IsDefaultParameterReference(soleCondition.parameter)) return false;
             switch (soleCondition.kind)

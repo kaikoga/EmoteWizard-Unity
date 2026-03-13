@@ -4,7 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.DataObjects.Platforms;
+using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;
@@ -157,7 +157,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
 
         public void BuildParameters()
         {
-            var platformFeatures = PlatformFeatures.Of(Environment);
+            var platformFeatures = Environment.GetPlatformFeatures();
             MarkParameter(platformFeatures.ParameterForAlwaysTrue); // for AlwaysTrueCondition
 
             foreach (var parameter in ParametersSnapshot.AllParameters)

@@ -2,6 +2,7 @@ using System;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.DataObjects.Platforms;
+using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -17,8 +18,8 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public (string resolvedParameter, float resolvedThreshold) ResolveParameter(EmoteWizardEnvironment environment)
         {
-            var platformFeatures = PlatformFeatures.Of(environment);
-            var resolvedParameter = PlatformFeatures.Of(environment).ResolveParameterReference(parameter);
+            var platformFeatures = environment.GetPlatformFeatures();
+            var resolvedParameter = platformFeatures.ResolveParameterReference(parameter);
             var resolvedThreshold = platformFeatures.IsHandSignParameterReference(parameter) ? platformFeatures.HandSignValue((HandSign)threshold) : threshold;
             return (resolvedParameter, resolvedThreshold);
         }

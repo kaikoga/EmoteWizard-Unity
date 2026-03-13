@@ -2,7 +2,7 @@ using System;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.DataObjects.Platforms;
+using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
 using UnityEditor.Animations;
 using UnityEngine;
 
@@ -81,7 +81,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.ConditionBuilders
 
         public static ConditionBuilder AlwaysTrue(this ConditionBuilder builder, EmoteWizardEnvironment env)
         {
-            var platformFeatures = PlatformFeatures.Of(env); 
+            var platformFeatures = env.GetPlatformFeatures(); 
             builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.Greater, platformFeatures.ParameterForAlwaysTrue, -1);
             return builder;
         }
