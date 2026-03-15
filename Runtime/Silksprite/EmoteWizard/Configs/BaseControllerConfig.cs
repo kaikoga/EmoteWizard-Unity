@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Configs
@@ -10,5 +9,12 @@ namespace Silksprite.EmoteWizard.Configs
     public class BaseControllerConfig : AnimatorControllerConfigBase
     {
         public override AnimatorControllerContextBase GetContext(EmoteWizardEnvironment env) => new BaseControllerContext(env, this);
+
+        protected override void Reset()
+        {
+            base.Reset();
+            var context = new BaseControllerContext(CreateEnv());
+            hasResetClip = context.HasResetClip;
+        }
     }
 }
