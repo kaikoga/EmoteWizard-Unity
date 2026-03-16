@@ -117,26 +117,23 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.Prop(_exitTransitionDuration);
 
                 LGUILayout.Heading(Loc("GenericEmoteSequence::Time Parameter"));
-                Action content = () =>
+                LEditorGUILayout.PropAsFoldout(_hasTimeParameter, () =>
                 {
                     LEditorGUILayout.Prop(_timeParameter);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasTimeParameter, content);
+                });
 
                 LGUILayout.Heading(Loc("GenericEmoteSequence::Layer Blend"));
-                Action content1 = () =>
+                LEditorGUILayout.PropAsFoldout(_hasLayerBlend, () =>
                 {
                     LEditorGUILayout.Prop(_blendIn);
                     LEditorGUILayout.Prop(_blendOut);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasLayerBlend, content1);
+                });
 
                 LGUILayout.Heading(Loc("GenericEmoteSequence::Tracking Overrides"));
-                Action content2 = () =>
+                LEditorGUILayout.PropAsFoldout(_hasTrackingOverrides, () =>
                 {
                     LEditorGUILayout.Prop(_trackingOverrides);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasTrackingOverrides, content2);
+                });
             }
 
             LGUILayout.Heading(Loc("GenericEmoteSequence::Animation"));

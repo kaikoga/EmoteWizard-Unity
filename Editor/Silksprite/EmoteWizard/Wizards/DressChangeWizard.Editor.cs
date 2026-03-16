@@ -44,17 +44,15 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 LEditorGUILayout.Prop(_itemPath);
 
-                Action content = () =>
+                LEditorGUILayout.PropAsFoldout(_hasGroupName, () =>
                 {
                     LEditorGUILayout.Prop(_groupName);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasGroupName, content);
+                });
 
-                Action content1 = () =>
+                LEditorGUILayout.PropAsFoldout(_hasParameterName, () =>
                 {
                     LEditorGUILayout.Prop(_parameterName);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasParameterName, content1);
+                });
 
                 LEditorGUILayout.Prop(_expressionKind);
                 if ((DressChangeWizard.ExpressionKind)_expressionKind.Property.enumValueIndex != DressChangeWizard.ExpressionKind.SimpleToggle)

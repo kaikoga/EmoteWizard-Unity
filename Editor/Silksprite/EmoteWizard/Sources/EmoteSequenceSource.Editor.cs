@@ -133,51 +133,45 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.Prop(_exitTransitionDuration);
 
                 LGUILayout.Heading(Loc("EmoteSequence::Exit Time"));
-                Action content = () =>
+                LEditorGUILayout.PropAsFoldout(_hasExitTime, () =>
                 {
                     LEditorGUILayout.Prop(_clipExitTime);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasExitTime, content);
+                });
 
                 LGUILayout.Heading(Loc("EmoteSequence::Time Parameter"));
-                Action content1 = () =>
+                LEditorGUILayout.PropAsFoldout(_hasTimeParameter, () =>
                 {
                     LEditorGUILayout.Prop(_timeParameter);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasTimeParameter, content1);
+                });
 
                 LGUILayout.Heading(Loc("EmoteSequence::Entry Clip"));
-                Action content2 = () =>
+                LEditorGUILayout.PropAsFoldout(_hasEntryClip, () =>
                 {
                     LEditorGUILayout.Prop(_entryClip);
                     LEditorGUILayout.Prop(_entryClipExitTime);
                     LEditorGUILayout.Prop(_postEntryTransitionDuration);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasEntryClip, content2);
+                });
 
                 LGUILayout.Heading(Loc("EmoteSequence::Exit Clip"));
-                Action content3 = () =>
+                LEditorGUILayout.PropAsFoldout(_hasExitClip, () =>
                 {
                     LEditorGUILayout.Prop(_exitClip);
                     LEditorGUILayout.Prop(_exitClipExitTime);
                     LEditorGUILayout.Prop(_postExitTransitionDuration);
-                };
-                LEditorGUILayout.PropAsFoldout(_hasExitClip, content3);
+                });
 
                 LGUILayout.Heading(Loc("EmoteSequence::Layer Blend"));
-                Action content4 = () =>
+                LEditorGUILayout.PropAsFoldout(_serializedHasLayerBlend, () =>
                 {
                     LEditorGUILayout.Prop(_serializedBlendIn);
                     LEditorGUILayout.Prop(_serializedBlendOut);
-                };
-                LEditorGUILayout.PropAsFoldout(_serializedHasLayerBlend, content4);
+                });
 
                 LGUILayout.Heading(Loc("EmoteSequence::Tracking Overrides"));
-                Action content5 = () =>
+                LEditorGUILayout.PropAsFoldout(_serializedHasTrackingOverrides, () =>
                 {
                     LEditorGUILayout.Prop(_serializedTrackingOverrides);
-                };
-                LEditorGUILayout.PropAsFoldout(_serializedHasTrackingOverrides, content5);
+                });
 
                 serializedObject.ApplyModifiedProperties();
 
