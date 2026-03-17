@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Configs
 
             using (new ObjectChangeScope(soleTarget))
             {
-                if (soleTarget.LayerKind == LayerKind.Gesture)
+                if (soleTarget.LayerOutputKind == LayerOutputKind.Gesture)
                 {
                     EmoteWizardGUILayout.PropWithGenerate(_defaultAvatarMask, () =>
                     {

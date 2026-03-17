@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Configs
     [HelpURL("https://docs.kaikoga.net/emotewizard/configs#action-wizard-config")]
     public class ActionLayerConfig : AnimatorLayerConfigBase
     {
-        public override LayerKind LayerKind => LayerKind.Action;
+        public override LayerOutputKind LayerOutputKind => LayerOutputKind.Action;
 
 
         public override AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env) => new ActionLayerContext(env, this);

@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Configs
     [HelpURL("https://docs.kaikoga.net/emotewizard/configs#fx-wizard-config")]
     public class FxLayerConfig : AnimatorLayerConfigBase
     {
-        public override LayerKind LayerKind => LayerKind.FX;
+        public override LayerOutputKind LayerOutputKind => LayerOutputKind.Fx;
 
         public override AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env) => new FxLayerContext(env, this);
 

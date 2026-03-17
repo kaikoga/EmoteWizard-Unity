@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Contexts
         [UsedImplicitly]
         public FxLayerContext(EmoteWizardEnvironment env) : base(env)
         {
-            LayerKind = LayerKind.FX;
+            LayerOutputKind = LayerOutputKind.Fx;
             HasResetClip = true;
         }
 

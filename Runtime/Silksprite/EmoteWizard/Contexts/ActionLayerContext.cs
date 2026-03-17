@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Contexts
         [UsedImplicitly]
         public ActionLayerContext(EmoteWizardEnvironment env) : base(env)
         {
-            LayerKind = LayerKind.Action;
+            LayerOutputKind = LayerOutputKind.Action;
         }
 
         public ActionLayerContext(EmoteWizardEnvironment env, AnimatorLayerConfigBase config) : base(env, config) { }

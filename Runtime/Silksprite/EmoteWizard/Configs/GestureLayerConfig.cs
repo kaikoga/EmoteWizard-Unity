@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Configs
     [HelpURL("https://docs.kaikoga.net/emotewizard/configs#gesture-wizard-config")]
     public class GestureLayerConfig : AnimatorLayerConfigBase
     {
-        public override LayerKind LayerKind => LayerKind.Gesture;
+        public override LayerOutputKind LayerOutputKind => LayerOutputKind.Gesture;
 
         public override AnimatorLayerContextBase GetContext(EmoteWizardEnvironment env) => new GestureLayerContext(env, this);
 

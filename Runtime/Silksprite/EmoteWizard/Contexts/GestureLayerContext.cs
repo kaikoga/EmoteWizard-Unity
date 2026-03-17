@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.Contexts
         [UsedImplicitly]
         public GestureLayerContext(EmoteWizardEnvironment env) : base(env)
         {
-            LayerKind = LayerKind.Gesture;
+            LayerOutputKind = LayerOutputKind.Gesture;
             DefaultAvatarMask = VrcSdkAssetLocator.HandsOnly();
         }
 

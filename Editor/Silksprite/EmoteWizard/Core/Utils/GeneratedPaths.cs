@@ -9,8 +9,8 @@ namespace Silksprite.EmoteWizard.Utils
         public static readonly GeneratedPath GeneratedEmpty = new GeneratedPath("@@@Generated@@@Empty.anim");
 
         public static readonly GeneratedPath GestureDefaultMask = new GeneratedPath("Gesture/@@@Generated@@@GestureDefaultMask.mask");
-        public static GeneratedPath GeneratedLayer(LayerKind layerKind) => new GeneratedPath($"{layerKind}/@@@Generated@@@{layerKind}.controller");
-        public static GeneratedPath GeneratedResetLayer(LayerKind layerKind) => new GeneratedPath($"{layerKind}/@@@Generated@@@Reset{layerKind}.anim");
+        public static GeneratedPath GeneratedLayer(LayerOutputKind layerOutputKind) => new GeneratedPath($"{layerOutputKind}/@@@Generated@@@{layerOutputKind}.controller");
+        public static GeneratedPath GeneratedResetLayer(LayerOutputKind layerOutputKind) => new GeneratedPath($"{layerOutputKind}/@@@Generated@@@Reset{layerOutputKind}.anim");
         public static GeneratedPath GeneratedResetClip => new GeneratedPath("@@@Generated@@@ResetClip.anim");
 
         public static readonly GeneratedPath GeneratedEditor = new GeneratedPath("Editor/@@@Generated@@@Editor.controller");

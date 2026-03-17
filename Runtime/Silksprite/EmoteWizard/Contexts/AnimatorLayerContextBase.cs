@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Contexts
         }
 
         public AvatarMask DefaultAvatarMask { get; protected set; }
-        public LayerKind LayerKind { get; protected set; }
+        public LayerOutputKind LayerOutputKind { get; protected set; }
         public bool HasResetClip { get; protected set; }
 
         protected AnimatorLayerContextBase(EmoteWizardEnvironment env) : base(env) { }
@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.Contexts
             }
 
             DefaultAvatarMask = config.defaultAvatarMask;
-            LayerKind = config.LayerKind;
+            LayerOutputKind = config.LayerOutputKind;
             HasResetClip = config.hasResetClip;
         }
 

@@ -1,7 +1,9 @@
+using System;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal;
@@ -18,10 +20,18 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
     {
         public static RuntimeAnimatorController BuildOutputAsset(this AnimatorLayerContextBase context, ParametersSnapshot parametersSnapshot)
         {
-            var layerKind = context.LayerKind;
-            var defaultPath = GeneratedPaths.GeneratedLayer(layerKind);
+            var layerOutputKind = context.LayerOutputKind;
+            var layerKind = context.LayerOutputKind switch
+            {
+                LayerOutputKind.Fx => LayerKind.FX,
+                LayerOutputKind.Gesture => LayerKind.Gesture,
+                LayerOutputKind.Action => LayerKind.Action,
+                LayerOutputKind.Editor or LayerOutputKind.Merged => throw new ArgumentOutOfRangeException(),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+            var defaultPath = GeneratedPaths.GeneratedLayer(layerOutputKind);
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
-            var builder = new AnimatorLayerBuilder(context.Environment, context.LayerKind, parametersSnapshot, animatorController);
+            var builder = new AnimatorLayerBuilder(context.Environment, layerKind, parametersSnapshot, animatorController);
 
             if (context.DefaultAvatarMask)
             {
@@ -31,8 +41,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             AnimationClip resetClip;
             if (context.HasResetClip)
             {
-                resetClip = context.Environment.EnsureAsset(GeneratedPaths.GeneratedResetLayer(layerKind), context.ResetClip);
-                context.BuildResetClip(resetClip);
+                resetClip = context.Environment.EnsureAsset(GeneratedPaths.GeneratedResetLayer(layerOutputKind), context.ResetClip);
+                context.BuildResetClip(layerKind, resetClip);
                 builder.BuildStaticLayer("Reset", resetClip, null);
             }
             else
@@ -41,7 +51,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             }
             context.ResetClip = resetClip;
 
-            builder.BuildEmoteLayers(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(context.LayerKind));
+            builder.BuildEmoteLayers(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(layerKind));
             if (layerKind == context.Environment.GenerateTrackingControlLayer)
             {
                 builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
@@ -50,7 +60,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             return context.OutputAsset;
         }
 
-        static void BuildResetClip(this AnimatorLayerContextBase context, AnimationClip targetClip)
+        static void BuildResetClip(this AnimatorLayerContextBase context, LayerKind layerKind, AnimationClip targetClip)
         {
             var proxyAnimator = context.Environment.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : context.GameObject;
@@ -66,7 +76,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             }
 
             var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(context.LayerKind).SelectMany(e => e.AllClipsRec()));
+                .Concat(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(layerKind).SelectMany(e => e.AllClipsRec()));
 
             var curveBindings = CurveBindings.Collect(allClips);
             var boundValues = ResetValuesExtractor.ExtractFromAvatarRoot(curveBindings, avatar);
