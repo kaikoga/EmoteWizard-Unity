@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             LayerKind.FX
         };
 
-        public static RuntimeAnimatorController BuildOutputAsset(this BaseControllerContext context, ParametersSnapshot parametersSnapshot)
+        public static RuntimeAnimatorController BuildOutputAsset(this MergedLayerContext context, ParametersSnapshot parametersSnapshot)
         {
             var defaultPath = GeneratedPaths.GeneratedBase;
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
@@ -63,7 +63,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             return context.OutputAsset;
         }
 
-        static void BuildResetClip(this BaseControllerContext context, AnimationClip targetClip)
+        static void BuildResetClip(this MergedLayerContext context, AnimationClip targetClip)
         {
             var proxyAnimator = context.Environment.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : context.GameObject;

@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             {
                 var parameters = environment.GetContext<ParametersContext>().Snapshot(); 
 
-                var baseController = environment.GetContext<BaseControllerContext>().BuildOutputAsset(parameters);
+                var baseController = environment.GetContext<MergedLayerContext>().BuildOutputAsset(parameters);
                 var overrideController = environment.GetContext<OverrideControllerContext>().BuildOutputAsset(baseController);
 
                 CustomizeAnimationLayers(cvrAvatar, baseController, overrideController);

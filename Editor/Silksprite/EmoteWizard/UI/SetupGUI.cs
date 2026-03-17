@@ -130,7 +130,7 @@ namespace Silksprite.EmoteWizard.UI
         static void GenerateConfigsForCvr(IUndoable undoable, EmoteWizardEnvironment environment)
         {
             undoable.AddWizard<EditorLayerConfig>(environment);
-            undoable.AddWizard<BaseControllerConfig>(environment);
+            undoable.AddWizard<MergedLayerConfig>(environment);
             undoable.AddWizard<OverrideControllerConfig>(environment);
         }
     }

@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Configs;
+using Silksprite.EmoteWizard.DataObjects;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Contexts
@@ -28,6 +29,7 @@ namespace Silksprite.EmoteWizard.Contexts
         }
 
         public AvatarMask DefaultAvatarMask { get; protected set; }
+        public LayerOutputKind LayerOutputKind { get; protected set; }
         public bool HasResetClip { get; protected set; }
 
         protected AnimatorControllerContextBase(EmoteWizardEnvironment env) : base(env) { }
