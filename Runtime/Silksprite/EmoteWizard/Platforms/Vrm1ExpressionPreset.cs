@@ -1,4 +1,4 @@
-namespace Silksprite.EmoteWizard.DataObjects.Platforms
+namespace Silksprite.EmoteWizard.Platforms
 {
     public enum Vrm1ExpressionPreset
     {

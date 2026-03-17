@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders;
-using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using UnityEditor;
 using UnityEditor.Animations;

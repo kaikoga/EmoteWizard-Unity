@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
 
-namespace Silksprite.EmoteWizard.DataObjects.Platforms
+namespace Silksprite.EmoteWizard.Platforms
 {
     public static partial class PlatformFeatures
     {

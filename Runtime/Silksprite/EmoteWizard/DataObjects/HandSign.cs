@@ -1,4 +1,4 @@
-namespace Silksprite.EmoteWizard.DataObjects.Platforms
+namespace Silksprite.EmoteWizard.DataObjects
 {
     public enum HandSign
     {

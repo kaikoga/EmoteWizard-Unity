@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Platforms;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 

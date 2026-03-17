@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.DataObjects.Platforms;
-using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 {

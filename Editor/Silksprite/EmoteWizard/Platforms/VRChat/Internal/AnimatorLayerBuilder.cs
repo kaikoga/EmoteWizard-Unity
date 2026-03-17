@@ -4,7 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.DataObjects.Platforms.Extensions;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders;
 using Silksprite.EmoteWizard.Utils;

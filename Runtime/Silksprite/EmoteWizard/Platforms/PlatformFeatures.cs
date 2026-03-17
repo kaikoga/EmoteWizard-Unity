@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects;
 
-namespace Silksprite.EmoteWizard.DataObjects.Platforms
+namespace Silksprite.EmoteWizard.Platforms
 {
     public static partial class PlatformFeatures
     {

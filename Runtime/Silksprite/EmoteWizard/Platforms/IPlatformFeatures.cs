@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.DataObjects.Platforms
+namespace Silksprite.EmoteWizard.Platforms
 {
     public interface IPlatformFeatures
     {
