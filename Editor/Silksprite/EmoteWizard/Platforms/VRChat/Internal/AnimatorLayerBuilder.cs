@@ -18,7 +18,6 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
     public class AnimatorLayerBuilder
     {
         public readonly EmoteWizardEnvironment Environment;
-        readonly LayerKind _layerKind;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
         readonly string _assetPath;
@@ -45,10 +44,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
 
-        public AnimatorLayerBuilder(EmoteWizardEnvironment environment, LayerKind layerKind, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
+        public AnimatorLayerBuilder(EmoteWizardEnvironment environment, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
         {
             Environment = environment;
-            _layerKind = layerKind;
             ParametersSnapshot = parametersSnapshot;
             _animatorController = animatorController;
             _assetPath = AssetDatabase.GetAssetPath(_animatorController);
@@ -86,7 +84,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
             new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
         }
 
-        public void BuildEmoteLayers(IEnumerable<EmoteItem> mirroredEmoteItems)
+        public void BuildEmoteLayers(IEnumerable<EmoteItem> mirroredEmoteItems, LayerKind layerKind)
         {
             var clipBuilder = new ClipBuilderImpl();
             var emoteInstances = mirroredEmoteItems.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder));
@@ -96,7 +94,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
                 var (groupName, hand) = mirroredEmoteGroup.Key;
 
                 AvatarMask avatarMask = null;
-                if (_layerKind == LayerKind.Gesture)
+                if (layerKind == LayerKind.Gesture)
                 {
                     switch (hand)
                     {

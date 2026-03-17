@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             };
             var defaultPath = GeneratedPaths.GeneratedLayer(layerOutputKind);
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
-            var builder = new AnimatorLayerBuilder(context.Environment, layerKind, parametersSnapshot, animatorController);
+            var builder = new AnimatorLayerBuilder(context.Environment, parametersSnapshot, animatorController);
 
             if (context.DefaultAvatarMask)
             {
@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             }
             context.ResetClip = resetClip;
 
-            builder.BuildEmoteLayers(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(layerKind));
+            builder.BuildEmoteLayers(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(layerKind), layerKind);
             if (layerKind == context.Environment.GenerateTrackingControlLayer)
             {
                 builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
