@@ -1,6 +1,6 @@
 using Silksprite.EmoteWizard.DataObjects;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions
+namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
     public static class TrackingTargetExtension
     {

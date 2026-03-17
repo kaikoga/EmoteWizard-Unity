@@ -4,7 +4,7 @@ using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.Loch;
 using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions
+namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
     public static class ParametersSnapshotExtension
     {

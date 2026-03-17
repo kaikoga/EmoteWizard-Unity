@@ -4,13 +4,13 @@ using Silksprite.AdLib.ChilloutVR;
 using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.Extensions;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders.Base;
+using Silksprite.EmoteWizard.Platforms.Common.Extensions;
+using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Platforms.Common.Internal.Extensions;
+using Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders
+namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
 {
     public class TrackingControlLayerBuilder : LayerBuilderBase
     {

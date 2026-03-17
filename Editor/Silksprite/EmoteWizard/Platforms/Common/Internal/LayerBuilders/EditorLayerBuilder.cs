@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders.Base;
+using Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders
+namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
 {
     public class EditorLayerBuilder : LayerBuilderBase
     {

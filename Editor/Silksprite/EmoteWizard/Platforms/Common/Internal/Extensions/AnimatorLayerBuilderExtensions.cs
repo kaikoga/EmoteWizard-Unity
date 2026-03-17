@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.Extensions
+namespace Silksprite.EmoteWizard.Platforms.Common.Internal.Extensions
 {
     public static class AnimatorLayerBuilderExtensions
     {

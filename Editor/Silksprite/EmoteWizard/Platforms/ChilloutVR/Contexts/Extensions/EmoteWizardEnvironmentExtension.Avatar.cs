@@ -5,6 +5,7 @@ using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.AdLib.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Common.Context.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;

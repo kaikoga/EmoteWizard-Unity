@@ -4,12 +4,12 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Platforms.Common.Extensions;
+using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.LayerBuilders.Base
+namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
 {
     public abstract class LayerBuilderBase
     {

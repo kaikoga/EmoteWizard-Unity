@@ -2,11 +2,11 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal;
+using Silksprite.EmoteWizard.Platforms.Common.Internal;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
+namespace Silksprite.EmoteWizard.Platforms.Common.Context.Extensions
 {
     public static class EditorLayerContextExtension
     {

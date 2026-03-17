@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions
+namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
     public static class AnimationClipExtension
     {

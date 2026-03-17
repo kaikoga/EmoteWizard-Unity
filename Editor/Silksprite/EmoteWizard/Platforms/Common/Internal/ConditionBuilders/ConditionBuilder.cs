@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor.Animations;
 using UnityEngine;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.ConditionBuilders
+namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 {
     public class ConditionBuilder
     {

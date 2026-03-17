@@ -1,7 +1,7 @@
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal.ConditionBuilders;
+using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
 using UnityEditor.Animations;
 
-namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions
+namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
     public static class AnimatorStateTransitionExtension
     {
