@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Platforms
 {
@@ -10,6 +11,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
         string GestureLeftWeight { get; }
         string GestureRight { get; }
         string GestureRightWeight { get; }
+
+        AvatarMask HandLeft { get; }
+        AvatarMask HandRight { get; }
 
         bool IsHandSignParameterReference(string parameterReference);
         string ResolveParameterReference(string parameterReference);

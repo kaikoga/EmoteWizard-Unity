@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Utils;
+using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
 
 namespace Silksprite.EmoteWizard.DataObjects.Platforms
@@ -15,6 +17,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Platforms
             string IPlatformFeatures.GestureLeftWeight => "GestureLeft";
             string IPlatformFeatures.GestureRight => "GestureRightIdx";
             string IPlatformFeatures.GestureRightWeight => "GestureRight";
+
+            AvatarMask IPlatformFeatures.HandLeft => CvrCckAssetLocator.GesturesLeft();
+            AvatarMask IPlatformFeatures.HandRight => CvrCckAssetLocator.GesturesRight();
 
             bool IPlatformFeatures.IsHandSignParameterReference(string parameterReference) =>
                 parameterReference switch

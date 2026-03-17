@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -101,6 +102,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
         {
             var clipBuilder = new ClipBuilderImpl();
             var emoteInstances = mirroredEmoteItems.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder));
+            var platformFeatures = Environment.GetPlatformFeatures();
 
             foreach (var mirroredEmoteGroup in emoteInstances.GroupBy(item => (item.GroupName, item.Hand)))
             {
@@ -114,16 +116,16 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Internal
                         case EmoteHand.Neither:
                             break;
                         case EmoteHand.Left:
-                            avatarMask = CvrCckAssetLocator.GesturesLeft();
+                            avatarMask = platformFeatures.HandLeft;
                             break;
                         case EmoteHand.Right:
-                            avatarMask = CvrCckAssetLocator.GesturesRight();
+                            avatarMask = platformFeatures.HandRight;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-                var layer = PopulateLayer($"{layerKind} {groupName}", avatarMask);
+                var layer = PopulateLayer(groupName, avatarMask);
                 new EmoteLayerBuilder(this, layer, mirroredEmoteGroup).Build();
             }
         }

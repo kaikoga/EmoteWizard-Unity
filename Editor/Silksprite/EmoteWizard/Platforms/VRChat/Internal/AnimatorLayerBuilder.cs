@@ -88,6 +88,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
         {
             var clipBuilder = new ClipBuilderImpl();
             var emoteInstances = mirroredEmoteItems.Select(emote => emote.ToEmoteInstance(Environment, clipBuilder));
+            var platformFeatures = Environment.GetPlatformFeatures();
 
             foreach (var mirroredEmoteGroup in emoteInstances.GroupBy(item => (item.GroupName, item.Hand)))
             {
@@ -101,10 +102,10 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal
                         case EmoteHand.Neither:
                             break;
                         case EmoteHand.Left:
-                            avatarMask = VrcSdkAssetLocator.HandLeft();
+                            avatarMask = platformFeatures.HandLeft;
                             break;
                         case EmoteHand.Right:
-                            avatarMask = VrcSdkAssetLocator.HandRight();
+                            avatarMask = platformFeatures.HandRight;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
