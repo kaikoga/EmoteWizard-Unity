@@ -3,7 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
-using Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
