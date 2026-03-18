@@ -1,6 +1,5 @@
 using System;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using UnityEngine;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
@@ -17,21 +16,6 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
                     return VRCExpressionParameters.ValueType.Int;
                 case ParameterValueKind.Float:
                     return VRCExpressionParameters.ValueType.Float;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-
-        public static AnimatorControllerParameterType GetParameterType(this ParameterInstance parameter)
-        {
-            switch (parameter.ValueKind)
-            {
-                case ParameterValueKind.Int:
-                    return AnimatorControllerParameterType.Int;
-                case ParameterValueKind.Float:
-                    return AnimatorControllerParameterType.Float;
-                case ParameterValueKind.Bool:
-                    return AnimatorControllerParameterType.Bool;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

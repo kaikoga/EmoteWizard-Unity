@@ -4,10 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using nadena.dev.ndmf;
 using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.Extensions;
-using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
+using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 
-namespace Silksprite.EmoteWizard.Ndmf
+namespace Silksprite.EmoteWizard.Ndmf.Introspection
 {
     [ParameterProviderFor(typeof(EmoteWizardRoot))]
     public class EmoteWizardParameterProvider : IParameterProvider

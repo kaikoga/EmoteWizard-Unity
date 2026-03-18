@@ -9,6 +9,7 @@
         "EmoteWizard",
         "EmoteWizard.Core",
         "EmoteWizard.Editor",
+        "EmoteWizard.Platforms.Common.Editor",
         "EmoteWizard.Platforms.VRChat.Editor",
         "EmoteWizard.Platforms.VRM0.Editor",
         "EmoteWizard.Platforms.VRM1.Editor",

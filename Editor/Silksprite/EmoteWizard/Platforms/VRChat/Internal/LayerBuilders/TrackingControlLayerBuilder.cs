@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base;

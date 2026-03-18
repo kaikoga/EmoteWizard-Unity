@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Platforms.Common.Context.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizard.Utils;
