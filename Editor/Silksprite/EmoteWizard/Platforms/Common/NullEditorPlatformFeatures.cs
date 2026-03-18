@@ -8,17 +8,17 @@ namespace Silksprite.EmoteWizard.Platforms.Common
     {
         public static readonly IEditorPlatformFeatures Instance = new NullEditorPlatformFeatures();
 
-        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, bool isPersisted, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
         {
             throw new NotImplementedException();
         }
 
-        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight, bool isPersisted)
+        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight)
         {
             throw new NotImplementedException();
         }
 
-        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration)
+        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
             throw new NotImplementedException();
         }

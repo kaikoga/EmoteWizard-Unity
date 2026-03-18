@@ -20,10 +20,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
         public readonly IEditorPlatformFeatures EditorFeatures;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
-        readonly string _assetPath;
 
-        public bool IsPersistedAsset => !string.IsNullOrEmpty(_assetPath);
-        
         readonly HashSet<string> _referencedParameters = new HashSet<string>();
 
         public void MarkParameter(string name) => _referencedParameters.Add(name);
@@ -63,7 +60,6 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             EditorFeatures = editorFeatures;
             ParametersSnapshot = parametersSnapshot;
             _animatorController = animatorController;
-            _assetPath = AssetDatabase.GetAssetPath(_animatorController);
         }
 
         public void AddExternalLayer(AnimatorControllerLayer layer)
@@ -89,9 +85,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
                 }
             };
 
-            if (IsPersistedAsset)
+            if (EditorUtility.IsPersistent(_animatorController))
             {
-                AssetDatabase.AddObjectToAsset(layer.stateMachine, _assetPath);
+                AssetDatabase.AddObjectToAsset(layer.stateMachine, _animatorController);
             }
             _animatorController.AddLayer(layer);
             return layer;

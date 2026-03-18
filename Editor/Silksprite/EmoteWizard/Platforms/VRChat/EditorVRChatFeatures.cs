@@ -3,7 +3,6 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
-using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using UnityEditor.Animations;
 using VRC.SDK3.Avatars.Components;
 using VRC.SDKBase;
@@ -14,9 +13,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorVRChatFeatures();
 
-        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, bool isPersisted, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
         {
-            var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>(isPersisted);
+            var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>();
             avatarParameterDriver.localOnly = true;
 
             avatarParameterDriver.parameters = targets.Select(target => new VRC_AvatarParameterDriver.Parameter
@@ -30,9 +29,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
             }).ToList();
         }
 
-        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight, bool isPersisted)
+        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight)
         {
-            var trackingControl = state.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>(isPersisted);
+            var trackingControl = state.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>();
             var value = targetWeight switch
             {
                 0f => VRC_AnimatorTrackingControl.TrackingType.Animation,
@@ -78,9 +77,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
             }
         }
 
-        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration)
+        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
-            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>(isPersisted);
+            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>();
             playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;
             playableLayerControl.goalWeight = goalWeight;
             playableLayerControl.blendDuration = duration;

@@ -5,18 +5,19 @@ using Silksprite.AdLib.ChilloutVR;
 using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
+using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using UnityEditor.Animations;
 
-namespace Silksprite.EmoteWizard.Platforms.Common
+namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
 {
     public class EditorChilloutVRFeatures : IEditorPlatformFeatures
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorChilloutVRFeatures();
 
-        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, bool isPersisted, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
         {
-            var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb), isPersisted);
+            var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb));
             animatorDriver.localOnly = true;
 
             animatorDriver.EnterTasks = targets.Select(target => new AnimatorDriverTaskAccess
@@ -34,9 +35,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common
             }).ToList();
         }
 
-        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight, bool isPersisted)
+        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight)
         {
-            var bodyControl = state.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb), isPersisted);
+            var bodyControl = state.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb));
             void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)
             {
                 bodyControl.EnterTasks = new List<BodyControlTaskAccess>
@@ -79,7 +80,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common
             }
         }
 
-        public void PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration)
+        public void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
             // do nothing
         }

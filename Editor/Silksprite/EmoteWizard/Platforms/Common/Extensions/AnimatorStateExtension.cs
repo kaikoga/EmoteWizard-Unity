@@ -8,18 +8,18 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
     public static class AnimatorStateExtension
     {
-        public static T AddStateMachineBehaviour2<T>(this AnimatorState state, bool isPersistedAsset)
+        public static T AddStateMachineBehaviour2<T>(this AnimatorState state)
             where T : StateMachineBehaviour
         {
-            return (T)state.AddStateMachineBehaviour2(typeof(T), isPersistedAsset);
+            return (T)state.AddStateMachineBehaviour2(typeof(T));
         }
 
         [UsedImplicitly]
-        public static StateMachineBehaviour AddStateMachineBehaviour2(this AnimatorState state, Type type, bool isPersistedAsset)
+        public static StateMachineBehaviour AddStateMachineBehaviour2(this AnimatorState state, Type type)
         {
             // XXX AnimatorState.AddStateMachineBehaviour shim to work with states in controllers not persisted on disk yet
             StateMachineBehaviour stateMachineBehaviour;
-            if (isPersistedAsset)
+            if (EditorUtility.IsPersistent(state))
             {
                 stateMachineBehaviour = state.AddStateMachineBehaviour(type);
             }

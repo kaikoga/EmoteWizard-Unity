@@ -118,7 +118,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
         
         protected void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
-            EditorFeatures.PopulatePlayableLayerControl(state, Builder.IsPersistedAsset, goalWeight, duration);
+            EditorFeatures.PopulatePlayableLayerControl(state, goalWeight, duration);
         }
     }
 }
