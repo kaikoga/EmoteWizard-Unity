@@ -1,14 +1,10 @@
-using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
-using VRC.SDK3.Avatars.Components;
-using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 {
@@ -38,7 +34,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                 ApplyEmoteConditions(conditions, emoteItem.Trigger.Conditions);
                 var transition = AddEntryTransition(state, conditions);
 
-                PopulateTrackingControl(transition, _target, VRC_AnimatorTrackingControl.TrackingType.Animation);
+                EditorVRChatFeatures.Instance.PopulateBodyControl(transition.destinationState, _target, 0f, Builder.IsPersistedAsset);
 
                 AddExitTransition(state, offTriggerConditions); // wait until offTrigger
                 // Consume triggers by self transition if current state is already On
@@ -50,53 +46,11 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             var trackingState = PopulateDefaultState("Tracking");
             var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue(Builder.Environment));
 
-            PopulateTrackingControl(trackingTransition, _target, VRC_AnimatorTrackingControl.TrackingType.Tracking);
+            EditorVRChatFeatures.Instance.PopulateBodyControl(trackingTransition.destinationState, _target, 1f, Builder.IsPersistedAsset);
 
             AddExitTransition(trackingState, onTriggerConditions);
             // Consume triggers by self transition if current state is already Off
             AddTransition(trackingState, trackingState, offTriggerConditions);
-        }
-        
-        void PopulateTrackingControl(AnimatorTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
-        {
-            var trackingControl = transition.destinationState.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>(Builder.IsPersistedAsset);
-            switch (target)
-            {
-                case TrackingTarget.Head:
-                    trackingControl.trackingHead = value; 
-                    break;
-                case TrackingTarget.LeftHand:
-                    trackingControl.trackingLeftHand = value; 
-                    break;
-                case TrackingTarget.RightHand:
-                    trackingControl.trackingRightHand = value; 
-                    break;
-                case TrackingTarget.Hip:
-                    trackingControl.trackingHip = value; 
-                    break;
-                case TrackingTarget.LeftFoot:
-                    trackingControl.trackingLeftFoot = value; 
-                    break;
-                case TrackingTarget.RightFoot:
-                    trackingControl.trackingRightFoot = value; 
-                    break;
-                case TrackingTarget.LeftFingers:
-                    trackingControl.trackingLeftFingers = value; 
-                    break;
-                case TrackingTarget.RightFingers:
-                    trackingControl.trackingRightFingers = value; 
-                    break;
-                case TrackingTarget.Eyes:
-                    trackingControl.trackingEyes = value; 
-                    // TODO: Reset blink blend shape states (if any)
-                    break;
-                case TrackingTarget.Mouth:
-                    trackingControl.trackingMouth = value; 
-                    // TODO: Reset lip sync blend shape states (if any) (should we?)
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(target.ToString());
-            }
         }
     }
 }

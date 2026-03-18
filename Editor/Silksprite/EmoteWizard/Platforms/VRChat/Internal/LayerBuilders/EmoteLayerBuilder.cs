@@ -5,11 +5,8 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
-using VRC.SDK3.Avatars.Components;
-using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 {
@@ -62,23 +59,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
 
         void PopulateSequence(EmoteInstance emoteInstance, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteConditionInstance>> currentForcedConditions)
         {
-            void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
-            {
-                var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>(Builder.IsPersistedAsset);
-                avatarParameterDriver.localOnly = true;
-                var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
-                foreach (var target in targets) Builder.MarkTrackingTarget(target);
-
-                avatarParameterDriver.parameters = targets.Select(target => new VRC_AvatarParameterDriver.Parameter
-                {
-                    name = target.ToAnimatorParameterName(isEntry && currentTrackingTargets.Contains(target)),
-                    value = 0f,
-                    valueMin = 0f,
-                    valueMax = 0f,
-                    chance = 1f,
-                    type = VRC_AvatarParameterDriver.ChangeType.Set
-                }).ToList();
-            }
+            var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
+            foreach (var target in targets) Builder.MarkTrackingTarget(target);
 
             NextStateRow();
             NextStatePosition();
@@ -117,8 +99,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
             if (sequence.hasTrackingOverrides)
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
-                AddTrackingParameterDrivers(entryState ? entryState : mainState, true);
-                AddTrackingParameterDrivers(releaseState, false);
+                EditorVRChatFeatures.Instance.PopulateParameterDriver(entryState ? entryState : mainState, true, Builder.IsPersistedAsset, targets, currentTrackingTargets);
+                EditorVRChatFeatures.Instance.PopulateParameterDriver(releaseState, false, Builder.IsPersistedAsset, targets, currentTrackingTargets);
             }
             
             if (!sequence.hasExitTime)
@@ -248,7 +230,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
                 postReleaseTransition.duration = 0f;
             }
         }
-        
+
         List<List<EmoteConditionInstance>> MergeForcedConditions(List<List<EmoteConditionInstance>> currentForcedConditions, List<EmoteConditionInstance> conditions)
         {
             currentForcedConditions.Add(conditions);
