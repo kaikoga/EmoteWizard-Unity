@@ -6,11 +6,8 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions;
 using UnityEditor.Animations;
 using UnityEngine;
-using VRC.SDK3.Avatars.Components;
-using VRC.SDKBase;
 
 namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base
 {
@@ -122,10 +119,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base
 
         protected void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
-            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>(Builder.IsPersistedAsset);
-            playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;
-            playableLayerControl.goalWeight = goalWeight;
-            playableLayerControl.blendDuration = duration;
+            EditorVRChatFeatures.Instance.PopulatePlayableLayerControl(state, Builder.IsPersistedAsset, goalWeight, duration);
         }
 
     }

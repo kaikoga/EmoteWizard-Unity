@@ -78,5 +78,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common
                     throw new ArgumentOutOfRangeException(target.ToString());
             }
         }
+
+        public void PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

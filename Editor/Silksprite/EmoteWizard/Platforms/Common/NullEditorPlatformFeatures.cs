@@ -17,5 +17,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common
         {
             throw new NotImplementedException();
         }
+
+        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

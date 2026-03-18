@@ -7,5 +7,6 @@ namespace Silksprite.EmoteWizard.Platforms.Common
     {
         void PopulateParameterDriver(AnimatorState state, bool isEntry, bool isPersisted, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets);
         void PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight, bool isPersisted);
+        void PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration);
     }
 }

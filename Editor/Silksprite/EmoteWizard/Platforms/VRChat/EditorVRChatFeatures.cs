@@ -77,5 +77,13 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
                     throw new ArgumentOutOfRangeException(target.ToString());
             }
         }
+
+        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, bool isPersisted, float goalWeight, float duration)
+        {
+            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>(isPersisted);
+            playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;
+            playableLayerControl.goalWeight = goalWeight;
+            playableLayerControl.blendDuration = duration;
+        }
     }
 }
