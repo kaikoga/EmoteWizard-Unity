@@ -10,6 +10,7 @@
         "EmoteWizard",
         "EmoteWizard.Core",
         "EmoteWizard.Core.Editor",
+        "EmoteWizard.Platforms.Common.Editor",
         "EmoteWizardSupport",
         "EmoteWizardSupport.Editor"
     ],
