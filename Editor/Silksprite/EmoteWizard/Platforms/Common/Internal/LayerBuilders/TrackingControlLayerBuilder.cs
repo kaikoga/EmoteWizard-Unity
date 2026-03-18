@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
-using Silksprite.AdLib.ChilloutVR;
-using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Platforms.Common.Internal.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
@@ -38,7 +34,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 ApplyEmoteConditions(conditions, emoteItem.Trigger.Conditions);
                 var transition = AddEntryTransition(state, conditions);
 
-                PopulateBodyControl(transition, _target, 0f);
+                EditorChilloutVRFeatures.Instance.PopulateBodyControl(transition.destinationState, _target, 0f, Builder.IsPersistedAsset);
 
                 AddExitTransition(state, offTriggerConditions); // wait until offTrigger
                 // Consume triggers by self transition if current state is already On
@@ -50,56 +46,12 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             var trackingState = PopulateDefaultState("Tracking");
             var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue(Builder.Environment));
 
-            PopulateBodyControl(trackingTransition, _target, 1f);
+            EditorChilloutVRFeatures.Instance.PopulateBodyControl(trackingTransition.destinationState, _target, 1f, Builder.IsPersistedAsset);
 
             AddExitTransition(trackingState, onTriggerConditions);
             // Consume triggers by self transition if current state is already Off
             AddTransition(trackingState, trackingState, offTriggerConditions);
         }
-        
-        void PopulateBodyControl(AnimatorTransition transition, TrackingTarget target, float targetWeight)
-        {
-            var bodyControl = transition.destinationState.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb), Builder.IsPersistedAsset);
-            void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)
-            {
-                bodyControl.EnterTasks = new List<BodyControlTaskAccess>
-                {
-                    new BodyControlTaskAccess
-                    {
-                        target = bodyMask,
-                        targetWeight = targetWeight
-                    }
-                };
-            }
-            switch (target)
-            {
-                case TrackingTarget.Head:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.Head.ToAccess()); 
-                    break;
-                case TrackingTarget.LeftHand:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.LeftArm.ToAccess()); 
-                    break;
-                case TrackingTarget.RightHand:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.RightArm.ToAccess()); 
-                    break;
-                case TrackingTarget.Hip:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.Pelvis.ToAccess()); 
-                    break;
-                case TrackingTarget.LeftFoot:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.LeftLeg.ToAccess()); 
-                    break;
-                case TrackingTarget.RightFoot:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.RightLeg.ToAccess()); 
-                    break;
-                case TrackingTarget.LeftFingers:
-                case TrackingTarget.RightFingers:
-                case TrackingTarget.Eyes:
-                case TrackingTarget.Mouth:
-                    // not available
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(target.ToString());
-            }
-        }
+
     }
 }

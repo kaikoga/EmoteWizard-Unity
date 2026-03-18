@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.AdLib.ChilloutVR;
-using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
-using Silksprite.EmoteWizard.Platforms.Common.Internal.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
 
@@ -62,27 +59,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
 
         void PopulateSequence(EmoteInstance emoteInstance, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteConditionInstance>> currentForcedConditions)
         {
-            void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
-            {
-                var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb), Builder.IsPersistedAsset);
-                animatorDriver.localOnly = true;
-                var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
-                foreach (var target in targets) Builder.MarkTrackingTarget(target);
-
-                animatorDriver.EnterTasks = targets.Select(target => new AnimatorDriverTaskAccess
-                {
-                    targetType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Float.ToAccess(),
-                    targetName = target.ToAnimatorParameterName(isEntry && currentTrackingTargets.Contains(target)),
-
-                    op = AnimatorDriverTask_OperatorAccess.EnumValues.Set.ToAccess(),
-
-                    aType = AnimatorDriverTask_SourceTypeAccess.EnumValues.Static.ToAccess(),
-                    aValue = 0f,
-                    aMax = 0f,
-                    aParamType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Float.ToAccess(),
-                    aName = ""
-                }).ToList();
-            }
+            var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
+            foreach (var target in targets) Builder.MarkTrackingTarget(target);
 
             NextStateRow();
             NextStatePosition();
@@ -121,8 +99,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             if (sequence.hasTrackingOverrides)
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
-                AddTrackingParameterDrivers(entryState ? entryState : mainState, true);
-                AddTrackingParameterDrivers(releaseState, false);
+                EditorChilloutVRFeatures.Instance.PopulateParameterDriver(entryState ? entryState : mainState, true, Builder.IsPersistedAsset, targets, currentTrackingTargets);
+                EditorChilloutVRFeatures.Instance.PopulateParameterDriver(releaseState, false, Builder.IsPersistedAsset, targets, currentTrackingTargets);
             }
             
             if (!sequence.hasExitTime)
@@ -252,7 +230,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 postReleaseTransition.duration = 0f;
             }
         }
-        
+
         List<List<EmoteConditionInstance>> MergeForcedConditions(List<List<EmoteConditionInstance>> currentForcedConditions, List<EmoteConditionInstance> conditions)
         {
             currentForcedConditions.Add(conditions);
