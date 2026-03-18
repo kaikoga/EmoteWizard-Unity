@@ -23,8 +23,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
         {
             Builder.MarkTrackingTarget(_target);
 
-            var offTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(false), true);
-            var onTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(true), true);
+            var offTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(TrackingMode.Tracking), true);
+            var onTriggerConditions = new ConditionBuilder().If(_target.ToAnimatorParameterName(TrackingMode.Override), true);
 
             foreach (var emoteItem in _overriders)
             {
@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 ApplyEmoteConditions(conditions, emoteItem.Trigger.Conditions);
                 var transition = AddEntryTransition(state, conditions);
 
-                EditorFeatures.PopulateTrackingControl(transition.destinationState, _target, 0f);
+                EditorFeatures.PopulateTrackingControl(transition.destinationState, _target, TrackingMode.Override);
 
                 AddExitTransition(state, offTriggerConditions); // wait until offTrigger
                 // Consume triggers by self transition if current state is already On
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             var trackingState = PopulateDefaultState("Tracking");
             var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue(Builder.Environment));
 
-            EditorFeatures.PopulateTrackingControl(trackingTransition.destinationState, _target, 1f);
+            EditorFeatures.PopulateTrackingControl(trackingTransition.destinationState, _target, TrackingMode.Tracking);
 
             AddExitTransition(trackingState, onTriggerConditions);
             // Consume triggers by self transition if current state is already Off

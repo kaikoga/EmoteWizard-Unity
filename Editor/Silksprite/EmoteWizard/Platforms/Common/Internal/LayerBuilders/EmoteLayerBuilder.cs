@@ -100,9 +100,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
                 EditorFeatures.PopulateTriggerDriver(entryState ? entryState : mainState,
-                    currentTrackingTargets.Select(target => (target, targets.Contains(target))));
+                    currentTrackingTargets.Select(target => (target, targets.Contains(target) ? TrackingMode.Override : TrackingMode.Tracking)));
                 EditorFeatures.PopulateTriggerDriver(releaseState,
-                    currentTrackingTargets.Select(target => (target, false)));
+                    currentTrackingTargets.Select(target => (target, TrackingMode.Tracking)));
             }
             
             if (!sequence.hasExitTime)

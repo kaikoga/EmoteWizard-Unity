@@ -14,14 +14,14 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorVRChatFeatures();
 
-        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, bool isOn)> settings)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
             var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>();
             avatarParameterDriver.localOnly = true;
 
             avatarParameterDriver.parameters = settings.Select(setting => new VRC_AvatarParameterDriver.Parameter
             {
-                name = setting.target.ToAnimatorParameterName(setting.isOn),
+                name = setting.target.ToAnimatorParameterName(setting.mode),
                 value = 0f,
                 valueMin = 0f,
                 valueMax = 0f,
@@ -30,14 +30,14 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
             }).ToList();
         }
 
-        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, float targetWeight)
+        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, TrackingMode mode)
         {
             var trackingControl = state.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>();
-            var value = targetWeight switch
+            var value = mode switch
             {
-                0f => VRC_AnimatorTrackingControl.TrackingType.Animation,
-                1f => VRC_AnimatorTrackingControl.TrackingType.Tracking,
-                _ => throw new ArgumentOutOfRangeException(nameof(targetWeight), targetWeight, null)
+                TrackingMode.Override => VRC_AnimatorTrackingControl.TrackingType.Animation,
+                TrackingMode.Tracking => VRC_AnimatorTrackingControl.TrackingType.Tracking,
+                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
             };
             switch (target)
             {

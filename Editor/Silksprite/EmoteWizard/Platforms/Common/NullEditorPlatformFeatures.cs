@@ -9,12 +9,12 @@ namespace Silksprite.EmoteWizard.Platforms.Common
     {
         public static readonly IEditorPlatformFeatures Instance = new NullEditorPlatformFeatures();
 
-        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, bool isOn)> settings)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
             throw new NotImplementedException();
         }
 
-        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, float targetWeight)
+        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, TrackingMode mode)
         {
             throw new NotImplementedException();
         }

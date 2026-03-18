@@ -171,8 +171,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             }
             foreach (var trackingTarget in _referencedTrackingTargets)
             {
-                _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(false), AnimatorControllerParameterType.Trigger);
-                _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(true), AnimatorControllerParameterType.Trigger);
+                _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(TrackingMode.Tracking), AnimatorControllerParameterType.Trigger);
+                _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(TrackingMode.Override), AnimatorControllerParameterType.Trigger);
             }
         }
     }

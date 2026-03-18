@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorChilloutVRFeatures();
 
-        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, bool isOn)> settings)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
             var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb));
             animatorDriver.localOnly = true;
@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
             animatorDriver.EnterTasks = settings.Select(setting => new AnimatorDriverTaskAccess
                 {
                     targetType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
-                    targetName = setting.target.ToAnimatorParameterName(setting.isOn),
+                    targetName = setting.target.ToAnimatorParameterName(setting.mode),
 
                     op = AnimatorDriverTask_OperatorAccess.EnumValues.Set.ToAccess(),
 
@@ -35,9 +35,15 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
                 }).ToList();
         }
 
-        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, float targetWeight)
+        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, TrackingMode mode)
         {
             var bodyControl = state.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb));
+            var targetWeight = mode switch
+            {
+                TrackingMode.Tracking => 1f,
+                TrackingMode.Override => 0f,
+                _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
+            };
             void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)
             {
                 bodyControl.EnterTasks = new List<BodyControlTaskAccess>
