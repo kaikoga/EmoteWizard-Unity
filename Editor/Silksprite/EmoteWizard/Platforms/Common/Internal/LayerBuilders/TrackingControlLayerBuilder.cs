@@ -52,6 +52,5 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             // Consume triggers by self transition if current state is already Off
             AddTransition(trackingState, trackingState, offTriggerConditions);
         }
-
     }
 }

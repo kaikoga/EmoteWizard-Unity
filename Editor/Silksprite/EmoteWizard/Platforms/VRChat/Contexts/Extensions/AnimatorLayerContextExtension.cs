@@ -6,8 +6,7 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
-using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
-using Silksprite.EmoteWizard.Platforms.VRChat.Internal;
+using Silksprite.EmoteWizard.Platforms.Common.Internal;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Logger;
@@ -32,7 +31,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             };
             var defaultPath = GeneratedPaths.GeneratedLayer(layerOutputKind);
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
-            var builder = new AnimatorLayerBuilder(context.Environment, parametersSnapshot, animatorController);
+            var builder = new AnimatorLayerBuilder(context.Environment, EditorVRChatFeatures.Instance, parametersSnapshot, animatorController);
 
             if (context.DefaultAvatarMask)
             {

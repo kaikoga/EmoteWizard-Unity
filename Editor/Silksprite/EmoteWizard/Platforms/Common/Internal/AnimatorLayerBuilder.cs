@@ -42,6 +42,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
 
         public void MarkDefaultParameters()
         {
+            // TODO: do we need this on VRChat?
             foreach (var parameter in ParametersSnapshot.DefaultParameterItems)
             {
                 _referencedParameters.Add(parameter.name);
