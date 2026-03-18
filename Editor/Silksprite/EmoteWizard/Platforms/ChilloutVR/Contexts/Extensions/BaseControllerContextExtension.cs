@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal;
 using Silksprite.EmoteWizard.Utils;
@@ -29,7 +30,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
         {
             var defaultPath = GeneratedPaths.GeneratedBase;
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultPath);
-            var builder = new AnimatorLayerBuilder(context.Environment, parametersSnapshot, animatorController);
+            var builder = new AnimatorLayerBuilder(context.Environment, EditorChilloutVRFeatures.Instance, parametersSnapshot, animatorController);
 
             builder.MarkDefaultParameters();
 

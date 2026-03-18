@@ -12,9 +12,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common
 {
     public class EditorChilloutVRFeatures : IEditorPlatformFeatures
     {
-        public static readonly EditorChilloutVRFeatures Instance = new EditorChilloutVRFeatures();
+        public static readonly IEditorPlatformFeatures Instance = new EditorChilloutVRFeatures();
 
-        public void PopulateParameterDriver(AnimatorState state, bool isEntry, bool isPersisted, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, bool isPersisted, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
         {
             var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb), isPersisted);
             animatorDriver.localOnly = true;
@@ -33,7 +33,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common
                 aName = ""
             }).ToList();
         }
-        public void PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight, bool isPersisted)
+
+        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight, bool isPersisted)
         {
             var bodyControl = state.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb), isPersisted);
             void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)

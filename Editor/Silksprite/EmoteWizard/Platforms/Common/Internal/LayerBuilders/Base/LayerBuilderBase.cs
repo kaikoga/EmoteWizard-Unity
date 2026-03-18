@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
         readonly AnimatorControllerLayer _layer;
 
         EmoteWizardEnvironment Environment => Builder.Environment;
+        IEditorPlatformFeatures EditorFeatures => Builder.EditorFeatures;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 
         Vector3 _position = new Vector3(0f, 0f, 0f);

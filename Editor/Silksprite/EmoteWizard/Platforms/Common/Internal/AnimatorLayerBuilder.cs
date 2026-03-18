@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
     public class AnimatorLayerBuilder
     {
         public readonly EmoteWizardEnvironment Environment;
+        public readonly IEditorPlatformFeatures EditorFeatures;
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
         readonly string _assetPath;
@@ -51,9 +52,14 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
 
-        public AnimatorLayerBuilder(EmoteWizardEnvironment environment, ParametersSnapshot parametersSnapshot, AnimatorController animatorController)
+        public AnimatorLayerBuilder(
+            EmoteWizardEnvironment environment,
+            IEditorPlatformFeatures editorFeatures,
+            ParametersSnapshot parametersSnapshot,
+            AnimatorController animatorController)
         {
             Environment = environment;
+            EditorFeatures = editorFeatures;
             ParametersSnapshot = parametersSnapshot;
             _animatorController = animatorController;
             _assetPath = AssetDatabase.GetAssetPath(_animatorController);
