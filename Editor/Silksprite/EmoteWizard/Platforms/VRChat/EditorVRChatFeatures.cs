@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorVRChatFeatures();
 
-        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
         {
             var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>();
             avatarParameterDriver.localOnly = true;
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
             }).ToList();
         }
 
-        void IEditorPlatformFeatures.PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight)
+        void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, float targetWeight)
         {
             var trackingControl = state.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>();
             var value = targetWeight switch
@@ -77,7 +77,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
             }
         }
 
-        void IEditorPlatformFeatures.PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
+        void IEditorPlatformFeatures.PopulateLayerControl(AnimatorState state, float goalWeight, float duration)
         {
             var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>();
             playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;

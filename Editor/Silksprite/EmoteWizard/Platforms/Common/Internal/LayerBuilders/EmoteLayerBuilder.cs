@@ -99,8 +99,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             if (sequence.hasTrackingOverrides)
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
-                EditorFeatures.PopulateParameterDriver(entryState ? entryState : mainState, true, targets, currentTrackingTargets);
-                EditorFeatures.PopulateParameterDriver(releaseState, false, targets, currentTrackingTargets);
+                EditorFeatures.PopulateTriggerDriver(entryState ? entryState : mainState, true, targets, currentTrackingTargets);
+                EditorFeatures.PopulateTriggerDriver(releaseState, false, targets, currentTrackingTargets);
             }
             
             if (!sequence.hasExitTime)
@@ -121,8 +121,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             {
                 var firstState = entryState ? entryState : mainState;
                 var lastState = releaseState ? releaseState : exitState ? exitState : mainState;
-                PopulatePlayableLayerControl(firstState, 1f, sequence.blendIn);
-                PopulatePlayableLayerControl(lastState, 0f, sequence.blendOut);
+                PopulateLayerControl(firstState, 1f, sequence.blendIn);
+                PopulateLayerControl(lastState, 0f, sequence.blendOut);
             }
 
             if (entryState)

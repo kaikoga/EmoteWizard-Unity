@@ -115,10 +115,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
                 Builder.MarkParameter(condition.Parameter);
             }
         }
-        
-        protected void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
+
+        protected void PopulateLayerControl(AnimatorState state, float goalWeight, float duration)
         {
-            EditorFeatures.PopulatePlayableLayerControl(state, goalWeight, duration);
+            EditorFeatures.PopulateLayerControl(state, goalWeight, duration);
         }
     }
 }

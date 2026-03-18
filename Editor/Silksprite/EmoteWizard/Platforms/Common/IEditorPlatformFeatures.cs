@@ -5,8 +5,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common
 {
     public interface IEditorPlatformFeatures
     {
-        void PopulateParameterDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets);
-        void PopulateBodyControl(AnimatorState state, TrackingTarget target, float targetWeight);
-        void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration);
+        void PopulateTriggerDriver(AnimatorState state, bool isOn, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets);
+        void PopulateTrackingControl(AnimatorState state, TrackingTarget target, float targetWeight);
+        void PopulateLayerControl(AnimatorState state, float goalWeight, float duration);
     }
 }
