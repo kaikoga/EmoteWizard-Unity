@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
         
         void PopulateBodyControl(AnimatorTransition transition, TrackingTarget target, float targetWeight)
         {
-            var bodyControl = transition.destinationState.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, Builder, smb => new BodyControlAccess(smb));
+            var bodyControl = transition.destinationState.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb), Builder.IsPersistedAsset);
             void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)
             {
                 bodyControl.EnterTasks = new List<BodyControlTaskAccess>

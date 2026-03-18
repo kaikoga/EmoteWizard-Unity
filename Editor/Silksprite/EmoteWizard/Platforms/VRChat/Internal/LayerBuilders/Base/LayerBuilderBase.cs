@@ -122,7 +122,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders.Base
 
         protected void PopulatePlayableLayerControl(AnimatorState state, float goalWeight, float duration)
         {
-            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>(Builder);
+            var playableLayerControl = state.AddStateMachineBehaviour2<VRCPlayableLayerControl>(Builder.IsPersistedAsset);
             playableLayerControl.layer = VRC_PlayableLayerControl.BlendableLayer.Action;
             playableLayerControl.goalWeight = goalWeight;
             playableLayerControl.blendDuration = duration;

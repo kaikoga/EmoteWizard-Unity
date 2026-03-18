@@ -7,14 +7,14 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.Extensions
 {
     public static class AnimatorLayerBuilderExtensions
     {
-        public static T AddStateMachineBehaviour2Access<T>(this AnimatorState state, Type type, AnimatorLayerBuilder builder, Func<StateMachineBehaviour, T> toAccess)
-            => toAccess(state.AddStateMachineBehaviour2(type, builder));
+        public static T AddStateMachineBehaviour2Access<T>(this AnimatorState state, Type type, Func<StateMachineBehaviour, T> toAccess, bool isPersistedAsset)
+            => toAccess(state.AddStateMachineBehaviour2(type, isPersistedAsset));
 
-        public static StateMachineBehaviour AddStateMachineBehaviour2(this AnimatorState state, Type type, AnimatorLayerBuilder builder)
+        public static StateMachineBehaviour AddStateMachineBehaviour2(this AnimatorState state, Type type, bool isPersistedAsset)
         {
             // XXX AnimatorState.AddStateMachineBehaviour shim to work with states in controllers not persisted on disk yet
             StateMachineBehaviour stateMachineBehaviour;
-            if (builder.IsPersistedAsset)
+            if (isPersistedAsset)
             {
                 stateMachineBehaviour = state.AddStateMachineBehaviour(type);
             }

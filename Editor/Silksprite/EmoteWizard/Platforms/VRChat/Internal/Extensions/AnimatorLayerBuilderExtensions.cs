@@ -6,12 +6,12 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.Extensions
 {
     public static class AnimatorLayerBuilderExtensions
     {
-        public static T AddStateMachineBehaviour2<T>(this AnimatorState state, AnimatorLayerBuilder builder)
+        public static T AddStateMachineBehaviour2<T>(this AnimatorState state, bool isPersistedAsset)
             where T : StateMachineBehaviour
         {
             // XXX AnimatorState.AddStateMachineBehaviour shim to work with states in controllers not persisted on disk yet
             T stateMachineBehaviour;
-            if (builder.IsPersistedAsset)
+            if (isPersistedAsset)
             {
                 stateMachineBehaviour = state.AddStateMachineBehaviour<T>();
             }

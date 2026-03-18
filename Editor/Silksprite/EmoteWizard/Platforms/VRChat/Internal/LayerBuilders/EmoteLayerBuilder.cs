@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
-                var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>(Builder);
+                var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>(Builder.IsPersistedAsset);
                 avatarParameterDriver.localOnly = true;
                 var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
                 foreach (var target in targets) Builder.MarkTrackingTarget(target);

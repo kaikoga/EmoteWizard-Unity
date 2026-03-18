@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
         {
             void AddTrackingParameterDrivers(AnimatorState state, bool isEntry)
             {
-                var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, Builder, smb => new AnimatorDriverAccess(smb));
+                var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb), Builder.IsPersistedAsset);
                 animatorDriver.localOnly = true;
                 var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
                 foreach (var target in targets) Builder.MarkTrackingTarget(target);

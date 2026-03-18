@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Internal.LayerBuilders
         
         void PopulateTrackingControl(AnimatorTransition transition, TrackingTarget target, VRC_AnimatorTrackingControl.TrackingType value)
         {
-            var trackingControl = transition.destinationState.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>(Builder);
+            var trackingControl = transition.destinationState.AddStateMachineBehaviour2<VRCAnimatorTrackingControl>(Builder.IsPersistedAsset);
             switch (target)
             {
                 case TrackingTarget.Head:
