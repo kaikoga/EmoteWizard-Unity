@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using UnityEditor.Animations;
 
@@ -8,7 +9,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common
     {
         public static readonly IEditorPlatformFeatures Instance = new NullEditorPlatformFeatures();
 
-        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, bool isOn)> settings)
         {
             throw new NotImplementedException();
         }

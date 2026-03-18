@@ -15,24 +15,24 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorChilloutVRFeatures();
 
-        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, bool isOn)> settings)
         {
             var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb));
             animatorDriver.localOnly = true;
 
-            animatorDriver.EnterTasks = targets.Select(target => new AnimatorDriverTaskAccess
-            {
-                targetType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
-                targetName = target.ToAnimatorParameterName(isEntry && currentTrackingTargets.Contains(target)),
+            animatorDriver.EnterTasks = settings.Select(setting => new AnimatorDriverTaskAccess
+                {
+                    targetType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
+                    targetName = setting.target.ToAnimatorParameterName(setting.isOn),
 
-                op = AnimatorDriverTask_OperatorAccess.EnumValues.Set.ToAccess(),
+                    op = AnimatorDriverTask_OperatorAccess.EnumValues.Set.ToAccess(),
 
-                aType = AnimatorDriverTask_SourceTypeAccess.EnumValues.Static.ToAccess(),
-                aValue = 0f,
-                aMax = 0f,
-                aParamType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
-                aName = ""
-            }).ToList();
+                    aType = AnimatorDriverTask_SourceTypeAccess.EnumValues.Static.ToAccess(),
+                    aValue = 0f,
+                    aMax = 0f,
+                    aParamType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
+                    aName = ""
+                }).ToList();
         }
 
         void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, float targetWeight)

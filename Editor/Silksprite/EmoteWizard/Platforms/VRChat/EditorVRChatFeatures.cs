@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Common;
@@ -13,14 +14,14 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorVRChatFeatures();
 
-        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, bool isEntry, TrackingTarget[] targets, TrackingTarget[] currentTrackingTargets)
+        void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, bool isOn)> settings)
         {
             var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>();
             avatarParameterDriver.localOnly = true;
 
-            avatarParameterDriver.parameters = targets.Select(target => new VRC_AvatarParameterDriver.Parameter
+            avatarParameterDriver.parameters = settings.Select(setting => new VRC_AvatarParameterDriver.Parameter
             {
-                name = target.ToAnimatorParameterName(isEntry && currentTrackingTargets.Contains(target)),
+                name = setting.target.ToAnimatorParameterName(setting.isOn),
                 value = 0f,
                 valueMin = 0f,
                 valueMax = 0f,
