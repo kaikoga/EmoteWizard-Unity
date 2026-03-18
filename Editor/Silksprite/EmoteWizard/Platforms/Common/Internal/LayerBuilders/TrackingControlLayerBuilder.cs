@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 ApplyEmoteConditions(conditions, emoteItem.Trigger.Conditions);
                 var transition = AddEntryTransition(state, conditions);
 
-                EditorChilloutVRFeatures.Instance.PopulateBodyControl(transition.destinationState, _target, 0f, Builder.IsPersistedAsset);
+                EditorFeatures.PopulateBodyControl(transition.destinationState, _target, 0f, Builder.IsPersistedAsset);
 
                 AddExitTransition(state, offTriggerConditions); // wait until offTrigger
                 // Consume triggers by self transition if current state is already On
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             var trackingState = PopulateDefaultState("Tracking");
             var trackingTransition = AddEntryTransition(trackingState, new ConditionBuilder().AlwaysTrue(Builder.Environment));
 
-            EditorChilloutVRFeatures.Instance.PopulateBodyControl(trackingTransition.destinationState, _target, 1f, Builder.IsPersistedAsset);
+            EditorFeatures.PopulateBodyControl(trackingTransition.destinationState, _target, 1f, Builder.IsPersistedAsset);
 
             AddExitTransition(trackingState, onTriggerConditions);
             // Consume triggers by self transition if current state is already Off
