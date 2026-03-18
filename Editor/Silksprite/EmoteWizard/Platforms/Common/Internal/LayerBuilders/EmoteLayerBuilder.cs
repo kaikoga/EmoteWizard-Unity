@@ -99,8 +99,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             if (sequence.hasTrackingOverrides)
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
-                EditorChilloutVRFeatures.Instance.PopulateParameterDriver(entryState ? entryState : mainState, true, Builder.IsPersistedAsset, targets, currentTrackingTargets);
-                EditorChilloutVRFeatures.Instance.PopulateParameterDriver(releaseState, false, Builder.IsPersistedAsset, targets, currentTrackingTargets);
+                EditorFeatures.PopulateParameterDriver(entryState ? entryState : mainState, true, Builder.IsPersistedAsset, targets, currentTrackingTargets);
+                EditorFeatures.PopulateParameterDriver(releaseState, false, Builder.IsPersistedAsset, targets, currentTrackingTargets);
             }
             
             if (!sequence.hasExitTime)

@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Context.Extensions
         {
             var defaultRelativePath = GeneratedPaths.GeneratedEditor;
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
-            var builder = new AnimatorLayerBuilder(context.Environment, EditorChilloutVRFeatures.Instance, parametersSnapshot, animatorController);
+            var builder = new AnimatorLayerBuilder(context.Environment, NullEditorPlatformFeatures.Instance, parametersSnapshot, animatorController);
 
             builder.BuildEditorLayer(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             builder.BuildParameters();
