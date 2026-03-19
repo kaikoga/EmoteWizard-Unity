@@ -91,9 +91,6 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             };
         }
 
-        public static EmoteItemTemplateBuilder Builder(LayerKind layerKind, string name, string groupName)
-            => Builder(layerKind, name, groupName, default, EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence);
-
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind,
             string name, string groupName,
             GenericEmoteTrigger genericTrigger,

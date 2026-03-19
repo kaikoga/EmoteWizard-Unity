@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
@@ -15,71 +14,50 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
         HandSign _handSign;
         Motion _clip;
 
-        static IEnumerable<DefaultEmoteItem> Defaults(LayerKind layerKind)
-        {
-            if (layerKind != LayerKind.Gesture)
+        static DefaultEmoteItem Default(LayerKind layerKind, HandSign handSign) =>
+            new DefaultEmoteItem
             {
-                return Enum.GetValues(typeof(HandSign)).OfType<HandSign>()
-                    .Select(handSign => new DefaultEmoteItem
-                    {
-                        _handSign = handSign,
-                        _clip = null
-                    });
-            }
-
-            return new List<DefaultEmoteItem>
-            {
-                new DefaultEmoteItem
+                _handSign = handSign,
+                _clip = (layerKind, handSign) switch
                 {
-                    _handSign = HandSign.Idle,
-                    _clip = VrcSdkAssetLocator.ProxyHandsIdle()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.Fist,
-                    _clip = VrcSdkAssetLocator.ProxyHandsFist()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.Open,
-                    _clip = VrcSdkAssetLocator.ProxyHandsOpen()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.Point,
-                    _clip = VrcSdkAssetLocator.ProxyHandsPoint()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.Peace,
-                    _clip = VrcSdkAssetLocator.ProxyHandsPeace()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.RockNRoll,
-                    _clip = VrcSdkAssetLocator.ProxyHandsRock()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.Gun,
-                    _clip = VrcSdkAssetLocator.ProxyHandsGun()
-                },
-                new DefaultEmoteItem
-                {
-                    _handSign = HandSign.ThumbsUp,
-                    _clip = VrcSdkAssetLocator.ProxyHandsThumbsUp()
+                    (LayerKind.Gesture, HandSign.Idle) => VrcSdkAssetLocator.ProxyHandsIdle(),
+                    (LayerKind.Gesture, HandSign.Fist) => VrcSdkAssetLocator.ProxyHandsFist(),
+                    (LayerKind.Gesture, HandSign.Open) => VrcSdkAssetLocator.ProxyHandsOpen(),
+                    (LayerKind.Gesture, HandSign.Point) => VrcSdkAssetLocator.ProxyHandsPoint(),
+                    (LayerKind.Gesture, HandSign.Peace) => VrcSdkAssetLocator.ProxyHandsPeace(),
+                    (LayerKind.Gesture, HandSign.RockNRoll) => VrcSdkAssetLocator.ProxyHandsRock(),
+                    (LayerKind.Gesture, HandSign.Gun) => VrcSdkAssetLocator.ProxyHandsGun(),
+                    (LayerKind.Gesture, HandSign.ThumbsUp) => VrcSdkAssetLocator.ProxyHandsThumbsUp(),
+                    _ => null
                 }
             };
+
+        IEmoteTemplate ToEmoteItemTemplate(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
+        {
+            return EmoteItemTemplate.Builder(layerKind, $"{_handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
+                .AddCondition(new EmoteCondition
+                {
+                    kind = ParameterItemKind.Int,
+                    parameter = EmoteWizardConstants.Params.Gesture,
+                    mode = EmoteConditionMode.Equals,
+                    threshold = (int)_handSign
+                })
+                .AddTimeParameter(_handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
+                .AddFixedDuration(true)
+                .AddClip(_clip, 0f, 0.1f)
+                .ToEmoteItemTemplate();
         }
 
+        public static IEmoteTemplate DefaultHandSign(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
+        {
+            return Default(layerKind, handSign)
+                .ToEmoteItemTemplate(emoteItemKind, emoteSequenceFactoryKind, layerKind);
+        }
+        
         public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            return Defaults(layerKind).Select(def => EmoteItemTemplate.Builder(layerKind, $"{def._handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, GenericEmoteTrigger.FromHandSign(def._handSign), emoteItemKind, emoteSequenceFactoryKind)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.Gesture, mode = EmoteConditionMode.Equals, threshold = (int)def._handSign })
-                .AddTimeParameter(def._handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
-                .AddFixedDuration(true)
-                .AddClip(def._clip, 0f, 0.1f)
-                .ToEmoteItemTemplate());
+            return Enum.GetValues(typeof(HandSign)).OfType<HandSign>()
+                .Select(handSign => DefaultHandSign(emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
         }
     }
 }

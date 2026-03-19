@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 case DefaultSourceKind.Gesture:
                     return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, LayerKind.Gesture);
                 case DefaultSourceKind.Action:
-                    // force EmoteSequence
+                    // force Non-Generic EmoteItem / EmoteSequence
                     return DefaultActionEmote.EnumerateDefaultActionEmoteItems();
                 case DefaultSourceKind.Vrm:
                     // force Generic EmoteItem / EmoteSequence

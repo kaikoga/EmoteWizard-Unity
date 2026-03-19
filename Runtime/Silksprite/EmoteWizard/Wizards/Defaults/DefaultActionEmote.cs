@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
@@ -10,6 +11,18 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
 {
     public class DefaultActionEmote
     {
+        static readonly List<TrackingOverride> ActionTrackingOverrides = new[]
+        {
+            TrackingTarget.Head,
+            TrackingTarget.LeftHand,
+            TrackingTarget.RightHand,
+            TrackingTarget.Hip,
+            TrackingTarget.LeftFoot,
+            TrackingTarget.RightFoot,
+            TrackingTarget.LeftFingers,
+            TrackingTarget.RightFingers
+        }.Select(target => new TrackingOverride { target = target }).ToList();
+        
         int _index;
         string _name;
         bool _hasExitTime;
@@ -17,11 +30,11 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
         Motion _clip;
         Motion _exitClip;
 
-        static IEnumerable<DefaultActionEmote> Defaults()
+        static DefaultActionEmote Default(DefaultActionIndex index)
         {
-            return new List<DefaultActionEmote>
+            return index switch
             {
-                new DefaultActionEmote
+                DefaultActionIndex.Wave => new DefaultActionEmote
                 {
                     _index = 1,
                     _name = "Wave",
@@ -30,7 +43,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyStandWave(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.Clap => new DefaultActionEmote
                 {
                     _index = 2,
                     _name = "Clap",
@@ -38,7 +51,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyStandClap(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.Point => new DefaultActionEmote
                 {
                     _index = 3,
                     _name = "Point",
@@ -47,7 +60,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyStandPoint(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.Cheer => new DefaultActionEmote
                 {
                     _index = 4,
                     _name = "Cheer",
@@ -55,7 +68,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyStandCheer(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.Dance => new DefaultActionEmote
                 {
                     _index = 5,
                     _name = "Dance",
@@ -63,7 +76,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyDance(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.Backflip => new DefaultActionEmote
                 {
                     _index = 6,
                     _name = "Backflip",
@@ -72,7 +85,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyBackflip(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.SadKick => new DefaultActionEmote
                 {
                     _index = 7,
                     _name = "SadKick",
@@ -81,53 +94,62 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     _clip = VrcSdkAssetLocator.ProxyStandSadkick(),
                     _exitClip = null
                 },
-                new DefaultActionEmote
+                DefaultActionIndex.Die => new DefaultActionEmote
                 {
                     _index = 8,
                     _name = "Die",
                     _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyDie(),
                     _exitClip = VrcSdkAssetLocator.ProxySupineWakeup()
-                }
+                },
+                _ => throw new ArgumentOutOfRangeException(nameof(index), index, null)
             };
+        }
+
+        IEmoteTemplate ToEmoteItemTemplate()
+        {
+            var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
+
+            return EmoteItemTemplate.Builder(LayerKind.Action, _name, EmoteWizardConstants.Defaults.Groups.Action,
+                    default,
+                    EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Defaults.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
+                .AddFixedDuration(true)
+                .AddClip(_clip)
+                .AddClipExitTime(_hasExitTime, _exitTime)
+                .AddExitClip(_exitClip != null, _exitClip, 0.75f, _exitClip ? 0.4f : 0.25f)
+                .AddLayerBlend(true, 0.5f, 0.25f)
+                .AddTrackingOverrides(true, ActionTrackingOverrides)
+                .AddExpressionItem(true, $"Default/{_name}", expressionItemIcon)
+                .ToEmoteItemTemplate();
+        }
+
+        public static IEmoteTemplate DefaultAction(DefaultActionIndex index)
+        {
+            return Default(index).ToEmoteItemTemplate();
         }
 
         public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems()
         {
-            var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
+            return Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
+                .Select(index => index switch
+                {
+                    DefaultActionIndex.Afk => Afk(),
+                    _ => DefaultAction(index)
+                });
+        }
 
-            var actionTrackingOverrides = new[]
-            {
-                TrackingTarget.Head,
-                TrackingTarget.LeftHand,
-                TrackingTarget.RightHand,
-                TrackingTarget.Hip,
-                TrackingTarget.LeftFoot,
-                TrackingTarget.RightFoot,
-                TrackingTarget.LeftFingers,
-                TrackingTarget.RightFingers
-            }.Select(target => new TrackingOverride { target = target }).ToList();
-
-            foreach (var def in Defaults())
-            {
-                yield return EmoteItemTemplate.Builder(LayerKind.Action, def._name, EmoteWizardConstants.Defaults.Groups.Action)
-                    .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Defaults.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = def._index })
-                    .AddFixedDuration(true)
-                    .AddClip(def._clip)
-                    .AddClipExitTime(def._hasExitTime, def._exitTime)
-                    .AddExitClip(def._exitClip != null, def._exitClip, 0.75f, def._exitClip ? 0.4f : 0.25f)
-                    .AddLayerBlend(true, 0.5f, 0.25f)
-                    .AddTrackingOverrides(true, actionTrackingOverrides)
-                    .AddExpressionItem(true, $"Default/{def._name}", expressionItemIcon)
-                    .ToEmoteItemTemplate();
-            }
-            yield return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action)
+        static IEmoteTemplate Afk()
+        {
+            return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action,
+                    default,
+                    EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.AFK, mode = EmoteConditionMode.If, threshold = 0 })
                 .AddFixedDuration(true)
                 .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
                 .AddLayerBlend(true, 1f, 0.5f)
-                .AddTrackingOverrides(true, actionTrackingOverrides)
+                .AddTrackingOverrides(true, ActionTrackingOverrides)
                 .ToEmoteItemTemplate();
         }
     }
