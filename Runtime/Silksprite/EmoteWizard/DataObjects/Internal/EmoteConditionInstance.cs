@@ -14,5 +14,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             Mode = mode;
             Threshold = threshold;
         }
+        
+        public EmoteConditionInstance(EmoteConditionInstance other) : this(other.Kind, other.Parameter, other.Mode, other.Threshold) { }
     }
 }

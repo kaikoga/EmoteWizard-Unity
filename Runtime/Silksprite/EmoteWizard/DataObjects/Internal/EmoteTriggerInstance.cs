@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -15,7 +16,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             Conditions.AddRange(conditions);
         }
 
-        public EmoteTriggerInstance(EmoteTriggerInstance other) : this(other.Name, other.Priority, other.Conditions)
+        public EmoteTriggerInstance(EmoteTriggerInstance other) : this(other.Name, other.Priority, other.Conditions.Select(condition => new EmoteConditionInstance(condition)))
         {
         }
 
