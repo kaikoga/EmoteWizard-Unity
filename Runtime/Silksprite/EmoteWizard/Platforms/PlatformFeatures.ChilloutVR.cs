@@ -19,6 +19,23 @@ namespace Silksprite.EmoteWizard.Platforms
             string IPlatformFeatures.GestureRight => "GestureRightIdx";
             string IPlatformFeatures.GestureRightWeight => "GestureRight";
 
+            Motion IPlatformFeatures.GestureClipIdleLeft => CvrCckAssetLocator.HandLeftRelaxed();
+            Motion IPlatformFeatures.GestureClipFistLeft => CvrCckAssetLocator.HandLeftFist();
+            Motion IPlatformFeatures.GestureClipOpenLeft => CvrCckAssetLocator.HandLeftOpen();
+            Motion IPlatformFeatures.GestureClipPointLeft => CvrCckAssetLocator.HandLeftPoint();
+            Motion IPlatformFeatures.GestureClipPeaceLeft => CvrCckAssetLocator.HandLeftPeace();
+            Motion IPlatformFeatures.GestureClipRockNRollLeft => CvrCckAssetLocator.HandLeftRocknroll();
+            Motion IPlatformFeatures.GestureClipGunLeft => CvrCckAssetLocator.HandLeftGun();
+            Motion IPlatformFeatures.GestureClipThumbsUpLeft => CvrCckAssetLocator.HandLeftThumbsUp();
+            Motion IPlatformFeatures.GestureClipIdleRight => CvrCckAssetLocator.HandRightRelaxed();
+            Motion IPlatformFeatures.GestureClipFistRight => CvrCckAssetLocator.HandRightFist();
+            Motion IPlatformFeatures.GestureClipOpenRight => CvrCckAssetLocator.HandRightOpen();
+            Motion IPlatformFeatures.GestureClipPointRight => CvrCckAssetLocator.HandRightPoint();
+            Motion IPlatformFeatures.GestureClipPeaceRight => CvrCckAssetLocator.HandRightPeace();
+            Motion IPlatformFeatures.GestureClipRockNRollRight => CvrCckAssetLocator.HandRightRocknroll();
+            Motion IPlatformFeatures.GestureClipGunRight => CvrCckAssetLocator.HandRightGun();
+            Motion IPlatformFeatures.GestureClipThumbsUpRight => CvrCckAssetLocator.HandRightThumbsUp();
+
             AvatarMask IPlatformFeatures.HandLeft => CvrCckAssetLocator.GesturesLeft();
             AvatarMask IPlatformFeatures.HandRight => CvrCckAssetLocator.GesturesRight();
 

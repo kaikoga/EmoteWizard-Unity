@@ -13,6 +13,23 @@ namespace Silksprite.EmoteWizard.Platforms
         string GestureRight { get; }
         string GestureRightWeight { get; }
 
+        Motion GestureClipIdleLeft { get; }
+        Motion GestureClipFistLeft { get; }
+        Motion GestureClipOpenLeft { get; }
+        Motion GestureClipPointLeft { get; }
+        Motion GestureClipPeaceLeft { get; }
+        Motion GestureClipRockNRollLeft { get; }
+        Motion GestureClipGunLeft { get; }
+        Motion GestureClipThumbsUpLeft { get; }
+        Motion GestureClipIdleRight { get; }
+        Motion GestureClipFistRight { get; }
+        Motion GestureClipOpenRight { get; }
+        Motion GestureClipPointRight { get; }
+        Motion GestureClipPeaceRight { get; }
+        Motion GestureClipRockNRollRight { get; }
+        Motion GestureClipGunRight { get; }
+        Motion GestureClipThumbsUpRight { get; }
+
         AvatarMask HandLeft { get; }
         AvatarMask HandRight { get; }
 

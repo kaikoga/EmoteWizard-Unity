@@ -18,6 +18,23 @@ namespace Silksprite.EmoteWizard.Platforms
             string IPlatformFeatures.GestureRight => "GestureRight";
             string IPlatformFeatures.GestureRightWeight => "GestureRightWeight";
 
+            Motion IPlatformFeatures.GestureClipIdleLeft => VrcSdkAssetLocator.ProxyHandsIdle();
+            Motion IPlatformFeatures.GestureClipFistLeft => VrcSdkAssetLocator.ProxyHandsFist();
+            Motion IPlatformFeatures.GestureClipOpenLeft => VrcSdkAssetLocator.ProxyHandsOpen();
+            Motion IPlatformFeatures.GestureClipPointLeft => VrcSdkAssetLocator.ProxyHandsPoint();
+            Motion IPlatformFeatures.GestureClipPeaceLeft => VrcSdkAssetLocator.ProxyHandsPeace();
+            Motion IPlatformFeatures.GestureClipRockNRollLeft => VrcSdkAssetLocator.ProxyHandsRock();
+            Motion IPlatformFeatures.GestureClipGunLeft => VrcSdkAssetLocator.ProxyHandsGun();
+            Motion IPlatformFeatures.GestureClipThumbsUpLeft => VrcSdkAssetLocator.ProxyHandsThumbsUp();
+            Motion IPlatformFeatures.GestureClipIdleRight => VrcSdkAssetLocator.ProxyHandsIdle();
+            Motion IPlatformFeatures.GestureClipFistRight => VrcSdkAssetLocator.ProxyHandsFist();
+            Motion IPlatformFeatures.GestureClipOpenRight => VrcSdkAssetLocator.ProxyHandsOpen();
+            Motion IPlatformFeatures.GestureClipPointRight => VrcSdkAssetLocator.ProxyHandsPoint();
+            Motion IPlatformFeatures.GestureClipPeaceRight => VrcSdkAssetLocator.ProxyHandsPeace();
+            Motion IPlatformFeatures.GestureClipRockNRollRight => VrcSdkAssetLocator.ProxyHandsRock();
+            Motion IPlatformFeatures.GestureClipGunRight => VrcSdkAssetLocator.ProxyHandsGun();
+            Motion IPlatformFeatures.GestureClipThumbsUpRight => VrcSdkAssetLocator.ProxyHandsThumbsUp();
+
             AvatarMask IPlatformFeatures.HandLeft => VrcSdkAssetLocator.HandLeft();
             AvatarMask IPlatformFeatures.HandRight => VrcSdkAssetLocator.HandRight();
 

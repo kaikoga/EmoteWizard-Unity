@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
@@ -18,12 +19,13 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
+            var platformFeatures = CreateEnv().GetPlatformFeatures();
             switch (defaultSourceKind)
             {
                 case DefaultSourceKind.Fx:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, LayerKind.FX);
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.FX);
                 case DefaultSourceKind.Gesture:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, LayerKind.Gesture);
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.Gesture);
                 case DefaultSourceKind.Action:
                     // force Non-Generic EmoteItem / EmoteSequence
                     return DefaultActionEmote.EnumerateDefaultActionEmoteItems();
