@@ -164,7 +164,11 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source") is IUndoable undoable)
             {
-                SourceExploder.ExplodeEmoteSequencesImmediate(undoable, soleTarget);
+                string GetExplodePath(GenericEmoteSequenceSource source) => string.IsNullOrWhiteSpace(source.gameObject.name)
+                    ? "Assets/EW_GeneratedClip.anim"
+                    : $"Assets/EW_GeneratedClip_{source.gameObject.name}.anim";
+
+                soleTarget.ExplodeEmoteSequencesImmediate(undoable, new ClipBuilderImpl(GetExplodePath(soleTarget)));
             }
         }
     }
