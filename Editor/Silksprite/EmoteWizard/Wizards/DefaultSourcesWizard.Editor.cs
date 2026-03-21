@@ -38,7 +38,7 @@ namespace Silksprite.EmoteWizard.Wizards
             serializedObject.ApplyModifiedProperties();
 
             string undoLabel = $"Add Default {soleTarget.defaultSourceKind} Items";
-            if (EmoteWizardGUILayout.Undoable(Loc("DefaultSourcesWizard::Add"), undoLabel) is IUndoable undoable)
+            if (EmoteWizardGUILayout.Undoable(Loc("DefaultSourcesWizard::Add"), undoLabel, out var undoable))
             {
                 soleTarget.Explode(undoable, true);
             }

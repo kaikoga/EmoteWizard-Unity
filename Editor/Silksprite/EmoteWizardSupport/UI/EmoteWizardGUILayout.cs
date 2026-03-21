@@ -16,15 +16,27 @@ namespace Silksprite.EmoteWizardSupport.UI
         static readonly Color ConfigUIColor = new Color(0.80f, 0.80f, 0.82f);
         static readonly Color OutputUIColor = new Color(0.3f, 1.0f, 0.9f);
 
-        public static IUndoable Undoable(LocalizedContent loc) => Undoable(loc, loc.Tr);
-
-        public static IUndoable Undoable(LocalizedContent loc, string undoLabel) => LGUILayout.Button(loc) ? new EditorUndoable(undoLabel) : null;
-
-        public static void Undoable(LocalizedContent loc, Action<IUndoable> onClick, params GUILayoutOption[] options) => Undoable(loc, loc.Tr, onClick);
+        public static void Undoable(LocalizedContent loc, Action<IUndoable> onClick) => Undoable(loc, loc.Tr, onClick);
 
         public static void Undoable(LocalizedContent loc, string undoLabel, Action<IUndoable> onClick)
         {
             if (LGUILayout.Button(loc)) onClick(new EditorUndoable(undoLabel)); 
+        }
+
+        public static bool Undoable(LocalizedContent loc, out IUndoable undoable) => Undoable(loc, loc.Tr, out undoable);
+
+        public static bool Undoable(LocalizedContent loc, string undoLabel, out IUndoable undoable)
+        {
+            if (LGUILayout.Button(loc))
+            {
+                undoable = new EditorUndoable(undoLabel);
+                return true;
+            }
+            else
+            {
+                undoable = null;
+                return false;
+            }
         }
 
         public static void ConfigUIArea(Action action)

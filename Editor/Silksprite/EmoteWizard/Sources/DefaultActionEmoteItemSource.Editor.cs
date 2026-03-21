@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             serializedObject.ApplyModifiedProperties();
             
-            if (EmoteWizardGUILayout.Undoable(Loc("DefaultActionEmoteItemSource::Unpack"), "Unpack Default Action Emote Item Source") is { } undoable)
+            if (EmoteWizardGUILayout.Undoable(Loc("DefaultActionEmoteItemSource::Unpack"), "Unpack Default Action Emote Item Source", out var undoable))
             {
                 soleTarget.Explode(undoable, true);
             }

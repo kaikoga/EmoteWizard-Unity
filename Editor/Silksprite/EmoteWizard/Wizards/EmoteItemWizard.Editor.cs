@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
                 using (new EditorGUI.DisabledScope(checkInvalid.IsInvalid))
                 {
-                    if (EmoteWizardGUILayout.Undoable(Loc("EmoteItemWizard::Add"), "Add From Emote Item Wizard") is IUndoable undoable)
+                    if (EmoteWizardGUILayout.Undoable(Loc("EmoteItemWizard::Add"), "Add From Emote Item Wizard", out var undoable))
                     {
                         soleTarget.Explode(undoable, true);
                     }
