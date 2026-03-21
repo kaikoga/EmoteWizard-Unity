@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             return result;
         }
 
-        public static GameObject AddChildGameObject(this IUndoable undoable, Component parent, string path)
+        public static GameObject AddChildGameObject(this IUndoable undoable, Component parent, string path, bool uniqueName)
         {
             var paths = path.Split('/').ToArray();
             var gameObject = parent.gameObject;
@@ -29,7 +29,10 @@ namespace Silksprite.EmoteWizardSupport.Undoable
                 {
                     if (isLeaf)
                     {
-                        name = undoable.GetUniqueNameForSibling(gameObject.transform, name);
+                        if (uniqueName)
+                        {
+                            name = undoable.GetUniqueNameForSibling(gameObject.transform, name);
+                        }
                     }
                     else
                     {
@@ -48,7 +51,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
         public static T AddChildComponent<T>(this IUndoable undoable, Component component, string path = null, Action<T> initializer = null)
             where T : Component
         {
-            var t = undoable.AddComponent<T>(undoable.AddChildGameObject(component, string.IsNullOrEmpty(path) ? typeof(T).Name : path).transform);
+            var t = undoable.AddComponent<T>(undoable.AddChildGameObject(component, string.IsNullOrEmpty(path) ? typeof(T).Name : path, true).transform);
             initializer?.Invoke(t);
             return t;
         }

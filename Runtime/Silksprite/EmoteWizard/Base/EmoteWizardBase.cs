@@ -20,7 +20,8 @@ namespace Silksprite.EmoteWizard.Base
                 .Select(template => template.Path)
                 .OrderBy(path => path.Count(c => c == '/'))
                 .Distinct()
-                .ToDictionary(path => path, path => undoable.AddChildGameObject(parent, path));
+                .ToDictionary(path => path,
+                    path => undoable.AddChildGameObject(parent, path, path != name));
 
             foreach (var template in sourceTemplates)
             {
