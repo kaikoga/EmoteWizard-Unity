@@ -56,6 +56,15 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IClipBuilder clipBuilder)
         {
+            // TODO: use AnimatorState mirror settings 
+            Motion ResolveMirroredMotion(MirroredMotion mirroredMotion, Motion fallback) =>
+                Hand switch
+                {
+                    EmoteHand.Neither => fallback,
+                    EmoteHand.Left => mirroredMotion.clipLeft,
+                    EmoteHand.Right => mirroredMotion.clipRight,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
             string ResolveMirrorParameter(string parameter)
             {
                 var platformFeatures = environment.GetPlatformFeatures();
@@ -91,7 +100,18 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                         condition.Parameter = ResolveMirrorParameter(condition.Parameter);
                     }
                     instance.Sequence.timeParameter = ResolveMirrorParameter(instance.Sequence.timeParameter);
-
+                    if (instance.Sequence.mirroredClip.useMirroredSettings)
+                    {
+                        instance.Sequence.clip = ResolveMirroredMotion(instance.Sequence.mirroredClip, instance.Sequence.clip);
+                    }
+                    if (instance.Sequence.mirroredEntryClip.useMirroredSettings)
+                    {
+                        instance.Sequence.entryClip = ResolveMirroredMotion(instance.Sequence.mirroredEntryClip, instance.Sequence.entryClip);
+                    }
+                    if (instance.Sequence.mirroredExitClip.useMirroredSettings)
+                    {
+                        instance.Sequence.exitClip = ResolveMirroredMotion(instance.Sequence.mirroredExitClip, instance.Sequence.exitClip);
+                    }
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
