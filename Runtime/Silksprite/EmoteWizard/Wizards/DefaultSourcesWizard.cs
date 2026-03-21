@@ -16,6 +16,7 @@ namespace Silksprite.EmoteWizard.Wizards
         [SerializeField] public DefaultSourceKind defaultSourceKind;
         [SerializeField] public EmoteItemKind emoteItemKind;
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
+        [SerializeField] public bool unpack = true;
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
@@ -23,12 +24,12 @@ namespace Silksprite.EmoteWizard.Wizards
             switch (defaultSourceKind)
             {
                 case DefaultSourceKind.Fx:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.FX);
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.FX, unpack);
                 case DefaultSourceKind.Gesture:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.Gesture);
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.Gesture, unpack);
                 case DefaultSourceKind.Action:
                     // force Non-Generic EmoteItem / EmoteSequence
-                    return DefaultActionEmote.EnumerateDefaultActionEmoteItems();
+                    return DefaultActionEmote.EnumerateDefaultActionEmoteItems(unpack);
                 case DefaultSourceKind.Vrm:
                     // force Generic EmoteItem / EmoteSequence
                     return DefaultBlendShape.EnumerateDefaultBlendShapes();

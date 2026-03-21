@@ -124,22 +124,26 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                 .ToEmoteItemTemplate();
         }
 
-        public static IEmoteTemplate DefaultAction(DefaultActionIndex index)
-        {
-            return Default(index).ToEmoteItemTemplate();
-        }
+        public static IEmoteTemplate UnpackDefaultAction(DefaultActionIndex index) =>
+            index switch
+            {
+                DefaultActionIndex.Afk => UnpackedAfk(),
+                _ => Default(index).ToEmoteItemTemplate()
+            };
 
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems()
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems(bool unpack)
         {
             return Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
-                .Select(index => index switch
+                .Select(index => (index, unpack) switch
                 {
-                    DefaultActionIndex.Afk => Afk(),
-                    _ => DefaultAction(index)
+                    (DefaultActionIndex.Afk, true) => UnpackedAfk(),
+                    (DefaultActionIndex.Afk, false) => new DefaultActionEmoteItemTemplate("AFK", index),
+                    (_, true) => UnpackDefaultAction(index),
+                    (_, false) => new DefaultActionEmoteItemTemplate(Default(index)._name, index)
                 });
         }
 
-        static IEmoteTemplate Afk()
+        static IEmoteTemplate UnpackedAfk()
         {
             return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action,
                     default,

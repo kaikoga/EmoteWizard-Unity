@@ -14,6 +14,7 @@ namespace Silksprite.EmoteWizard.UI
     {
         static EmoteItemKind _emoteItemKind;
         static EmoteSequenceFactoryKind _emoteSequenceFactoryKindFx;
+        static bool _unpack = true;
 
         public static bool OnInspectorGUI(EmoteWizardEnvironment env)
         {
@@ -23,6 +24,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 _emoteItemKind = LEditorGUILayout.EnumPopup(Loc("SetupGUI::emoteItemKind"), _emoteItemKind);
                 _emoteSequenceFactoryKindFx = LEditorGUILayout.EnumPopup(Loc("SetupGUI::emoteSequenceFactoryKindFx"), _emoteSequenceFactoryKindFx);
+                _unpack = LEditorGUILayout.Toggle(Loc("SetupGUI::unpack"), _unpack);
             }
 
             var isMultiPlatform = SupportedPlatform.IsMultiple;
@@ -81,6 +83,7 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.defaultSourceKind = DefaultSourceKind.Fx;
                 wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = _emoteSequenceFactoryKindFx;
+                wizard.unpack = _unpack;
                 wizard.Explode(undoable, false);
             });
 
@@ -91,6 +94,7 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.defaultSourceKind = DefaultSourceKind.Gesture;
                 wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
+                wizard.unpack = _unpack;
                 wizard.Explode(undoable, false);
             });
 
@@ -101,6 +105,7 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.defaultSourceKind = DefaultSourceKind.Action;
                 wizard.emoteItemKind = EmoteItemKind.EmoteItem;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
+                wizard.unpack = _unpack;
                 wizard.Explode(undoable, false);
             });
         }
