@@ -25,6 +25,7 @@ namespace Silksprite.EmoteWizard.Sources
         LocalizedProperty _isFixedDuration;
 
         LocalizedProperty _clip;
+        LocalizedProperty _mirroredClip;
         LocalizedProperty _entryTransitionDuration;
         LocalizedProperty _exitTransitionDuration;
 
@@ -36,11 +37,13 @@ namespace Silksprite.EmoteWizard.Sources
 
         LocalizedProperty _hasEntryClip;
         LocalizedProperty _entryClip;
+        LocalizedProperty _mirroredEntryClip;
         LocalizedProperty _entryClipExitTime;
         LocalizedProperty _postEntryTransitionDuration;
 
         LocalizedProperty _hasExitClip;
         LocalizedProperty _exitClip;
+        LocalizedProperty _mirroredExitClip;
         LocalizedProperty _exitClipExitTime;
         LocalizedProperty _postExitTransitionDuration;
 
@@ -63,6 +66,7 @@ namespace Silksprite.EmoteWizard.Sources
             _isFixedDuration = serializedItem.Lop(nameof(EmoteSequence.isFixedDuration), Loc("EmoteSequence::isFixedDuration"));
             
             _clip = serializedItem.Lop(nameof(EmoteSequence.clip), Loc("EmoteSequence::clip"));
+            _mirroredClip = serializedItem.Lop(nameof(EmoteSequence.mirroredClip), Loc("EmoteSequence::mirroredClip"));
             _entryTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.entryTransitionDuration), Loc("EmoteSequence::entryTransitionDuration"));
             _exitTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.exitTransitionDuration), Loc("EmoteSequence::exitTransitionDuration"));
             
@@ -73,12 +77,14 @@ namespace Silksprite.EmoteWizard.Sources
             _timeParameter = serializedItem.Lop(nameof(EmoteSequence.timeParameter), Loc("EmoteSequence::timeParameter"));
 
             _hasEntryClip = serializedItem.Lop(nameof(EmoteSequence.hasEntryClip), Loc("EmoteSequence::hasEntryClip"));
-            _entryClip = serializedItem.Lop(nameof(EmoteSequence.entryClip), Loc("EmoteSequence::entryClip"));
+            _entryClip = serializedItem.Lop(nameof(EmoteSequence.mirroredEntryClip), Loc("EmoteSequence::entryClip"));
+            _mirroredEntryClip = serializedItem.Lop(nameof(EmoteSequence.entryClip), Loc("EmoteSequence::mirroredEntryClip"));
             _entryClipExitTime = serializedItem.Lop(nameof(EmoteSequence.entryClipExitTime), Loc("EmoteSequence::entryClipExitTime"));
             _postEntryTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.postEntryTransitionDuration), Loc("EmoteSequence::postEntryTransitionDuration"));
 
             _hasExitClip = serializedItem.Lop(nameof(EmoteSequence.hasExitClip), Loc("EmoteSequence::hasExitClip"));
             _exitClip = serializedItem.Lop(nameof(EmoteSequence.exitClip), Loc("EmoteSequence::exitClip"));
+            _mirroredExitClip = serializedItem.Lop(nameof(EmoteSequence.mirroredExitClip), Loc("EmoteSequence::mirroredExitClip"));
             _exitClipExitTime = serializedItem.Lop(nameof(EmoteSequence.exitClipExitTime), Loc("EmoteSequence::exitClipExitTime"));
             _postExitTransitionDuration = serializedItem.Lop(nameof(EmoteSequence.postExitTransitionDuration), Loc("EmoteSequence::postExitTransitionDuration"));
 
@@ -128,6 +134,7 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.Prop(_isFixedDuration);
                 EditorGUI.BeginChangeCheck();
                 LEditorGUILayout.Prop(_clip);
+                LEditorGUILayout.Prop(_mirroredClip);
                 var requireRefreshPreview = EditorGUI.EndChangeCheck();
                 LEditorGUILayout.Prop(_entryTransitionDuration);
                 LEditorGUILayout.Prop(_exitTransitionDuration);
@@ -148,6 +155,7 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.PropAsFoldout(_hasEntryClip, () =>
                 {
                     LEditorGUILayout.Prop(_entryClip);
+                    LEditorGUILayout.Prop(_mirroredEntryClip);
                     LEditorGUILayout.Prop(_entryClipExitTime);
                     LEditorGUILayout.Prop(_postEntryTransitionDuration);
                 });
@@ -156,6 +164,7 @@ namespace Silksprite.EmoteWizard.Sources
                 LEditorGUILayout.PropAsFoldout(_hasExitClip, () =>
                 {
                     LEditorGUILayout.Prop(_exitClip);
+                    LEditorGUILayout.Prop(_mirroredExitClip);
                     LEditorGUILayout.Prop(_exitClipExitTime);
                     LEditorGUILayout.Prop(_postExitTransitionDuration);
                 });

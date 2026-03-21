@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Builders;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
@@ -14,6 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public bool isFixedDuration;
 
         [SerializeField] public Motion clip;
+        [SerializeField] public MirroredMotion mirroredClip;
         [SerializeField] public float entryTransitionDuration;
         [SerializeField] public float exitTransitionDuration = 0.25f;
 
@@ -26,11 +28,13 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         [SerializeField] public bool hasEntryClip;
         [SerializeField] public Motion entryClip;
+        [SerializeField] public MirroredMotion mirroredEntryClip;
         [SerializeField] public float entryClipExitTime = 0.7f;
         [SerializeField] public float postEntryTransitionDuration = 0.25f;
 
         [SerializeField] public bool hasExitClip;
         [SerializeField] public Motion exitClip;
+        [SerializeField] public MirroredMotion mirroredExitClip;
         [SerializeField] public float exitClipExitTime = 0.7f;
         [SerializeField] public float postExitTransitionDuration = 0.25f;
             
