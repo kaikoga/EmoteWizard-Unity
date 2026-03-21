@@ -30,6 +30,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
             _sequence.exitTransitionDuration = exitTransitionDuration;
         }
 
+        public void AddMirroredClip(Motion clipLeft, Motion clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        {
+            _sequence.entryTransitionDuration = entryTransitionDuration;
+            _sequence.exitTransitionDuration = exitTransitionDuration;
+        }
+
         public void AddClipExitTime(bool hasExitTime, float clipExitTime)
         {
         }

@@ -49,6 +49,12 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
             return this;
         }
 
+        public EmoteItemTemplateBuilder AddMirroredClip(Motion clipLeft, Motion clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        {
+            _sequence.AddMirroredClip(clipLeft, clipRight, entryTransitionDuration, exitTransitionDuration);
+            return this;
+        }
+
         public EmoteItemTemplateBuilder AddClipExitTime(bool hasExitTime, float clipExitTime)
         {
             _sequence.AddClipExitTime(hasExitTime, clipExitTime);

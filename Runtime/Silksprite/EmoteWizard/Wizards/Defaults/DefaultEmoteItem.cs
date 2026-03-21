@@ -12,13 +12,14 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
     public class DefaultEmoteItem
     {
         HandSign _handSign;
-        Motion _clip;
+        Motion _clipLeft;
+        Motion _clipRight;
 
         static DefaultEmoteItem Default(IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign) =>
             new DefaultEmoteItem
             {
                 _handSign = handSign,
-                _clip = (layerKind, handSign) switch
+                _clipLeft = (layerKind, handSign) switch
                 {
                     (LayerKind.Gesture, HandSign.Idle) => platformFeatures.GestureClipIdleLeft,
                     (LayerKind.Gesture, HandSign.Fist) => platformFeatures.GestureClipFistLeft,
@@ -29,11 +30,23 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     (LayerKind.Gesture, HandSign.Gun) => platformFeatures.GestureClipGunLeft,
                     (LayerKind.Gesture, HandSign.ThumbsUp) => platformFeatures.GestureClipThumbsUpLeft,
                     _ => null
-                }
+                },
+                _clipRight = (layerKind, handSign) switch
+                {
+                    (LayerKind.Gesture, HandSign.Idle) => platformFeatures.GestureClipIdleRight,
+                    (LayerKind.Gesture, HandSign.Fist) => platformFeatures.GestureClipFistRight,
+                    (LayerKind.Gesture, HandSign.Open) => platformFeatures.GestureClipOpenRight,
+                    (LayerKind.Gesture, HandSign.Point) => platformFeatures.GestureClipPointRight,
+                    (LayerKind.Gesture, HandSign.Peace) => platformFeatures.GestureClipPeaceRight,
+                    (LayerKind.Gesture, HandSign.RockNRoll) => platformFeatures.GestureClipRockNRollRight,
+                    (LayerKind.Gesture, HandSign.Gun) => platformFeatures.GestureClipGunRight,
+                    (LayerKind.Gesture, HandSign.ThumbsUp) => platformFeatures.GestureClipThumbsUpRight,
+                _ => null
+            }
             };
         IEmoteTemplate ToEmoteItemTemplate(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            return EmoteItemTemplate.Builder(layerKind, $"{_handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
+            var builder = EmoteItemTemplate.Builder(layerKind, $"{_handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
                 .AddCondition(new EmoteCondition
                 {
                     kind = ParameterItemKind.Int,
@@ -42,9 +55,12 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     threshold = (int)_handSign
                 })
                 .AddTimeParameter(_handSign == HandSign.Fist, EmoteWizardConstants.Params.GestureWeight)
-                .AddFixedDuration(true)
-                .AddClip(_clip, 0f, 0.1f)
-                .ToEmoteItemTemplate();
+                .AddFixedDuration(true);
+            if (layerKind == LayerKind.Gesture)
+            {
+                builder.AddMirroredClip(_clipLeft, _clipRight, 0f, 0.1f);
+            }
+            return builder.ToEmoteItemTemplate();
         }
 
         public static IEmoteTemplate DefaultHandSign(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign)
