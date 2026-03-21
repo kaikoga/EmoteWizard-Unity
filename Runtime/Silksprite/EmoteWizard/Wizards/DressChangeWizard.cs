@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Wizards.Utils;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Wizards
@@ -56,10 +57,9 @@ namespace Silksprite.EmoteWizard.Wizards
                                     threshold = value
                                 }
                         }
-                    },
-                    GenerateEmoteSequenceFactoryTemplate(emoteSequenceFactoryKind,
+                    }, EmoteWizardUtil.GenerateEmoteSequenceFactoryTemplate(emoteSequenceFactoryKind,
                         LayerKind.FX,
-                        groupName = hasGroupName ? groupName : itemPath),
+                        groupName = hasGroupName ? groupName : itemPath, gameObject.name),
                     expressionKind == ExpressionKind.Builtin,
                     childName,
                     VrcSdkAssetLocator.ItemWand()

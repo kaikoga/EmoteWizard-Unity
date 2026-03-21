@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Wizards.Utils;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Wizards
@@ -26,10 +27,9 @@ namespace Silksprite.EmoteWizard.Wizards
         {
             yield return new EmoteItemTemplate(
                 itemPath,
-                new EmoteTrigger { name = itemPath },
-                GenerateEmoteSequenceFactoryTemplate(emoteSequenceFactoryKind,
+                new EmoteTrigger { name = itemPath }, EmoteWizardUtil.GenerateEmoteSequenceFactoryTemplate(emoteSequenceFactoryKind,
                     LayerKind.FX,
-                    groupName = hasGroupName ? groupName : itemPath),
+                    groupName = hasGroupName ? groupName : itemPath, gameObject.name),
                 !hasExpressionItemSource,
                 itemPath,
                 VrcSdkAssetLocator.ItemWand()
