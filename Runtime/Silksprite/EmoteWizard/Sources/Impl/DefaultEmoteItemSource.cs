@@ -15,13 +15,18 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Default Emote Item Source", 910)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/default_emote_item_source")]
-    public class DefaultEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
+    public class DefaultEmoteItemSource : EmoteWizardBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
     {
         [SerializeField] public EmoteItemKind emoteItemKind;
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
         
         [SerializeField] public LayerKind layerKind;
         [SerializeField] public HandSign handSign;
+
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        {
+            yield return ToEmoteTemplate();
+        }
 
         IEmoteTemplate ToEmoteTemplate()
         {
@@ -31,33 +36,28 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         // TODO: expose EmoteTemplate -> EmoteItem
         public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
         {
-            if (ToEmoteTemplate() is EmoteItemTemplate emoteTemplate)
+            return ToEmoteTemplate() switch
             {
-                return emoteTemplate.ToEmoteItems(environment);
-            }
-            if (ToEmoteTemplate() is GenericEmoteItemTemplate genericEmoteTemplate)
-            {
-                return genericEmoteTemplate.ToEmoteItems(environment);
-            }
-            return Enumerable.Empty<EmoteItem>();
+                EmoteItemTemplate emoteTemplate => emoteTemplate.ToEmoteItems(environment),
+                GenericEmoteItemTemplate genericEmoteTemplate => genericEmoteTemplate.ToEmoteItems(environment),
+                _ => Enumerable.Empty<EmoteItem>()
+            };
         }
 
         public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)
         {
-            if (ToEmoteTemplate() is EmoteItemTemplate emoteTemplate)
+            return ToEmoteTemplate() switch
             {
-                return emoteTemplate.ToExpressionItems(environment);
-            }
-            if (ToEmoteTemplate() is GenericEmoteItemTemplate genericEmoteTemplate)
-            {
-                return genericEmoteTemplate.ToExpressionItems();
-            }
-            return Enumerable.Empty<ExpressionItem>();
+                EmoteItemTemplate emoteTemplate => emoteTemplate.ToExpressionItems(environment),
+                GenericEmoteItemTemplate genericEmoteTemplate => genericEmoteTemplate.ToExpressionItems(),
+                _ => Enumerable.Empty<ExpressionItem>()
+            };
         }
 
         public IEnumerable<GenericEmoteItem> ToGenericEmoteItems()
         {
-            if (ToEmoteTemplate() is GenericEmoteItemTemplate genericEmoteTemplate)
+            var emoteTemplate = ToEmoteTemplate();
+            if (emoteTemplate is GenericEmoteItemTemplate genericEmoteTemplate)
             {
                 return genericEmoteTemplate.ToGenericEmoteItems();
             }

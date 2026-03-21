@@ -2,6 +2,8 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizardSupport.UI;
+using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
@@ -23,11 +25,14 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            var env = CreateEnv();
-
             LEditorGUILayout.Prop(_defaultActionIndex);
 
             serializedObject.ApplyModifiedProperties();
+            
+            if (EmoteWizardGUILayout.Undoable(Loc("DefaultActionEmoteItemSource::Unpack"), "Unpack Default Action Emote Item Source") is { } undoable)
+            {
+                soleTarget.Explode(undoable, true);
+            }
         }
     }
 }

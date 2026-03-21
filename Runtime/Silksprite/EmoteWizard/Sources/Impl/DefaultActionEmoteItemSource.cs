@@ -13,9 +13,14 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Default Action Emote Item Source", 911)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/default_action_emote_item_source")]
-    public class DefaultActionEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource
+    public class DefaultActionEmoteItemSource : EmoteWizardBase, IEmoteItemSource, IExpressionItemSource
     {
         [SerializeField] public DefaultActionIndex defaultActionIndex;
+
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        {
+            yield return ToEmoteTemplate();
+        }
 
         IEmoteTemplate ToEmoteTemplate()
         {
@@ -25,28 +30,22 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         // TODO: expose EmoteTemplate -> EmoteItem
         public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
         {
-            if (ToEmoteTemplate() is EmoteItemTemplate emoteTemplate)
+            return ToEmoteTemplate() switch
             {
-                return emoteTemplate.ToEmoteItems(environment);
-            }
-            if (ToEmoteTemplate() is GenericEmoteItemTemplate genericEmoteTemplate)
-            {
-                return genericEmoteTemplate.ToEmoteItems(environment);
-            }
-            return Enumerable.Empty<EmoteItem>();
+                EmoteItemTemplate emoteTemplate => emoteTemplate.ToEmoteItems(environment),
+                GenericEmoteItemTemplate genericEmoteTemplate => genericEmoteTemplate.ToEmoteItems(environment),
+                _ => Enumerable.Empty<EmoteItem>()
+            };
         }
 
         public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)
         {
-            if (ToEmoteTemplate() is EmoteItemTemplate emoteTemplate)
+            return ToEmoteTemplate() switch
             {
-                return emoteTemplate.ToExpressionItems(environment);
-            }
-            if (ToEmoteTemplate() is GenericEmoteItemTemplate genericEmoteTemplate)
-            {
-                return genericEmoteTemplate.ToExpressionItems();
-            }
-            return Enumerable.Empty<ExpressionItem>();
+                EmoteItemTemplate emoteTemplate => emoteTemplate.ToExpressionItems(environment),
+                GenericEmoteItemTemplate genericEmoteTemplate => genericEmoteTemplate.ToExpressionItems(),
+                _ => Enumerable.Empty<ExpressionItem>()
+            };
         }
     }
 }
