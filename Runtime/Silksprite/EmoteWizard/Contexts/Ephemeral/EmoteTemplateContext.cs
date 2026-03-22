@@ -1,9 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
-using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Templates;

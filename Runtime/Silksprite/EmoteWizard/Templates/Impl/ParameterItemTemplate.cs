@@ -9,18 +9,18 @@ namespace Silksprite.EmoteWizard.Templates.Impl
     {
         public EmoteTemplatePath Path { get; }
 
-        readonly ParameterItem _parameterItem;
+        public readonly ParameterItem ParameterItem;
 
         public ParameterItemTemplate(EmoteTemplatePath path, ParameterItem parameterItem)
         {
             Path = path;
-            _parameterItem = parameterItem;
+            ParameterItem = parameterItem;
         }
 
         public void PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<ParameterSource>(target);
-            source.parameterItem = _parameterItem;
+            source.parameterItem = ParameterItem;
         }
     }
 }

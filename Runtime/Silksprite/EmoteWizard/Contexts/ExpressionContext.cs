@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Configs;
+using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Templates.Impl;
 
 #if EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.ScriptableObjects;
@@ -60,8 +61,9 @@ namespace Silksprite.EmoteWizard.Contexts
 
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
-            return Environment.GetComponentsInChildren<IExpressionItemSource>(true)
-                .SelectMany(source => source.ToExpressionItems(Environment));
+            return Environment.GetContext<EmoteTemplateContext>()
+                .UnpackedTemplates<ExpressionItemTemplate>()
+                .SelectMany(template => template.ToExpressionItems());
         }
 
         public IEnumerable<ExpressionItem> AllExpressionItems()

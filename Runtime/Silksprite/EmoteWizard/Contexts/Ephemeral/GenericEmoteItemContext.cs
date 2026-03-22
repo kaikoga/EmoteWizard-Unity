@@ -3,7 +3,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Sources;
+using Silksprite.EmoteWizard.Templates.Impl;
 
 namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 {
@@ -16,7 +16,9 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 
         IEnumerable<GenericEmoteItem> CollectAllGenericEmoteItems()
         {
-            return Environment.GetComponentsInChildren<IGenericEmoteItemSource>(true).SelectMany(source => source.ToGenericEmoteItems());
+            return Environment.GetContext<EmoteTemplateContext>()
+                .UnpackedTemplates<GenericEmoteItemTemplate>()
+                .SelectMany(template => template.ToGenericEmoteItems());
         }
 
         IEnumerable<GenericEmoteItem> AllGenericEmoteItems()
