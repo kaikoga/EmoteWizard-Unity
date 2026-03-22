@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
@@ -14,7 +13,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Emote Item Source", 0)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/emote_item_source")]
-    public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IEmoteTemplateSource
+    public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteTemplateSource
     {
         [SerializeField] public EmoteTrigger trigger = new EmoteTrigger();
 
@@ -59,12 +58,8 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;
 
-        public bool CanAutoExpression(EmoteWizardEnvironment environment) => ToTemplate().CanAutoExpression(environment);
+        public bool CanAutoExpression(IPlatformFeatures platformFeatures) => ToTemplate().CanAutoExpression(platformFeatures);
 
-        public bool IsAutoExpression(EmoteWizardEnvironment environment) => ToTemplate().IsAutoExpression(environment);
-
-        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment) => ToTemplate().ToEmoteItems(environment);
-
-        public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment) => ToTemplate().ToExpressionItems(environment);
+        public bool IsAutoExpression(IPlatformFeatures platformFeatures) => ToTemplate().IsAutoExpression(platformFeatures);
     }
 }

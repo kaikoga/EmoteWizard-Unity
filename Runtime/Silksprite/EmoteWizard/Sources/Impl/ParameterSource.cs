@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -10,7 +9,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Parameter Source", 2000)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/parameter_source")]
-    public class ParameterSource : EmoteWizardDataSourceBase, IParameterSource, IEmoteTemplateSource
+    public class ParameterSource : EmoteWizardDataSourceBase, IEmoteTemplateSource
     {
         [SerializeField] public ParameterItem parameterItem = new ParameterItem();
 
@@ -18,11 +17,6 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             return new ParameterItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
                 parameterItem);
-        }
-
-        public IEnumerable<ParameterItem> ToParameterItems()
-        {
-            if (parameterItem.IsValid) yield return parameterItem;
         }
     }
 }

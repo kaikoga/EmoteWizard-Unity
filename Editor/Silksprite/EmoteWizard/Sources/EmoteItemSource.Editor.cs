@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
@@ -43,6 +44,7 @@ namespace Silksprite.EmoteWizard.Sources
         protected override void OnInnerInspectorGUI()
         {
             var env = CreateEnv();
+            var platformFeatures = env.GetPlatformFeatures();
 
             LEditorGUILayout.Prop(_name);
             LEditorGUILayout.Prop(_priority);
@@ -59,11 +61,11 @@ namespace Silksprite.EmoteWizard.Sources
                 }
             }
 
-            using (new EditorGUI.DisabledScope(!soleTarget.CanAutoExpression(env)))
+            using (new EditorGUI.DisabledScope(!soleTarget.CanAutoExpression(platformFeatures)))
             {
                 LEditorGUILayout.Prop(_hasExpressionItem);
             }
-            if (soleTarget.IsAutoExpression(env))
+            if (soleTarget.IsAutoExpression(platformFeatures))
             {
                 using (new EditorGUI.IndentLevelScope())
                 {

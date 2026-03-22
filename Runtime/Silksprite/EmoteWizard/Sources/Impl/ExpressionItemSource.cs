@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -10,7 +9,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Expression Item Source", 1000)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/expression_item_source")]
-    public class ExpressionItemSource : EmoteWizardDataSourceBase, IExpressionItemSource, IEmoteTemplateSource
+    public class ExpressionItemSource : EmoteWizardDataSourceBase, IEmoteTemplateSource
     {
         [SerializeField] public ExpressionItem expressionItem = new ExpressionItem();
 
@@ -18,12 +17,6 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             return new ExpressionItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
                 expressionItem);
-        }
-
-
-        public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)
-        {
-            if (expressionItem.IsValid) yield return expressionItem;
         }
     }
 }

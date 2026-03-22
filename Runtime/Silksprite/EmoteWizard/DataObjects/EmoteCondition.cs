@@ -1,7 +1,6 @@
 using System;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.Extensions;
+using Silksprite.EmoteWizard.Platforms;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -15,17 +14,16 @@ namespace Silksprite.EmoteWizard.DataObjects
         [SerializeField] public EmoteConditionMode mode = EmoteConditionMode.Equals;
         [SerializeField] public float threshold;
 
-        public (string resolvedParameter, float resolvedThreshold) ResolveParameter(EmoteWizardEnvironment environment)
+        public (string resolvedParameter, float resolvedThreshold) ResolveParameter(IPlatformFeatures platformFeatures)
         {
-            var platformFeatures = environment.GetPlatformFeatures();
             var resolvedParameter = platformFeatures.ResolveParameterReference(parameter);
             var resolvedThreshold = platformFeatures.IsHandSignParameterReference(parameter) ? platformFeatures.HandSignValue((HandSign)threshold) : threshold;
             return (resolvedParameter, resolvedThreshold);
         }
 
-        public EmoteConditionInstance ToInstance(EmoteWizardEnvironment environment)
+        public EmoteConditionInstance ToInstance(IPlatformFeatures platformFeatures)
         {
-            var (resolvedParameter, resolvedThreshold) = ResolveParameter(environment);
+            var (resolvedParameter, resolvedThreshold) = ResolveParameter(platformFeatures);
             return new EmoteConditionInstance(
                 kind,
                 resolvedParameter,

@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -19,8 +17,6 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             Path = path;
             _expressionItem = expressionItem;
         }
-
-        public IEnumerable<EmoteItem> ToEmoteItems() => Array.Empty<EmoteItem>();
 
         public IEnumerable<ExpressionItem> ToExpressionItems()
         {

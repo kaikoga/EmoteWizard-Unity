@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Sources;
 using Silksprite.EmoteWizard.Templates;
@@ -23,12 +24,14 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 
         IEnumerable<IEmoteTemplate> UnpackCompletely()
         {
+            var platformFeatures = Environment.GetPlatformFeatures();
             IEnumerable<IEmoteTemplate> Selector(IEmoteTemplate emoteTemplate)
             {
                 switch (emoteTemplate)
                 {
                     case ICompositeEmoteTemplate composite:
-                        foreach (var item in composite.Unpack(Environment.GetPlatformFeatures()).SelectMany(Selector))
+                        yield return composite;
+                        foreach (var item in composite.Unpack(platformFeatures).SelectMany(Selector))
                         {
                             yield return item;
                         }

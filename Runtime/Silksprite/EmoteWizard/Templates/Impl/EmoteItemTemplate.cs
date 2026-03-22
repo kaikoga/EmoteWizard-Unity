@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Silksprite.EmoteWizard.Contexts;
+using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Builders;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.Extensions;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Templates.Sequence;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Impl
 {
-    public class EmoteItemTemplate : IEmoteTemplate
+    public class EmoteItemTemplate : ICompositeEmoteTemplate
     {
         public EmoteTemplatePath Path { get; }
 
@@ -42,11 +42,10 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool LooksLikeMirrorItem => Trigger.LooksLikeMirrorItem || (SequenceFactory != null && SequenceFactory.LooksLikeMirrorItem);
 
-        public bool CanAutoExpression(EmoteWizardEnvironment environment)
+        public bool CanAutoExpression(IPlatformFeatures platformFeatures)
         {
             if (Trigger.conditions.Count != 1) return false;
 
-            var platformFeatures = environment.GetPlatformFeatures();
             var soleCondition = Trigger.conditions[0];
             if (platformFeatures.IsDefaultParameterReference(soleCondition.parameter)) return false;
             switch (soleCondition.kind)
@@ -64,23 +63,23 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             return true;
         }
 
-        public bool IsAutoExpression(EmoteWizardEnvironment environment) => HasExpressionItem && CanAutoExpression(environment);
+        public bool IsAutoExpression(IPlatformFeatures platformFeatures) => HasExpressionItem && CanAutoExpression(platformFeatures);
 
-        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
+        public IEnumerable<EmoteItem> ToEmoteItems(IPlatformFeatures platformFeatures)
         {
             if (SequenceFactory != null)
             {
-                yield return new EmoteItem(Trigger.ToInstance(environment), SequenceFactory);
+                yield return new EmoteItem(Trigger.ToInstance(platformFeatures), SequenceFactory);
             }
         }
 
-        public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)
+        public IEnumerable<ExpressionItem> ToExpressionItems(IPlatformFeatures platformFeatures)
         {
-            if (!IsAutoExpression(environment)) yield break;
+            if (!IsAutoExpression(platformFeatures)) yield break;
             if (ItemPathAttribute.IsInvalidPathInput(ExpressionItemPath)) yield break;
 
             var soleCondition = Trigger.conditions[0];
-            var (parameter, threshold) = soleCondition.ResolveParameter(environment);
+            var (parameter, threshold) = soleCondition.ResolveParameter(platformFeatures);
             yield return new ExpressionItem
             {
                 enabled = true,
@@ -90,6 +89,12 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 value = threshold,
                 itemKind = SequenceFactory?.LooksLikeToggle == true ? ExpressionItemKind.Toggle : ExpressionItemKind.Button
             };
+        }
+
+        public IEnumerable<IEmoteTemplate> Unpack(IPlatformFeatures platformFeatures)
+        {
+            return ToExpressionItems(platformFeatures)
+                .Select(expressionItem => new ExpressionItemTemplate(Path, expressionItem));
         }
 
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind,
