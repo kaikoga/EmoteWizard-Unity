@@ -1,5 +1,8 @@
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizard.Templates;
+using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
@@ -11,9 +14,15 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
 {
     [AddComponentMenu("Emote Wizard/Sources/Generic Emote Sequence Source", 101)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/generic_emote_sequence_source")]
-    public class GenericEmoteSequenceSource : EmoteSequenceSourceBase
+    public class GenericEmoteSequenceSource : EmoteSequenceSourceBase, IEmoteTemplateSource
     {
         [SerializeField] public GenericEmoteSequence sequence = new GenericEmoteSequence();
+
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        {
+            return new GenericEmoteSequenceTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+                (GenericEmoteSequenceFactory)ToEmoteFactoryTemplate());
+        }
 
         public override IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate() => new GenericEmoteSequenceFactory(sequence, $"{gameObject.name}_{gameObject.GetInstanceID()}");
         

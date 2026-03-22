@@ -15,13 +15,22 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Default Emote Item Source", 910)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/default_emote_item_source")]
-    public class DefaultEmoteItemSource : EmoteWizardBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
+    public class DefaultEmoteItemSource : EmoteWizardBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource, IEmoteTemplateSource
     {
         [SerializeField] public EmoteItemKind emoteItemKind;
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
         
         [SerializeField] public LayerKind layerKind;
         [SerializeField] public HandSign handSign;
+
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        {
+            return new DefaultEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+                emoteItemKind,
+                emoteSequenceFactoryKind,
+                layerKind,
+                handSign);
+        }
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {

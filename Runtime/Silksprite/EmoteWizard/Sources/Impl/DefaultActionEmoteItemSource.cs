@@ -13,9 +13,15 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Default Action Emote Item Source", 911)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/default_action_emote_item_source")]
-    public class DefaultActionEmoteItemSource : EmoteWizardBase, IEmoteItemSource, IExpressionItemSource
+    public class DefaultActionEmoteItemSource : EmoteWizardBase, IEmoteItemSource, IExpressionItemSource, IEmoteTemplateSource
     {
         [SerializeField] public DefaultActionIndex defaultActionIndex;
+
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        {
+            return new DefaultActionEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+                defaultActionIndex);
+        }
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {

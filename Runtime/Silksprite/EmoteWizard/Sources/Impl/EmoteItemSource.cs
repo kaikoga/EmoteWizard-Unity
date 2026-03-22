@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Emote Item Source", 0)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/emote_item_source")]
-    public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource
+    public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IEmoteTemplateSource
     {
         [SerializeField] public EmoteTrigger trigger = new EmoteTrigger();
 
@@ -25,6 +25,16 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         [SerializeField] public string expressionItemPath = "";
         [SerializeField] public Texture2D? expressionItemIcon;
 
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        {
+            return new EmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+                trigger,
+                sequence?.ToEmoteFactoryTemplate(),
+                hasExpressionItem,
+                expressionItemPath,
+                expressionItemIcon);
+        }
+        
         public EmoteSequenceSourceBase? FindEmoteSequenceSource()
         {
             if (sequence) return sequence;

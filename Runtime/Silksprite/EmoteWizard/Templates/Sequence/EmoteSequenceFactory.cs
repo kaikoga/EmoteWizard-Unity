@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
             return SerializableUtils.Clone(_sequence);
         }
 
-        EmoteSequenceSourceBase IEmoteSequenceFactoryTemplate.PopulateSequenceSource(IUndoable undoable, Component target)
+        public EmoteSequenceSourceBase PopulateSequenceSource(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<EmoteSequenceSource>(target);
             source.sequence = _sequence;

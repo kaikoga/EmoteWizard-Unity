@@ -14,10 +14,17 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 {
     [AddComponentMenu("Emote Wizard/Sources/Generic Emote Item Source", 1)]
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/generic_emote_item_source")]
-    public class GenericEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource
+    public class GenericEmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource, IGenericEmoteItemSource, IEmoteTemplateSource
     {
         [SerializeField] public GenericEmoteTrigger trigger;
         [SerializeField] public EmoteSequenceSourceBase? sequence;
+
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        {
+            return new GenericEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+                trigger,
+                sequence?.ToEmoteFactoryTemplate());
+        }
 
         public EmoteSequenceSourceBase? FindEmoteSequenceSource()
         {
