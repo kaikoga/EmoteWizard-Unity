@@ -1,7 +1,5 @@
 #if EW_ABLET_SUPPORT
 
-using System;
-using System.Reflection;
 using Ablet.API.V1;
 using Ablet.API.V1.Building;
 using Silksprite.EmoteWizard.Contexts;
@@ -9,6 +7,8 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using UnityEngine;
 
 #if EW_MODULAR_AVATAR
+using System;
+using System.Reflection;
 using nadena.dev.modular_avatar.core;
 #endif
 
@@ -16,9 +16,9 @@ namespace Silksprite.EmoteWizard.Preview
 {
     public class InplaceAnimationPreview : AbletObservableProcedure
     {
-        readonly AnimationClip _clip;
+        readonly AnimationClip? _clip;
 
-        public InplaceAnimationPreview(AnimationClip clip)
+        public InplaceAnimationPreview(AnimationClip? clip)
         {
             _clip = clip;
         }
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Preview
 
         void Apply(GameObject avatarObject)
         {
-            if (!_clip)
+            if (_clip == null)
             {
                 return;
             }

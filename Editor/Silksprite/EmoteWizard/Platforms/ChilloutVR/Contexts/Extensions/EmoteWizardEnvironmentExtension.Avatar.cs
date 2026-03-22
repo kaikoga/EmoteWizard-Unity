@@ -54,7 +54,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             }
         }
 
-        static IEnumerable<CVRAdvancedSettingsEntryAccess> ExtractAdvancedSettingsEntries(this ParametersSnapshot snapshot)
+        static IEnumerable<CVRAdvancedSettingsEntryAccess?> ExtractAdvancedSettingsEntries(this ParametersSnapshot snapshot)
         {
             foreach (var parameter in snapshot.AllParameters)
             {
@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                     _ => throw new ArgumentOutOfRangeException()
                 });
                 
-                if (writeSourceKind switch
+                if (!(writeSourceKind switch
                 {
                     ParameterWriteSourceKind.NoUI => (CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues?)null,
                     ParameterWriteSourceKind.Button => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle,
@@ -79,7 +79,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                     ParameterWriteSourceKind.FourAxisPuppet => null,
                     ParameterWriteSourceKind.RadialPuppet => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Slider,
                     _ => throw new ArgumentOutOfRangeException()
-                } is not { } maybeSettingsType)
+                } is { } maybeSettingsType))
                 {
                     continue;
                 }
@@ -110,7 +110,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                         {
                             usedType = usedType,
                             defaultValue = parameter.defaultValue,
-                            materialPropertyTargets = new List<CVRAdvancedSettingsTargetEntryMaterialPropertyAccess>
+                            materialPropertyTargets = new List<CVRAdvancedSettingsTargetEntryMaterialPropertyAccess?>
                             {
                                 new CVRAdvancedSettingsTargetEntryMaterialPropertyAccess
                                 {
@@ -133,12 +133,12 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             }
         }
 
-        static void CustomizeAnimationLayers(CVRAvatarAccess cvrAvatar, RuntimeAnimatorController baseController, AnimatorOverrideController overrideController)
+        static void CustomizeAnimationLayers(CVRAvatarAccess cvrAvatar, RuntimeAnimatorController? baseController, AnimatorOverrideController? overrideController)
         {
             cvrAvatar.overrides = overrideController;
             cvrAvatar.avatarSettings = new CVRAdvancedAvatarSettingsAccess
             {
-                settings = new List<CVRAdvancedSettingsEntryAccess>(),
+                settings = new List<CVRAdvancedSettingsEntryAccess?>(),
                 baseController = baseController,
                 baseOverrideController = overrideController,
                 initialized = true
@@ -158,8 +158,11 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             // manually try to persist volatile layers because layers are what Emote Wizard generates
             if (!environment.AvatarRoot.TryGetCVRAvatarAccess(out var cvrAvatar)) yield break;
 
-            // FIXME: can we handle override controllers yet? 
-            yield return cvrAvatar.overrides;
+            // FIXME: can we handle override controllers yet?
+            if (cvrAvatar.overrides != null)
+            {
+                yield return cvrAvatar.overrides;
+            }
         }
     }
 }

@@ -4,11 +4,11 @@ using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
-using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
 #if EW_VRCSDK3_AVATARS
 using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+using UnityEngine;
 #endif
 
 namespace Silksprite.EmoteWizard.Configs
@@ -16,8 +16,8 @@ namespace Silksprite.EmoteWizard.Configs
     [CustomEditor(typeof(ExpressionConfig))]
     public class ExpressionConfigEditor : EmoteWizardEditorBase<ExpressionConfig>
     {
-        LocalizedProperty _buildAsSubAsset;
-        LocalizedProperty _outputAsset;
+        LocalizedProperty _buildAsSubAsset = null!;
+        LocalizedProperty _outputAsset = null!;
 
         void OnEnable()
         {

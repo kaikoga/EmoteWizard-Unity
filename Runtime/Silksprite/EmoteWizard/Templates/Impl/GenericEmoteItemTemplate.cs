@@ -15,11 +15,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
     {
         public string Path { get; }
         public readonly GenericEmoteTrigger Trigger;
-        public readonly IEmoteSequenceFactoryTemplate SequenceFactory;
+        public readonly IEmoteSequenceFactoryTemplate? SequenceFactory;
 
         public GenericEmoteItemTemplate(string path,
             GenericEmoteTrigger trigger, 
-            IEmoteSequenceFactoryTemplate sequenceFactory)
+            IEmoteSequenceFactoryTemplate? sequenceFactory)
         {
             Path = path;
             Trigger = trigger;
@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public bool LooksLikeMirrorItem => true;
 
-        EmoteItem ToEmoteItem(EmoteWizardEnvironment environment)
+        EmoteItem? ToEmoteItem(EmoteWizardEnvironment environment)
         {
             if (SequenceFactory == null) return null;
 
@@ -55,11 +55,13 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
         {
-            var emoteItem = ToEmoteItem(environment);
-            if (emoteItem != null) yield return emoteItem;
+            if (ToEmoteItem(environment) is { } emoteItem)
+            {
+                yield return emoteItem;
+            }
         }
 
-        GenericEmoteItem ToGenericEmoteItem()
+        GenericEmoteItem? ToGenericEmoteItem()
         {
             if (!(SequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
 
@@ -68,8 +70,10 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public IEnumerable<GenericEmoteItem> ToGenericEmoteItems()
         {
-            var emoteItem = ToGenericEmoteItem();
-            if (emoteItem != null) yield return emoteItem;
+            if (ToGenericEmoteItem() is { } emoteItem)
+            {
+                yield return emoteItem;
+            }
         }
 
         public IEnumerable<ExpressionItem> ToExpressionItems() => Enumerable.Empty<ExpressionItem>();

@@ -6,29 +6,29 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public abstract class AnimatorLayerContextBase : OutputContextBase<AnimatorLayerConfigBase, RuntimeAnimatorController>
     {
-        RuntimeAnimatorController _outputAsset;
-        public override RuntimeAnimatorController OutputAsset
+        RuntimeAnimatorController? _outputAsset;
+        public override RuntimeAnimatorController? OutputAsset
         {
             get => _outputAsset;
             set
             {
                 _outputAsset = value;
-                if (Config) Config.outputAsset = value;
+                if (Config != null) Config.outputAsset = value;
             }
         }
 
-        AnimationClip _resetClip;
-        public AnimationClip ResetClip
+        AnimationClip? _resetClip;
+        public AnimationClip? ResetClip
         {
             get => _resetClip;
             set
             {
                 _resetClip = value;
-                if (Config) Config.resetClip = value;
+                if (Config != null) Config.resetClip = value;
             }
         }
 
-        public AvatarMask DefaultAvatarMask { get; protected set; }
+        public AvatarMask? DefaultAvatarMask { get; protected set; }
         public LayerOutputKind LayerOutputKind { get; protected set; }
         public bool HasResetClip { get; protected set; }
 

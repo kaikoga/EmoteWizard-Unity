@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard
             {
                 EmoteWizardGUILayout.OutputUIArea(true, null, () =>
                 {
-                    void EditAnimator(RuntimeAnimatorController animatorController)
+                    void EditAnimator(RuntimeAnimatorController? animatorController)
                     {
                         var animator = CreateEnv().ProvideProxyAnimator();
                         animator.runtimeAnimatorController = animatorController;

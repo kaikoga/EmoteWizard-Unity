@@ -7,9 +7,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
     public class StaticLayerBuilder : LayerBuilderBase
     {
         readonly string _stateName;
-        readonly Motion _clip;
+        readonly Motion? _clip;
 
-        public StaticLayerBuilder(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, string stateName, Motion clip) : base(builder, layer)
+        public StaticLayerBuilder(AnimatorLayerBuilder builder, AnimatorControllerLayer layer, string stateName, Motion? clip) : base(builder, layer)
         {
             _stateName = stateName;
             _clip = clip;

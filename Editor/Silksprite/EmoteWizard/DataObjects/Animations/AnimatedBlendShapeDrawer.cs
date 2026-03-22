@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 LEditorGUI.Prop(position.UISliceV(0), relativeRef);
 
                 var skinnedMeshRenderer = (SkinnedMeshRenderer)relativeRef.Property.FindPropertyRelative(nameof(RelativeSkinnedMeshRendererRef.target)).objectReferenceValue;
-                if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is Mesh sharedMesh)
+                if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is { } sharedMesh)
                 {
                     EditorGUI.BeginChangeCheck();
                     var options = Enumerable.Range(0, sharedMesh.blendShapeCount)

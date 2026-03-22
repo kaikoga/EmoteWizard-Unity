@@ -18,18 +18,18 @@ namespace Silksprite.EmoteWizard.Templates.Impl
     {
         public string Path { get; }
         public readonly EmoteTrigger Trigger;
-        public readonly IEmoteSequenceFactoryTemplate SequenceFactory;
+        public readonly IEmoteSequenceFactoryTemplate? SequenceFactory;
 
         public readonly bool HasExpressionItem;
         public readonly string ExpressionItemPath;
-        public readonly Texture2D ExpressionItemIcon;
+        public readonly Texture2D? ExpressionItemIcon;
 
         public EmoteItemTemplate(string path,
             EmoteTrigger trigger,
-            IEmoteSequenceFactoryTemplate sequenceFactory,
+            IEmoteSequenceFactoryTemplate? sequenceFactory,
             bool hasExpressionItem,
             string expressionItemPath,
-            Texture2D expressionItemIcon)
+            Texture2D? expressionItemIcon)
         {
             Path = path;
             Trigger = trigger;
@@ -96,7 +96,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             GenericEmoteTrigger genericTrigger,
             EmoteItemKind itemKind, EmoteSequenceFactoryKind sequenceKind)
         {
-            EmoteTriggerBuilder trigger;
+            EmoteTriggerBuilder? trigger;
             switch (itemKind)
             {
                 case EmoteItemKind.EmoteItem:

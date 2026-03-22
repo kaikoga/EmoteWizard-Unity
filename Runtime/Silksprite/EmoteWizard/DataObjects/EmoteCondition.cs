@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         [SerializeField] public ParameterItemKind kind = ParameterItemKind.Auto;
         [ParameterName(false, false)]
-        [SerializeField] public string parameter;
+        [SerializeField] public string parameter = "";
         [SerializeField] public EmoteConditionMode mode = EmoteConditionMode.Equals;
         [SerializeField] public float threshold;
 

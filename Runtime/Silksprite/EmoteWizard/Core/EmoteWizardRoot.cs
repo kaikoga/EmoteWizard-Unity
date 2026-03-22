@@ -10,24 +10,24 @@ namespace Silksprite.EmoteWizard
     [HelpURL("https://docs.kaikoga.net/emotewizard/emote_wizard_root")]
     public class EmoteWizardRoot : EmoteWizardBehaviour
     {
-        [SerializeField] public Transform avatarRootTransform;
-        [SerializeField] public Animator proxyAnimator;
+        [SerializeField] public Transform? avatarRootTransform;
+        [SerializeField] public Animator? proxyAnimator;
 
         [SerializeField] public bool persistGeneratedAssets;
 
         [SerializeField] [HideInInspector] public string generatedAssetRoot = "Assets/Generated/";
         [SerializeField] [HideInInspector] public string generatedAssetPrefix = "Generated";
 
-        [SerializeField] public string author;
+        [SerializeField] public string author = "";
 
-        [SerializeField] public AnimationClip emptyClip;
+        [SerializeField] public AnimationClip? emptyClip;
         [SerializeField] public LayerKind generateTrackingControlLayer = LayerKind.FX;
         [SerializeField] public OverrideGeneratedControllerType2 overrideGesture = OverrideGeneratedControllerType2.Default1;
-        [SerializeField] public RuntimeAnimatorController overrideGestureController;
+        [SerializeField] public RuntimeAnimatorController? overrideGestureController;
         [SerializeField] public OverrideGeneratedControllerType1 overrideAction = OverrideGeneratedControllerType1.Default;
-        [SerializeField] public RuntimeAnimatorController overrideActionController;
+        [SerializeField] public RuntimeAnimatorController? overrideActionController;
         [SerializeField] public OverrideControllerType2 overrideSitting = OverrideControllerType2.Default2;
-        [SerializeField] public RuntimeAnimatorController overrideSittingController;
+        [SerializeField] public RuntimeAnimatorController? overrideSittingController;
 
         [SerializeField] public bool showTutorial;
         [SerializeField] public bool detectPlatform = true;

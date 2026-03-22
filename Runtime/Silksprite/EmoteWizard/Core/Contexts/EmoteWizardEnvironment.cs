@@ -1,5 +1,4 @@
 using System.Linq;
-using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
@@ -24,20 +23,11 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public partial class EmoteWizardEnvironment
     {
-        [CanBeNull]
-        readonly EmoteWizardRoot _root;
-
-        public EmoteWizardRoot Root => _root;
+        public EmoteWizardRoot? Root { get; }
 
         public readonly bool IsDetectedAvatarRoot;
 
-        [CanBeNull]
-        Transform _avatarRoot;
-        public Transform AvatarRoot
-        {
-            get => _avatarRoot;
-            set => _avatarRoot = value;
-        }
+        public Transform AvatarRoot { get; set; }
 
         readonly Component _rootOrAvatarRoot;
 
@@ -59,21 +49,21 @@ namespace Silksprite.EmoteWizard.Contexts
                 DetectedPlatform DoDetect()
                 {
                     if (!_detectPlatform) return DetectedPlatform.Mixed;
-                    if (!_avatarRoot) return DetectedPlatform.Mixed;
+                    if (AvatarRoot == null) return DetectedPlatform.Mixed;
 
                     var detectedPlatform = DetectedPlatform.None;
 
 #if EW_VRCSDK3_AVATARS
-                    if (_avatarRoot.GetComponent<VRCAvatarDescriptor>()) detectedPlatform |= DetectedPlatform.VRChat;
+                    if (AvatarRoot.GetComponent<VRCAvatarDescriptor>()) detectedPlatform |= DetectedPlatform.VRChat;
 #endif
 #if CVR_CCK_EXISTS
-                    if (_avatarRoot.TryGetCVRAvatarAccess(out _)) detectedPlatform |= DetectedPlatform.ChilloutVR;
+                    if (AvatarRoot.TryGetCVRAvatarAccess(out _)) detectedPlatform |= DetectedPlatform.ChilloutVR;
 #endif
 #if ATIV_DETECTED_VRM0
-                    if (_avatarRoot.GetComponent<VRMMeta>()) detectedPlatform |= DetectedPlatform.VRM0;
+                    if (AvatarRoot.GetComponent<VRMMeta>()) detectedPlatform |= DetectedPlatform.VRM0;
 #endif
 #if ATIV_DETECTED_VRM1
-                    if (_avatarRoot.GetComponent<Vrm10Instance>()) detectedPlatform |= DetectedPlatform.VRM1;
+                    if (AvatarRoot.GetComponent<Vrm10Instance>()) detectedPlatform |= DetectedPlatform.VRM1;
 #endif
 
                     switch (detectedPlatform)
@@ -88,26 +78,25 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
 
-        [CanBeNull]
-        Animator _proxyAnimator;
-        public Animator ProxyAnimator
+        Animator? _proxyAnimator;
+        public Animator? ProxyAnimator
         {
             get => _proxyAnimator;
             set
             {
                 _proxyAnimator = value;
-                if (_root) _root.proxyAnimator = value;
+                if (Root != null) Root.proxyAnimator = value;
             }
         }
 
-        AnimationClip _emptyClip;
-        public AnimationClip EmptyClip
+        AnimationClip? _emptyClip;
+        public AnimationClip? EmptyClip
         {
             get => _emptyClip;
             set
             {
                 _emptyClip = value;
-                if (_root) _root.emptyClip = value;
+                if (Root != null) Root.emptyClip = value;
             }
         }
 
@@ -120,11 +109,11 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _overrideGesture = value;
-                if (_root) _root.overrideGesture = value;
+                if (Root != null) Root.overrideGesture = value;
             }
         }
 
-        public readonly RuntimeAnimatorController OverrideGestureController;
+        public readonly RuntimeAnimatorController? OverrideGestureController;
 
         OverrideGeneratedControllerType1 _overrideAction;
         public OverrideGeneratedControllerType1 OverrideAction
@@ -133,24 +122,24 @@ namespace Silksprite.EmoteWizard.Contexts
             set
             {
                 _overrideAction = value;
-                if (_root) _root.overrideAction = value;
+                if (Root != null) Root.overrideAction = value;
             }
         }
 
-        public readonly RuntimeAnimatorController OverrideActionController;
+        public readonly RuntimeAnimatorController? OverrideActionController;
 
         public readonly OverrideControllerType2 OverrideSitting;
 
-        public readonly RuntimeAnimatorController OverrideSittingController;
+        public readonly RuntimeAnimatorController? OverrideSittingController;
 
         public readonly bool ShowTutorial;
         public bool PersistGeneratedAssets { get; set; }
 
         EmoteWizardEnvironment(EmoteWizardRoot root, Transform avatarRoot, bool isDetectedAvatarRoot)
         {
-            _root = root;
-            _avatarRoot = avatarRoot;
-            _rootOrAvatarRoot = _root;
+            Root = root;
+            AvatarRoot = avatarRoot;
+            _rootOrAvatarRoot = Root;
             IsDetectedAvatarRoot = isDetectedAvatarRoot;
             _detectPlatform = root.detectPlatform;
             _proxyAnimator = root.proxyAnimator;
@@ -169,8 +158,8 @@ namespace Silksprite.EmoteWizard.Contexts
 
         EmoteWizardEnvironment(Transform avatarRoot)
         {
-            _avatarRoot = avatarRoot;
-            _rootOrAvatarRoot = _avatarRoot;
+            AvatarRoot = avatarRoot;
+            _rootOrAvatarRoot = AvatarRoot;
             IsDetectedAvatarRoot = false;
             _detectPlatform = true;
             
@@ -183,9 +172,14 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             var isDetectedAvatarRoot = false;
             var avatarRoot = root.avatarRootTransform;
-            if (!avatarRoot)
+            if (avatarRoot == null)
             {
                 avatarRoot = RuntimeUtil.FindAvatarInParents(root.transform);
+                isDetectedAvatarRoot = true;
+            }
+            if (avatarRoot == null)
+            {
+                avatarRoot = root.transform;
                 isDetectedAvatarRoot = true;
             }
             var env = new EmoteWizardEnvironment(root, avatarRoot, isDetectedAvatarRoot);
@@ -207,33 +201,21 @@ namespace Silksprite.EmoteWizard.Contexts
             foreach (var context in ContextsCache.OfType<IBehaviourContext>()) context.DisconnectOutputAssets();
         }
 
-        public Transform Find(string path)
+        public T? GetComponentInChildren<T>(bool includeInactive)
+        where T : Component
         {
-            if (_root)
             {
-                if (_root.transform.Find(path) is Transform transform) return transform;
+                if (Root != null && Root.GetComponentInChildren<T>(includeInactive) is { } c) return c;
             }
-            if (_avatarRoot)
             {
-                if (_avatarRoot.Find(path) is Transform transform) return transform;
+                if (AvatarRoot && AvatarRoot.GetComponentInChildren<T>(includeInactive) is { } c) return c;
             }
             return null;
         }
 
-        public T GetComponentInChildren<T>(bool includeInactive)
-        {
-            {
-                if (_root && _root.GetComponentInChildren<T>(includeInactive) is T c) return c;
-            }
-            {
-                if (_avatarRoot && _avatarRoot.GetComponentInChildren<T>(includeInactive) is T c) return c;
-            }
-            return default;
-        }
-
         public T[] GetComponentsInChildren<T>(bool includeInactive)
         {
-            return new Component[] { _root, _avatarRoot }
+            return new Component[] { Root!, AvatarRoot }
                 .Where(component => component)
                 .SelectMany(component => component.GetComponentsInChildren<T>(includeInactive))
                 .Distinct()

@@ -32,11 +32,11 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
         {
             config.AddDependency<GeneratingPhase>();
         }
-        public AbletProcedure ToProcedure(IBuildArgument argument)
+        public AbletProcedure? ToProcedure(IBuildArgument argument)
         {
             if (!AbletSymbols.PreferAblet) return null;
 
-            return AbletBuildProcedure.Create((IBuildContext context) =>
+            return AbletBuildProcedure.Create(context =>
             {
                 var undoable = new EditorUndoable("Build Emote Wizard from Ablet");
 

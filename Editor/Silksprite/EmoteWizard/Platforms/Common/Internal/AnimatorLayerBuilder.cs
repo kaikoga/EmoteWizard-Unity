@@ -67,7 +67,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             _animatorController.AddLayer(layer);
         }
 
-        AnimatorControllerLayer PopulateLayer(string layerName, AvatarMask avatarMask = null)
+        AnimatorControllerLayer PopulateLayer(string layerName, AvatarMask? avatarMask = null)
         {
             layerName = _animatorController.MakeUniqueLayerName(layerName);
             var layer = new AnimatorControllerLayer
@@ -93,7 +93,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             return layer;
         }
 
-        public void BuildStaticLayer(string layerName, AnimationClip clip, AvatarMask defaultAvatarMask)
+        public void BuildStaticLayer(string layerName, AnimationClip? clip, AvatarMask? defaultAvatarMask)
         {
             var resetLayer = PopulateLayer(layerName, defaultAvatarMask);
             new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
@@ -109,7 +109,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             {
                 var (groupName, hand) = mirroredEmoteGroup.Key;
 
-                AvatarMask avatarMask = null;
+                AvatarMask? avatarMask = null;
                 if (layerKind == LayerKind.Gesture)
                 {
                     switch (hand)

@@ -2,7 +2,6 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
@@ -15,13 +14,13 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(GenericEmoteItemSource))]
     public class GenericEmoteItemSourceEditor : EmoteWizardEditorBase<GenericEmoteItemSource>
     {
-        LocalizedProperty _platform;
-        LocalizedProperty _vrcHandSign;
-        LocalizedProperty _vrm0BlendShape;
-        LocalizedProperty _vrm1Expression;
-        LocalizedProperty _name;
+        LocalizedProperty _platform = null!;
+        LocalizedProperty _vrcHandSign = null!;
+        LocalizedProperty _vrm0BlendShape = null!;
+        LocalizedProperty _vrm1Expression = null!;
+        LocalizedProperty _name = null!;
 
-        LocalizedProperty _sequence;
+        LocalizedProperty _sequence = null!;
 
         void OnEnable()
         {
@@ -74,7 +73,7 @@ namespace Silksprite.EmoteWizard.Sources
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
-                    EmoteSequenceSourceBase obj = soleTarget.FindEmoteSequenceSource();
+                    var obj = soleTarget.FindEmoteSequenceSource();
                     LEditorGUILayout.ObjectField(Loc("GenericEmoteItemSource::Detected Emote Sequence"), obj, true);
                 }
             }

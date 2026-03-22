@@ -6,14 +6,14 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public class EditorLayerContext : OutputContextBase<EditorLayerConfig, RuntimeAnimatorController>
     {
-        RuntimeAnimatorController _outputAsset;
-        public override RuntimeAnimatorController OutputAsset
+        RuntimeAnimatorController? _outputAsset;
+        public override RuntimeAnimatorController? OutputAsset
         {
             get => _outputAsset;
             set
             {
                 _outputAsset = value;
-                if (Config) Config.outputAsset = value;
+                if (Config != null) Config.outputAsset = value;
             }
         }
 

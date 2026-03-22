@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         static readonly LocalizedContent[][] SubParameterLabels =
         {
-            null,
+            Array.Empty<LocalizedContent>(),
             new[]
             {
                 Loc("ExpressionItem::subParameter::Rotation")
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Sources
                 Loc("ExpressionItem::subParameter::Horizontal"),
                 Loc("ExpressionItem::subParameter::Vertical")
             },
-            null,
+            Array.Empty<LocalizedContent>(),
             new[]
             {
                 Loc("ExpressionItem::subParameter::Up"),
@@ -40,15 +40,15 @@ namespace Silksprite.EmoteWizard.Sources
             }
         };
 
-        LocalizedProperty _icon;
-        LocalizedProperty _path;
-        LocalizedProperty _parameter;
-        LocalizedProperty _value;
-        LocalizedProperty _itemKind;
-        LocalizedProperty _subParameters;
-        LocalizedProperty _labels;
-        LocalizedProperty _labelIcons;
-        LocalizedProperty _subMenu;
+        LocalizedProperty _icon = null!;
+        LocalizedProperty _path = null!;
+        LocalizedProperty _parameter = null!;
+        LocalizedProperty _value = null!;
+        LocalizedProperty _itemKind = null!;
+        LocalizedProperty _subParameters = null!;
+        LocalizedProperty _labels = null!;
+        LocalizedProperty _labelIcons = null!;
+        LocalizedProperty _subMenu = null!;
 
         void OnEnable()
         {

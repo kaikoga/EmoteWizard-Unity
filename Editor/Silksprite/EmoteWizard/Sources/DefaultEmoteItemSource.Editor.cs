@@ -1,10 +1,7 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
-using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
@@ -15,10 +12,10 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(DefaultEmoteItemSource))]
     public class DefaultEmoteItemSourceEditor : EmoteWizardEditorBase<DefaultEmoteItemSource>
     {
-        LocalizedProperty _emoteItemKind;
-        LocalizedProperty _emoteSequenceFactoryKind;
-        LocalizedProperty _layerKind;
-        LocalizedProperty _handSign;
+        LocalizedProperty _emoteItemKind = null!;
+        LocalizedProperty _emoteSequenceFactoryKind = null!;
+        LocalizedProperty _layerKind = null!;
+        LocalizedProperty _handSign = null!;
 
         void OnEnable()
         {

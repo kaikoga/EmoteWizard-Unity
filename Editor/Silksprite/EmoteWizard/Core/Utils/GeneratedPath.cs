@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Utils
         public string Resolve(EmoteWizardEnvironment environment)
         {
             var root = environment.Root;
-            if (!root)
+            if (root == null)
             {
                 return Path.GetFileNameWithoutExtension(_relativePath.Replace(GeneratedPrefix, ""));
             }

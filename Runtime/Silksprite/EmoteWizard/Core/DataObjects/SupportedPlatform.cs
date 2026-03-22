@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static class SupportedPlatform
     {
 #if EW_VRCSDK3_AVATARS

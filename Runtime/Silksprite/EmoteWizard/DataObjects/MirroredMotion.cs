@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class MirroredMotion
     {
         [SerializeField] public bool useMirroredSettings;
-        [SerializeField] public Motion clipLeft;
-        [SerializeField] public Motion clipRight;
+        [SerializeField] public Motion? clipLeft;
+        [SerializeField] public Motion? clipRight;
     }
 }

@@ -7,8 +7,8 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public partial class EmoteWizardEnvironment
     {
-        List<IContext> _contextsCache;
-        IEnumerable<IContext> ContextsCache => _contextsCache ?? (_contextsCache = CollectContexts());
+        List<IContext>? _contextsCache;
+        IEnumerable<IContext> ContextsCache => _contextsCache ??= CollectContexts();
 
         List<IContext> CollectContexts()
         {
@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Contexts
             if (context == null)
             {
                 context = (T)Activator.CreateInstance(typeof(T), this);
-                _contextsCache.Add(context);
+                _contextsCache!.Add(context);
             }
             return context;
         }

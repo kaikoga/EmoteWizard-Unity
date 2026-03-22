@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
         void OnValidate()
         {
             var env = CreateEnv();
-            if (env == null || env.AvatarRoot == null) return;
+            if (env.AvatarRoot == null) return;
 
             var dirty = false;
             foreach (var enable in sequence.animatedEnable)

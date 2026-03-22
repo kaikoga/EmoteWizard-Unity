@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Ablet.Building.Ephemeral;
 using Silksprite.EmoteWizard.Contexts;
 using Object = UnityEngine.Object;
 
 #if EW_NDMF_SUPPORT || EW_ABLET_SUPPORT
 using UnityEditor;
-using UnityEngine;
 #endif
 
 #if EW_NDMF_SUPPORT
 using nadena.dev.ndmf;
 using nadena.dev.ndmf.util;
+using UnityEngine;
 #elif EW_ABLET_SUPPORT
+using System.Linq;
 using Ablet.Building;
+using Ablet.Building.Ephemeral;
 #endif
 
 namespace Silksprite.EmoteWizard.Scopes
@@ -23,8 +23,8 @@ namespace Silksprite.EmoteWizard.Scopes
     {
         readonly EmoteWizardEnvironment _environment;
 #if EW_NDMF_SUPPORT
-        readonly GameObject _gameObject;
-        readonly BuildContext _buildContext;
+        readonly GameObject? _gameObject;
+        readonly BuildContext? _buildContext;
 #endif
         protected ManualBundleGeneratedAssetsScopeBase(EmoteWizardEnvironment environment, bool manualBuild)
         {

@@ -24,11 +24,11 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
         }.Select(target => new TrackingOverride { target = target }).ToList();
         
         int _index;
-        string _name;
+        string _name = "";
         bool _hasExitTime;
         float _exitTime = 0.75f;
-        Motion _clip;
-        Motion _exitClip;
+        Motion? _clip;
+        Motion? _exitClip;
 
         static DefaultActionEmote Default(DefaultActionIndex index)
         {
@@ -110,10 +110,10 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
         {
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
 
-            return EmoteItemTemplate.Builder(LayerKind.Action, _name, EmoteWizardConstants.Defaults.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, _name, EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Defaults.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
                 .AddFixedDuration(true)
                 .AddClip(_clip)
                 .AddClipExitTime(_hasExitTime, _exitTime)
@@ -145,11 +145,11 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
 
         static IEmoteTemplate UnpackedAfk()
         {
-            return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Defaults.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.AFK, mode = EmoteConditionMode.If, threshold = 0 })
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.Afk, mode = EmoteConditionMode.If, threshold = 0 })
                 .AddFixedDuration(true)
                 .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
                 .AddLayerBlend(true, 1f, 0.5f)

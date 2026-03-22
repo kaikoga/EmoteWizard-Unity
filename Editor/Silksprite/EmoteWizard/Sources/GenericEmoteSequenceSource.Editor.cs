@@ -5,10 +5,8 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Extensions;
 using Silksprite.EmoteWizard.Preview;
 using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
@@ -22,30 +20,30 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(GenericEmoteSequenceSource))]
     public class GenericEmoteSequenceSourceEditor : EmoteWizardEditorBase<GenericEmoteSequenceSource>
     {
-        LocalizedProperty _layerKind;
-        LocalizedProperty _groupName;
+        LocalizedProperty _layerKind = null!;
+        LocalizedProperty _groupName = null!;
 
-        LocalizedProperty _animatedEnable;
-        LocalizedProperty _animatedBlendShapes;
+        LocalizedProperty _animatedEnable = null!;
+        LocalizedProperty _animatedBlendShapes = null!;
 
-        LocalizedProperty _isFixedDuration;
-        LocalizedProperty _entryTransitionDuration;
-        LocalizedProperty _exitTransitionDuration;
+        LocalizedProperty _isFixedDuration = null!;
+        LocalizedProperty _entryTransitionDuration = null!;
+        LocalizedProperty _exitTransitionDuration = null!;
 
-        LocalizedProperty _hasTimeParameter;
-        LocalizedProperty _timeParameter;
+        LocalizedProperty _hasTimeParameter = null!;
+        LocalizedProperty _timeParameter = null!;
 
-        LocalizedProperty _hasLayerBlend;
-        LocalizedProperty _blendIn;
-        LocalizedProperty _blendOut;
+        LocalizedProperty _hasLayerBlend = null!;
+        LocalizedProperty _blendIn = null!;
+        LocalizedProperty _blendOut = null!;
 
-        LocalizedProperty _hasTrackingOverrides;
-        LocalizedProperty _trackingOverrides;
+        LocalizedProperty _hasTrackingOverrides = null!;
+        LocalizedProperty _trackingOverrides = null!;
 
-        AnimationClip _inputClip;
+        AnimationClip? _inputClip;
 
-        IAnimationPreviewWrapper _previewWrapper;
-        AnimationClip _temporaryClip;
+        IAnimationPreviewWrapper _previewWrapper = null!;
+        AnimationClip? _temporaryClip;
 
         void OnEnable()
         {
@@ -72,7 +70,7 @@ namespace Silksprite.EmoteWizard.Sources
             _trackingOverrides = serializedItem.Lop(nameof(GenericEmoteSequence.trackingOverrides), Loc("GenericEmoteSequenceSource::trackingOverrides"));
 
             var environment = CreateEnv();
-            if (environment?.AvatarRoot)
+            if (environment.AvatarRoot)
             {
                 _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded(environment);
@@ -90,8 +88,8 @@ namespace Silksprite.EmoteWizard.Sources
                 return;
             }
 
-            if (_temporaryClip) DestroyImmediate(_temporaryClip);
-            _temporaryClip = (AnimationClip)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
+            if (_temporaryClip != null) DestroyImmediate(_temporaryClip);
+            _temporaryClip = (AnimationClip?)soleTarget.ToEmoteFactoryTemplate().Build(environment, new ClipBuilderImpl()).clip;
             _previewWrapper.RefreshPreview(_temporaryClip);
         }
 

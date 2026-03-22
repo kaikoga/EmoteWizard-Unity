@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
     public static class ParametersSnapshotExtension
     {
         // TODO: could this be error?  
-        public static ParameterInstance ResolveParameterWithWarning(this ParametersSnapshot snapshot, string parameterName)
+        public static ParameterInstance? ResolveParameterWithWarning(this ParametersSnapshot snapshot, string parameterName)
         {
             var result = snapshot.ResolveParameter(parameterName);
             if (result == null)

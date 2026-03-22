@@ -17,7 +17,6 @@ namespace Silksprite.EmoteWizard.Extensions
             var animatedBlendShapes = new List<AnimatedBlendShape>();
 
             var curveBindings = AnimationUtility.GetCurveBindings(clip);
-            var objectReferenceCurveBindings = AnimationUtility.GetObjectReferenceCurveBindings(clip);
 
             foreach (var curveBinding in curveBindings)
             {
@@ -45,7 +44,7 @@ namespace Silksprite.EmoteWizard.Extensions
                         {
                             relativeRef = new RelativeSkinnedMeshRendererRef
                             {
-                                target = RuntimeUtil.FromAnimationTransformPath(animationRoot.transform, curveBinding.path).GetComponent<SkinnedMeshRenderer>(),
+                                target = RuntimeUtil.FromAnimationTransformPath(animationRoot.transform, curveBinding.path)?.GetComponent<SkinnedMeshRenderer>(),
                                 relativePath = curveBinding.path
                             },
                             blendShapeName = curveBinding.propertyName.Substring("blendShape.".Length),
@@ -55,11 +54,6 @@ namespace Silksprite.EmoteWizard.Extensions
                 }
             }
 
-            foreach (var objectReferenceCurveBinding in objectReferenceCurveBindings)
-            {
-                
-            }
-            
             return new GenericEmoteSequence
             {
                 animatedEnable = animatedEnable.ToArray(),

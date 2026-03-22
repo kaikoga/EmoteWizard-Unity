@@ -16,12 +16,12 @@ namespace Silksprite.EmoteWizard.Wizards
         [SerializeField] public bool hasExpressionItemSource;
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
         [ItemPath]
-        [SerializeField] public string itemPath;
+        [SerializeField] public string itemPath = "";
         [SerializeField] public bool hasGroupName;
-        [SerializeField] public string groupName;
+        [SerializeField] public string groupName = "";
         [SerializeField] public bool hasParameterName;
         [ParameterName(false, true)]
-        [SerializeField] public string parameterName;
+        [SerializeField] public string parameterName = "";
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {

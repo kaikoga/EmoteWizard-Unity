@@ -21,23 +21,23 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
             config.AddDependency<PruningPhase>();
         }
 
-        AbletProcedure IAbletLayer.ToProcedure(IBuildArgument argument)
+        AbletProcedure? IAbletLayer.ToProcedure(IBuildArgument argument)
         {
             if (!AbletSymbols.PreferAblet) return null;
 
-            return AbletBuildProcedure.Create((IBuildContext context) =>
+            return AbletBuildProcedure.Create(context =>
             {
+#if EW_VRCSDK3_AVATARS
                 var avatarRootTransform = context.CurrentRootTransform;
 
                 foreach (var root in avatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
                 {
-#if EW_VRCSDK3_AVATARS
                     if (context.CurrentRootObject.TryGetComponent<VRCAvatarDescriptor>(out var avatarDescriptor))
                     {
                         avatarDescriptor.DeleteVrcLayers(root);
                     }
-#endif
                 }
+#endif
                 
             });
         }

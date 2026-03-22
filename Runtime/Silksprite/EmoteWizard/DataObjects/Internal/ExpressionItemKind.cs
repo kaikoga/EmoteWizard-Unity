@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {

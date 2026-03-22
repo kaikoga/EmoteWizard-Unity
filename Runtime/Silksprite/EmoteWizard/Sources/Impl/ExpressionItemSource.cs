@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/expression_item_source")]
     public class ExpressionItemSource : EmoteWizardDataSourceBase, IExpressionItemSource
     {
-        [SerializeField] public ExpressionItem expressionItem;
+        [SerializeField] public ExpressionItem expressionItem = new ExpressionItem();
 
         public IEnumerable<ExpressionItem> ToExpressionItems(EmoteWizardEnvironment environment)
         {

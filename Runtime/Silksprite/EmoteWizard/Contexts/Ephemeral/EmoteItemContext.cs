@@ -12,8 +12,8 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
     {
         public EmoteItemContext(EmoteWizardEnvironment env) : base(env) { }
         
-        List<EmoteItem> _mirroredEmoteItems;
-        List<EmoteItem> _forceMirroredEmoteItems;
+        List<EmoteItem>? _mirroredEmoteItems;
+        List<EmoteItem>? _forceMirroredEmoteItems;
 
         IEnumerable<EmoteItem> CollectAllMirroredEmoteItems()
         {

@@ -14,9 +14,9 @@ namespace Silksprite.EmoteWizard.Configs
     public class ExpressionConfig : EmoteConfigBase
     {
 #if EW_VRCSDK3_AVATARS
-        [SerializeField] public VRCExpressionsMenu outputAsset;
+        [SerializeField] public VRCExpressionsMenu? outputAsset;
 #else
-        [SerializeField] public ScriptableObject outputAsset;
+        [SerializeField] public ScriptableObject? outputAsset;
 #endif
         [SerializeField] public string defaultPrefix = "Default/";
         [SerializeField] public bool buildAsSubAsset = true;

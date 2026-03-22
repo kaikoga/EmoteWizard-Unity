@@ -4,7 +4,6 @@ using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal;
 using Silksprite.EmoteWizard.Utils;
@@ -42,7 +41,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 builder.BuildStaticLayer("Default Avatar Mask", null, context.DefaultAvatarMask);
             }
 
-            AnimationClip resetClip;
+            AnimationClip? resetClip;
             if (context.HasResetClip)
             {
                 resetClip = context.Environment.EnsureAsset(GeneratedPaths.GeneratedResetClip, context.ResetClip);
@@ -61,14 +60,14 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             }
             builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             builder.BuildParameters();
-            return context.OutputAsset;
+            return animatorController;
         }
 
         static void BuildResetClip(this MergedLayerContext context, AnimationClip targetClip)
         {
             var proxyAnimator = context.Environment.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : context.GameObject;
-            if (!avatar)
+            if (avatar == null)
             {
                 var gameObject = context.Environment.ContainerTransform.gameObject;
                 ErrorReportWrapper.LogWarningFormat(LochTool.Loc("Warn::ResetClip::WithoutAvatar."), gameObject,

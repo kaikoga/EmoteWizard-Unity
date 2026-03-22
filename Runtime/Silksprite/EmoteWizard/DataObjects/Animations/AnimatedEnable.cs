@@ -14,10 +14,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
 
         IEnumerable<AnimatedValue<float>> IAnimatedProperty<float>.ToAnimatedValues(Transform avatarRootTransform)
         {
-            if (!relativeRef.GetOrResolveTarget(avatarRootTransform)) yield break;
+            if (!(relativeRef.GetOrResolveTarget(avatarRootTransform) is { } target)) yield break;
             yield return new AnimatedValue<float>
             {
-                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, relativeRef.target),
+                Path = RuntimeUtil.CalculateAnimationTransformPath(avatarRootTransform, target),
                 PropertyName = "m_IsActive",
                 Type = typeof(GameObject),
                 ValueOff = isEnable ? 1 : 0,

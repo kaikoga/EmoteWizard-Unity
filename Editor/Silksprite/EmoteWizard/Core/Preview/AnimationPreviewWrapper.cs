@@ -1,4 +1,3 @@
-using System;
 using Silksprite.Loch.IMGUI;
 using Silksprite.Loch.Tools;
 using UnityEditor;
@@ -25,9 +24,8 @@ namespace Silksprite.EmoteWizard.Preview
     }
 
 #if EW_ABLET_SUPPORT
-    class AbletAnimationPreviewWrapper : IDisposable, IAnimationPreviewWrapper
+    class AbletAnimationPreviewWrapper : IAnimationPreviewWrapper
     {
-
         readonly InplacePreviewRequest _previewRequest;
 
         public AbletAnimationPreviewWrapper(GameObject avatarRootObject)
@@ -37,7 +35,7 @@ namespace Silksprite.EmoteWizard.Preview
 
         public bool IsBlocked => _previewRequest.IsBlocked;
 
-        public void RefreshPreview(AnimationClip clip)
+        public void RefreshPreview(AnimationClip? clip)
         {
             _previewRequest.Posing = new InplaceAnimationPreview(clip);
         }
@@ -56,7 +54,7 @@ namespace Silksprite.EmoteWizard.Preview
 
         public void Dispose()
         {
-            _previewRequest?.Dispose();
+            _previewRequest.Dispose();
         }
     }
 #endif
@@ -64,7 +62,7 @@ namespace Silksprite.EmoteWizard.Preview
     class NullApplicationPreviewWrapper : IAnimationPreviewWrapper
     {
         public bool IsBlocked => true;
-        public void RefreshPreview(AnimationClip clip) { }
+        public void RefreshPreview(AnimationClip? clip) { }
         public void OnInspectorGUI() { }
         public void Dispose() { }
     }

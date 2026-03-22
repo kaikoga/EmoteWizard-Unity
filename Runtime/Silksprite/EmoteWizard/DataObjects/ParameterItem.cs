@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     {
         public bool enabled = true;
         [ParameterName(false,true)]
-        public string name;
+        public string name = "";
         public ParameterItemKind itemKind;
         public bool saved = true;
         public float defaultValue;

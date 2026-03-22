@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard
 
         protected override void OnInnerInspectorGUI()
         {
-            void UndoableButton(LocalizedContent loc, LocalizedContent desc, Action<IUndoable> callback)
+            void UndoableButton(LocalizedContent loc, LocalizedContent? desc, Action<IUndoable> callback)
             {
                 using (new EditorGUILayout.HorizontalScope())
                 {

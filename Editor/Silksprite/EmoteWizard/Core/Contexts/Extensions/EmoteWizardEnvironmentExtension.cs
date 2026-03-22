@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
     {
         public static Animator ProvideProxyAnimator(this EmoteWizardEnvironment environment)
         {
-            var animator = environment.ProxyAnimator ? environment.ProxyAnimator : RuntimeUndoable.Instance.EnsureComponent<Animator>(environment.AvatarRoot);
+            var animator = environment.ProxyAnimator != null ? environment.ProxyAnimator : RuntimeUndoable.Instance.EnsureComponent<Animator>(environment.AvatarRoot);
             environment.ProxyAnimator = animator;
             return animator;
         }
@@ -28,17 +28,17 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             if (!wizard) undoable.AddComponent<T>(environment.ContainerTransform.gameObject);
         }
 
-        public static T FindOrCreateChildComponent<T>(this IUndoable undoable, EmoteWizardEnvironment self, string path, Action<T> initializer = null) where T : Component
+        public static T FindOrCreateChildComponent<T>(this IUndoable undoable, EmoteWizardEnvironment self, string path, Action<T>? initializer = null) where T : Component
         {
-            if (self.Root)
+            if (self.Root != null)
             {
                 var child = self.Root.transform.Find(path);
-                if (child && undoable.EnsureComponent<T>(child) is T c) return c;
+                if (child && undoable.EnsureComponent<T>(child) is { } c) return c;
             }
-            if (self.AvatarRoot)
+            if (self.AvatarRoot != null)
             {
                 var child = self.AvatarRoot.Find(path);
-                if (child && undoable.EnsureComponent<T>(child) is T c) return c;
+                if (child && undoable.EnsureComponent<T>(child) is { } c) return c;
             }
             return undoable.AddChildComponent(self.ContainerTransform, path, initializer);
         }

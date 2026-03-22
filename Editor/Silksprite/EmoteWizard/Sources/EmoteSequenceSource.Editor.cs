@@ -1,4 +1,3 @@
-using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Preview;
@@ -19,42 +18,42 @@ namespace Silksprite.EmoteWizard.Sources
     {
         protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
-        LocalizedProperty _layerKind;
-        LocalizedProperty _groupName;
+        LocalizedProperty _layerKind = null!;
+        LocalizedProperty _groupName = null!;
 
-        LocalizedProperty _isFixedDuration;
+        LocalizedProperty _isFixedDuration = null!;
 
-        LocalizedProperty _clip;
-        LocalizedProperty _mirroredClip;
-        LocalizedProperty _entryTransitionDuration;
-        LocalizedProperty _exitTransitionDuration;
+        LocalizedProperty _clip = null!;
+        LocalizedProperty _mirroredClip = null!;
+        LocalizedProperty _entryTransitionDuration = null!;
+        LocalizedProperty _exitTransitionDuration = null!;
 
-        LocalizedProperty _hasExitTime;
-        LocalizedProperty _clipExitTime;
+        LocalizedProperty _hasExitTime = null!;
+        LocalizedProperty _clipExitTime = null!;
 
-        LocalizedProperty _hasTimeParameter;
-        LocalizedProperty _timeParameter;
+        LocalizedProperty _hasTimeParameter = null!;
+        LocalizedProperty _timeParameter = null!;
 
-        LocalizedProperty _hasEntryClip;
-        LocalizedProperty _entryClip;
-        LocalizedProperty _mirroredEntryClip;
-        LocalizedProperty _entryClipExitTime;
-        LocalizedProperty _postEntryTransitionDuration;
+        LocalizedProperty _hasEntryClip = null!;
+        LocalizedProperty _entryClip = null!;
+        LocalizedProperty _mirroredEntryClip = null!;
+        LocalizedProperty _entryClipExitTime = null!;
+        LocalizedProperty _postEntryTransitionDuration = null!;
 
-        LocalizedProperty _hasExitClip;
-        LocalizedProperty _exitClip;
-        LocalizedProperty _mirroredExitClip;
-        LocalizedProperty _exitClipExitTime;
-        LocalizedProperty _postExitTransitionDuration;
+        LocalizedProperty _hasExitClip = null!;
+        LocalizedProperty _exitClip = null!;
+        LocalizedProperty _mirroredExitClip = null!;
+        LocalizedProperty _exitClipExitTime = null!;
+        LocalizedProperty _postExitTransitionDuration = null!;
 
-        LocalizedProperty _serializedHasLayerBlend;
-        LocalizedProperty _serializedBlendIn;
-        LocalizedProperty _serializedBlendOut;
+        LocalizedProperty _serializedHasLayerBlend = null!;
+        LocalizedProperty _serializedBlendIn = null!;
+        LocalizedProperty _serializedBlendOut = null!;
 
-        LocalizedProperty _serializedHasTrackingOverrides;
-        LocalizedProperty _serializedTrackingOverrides;
+        LocalizedProperty _serializedHasTrackingOverrides = null!;
+        LocalizedProperty _serializedTrackingOverrides = null!;
 
-        IAnimationPreviewWrapper _previewWrapper;
+        IAnimationPreviewWrapper _previewWrapper = null!;
 
         void OnEnable()
         {
@@ -96,7 +95,7 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.trackingOverrides), Loc("EmoteSequence::trackingOverrides"));
 
             var environment = CreateEnv();
-            if (environment?.AvatarRoot)
+            if (environment.AvatarRoot)
             {
                 _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);
                 RefreshPreviewIfNeeded();

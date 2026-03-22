@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizardSupport.Extensions;
-using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.Tools;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;

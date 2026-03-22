@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
 
         protected override void Process()
         {
-            AnimatorState defaultState = null;
+            AnimatorState? defaultState = null;
             if (_emoteInstances.Any(item => item.Sequence.entryTransitionDuration != 0f))
             {
                 defaultState = PopulateDefaultState();
@@ -57,7 +57,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             exitDefaultTransition.duration = 0f;
         }
 
-        void PopulateSequence(EmoteInstance emoteInstance, AnimatorState defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteConditionInstance>> currentForcedConditions)
+        void PopulateSequence(EmoteInstance emoteInstance, AnimatorState? defaultState, TrackingTarget[] currentTrackingTargets, List<List<EmoteConditionInstance>> currentForcedConditions)
         {
             var targets = emoteInstance.Sequence.trackingOverrides.Select(trackingOverride => trackingOverride.target).ToArray();
             foreach (var target in targets) Builder.MarkTrackingTarget(target);
@@ -71,10 +71,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             var conditions = new ConditionBuilder();
             ApplyEmoteConditions(conditions, emoteInstance.Trigger.Conditions);
 
-            AnimatorState entryState = null;
-            AnimatorState mainState = null;
-            AnimatorState exitState = null;
-            AnimatorState releaseState = null;
+            AnimatorState? entryState = null;
+            AnimatorState mainState;
+            AnimatorState? exitState = null;
+            AnimatorState? releaseState = null;
             
             if (sequence.hasEntryClip)
             {
@@ -99,7 +99,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             if (sequence.hasTrackingOverrides)
             {
                 releaseState = AddStateWithoutTransition($"Release {emoteInstance.Trigger.Name}", null);
-                EditorFeatures.PopulateTriggerDriver(entryState ? entryState : mainState,
+                EditorFeatures.PopulateTriggerDriver(entryState != null ? entryState : mainState,
                     currentTrackingTargets.Select(target => (target, targets.Contains(target) ? TrackingMode.Override : TrackingMode.Tracking)));
                 EditorFeatures.PopulateTriggerDriver(releaseState,
                     currentTrackingTargets.Select(target => (target, TrackingMode.Tracking)));
@@ -121,13 +121,13 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
 
             if (sequence.hasLayerBlend)
             {
-                var firstState = entryState ? entryState : mainState;
-                var lastState = releaseState ? releaseState : exitState ? exitState : mainState;
+                var firstState = entryState != null ? entryState : mainState;
+                var lastState = releaseState != null ? releaseState : exitState != null ? exitState : mainState;
                 PopulateLayerControl(firstState, 1f, sequence.blendIn);
                 PopulateLayerControl(lastState, 0f, sequence.blendOut);
             }
 
-            if (entryState)
+            if (entryState != null)
             {
                 if (defaultState == null)
                 {
@@ -166,11 +166,11 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             if (sequence.hasExitTime)
             {
                 AnimatorStateTransition exitTransition;
-                if (exitState)
+                if (exitState != null)
                 {
                     exitTransition = AddTransition(mainState, exitState);
                 }
-                else if (releaseState)
+                else if (releaseState != null)
                 {
                     exitTransition = AddTransition(mainState, releaseState);
                 }
@@ -193,11 +193,11 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 });
 
                 IEnumerable<AnimatorStateTransition> exitTransitions;
-                if (exitState)
+                if (exitState != null)
                 {
                     exitTransitions = AddTransitions(mainState, exitState, conditions.Inverse().Concat(forcedConditions));
                 }
-                else if (releaseState)
+                else if (releaseState != null)
                 {
                     exitTransitions = AddTransitions(mainState, releaseState, conditions.Inverse().Concat(forcedConditions));
                 }
@@ -215,16 +215,16 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 }
             }
 
-            if (exitState)
+            if (exitState != null)
             {
-                var postExitTransition = releaseState ? AddTransition(exitState, releaseState) : AddExitTransition(exitState);
+                var postExitTransition = releaseState != null ? AddTransition(exitState, releaseState) : AddExitTransition(exitState);
                 postExitTransition.hasExitTime = true;
                 postExitTransition.exitTime = sequence.exitClipExitTime;
                 postExitTransition.duration = sequence.postExitTransitionDuration;
                 postExitTransition.hasFixedDuration = sequence.isFixedDuration;
             }
 
-            if (releaseState)
+            if (releaseState != null)
             {
                 var postReleaseTransition = AddExitTransition(releaseState);
                 postReleaseTransition.hasExitTime = true;

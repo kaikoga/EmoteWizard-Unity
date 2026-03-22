@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/parameter_source")]
     public class ParameterSource : EmoteWizardDataSourceBase, IParameterSource
     {
-        [SerializeField] public ParameterItem parameterItem;
+        [SerializeField] public ParameterItem parameterItem = new ParameterItem();
 
         public IEnumerable<ParameterItem> ToParameterItems()
         {

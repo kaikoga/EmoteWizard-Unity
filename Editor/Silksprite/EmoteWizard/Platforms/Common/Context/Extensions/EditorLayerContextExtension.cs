@@ -10,7 +10,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Context.Extensions
 {
     public static class EditorLayerContextExtension
     {
-        public static RuntimeAnimatorController BuildOutputAsset(this EditorLayerContext context, ParametersSnapshot parametersSnapshot)
+        public static RuntimeAnimatorController? BuildOutputAsset(this EditorLayerContext context, ParametersSnapshot parametersSnapshot)
         {
             var defaultRelativePath = GeneratedPaths.GeneratedEditor;
             var animatorController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);

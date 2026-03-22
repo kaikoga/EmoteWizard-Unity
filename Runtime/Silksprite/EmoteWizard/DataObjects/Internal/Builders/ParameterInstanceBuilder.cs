@@ -1,13 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Extensions;
+using Silksprite.EmoteWizardSupport.Extensions;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 {
     public class ParameterInstanceBuilder
     {
-        string _name;
+        string _name = "";
         ParameterItemKind _itemKind;
         bool _saved = true;
         float _defaultValue;
@@ -18,6 +18,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 
         public string Name => _name;
         public bool HasWriteUsages => _writeUsages.Count > 0;
+
+        ParameterInstanceBuilder() { }
 
         public static ParameterInstanceBuilder Populate(string name)
         {

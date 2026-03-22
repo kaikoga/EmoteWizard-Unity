@@ -1,9 +1,7 @@
-using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
@@ -16,13 +14,13 @@ namespace Silksprite.EmoteWizard.Wizards
     {
         protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
-        LocalizedProperty _hasExpressionItemSource;
-        LocalizedProperty _emoteSequenceFactoryKind;
-        LocalizedProperty _itemPath;
-        LocalizedProperty _hasGroupName;
-        LocalizedProperty _groupName;
-        LocalizedProperty _hasParameterName;
-        LocalizedProperty _parameterName;
+        LocalizedProperty _hasExpressionItemSource = null!;
+        LocalizedProperty _emoteSequenceFactoryKind = null!;
+        LocalizedProperty _itemPath = null!;
+        LocalizedProperty _hasGroupName = null!;
+        LocalizedProperty _groupName = null!;
+        LocalizedProperty _hasParameterName = null!;
+        LocalizedProperty _parameterName = null!;
 
         void OnEnable()
         {

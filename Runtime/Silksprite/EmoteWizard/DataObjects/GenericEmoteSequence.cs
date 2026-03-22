@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class GenericEmoteSequence
     {
         [SerializeField] public LayerKind layerKind = LayerKind.FX;
-        [SerializeField] public string groupName;
+        [SerializeField] public string groupName = "";
 
         [SerializeField] public AnimatedEnable[] animatedEnable = { };
         [SerializeField] public AnimatedBlendShape[] animatedBlendShapes = { };
@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         [SerializeField] public bool hasTimeParameter;
         [ParameterName(false, false)]
-        [SerializeField] public string timeParameter;
+        [SerializeField] public string timeParameter = "";
 
         [SerializeField] public bool hasLayerBlend;
         [SerializeField] public float blendIn = 0.25f;

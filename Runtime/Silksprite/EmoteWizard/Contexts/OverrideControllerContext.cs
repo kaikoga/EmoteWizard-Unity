@@ -6,6 +6,17 @@ namespace Silksprite.EmoteWizard.Contexts
 {
     public class OverrideControllerContext : OutputContextBase<OverrideControllerConfig, AnimatorOverrideController>
     {
+        AnimatorOverrideController? _outputAsset;
+        public override AnimatorOverrideController? OutputAsset
+        {
+            get => _outputAsset;
+            set
+            {
+                _outputAsset = value;
+                if (Config != null) Config.outputAsset = value;
+            }
+        }
+
         [UsedImplicitly]
         public OverrideControllerContext(EmoteWizardEnvironment env) : base(env) { }
 
@@ -17,17 +28,6 @@ namespace Silksprite.EmoteWizard.Contexts
             }
         }
         
-        AnimatorOverrideController _outputAsset;
-        public override AnimatorOverrideController OutputAsset
-        {
-            get => _outputAsset;
-            set
-            {
-                _outputAsset = value;
-                if (Config) Config.outputAsset = value;
-            }
-        }
-
         public override void DisconnectOutputAssets()
         {
             OutputAsset = null;

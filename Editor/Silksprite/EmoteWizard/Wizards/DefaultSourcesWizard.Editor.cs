@@ -1,6 +1,5 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
@@ -11,9 +10,9 @@ namespace Silksprite.EmoteWizard.Wizards
     [CustomEditor(typeof(DefaultSourcesWizard))]
     public class DefaultSourcesWizardEditor : EmoteWizardEditorBase<DefaultSourcesWizard>
     {
-        LocalizedProperty _defaultSourceKind;
-        LocalizedProperty _emoteItemKind;
-        LocalizedProperty _emoteSequenceFactoryKind;
+        LocalizedProperty _defaultSourceKind = null!;
+        LocalizedProperty _emoteItemKind = null!;
+        LocalizedProperty _emoteSequenceFactoryKind = null!;
 
         void OnEnable()
         {

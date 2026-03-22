@@ -19,9 +19,9 @@ namespace Silksprite.EmoteWizard.Wizards
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
         [SerializeField] public int actionIndex = -1;
         [ItemPath]
-        [SerializeField] public string itemPath;
+        [SerializeField] public string itemPath = "";
         [ParameterName(false, true)]
-        [SerializeField] public string parameterName = EmoteWizardConstants.Defaults.Params.ActionSelect;
+        [SerializeField] public string parameterName = EmoteWizardConstants.Params.ActionSelect;
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 var snapshot = CreateEnv().GetContext<ParametersContext>().Snapshot();
                 var newValue = 21;
-                var usages = snapshot.ParameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Defaults.Params.ActionSelect)?.readUsages;
+                var usages = snapshot.ParameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Params.ActionSelect)?.readUsages;
                 if (usages != null)
                 {
                     while (usages.Any(usage => (int)usage.value == newValue)) newValue++;
@@ -72,7 +72,7 @@ namespace Silksprite.EmoteWizard.Wizards
                     }
                 }, EmoteWizardUtil.GenerateEmoteSequenceFactoryTemplate(emoteSequenceFactoryKind,
                     LayerKind.Action,
-                    EmoteWizardConstants.Defaults.Groups.Action,
+                    EmoteWizardConstants.Groups.Action,
                     gameObject.name),
                 !hasExpressionItemSource,
                 itemPath,

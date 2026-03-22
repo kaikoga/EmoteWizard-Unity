@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Configs
     [HelpURL("https://docs.kaikoga.net/emotewizard/configs#override-controller-wizard-config")]
     public class OverrideControllerConfig : EmoteConfigBase
     {
-        [SerializeField] public AnimatorOverrideController outputAsset;
+        [SerializeField] public AnimatorOverrideController? outputAsset;
 
         public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);
         public OverrideControllerContext GetContext(EmoteWizardEnvironment env) => new OverrideControllerContext(env, this);

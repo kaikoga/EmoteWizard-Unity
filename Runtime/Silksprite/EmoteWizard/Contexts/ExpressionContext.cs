@@ -17,17 +17,17 @@ namespace Silksprite.EmoteWizard.Contexts
     public class ExpressionContext : ContextBase<ExpressionConfig>
 #endif
     {
-        List<ExpressionItem> _expressionItems;
+        List<ExpressionItem>? _expressionItems;
 
 #if EW_VRCSDK3_AVATARS
-        VRCExpressionsMenu _outputAsset;
-        public override VRCExpressionsMenu OutputAsset
+        VRCExpressionsMenu? _outputAsset;
+        public override VRCExpressionsMenu? OutputAsset
         {
             get => _outputAsset;
             set
             {
                 _outputAsset = value;
-                if (Config) Config.outputAsset = value;
+                if (Config != null) Config.outputAsset = value;
             }
         }
 #endif
@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizard.Contexts
 
         public IEnumerable<ExpressionItem> AllExpressionItems()
         {
-            return _expressionItems = _expressionItems ?? CollectExpressionItems().ToList();
+            return _expressionItems ??= CollectExpressionItems().ToList();
         }
     }
 }

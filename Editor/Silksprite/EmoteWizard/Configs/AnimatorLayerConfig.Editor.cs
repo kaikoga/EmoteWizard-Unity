@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Utils;
@@ -12,6 +11,7 @@ using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
 #if EW_VRCSDK3_AVATARS
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
 #endif
 
@@ -20,10 +20,10 @@ namespace Silksprite.EmoteWizard.Configs
     [CustomEditor(typeof(AnimatorLayerConfigBase), true)]
     public class AnimatorLayerConfigBaseEditor : EmoteWizardEditorBase<AnimatorLayerConfigBase>
     {
-        LocalizedProperty _defaultAvatarMask;
-        LocalizedProperty _outputAsset;
-        LocalizedProperty _hasResetClip;
-        LocalizedProperty _resetClip;
+        LocalizedProperty _defaultAvatarMask = null!;
+        LocalizedProperty _outputAsset = null!;
+        LocalizedProperty _hasResetClip = null!;
+        LocalizedProperty _resetClip = null!;
 
         void OnEnable()
         {

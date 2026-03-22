@@ -5,7 +5,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 {
     public static class ConditionBuilderExtension
     {
-        const float FLOAT_TOLERANCE = 0.05f;
+        const float FloatTolerance = 0.05f;
 
         public static ConditionBuilder If(this ConditionBuilder builder, string paramName, bool value)
         {
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 
         public static ConditionBuilder InclusiveRange(this ConditionBuilder builder, string paramName, float? min, float? max)
         {
-            return builder.Range(AnimatorControllerParameterType.Float, paramName, min, max, FLOAT_TOLERANCE);
+            return builder.Range(AnimatorControllerParameterType.Float, paramName, min, max, FloatTolerance);
         }
 
         public static ConditionBuilder ExclusiveRange(this ConditionBuilder builder, string paramName, int? min, int? max)
@@ -53,16 +53,16 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 
         public static ConditionBuilder ExclusiveRange(this ConditionBuilder builder, string paramName, float? min, float? max)
         {
-            return builder.Range(AnimatorControllerParameterType.Float, paramName, min, max, -FLOAT_TOLERANCE);
+            return builder.Range(AnimatorControllerParameterType.Float, paramName, min, max, -FloatTolerance);
         }
 
         static ConditionBuilder Range(this ConditionBuilder builder, AnimatorControllerParameterType paramType, string paramName, float? min, float? max, float tolerance)
         {
-            if (min is float minValue)
+            if (min is { } minValue)
             {
                 builder.AddCondition(paramType, AnimatorConditionMode.Greater, paramName, minValue - tolerance);
             }
-            if (max is float maxValue)
+            if (max is { } maxValue)
             {
                 builder.AddCondition(paramType, AnimatorConditionMode.Less, paramName, maxValue + tolerance);
             }

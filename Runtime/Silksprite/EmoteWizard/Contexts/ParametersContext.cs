@@ -8,6 +8,7 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources;
 
 #if EW_VRCSDK3_AVATARS
+using System;
 using VRC.Dynamics;
 using VRC.SDK3.Avatars.ScriptableObjects;
 using VRC.SDK3.Dynamics.Contact.Components;
@@ -24,17 +25,18 @@ namespace Silksprite.EmoteWizard.Contexts
 #endif
 
     {
-        ParametersSnapshot _snapshot;
+        ParametersSnapshot? _snapshot;
+        public ParametersSnapshot Snapshot() => _snapshot ??= BuildSnapshot();
 
 #if EW_VRCSDK3_AVATARS
-        VRCExpressionParameters _outputAsset;
-        public override VRCExpressionParameters OutputAsset
+        VRCExpressionParameters? _outputAsset;
+        public override VRCExpressionParameters? OutputAsset
         {
             get => _outputAsset;
             set
             {
                 _outputAsset = value;
-                if (Config) Config.outputAsset = value;
+                if (Config != null) Config.outputAsset = value;
             }
         }
 #endif
@@ -105,8 +107,7 @@ namespace Silksprite.EmoteWizard.Contexts
                             builder.FindOrCreateImplicit(parameter).AddWriteValue(ParameterWriteUsageKind.Float, 1f, ParameterWriteSourceKind.NoUI);
                             break;
                         default:
-                            // ignore
-                            break;
+                            throw new ArgumentOutOfRangeException();
                     }
                 }
 
@@ -133,7 +134,5 @@ namespace Silksprite.EmoteWizard.Contexts
             
             return builder.ToSnapshot();
         }
-
-        public ParametersSnapshot Snapshot() => _snapshot = _snapshot ?? BuildSnapshot();
     }
 }

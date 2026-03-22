@@ -80,7 +80,7 @@ namespace Silksprite.EmoteWizard.Platforms
                 ("Upright", "Upright", ParameterItemKind.Float, Empty),
                 ("Grounded", "Grounded", ParameterItemKind.Bool, Empty),
                 ("Seated", "Seated", ParameterItemKind.Bool, Empty),
-                (Params.AFK, Params.AFK, ParameterItemKind.Bool, Empty),
+                (Params.Afk, Params.Afk, ParameterItemKind.Bool, Empty),
                 ("TrackingType", "TrackingType", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6}),
                 ("VRMode", "VRMode", ParameterItemKind.Int, new[]{0, 1}),
                 ("MuteSelf", "MuteSelf", ParameterItemKind.Bool, Empty),

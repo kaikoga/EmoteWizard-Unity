@@ -46,40 +46,29 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             {
                 var parameters = environment.GetContext<ParametersContext>().Snapshot(); 
 
-                RuntimeAnimatorController SelectGestureController()
+                RuntimeAnimatorController? SelectGestureController()
                 {
-                    switch (environment.OverrideGesture)
+                    return environment.OverrideGesture switch
                     {
-                        case OverrideGeneratedControllerType2.Generate:
-                            return environment.GetContext<GestureLayerContext>().BuildOutputAsset(parameters);
-                        case OverrideGeneratedControllerType2.Override:
-                            return environment.OverrideGestureController;
-                        case OverrideGeneratedControllerType2.Default1:
-                            return VrcSdkAssetLocator.HandsLayerController1();
-                        case OverrideGeneratedControllerType2.Default2:
-                            return VrcSdkAssetLocator.HandsLayerController2();
-                        case OverrideGeneratedControllerType2.Inherit:
-                            return avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture);
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                        OverrideGeneratedControllerType2.Generate => environment.GetContext<GestureLayerContext>().BuildOutputAsset(parameters),
+                        OverrideGeneratedControllerType2.Override => environment.OverrideGestureController,
+                        OverrideGeneratedControllerType2.Default1 => VrcSdkAssetLocator.HandsLayerController1(),
+                        OverrideGeneratedControllerType2.Default2 => VrcSdkAssetLocator.HandsLayerController2(),
+                        OverrideGeneratedControllerType2.Inherit => avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Gesture),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 }
 
-                RuntimeAnimatorController SelectActionController()
+                RuntimeAnimatorController? SelectActionController()
                 {
-                    switch (environment.OverrideAction)
+                    return environment.OverrideAction switch
                     {
-                        case OverrideGeneratedControllerType1.Generate:
-                            return environment.GetContext<ActionLayerContext>().BuildOutputAsset(parameters);
-                        case OverrideGeneratedControllerType1.Override:
-                            return environment.OverrideActionController;
-                        case OverrideGeneratedControllerType1.Default:
-                            return VrcSdkAssetLocator.ActionLayerController();
-                        case OverrideGeneratedControllerType1.Inherit:
-                            return avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action);
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                        OverrideGeneratedControllerType1.Generate => environment.GetContext<ActionLayerContext>().BuildOutputAsset(parameters),
+                        OverrideGeneratedControllerType1.Override => environment.OverrideActionController,
+                        OverrideGeneratedControllerType1.Default => VrcSdkAssetLocator.ActionLayerController(),
+                        OverrideGeneratedControllerType1.Inherit => avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Action),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 }
 
                 RuntimeAnimatorController SelectFxController()
@@ -87,21 +76,16 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
                     return environment.GetContext<FxLayerContext>().BuildOutputAsset(parameters);
                 }
 
-                RuntimeAnimatorController SelectSittingController()
+                RuntimeAnimatorController? SelectSittingController()
                 {
-                    switch (environment.OverrideSitting)
+                    return environment.OverrideSitting switch
                     {
-                        case OverrideControllerType2.Override:
-                            return environment.OverrideSittingController;
-                        case OverrideControllerType2.Default1:
-                            return VrcSdkAssetLocator.SittingLayerController1();
-                        case OverrideControllerType2.Default2:
-                            return VrcSdkAssetLocator.SittingLayerController2();
-                        case OverrideControllerType2.Inherit:
-                            return avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Sitting);
-                        default:
-                            throw new ArgumentOutOfRangeException();
-                    }
+                        OverrideControllerType2.Override => environment.OverrideSittingController,
+                        OverrideControllerType2.Default1 => VrcSdkAssetLocator.SittingLayerController1(),
+                        OverrideControllerType2.Default2 => VrcSdkAssetLocator.SittingLayerController2(),
+                        OverrideControllerType2.Inherit => avatarDescriptor.FindAnimationLayer(VRCAvatarDescriptor.AnimLayerType.Sitting),
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
                 }
 
                 var gestureController = SelectGestureController();
@@ -112,8 +96,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
                 CustomizeAnimationLayers(avatarDescriptor, gestureController, actionController, fxController, sittingController);
 
                 avatarDescriptor.customExpressions = true;
-                avatarDescriptor.expressionsMenu = environment.GetContext<ExpressionContext>()?.BuildOutputAsset();
-                avatarDescriptor.expressionParameters = environment.GetContext<ParametersContext>()?.BuildOutputAsset();
+                avatarDescriptor.expressionsMenu = environment.GetContext<ExpressionContext>().BuildOutputAsset();
+                avatarDescriptor.expressionParameters = environment.GetContext<ParametersContext>().BuildOutputAsset();
 
                 if (manualBuild)
                 {
@@ -122,7 +106,11 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             }
         }
 
-        static void CustomizeAnimationLayers(VRCAvatarDescriptor avatarDescriptor, RuntimeAnimatorController gestureController, RuntimeAnimatorController actionController, RuntimeAnimatorController fxController, RuntimeAnimatorController sittingController)
+        static void CustomizeAnimationLayers(VRCAvatarDescriptor avatarDescriptor,
+            RuntimeAnimatorController? gestureController,
+            RuntimeAnimatorController? actionController,
+            RuntimeAnimatorController? fxController,
+            RuntimeAnimatorController? sittingController)
         {
             var baseLayer = avatarDescriptor.FindCustomAnimLayer(VRCAvatarDescriptor.AnimLayerType.Base);
             var additiveLayer = avatarDescriptor.FindCustomAnimLayer(VRCAvatarDescriptor.AnimLayerType.Additive);

@@ -15,16 +15,16 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/emote_item_source")]
     public class EmoteItemSource : EmoteWizardDataSourceBase, IEmoteItemSource, IExpressionItemSource
     {
-        [SerializeField] public EmoteTrigger trigger;
+        [SerializeField] public EmoteTrigger trigger = new EmoteTrigger();
 
-        [SerializeField] public EmoteSequenceSourceBase sequence;
+        [SerializeField] public EmoteSequenceSourceBase? sequence;
 
         [SerializeField] public bool hasExpressionItem;
         [ItemPath]
-        [SerializeField] public string expressionItemPath;
-        [SerializeField] public Texture2D expressionItemIcon;
+        [SerializeField] public string expressionItemPath = "";
+        [SerializeField] public Texture2D? expressionItemIcon;
 
-        public EmoteSequenceSourceBase FindEmoteSequenceSource()
+        public EmoteSequenceSourceBase? FindEmoteSequenceSource()
         {
             if (sequence) return sequence;
 
@@ -36,12 +36,10 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         EmoteItemTemplate ToTemplate()
         {
-            IEmoteSequenceFactoryTemplate FindEmoteFactory()
+            IEmoteSequenceFactoryTemplate? FindEmoteFactory()
             {
                 var source = FindEmoteSequenceSource();
-                if (!source) return null;
-
-                return source.ToEmoteFactoryTemplate();
+                return source != null ? source.ToEmoteFactoryTemplate() : null;
             }
 
             // TODO cache me?

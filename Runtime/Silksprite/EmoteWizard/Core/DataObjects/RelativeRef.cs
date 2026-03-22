@@ -4,28 +4,29 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
+    [Serializable]
     public abstract class RelativeRef<T>
     where T : Component
     {
-        [SerializeField] public T target;
-        [SerializeField] public string relativePath;
+        [SerializeField] public T? target;
+        [SerializeField] public string relativePath = "";
 
         public bool RefreshRelativePath(Transform root)
         {
             if (target == null) return false;
             var newRelativePath = RuntimeUtil.RelativePath(root, target.transform);
             if (newRelativePath == relativePath) return false;
-            relativePath = newRelativePath;
+            relativePath = newRelativePath ?? "";
             return true;
         }
 
-        public T GetOrResolveTarget(Transform root)
+        public T? GetOrResolveTarget(Transform root)
         {
-            if (target) return target;
+            if (target != null) return target;
             return target = ResolveTarget(root, relativePath);
         }
 
-        public static T ResolveTarget(Transform root, string relativePath) => RuntimeUtil.FromRelativePath(root, relativePath)?.GetComponent<T>();
+        public static T? ResolveTarget(Transform root, string relativePath) => RuntimeUtil.FromRelativePath(root, relativePath)?.GetComponent<T>();
     }
     
     [Serializable] public class RelativeTransformRef : RelativeRef<Transform> { }

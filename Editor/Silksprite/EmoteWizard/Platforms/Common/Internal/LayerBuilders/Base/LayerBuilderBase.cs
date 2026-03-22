@@ -56,9 +56,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
 
         protected abstract void Process();
 
-        AnimatorState AddStateWithoutTransition(string stateName, Motion motion, Vector3 position, bool isReallyEmptyState)
+        AnimatorState AddStateWithoutTransition(string stateName, Motion? motion, Vector3 position)
         {
-            if (motion == null && !isReallyEmptyState) motion = Environment.ProvideEmptyClip();
+            if (motion == null) motion = Environment.ProvideEmptyClip();
             var state = StateMachine.AddState(stateName, position);
             state.motion = motion;
             state.writeDefaultValues = false;
@@ -66,16 +66,16 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
             return state;
         }
 
-        protected AnimatorState AddStateWithoutTransition(string stateName, Motion motion) => AddStateWithoutTransition(stateName, motion, NextStatePosition(), false);
+        protected AnimatorState AddStateWithoutTransition(string stateName, Motion? motion) => AddStateWithoutTransition(stateName, motion, NextStatePosition());
 
-        protected AnimatorTransition AddEntryTransition(AnimatorState toState, ConditionBuilder conditions = null)
+        protected AnimatorTransition AddEntryTransition(AnimatorState toState, ConditionBuilder? conditions = null)
         {
             var transition = StateMachine.AddEntryTransition(toState);
             transition.conditions = conditions?.ToArray();
             return transition;
         }
 
-        protected AnimatorStateTransition AddTransition(AnimatorState fromState, AnimatorState toState, ConditionBuilder conditions = null)
+        protected AnimatorStateTransition AddTransition(AnimatorState fromState, AnimatorState toState, ConditionBuilder? conditions = null)
         {
             var transition = fromState.AddTransition(toState);
             transition.conditions = conditions?.ToArray();
@@ -87,7 +87,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
             return conditions.Select(cond => AddTransition(fromState, toState, cond)).ToArray();
         }
 
-        protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder conditions = null)
+        protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder? conditions = null)
         {
             var transition = fromState.AddExitTransition(false);
             transition.conditions = conditions?.ToArray();
@@ -99,9 +99,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
             return conditions.Select(cond => AddExitTransition(fromState, cond)).ToArray();
         }
 
-        protected AnimatorState PopulateDefaultState(string stateName = "Default", Motion clip = null)
+        protected AnimatorState PopulateDefaultState(string stateName = "Default", Motion? clip = null)
         {
-            var defaultState = AddStateWithoutTransition(stateName, clip, NextStatePosition(), false);
+            var defaultState = AddStateWithoutTransition(stateName, clip, NextStatePosition());
             StateMachine.defaultState = defaultState;
             NextStateRow();
             return defaultState;

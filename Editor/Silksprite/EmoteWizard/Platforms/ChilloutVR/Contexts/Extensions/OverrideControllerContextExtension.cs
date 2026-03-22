@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             var defaultRelativePath = GeneratedPaths.GeneratedOverride;
             var overrideController = context.ReplaceOrCreateOutputAsset(defaultRelativePath);
             overrideController.runtimeAnimatorController = baseController;
-            return context.OutputAsset;
+            return overrideController;
         }
     }
 }

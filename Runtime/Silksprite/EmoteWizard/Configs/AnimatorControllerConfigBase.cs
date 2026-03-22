@@ -7,17 +7,17 @@ namespace Silksprite.EmoteWizard.Configs
 {
     public abstract class AnimatorControllerConfigBase : EmoteConfigBase
     {
-        [SerializeField] public AvatarMask defaultAvatarMask;
+        [SerializeField] public AvatarMask? defaultAvatarMask;
 
-        [SerializeField] public AnimationClip resetClip;
+        [SerializeField] public AnimationClip? resetClip;
 
-        [SerializeField] public RuntimeAnimatorController outputAsset;
+        [SerializeField] public RuntimeAnimatorController? outputAsset;
 
-        [SerializeField] public bool hasResetClip = false;
+        [SerializeField] public bool hasResetClip;
         public abstract LayerOutputKind LayerOutputKind { get; }
 
         public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);
-        public abstract AnimatorControllerContextBase GetContext(EmoteWizardEnvironment env);
+        protected abstract AnimatorControllerContextBase GetContext(EmoteWizardEnvironment env);
 
         protected virtual void Reset()
         {

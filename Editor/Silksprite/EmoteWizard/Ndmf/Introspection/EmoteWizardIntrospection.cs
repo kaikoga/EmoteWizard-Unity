@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Ndmf.Introspection
             _root = root;
         }
 
-        public IEnumerable<ProvidedParameter> GetSuppliedParameters(BuildContext context = null)
+        public IEnumerable<ProvidedParameter> GetSuppliedParameters(BuildContext? context = null)
         {
             return _root.ToEnv()
                 .GetContext<ParametersContext>().Snapshot().ParameterItems

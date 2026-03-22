@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Configs
     [CustomEditor(typeof(EditorLayerConfig), true)]
     public class EditorLayerConfigEditor : EmoteWizardEditorBase<EditorLayerConfig>
     {
-        LocalizedProperty _outputAsset;
+        LocalizedProperty _outputAsset = null!;
 
         void OnEnable()
         {

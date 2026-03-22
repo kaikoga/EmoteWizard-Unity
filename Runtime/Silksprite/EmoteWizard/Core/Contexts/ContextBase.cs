@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base;
 using UnityEngine;
 
@@ -13,10 +12,9 @@ namespace Silksprite.EmoteWizard.Contexts
     public abstract class ContextBase<TConfig> : ContextBase, IBehaviourContext
         where TConfig : EmoteConfigBase
     {
-        [CanBeNull]
-        protected readonly TConfig Config;
+        protected readonly TConfig? Config;
 
-        public GameObject GameObject => Config != null ? Config.gameObject : null;
+        public GameObject? GameObject => Config != null ? Config.gameObject : null;
 
         protected ContextBase(EmoteWizardEnvironment env) : base(env) { }
 
@@ -29,10 +27,11 @@ namespace Silksprite.EmoteWizard.Contexts
     }
 
     public abstract class OutputContextBase<TWizard, TOut> : ContextBase<TWizard>, IOutputContext<TOut>
+        where TOut : Object
         where TWizard : EmoteConfigBase
     {
         protected OutputContextBase(EmoteWizardEnvironment env) : base(env) { }
         protected OutputContextBase(EmoteWizardEnvironment env, TWizard config, bool alwaysPersist = false) : base(env, config, alwaysPersist) { }
-        public abstract TOut OutputAsset { get; set; }
+        public abstract TOut? OutputAsset { get; set; }
     }
 }

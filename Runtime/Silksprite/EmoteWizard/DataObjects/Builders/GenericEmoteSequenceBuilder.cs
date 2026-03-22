@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
     public class GenericEmoteSequenceBuilder : IEmoteSequenceBuilder
     {
         readonly GenericEmoteSequence _sequence;
-        string _path;
+        string _path = "";
 
         public GenericEmoteSequenceBuilder(GenericEmoteSequence genericEmoteSequence)
         {
@@ -24,13 +24,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
             _sequence.isFixedDuration = isFixedDuration;
         }
 
-        public void AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        public void AddClip(Motion? clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
             _sequence.entryTransitionDuration = entryTransitionDuration;
             _sequence.exitTransitionDuration = exitTransitionDuration;
         }
 
-        public void AddMirroredClip(Motion clipLeft, Motion clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        public void AddMirroredClip(Motion? clipLeft, Motion? clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
             _sequence.entryTransitionDuration = entryTransitionDuration;
             _sequence.exitTransitionDuration = exitTransitionDuration;
@@ -44,7 +44,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
         {
         }
 
-        public void AddExitClip(bool hasExitClip, Motion exitClip, float exitClipExitTime, float postExitTransitionDuration)
+        public void AddExitClip(bool hasExitClip, Motion? exitClip, float exitClipExitTime, float postExitTransitionDuration)
         {
         }
 
@@ -62,7 +62,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
         }
 
 
-        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new(_sequence, _path);
+        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new GenericEmoteSequenceFactory(_sequence, _path);
 
         public IEmoteSequenceFactoryTemplate ToEmoteSequenceFactory() => ToGenericEmoteSequenceFactory();
     }

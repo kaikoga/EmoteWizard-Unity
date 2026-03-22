@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Scopes;
@@ -11,18 +12,19 @@ namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardEditorBase : Editor
     {
-        static EmoteWizardEnvironment _cachedEnvironment; 
+        static EmoteWizardEnvironment? _cachedEnvironment; 
         static bool _isDrawingInnerInspectorGUI;
         
-        EmoteWizardBehaviour soleTarget => target as EmoteWizardBehaviour;
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        EmoteWizardBehaviour soleTarget => (EmoteWizardBehaviour)target;
 
         protected EmoteWizardEnvironment CreateEnv()
         {
-            if (_isDrawingInnerInspectorGUI) return _cachedEnvironment = _cachedEnvironment ?? soleTarget.CreateEnv();
+            if (_isDrawingInnerInspectorGUI) return _cachedEnvironment ??= soleTarget.CreateEnv();
             return soleTarget.CreateEnv();
         }
 
-        LocalizedContent _lastHeader;
+        LocalizedContent? _lastHeader;
         protected void HeaderOnce(LocalizedContent loc)
         {
             if (_lastHeader == loc) return;
@@ -42,22 +44,22 @@ namespace Silksprite.EmoteWizard.Base
                 var env = CreateEnv();
                 if ((env.Platform & SupportedPlatforms) != 0)
                 {
-                    _lastHeader = default;
+                    _lastHeader = null;
                     OnInnerInspectorGUI();
                 }
                 else
                 {
-                    Substitution substitution = new Substitution
+                    var substitution = new Substitution
                     {
                         ["platform"] = env.Platform.ToSolePlatformString()
                     };
                     LEditorGUILayout.HelpBox(LochTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info, substitution);
                 }
 
-                if (!target) return;
-                if (env?.ShowTutorial != true) return;
-                var tutorial = TutorialContent;
-                if (tutorial == null) return;
+                if (!target || !env.ShowTutorial)
+                {
+                    return;
+                }
                 using (new BoxLayoutScope())
                 {
                     LEditorGUILayout.HelpBox(TutorialContent, MessageType.Info);
@@ -83,7 +85,8 @@ namespace Silksprite.EmoteWizard.Base
     public abstract class EmoteWizardEditorBase<T> : EmoteWizardEditorBase
     where T : EmoteWizardBehaviour
     {
-        protected T soleTarget => target as T;
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        protected T soleTarget => (T)target;
 
         protected sealed override LocalizedContent TutorialContent => LochTool._Loc(typeof(T).Name + "::Tutorial.");
     }

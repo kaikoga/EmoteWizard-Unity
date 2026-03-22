@@ -26,7 +26,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
                 LayerOutputKind.Fx => LayerKind.FX,
                 LayerOutputKind.Gesture => LayerKind.Gesture,
                 LayerOutputKind.Action => LayerKind.Action,
-                LayerOutputKind.Editor or LayerOutputKind.Merged => throw new ArgumentOutOfRangeException(),
+                LayerOutputKind.Editor => throw new ArgumentOutOfRangeException(),
+                LayerOutputKind.Merged => throw new ArgumentOutOfRangeException(),
                 _ => throw new ArgumentOutOfRangeException()
             };
             var defaultPath = GeneratedPaths.GeneratedLayer(layerOutputKind);
@@ -38,7 +39,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
                 builder.BuildStaticLayer("Default Avatar Mask", null, context.DefaultAvatarMask);
             }
 
-            AnimationClip resetClip;
+            AnimationClip? resetClip;
             if (context.HasResetClip)
             {
                 resetClip = context.Environment.EnsureAsset(GeneratedPaths.GeneratedResetLayer(layerOutputKind), context.ResetClip);
@@ -57,14 +58,14 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
                 builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             }
             builder.BuildParameters();
-            return context.OutputAsset;
+            return animatorController;
         }
 
         static void BuildResetClip(this AnimatorLayerContextBase context, LayerKind layerKind, AnimationClip targetClip)
         {
             var proxyAnimator = context.Environment.ProvideProxyAnimator();
             var avatar = proxyAnimator != null ? proxyAnimator.gameObject : context.GameObject;
-            if (!avatar)
+            if (avatar == null)
             {
                 var gameObject = context.Environment.ContainerTransform.gameObject;
                 ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::WithoutAvatar."), gameObject,

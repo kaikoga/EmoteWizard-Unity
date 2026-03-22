@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
             var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb));
             animatorDriver.localOnly = true;
 
-            animatorDriver.EnterTasks = settings.Select(setting => new AnimatorDriverTaskAccess
+            animatorDriver.EnterTasks = settings.Select(setting => (AnimatorDriverTaskAccess?)new AnimatorDriverTaskAccess
                 {
                     targetType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
                     targetName = setting.target.ToAnimatorParameterName(setting.mode),
@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
             };
             void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)
             {
-                bodyControl.EnterTasks = new List<BodyControlTaskAccess>
+                bodyControl.EnterTasks = new List<BodyControlTaskAccess?>
                 {
                     new BodyControlTaskAccess
                     {

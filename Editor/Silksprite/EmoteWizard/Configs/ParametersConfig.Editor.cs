@@ -18,10 +18,10 @@ namespace Silksprite.EmoteWizard.Configs
     [CustomEditor(typeof(ParametersConfig))]
     public class ParametersConfigEditor : EmoteWizardEditorBase<ParametersConfig>
     {
-        LocalizedProperty _outputAsset;
-        LocalizedProperty _debugSnapshot;
+        LocalizedProperty _outputAsset = null!;
+        LocalizedProperty? _debugSnapshot;
 
-        [SerializeField] ParametersSnapshot debugSnapshot;
+        [SerializeField] ParametersSnapshot? debugSnapshot;
 
         void OnEnable()
         {
@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard.Configs
         {
             var env = CreateEnv();
 
-            if (_debugSnapshot == default)
+            if (_debugSnapshot == null)
             {
                 if (LGUILayout.Button(Loc("ParametersConfig::debugSnapshot"), new GUILayoutOption[0]))
                 {

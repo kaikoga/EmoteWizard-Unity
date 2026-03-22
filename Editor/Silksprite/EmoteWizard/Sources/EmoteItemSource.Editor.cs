@@ -1,7 +1,6 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
@@ -16,15 +15,15 @@ namespace Silksprite.EmoteWizard.Sources
     {
         protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
-        LocalizedProperty _name;
-        LocalizedProperty _priority;
-        LocalizedProperty _conditions;
+        LocalizedProperty _name = null!;
+        LocalizedProperty _priority = null!;
+        LocalizedProperty _conditions = null!;
 
-        LocalizedProperty _hasExpressionItem;
-        LocalizedProperty _expressionItemPath;
-        LocalizedProperty _expressionItemIcon;
+        LocalizedProperty _hasExpressionItem = null!;
+        LocalizedProperty _expressionItemPath = null!;
+        LocalizedProperty _expressionItemIcon = null!;
 
-        LocalizedProperty _sequence;
+        LocalizedProperty _sequence = null!;
 
         void OnEnable()
         {
@@ -55,7 +54,7 @@ namespace Silksprite.EmoteWizard.Sources
                 using (new EditorGUI.IndentLevelScope())
                 using (new EditorGUI.DisabledScope(true))
                 {
-                    EmoteSequenceSourceBase obj = soleTarget.FindEmoteSequenceSource();
+                    var obj = soleTarget.FindEmoteSequenceSource();
                     LEditorGUILayout.ObjectField(Loc("EmoteItemSource::Detected Emote Sequence"), obj, true);
                 }
             }

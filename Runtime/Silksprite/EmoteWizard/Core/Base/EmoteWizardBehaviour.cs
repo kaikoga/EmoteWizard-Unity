@@ -1,10 +1,13 @@
-using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
 
 #if EW_VRCSDK3_AVATARS
 using VRC.SDKBase;
+#endif
+
+#if !UNITY_2020_3_OR_NEWER
+using System.Linq;
 #endif
 
 namespace Silksprite.EmoteWizard.Base
@@ -16,11 +19,11 @@ namespace Silksprite.EmoteWizard.Base
     {
         public EmoteWizardEnvironment CreateEnv()
         {
-            if (GetComponentInParent<EmoteWizardRoot>(true) is EmoteWizardRoot root)
+            if (GetComponentInParent<EmoteWizardRoot>(true) is { } root)
             {
                 return EmoteWizardEnvironment.FromRoot(root);
             }
-            if (RuntimeUtil.FindAvatarInParents(transform) is Transform avatarRoot)
+            if (RuntimeUtil.FindAvatarInParents(transform) is { } avatarRoot)
             {
                 return EmoteWizardEnvironment.FromAvatar(avatarRoot);
             }

@@ -30,14 +30,14 @@ namespace Silksprite.EmoteWizardSupport.Utils
 #endif
         }
 
-        public static string? RelativePath(Transform? root, Transform? child)
+        public static string? RelativePath(Transform root, Transform? child)
         {
             return RelativePath(root, child, AvatarRootMagic);
         }
 
-        public static string? CalculateAnimationTransformPath(Transform root, Transform child)
+        public static string CalculateAnimationTransformPath(Transform root, Transform child)
         {
-            return RelativePath(root, child, "");
+            return RelativePath(root, child, "")!;
         }
 
         public static Transform? FromRelativePath(Transform root, string relativePath)
@@ -50,9 +50,8 @@ namespace Silksprite.EmoteWizardSupport.Utils
             return FromRelativePath(root, relativePath, "");
         }
 
-        static string? RelativePath(Transform? root, Transform? child, string rootName)
+        static string? RelativePath(Transform root, Transform? child, string rootName)
         {
-            if (root == null) return null;
             if (child == null) return null;
             if (root == child) return rootName;
 
@@ -70,8 +69,7 @@ namespace Silksprite.EmoteWizardSupport.Utils
 
         static Transform? FromRelativePath(Transform root, string? relativePath, string rootName)
         {
-            return !root ? null :
-                relativePath == null ? null :
+            return relativePath == null ? null :
                 relativePath == rootName ? root :
                 root.Find(relativePath);
         }

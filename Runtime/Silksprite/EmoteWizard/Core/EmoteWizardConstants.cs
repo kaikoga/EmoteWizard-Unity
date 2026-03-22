@@ -2,12 +2,11 @@ namespace Silksprite.EmoteWizard
 {
     public static class EmoteWizardConstants
     {
-
         public static class Params
         {
             public const string Viseme = "Viseme";
             public const string VisemeIdx = "VisemeIdx";
-            public const string AFK = "AFK";
+            public const string Afk = "AFK";
             public const string Gesture = "Gesture";
             public const string GestureOther = "GestureOther";
             public const string GestureWeight = "GestureWeight";
@@ -26,24 +25,17 @@ namespace Silksprite.EmoteWizard
                         return false;
                 }
             }
+            public const string ActionSelect = "VRCEmote";
         }
 
-        public static class Defaults
+        public static class Groups
         {
-            public static class Groups
-            {
-                public const string HandSign = "HandSign";
-                public const string Action = "Action";
-                public const string LipSync = "LipSync";
-                public const string Blink = "Blink";
-                public const string LookAt = "LookAt";
-                public const string Emotion = "Emotion";
-            }
-
-            public static class Params
-            {
-                public const string ActionSelect = "VRCEmote";
-            }
+            public const string HandSign = "HandSign";
+            public const string Action = "Action";
+            public const string LipSync = "LipSync";
+            public const string Blink = "Blink";
+            public const string LookAt = "LookAt";
+            public const string Emotion = "Emotion";
         }
     }
 }

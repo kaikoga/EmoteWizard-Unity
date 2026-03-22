@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             if (!target.objectReferenceValue && !string.IsNullOrEmpty(relativePath.Property.stringValue))
             {
                 var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                target.objectReferenceValue = RelativeRef<TTarget>.ResolveTarget(env?.AvatarRoot, relativePath.Property.stringValue);
+                target.objectReferenceValue = RelativeRef<TTarget>.ResolveTarget(env.AvatarRoot, relativePath.Property.stringValue);
             }
 
             if (target.objectReferenceValue || string.IsNullOrEmpty(relativePath.Property.stringValue))
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (EditorGUI.EndChangeCheck())
                 {
                     var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                    relativePath.Property.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
+                    relativePath.Property.stringValue = RuntimeUtil.RelativePath(env.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
                 }
                 EditorGUI.EndProperty();
             }
@@ -44,7 +44,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (EditorGUI.EndChangeCheck())
                 {
                     var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                    relativePath.Property.stringValue = RuntimeUtil.RelativePath(env?.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
+                    relativePath.Property.stringValue = RuntimeUtil.RelativePath(env.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
                 }
 
                 EditorGUI.EndProperty();

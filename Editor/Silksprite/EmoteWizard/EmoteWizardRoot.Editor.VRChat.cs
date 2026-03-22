@@ -106,7 +106,7 @@ namespace Silksprite.EmoteWizard
             {
                 EmoteWizardGUILayout.OutputUIArea(true, null, () =>
                 {
-                    void EditAnimator(RuntimeAnimatorController animatorController)
+                    void EditAnimator(RuntimeAnimatorController? animatorController)
                     {
                         var animator = CreateEnv().ProvideProxyAnimator();
                         animator.runtimeAnimatorController = animatorController;
@@ -202,7 +202,7 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        void DummyController(LocalizedProperty lop, RuntimeAnimatorController dummyController)
+        void DummyController(LocalizedProperty lop, RuntimeAnimatorController? dummyController)
         {
             using (new EditorGUI.DisabledScope(true))
             {

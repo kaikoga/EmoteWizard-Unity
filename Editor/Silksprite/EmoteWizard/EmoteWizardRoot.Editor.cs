@@ -20,22 +20,22 @@ namespace Silksprite.EmoteWizard
         bool _isSetup;
 
         // ReSharper disable NotAccessedField.Local
-        LocalizedProperty _avatarRootTransform;
-        LocalizedProperty _proxyAnimator;
-        LocalizedProperty _persistGeneratedAssets;
-        LocalizedProperty _generatedAssetRoot;
-        LocalizedProperty _generatedAssetPrefix;
-        LocalizedProperty _emptyClip;
-        LocalizedProperty _generateTrackingControlLayer;
-        LocalizedProperty _overrideGesture;
-        LocalizedProperty _overrideGestureController;
-        LocalizedProperty _overrideAction;
-        LocalizedProperty _overrideActionController;
-        LocalizedProperty _overrideSitting;
-        LocalizedProperty _overrideSittingController;
-        LocalizedProperty _author;
-        LocalizedProperty _showTutorial;
-        LocalizedProperty _detectPlatform;
+        LocalizedProperty _avatarRootTransform = null!;
+        LocalizedProperty _proxyAnimator = null!;
+        LocalizedProperty _persistGeneratedAssets = null!;
+        LocalizedProperty _generatedAssetRoot = null!;
+        LocalizedProperty _generatedAssetPrefix = null!;
+        LocalizedProperty _emptyClip = null!;
+        LocalizedProperty _generateTrackingControlLayer = null!;
+        LocalizedProperty _overrideGesture = null!;
+        LocalizedProperty _overrideGestureController = null!;
+        LocalizedProperty _overrideAction = null!;
+        LocalizedProperty _overrideActionController = null!;
+        LocalizedProperty _overrideSitting = null!;
+        LocalizedProperty _overrideSittingController = null!;
+        LocalizedProperty _author = null!;
+        LocalizedProperty _showTutorial = null!;
+        LocalizedProperty _detectPlatform = null!;
         // ReSharper restore NotAccessedField.Local
 
         void OnEnable()

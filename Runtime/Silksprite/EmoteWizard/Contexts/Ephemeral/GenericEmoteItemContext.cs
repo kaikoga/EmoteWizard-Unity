@@ -12,16 +12,16 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
     {
         public GenericEmoteItemContext(EmoteWizardEnvironment env) : base(env) { }
         
-        List<GenericEmoteItem> _genericEmoteItems;
+        List<GenericEmoteItem>? _genericEmoteItems;
 
         IEnumerable<GenericEmoteItem> CollectAllGenericEmoteItems()
         {
             return Environment.GetComponentsInChildren<IGenericEmoteItemSource>(true).SelectMany(source => source.ToGenericEmoteItems());
         }
 
-        public IEnumerable<GenericEmoteItem> AllGenericEmoteItems()
+        IEnumerable<GenericEmoteItem> AllGenericEmoteItems()
         {
-            return _genericEmoteItems = _genericEmoteItems ?? CollectAllGenericEmoteItems().ToList();
+            return _genericEmoteItems ??= CollectAllGenericEmoteItems().ToList();
         }
 
         public IEnumerable<GenericEmoteItem> GenericEmoteItems(GenericEmotePlatform platform)

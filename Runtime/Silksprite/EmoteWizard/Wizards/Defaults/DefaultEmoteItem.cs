@@ -12,8 +12,8 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
     public class DefaultEmoteItem
     {
         HandSign _handSign;
-        Motion _clipLeft;
-        Motion _clipRight;
+        Motion? _clipLeft;
+        Motion? _clipRight;
 
         static DefaultEmoteItem Default(IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign) =>
             new DefaultEmoteItem
@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
 
         IEmoteTemplate ToEmoteItemTemplate(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            var builder = EmoteItemTemplate.Builder(layerKind, $"{_handSign}", EmoteWizardConstants.Defaults.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
+            var builder = EmoteItemTemplate.Builder(layerKind, $"{_handSign}", EmoteWizardConstants.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
                 .AddCondition(new EmoteCondition
                 {
                     kind = ParameterItemKind.Int,

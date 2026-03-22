@@ -1,6 +1,5 @@
 #if ATIV_DETECTED_VRM0
 
-using Silksprite.EmoteWizard.DataObjects;
 using VRM;
 
 namespace Silksprite.EmoteWizard.Platforms.VRM0.Extensions

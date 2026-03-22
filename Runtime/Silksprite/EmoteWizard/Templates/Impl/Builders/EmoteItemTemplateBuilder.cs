@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Builders;
 using UnityEngine;
@@ -9,14 +8,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
     public class EmoteItemTemplateBuilder
     {
         readonly string _path;
-        [CanBeNull] readonly EmoteTriggerBuilder _trigger;
+        readonly EmoteTriggerBuilder? _trigger;
         readonly GenericEmoteTrigger _genericTrigger;
         readonly IEmoteSequenceBuilder _sequence;
         bool _hasExpressionItem;
-        string _expressionItemPath;
-        Texture2D _expressionItemIcon;
+        string _expressionItemPath = "";
+        Texture2D? _expressionItemIcon;
 
-        public EmoteItemTemplateBuilder(string path, EmoteTriggerBuilder trigger, GenericEmoteTrigger genericTrigger, IEmoteSequenceBuilder sequence)
+        public EmoteItemTemplateBuilder(string path, EmoteTriggerBuilder? trigger, GenericEmoteTrigger genericTrigger, IEmoteSequenceBuilder sequence)
         {
             _path = path;
             _trigger = trigger;
@@ -43,13 +42,13 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
             return this;
         }
 
-        public EmoteItemTemplateBuilder AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        public EmoteItemTemplateBuilder AddClip(Motion? clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
             _sequence.AddClip(clip, entryTransitionDuration, exitTransitionDuration);
             return this;
         }
 
-        public EmoteItemTemplateBuilder AddMirroredClip(Motion clipLeft, Motion clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        public EmoteItemTemplateBuilder AddMirroredClip(Motion? clipLeft, Motion? clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
             _sequence.AddMirroredClip(clipLeft, clipRight, entryTransitionDuration, exitTransitionDuration);
             return this;
@@ -67,7 +66,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
             return this;
         }
 
-        public EmoteItemTemplateBuilder AddExitClip(bool hasExitClip, Motion exitClip, float exitClipExitTime, float postExitTransitionDuration)
+        public EmoteItemTemplateBuilder AddExitClip(bool hasExitClip, Motion? exitClip, float exitClipExitTime, float postExitTransitionDuration)
         {
             _sequence.AddExitClip(hasExitClip, exitClip, exitClipExitTime, postExitTransitionDuration);
             return this;

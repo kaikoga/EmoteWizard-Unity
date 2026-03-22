@@ -4,7 +4,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class ExpressionItemSet
     {
-        public string Path;
-        public List<ExpressionItem> Items;
+        public string Path = "";
+        public List<ExpressionItem> Items = new List<ExpressionItem>();
     }
 }

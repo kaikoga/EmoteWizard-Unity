@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             validReferenceUsages = AllParameters.SelectMany(item => item.referenceUsages).ToList();
         }
 
-        public ParameterInstance ResolveParameter(string parameterName)
+        public ParameterInstance? ResolveParameter(string parameterName)
         {
             return AllParameters.FirstOrDefault(item => item.name == parameterName);
         }

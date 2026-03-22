@@ -14,11 +14,11 @@ namespace Silksprite.EmoteWizard.Sources
     {
         protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
-        LocalizedProperty _name;
-        LocalizedProperty _itemKind;
-        LocalizedProperty _defaultValue;
-        LocalizedProperty _saved;
-        LocalizedProperty _synced;
+        LocalizedProperty _name = null!;
+        LocalizedProperty _itemKind = null!;
+        LocalizedProperty _defaultValue = null!;
+        LocalizedProperty _saved = null!;
+        LocalizedProperty _synced = null!;
 
         void OnEnable()
         {

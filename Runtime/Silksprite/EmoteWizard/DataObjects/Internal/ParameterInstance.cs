@@ -8,14 +8,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public class ParameterInstance
     {
-        [SerializeField] public string name;
+        [SerializeField] public string name = "";
         [SerializeField] public ParameterItemKind itemKind;
         [SerializeField] public bool saved = true;
         [SerializeField] public float defaultValue;
         [SerializeField] public bool synced = true;
-        [SerializeField] public List<string> referenceUsages;
-        [SerializeField] public List<ParameterWriteUsage> writeUsages;
-        [SerializeField] public List<ParameterReadUsage> readUsages;
+        [SerializeField] public List<string> referenceUsages = new List<string>();
+        [SerializeField] public List<ParameterWriteUsage> writeUsages = new List<ParameterWriteUsage>();
+        [SerializeField] public List<ParameterReadUsage> readUsages = new List<ParameterReadUsage>();
 
         public ParameterValueKind ValueKind
         {
@@ -39,6 +39,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         }
 
         public ParameterWriteSourceKind WriteSourceKind => writeUsages.Select(usage => usage.writeSourceKind)
-                .FirstOrDefault(writeUsage => writeUsage is not ParameterWriteSourceKind.NoUI);
+                .FirstOrDefault(writeUsage => !(writeUsage is ParameterWriteSourceKind.NoUI));
     }
 }

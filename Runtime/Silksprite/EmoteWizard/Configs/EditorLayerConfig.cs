@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.Configs
     [HelpURL("https://docs.kaikoga.net/emotewizard/configs#editor-layer-wizard-config")]
     public class EditorLayerConfig : EmoteConfigBase
     {
-        [SerializeField] public RuntimeAnimatorController outputAsset;
+        [SerializeField] public RuntimeAnimatorController? outputAsset;
 
         public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);
         public EditorLayerContext GetContext(EmoteWizardEnvironment env) => new EditorLayerContext(env, this);

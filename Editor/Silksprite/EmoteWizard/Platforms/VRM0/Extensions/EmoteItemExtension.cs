@@ -1,7 +1,9 @@
 #if ATIV_DETECTED_VRM0
 
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects.Animations;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
@@ -28,13 +30,23 @@ namespace Silksprite.EmoteWizard.Platforms.VRM0.Extensions
             }
             blendShapeClip.Preset = blendShapePreset;
 
-            blendShapeClip.Values = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
-                .Select(animatedBlendShape => new BlendShapeBinding
+            IEnumerable<BlendShapeBinding> ToBlendShapeBindings(AnimatedBlendShape animatedBlendShape)
+            {
+                if (!(animatedBlendShape.relativeRef.target is { } target))
                 {
-                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, animatedBlendShape.relativeRef.target.transform),
+                    yield break;
+                }
+                yield return new BlendShapeBinding
+                {
+                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, target.transform),
                     Index = animatedBlendShape.relativeRef.target.sharedMesh.GetBlendShapeIndex(animatedBlendShape.blendShapeName),
                     Weight = animatedBlendShape.value
-                }).ToArray();
+                };
+            }
+            blendShapeClip.Values = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
+                .SelectMany(ToBlendShapeBindings)
+                .ToArray();
+
             return blendShapeClip;
         }
     }

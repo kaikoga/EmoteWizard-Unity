@@ -22,10 +22,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             if (!allowNew)
             {
                 var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
-                if (env != null)
-                {
-                    isInvalidValue |= env.GetContext<ParametersContext>().Snapshot().IsInvalidParameterReference(serializedProperty.stringValue);
-                }
+                isInvalidValue |= env.GetContext<ParametersContext>().Snapshot().IsInvalidParameterReference(serializedProperty.stringValue);
             }
 
             using (new InvalidValueScope(isInvalidValue))

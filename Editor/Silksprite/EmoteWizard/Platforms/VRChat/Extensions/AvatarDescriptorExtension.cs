@@ -13,10 +13,11 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
             return AllCustomAnimLayers(avatarDescriptor)
                 .Select(layer => layer.animatorController as AnimatorController)
                 .Where(layer => layer != null)
+                .Select(layer => layer!)
                 .Distinct();
         }
 
-        public static AnimatorController FindAnimationLayer(this VRCAvatarDescriptor avatarDescriptor, VRCAvatarDescriptor.AnimLayerType vrcLayerType)
+        public static AnimatorController? FindAnimationLayer(this VRCAvatarDescriptor avatarDescriptor, VRCAvatarDescriptor.AnimLayerType vrcLayerType)
         {
             return FindCustomAnimLayer(avatarDescriptor, vrcLayerType).animatorController as AnimatorController;
         }

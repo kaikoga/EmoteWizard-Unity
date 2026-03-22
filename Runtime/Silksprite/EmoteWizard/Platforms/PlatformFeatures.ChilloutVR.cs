@@ -93,7 +93,7 @@ namespace Silksprite.EmoteWizard.Platforms
                 ("Prone", "Prone", ParameterItemKind.Bool, Empty),
                 ("Flying", "Flying", ParameterItemKind.Bool, Empty),
                 ("Swimming", "Swimming", ParameterItemKind.Bool, Empty),
-                (Params.AFK, Params.AFK, ParameterItemKind.Bool, Empty),
+                (Params.Afk, Params.Afk, ParameterItemKind.Bool, Empty),
 
                 // These are mirrored into appropriate CVR default parameters
                 (Params.Gesture, Params.Gesture, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),

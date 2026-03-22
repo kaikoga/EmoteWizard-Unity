@@ -57,7 +57,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IClipBuilder clipBuilder)
         {
             // TODO: use AnimatorState mirror settings 
-            Motion ResolveMirroredMotion(MirroredMotion mirroredMotion, Motion fallback) =>
+            Motion? ResolveMirroredMotion(MirroredMotion mirroredMotion, Motion? fallback) =>
                 Hand switch
                 {
                     EmoteHand.Neither => fallback,

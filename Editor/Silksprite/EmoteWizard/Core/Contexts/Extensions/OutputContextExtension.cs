@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
             var outputAsset = context.OutputAsset;
             if (context.Environment.PersistGeneratedAssets)
             {
-                if (outputAsset && EditorUtility.IsPersistent(outputAsset))
+                if (outputAsset != null && EditorUtility.IsPersistent(outputAsset))
                 {
                     DestroyAllSubAssets(outputAsset);
                     var value = ScriptableObject.CreateInstance<T>();
@@ -62,12 +62,11 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
         public static AnimatorController ReplaceOrCreateOutputAsset(this IOutputContext<RuntimeAnimatorController> context, GeneratedPath defaultPath)
         {
             AnimatorController animatorController;
-
             if (context.Environment.PersistGeneratedAssets)
             {
-                animatorController = context.OutputAsset as AnimatorController;
-                if (animatorController)
+                if (context.OutputAsset is AnimatorController a)
                 {
+                    animatorController = a;
                     DestroyAllSubAssets(animatorController);
                     animatorController.layers = new AnimatorControllerLayer[] { };
                     animatorController.parameters = new AnimatorControllerParameter[] { };
@@ -102,16 +101,16 @@ namespace Silksprite.EmoteWizard.Contexts.Extensions
 
         public static AnimatorOverrideController ReplaceOrCreateOutputAsset(this IOutputContext<AnimatorOverrideController> context, GeneratedPath defaultPath)
         {
-            AnimatorOverrideController overrideController;
+            AnimatorOverrideController? overrideController;
 
             if (context.Environment.PersistGeneratedAssets)
             {
                 overrideController = context.OutputAsset;
-                if (overrideController)
+                if (overrideController != null)
                 {
                     var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>(overrideController.overridesCount);
                     overrideController.GetOverrides(overrides);
-                    overrideController.ApplyOverrides(overrides.Select(o => new KeyValuePair<AnimationClip, AnimationClip>(o.Key, null)).ToList());
+                    overrideController.ApplyOverrides(overrides.Select(o => new KeyValuePair<AnimationClip, AnimationClip?>(o.Key, null)).ToList());
                 }
                 else
                 {

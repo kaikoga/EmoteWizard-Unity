@@ -2,7 +2,6 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;
-using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
@@ -15,11 +14,11 @@ namespace Silksprite.EmoteWizard.Wizards
     {
         protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRChat;
 
-        LocalizedProperty _hasExpressionItemSource;
-        LocalizedProperty _emoteSequenceFactoryKind;
-        LocalizedProperty _actionIndex;
-        LocalizedProperty _itemPath;
-        LocalizedProperty _parameterName;
+        LocalizedProperty _hasExpressionItemSource = null!;
+        LocalizedProperty _emoteSequenceFactoryKind = null!;
+        LocalizedProperty _actionIndex = null!;
+        LocalizedProperty _itemPath = null!;
+        LocalizedProperty _parameterName = null!;
 
         void OnEnable()
         {

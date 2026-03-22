@@ -14,9 +14,9 @@ namespace Silksprite.EmoteWizard.Configs
     public class ParametersConfig : EmoteConfigBase
     {
 #if EW_VRCSDK3_AVATARS
-        [SerializeField] public VRCExpressionParameters outputAsset;
+        [SerializeField] public VRCExpressionParameters? outputAsset;
 #else
-        [SerializeField] public ScriptableObject outputAsset;
+        [SerializeField] public ScriptableObject? outputAsset;
 #endif
 
         public override IBehaviourContext ToContext(EmoteWizardEnvironment env) => GetContext(env);

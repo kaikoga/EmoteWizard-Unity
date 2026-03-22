@@ -25,9 +25,9 @@ namespace Silksprite.EmoteWizard.Templates.Sequence
 
         IEnumerable<Motion> IEmoteSequenceFactory.AllClipRefs()
         {
-            if (_sequence.clip) yield return _sequence.clip;
-            if (_sequence.entryClip) yield return _sequence.entryClip;
-            if (_sequence.exitClip) yield return _sequence.exitClip;
+            if (_sequence.clip != null) yield return _sequence.clip;
+            if (_sequence.entryClip != null) yield return _sequence.entryClip;
+            if (_sequence.exitClip != null) yield return _sequence.exitClip;
 
         }
 

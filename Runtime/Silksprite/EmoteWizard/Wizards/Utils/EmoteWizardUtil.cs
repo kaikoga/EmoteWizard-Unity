@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.Wizards.Utils
             new EmoteSequenceFactory(new EmoteSequence
             {
                 layerKind = LayerKind.Action,
-                groupName = EmoteWizardConstants.Defaults.Groups.Action,
+                groupName = EmoteWizardConstants.Groups.Action,
                 hasLayerBlend = true,
                 hasTrackingOverrides = true,
                 trackingOverrides = new[]

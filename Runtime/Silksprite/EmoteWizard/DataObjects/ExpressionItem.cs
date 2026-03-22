@@ -14,22 +14,22 @@ namespace Silksprite.EmoteWizard.DataObjects
     public class ExpressionItem
     {
         [SerializeField] public bool enabled = true;
-        [SerializeField] public Texture2D icon;
+        [SerializeField] public Texture2D? icon;
         [ItemPath]
-        [SerializeField] public string path;
+        [SerializeField] public string path = "";
         [ParameterName(true, true)]
-        [SerializeField] public string parameter;
+        [SerializeField] public string parameter = "";
         [SerializeField] public float value;
         [SerializeField] public ExpressionItemKind itemKind;
 #if EW_VRCSDK3_AVATARS
-        [SerializeField] public VRCExpressionsMenu subMenu;
+        [SerializeField] public VRCExpressionsMenu? subMenu;
 #else
-        [SerializeField] public ScriptableObject subMenu;
+        [SerializeField] public ScriptableObject? subMenu;
 #endif
         [ParameterName(false, true)]
-        [SerializeField] public string[] subParameters;
-        [SerializeField] public string[] labels;
-        [SerializeField] public Texture2D[] labelIcons;
+        [SerializeField] public string[] subParameters = { };
+        [SerializeField] public string[] labels = { };
+        [SerializeField] public Texture2D[] labelIcons = { };
 
         public bool IsValid
         {
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         }
 
         public string Name => GetFileName(path);
-        public string Folder => GetDirectoryName(path);
+        public string? Folder => GetDirectoryName(path);
 
         public bool IsPuppet
         {
@@ -66,11 +66,11 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public IEnumerable<string> Folders()
         {
-            var p = path;
+            var p = GetDirectoryName(path);
             while (!string.IsNullOrEmpty(p))
             {
-                p = GetDirectoryName(p);
-                yield return p;
+                yield return p!;
+                p = GetDirectoryName(p!);
             }
         }
 

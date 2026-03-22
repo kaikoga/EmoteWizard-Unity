@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.Configs
     {
         public override LayerOutputKind LayerOutputKind => LayerOutputKind.Merged;
 
-        public override AnimatorControllerContextBase GetContext(EmoteWizardEnvironment env) => new MergedLayerContext(env, this);
+        protected override AnimatorControllerContextBase GetContext(EmoteWizardEnvironment env) => new MergedLayerContext(env, this);
 
         protected override void Reset()
         {

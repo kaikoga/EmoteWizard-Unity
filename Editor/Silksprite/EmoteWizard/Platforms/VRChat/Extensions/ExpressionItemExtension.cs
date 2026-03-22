@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class ExpressionItemExtension
     {
-        public static VRCExpressionsMenu.Control ToControl(this ExpressionItem expressionItem, Func<string, VRCExpressionsMenu> subMenuResolver)
+        public static VRCExpressionsMenu.Control ToControl(this ExpressionItem expressionItem, Func<string, VRCExpressionsMenu?> subMenuResolver)
         {
             VRCExpressionsMenu.Control.Parameter[] ToSubParameters()
             {
@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 
             }
 
-            VRCExpressionsMenu ToSubMenu()
+            VRCExpressionsMenu? ToSubMenu()
             {
                 if (expressionItem.itemKind != ExpressionItemKind.SubMenu) return null;
                 return subMenuResolver(expressionItem.path) ?? expressionItem.subMenu;

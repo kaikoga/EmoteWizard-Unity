@@ -1,7 +1,9 @@
 #if ATIV_DETECTED_VRM1
 
+using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.DataObjects.Animations;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Utils;
 using UnityEngine;
@@ -19,13 +21,23 @@ namespace Silksprite.EmoteWizard.Platforms.VRM1.Extensions
 
             expression.name = expressionPreset == ExpressionPreset.custom ? genericEmoteItem.Trigger.name : expressionPreset.ToString();
 
-            expression.MorphTargetBindings = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
-                .Select(animatedBlendShape => new MorphTargetBinding
+            IEnumerable<MorphTargetBinding> ToMorphTargetBindings(AnimatedBlendShape animatedBlendShape)
+            {
+                if (!(animatedBlendShape.relativeRef.target is { } target))
                 {
-                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, animatedBlendShape.relativeRef.target.transform),
+                    yield break;
+                }
+                yield return new MorphTargetBinding
+                {
+                    RelativePath = RuntimeUtil.CalculateAnimationTransformPath(environment.AvatarRoot, target.transform),
                     Index = animatedBlendShape.relativeRef.target.sharedMesh.GetBlendShapeIndex(animatedBlendShape.blendShapeName),
                     Weight = animatedBlendShape.value / 100f
-                }).ToArray();
+                };
+            }
+            expression.MorphTargetBindings = genericEmoteItem.GenericEmoteSequence.animatedBlendShapes
+                .SelectMany(ToMorphTargetBindings)
+                .ToArray();
+
             return expression;
         }
     }

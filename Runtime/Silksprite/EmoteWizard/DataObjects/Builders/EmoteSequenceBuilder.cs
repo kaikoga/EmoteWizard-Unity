@@ -22,14 +22,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
             _sequence.isFixedDuration = isFixedDuration;
         }
 
-        public void AddClip(Motion clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        public void AddClip(Motion? clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
             _sequence.clip = clip;
             _sequence.entryTransitionDuration = entryTransitionDuration;
             _sequence.exitTransitionDuration = exitTransitionDuration;
         }
 
-        public void AddMirroredClip(Motion clipLeft, Motion clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
+        public void AddMirroredClip(Motion? clipLeft, Motion? clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f)
         {
             _sequence.mirroredClip.useMirroredSettings = true;
             _sequence.mirroredClip.clipLeft = clipLeft;
@@ -50,7 +50,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
             _sequence.timeParameter = timeParameter;
         }
 
-        public void AddExitClip(bool hasExitClip, Motion exitClip, float exitClipExitTime, float postExitTransitionDuration)
+        public void AddExitClip(bool hasExitClip, Motion? exitClip, float exitClipExitTime, float postExitTransitionDuration)
         {
             _sequence.hasExitClip = hasExitClip;
             _sequence.exitClip = exitClip;

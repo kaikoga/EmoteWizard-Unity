@@ -11,25 +11,24 @@ namespace Silksprite.EmoteWizard
     {
         static readonly Type TargetComponentBase = typeof(EmoteWizardBehaviour);
 
-        static readonly Type AnnotationUtility = Assembly.GetAssembly(typeof(Editor))
+        static readonly Type? AnnotationUtility = Assembly.GetAssembly(typeof(Editor))
             ?.GetType("UnityEditor.AnnotationUtility");
 
-        static readonly MethodInfo GetAnnotations = AnnotationUtility
+        static readonly MethodInfo? GetAnnotations = AnnotationUtility
             ?.GetMethod("GetAnnotations", BindingFlags.Static | BindingFlags.NonPublic);
 
-        static readonly MethodInfo SetIconEnabled = AnnotationUtility
+        static readonly MethodInfo? SetIconEnabled = AnnotationUtility
             ?.GetMethod("SetIconEnabled", BindingFlags.Static | BindingFlags.NonPublic);
 
-        static readonly Type Annotation = Assembly.GetAssembly(typeof(Editor))
+        static readonly Type? Annotation = Assembly.GetAssembly(typeof(Editor))
             ?.GetType("UnityEditor.Annotation");
 
-        static readonly FieldInfo ScriptClass = Annotation
+        static readonly FieldInfo? ScriptClass = Annotation
             ?.GetField("scriptClass", BindingFlags.Instance | BindingFlags.Public);
 
         [InitializeOnLoadMethod]
         static void InitializeOnLoad()
         {
-            var a = Type.GetType("UnityEditor.AnnotationUtility");
             _ = InitializeOnLoadAsync();
         }
         
@@ -54,8 +53,8 @@ namespace Silksprite.EmoteWizard
                     return;
                 }
                     
-                var annotations = ((Array)GetAnnotations.Invoke(null, new object[] { })).Cast<object>();
-                if (annotations.All(annotation => (string)ScriptClass.GetValue(annotation) != types[0].Name))
+                var annotations = ((Array)GetAnnotations!.Invoke(null, new object[] { })).Cast<object>();
+                if (annotations.All(annotation => (string)ScriptClass!.GetValue(annotation) != types[0].Name))
                 {
                     continue;
                 }
