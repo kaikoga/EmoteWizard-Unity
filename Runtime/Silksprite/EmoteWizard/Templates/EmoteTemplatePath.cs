@@ -7,25 +7,24 @@ namespace Silksprite.EmoteWizard.Templates
 {
     public readonly struct EmoteTemplatePath
     {
-        public readonly string AbsolutePath;
-        public readonly string RelativePath;
+        public readonly string PathFromAvatarRoot;
 
-        public string FileName => Path.GetFileName(RelativePath);
+        public string FileName => Path.GetFileName(PathFromAvatarRoot);
 
-        EmoteTemplatePath(string absolutePath, string relativePath)
+        EmoteTemplatePath(string pathFromAvatarRoot)
         {
-            AbsolutePath = absolutePath;
-            RelativePath = relativePath;
+            PathFromAvatarRoot = pathFromAvatarRoot;
         }
 
         public static EmoteTemplatePath Context(EmoteWizardEnvironment environment, EmoteWizardBehaviour context)
         {
-            return new EmoteTemplatePath(RuntimeUtil.RelativePath(environment.AvatarRoot, context.transform)!, context.transform.name);
+            var relativePath = Path.GetDirectoryName(RuntimeUtil.RelativePath(environment.AvatarRoot, context.transform))!;
+            return new EmoteTemplatePath(relativePath);
         }
 
         public EmoteTemplatePath Join(string relativePath)
         {
-            return new EmoteTemplatePath(Path.Join(AbsolutePath, relativePath), relativePath);
+            return new EmoteTemplatePath(Path.Join(PathFromAvatarRoot, relativePath));
         }
 
     }

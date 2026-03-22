@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate ToEmoteTemplate()
         {
-            return DefaultActionEmote.UnpackDefaultAction(defaultActionIndex);
+            return DefaultActionEmote.UnpackDefaultAction(EmoteTemplatePath.Context(CreateEnv(), this), defaultActionIndex);
         }
 
         // TODO: expose EmoteTemplate -> EmoteItem

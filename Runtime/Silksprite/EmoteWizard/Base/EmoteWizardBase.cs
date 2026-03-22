@@ -12,20 +12,21 @@ namespace Silksprite.EmoteWizard.Base
 
         public void Explode(IUndoable undoable, bool andSelect)
         {
+            var environment = CreateEnv();
             var sourceTemplates = SourceTemplates().ToArray();
 
-            var parent = transform.parent;
+            var root = environment.AvatarRoot.transform;
 
             var children = sourceTemplates
-                .Select(template => template.Path.RelativePath)
+                .Select(template => template.Path.PathFromAvatarRoot)
                 .OrderBy(path => path.Count(c => c == '/'))
                 .Distinct()
                 .ToDictionary(path => path,
-                    path => undoable.AddChildGameObject(parent, path, path != name));
+                    path => undoable.AddChildGameObject(root, path, path != name));
 
             foreach (var template in sourceTemplates)
             {
-                var child = children[template.Path.RelativePath];
+                var child = children[template.Path.PathFromAvatarRoot];
                 template.PopulateSources(undoable, child.transform);
             }
 

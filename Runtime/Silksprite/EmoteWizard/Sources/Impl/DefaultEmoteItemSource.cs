@@ -30,7 +30,8 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate ToEmoteTemplate()
         {
-            return DefaultEmoteItem.UnpackDefaultHandSign(emoteItemKind, emoteSequenceFactoryKind, CreateEnv().GetPlatformFeatures(), layerKind, handSign);
+            var environment = CreateEnv();
+            return DefaultEmoteItem.UnpackDefaultHandSign(EmoteTemplatePath.Context(environment, this), emoteItemKind, emoteSequenceFactoryKind, environment.GetPlatformFeatures(), layerKind, handSign);
         }
 
         // TODO: expose EmoteTemplate -> EmoteItem
