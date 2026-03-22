@@ -25,8 +25,11 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
+            var environment = CreateEnv();
+            var path = EmoteTemplatePath.Context(environment, this);
+
             yield return new EmoteItemTemplate(
-                EmoteTemplatePath.Relative(itemPath),
+                path.Join(itemPath),
                 new EmoteTrigger { name = itemPath }, EmoteWizardUtil.GenerateEmoteSequenceFactoryTemplate(emoteSequenceFactoryKind,
                     LayerKind.FX,
                     groupName = hasGroupName ? groupName : itemPath, gameObject.name),
@@ -38,7 +41,7 @@ namespace Silksprite.EmoteWizard.Wizards
             if (hasExpressionItemSource)
             {
                 yield return new ExpressionItemTemplate(
-                    EmoteTemplatePath.Relative(itemPath),
+                    path.Join(itemPath),
                     new ExpressionItem
                     {
                         enabled = true,

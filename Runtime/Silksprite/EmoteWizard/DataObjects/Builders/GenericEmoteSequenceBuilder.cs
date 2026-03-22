@@ -63,7 +63,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
         }
 
 
-        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new GenericEmoteSequenceFactory(_sequence, _path.RelativePath);
+        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new GenericEmoteSequenceFactory(_sequence, _path.FileName);
 
         public IEmoteSequenceFactoryTemplate ToEmoteSequenceFactory() => ToGenericEmoteSequenceFactory();
     }

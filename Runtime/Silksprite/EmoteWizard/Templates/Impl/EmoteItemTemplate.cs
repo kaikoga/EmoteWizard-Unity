@@ -93,7 +93,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         }
 
         public static EmoteItemTemplateBuilder Builder(LayerKind layerKind,
-            string name, string groupName,
+            EmoteTemplatePath path, string groupName,
             GenericEmoteTrigger genericTrigger,
             EmoteItemKind itemKind, EmoteSequenceFactoryKind sequenceKind)
         {
@@ -101,7 +101,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             switch (itemKind)
             {
                 case EmoteItemKind.EmoteItem:
-                    trigger = EmoteTrigger.Builder(name);
+                    trigger = EmoteTrigger.Builder(path.FileName);
                     break;
                 case EmoteItemKind.GenericEmoteItem:
                     trigger = null;
@@ -121,7 +121,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceKind), sequenceKind, null);
             }
-            return new EmoteItemTemplateBuilder(EmoteTemplatePath.Relative(name), trigger, genericTrigger, sequence);
+            return new EmoteItemTemplateBuilder(path, trigger, genericTrigger, sequence);
         }
 
         public void PopulateSources(IUndoable undoable, Component target)

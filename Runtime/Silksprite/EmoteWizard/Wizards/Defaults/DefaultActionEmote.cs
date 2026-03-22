@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
@@ -106,11 +108,11 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             };
         }
 
-        IEmoteTemplate ToEmoteItemTemplate()
+        IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
         {
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
 
-            return EmoteItemTemplate.Builder(LayerKind.Action, _name, EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(_name), EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
@@ -124,28 +126,28 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                 .ToEmoteItemTemplate();
         }
 
-        public static IEmoteTemplate UnpackDefaultAction(DefaultActionIndex index) =>
+        public static IEmoteTemplate UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index) =>
             index switch
             {
-                DefaultActionIndex.Afk => UnpackedAfk(),
-                _ => Default(index).ToEmoteItemTemplate()
+                DefaultActionIndex.Afk => UnpackedAfk(path),
+                _ => Default(index).ToEmoteItemTemplate(path)
             };
 
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems(bool unpack)
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems(EmoteTemplatePath path, bool unpack)
         {
             return Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
                 .Select(index => (index, unpack) switch
                 {
-                    (DefaultActionIndex.Afk, true) => UnpackedAfk(),
-                    (DefaultActionIndex.Afk, false) => new DefaultActionEmoteItemTemplate(EmoteTemplatePath.Relative("AFK"), index),
-                    (_, true) => UnpackDefaultAction(index),
-                    (_, false) => new DefaultActionEmoteItemTemplate(EmoteTemplatePath.Relative(Default(index)._name), index)
+                    (DefaultActionIndex.Afk, true) => UnpackedAfk(path),
+                    (DefaultActionIndex.Afk, false) => new DefaultActionEmoteItemTemplate(path.Join("AFK"), index),
+                    (_, true) => UnpackDefaultAction(path, index),
+                    (_, false) => new DefaultActionEmoteItemTemplate(path.Join(Default(index)._name), index)
                 });
         }
 
-        static IEmoteTemplate UnpackedAfk()
+        static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
         {
-            return EmoteItemTemplate.Builder(LayerKind.Action, "AFK", EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)

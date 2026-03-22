@@ -25,9 +25,12 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
+            var environment = CreateEnv();
+            var path = EmoteTemplatePath.Context(environment, this);
+
             int GuessActionIndex()
             {
-                var snapshot = CreateEnv().GetContext<ParametersContext>().Snapshot();
+                var snapshot = environment.GetContext<ParametersContext>().Snapshot();
                 var newValue = 21;
                 var usages = snapshot.ParameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Params.ActionSelect)?.readUsages;
                 if (usages != null)
@@ -42,7 +45,7 @@ namespace Silksprite.EmoteWizard.Wizards
             if (hasExpressionItemSource)
             {
                 yield return new ExpressionItemTemplate(
-                    EmoteTemplatePath.Relative(itemPath),
+                    path.Join(itemPath),
                     new ExpressionItem
                     {
                         enabled = true,
@@ -55,7 +58,7 @@ namespace Silksprite.EmoteWizard.Wizards
             }
 
             yield return new EmoteItemTemplate(
-                EmoteTemplatePath.Relative(itemPath), 
+                path.Join(itemPath), 
                 new EmoteTrigger
                 {
                     name = itemPath,

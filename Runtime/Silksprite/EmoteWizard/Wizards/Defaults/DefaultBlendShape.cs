@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Templates;
@@ -168,25 +170,25 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             };
         }
 
-        IEnumerable<IEmoteTemplate> ToEmoteTemplates()
+        IEnumerable<IEmoteTemplate> ToEmoteTemplates(EmoteTemplatePath path)
         {
             var builder = GenericEmoteSequence.Builder(LayerKind.None, _group);
             builder.AddFixedDuration(true);
             builder.AddClip(null, 0f, 0.1f);
-            yield return new GenericEmoteSequenceTemplate(EmoteTemplatePath.Relative(_name), builder.ToGenericEmoteSequenceFactory());
+            yield return new GenericEmoteSequenceTemplate(path.Join(_name), builder.ToGenericEmoteSequenceFactory());
             if (_vrm0BlendShape != Vrm0BlendShapePreset.Unknown)
             {
-                yield return new GenericEmoteTriggerTemplate(EmoteTemplatePath.Relative($"{_name}/VRM0_{_vrm0BlendShape}"), GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
+                yield return new GenericEmoteTriggerTemplate(path.Join($"{_name}/VRM0_{_vrm0BlendShape}"), GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
             }
             if (_vrm1Expression != Vrm1ExpressionPreset.Custom)
             {
-                yield return new GenericEmoteTriggerTemplate(EmoteTemplatePath.Relative($"{_name}/VRM1_{_vrm1Expression}"), GenericEmoteTrigger.FromVrm1Expression(_vrm1Expression));
+                yield return new GenericEmoteTriggerTemplate(path.Join($"{_name}/VRM1_{_vrm1Expression}"), GenericEmoteTrigger.FromVrm1Expression(_vrm1Expression));
             }
         }
 
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultBlendShapes()
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultBlendShapes(EmoteTemplatePath path)
         {
-            return Defaults().SelectMany(def => def.ToEmoteTemplates());
+            return Defaults().SelectMany(def => def.ToEmoteTemplates(path));
         }
     }
 }

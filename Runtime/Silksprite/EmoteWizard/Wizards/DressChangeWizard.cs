@@ -27,6 +27,9 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
         {
+            var environment = CreateEnv();
+            var path = EmoteTemplatePath.Context(environment, this);
+
             var paramName = hasParameterName ? parameterName : itemPath;
             var actualItemCount = expressionKind == ExpressionKind.SimpleToggle ? 2 : Mathf.Clamp(itemCount, 2, 64);
 
@@ -34,7 +37,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 var childName = $"{itemPath}/Item {value}";
                 yield return new EmoteItemTemplate(
-                    EmoteTemplatePath.Relative(childName),
+                    path.Join(childName),
                     new EmoteTrigger
                     {
                         name = childName,
@@ -68,7 +71,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 if (expressionKind == ExpressionKind.ToggleItems)
                 {
                     yield return new ExpressionItemTemplate(
-                        EmoteTemplatePath.Relative(childName), new ExpressionItem
+                        path.Join(childName), new ExpressionItem
                         {
                             enabled = true,
                             icon = VrcSdkAssetLocator.ItemWand(),
@@ -83,7 +86,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 case ExpressionKind.SimpleToggle:
                     yield return new ExpressionItemTemplate(
-                        EmoteTemplatePath.Relative(itemPath), new ExpressionItem
+                        path.Join(itemPath), new ExpressionItem
                         {
                             enabled = true,
                             icon = VrcSdkAssetLocator.ItemWand(),
@@ -95,7 +98,7 @@ namespace Silksprite.EmoteWizard.Wizards
                     break;
                 case ExpressionKind.SimpleRadial:
                     yield return new ExpressionItemTemplate(
-                        EmoteTemplatePath.Relative(itemPath), new ExpressionItem
+                        path.Join(itemPath), new ExpressionItem
                         {
                             enabled = true,
                             icon = VrcSdkAssetLocator.ItemWand(),

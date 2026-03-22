@@ -45,9 +45,9 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             }
         };
 
-        IEmoteTemplate ToEmoteItemTemplate(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
+        IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            var builder = EmoteItemTemplate.Builder(layerKind, $"{_handSign}", EmoteWizardConstants.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
+            var builder = EmoteItemTemplate.Builder(layerKind, path.Join($"{_handSign}"), EmoteWizardConstants.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
                 .AddCondition(new EmoteCondition
                 {
                     kind = ParameterItemKind.Int,
@@ -71,18 +71,18 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             return builder.ToEmoteItemTemplate();
         }
 
-        public static IEmoteTemplate UnpackDefaultHandSign(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign)
+        public static IEmoteTemplate UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign)
         {
             return Default(platformFeatures, layerKind, handSign)
-                .ToEmoteItemTemplate(emoteItemKind, emoteSequenceFactoryKind, layerKind);
+                .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
         }
         
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, bool unpack)
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, bool unpack)
         {
             return Enum.GetValues(typeof(HandSign)).OfType<HandSign>()
                 .Select(handSign => unpack
-                    ? UnpackDefaultHandSign(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, layerKind, handSign)
-                    : new DefaultEmoteItemTemplate(EmoteTemplatePath.Relative($"{handSign}"), emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
+                    ? UnpackDefaultHandSign(path, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, layerKind, handSign)
+                    : new DefaultEmoteItemTemplate(path.Join($"{handSign}"), emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
         }
     }
 }

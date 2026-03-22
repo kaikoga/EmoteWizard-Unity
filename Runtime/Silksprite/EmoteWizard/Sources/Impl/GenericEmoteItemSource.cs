@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new GenericEmoteItemTemplate(EmoteTemplatePath.Relative(gameObject.name), trigger, FindEmoteFactory());
+            return new GenericEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this).Join(gameObject.name), trigger, FindEmoteFactory());
         }
 
         public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment) => ToTemplate().ToEmoteItems(environment);

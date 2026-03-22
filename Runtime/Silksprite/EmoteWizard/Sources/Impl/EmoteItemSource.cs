@@ -44,7 +44,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new EmoteItemTemplate(EmoteTemplatePath.Relative(gameObject.name), trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
+            return new EmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this).Join(gameObject.name), trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
         }
 
         public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;
