@@ -7,9 +7,9 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
 {
     public class ClipBuilderImpl : IClipBuilder
     {
-        readonly string _explodePath; 
+        readonly string? _explodePath; 
 
-        public ClipBuilderImpl(string explodePath = null)
+        public ClipBuilderImpl(string? explodePath = null)
         {
             _explodePath = explodePath;
         }

@@ -18,7 +18,10 @@ namespace Silksprite.EmoteWizardSupport.Tools
 
         public static void EnsureDirectory(string path)
         {
-            Directory.CreateDirectory(GetDirectoryName(path));
+            if (GetDirectoryName(path) is { } directoryName )
+            {
+                Directory.CreateDirectory(directoryName);
+            }
         }
     }
 }

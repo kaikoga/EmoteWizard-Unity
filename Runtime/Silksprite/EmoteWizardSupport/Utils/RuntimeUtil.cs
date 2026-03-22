@@ -3,13 +3,9 @@ using UnityEngine;
 
 #if EW_NDMF_SUPPORT
 using NdmfRuntimeUtil = nadena.dev.ndmf.runtime.RuntimeUtil;
-#endif
-
-#if EW_ABLET_SUPPORT
+#elif EW_ABLET_SUPPORT
 using Ablet;
-#endif
-
-#if EW_VRCSDK3_AVATARS
+#elif EW_VRCSDK3_AVATARS
 using VRC.SDK3.Avatars.Components;
 #endif
 
@@ -19,7 +15,7 @@ namespace Silksprite.EmoteWizardSupport.Utils
     {
         const string AvatarRootMagic = "$$$AVATAR_ROOT$$$"; // this follows the convention of Modular Avatar
 
-        public static Transform FindAvatarInParents(Transform transform)
+        public static Transform? FindAvatarInParents(Transform transform)
         {
             if (!transform) return null;
 
@@ -34,30 +30,30 @@ namespace Silksprite.EmoteWizardSupport.Utils
 #endif
         }
 
-        public static string RelativePath(Transform root, Transform child)
+        public static string? RelativePath(Transform? root, Transform? child)
         {
             return RelativePath(root, child, AvatarRootMagic);
         }
 
-        public static string CalculateAnimationTransformPath(Transform root, Transform child)
+        public static string? CalculateAnimationTransformPath(Transform root, Transform child)
         {
             return RelativePath(root, child, "");
         }
 
-        public static Transform FromRelativePath(Transform root, string relativePath)
+        public static Transform? FromRelativePath(Transform root, string relativePath)
         {
             return FromRelativePath(root, relativePath, AvatarRootMagic);
         }
 
-        public static Transform FromAnimationTransformPath(Transform root, string relativePath)
+        public static Transform? FromAnimationTransformPath(Transform root, string relativePath)
         {
             return FromRelativePath(root, relativePath, "");
         }
 
-        static string RelativePath(Transform root, Transform child, string rootName)
+        static string? RelativePath(Transform? root, Transform? child, string rootName)
         {
-            if (!root) return null;
-            if (!child) return null;
+            if (root == null) return null;
+            if (child == null) return null;
             if (root == child) return rootName;
 
             var cursor = child;
@@ -72,7 +68,7 @@ namespace Silksprite.EmoteWizardSupport.Utils
             return path;
         }
 
-        static Transform FromRelativePath(Transform root, string relativePath, string rootName)
+        static Transform? FromRelativePath(Transform root, string? relativePath, string rootName)
         {
             return !root ? null :
                 relativePath == null ? null :

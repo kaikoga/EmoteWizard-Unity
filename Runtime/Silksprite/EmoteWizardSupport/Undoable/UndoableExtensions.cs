@@ -6,7 +6,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
 {
     public static class UndoableExtensions
     {
-        public static T EnsureComponent<T>(this IUndoable undoable, Component component, Action<T> initializer = null)
+        public static T EnsureComponent<T>(this IUndoable undoable, Component component, Action<T>? initializer = null)
             where T : Component
         {
             var result = component.GetComponent<T>();
@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             {
                 var name = paths[i];
                 var isLeaf = i == paths.Length - 1;
-                if (gameObject.transform.Find(name) is Transform childTransform)
+                if (gameObject.transform.Find(name) is { } childTransform)
                 {
                     if (isLeaf)
                     {
@@ -48,15 +48,15 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             return gameObject;
         }
         
-        public static T AddChildComponent<T>(this IUndoable undoable, Component component, string path = null, Action<T> initializer = null)
+        public static T AddChildComponent<T>(this IUndoable undoable, Component component, string? path = null, Action<T>? initializer = null)
             where T : Component
         {
-            var t = undoable.AddComponent<T>(undoable.AddChildGameObject(component, string.IsNullOrEmpty(path) ? typeof(T).Name : path, true).transform);
+            var t = undoable.AddComponent<T>(undoable.AddChildGameObject(component, string.IsNullOrEmpty(path) ? typeof(T).Name : path!, true).transform);
             initializer?.Invoke(t);
             return t;
         }
         
-        public static T AddChildComponentAndSelect<T>(this IUndoable undoable, Component component, string path = null)
+        public static T AddChildComponentAndSelect<T>(this IUndoable undoable, Component component, string? path = null)
             where T : Component
         {
             var result = undoable.AddChildComponent<T>(component, path);
@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizardSupport.Undoable
             return result;
         }
 
-        public static T FindOrCreateChildComponent<T>(this IUndoable undoable, Component component, string path = null, Action<T> initializer = null)
+        public static T FindOrCreateChildComponent<T>(this IUndoable undoable, Component component, string? path = null, Action<T>? initializer = null)
             where T : Component
         {
             var child = component.transform.Find(path);

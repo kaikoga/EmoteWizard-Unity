@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
@@ -23,9 +24,9 @@ namespace Silksprite.EmoteWizardSupport.UI
             if (LGUILayout.Button(loc)) onClick(new EditorUndoable(undoLabel)); 
         }
 
-        public static bool Undoable(LocalizedContent loc, out IUndoable undoable) => Undoable(loc, loc.Tr, out undoable);
+        public static bool Undoable(LocalizedContent loc, [MaybeNullWhen(false)] out IUndoable undoable) => Undoable(loc, loc.Tr, out undoable);
 
-        public static bool Undoable(LocalizedContent loc, string undoLabel, out IUndoable undoable)
+        public static bool Undoable(LocalizedContent loc, string undoLabel, [MaybeNullWhen(false)] out IUndoable undoable)
         {
             if (LGUILayout.Button(loc))
             {
@@ -49,7 +50,7 @@ namespace Silksprite.EmoteWizardSupport.UI
 
         public static void OutputUIArea(bool persistGeneratedAssets, Action action) => OutputUIArea(persistGeneratedAssets, Loc("EWS::Output zone"), action);
 
-        public static void OutputUIArea(bool persistGeneratedAssets, LocalizedContent loc, Action action)
+        public static void OutputUIArea(bool persistGeneratedAssets, LocalizedContent? loc, Action action)
         {
             if (!persistGeneratedAssets) return;
             using (new BoxLayoutScope(OutputUIColor))

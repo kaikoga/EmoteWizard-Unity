@@ -4,14 +4,9 @@ namespace Silksprite.EmoteWizardSupport.Scopes
 {
     public class CheckInvalidValueScope : IDisposable
     {
-        readonly int _lastInvalidCount = 0;
+        readonly int _lastInvalidCount = InvalidValueScope.InvalidCount;
 
         public bool IsInvalid => _lastInvalidCount != InvalidValueScope.InvalidCount;
-
-        public CheckInvalidValueScope()
-        {
-            _lastInvalidCount = InvalidValueScope.InvalidCount;
-        }
 
         public void Dispose()
         {

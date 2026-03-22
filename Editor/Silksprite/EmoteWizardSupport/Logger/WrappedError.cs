@@ -14,20 +14,20 @@ namespace Silksprite.EmoteWizardSupport.Logger
         public override ErrorSeverity Severity { get; }
 
         readonly LocalizedContent _loc;
-        readonly ObjectReference _context;
+        readonly ObjectReference? _context;
         readonly Substitution _substitution;
 
         #region unused ndmf API
-        public override Localizer Localizer => null;
+        public override Localizer Localizer => null!;
 
-        public override string TitleKey => null;
+        public override string TitleKey => null!;
 
-        public override string[] TitleSubst => null;
-        public override string[] DetailsSubst => null;
-        public override string[] HintSubst => null;
+        public override string[] TitleSubst => null!;
+        public override string[] DetailsSubst => null!;
+        public override string[] HintSubst => null!;
         #endregion
 
-        public WrappedError(ErrorSeverity errorSeverity, LocalizedContent loc, Object context, Substitution substitution)
+        public WrappedError(ErrorSeverity errorSeverity, LocalizedContent loc, Object? context, Substitution? substitution)
         {
             Severity = errorSeverity;
             _loc = loc;
@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizardSupport.Logger
             AddReference(ObjectRegistry.GetReference(context));
         }
 
-        public override string FormatTitle()
+        public override string? FormatTitle()
         {
             return _loc.TrFormat(_substitution).SplitCompat("\n").FirstOrDefault();
         }
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizardSupport.Logger
             return _loc.TrFormat(_substitution);
         }
 
-        public override string FormatHint()
+        public override string? FormatHint()
         {
             return null;
         }
