@@ -23,7 +23,8 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             return new GenericEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
                 trigger,
-                sequence?.ToEmoteFactoryTemplate());
+                FindEmoteSequenceSource()?.ToEmoteFactoryTemplate() // TODO: sequence?.ToEmoteFactoryTemplate()) after sequence resolving in templates 
+            ); 
         }
 
         public EmoteSequenceSourceBase? FindEmoteSequenceSource()

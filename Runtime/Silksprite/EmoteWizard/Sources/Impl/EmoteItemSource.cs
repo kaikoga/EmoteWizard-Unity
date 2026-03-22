@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         {
             return new EmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
                 trigger,
-                sequence?.ToEmoteFactoryTemplate(),
+                FindEmoteSequenceSource()?.ToEmoteFactoryTemplate(), // TODO: sequence?.ToEmoteFactoryTemplate() after sequence resolving in templates 
                 hasExpressionItem,
                 expressionItemPath,
                 expressionItemIcon);
