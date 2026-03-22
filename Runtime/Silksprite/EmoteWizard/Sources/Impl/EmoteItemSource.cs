@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
@@ -43,7 +44,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new EmoteItemTemplate(gameObject.name, trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
+            return new EmoteItemTemplate(EmoteTemplatePath.Relative(gameObject.name), trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
         }
 
         public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;

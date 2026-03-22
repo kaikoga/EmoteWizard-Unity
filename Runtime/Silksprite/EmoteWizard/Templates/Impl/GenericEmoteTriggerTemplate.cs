@@ -7,10 +7,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class GenericEmoteTriggerTemplate : IEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
+
         readonly GenericEmoteTrigger _trigger;
 
-        public GenericEmoteTriggerTemplate(string path, GenericEmoteTrigger trigger)
+        public GenericEmoteTriggerTemplate(EmoteTemplatePath path, GenericEmoteTrigger trigger)
         {
             Path = path;
             _trigger = trigger;

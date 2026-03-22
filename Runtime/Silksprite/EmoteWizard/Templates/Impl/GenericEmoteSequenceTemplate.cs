@@ -6,10 +6,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class GenericEmoteSequenceTemplate : IEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
+
         readonly GenericEmoteSequenceFactory _sequence;
 
-        public GenericEmoteSequenceTemplate(string path, GenericEmoteSequenceFactory sequence)
+        public GenericEmoteSequenceTemplate(EmoteTemplatePath path, GenericEmoteSequenceFactory sequence)
         {
             Path = path;
             _sequence = sequence;

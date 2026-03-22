@@ -5,6 +5,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
@@ -38,7 +39,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new GenericEmoteItemTemplate(gameObject.name, trigger, FindEmoteFactory());
+            return new GenericEmoteItemTemplate(EmoteTemplatePath.Relative(gameObject.name), trigger, FindEmoteFactory());
         }
 
         public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment) => ToTemplate().ToEmoteItems(environment);

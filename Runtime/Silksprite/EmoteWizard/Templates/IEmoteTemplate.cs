@@ -5,7 +5,7 @@ namespace Silksprite.EmoteWizard.Templates
 {
     public interface IEmoteTemplate
     {
-        string Path { get; }
+        EmoteTemplatePath Path { get; }
 
         void PopulateSources(IUndoable undoable, Component target);
     }

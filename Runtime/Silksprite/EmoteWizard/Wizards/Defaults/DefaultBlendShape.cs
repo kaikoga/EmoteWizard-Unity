@@ -173,14 +173,14 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             var builder = GenericEmoteSequence.Builder(LayerKind.None, _group);
             builder.AddFixedDuration(true);
             builder.AddClip(null, 0f, 0.1f);
-            yield return new GenericEmoteSequenceTemplate(_name, builder.ToGenericEmoteSequenceFactory());
+            yield return new GenericEmoteSequenceTemplate(EmoteTemplatePath.Relative(_name), builder.ToGenericEmoteSequenceFactory());
             if (_vrm0BlendShape != Vrm0BlendShapePreset.Unknown)
             {
-                yield return new GenericEmoteTriggerTemplate($"{_name}/VRM0_{_vrm0BlendShape}", GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
+                yield return new GenericEmoteTriggerTemplate(EmoteTemplatePath.Relative($"{_name}/VRM0_{_vrm0BlendShape}"), GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
             }
             if (_vrm1Expression != Vrm1ExpressionPreset.Custom)
             {
-                yield return new GenericEmoteTriggerTemplate($"{_name}/VRM1_{_vrm1Expression}", GenericEmoteTrigger.FromVrm1Expression(_vrm1Expression));
+                yield return new GenericEmoteTriggerTemplate(EmoteTemplatePath.Relative($"{_name}/VRM1_{_vrm1Expression}"), GenericEmoteTrigger.FromVrm1Expression(_vrm1Expression));
             }
         }
 

@@ -10,11 +10,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class DefaultActionEmoteItemTemplate : ICompositeEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
 
         readonly DefaultActionIndex _defaultActionIndex;
 
-        public DefaultActionEmoteItemTemplate(string path, DefaultActionIndex defaultActionIndex)
+        public DefaultActionEmoteItemTemplate(EmoteTemplatePath path, DefaultActionIndex defaultActionIndex)
         {
             Path = path;
             _defaultActionIndex = defaultActionIndex;

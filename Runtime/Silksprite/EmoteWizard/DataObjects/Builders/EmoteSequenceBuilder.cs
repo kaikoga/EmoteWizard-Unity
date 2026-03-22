@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
             _sequence = emoteSequence;
         }
 
-        public void AddPath(string path)
+        public void AddPath(EmoteTemplatePath path)
         {
         }
 

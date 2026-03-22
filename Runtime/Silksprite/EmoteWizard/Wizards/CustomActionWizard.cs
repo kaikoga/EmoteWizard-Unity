@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.Wizards
             if (hasExpressionItemSource)
             {
                 yield return new ExpressionItemTemplate(
-                    itemPath,
+                    EmoteTemplatePath.Relative(itemPath),
                     new ExpressionItem
                     {
                         enabled = true,
@@ -55,7 +55,7 @@ namespace Silksprite.EmoteWizard.Wizards
             }
 
             yield return new EmoteItemTemplate(
-                itemPath, 
+                EmoteTemplatePath.Relative(itemPath), 
                 new EmoteTrigger
                 {
                     name = itemPath,

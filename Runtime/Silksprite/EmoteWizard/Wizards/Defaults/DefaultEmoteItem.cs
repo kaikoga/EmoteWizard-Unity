@@ -82,7 +82,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             return Enum.GetValues(typeof(HandSign)).OfType<HandSign>()
                 .Select(handSign => unpack
                     ? UnpackDefaultHandSign(emoteItemKind, emoteSequenceFactoryKind, platformFeatures, layerKind, handSign)
-                    : new DefaultEmoteItemTemplate($"{handSign}", emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
+                    : new DefaultEmoteItemTemplate(EmoteTemplatePath.Relative($"{handSign}"), emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
         }
     }
 }

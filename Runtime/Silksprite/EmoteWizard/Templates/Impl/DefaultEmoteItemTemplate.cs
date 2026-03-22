@@ -11,14 +11,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class DefaultEmoteItemTemplate : ICompositeEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
 
         readonly EmoteItemKind _emoteItemKind;
         readonly EmoteSequenceFactoryKind _emoteSequenceFactoryKind;
         readonly LayerKind _layerKind;
         readonly HandSign _handSign;
 
-        public DefaultEmoteItemTemplate(string path,
+        public DefaultEmoteItemTemplate(EmoteTemplatePath path,
             EmoteItemKind emoteItemKind,
             EmoteSequenceFactoryKind emoteSequenceFactoryKind,
             LayerKind layerKind,

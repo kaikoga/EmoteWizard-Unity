@@ -7,7 +7,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
 {
     public class EmoteItemTemplateBuilder
     {
-        readonly string _path;
+        readonly EmoteTemplatePath _path;
         readonly EmoteTriggerBuilder? _trigger;
         readonly GenericEmoteTrigger _genericTrigger;
         readonly IEmoteSequenceBuilder _sequence;
@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl.Builders
         string _expressionItemPath = "";
         Texture2D? _expressionItemIcon;
 
-        public EmoteItemTemplateBuilder(string path, EmoteTriggerBuilder? trigger, GenericEmoteTrigger genericTrigger, IEmoteSequenceBuilder sequence)
+        public EmoteItemTemplateBuilder(EmoteTemplatePath path, EmoteTriggerBuilder? trigger, GenericEmoteTrigger genericTrigger, IEmoteSequenceBuilder sequence)
         {
             _path = path;
             _trigger = trigger;

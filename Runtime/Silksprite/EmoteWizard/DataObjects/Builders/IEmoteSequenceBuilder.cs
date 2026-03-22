@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
@@ -6,7 +7,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
 {
     public interface IEmoteSequenceBuilder
     {
-        void AddPath(string path);
+        void AddPath(EmoteTemplatePath path);
         void AddFixedDuration(bool isFixedDuration);
         void AddClip(Motion? clip, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f);
         void AddMirroredClip(Motion? clipLeft, Motion? clipRight, float entryTransitionDuration = 0.25f, float exitTransitionDuration = 0.25f);

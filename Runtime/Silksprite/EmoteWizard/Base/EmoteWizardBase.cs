@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.Base
             var parent = transform.parent;
 
             var children = sourceTemplates
-                .Select(template => template.Path)
+                .Select(template => template.Path.RelativePath)
                 .OrderBy(path => path.Count(c => c == '/'))
                 .Distinct()
                 .ToDictionary(path => path,
@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Base
 
             foreach (var template in sourceTemplates)
             {
-                var child = children[template.Path];
+                var child = children[template.Path.RelativePath];
                 template.PopulateSources(undoable, child.transform);
             }
 

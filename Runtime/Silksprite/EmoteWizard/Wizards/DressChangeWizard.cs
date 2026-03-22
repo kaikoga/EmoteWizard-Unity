@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 var childName = $"{itemPath}/Item {value}";
                 yield return new EmoteItemTemplate(
-                    childName,
+                    EmoteTemplatePath.Relative(childName),
                     new EmoteTrigger
                     {
                         name = childName,
@@ -68,7 +68,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 if (expressionKind == ExpressionKind.ToggleItems)
                 {
                     yield return new ExpressionItemTemplate(
-                        childName, new ExpressionItem
+                        EmoteTemplatePath.Relative(childName), new ExpressionItem
                         {
                             enabled = true,
                             icon = VrcSdkAssetLocator.ItemWand(),
@@ -83,7 +83,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 case ExpressionKind.SimpleToggle:
                     yield return new ExpressionItemTemplate(
-                        itemPath, new ExpressionItem
+                        EmoteTemplatePath.Relative(itemPath), new ExpressionItem
                         {
                             enabled = true,
                             icon = VrcSdkAssetLocator.ItemWand(),
@@ -95,7 +95,7 @@ namespace Silksprite.EmoteWizard.Wizards
                     break;
                 case ExpressionKind.SimpleRadial:
                     yield return new ExpressionItemTemplate(
-                        itemPath, new ExpressionItem
+                        EmoteTemplatePath.Relative(itemPath), new ExpressionItem
                         {
                             enabled = true,
                             icon = VrcSdkAssetLocator.ItemWand(),

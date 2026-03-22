@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using UnityEngine;
 
@@ -7,14 +8,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
     public class GenericEmoteSequenceBuilder : IEmoteSequenceBuilder
     {
         readonly GenericEmoteSequence _sequence;
-        string _path = "";
+        EmoteTemplatePath _path;
 
         public GenericEmoteSequenceBuilder(GenericEmoteSequence genericEmoteSequence)
         {
             _sequence = genericEmoteSequence;
         }
 
-        public void AddPath(string path)
+        public void AddPath(EmoteTemplatePath path)
         {
             _path = path;
         }
@@ -62,7 +63,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Builders
         }
 
 
-        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new GenericEmoteSequenceFactory(_sequence, _path);
+        public GenericEmoteSequenceFactory ToGenericEmoteSequenceFactory() => new GenericEmoteSequenceFactory(_sequence, _path.RelativePath);
 
         public IEmoteSequenceFactoryTemplate ToEmoteSequenceFactory() => ToGenericEmoteSequenceFactory();
     }

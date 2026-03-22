@@ -137,9 +137,9 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                 .Select(index => (index, unpack) switch
                 {
                     (DefaultActionIndex.Afk, true) => UnpackedAfk(),
-                    (DefaultActionIndex.Afk, false) => new DefaultActionEmoteItemTemplate("AFK", index),
+                    (DefaultActionIndex.Afk, false) => new DefaultActionEmoteItemTemplate(EmoteTemplatePath.Relative("AFK"), index),
                     (_, true) => UnpackDefaultAction(index),
-                    (_, false) => new DefaultActionEmoteItemTemplate(Default(index)._name, index)
+                    (_, false) => new DefaultActionEmoteItemTemplate(EmoteTemplatePath.Relative(Default(index)._name), index)
                 });
         }
 

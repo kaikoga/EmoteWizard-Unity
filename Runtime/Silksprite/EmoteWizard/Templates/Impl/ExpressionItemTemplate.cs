@@ -10,10 +10,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class ExpressionItemTemplate : IEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
+
         readonly ExpressionItem _expressionItem;
 
-        public ExpressionItemTemplate(string path, ExpressionItem expressionItem)
+        public ExpressionItemTemplate(EmoteTemplatePath path, ExpressionItem expressionItem)
         {
             Path = path;
             _expressionItem = expressionItem;

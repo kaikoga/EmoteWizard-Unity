@@ -16,7 +16,8 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class EmoteItemTemplate : IEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
+
         public readonly EmoteTrigger Trigger;
         public readonly IEmoteSequenceFactoryTemplate? SequenceFactory;
 
@@ -24,7 +25,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         public readonly string ExpressionItemPath;
         public readonly Texture2D? ExpressionItemIcon;
 
-        public EmoteItemTemplate(string path,
+        public EmoteItemTemplate(EmoteTemplatePath path,
             EmoteTrigger trigger,
             IEmoteSequenceFactoryTemplate? sequenceFactory,
             bool hasExpressionItem,
@@ -120,7 +121,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                 default:
                     throw new ArgumentOutOfRangeException(nameof(sequenceKind), sequenceKind, null);
             }
-            return new EmoteItemTemplateBuilder(name, trigger, genericTrigger, sequence);
+            return new EmoteItemTemplateBuilder(EmoteTemplatePath.Relative(name), trigger, genericTrigger, sequence);
         }
 
         public void PopulateSources(IUndoable undoable, Component target)

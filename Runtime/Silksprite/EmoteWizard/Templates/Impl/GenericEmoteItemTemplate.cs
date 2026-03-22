@@ -13,11 +13,12 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class GenericEmoteItemTemplate : IEmoteTemplate
     {
-        public string Path { get; }
+        public EmoteTemplatePath Path { get; }
+
         public readonly GenericEmoteTrigger Trigger;
         public readonly IEmoteSequenceFactoryTemplate? SequenceFactory;
 
-        public GenericEmoteItemTemplate(string path,
+        public GenericEmoteItemTemplate(EmoteTemplatePath path,
             GenericEmoteTrigger trigger, 
             IEmoteSequenceFactoryTemplate? sequenceFactory)
         {
