@@ -106,6 +106,20 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             };
         }
 
+        static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
+        {
+            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
+                    default,
+                    EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
+                .AddPriority(100)
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.Afk, mode = EmoteConditionMode.If, threshold = 0 })
+                .AddFixedDuration(true)
+                .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
+                .AddLayerBlend(true, 1f, 0.5f)
+                .AddTrackingOverrides(true, ActionTrackingOverrides)
+                .ToEmoteItemTemplate();
+        }
+
         IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
         {
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
@@ -124,12 +138,14 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                 .ToEmoteItemTemplate();
         }
 
-        public static IEmoteTemplate UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index) =>
-            index switch
+        public static IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
+        {
+            yield return index switch
             {
                 DefaultActionIndex.Afk => UnpackedAfk(path),
                 _ => Default(index).ToEmoteItemTemplate(path)
             };
+        }
 
         public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems(EmoteTemplatePath path)
         {
@@ -139,20 +155,6 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     DefaultActionIndex.Afk => new DefaultActionEmoteItemTemplate(path.Join("AFK"), index),
                     _ => new DefaultActionEmoteItemTemplate(path.Join(Default(index)._name), index)
                 });
-        }
-
-        static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
-        {
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
-                    default,
-                    EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
-                .AddPriority(100)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.Afk, mode = EmoteConditionMode.If, threshold = 0 })
-                .AddFixedDuration(true)
-                .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
-                .AddLayerBlend(true, 1f, 0.5f)
-                .AddTrackingOverrides(true, ActionTrackingOverrides)
-                .ToEmoteItemTemplate();
         }
     }
 }

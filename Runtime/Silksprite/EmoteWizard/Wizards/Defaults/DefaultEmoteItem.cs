@@ -71,9 +71,9 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             return builder.ToEmoteItemTemplate();
         }
 
-        public static IEmoteTemplate UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign)
+        public static IEnumerable<IEmoteTemplate> UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign)
         {
-            return Default(platformFeatures, layerKind, handSign)
+            yield return Default(platformFeatures, layerKind, handSign)
                 .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
         }
         

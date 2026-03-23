@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public IEnumerable<IEmoteTemplate> Unpack(IPlatformFeatures platformFeatures)
         {
-            yield return DefaultActionEmote.UnpackDefaultAction(Path, _defaultActionIndex);
+            return DefaultActionEmote.UnpackDefaultAction(Path, _defaultActionIndex);
         }
     }
 }
