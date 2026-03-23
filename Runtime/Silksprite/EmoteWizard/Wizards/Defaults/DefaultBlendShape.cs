@@ -7,186 +7,189 @@ using Silksprite.EmoteWizard.Templates.Impl;
 
 namespace Silksprite.EmoteWizard.Wizards.Defaults
 {
-    public class DefaultBlendShape
+    public static class DefaultBlendShape
     {
-        string _group = "";
-        string _name = "";
-        Vrm0BlendShapePreset _vrm0BlendShape;
-        Vrm1ExpressionPreset _vrm1Expression;
-
-        static IEnumerable<DefaultBlendShape> Defaults()
+        class DefaultBlendShapeDef
         {
-            return new List<DefaultBlendShape>
+            string _group = "";
+            string _name = "";
+            Vrm0BlendShapePreset _vrm0BlendShape;
+            Vrm1ExpressionPreset _vrm1Expression;
+
+            public IEnumerable<IEmoteTemplate> ToEmoteTemplates(EmoteTemplatePath path)
             {
-                new DefaultBlendShape
+                var builder = GenericEmoteSequence.Builder(LayerKind.None, _group);
+                builder.AddFixedDuration(true);
+                builder.AddClip(null, 0f, 0.1f);
+                yield return new GenericEmoteSequenceTemplate(path.Join(_name), builder.ToGenericEmoteSequenceFactory());
+                if (_vrm0BlendShape != Vrm0BlendShapePreset.Unknown)
                 {
-                    _group = EmoteWizardConstants.Groups.LipSync,
-                    _name = "A",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.A,
-                    _vrm1Expression = Vrm1ExpressionPreset.Aa
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LipSync,
-                    _name = "I",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.I,
-                    _vrm1Expression = Vrm1ExpressionPreset.Ih
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LipSync,
-                    _name = "U",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.U,
-                    _vrm1Expression = Vrm1ExpressionPreset.Ou
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LipSync,
-                    _name = "E",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.E,
-                    _vrm1Expression = Vrm1ExpressionPreset.Ee
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LipSync,
-                    _name = "O",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.O,
-                    _vrm1Expression = Vrm1ExpressionPreset.Oh
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Blink,
-                    _name = "Blink",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Blink,
-                    _vrm1Expression = Vrm1ExpressionPreset.Blink
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Blink,
-                    _name = "BlinkLeft",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.BlinkL,
-                    _vrm1Expression = Vrm1ExpressionPreset.BlinkLeft
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Blink,
-                    _name = "BlinkRight",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.BlinkR,
-                    _vrm1Expression = Vrm1ExpressionPreset.BlinkRight
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LookAt,
-                    _name = "LookUp",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.LookUp,
-                    _vrm1Expression = Vrm1ExpressionPreset.LookUp
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LookAt,
-                    _name = "LookDown",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.LookDown,
-                    _vrm1Expression = Vrm1ExpressionPreset.LookDown
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LookAt,
-                    _name = "LookLeft",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.LookLeft,
-                    _vrm1Expression = Vrm1ExpressionPreset.LookLeft
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.LookAt,
-                    _name = "LookRight",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.LookRight,
-                    _vrm1Expression = Vrm1ExpressionPreset.LookRight
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Joy_0",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Joy,
-                    _vrm1Expression = Vrm1ExpressionPreset.Custom
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Angry_0",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Angry,
-                    _vrm1Expression = Vrm1ExpressionPreset.Custom
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Sorrow_0",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Sorrow,
-                    _vrm1Expression = Vrm1ExpressionPreset.Custom
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Fun_0",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Fun,
-                    _vrm1Expression = Vrm1ExpressionPreset.Custom
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Happy_1",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
-                    _vrm1Expression = Vrm1ExpressionPreset.Happy
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Angry_1",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
-                    _vrm1Expression = Vrm1ExpressionPreset.Angry
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Sad_1",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
-                    _vrm1Expression = Vrm1ExpressionPreset.Sad
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Relaxed_1",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
-                    _vrm1Expression = Vrm1ExpressionPreset.Relaxed
-                },
-                new DefaultBlendShape
-                {
-                    _group = EmoteWizardConstants.Groups.Emotion,
-                    _name = "Surprised_1",
-                    _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
-                    _vrm1Expression = Vrm1ExpressionPreset.Surprised
+                    yield return new GenericEmoteTriggerTemplate(path.Join($"{_name}/VRM0_{_vrm0BlendShape}"), GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
                 }
-            };
-        }
-
-        IEnumerable<IEmoteTemplate> ToEmoteTemplates(EmoteTemplatePath path)
-        {
-            var builder = GenericEmoteSequence.Builder(LayerKind.None, _group);
-            builder.AddFixedDuration(true);
-            builder.AddClip(null, 0f, 0.1f);
-            yield return new GenericEmoteSequenceTemplate(path.Join(_name), builder.ToGenericEmoteSequenceFactory());
-            if (_vrm0BlendShape != Vrm0BlendShapePreset.Unknown)
-            {
-                yield return new GenericEmoteTriggerTemplate(path.Join($"{_name}/VRM0_{_vrm0BlendShape}"), GenericEmoteTrigger.FromVrm0BlendShape(_vrm0BlendShape));
+                if (_vrm1Expression != Vrm1ExpressionPreset.Custom)
+                {
+                    yield return new GenericEmoteTriggerTemplate(path.Join($"{_name}/VRM1_{_vrm1Expression}"), GenericEmoteTrigger.FromVrm1Expression(_vrm1Expression));
+                }
             }
-            if (_vrm1Expression != Vrm1ExpressionPreset.Custom)
+            public static IEnumerable<DefaultBlendShapeDef> Defaults()
             {
-                yield return new GenericEmoteTriggerTemplate(path.Join($"{_name}/VRM1_{_vrm1Expression}"), GenericEmoteTrigger.FromVrm1Expression(_vrm1Expression));
+                return new List<DefaultBlendShapeDef>
+                {
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LipSync,
+                        _name = "A",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.A,
+                        _vrm1Expression = Vrm1ExpressionPreset.Aa
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LipSync,
+                        _name = "I",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.I,
+                        _vrm1Expression = Vrm1ExpressionPreset.Ih
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LipSync,
+                        _name = "U",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.U,
+                        _vrm1Expression = Vrm1ExpressionPreset.Ou
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LipSync,
+                        _name = "E",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.E,
+                        _vrm1Expression = Vrm1ExpressionPreset.Ee
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LipSync,
+                        _name = "O",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.O,
+                        _vrm1Expression = Vrm1ExpressionPreset.Oh
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Blink,
+                        _name = "Blink",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Blink,
+                        _vrm1Expression = Vrm1ExpressionPreset.Blink
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Blink,
+                        _name = "BlinkLeft",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.BlinkL,
+                        _vrm1Expression = Vrm1ExpressionPreset.BlinkLeft
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Blink,
+                        _name = "BlinkRight",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.BlinkR,
+                        _vrm1Expression = Vrm1ExpressionPreset.BlinkRight
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LookAt,
+                        _name = "LookUp",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.LookUp,
+                        _vrm1Expression = Vrm1ExpressionPreset.LookUp
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LookAt,
+                        _name = "LookDown",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.LookDown,
+                        _vrm1Expression = Vrm1ExpressionPreset.LookDown
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LookAt,
+                        _name = "LookLeft",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.LookLeft,
+                        _vrm1Expression = Vrm1ExpressionPreset.LookLeft
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.LookAt,
+                        _name = "LookRight",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.LookRight,
+                        _vrm1Expression = Vrm1ExpressionPreset.LookRight
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Joy_0",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Joy,
+                        _vrm1Expression = Vrm1ExpressionPreset.Custom
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Angry_0",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Angry,
+                        _vrm1Expression = Vrm1ExpressionPreset.Custom
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Sorrow_0",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Sorrow,
+                        _vrm1Expression = Vrm1ExpressionPreset.Custom
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Fun_0",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Fun,
+                        _vrm1Expression = Vrm1ExpressionPreset.Custom
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Happy_1",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
+                        _vrm1Expression = Vrm1ExpressionPreset.Happy
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Angry_1",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
+                        _vrm1Expression = Vrm1ExpressionPreset.Angry
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Sad_1",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
+                        _vrm1Expression = Vrm1ExpressionPreset.Sad
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Relaxed_1",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
+                        _vrm1Expression = Vrm1ExpressionPreset.Relaxed
+                    },
+                    new DefaultBlendShapeDef
+                    {
+                        _group = EmoteWizardConstants.Groups.Emotion,
+                        _name = "Surprised_1",
+                        _vrm0BlendShape = Vrm0BlendShapePreset.Unknown,
+                        _vrm1Expression = Vrm1ExpressionPreset.Surprised
+                    }
+                };
             }
         }
 
         public static IEnumerable<IEmoteTemplate> EnumerateDefaultBlendShapes(EmoteTemplatePath path)
         {
-            return Defaults().SelectMany(def => def.ToEmoteTemplates(path));
+            // TODO: maybe DefaultBlendShapeEmoteItemTemplate
+            return DefaultBlendShapeDef.Defaults().SelectMany(def => def.ToEmoteTemplates(path));
         }
     }
 }
