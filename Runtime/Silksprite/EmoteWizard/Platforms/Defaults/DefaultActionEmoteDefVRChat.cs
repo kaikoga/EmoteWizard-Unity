@@ -135,6 +135,10 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                     _clip = VrcSdkAssetLocator.ProxyDie(),
                     _exitClip = VrcSdkAssetLocator.ProxySupineWakeup()
                 },
+                DefaultActionIndex.Afk => new DefaultActionEmoteDefVRChat
+                {
+                    _index = int.MinValue,
+                },
                 _ => null
             };
         }

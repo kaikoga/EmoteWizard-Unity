@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         class ChilloutVRFeatures : IPlatformFeatures
         {
-            public string ParameterForAlwaysTrue => Params.VisemeIdx;
+            string IPlatformFeatures.ParameterForAlwaysTrue => Params.VisemeIdx;
             string IPlatformFeatures.GestureLeft => "GestureLeftIdx";
             string IPlatformFeatures.GestureLeftWeight => "GestureLeft";
             string IPlatformFeatures.GestureRight => "GestureRightIdx";
@@ -105,7 +105,7 @@ namespace Silksprite.EmoteWizard.Platforms
                 (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
             };
 
-            public List<ParameterInstance> DefaultParameters()
+            List<ParameterInstance> IPlatformFeatures.DefaultParameters()
             {
                 return DefaultParameterData.Select(tuple =>
                 {
@@ -123,23 +123,23 @@ namespace Silksprite.EmoteWizard.Platforms
                 }).ToList();
             }
 
-            public bool IsDefaultParameterReference(string parameterReference)
+            bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference)
             {
                 return DefaultParameterData.Any(data => parameterReference == data.reference);
             }
 
-            public IEnumerable<IEmoteTemplate> UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
+            IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
             {
                 yield return DefaultEmoteItemDef.Default(this, layerKind, handSign)
                     .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
             }
 
-            public IEnumerable<DefaultActionIndex> DefaultActionIndexes() =>
+            IEnumerable<DefaultActionIndex> IPlatformFeatures.DefaultActionIndexes() =>
                 Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
                     .Where(index => DefaultActionEmoteDefChilloutVR.Default(index) is { })
                     .Concat(new[] { DefaultActionIndex.Afk });
 
-            public IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
+            IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
             {
                 if (DefaultActionEmoteDefChilloutVR.Default(index) is { } defaultActionEmote)
                 {

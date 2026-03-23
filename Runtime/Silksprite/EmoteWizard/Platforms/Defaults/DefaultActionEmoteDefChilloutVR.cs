@@ -107,6 +107,10 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                     _index = 8,
                     _clip = CvrCckAssetLocator.EmotesEmote8()
                 },
+                DefaultActionIndex.Afk => new DefaultActionEmoteDefChilloutVR
+                {
+                    _index = int.MinValue,
+                },
                 _ => null
             };
         }

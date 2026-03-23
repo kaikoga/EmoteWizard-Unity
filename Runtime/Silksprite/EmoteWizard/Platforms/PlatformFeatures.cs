@@ -9,12 +9,15 @@ namespace Silksprite.EmoteWizard.Platforms
 
         static readonly IPlatformFeatures ChilloutVR = new ChilloutVRFeatures();
 
+        static readonly IPlatformFeatures MaybeVRChat = new MaybeVRChatFeatures();
+
         public static IPlatformFeatures GetPlatformFeatures(EmoteWizardEnvironment env)
         {
             return (env.Platform.HasFlag(DetectedPlatform.VRChat), env.Platform.HasFlag(DetectedPlatform.ChilloutVR)) switch
             {
                 (false, true) => ChilloutVR,
-                (_, _) => VRChat
+                (true, false) => VRChat,
+                _ => MaybeVRChat
             };
         }
     }
