@@ -31,8 +31,6 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
         Motion? _clip;
         Motion? _exitClip;
 
-        string Name => Key.Name();
-            
         public IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
         {
             if (Key == DefaultActionIndex.Afk)
@@ -42,7 +40,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
 
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
 
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path, EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
@@ -52,13 +50,13 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 .AddExitClip(_exitClip != null, _exitClip, 0.75f, _exitClip ? 0.4f : 0.25f)
                 .AddLayerBlend(true, 0.5f, 0.25f)
                 .AddTrackingOverrides(true, ActionTrackingOverrides)
-                .AddExpressionItem(true, $"Default/{Name}", expressionItemIcon)
+                .AddExpressionItem(true, $"Default/{Key.Name()}", expressionItemIcon)
                 .ToEmoteItemTemplate();
         }
             
-        IEmoteTemplate UnpackAsAfk(EmoteTemplatePath path)
+        static IEmoteTemplate UnpackAsAfk(EmoteTemplatePath path)
         {
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path, EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)

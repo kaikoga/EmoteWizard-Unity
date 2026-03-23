@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
 
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
 
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path, EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
@@ -51,9 +51,9 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 .ToEmoteItemTemplate();
         }
 
-        IEmoteTemplate UnpackAsAfk(EmoteTemplatePath path)
+        static IEmoteTemplate UnpackAsAfk(EmoteTemplatePath path)
         {
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path, EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)

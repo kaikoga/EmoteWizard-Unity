@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
 
         public IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
-            var builder = EmoteItemTemplate.Builder(layerKind, path.Join($"{_handSign}"), EmoteWizardConstants.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
+            var builder = EmoteItemTemplate.Builder(layerKind, path, EmoteWizardConstants.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
                 .AddCondition(new EmoteCondition
                 {
                     kind = ParameterItemKind.Int,
@@ -37,6 +37,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             }
             return builder.ToEmoteItemTemplate();
         }
+
         public static DefaultEmoteItemDef Default(IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign) =>
             new DefaultEmoteItemDef
             {
