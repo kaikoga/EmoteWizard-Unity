@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             TrackingTarget.RightFingers
         }.Select(target => new TrackingOverride { target = target }).ToList();
 
-        public DefaultActionIndex Key;
+        DefaultActionIndex _key;
         int _index;
         bool _hasExitTime;
         float _exitTime = 0.75f;
@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
 
         public IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
         {
-            if (Key == DefaultActionIndex.Afk)
+            if (_key == DefaultActionIndex.Afk)
             {
                 return UnpackAsAfk(path);
             }
@@ -50,7 +50,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 .AddExitClip(_exitClip != null, _exitClip, 0.75f, _exitClip ? 0.4f : 0.25f)
                 .AddLayerBlend(true, 0.5f, 0.25f)
                 .AddTrackingOverrides(true, ActionTrackingOverrides)
-                .AddExpressionItem(true, $"Default/{Key.Name()}", expressionItemIcon)
+                .AddExpressionItem(true, $"Default/{_key.Name()}", expressionItemIcon)
                 .ToEmoteItemTemplate();
         }
             
@@ -75,6 +75,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             {
                 DefaultActionIndex.Wave => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 1,
                     _hasExitTime = true,
                     _exitTime = 0.6f,
@@ -83,6 +84,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Clap => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 2,
                     _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyStandClap(),
@@ -90,6 +92,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Point => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 3,
                     _hasExitTime = true,
                     _exitTime = 0.75f,
@@ -98,6 +101,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Cheer => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 4,
                     _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyStandCheer(),
@@ -105,6 +109,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Dance => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 5,
                     _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyDance(),
@@ -112,6 +117,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Backflip => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 6,
                     _hasExitTime = true,
                     _exitTime = 0.8f,
@@ -120,6 +126,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.SadKick => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 7,
                     _hasExitTime = true,
                     _exitTime = 0.75f,
@@ -128,6 +135,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Die => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = 8,
                     _hasExitTime = false,
                     _clip = VrcSdkAssetLocator.ProxyDie(),
@@ -135,6 +143,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 },
                 DefaultActionIndex.Afk => new DefaultActionEmoteDefVRChat
                 {
+                    _key = index,
                     _index = int.MinValue,
                 },
                 _ => null

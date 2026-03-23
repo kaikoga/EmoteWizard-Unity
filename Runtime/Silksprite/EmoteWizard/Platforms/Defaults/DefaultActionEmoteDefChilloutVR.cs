@@ -24,15 +24,15 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             TrackingTarget.RightFingers
         }.Select(target => new TrackingOverride { target = target }).ToList();
 
-        public DefaultActionIndex Key;
+        DefaultActionIndex _key;
         int _index;
         Motion? _clip;
 
-        string Name => Key.Name();
+        string Name => _key.Name();
             
         public IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
         {
-            if (Key == DefaultActionIndex.Afk)
+            if (_key == DefaultActionIndex.Afk)
             {
                 return UnpackAsAfk(path);
             }
@@ -69,46 +69,55 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             {
                 DefaultActionIndex.Emote1 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 1,
                     _clip = CvrCckAssetLocator.EmotesEmote1()
                 },
                 DefaultActionIndex.Emote2 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 2,
                     _clip = CvrCckAssetLocator.EmotesEmote2()
                 },
                 DefaultActionIndex.Emote3 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 3,
                     _clip = CvrCckAssetLocator.EmotesEmote3()
                 },
                 DefaultActionIndex.Emote4 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 4,
                     _clip = CvrCckAssetLocator.EmotesEmote4()
                 },
                 DefaultActionIndex.Emote5 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 5,
                     _clip = CvrCckAssetLocator.EmotesEmote5()
                 },
                 DefaultActionIndex.Emote6 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 6,
                     _clip = CvrCckAssetLocator.EmotesEmote6()
                 },
                 DefaultActionIndex.Emote7 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 7,
                     _clip = CvrCckAssetLocator.EmotesEmote7()
                 },
                 DefaultActionIndex.Emote8 => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = 8,
                     _clip = CvrCckAssetLocator.EmotesEmote8()
                 },
                 DefaultActionIndex.Afk => new DefaultActionEmoteDefChilloutVR
                 {
+                    _key = index,
                     _index = int.MinValue,
                 },
                 _ => null
