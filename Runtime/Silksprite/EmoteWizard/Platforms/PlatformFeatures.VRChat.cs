@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Defaults;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
+using DefaultActionIndex = Silksprite.EmoteWizard.DataObjects.DefaultActionIndex;
 
 namespace Silksprite.EmoteWizard.Platforms
 {
@@ -126,7 +130,16 @@ namespace Silksprite.EmoteWizard.Platforms
             {
                 return DefaultParameterData.Any(data => parameterReference == data.name);
             }
-            
+
+            public IEnumerable<DefaultActionIndex> DefaultActionIndexes() => Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>();
+
+            public IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
+            {
+                if (DefaultActionEmoteDefVRChat.Default(index) is { } defaultActionEmote)
+                {
+                    yield return defaultActionEmote.ToEmoteItemTemplate(path);
+                }
+            }
         }
     }
 }

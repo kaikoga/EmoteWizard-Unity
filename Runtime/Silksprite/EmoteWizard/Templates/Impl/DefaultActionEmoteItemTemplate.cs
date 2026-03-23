@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
-using Silksprite.EmoteWizard.Wizards.Defaults;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
@@ -28,7 +27,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public IEnumerable<IEmoteTemplate> Unpack(IPlatformFeatures platformFeatures)
         {
-            return DefaultActionEmote.UnpackDefaultAction(Path, _defaultActionIndex);
+            return platformFeatures.UnpackDefaultAction(Path, _defaultActionIndex);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Templates;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms
@@ -38,5 +39,8 @@ namespace Silksprite.EmoteWizard.Platforms
         int HandSignValue(HandSign handSign);
         List<ParameterInstance> DefaultParameters();
         bool IsDefaultParameterReference(string parameterReference);
+
+        IEnumerable<DefaultActionIndex> DefaultActionIndexes();
+        IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index);
     }
 }

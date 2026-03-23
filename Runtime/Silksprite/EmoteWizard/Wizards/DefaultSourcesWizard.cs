@@ -4,8 +4,11 @@ using System.Runtime.InteropServices;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Extensions;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
+using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 
@@ -33,7 +36,8 @@ namespace Silksprite.EmoteWizard.Wizards
                     DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, LayerKind.Gesture),
                 DefaultSourceKind.Action =>
                     // force Non-Generic EmoteItem / EmoteSequence
-                    DefaultActionEmote.EnumerateDefaultActionEmoteItems(path),
+                    platformFeatures.DefaultActionIndexes()
+                    .Select(index => new DefaultActionEmoteItemTemplate(path.Join(index.Name()), index)),
                 DefaultSourceKind.Vrm =>
                     // force Generic EmoteItem / EmoteSequence
                     DefaultBlendShape.EnumerateDefaultBlendShapes(path),
