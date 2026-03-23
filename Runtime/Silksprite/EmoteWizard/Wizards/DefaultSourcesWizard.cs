@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -23,21 +24,36 @@ namespace Silksprite.EmoteWizard.Wizards
         {
             var platformFeatures = environment.GetPlatformFeatures();
             var path = EmoteTemplatePath.Context(environment, this);
-            
-            switch (defaultSourceKind)
+
+            var defaultSources = defaultSourceKind switch
             {
-                case DefaultSourceKind.Fx:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.FX, unpack);
-                case DefaultSourceKind.Gesture:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.Gesture, unpack);
-                case DefaultSourceKind.Action:
+                DefaultSourceKind.Fx =>
+                    DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, LayerKind.FX),
+                DefaultSourceKind.Gesture =>
+                    DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, LayerKind.Gesture),
+                DefaultSourceKind.Action =>
                     // force Non-Generic EmoteItem / EmoteSequence
-                    return DefaultActionEmote.EnumerateDefaultActionEmoteItems(path, unpack);
-                case DefaultSourceKind.Vrm:
+                    DefaultActionEmote.EnumerateDefaultActionEmoteItems(path),
+                DefaultSourceKind.Vrm =>
                     // force Generic EmoteItem / EmoteSequence
-                    return DefaultBlendShape.EnumerateDefaultBlendShapes(path);
+                    DefaultBlendShape.EnumerateDefaultBlendShapes(path),
+                _ => Enumerable.Empty<IEmoteTemplate>()
+            };
+            return unpack
+                ? defaultSources.SelectMany(MaybeUnpack)
+                : defaultSources;
+
+            IEnumerable<IEmoteTemplate> MaybeUnpack(IEmoteTemplate template)
+            {
+                if (template is ICompositeEmoteTemplate composite)
+                {
+                    foreach (var item in composite.Unpack(platformFeatures)) yield return item; 
+                }
+                else
+                {
+                    yield return template;
+                }
             }
-            return Enumerable.Empty<IEmoteTemplate>();
         }
     }
 

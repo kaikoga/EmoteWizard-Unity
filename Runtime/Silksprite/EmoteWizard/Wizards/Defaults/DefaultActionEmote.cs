@@ -131,15 +131,13 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                 _ => Default(index).ToEmoteItemTemplate(path)
             };
 
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems(EmoteTemplatePath path, bool unpack)
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultActionEmoteItems(EmoteTemplatePath path)
         {
             return Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
-                .Select(index => (index, unpack) switch
+                .Select(index => index switch
                 {
-                    (DefaultActionIndex.Afk, true) => UnpackedAfk(path),
-                    (DefaultActionIndex.Afk, false) => new DefaultActionEmoteItemTemplate(path.Join("AFK"), index),
-                    (_, true) => UnpackDefaultAction(path, index),
-                    (_, false) => new DefaultActionEmoteItemTemplate(path.Join(Default(index)._name), index)
+                    DefaultActionIndex.Afk => new DefaultActionEmoteItemTemplate(path.Join("AFK"), index),
+                    _ => new DefaultActionEmoteItemTemplate(path.Join(Default(index)._name), index)
                 });
         }
 

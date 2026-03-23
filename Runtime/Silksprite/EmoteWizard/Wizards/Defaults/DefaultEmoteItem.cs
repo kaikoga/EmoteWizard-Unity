@@ -77,12 +77,10 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                 .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
         }
         
-        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, IPlatformFeatures platformFeatures, LayerKind layerKind, bool unpack)
+        public static IEnumerable<IEmoteTemplate> EnumerateDefaultHandSigns(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind)
         {
             return Enum.GetValues(typeof(HandSign)).OfType<HandSign>()
-                .Select(handSign => unpack
-                    ? UnpackDefaultHandSign(path, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, layerKind, handSign)
-                    : new DefaultEmoteItemTemplate(path.Join($"{handSign}"), emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
+                .Select(handSign => new DefaultEmoteItemTemplate(path.Join($"{handSign}"), emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
         }
     }
 }
