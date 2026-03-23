@@ -36,6 +36,11 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             
             public IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
             {
+                if (Key == DefaultActionIndex.Afk)
+                {
+                    return UnpackedAfk(path);
+                }
+
                 var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
 
                 return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
@@ -52,6 +57,21 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
                     .ToEmoteItemTemplate();
             }
             
+            static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
+            {
+                return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
+                        default,
+                        EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
+                    .AddPriority(100)
+                    .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.Afk, mode = EmoteConditionMode.If, threshold = 0 })
+                    .AddFixedDuration(true)
+                    .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
+                    .AddLayerBlend(true, 1f, 0.5f)
+                    .AddTrackingOverrides(true, ActionTrackingOverrides)
+                    .ToEmoteItemTemplate();
+            }
+
+
             public static DefaultActionEmoteDefVRChat? Default(DefaultActionIndex index)
             {
                 return index switch
@@ -138,27 +158,8 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
             };
         }
 
-        static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
-        {
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
-                    default,
-                    EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
-                .AddPriority(100)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.Afk, mode = EmoteConditionMode.If, threshold = 0 })
-                .AddFixedDuration(true)
-                .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
-                .AddLayerBlend(true, 1f, 0.5f)
-                .AddTrackingOverrides(true, ActionTrackingOverrides)
-                .ToEmoteItemTemplate();
-        }
-
         public static IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
         {
-            if (index == DefaultActionIndex.Afk)
-            {
-                yield return UnpackedAfk(path);
-                yield break;
-            }
             if (DefaultActionEmoteDefVRChat.Default(index) is { } defaultActionEmote)
             {
                 yield return defaultActionEmote.ToEmoteItemTemplate(path);
