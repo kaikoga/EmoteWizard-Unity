@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Templates;
+using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 
@@ -19,11 +20,11 @@ namespace Silksprite.EmoteWizard.Base
             var root = environment.AvatarRoot.transform;
 
             var children = sourceTemplates
-                .Select(template => template.Path.PathFromAvatarRoot)
-                .OrderBy(path => path.Count(c => c == '/'))
-                .Distinct()
-                .ToDictionary(path => path,
-                    path => undoable.AddChildGameObject(root, path, path != name));
+                .Select(template => template.Path)
+                .OrderBy(path => path.PathFromAvatarRoot.Count(c => c == '/'))
+                .DistinctBy(path => path.PathFromAvatarRoot)
+                .ToDictionary(path => path.PathFromAvatarRoot,
+                    path => undoable.AddChildGameObject(root, path.PathFromAvatarRoot, path.FileName != name));
 
             foreach (var template in sourceTemplates)
             {

@@ -8,12 +8,7 @@ namespace Silksprite.EmoteWizardSupport.Extensions
     {
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector)
         {
-            return enumerable.DistinctBy(keySelector, values => values.First());
-        }
-
-        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> enumerable, Func<T, TKey> keySelector, Func<IEnumerable<T>, T> valueSelector)
-        {
-            return enumerable.GroupBy(keySelector).Select(valueSelector);
+            return enumerable.GroupBy(keySelector, (key, values) => values.First());
         }
     }
 }
