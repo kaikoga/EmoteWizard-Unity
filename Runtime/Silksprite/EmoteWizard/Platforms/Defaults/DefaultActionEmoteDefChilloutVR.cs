@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
         {
             if (Key == DefaultActionIndex.Afk)
             {
-                return UnpackedAfk(path);
+                return UnpackAsAfk(path);
             }
 
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
@@ -46,67 +46,63 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 .AddFixedDuration(true)
                 .AddClip(_clip)
                 .AddClipExitTime(true, 1f)
-                .AddLayerBlend(true, 0.5f, 0.25f)
                 .AddTrackingOverrides(true, ActionTrackingOverrides)
                 .AddExpressionItem(true, $"Default/{Name}", expressionItemIcon)
                 .ToEmoteItemTemplate();
         }
-            
-        static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
+
+        IEmoteTemplate UnpackAsAfk(EmoteTemplatePath path)
         {
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Bool, parameter = EmoteWizardConstants.Params.Afk, mode = EmoteConditionMode.If, threshold = 0 })
                 .AddFixedDuration(true)
-                .AddClip(VrcSdkAssetLocator.ProxyAfk(), 1f, 0.2f)
-                .AddLayerBlend(true, 1f, 0.5f)
                 .AddTrackingOverrides(true, ActionTrackingOverrides)
                 .ToEmoteItemTemplate();
         }
-
 
         public static DefaultActionEmoteDefChilloutVR? Default(DefaultActionIndex index)
         {
             return index switch
             {
-                DefaultActionIndex.Wave => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote1 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 1,
                     _clip = CvrCckAssetLocator.EmotesEmote1()
                 },
-                DefaultActionIndex.Clap => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote2 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 2,
                     _clip = CvrCckAssetLocator.EmotesEmote2()
                 },
-                DefaultActionIndex.Point => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote3 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 3,
                     _clip = CvrCckAssetLocator.EmotesEmote3()
                 },
-                DefaultActionIndex.Cheer => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote4 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 4,
                     _clip = CvrCckAssetLocator.EmotesEmote4()
                 },
-                DefaultActionIndex.Dance => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote5 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 5,
                     _clip = CvrCckAssetLocator.EmotesEmote5()
                 },
-                DefaultActionIndex.Backflip => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote6 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 6,
                     _clip = CvrCckAssetLocator.EmotesEmote6()
                 },
-                DefaultActionIndex.SadKick => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote7 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 7,
                     _clip = CvrCckAssetLocator.EmotesEmote7()
                 },
-                DefaultActionIndex.Die => new DefaultActionEmoteDefChilloutVR
+                DefaultActionIndex.Emote8 => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 8,
                     _clip = CvrCckAssetLocator.EmotesEmote8()

@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
         {
             if (Key == DefaultActionIndex.Afk)
             {
-                return UnpackedAfk(path);
+                return UnpackAsAfk(path);
             }
 
             var expressionItemIcon = VrcSdkAssetLocator.PersonDance();
@@ -56,9 +56,9 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 .ToEmoteItemTemplate();
         }
             
-        static IEmoteTemplate UnpackedAfk(EmoteTemplatePath path)
+        IEmoteTemplate UnpackAsAfk(EmoteTemplatePath path)
         {
-            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join("AFK"), EmoteWizardConstants.Groups.Action,
+            return EmoteItemTemplate.Builder(LayerKind.Action, path.Join(Name), EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
                 .AddPriority(100)

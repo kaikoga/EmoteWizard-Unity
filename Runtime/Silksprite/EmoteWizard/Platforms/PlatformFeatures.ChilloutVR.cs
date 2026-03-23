@@ -134,7 +134,10 @@ namespace Silksprite.EmoteWizard.Platforms
                     .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
             }
 
-            public IEnumerable<DefaultActionIndex> DefaultActionIndexes() => Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>();
+            public IEnumerable<DefaultActionIndex> DefaultActionIndexes() =>
+                Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
+                    .Where(index => DefaultActionEmoteDefChilloutVR.Default(index) is { })
+                    .Concat(new[] { DefaultActionIndex.Afk });
 
             public IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
             {

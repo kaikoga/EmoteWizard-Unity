@@ -7,10 +7,8 @@ using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards;
-using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
-using DefaultActionIndex = Silksprite.EmoteWizard.DataObjects.DefaultActionIndex;
 
 namespace Silksprite.EmoteWizard.Platforms
 {
@@ -138,7 +136,10 @@ namespace Silksprite.EmoteWizard.Platforms
                     .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
             }
 
-            public IEnumerable<DefaultActionIndex> DefaultActionIndexes() => Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>();
+            public IEnumerable<DefaultActionIndex> DefaultActionIndexes() =>
+                Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
+                    .Where(index => DefaultActionEmoteDefVRChat.Default(index) is { })
+                    .Concat(new[] { DefaultActionIndex.Afk });
 
             public IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
             {
