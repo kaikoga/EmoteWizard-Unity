@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 
         public IEnumerable<IEmoteTemplate> Unpack(IPlatformFeatures platformFeatures)
         {
-            return DefaultEmoteItem.UnpackDefaultHandSign(Path, _emoteItemKind, _emoteSequenceFactoryKind, platformFeatures, _layerKind, _handSign);
+            return platformFeatures.UnpackDefaultHandSign(Path, _emoteItemKind, _emoteSequenceFactoryKind, _layerKind, _handSign);
         }
     }
 }

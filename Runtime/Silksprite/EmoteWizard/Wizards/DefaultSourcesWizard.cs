@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
@@ -23,6 +23,18 @@ namespace Silksprite.EmoteWizard.Wizards
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
         [SerializeField] public bool unpack = true;
 
+        IEnumerable<IEmoteTemplate> EnumerateDefaultHandSignSources(EmoteTemplatePath path, LayerKind layerKind)
+        {
+            return Enum.GetValues(typeof(HandSign)).OfType<HandSign>()
+                .Select(handSign => new DefaultEmoteItemTemplate(path.Join($"{handSign}"), emoteItemKind, emoteSequenceFactoryKind, layerKind, handSign));
+        }
+
+        static IEnumerable<DefaultActionEmoteItemTemplate> EnumerateDefaultActionSources(IPlatformFeatures platformFeatures, EmoteTemplatePath path)
+        {
+            return platformFeatures.DefaultActionIndexes()
+                .Select(index => new DefaultActionEmoteItemTemplate(path.Join(index.Name()), index));
+        }
+
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
             var platformFeatures = environment.GetPlatformFeatures();
@@ -31,13 +43,12 @@ namespace Silksprite.EmoteWizard.Wizards
             var defaultSources = defaultSourceKind switch
             {
                 DefaultSourceKind.Fx =>
-                    DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, LayerKind.FX),
+                    EnumerateDefaultHandSignSources(path, LayerKind.FX),
                 DefaultSourceKind.Gesture =>
-                    DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, LayerKind.Gesture),
+                    EnumerateDefaultHandSignSources(path, LayerKind.Gesture),
                 DefaultSourceKind.Action =>
                     // force Non-Generic EmoteItem / EmoteSequence
-                    platformFeatures.DefaultActionIndexes()
-                    .Select(index => new DefaultActionEmoteItemTemplate(path.Join(index.Name()), index)),
+                    EnumerateDefaultActionSources(platformFeatures, path),
                 DefaultSourceKind.Vrm =>
                     // force Generic EmoteItem / EmoteSequence
                     DefaultBlendShape.EnumerateDefaultBlendShapes(path),

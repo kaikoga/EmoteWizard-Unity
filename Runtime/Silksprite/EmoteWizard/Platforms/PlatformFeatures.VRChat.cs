@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
@@ -129,6 +130,12 @@ namespace Silksprite.EmoteWizard.Platforms
             bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference)
             {
                 return DefaultParameterData.Any(data => parameterReference == data.name);
+            }
+
+            public IEnumerable<IEmoteTemplate> UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
+            {
+                yield return DefaultEmoteItemDef.Default(this, layerKind, handSign)
+                    .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
             }
 
             public IEnumerable<DefaultActionIndex> DefaultActionIndexes() => Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>();

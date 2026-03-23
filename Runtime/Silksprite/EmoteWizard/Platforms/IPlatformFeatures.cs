@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Templates;
+using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms
@@ -40,6 +41,7 @@ namespace Silksprite.EmoteWizard.Platforms
         List<ParameterInstance> DefaultParameters();
         bool IsDefaultParameterReference(string parameterReference);
 
+        IEnumerable<IEmoteTemplate> UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign);
         IEnumerable<DefaultActionIndex> DefaultActionIndexes();
         IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index);
     }
