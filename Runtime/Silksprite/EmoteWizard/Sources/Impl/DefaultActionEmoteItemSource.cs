@@ -20,7 +20,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             return new DefaultActionEmoteItemTemplate(SelfPath, defaultActionIndex);
         }
 
-        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
             yield return ToEmoteTemplate();
         }

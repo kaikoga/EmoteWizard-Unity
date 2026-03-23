@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
@@ -30,14 +31,13 @@ namespace Silksprite.EmoteWizard.Sources.Impl
                 handSign);
         }
 
-        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
-            yield return ToEmoteTemplate();
+            yield return ToEmoteTemplate(environment.GetPlatformFeatures());
         }
 
-        IEmoteTemplate ToEmoteTemplate()
+        IEmoteTemplate ToEmoteTemplate(IPlatformFeatures platformFeatures)
         {
-            var platformFeatures = CreateEnv().GetPlatformFeatures();
             return DefaultEmoteItem.UnpackDefaultHandSign(SelfPath,
                 emoteItemKind,
                 emoteSequenceFactoryKind,

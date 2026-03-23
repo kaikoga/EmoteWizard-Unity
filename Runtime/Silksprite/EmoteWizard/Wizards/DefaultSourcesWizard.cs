@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
@@ -18,9 +19,8 @@ namespace Silksprite.EmoteWizard.Wizards
         [SerializeField] public EmoteSequenceFactoryKind emoteSequenceFactoryKind;
         [SerializeField] public bool unpack = true;
 
-        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
-            var environment = CreateEnv();
             var platformFeatures = environment.GetPlatformFeatures();
             var path = EmoteTemplatePath.Context(environment, this);
             

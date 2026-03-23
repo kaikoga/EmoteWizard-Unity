@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
@@ -23,9 +24,8 @@ namespace Silksprite.EmoteWizard.Wizards
         [ParameterName(false, true)]
         [SerializeField] public string parameterName = "";
 
-        protected override IEnumerable<IEmoteTemplate> SourceTemplates()
+        protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
-            var environment = CreateEnv();
             var path = EmoteTemplatePath.Context(environment, this);
 
             yield return new EmoteItemTemplate(

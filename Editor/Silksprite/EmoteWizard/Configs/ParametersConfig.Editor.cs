@@ -30,13 +30,13 @@ namespace Silksprite.EmoteWizard.Configs
 
         protected override void OnInnerInspectorGUI()
         {
-            var env = CreateEnv();
+            var environment = CreateEnv();
 
             if (_debugSnapshot == null)
             {
                 if (LGUILayout.Button(Loc("ParametersConfig::debugSnapshot"), new GUILayoutOption[0]))
                 {
-                    debugSnapshot = soleTarget.GetContext(soleTarget.CreateEnv()).Snapshot();
+                    debugSnapshot = soleTarget.GetContext(environment).Snapshot();
                     _debugSnapshot = new SerializedObject(this).Lop(nameof(debugSnapshot), Loc("ParametersConfig::debugSnapshot"));
                 }
             }
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Configs
                 LEditorGUILayout.Prop(_debugSnapshot);
             }
 
-            EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
+            EmoteWizardGUILayout.OutputUIArea(environment.PersistGeneratedAssets, () =>
             {
 #if EW_VRCSDK3_AVATARS
                 if (LGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters"), new GUILayoutOption[0]))

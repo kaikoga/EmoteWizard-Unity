@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -8,12 +9,12 @@ namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardBase : EmoteWizardDataSourceBase
     {
-        protected abstract IEnumerable<IEmoteTemplate> SourceTemplates();
+        protected abstract IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment);
 
         public void Explode(IUndoable undoable, bool andSelect)
         {
             var environment = CreateEnv();
-            var sourceTemplates = SourceTemplates().ToArray();
+            var sourceTemplates = SourceTemplates(environment).ToArray();
 
             var root = environment.AvatarRoot.transform;
 
