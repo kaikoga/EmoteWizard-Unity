@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
-using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
@@ -15,19 +15,16 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public DefaultActionIndex defaultActionIndex;
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate() => CompositeTemplate();
+
+        ICompositeEmoteTemplate CompositeTemplate()
         {
             return new DefaultActionEmoteItemTemplate(SelfPath, defaultActionIndex);
         }
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
-            yield return ToEmoteTemplate();
-        }
-
-        IEmoteTemplate ToEmoteTemplate()
-        {
-            return DefaultActionEmote.UnpackDefaultAction(SelfPath, defaultActionIndex);
+            return CompositeTemplate().Unpack(environment.GetPlatformFeatures());
         }
     }
 }

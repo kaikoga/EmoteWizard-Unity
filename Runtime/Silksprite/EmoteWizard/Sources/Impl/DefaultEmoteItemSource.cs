@@ -2,12 +2,10 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Wizards;
-using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Sources.Impl
@@ -22,7 +20,9 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         [SerializeField] public LayerKind layerKind;
         [SerializeField] public HandSign handSign;
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate() => CompositeTemplate();
+
+        ICompositeEmoteTemplate CompositeTemplate()
         {
             return new DefaultEmoteItemTemplate(SelfPath,
                 emoteItemKind,
@@ -33,17 +33,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
-            yield return ToEmoteTemplate(environment.GetPlatformFeatures());
-        }
-
-        IEmoteTemplate ToEmoteTemplate(IPlatformFeatures platformFeatures)
-        {
-            return DefaultEmoteItem.UnpackDefaultHandSign(SelfPath,
-                emoteItemKind,
-                emoteSequenceFactoryKind,
-                platformFeatures,
-                layerKind,
-                handSign);
+            return CompositeTemplate().Unpack(environment.GetPlatformFeatures());
         }
     }
 }
