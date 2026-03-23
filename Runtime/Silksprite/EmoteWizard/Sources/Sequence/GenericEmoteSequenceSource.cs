@@ -20,12 +20,13 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new GenericEmoteSequenceTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
-                (GenericEmoteSequenceFactory)ToEmoteFactoryTemplate());
+            return new GenericEmoteSequenceTemplate(SelfPath, ToSequenceFactory());
         }
 
-        public override IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate() => new GenericEmoteSequenceFactory(sequence, $"{gameObject.name}_{gameObject.GetInstanceID()}");
-        
+        public override IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate() => ToSequenceFactory();
+
+        GenericEmoteSequenceFactory ToSequenceFactory() => new GenericEmoteSequenceFactory(sequence, $"{gameObject.name}_{gameObject.GetInstanceID()}");
+
 #if UNITY_EDITOR
         void OnValidate()
         {

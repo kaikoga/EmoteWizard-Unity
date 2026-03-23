@@ -15,8 +15,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new ParameterItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
-                parameterItem);
+            return new ParameterItemTemplate(SelfPath, parameterItem);
         }
     }
 }

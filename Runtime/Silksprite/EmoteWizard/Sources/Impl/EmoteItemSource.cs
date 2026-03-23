@@ -26,7 +26,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new EmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+            return new EmoteItemTemplate(SelfPath,
                 trigger,
                 FindEmoteSequenceSource()?.ToEmoteFactoryTemplate(), // TODO: sequence?.ToEmoteFactoryTemplate() after sequence resolving in templates 
                 hasExpressionItem,
@@ -53,7 +53,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
             }
 
             // TODO cache me?
-            return new EmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this).Join(gameObject.name), trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
+            return new EmoteItemTemplate(SelfPath, trigger, FindEmoteFactory(), hasExpressionItem, expressionItemPath, expressionItemIcon);
         }
 
         public bool LooksLikeMirrorItem => ToTemplate().LooksLikeMirrorItem;

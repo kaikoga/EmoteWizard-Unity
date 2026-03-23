@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Base
 {
-    public abstract class EmoteWizardBase : EmoteWizardBehaviour
+    public abstract class EmoteWizardBase : EmoteWizardDataSourceBase
     {
         protected abstract IEnumerable<IEmoteTemplate> SourceTemplates();
 

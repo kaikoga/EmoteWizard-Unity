@@ -16,16 +16,18 @@ namespace Silksprite.EmoteWizard.Templates
             PathFromAvatarRoot = pathFromAvatarRoot;
         }
 
+        public static EmoteTemplatePath SelfPath(EmoteWizardEnvironment environment, EmoteWizardBehaviour context)
+        {
+            var pathFromAvatarRoot = RuntimeUtil.RelativePath(environment.AvatarRoot, context.transform)!;
+            return new EmoteTemplatePath(pathFromAvatarRoot);
+        }
+
         public static EmoteTemplatePath Context(EmoteWizardEnvironment environment, EmoteWizardBehaviour context)
         {
-            var relativePath = Path.GetDirectoryName(RuntimeUtil.RelativePath(environment.AvatarRoot, context.transform))!;
-            return new EmoteTemplatePath(relativePath);
+            var pathFromAvatarRoot = Path.GetDirectoryName(RuntimeUtil.RelativePath(environment.AvatarRoot, context.transform))!;
+            return new EmoteTemplatePath(pathFromAvatarRoot);
         }
 
-        public EmoteTemplatePath Join(string relativePath)
-        {
-            return new EmoteTemplatePath(Path.Join(PathFromAvatarRoot, relativePath));
-        }
-
+        public EmoteTemplatePath Join(string relativePath) => new EmoteTemplatePath(Path.Join(PathFromAvatarRoot, relativePath));
     }
 }

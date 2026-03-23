@@ -16,10 +16,11 @@ namespace Silksprite.EmoteWizard.Sources.Sequence
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new EmoteSequenceTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
-                (EmoteSequenceFactory)ToEmoteFactoryTemplate());
+            return new EmoteSequenceTemplate(SelfPath, ToSequenceFactory());
         }
 
-        public override IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate() => new EmoteSequenceFactory(sequence);
+        public override IEmoteSequenceFactoryTemplate ToEmoteFactoryTemplate() => ToSequenceFactory();
+
+        EmoteSequenceFactory ToSequenceFactory() => new EmoteSequenceFactory(sequence);
     }
 }

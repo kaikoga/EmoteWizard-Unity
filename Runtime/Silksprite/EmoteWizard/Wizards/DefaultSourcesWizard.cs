@@ -22,20 +22,20 @@ namespace Silksprite.EmoteWizard.Wizards
         {
             var environment = CreateEnv();
             var platformFeatures = environment.GetPlatformFeatures();
-            var templatePath = EmoteTemplatePath.Context(environment, this);
+            var path = EmoteTemplatePath.Context(environment, this);
             
             switch (defaultSourceKind)
             {
                 case DefaultSourceKind.Fx:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(templatePath, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.FX, unpack);
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.FX, unpack);
                 case DefaultSourceKind.Gesture:
-                    return DefaultEmoteItem.EnumerateDefaultHandSigns(templatePath, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.Gesture, unpack);
+                    return DefaultEmoteItem.EnumerateDefaultHandSigns(path, emoteItemKind, emoteSequenceFactoryKind, platformFeatures, LayerKind.Gesture, unpack);
                 case DefaultSourceKind.Action:
                     // force Non-Generic EmoteItem / EmoteSequence
-                    return DefaultActionEmote.EnumerateDefaultActionEmoteItems(templatePath, unpack);
+                    return DefaultActionEmote.EnumerateDefaultActionEmoteItems(path, unpack);
                 case DefaultSourceKind.Vrm:
                     // force Generic EmoteItem / EmoteSequence
-                    return DefaultBlendShape.EnumerateDefaultBlendShapes(templatePath);
+                    return DefaultBlendShape.EnumerateDefaultBlendShapes(path);
             }
             return Enumerable.Empty<IEmoteTemplate>();
         }

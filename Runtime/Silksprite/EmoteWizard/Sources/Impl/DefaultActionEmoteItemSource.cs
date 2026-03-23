@@ -17,8 +17,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new DefaultActionEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
-                defaultActionIndex);
+            return new DefaultActionEmoteItemTemplate(SelfPath, defaultActionIndex);
         }
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates()
@@ -28,7 +27,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate ToEmoteTemplate()
         {
-            return DefaultActionEmote.UnpackDefaultAction(EmoteTemplatePath.Context(CreateEnv(), this), defaultActionIndex);
+            return DefaultActionEmote.UnpackDefaultAction(SelfPath, defaultActionIndex);
         }
     }
 }

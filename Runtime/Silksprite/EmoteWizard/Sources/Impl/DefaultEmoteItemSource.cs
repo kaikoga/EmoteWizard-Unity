@@ -23,7 +23,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new DefaultEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+            return new DefaultEmoteItemTemplate(SelfPath,
                 emoteItemKind,
                 emoteSequenceFactoryKind,
                 layerKind,
@@ -37,8 +37,13 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate ToEmoteTemplate()
         {
-            var environment = CreateEnv();
-            return DefaultEmoteItem.UnpackDefaultHandSign(EmoteTemplatePath.Context(environment, this), emoteItemKind, emoteSequenceFactoryKind, environment.GetPlatformFeatures(), layerKind, handSign);
+            var platformFeatures = CreateEnv().GetPlatformFeatures();
+            return DefaultEmoteItem.UnpackDefaultHandSign(SelfPath,
+                emoteItemKind,
+                emoteSequenceFactoryKind,
+                platformFeatures,
+                layerKind,
+                handSign);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
         {
-            return new GenericEmoteItemTemplate(EmoteTemplatePath.Context(CreateEnv(), this),
+            return new GenericEmoteItemTemplate(SelfPath,
                 trigger,
                 FindEmoteSequenceSource()?.ToEmoteFactoryTemplate() // TODO: sequence?.ToEmoteFactoryTemplate()) after sequence resolving in templates 
             ); 
