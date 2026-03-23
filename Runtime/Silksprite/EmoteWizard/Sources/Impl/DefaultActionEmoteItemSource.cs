@@ -15,7 +15,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public DefaultActionIndex defaultActionIndex;
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
         {
             return new DefaultActionEmoteItemTemplate(SelfPath, defaultActionIndex);
         }

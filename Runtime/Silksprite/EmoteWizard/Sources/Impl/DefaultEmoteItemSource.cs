@@ -22,7 +22,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         [SerializeField] public LayerKind layerKind;
         [SerializeField] public HandSign handSign;
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
         {
             return new DefaultEmoteItemTemplate(SelfPath,
                 emoteItemKind,

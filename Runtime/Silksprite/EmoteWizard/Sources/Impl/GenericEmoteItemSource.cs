@@ -1,6 +1,5 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
 using Silksprite.EmoteWizard.Templates;
@@ -16,7 +15,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         [SerializeField] public GenericEmoteTrigger trigger;
         [SerializeField] public EmoteSequenceSourceBase? sequence;
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
         {
             return new GenericEmoteItemTemplate(SelfPath,
                 trigger,

@@ -1,6 +1,5 @@
 using System.Linq;
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Sequence.Base;
@@ -24,7 +23,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
         [SerializeField] public string expressionItemPath = "";
         [SerializeField] public Texture2D? expressionItemIcon;
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
         {
             return new EmoteItemTemplate(SelfPath,
                 trigger,

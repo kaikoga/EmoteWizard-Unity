@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
         IEnumerable<IEmoteTemplate> CollectAllEmoteTemplates()
         {
             return Environment.GetComponentsInChildren<IEmoteTemplateSource>(true)
-                .Select(source => source.ToEmoteTemplate(Environment));
+                .Select(source => source.ToEmoteTemplate());
         }
 
         IEnumerable<IEmoteTemplate> UnpackCompletely()

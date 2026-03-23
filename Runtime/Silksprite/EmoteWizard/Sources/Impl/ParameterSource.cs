@@ -1,5 +1,4 @@
 using Silksprite.EmoteWizard.Base;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
@@ -13,7 +12,7 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     {
         [SerializeField] public ParameterItem parameterItem = new ParameterItem();
 
-        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate(EmoteWizardEnvironment environment)
+        IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
         {
             return new ParameterItemTemplate(SelfPath, parameterItem);
         }

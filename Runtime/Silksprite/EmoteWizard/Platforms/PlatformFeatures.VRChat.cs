@@ -3,6 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Wizards.Defaults;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
 
@@ -125,6 +126,7 @@ namespace Silksprite.EmoteWizard.Platforms
             {
                 return DefaultParameterData.Any(data => parameterReference == data.name);
             }
+            
         }
     }
 }
