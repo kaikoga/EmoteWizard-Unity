@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms.Defaults
 {
-    class DefaultActionEmoteDefVRChat
+    class DefaultActionEmoteDefChilloutVR
     {
         static readonly List<TrackingOverride> ActionTrackingOverrides = new[]
         {
@@ -26,10 +26,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
 
         public DefaultActionIndex Key;
         int _index;
-        bool _hasExitTime;
-        float _exitTime = 0.75f;
         Motion? _clip;
-        Motion? _exitClip;
 
         string Name => Key.Name();
             
@@ -48,8 +45,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                 .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
                 .AddFixedDuration(true)
                 .AddClip(_clip)
-                .AddClipExitTime(_hasExitTime, _exitTime)
-                .AddExitClip(_exitClip != null, _exitClip, 0.75f, _exitClip ? 0.4f : 0.25f)
+                .AddClipExitTime(true, 1f)
                 .AddLayerBlend(true, 0.5f, 0.25f)
                 .AddTrackingOverrides(true, ActionTrackingOverrides)
                 .AddExpressionItem(true, $"Default/{Name}", expressionItemIcon)
@@ -71,69 +67,49 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
         }
 
 
-        public static DefaultActionEmoteDefVRChat? Default(DefaultActionIndex index)
+        public static DefaultActionEmoteDefChilloutVR? Default(DefaultActionIndex index)
         {
             return index switch
             {
-                DefaultActionIndex.Wave => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Wave => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 1,
-                    _hasExitTime = true,
-                    _exitTime = 0.6f,
-                    _clip = VrcSdkAssetLocator.ProxyStandWave(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote1()
                 },
-                DefaultActionIndex.Clap => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Clap => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 2,
-                    _hasExitTime = false,
-                    _clip = VrcSdkAssetLocator.ProxyStandClap(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote2()
                 },
-                DefaultActionIndex.Point => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Point => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 3,
-                    _hasExitTime = true,
-                    _exitTime = 0.75f,
-                    _clip = VrcSdkAssetLocator.ProxyStandPoint(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote3()
                 },
-                DefaultActionIndex.Cheer => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Cheer => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 4,
-                    _hasExitTime = false,
-                    _clip = VrcSdkAssetLocator.ProxyStandCheer(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote4()
                 },
-                DefaultActionIndex.Dance => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Dance => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 5,
-                    _hasExitTime = false,
-                    _clip = VrcSdkAssetLocator.ProxyDance(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote5()
                 },
-                DefaultActionIndex.Backflip => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Backflip => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 6,
-                    _hasExitTime = true,
-                    _exitTime = 0.8f,
-                    _clip = VrcSdkAssetLocator.ProxyBackflip(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote6()
                 },
-                DefaultActionIndex.SadKick => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.SadKick => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 7,
-                    _hasExitTime = true,
-                    _exitTime = 0.75f,
-                    _clip = VrcSdkAssetLocator.ProxyStandSadkick(),
-                    _exitClip = null
+                    _clip = CvrCckAssetLocator.EmotesEmote7()
                 },
-                DefaultActionIndex.Die => new DefaultActionEmoteDefVRChat
+                DefaultActionIndex.Die => new DefaultActionEmoteDefChilloutVR
                 {
                     _index = 8,
-                    _hasExitTime = false,
-                    _clip = VrcSdkAssetLocator.ProxyDie(),
-                    _exitClip = VrcSdkAssetLocator.ProxySupineWakeup()
+                    _clip = CvrCckAssetLocator.EmotesEmote8()
                 },
                 _ => null
             };

@@ -110,6 +110,46 @@ namespace Silksprite.EmoteWizard.Utils
             return AvatarAsset<Motion>("Animations/Hands/HandRightRocknroll.anim");
         }
 
+        public static Motion EmotesEmote1()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote1.anim");
+        }
+
+        public static Motion EmotesEmote2()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote2.anim");
+        }
+
+        public static Motion EmotesEmote3()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote3.anim");
+        }
+
+        public static Motion EmotesEmote4()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote4.anim");
+        }
+
+        public static Motion EmotesEmote5()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote5.anim");
+        }
+
+        public static Motion EmotesEmote6()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote6.anim");
+        }
+
+        public static Motion EmotesEmote7()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote7.anim");
+        }
+
+        public static Motion EmotesEmote8()
+        {
+            return AvatarAsset<Motion>("Animations/Emotes/Emote8.anim");
+        }
+
         public static RuntimeAnimatorController AvatarAnimator()
         {
             return AvatarAsset<RuntimeAnimatorController>("Animations/AvatarAnimator.controller");

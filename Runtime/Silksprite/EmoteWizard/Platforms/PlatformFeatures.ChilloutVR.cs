@@ -138,7 +138,7 @@ namespace Silksprite.EmoteWizard.Platforms
 
             public IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
             {
-                if (DefaultActionEmoteDefVRChat.Default(index) is { } defaultActionEmote)
+                if (DefaultActionEmoteDefChilloutVR.Default(index) is { } defaultActionEmote)
                 {
                     yield return defaultActionEmote.ToEmoteItemTemplate(path);
                 }
