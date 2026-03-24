@@ -13,6 +13,8 @@ namespace Silksprite.EmoteWizard
             Tr("AnimatorLayerConfigBase::Tutorial.");
             Tr("ExpressionConfig::Tutorial.");
             Tr("ParametersConfig::Tutorial.");
+            Tr("DefaultActionEmoteItemSource::Tutorial.");
+            Tr("DefaultEmoteItemSource::Tutorial.");
             Tr("EmoteItemSource::Tutorial.");
             Tr("EmoteSequenceSource::Tutorial.");
             Tr("ExpressionItemSource::Tutorial.");

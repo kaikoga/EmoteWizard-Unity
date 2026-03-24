@@ -21,9 +21,11 @@ MonoBehaviour:
   - EmoteWizard.Editor
   - EmoteWizard.Locales
   - EmoteWizard.Ndmf
-  - EmoteWizard.VRChat.Editor
-  - EmoteWizard.VRM0.Editor
-  - EmoteWizard.VRM1.Editor
+  - EmoteWizard.Platforms.ChilloutVR.Editor
+  - EmoteWizard.Platforms.Common.Editor
+  - EmoteWizard.Platforms.VRChat.Editor
+  - EmoteWizard.Platforms.VRM0.Editor
+  - EmoteWizard.Platforms.VRM1.Editor
   - EmoteWizardSupport
   - EmoteWizardSupport.Editor
   assemblyPrefixes: []
