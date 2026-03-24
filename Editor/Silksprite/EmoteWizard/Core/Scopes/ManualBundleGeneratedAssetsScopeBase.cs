@@ -3,70 +3,41 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.Contexts;
 using Object = UnityEngine.Object;
 
-#if EW_NDMF_SUPPORT || EW_ABLET_SUPPORT
-using UnityEditor;
-#endif
-
-#if EW_NDMF_SUPPORT
-using nadena.dev.ndmf;
-using nadena.dev.ndmf.util;
-using UnityEngine;
-#elif EW_ABLET_SUPPORT
-using System.Linq;
-using Ablet.Building;
-using Ablet.Building.Ephemeral;
+#if EW_NDMF_SUPPORT && EW_ABLET_SUPPORT
+using Ablet.API;
 #endif
 
 namespace Silksprite.EmoteWizard.Scopes
 {
-    public abstract class ManualBundleGeneratedAssetsScopeBase : IDisposable
+    public abstract partial class ManualBundleGeneratedAssetsScopeBase : IDisposable
     {
-        readonly EmoteWizardEnvironment _environment;
-#if EW_NDMF_SUPPORT
-        readonly GameObject? _gameObject;
-        readonly BuildContext? _buildContext;
-#endif
+        interface IBackend
+        {
+            void OnDispose(ManualBundleGeneratedAssetsScopeBase scope);
+        }
+
+        readonly IBackend? _backend;
+
         protected ManualBundleGeneratedAssetsScopeBase(EmoteWizardEnvironment environment, bool manualBuild)
         {
-            _environment = environment;
             if (manualBuild && !environment.PersistGeneratedAssets)
             {
-#if EW_NDMF_SUPPORT
-                _gameObject = new GameObject("Temporary");
-                _buildContext = new BuildContext(_gameObject, "Assets/ZZZ_GeneratedAssets/__EmoteWizard");
+#if EW_NDMF_SUPPORT && EW_ABLET_SUPPORT
+                _backend = AbletSymbols.PreferAblet ? (IBackend)new AbletBackend(environment) : new NdmfBackend(environment);
+#elif EW_NDMF_SUPPORT
+                _backend = new NdmfBackend(environment);
 #elif EW_ABLET_SUPPORT
+                _backend = new AbletBackend(environment);
 #else
                 throw new InvalidOperationException("");
 #endif
             }
+            _backend = null;
         }
 
         void IDisposable.Dispose()
         {
-#if EW_NDMF_SUPPORT
-            if (_buildContext == null) return;
-
-            foreach (var volatileAsset in CollectVolatileAssets(_environment))
-            {
-                // we are sure these are not prefabs
-                foreach (var asset in volatileAsset.ReferencedAssets(traverseSaved: false, includeScene: true))
-                {
-                    AssetDatabase.AddObjectToAsset(asset, _buildContext.AssetContainer);
-                    asset.hideFlags = HideFlags.None; // match Modular Avatar behavior 
-                }
-            }
-
-            AssetDatabase.SaveAssets();
-            Object.DestroyImmediate(_gameObject);
-#elif EW_ABLET_SUPPORT
-            var generatedAssets = CollectVolatileAssets(_environment)
-                .SelectMany(AssetPersister.IterateAssetObjectReferences)
-                .Distinct()
-                .Where(obj => !EditorUtility.IsPersistent(obj));
-            
-            var assetPersister = new AssetPersisterState(_environment.AvatarRoot.gameObject, true);
-            assetPersister.PersistAssets(generatedAssets);
-#endif
+            _backend?.OnDispose(this);
         }
 
         protected abstract IEnumerable<Object> CollectVolatileAssets(EmoteWizardEnvironment environment);
