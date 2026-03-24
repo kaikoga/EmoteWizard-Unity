@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
@@ -12,7 +13,6 @@ namespace Silksprite.EmoteWizard.Base
 {
     public abstract class EmoteWizardEditorBase : Editor
     {
-        static EmoteWizardEnvironment? _cachedEnvironment; 
         static bool _isDrawingInnerInspectorGUI;
         
         [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -20,8 +20,11 @@ namespace Silksprite.EmoteWizard.Base
 
         protected EmoteWizardEnvironment CreateEnv()
         {
-            if (_isDrawingInnerInspectorGUI) return _cachedEnvironment ??= soleTarget.CreateEnv();
-            return soleTarget.CreateEnv();
+            if (!InnerGUIEnvironmentScope.TryGetCurrentEnv(out var environment))
+            {
+                environment = soleTarget.CreateEnv();
+            }
+            return environment;
         }
 
         LocalizedContent? _lastHeader;
@@ -35,8 +38,7 @@ namespace Silksprite.EmoteWizard.Base
 
         public sealed override void OnInspectorGUI()
         {
-            _isDrawingInnerInspectorGUI = true;
-            _cachedEnvironment = null;
+            using var _ = new InnerGUIEnvironmentScope(soleTarget.CreateEnv);
             var hierarchyMode = EditorGUIUtility.hierarchyMode; 
             EditorGUIUtility.hierarchyMode = false; // false because we use Headers to group things
             try
@@ -67,8 +69,6 @@ namespace Silksprite.EmoteWizard.Base
             }
             finally
             {
-                _isDrawingInnerInspectorGUI = false;
-                _cachedEnvironment = null;
                 EditorGUIUtility.hierarchyMode = hierarchyMode;
             }
         }
