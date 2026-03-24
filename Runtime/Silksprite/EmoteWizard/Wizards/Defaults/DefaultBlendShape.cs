@@ -188,7 +188,7 @@ namespace Silksprite.EmoteWizard.Wizards.Defaults
 
         public static IEnumerable<IEmoteTemplate> EnumerateDefaultBlendShapes(EmoteTemplatePath path)
         {
-            // TODO: maybe DefaultBlendShapeEmoteItemTemplate
+            // note: enumerate directly to unpacked templates because unpacked templates are already platform agnostic 
             return DefaultBlendShapeDef.Defaults().SelectMany(def => def.ToEmoteTemplates(path));
         }
     }

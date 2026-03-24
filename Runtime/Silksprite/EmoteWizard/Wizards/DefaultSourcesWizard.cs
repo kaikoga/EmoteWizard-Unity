@@ -35,6 +35,11 @@ namespace Silksprite.EmoteWizard.Wizards
                 .Select(index => new DefaultActionEmoteItemTemplate(path.Join(index.Name()), index));
         }
 
+        static IEnumerable<IEmoteTemplate> EnumerateDefaultBlendShapeSources(EmoteTemplatePath path)
+        {
+            return DefaultBlendShape.EnumerateDefaultBlendShapes(path);
+        }
+
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
             var platformFeatures = environment.GetPlatformFeatures();
@@ -51,7 +56,7 @@ namespace Silksprite.EmoteWizard.Wizards
                     EnumerateDefaultActionSources(platformFeatures, path),
                 DefaultSourceKind.Vrm =>
                     // force Generic EmoteItem / EmoteSequence
-                    DefaultBlendShape.EnumerateDefaultBlendShapes(path),
+                    EnumerateDefaultBlendShapeSources(path),
                 _ => Enumerable.Empty<IEmoteTemplate>()
             };
             return unpack
