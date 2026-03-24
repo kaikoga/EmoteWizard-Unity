@@ -37,7 +37,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
         static IEnumerable<IEmoteTemplate> EnumerateDefaultBlendShapeSources(EmoteTemplatePath path)
         {
-            return DefaultBlendShape.EnumerateDefaultBlendShapes(path);
+            return DefaultBlendShapes.EnumerateDefaultBlendShapes(path);
         }
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)

@@ -132,18 +132,18 @@ namespace Silksprite.EmoteWizard.Platforms
 
             IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
             {
-                yield return DefaultEmoteItemDef.Default(this, layerKind, handSign)
+                yield return DefaultEmoteItem.Default(this, layerKind, handSign)
                     .ToEmoteItemTemplate(path, emoteItemKind, emoteSequenceFactoryKind, layerKind);
             }
 
             public virtual IEnumerable<DefaultActionIndex> DefaultActionIndexes() =>
                 Enum.GetValues(typeof(DefaultActionIndex)).OfType<DefaultActionIndex>()
-                    .Where(index => DefaultActionEmoteDefVRChat.Default(index) is { })
+                    .Where(index => DefaultActionEmoteVRChat.Default(index) is { })
                     .Concat(new[] { DefaultActionIndex.Afk });
 
             IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
             {
-                if (DefaultActionEmoteDefVRChat.Default(index) is { } defaultActionEmote)
+                if (DefaultActionEmoteVRChat.Default(index) is { } defaultActionEmote)
                 {
                     yield return defaultActionEmote.ToEmoteItemTemplate(path);
                 }

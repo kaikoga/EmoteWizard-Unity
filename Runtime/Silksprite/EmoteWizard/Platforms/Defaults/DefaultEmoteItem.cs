@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms.Defaults
 {
-    class DefaultEmoteItemDef
+    class DefaultEmoteItem
     {
         HandSign _handSign;
         Motion? _clipLeft;
@@ -38,8 +38,8 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             return builder.ToEmoteItemTemplate();
         }
 
-        public static DefaultEmoteItemDef Default(IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign) =>
-            new DefaultEmoteItemDef
+        public static DefaultEmoteItem Default(IPlatformFeatures platformFeatures, LayerKind layerKind, HandSign handSign) =>
+            new DefaultEmoteItem
             {
                 _handSign = handSign,
                 _clipLeft = (layerKind, handSign) switch
