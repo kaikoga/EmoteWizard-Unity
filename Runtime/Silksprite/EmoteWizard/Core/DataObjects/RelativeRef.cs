@@ -26,7 +26,11 @@ namespace Silksprite.EmoteWizard.DataObjects
             return target = ResolveTarget(root, relativePath);
         }
 
-        public static T? ResolveTarget(Transform root, string relativePath) => RuntimeUtil.FromRelativePath(root, relativePath)?.GetComponent<T>();
+        public static T? ResolveTarget(Transform root, string relativePath)
+        {
+            var target = RuntimeUtil.FromRelativePath(root, relativePath)?.GetComponent<T>();
+            return target != null ? target : null;
+        }
     }
     
     [Serializable] public class RelativeTransformRef : RelativeRef<Transform> { }

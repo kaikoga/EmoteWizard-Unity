@@ -8,6 +8,8 @@ namespace Silksprite.EmoteWizard.Scopes
     {
         static Lazy<EmoteWizardEnvironment>? _current;
 
+        public static EmoteWizardEnvironment GetCurrentEnv() => _current?.Value ?? throw new InvalidOperationException();
+
         public static bool TryGetCurrentEnv([MaybeNullWhen(false)] out EmoteWizardEnvironment environment)
         {
             if (_current == null)

@@ -1,5 +1,5 @@
-using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             
             if (!allowNew)
             {
-                var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
+                var env = InnerGUIEnvironmentScope.GetCurrentEnv();
                 isInvalidValue |= env.GetContext<ParametersContext>().Snapshot().IsInvalidParameterReference(serializedProperty.stringValue);
             }
 

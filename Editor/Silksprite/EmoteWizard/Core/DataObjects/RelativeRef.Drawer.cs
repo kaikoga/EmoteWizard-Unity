@@ -1,4 +1,4 @@
-using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Utils;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             if (!target.objectReferenceValue && !string.IsNullOrEmpty(relativePath.Property.stringValue))
             {
-                var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
+                var env = InnerGUIEnvironmentScope.GetCurrentEnv();
                 target.objectReferenceValue = RelativeRef<TTarget>.ResolveTarget(env.AvatarRoot, relativePath.Property.stringValue);
             }
 
@@ -29,7 +29,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 target.objectReferenceValue = EditorGUI.ObjectField(position, label, target.objectReferenceValue, typeof(TTarget), true);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
+                    var env = InnerGUIEnvironmentScope.GetCurrentEnv();
                     relativePath.Property.stringValue = RuntimeUtil.RelativePath(env.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
                 }
                 EditorGUI.EndProperty();
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 target.objectReferenceValue = EditorGUI.ObjectField(pos, label, target.objectReferenceValue, typeof(TTarget), true);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    var env = ((EmoteWizardBehaviour)serializedProperty.serializedObject.targetObject).CreateEnv();
+                    var env = InnerGUIEnvironmentScope.GetCurrentEnv();
                     relativePath.Property.stringValue = RuntimeUtil.RelativePath(env.AvatarRoot, ((TTarget)target.objectReferenceValue)?.transform);
                 }
 
