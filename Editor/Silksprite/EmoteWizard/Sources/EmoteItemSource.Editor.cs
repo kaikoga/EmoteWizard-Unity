@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            var env = CreateEnv();
+            var env = CachedEnv();
             var platformFeatures = env.GetPlatformFeatures();
 
             LEditorGUILayout.Prop(_name);

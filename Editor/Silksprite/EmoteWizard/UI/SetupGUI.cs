@@ -30,12 +30,12 @@ namespace Silksprite.EmoteWizard.UI
             var isMultiPlatform = SupportedPlatform.IsMultiple;
             var singleLoc = Loc("SetupGUI::Quick Setup Default Data Sources");
 
-            if (env.MaybeUnityPlatforms())
+            if (env.MaybeVRCPlatforms())
             {
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRChat Sources") : singleLoc;
                 EmoteWizardGUILayout.Undoable(loc, undoable =>
                 {
-                    QuickSetupDefaultVRChatSources(undoable, env);
+                    QuickSetupDefaultVrcPlatformSources(env, undoable);
                     result = true;
                 });
             }
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.UI
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRM Sources") : singleLoc;
                 EmoteWizardGUILayout.Undoable(loc, undoable =>
                 {
-                    QuickSetupDefaultVrmSources(undoable, env);
+                    QuickSetupDefaultVrmSources(env, undoable);
                     result = true;
                 });
             }
@@ -54,7 +54,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {
-                    GenerateConfigsForVrc(undoable, env);
+                    GenerateConfigsForVRChat(env, undoable);
                     result = true;
                 });
             }
@@ -63,7 +63,7 @@ namespace Silksprite.EmoteWizard.UI
             {
                 EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {
-                    GenerateConfigsForCvr(undoable, env);
+                    GenerateConfigsForChilloutVR(env, undoable);
                     result = true;
                 });
             }
@@ -71,7 +71,7 @@ namespace Silksprite.EmoteWizard.UI
             return result;
         }
 
-        static void QuickSetupDefaultVRChatSources(IUndoable undoable, EmoteWizardEnvironment environment)
+        static void QuickSetupDefaultVrcPlatformSources(EmoteWizardEnvironment environment, IUndoable undoable)
         {
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Expression Sources");
             
@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = _emoteSequenceFactoryKindFx;
                 wizard.unpack = _unpack;
-                wizard.Explode(undoable, false);
+                wizard.Explode(environment, undoable, false);
             });
 
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Gesture Sources", gestureSources =>
@@ -95,7 +95,7 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.emoteItemKind = _emoteItemKind;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.unpack = _unpack;
-                wizard.Explode(undoable, false);
+                wizard.Explode(environment, undoable, false);
             });
 
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "Action Sources", actionSources =>
@@ -106,11 +106,11 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.emoteItemKind = EmoteItemKind.EmoteItem;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.EmoteSequence;
                 wizard.unpack = _unpack;
-                wizard.Explode(undoable, false);
+                wizard.Explode(environment, undoable, false);
             });
         }
 
-        static void QuickSetupDefaultVrmSources(IUndoable undoable, EmoteWizardEnvironment environment)
+        static void QuickSetupDefaultVrmSources(EmoteWizardEnvironment environment, IUndoable undoable)
         {
             undoable.FindOrCreateChildComponent<EmoteWizardDataSourceFactory>(environment, "BlendShape Sources", bsSources =>
             {
@@ -118,11 +118,11 @@ namespace Silksprite.EmoteWizard.UI
                 wizard.defaultSourceKind = DefaultSourceKind.Vrm;
                 wizard.emoteItemKind = EmoteItemKind.GenericEmoteItem;
                 wizard.emoteSequenceFactoryKind = EmoteSequenceFactoryKind.GenericEmoteSequence;
-                wizard.Explode(undoable, false);
+                wizard.Explode(environment, undoable, false);
             });
         }
 
-        static void GenerateConfigsForVrc(IUndoable undoable, EmoteWizardEnvironment environment)
+        static void GenerateConfigsForVRChat(EmoteWizardEnvironment environment, IUndoable undoable)
         {
             undoable.AddWizard<EditorLayerConfig>(environment);
             undoable.AddWizard<ExpressionConfig>(environment);
@@ -132,7 +132,7 @@ namespace Silksprite.EmoteWizard.UI
             undoable.AddWizard<ActionLayerConfig>(environment);
         }
 
-        static void GenerateConfigsForCvr(IUndoable undoable, EmoteWizardEnvironment environment)
+        static void GenerateConfigsForChilloutVR(EmoteWizardEnvironment environment, IUndoable undoable)
         {
             undoable.AddWizard<EditorLayerConfig>(environment);
             undoable.AddWizard<MergedLayerConfig>(environment);

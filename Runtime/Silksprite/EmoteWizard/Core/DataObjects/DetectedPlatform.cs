@@ -13,6 +13,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         VRM0 = 0x100,
         VRM1 = 0x200,
         VRMPlatforms = 0x300,
+        VRCPlatforms = 0x1003,
         Mixed = -1
     }
 

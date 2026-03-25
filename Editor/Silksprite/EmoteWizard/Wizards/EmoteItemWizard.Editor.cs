@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Wizards
     [CustomEditor(typeof(EmoteItemWizard))]
     public class EmoteItemWizardEditor : EmoteWizardEditorBase<EmoteItemWizard>
     {
-        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRCPlatforms;
 
         LocalizedProperty _hasExpressionItemSource = null!;
         LocalizedProperty _emoteSequenceFactoryKind = null!;
@@ -59,7 +59,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 {
                     if (EmoteWizardGUILayout.Undoable(Loc("EmoteItemWizard::Add"), "Add From Emote Item Wizard", out var undoable))
                     {
-                        soleTarget.Explode(undoable, true);
+                        soleTarget.Explode(CachedEnv(), undoable, true);
                     }
                 }
             }

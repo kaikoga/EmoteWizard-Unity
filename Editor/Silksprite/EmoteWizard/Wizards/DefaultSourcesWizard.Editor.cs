@@ -39,7 +39,7 @@ namespace Silksprite.EmoteWizard.Wizards
             string undoLabel = $"Add Default {soleTarget.defaultSourceKind} Items";
             if (EmoteWizardGUILayout.Undoable(Loc("DefaultSourcesWizard::Add"), undoLabel, out var undoable))
             {
-                soleTarget.Explode(undoable, true);
+                soleTarget.Explode(CachedEnv(), undoable, true);
             }
         }
     }

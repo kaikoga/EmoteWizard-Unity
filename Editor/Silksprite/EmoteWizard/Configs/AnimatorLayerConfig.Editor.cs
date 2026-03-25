@@ -35,7 +35,7 @@ namespace Silksprite.EmoteWizard.Configs
 
         protected override void OnInnerInspectorGUI()
         {
-            var env = CreateEnv();
+            var env = CachedEnv();
 
             using (new ObjectChangeScope(soleTarget))
             {

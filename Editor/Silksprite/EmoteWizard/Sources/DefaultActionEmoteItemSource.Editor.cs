@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Sources
             
             if (EmoteWizardGUILayout.Undoable(Loc("DefaultActionEmoteItemSource::Unpack"), "Unpack Default Action Emote Item Source", out var undoable))
             {
-                soleTarget.Explode(undoable, true);
+                soleTarget.Explode(CachedEnv(), undoable, true);
             }
         }
     }

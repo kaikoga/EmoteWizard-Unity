@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(EmoteSequenceSource))]
     public class EmoteSequenceSourceEditor : EmoteWizardEditorBase<EmoteSequenceSource>
     {
-        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRCPlatforms;
 
         LocalizedProperty _layerKind = null!;
         LocalizedProperty _groupName = null!;
@@ -94,7 +94,7 @@ namespace Silksprite.EmoteWizard.Sources
             _serializedHasTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.hasTrackingOverrides), Loc("EmoteSequence::hasTrackingOverrides"));
             _serializedTrackingOverrides = serializedItem.Lop(nameof(EmoteSequence.trackingOverrides), Loc("EmoteSequence::trackingOverrides"));
 
-            var environment = CreateEnv();
+            var environment = CachedEnv();
             if (environment.AvatarRoot)
             {
                 _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);

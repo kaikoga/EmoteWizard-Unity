@@ -69,7 +69,7 @@ namespace Silksprite.EmoteWizard.Sources
             _hasTrackingOverrides = serializedItem.Lop(nameof(GenericEmoteSequence.hasTrackingOverrides), Loc("GenericEmoteSequenceSource::hasTrackingOverrides"));
             _trackingOverrides = serializedItem.Lop(nameof(GenericEmoteSequence.trackingOverrides), Loc("GenericEmoteSequenceSource::trackingOverrides"));
 
-            var environment = CreateEnv();
+            var environment = CachedEnv();
             if (environment.AvatarRoot)
             {
                 _previewWrapper = AnimationPreviewWrapper.Create(environment.AvatarRoot.gameObject);
@@ -102,7 +102,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            var environment = CreateEnv();
+            var environment = CachedEnv();
 
             if (environment.MaybeUnityPlatforms())
             {
@@ -151,13 +151,13 @@ namespace Silksprite.EmoteWizard.Sources
                 _inputClip = LEditorGUILayout.ObjectField(Loc("GenericEmoteSequenceSource::Clip"), _inputClip, true);
                 if (LGUILayout.Button(Loc("GenericEmoteSequenceSource::Import"), Array.Empty<GUILayoutOption>()))
                 {
-                    var converted = _inputClip.ToGenericEmoteSequence(CreateEnv().AvatarRoot.gameObject);
+                    var converted = _inputClip.ToGenericEmoteSequence(CachedEnv().AvatarRoot.gameObject);
                     soleTarget.sequence.animatedEnable = converted.animatedEnable;
                     soleTarget.sequence.animatedBlendShapes = converted.animatedBlendShapes;
                 }
             }
 
-            if (requireRefreshPreview) RefreshPreviewIfNeeded(CreateEnv());
+            if (requireRefreshPreview) RefreshPreviewIfNeeded(CachedEnv());
             _previewWrapper.OnInspectorGUI();
 
             if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source", out var undoable))

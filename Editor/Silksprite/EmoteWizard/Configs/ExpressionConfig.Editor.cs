@@ -27,7 +27,7 @@ namespace Silksprite.EmoteWizard.Configs
 
         protected override void OnInnerInspectorGUI()
         {
-            var env = CreateEnv();
+            var env = CachedEnv();
 
             LEditorGUILayout.Prop(_buildAsSubAsset);
 

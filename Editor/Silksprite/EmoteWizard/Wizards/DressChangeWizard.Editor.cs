@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.Wizards
     [CustomEditor(typeof(DressChangeWizard))]
     public class DressChangeWizardEditor : EmoteWizardEditorBase<DressChangeWizard>
     {
-        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRCPlatforms;
 
         LocalizedProperty _expressionKind = null!;
         LocalizedProperty _itemCount = null!;
@@ -65,7 +65,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 {
                     if (EmoteWizardGUILayout.Undoable(Loc("DressChangeWizard::Add"), "Add from Dress Change Wizard", out var undoable))
                     {
-                        soleTarget.Explode(undoable, true);
+                        soleTarget.Explode(CachedEnv(), undoable, true);
                     }
                 }
             }

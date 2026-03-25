@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            var env = CreateEnv();
+            var env = CachedEnv();
             
             if (env.MaybeVRChat())
             {

@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 {
                     if (EmoteWizardGUILayout.Undoable(Loc("CustomActionWizard::Add"), "Add from Custom Action Wizard", out var undoable))
                     {
-                        soleTarget.Explode(undoable, true);
+                        soleTarget.Explode(CachedEnv(), undoable, true);
                     }
                 }
             }

@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Base
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         EmoteWizardBehaviour soleTarget => (EmoteWizardBehaviour)target;
 
-        protected EmoteWizardEnvironment CreateEnv()
+        protected EmoteWizardEnvironment CachedEnv()
         {
             if (!InnerGUIEnvironmentScope.TryGetCurrentEnv(out var environment))
             {
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Base
             EditorGUIUtility.hierarchyMode = false; // false because we use Headers to group things
             try
             {
-                var env = CreateEnv();
+                var env = CachedEnv();
                 if ((env.Platform & SupportedPlatforms) != 0)
                 {
                     _lastHeader = null;

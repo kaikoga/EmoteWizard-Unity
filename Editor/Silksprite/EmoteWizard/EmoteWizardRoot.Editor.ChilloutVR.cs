@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard
                 {
                     void EditAnimator(RuntimeAnimatorController? animatorController)
                     {
-                        var animator = CreateEnv().ProvideProxyAnimator();
+                        var animator = CachedEnv().ProvideProxyAnimator();
                         animator.runtimeAnimatorController = animatorController;
                         if (!animatorController) return;
                         Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
@@ -39,14 +39,14 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(cvrAvatar.BaseObject);
                     if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
-                        CreateEnv().CleanupCvrAvatar();
+                        CachedEnv().CleanupCvrAvatar();
                     }
                     EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
                         "Generate Everything and Update Avatar",
                         undoable =>
                         {
                             undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                            CreateEnv().BuildCvrAvatar(undoable, true);
+                            CachedEnv().BuildCvrAvatar(undoable, true);
                         });
 
                     using (new GUILayout.HorizontalScope())

@@ -30,7 +30,7 @@ namespace Silksprite.EmoteWizard.Configs
 
         protected override void OnInnerInspectorGUI()
         {
-            var environment = CreateEnv();
+            var environment = CachedEnv();
 
             if (_debugSnapshot == null)
             {

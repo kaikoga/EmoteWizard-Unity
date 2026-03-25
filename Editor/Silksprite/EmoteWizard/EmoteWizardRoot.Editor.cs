@@ -60,7 +60,7 @@ namespace Silksprite.EmoteWizard
 
         protected override void OnInnerInspectorGUI()
         {
-            var env = CreateEnv();
+            var env = CachedEnv();
             EmoteWizardGUILayout.ConfigUIArea(() =>
             {
                 LEditorGUILayout.LocaleSelector();
@@ -112,10 +112,10 @@ namespace Silksprite.EmoteWizard
 
                 LEditorGUILayout.Prop(_generatedAssetPrefix);
 
-                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardGUILayout.PropWithGenerate(_emptyClip, () => CreateEnv().ProvideEmptyClip()); });
+                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardGUILayout.PropWithGenerate(_emptyClip, () => CachedEnv().ProvideEmptyClip()); });
                 if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Output Assets"), new GUILayoutOption[0]))
                 {
-                    CreateEnv().DisconnectAllOutputAssets();
+                    CachedEnv().DisconnectAllOutputAssets();
                 }
             });
             if (EditorGUI.EndChangeCheck() && !_persistGeneratedAssets.Property.boolValue)

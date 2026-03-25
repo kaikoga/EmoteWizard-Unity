@@ -12,9 +12,8 @@ namespace Silksprite.EmoteWizard.Base
     {
         protected abstract IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment);
 
-        public void Explode(IUndoable undoable, bool andSelect)
+        public void Explode(EmoteWizardEnvironment environment, IUndoable undoable, bool andSelect)
         {
-            var environment = CreateEnv();
             var sourceTemplates = SourceTemplates(environment).ToArray();
 
             var root = environment.AvatarRoot.transform;
