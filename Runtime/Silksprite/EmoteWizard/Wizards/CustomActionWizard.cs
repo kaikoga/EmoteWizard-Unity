@@ -3,9 +3,9 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards.Utils;
 using UnityEngine;
 

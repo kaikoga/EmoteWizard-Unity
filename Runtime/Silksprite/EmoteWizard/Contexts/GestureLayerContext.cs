@@ -1,7 +1,7 @@
 using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.Utils;
+using Silksprite.EmoteWizard.Platforms.Utils;
 
 namespace Silksprite.EmoteWizard.Contexts
 {

@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Templates;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
