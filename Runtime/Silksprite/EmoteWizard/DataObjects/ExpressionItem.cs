@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardTools;
 
@@ -35,9 +36,9 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             get
             {
-                if (ItemPathAttribute.IsInvalidPathInput(path)) return false;
-                if (ParameterNameAttribute.IsInvalidParameterInput(parameter, true)) return false;
-                if (subParameters.Take(itemKind).Any(sub => ParameterNameAttribute.IsInvalidParameterInput(sub, false))) return false; 
+                if (ItemPathUtil.IsInvalidPathFormat(path)) return false;
+                if (ParameterNameUtil.IsInvalidParameterFormat(parameter, true)) return false;
+                if (subParameters.Take(itemKind).Any(sub => ParameterNameUtil.IsInvalidParameterFormat(sub, false))) return false; 
                 return true;
             }
         }

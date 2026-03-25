@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Scopes;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         static void PropertyField(Rect position, SerializedProperty serializedProperty, GUIContent label, bool allowEmpty, bool allowNew)
         {
-            var isInvalidValue = ParameterNameAttribute.IsInvalidParameterInput(serializedProperty.stringValue, allowEmpty);
+            var isInvalidValue = ParameterNameUtil.IsInvalidParameterFormat(serializedProperty.stringValue, allowEmpty);
             
             if (!allowNew)
             {

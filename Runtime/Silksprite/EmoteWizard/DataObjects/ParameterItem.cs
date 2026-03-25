@@ -1,4 +1,5 @@
 using System;
+using Silksprite.EmoteWizard.Utils;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
@@ -13,6 +14,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         public float defaultValue;
         public bool synced = true;
 
-        public bool IsValid => !ParameterNameAttribute.IsInvalidParameterInput(name, false);
+        public bool IsValid => !ParameterNameUtil.IsInvalidParameterFormat(name, false);
     }
 }

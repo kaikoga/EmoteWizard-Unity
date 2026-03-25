@@ -1,3 +1,4 @@
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.Scopes;
 using UnityEditor;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace Silksprite.EmoteWizard.DataObjects
 
         public static void PropertyField(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
-            var isInvalidValue = ItemPathAttribute.IsInvalidPathInput(serializedProperty.stringValue);
+            var isInvalidValue = ItemPathUtil.IsInvalidPathFormat(serializedProperty.stringValue);
             
             using (new InvalidValueScope(isInvalidValue))
             {

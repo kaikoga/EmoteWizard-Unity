@@ -8,6 +8,7 @@ using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Impl.Builders;
 using Silksprite.EmoteWizard.Templates.Sequence;
+using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -76,7 +77,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
         public IEnumerable<ExpressionItem> ToExpressionItems(IPlatformFeatures platformFeatures)
         {
             if (!IsAutoExpression(platformFeatures)) yield break;
-            if (ItemPathAttribute.IsInvalidPathInput(ExpressionItemPath)) yield break;
+            if (ItemPathUtil.IsInvalidPathFormat(ExpressionItemPath)) yield break;
 
             var soleCondition = Trigger.conditions[0];
             var (parameter, threshold) = soleCondition.ResolveParameter(platformFeatures);
