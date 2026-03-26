@@ -4,9 +4,9 @@ using System;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
@@ -108,7 +108,7 @@ namespace Silksprite.EmoteWizard
                 {
                     void EditAnimator(RuntimeAnimatorController? animatorController)
                     {
-                        var animator = CreateEnv().ProvideProxyAnimator();
+                        var animator = CachedEnv().ProvideProxyAnimator();
                         animator.runtimeAnimatorController = animatorController;
                         if (!animatorController) return;
                         Selection.SetActiveObjectWithContext(animator.gameObject, animatorController);
@@ -122,14 +122,14 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(avatarDescriptor);
                     if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
-                        CreateEnv().CleanupVrcAvatar();
+                        CachedEnv().CleanupVrcAvatar();
                     }
                     EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
                         "Generate Everything and Update Avatar",
                         undoable =>
                         {
                             undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                            CreateEnv().BuildVrcAvatar(undoable, true);
+                            CachedEnv().BuildVrcAvatar(undoable, true);
                         });
 
                     using (new GUILayout.HorizontalScope())
