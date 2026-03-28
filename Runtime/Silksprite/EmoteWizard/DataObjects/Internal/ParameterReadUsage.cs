@@ -9,13 +9,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         [SerializeField] public ParameterItemKind itemKind;
         [SerializeField] float value;
 
-        [Obsolete]
-        public float ForcedFloatValueUnsafe => value;
-
-        public bool IsDefault => value == 0;
-
         public ParameterValue Value => ParameterValue.CreateInstance(itemKind, value);
-
 
         public ParameterReadUsage(ParameterItemKind itemKind, float value)
         {

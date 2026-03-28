@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         void AddWriteDefault()
         {
             AddSynced();
-            if (_writeUsages.All(state => !state.IsDefault))
+            if (_writeUsages.All(state => !state.Value.IsDefault))
             {
                 _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Default, 0, ParameterWriteSourceKind.NoUI));
             }
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         void AddReadDefault()
         {
             AddSynced();
-            if (_readUsages.All(state => !state.IsDefault))
+            if (_readUsages.All(state => !state.Value.IsDefault))
             {
                 _readUsages.Add(new ParameterReadUsage(ParameterItemKind.Auto, 0));
             }

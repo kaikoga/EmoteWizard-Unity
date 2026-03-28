@@ -9,6 +9,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         [SerializeField] ParameterItemKind itemKind;
         [SerializeField] float value;
 
+        public bool IsDefault => value == 0;
+
+        public int IntValue => (int)value;
+        public float FloatValue => value;
+
         ParameterValue(ParameterItemKind itemKind, float value)
         {
             this.itemKind = itemKind;
