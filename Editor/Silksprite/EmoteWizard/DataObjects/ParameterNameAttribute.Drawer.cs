@@ -38,7 +38,13 @@ namespace Silksprite.EmoteWizard.DataObjects
 
             using (new InvalidValueScope(isInvalidValue))
             {
-                serializedProperty.stringValue = EditorGUI.TextField(left, label, serializedProperty.stringValue);
+                EditorGUI.BeginChangeCheck();
+                var stringValue = EditorGUI.TextField(left, label, serializedProperty.stringValue);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    serializedProperty.stringValue = stringValue;
+                    GUI.changed = true; // propagate
+                }
                 EditorGUI.BeginChangeCheck();
                 var filteredParameters = snapshot.AllParameters.Where(parameter => parameter.name.StartsWith(serializedProperty.stringValue)).ToArray();
                 var parameterNames = filteredParameters.Select(parameter => parameter.name).ToArray();
