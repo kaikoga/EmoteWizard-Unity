@@ -46,7 +46,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                     GUI.changed = true; // propagate
                 }
                 EditorGUI.BeginChangeCheck();
-                var filteredParameters = snapshot.AllParameters.Where(parameter => parameter.name.StartsWith(serializedProperty.stringValue)).ToArray();
+                var filteredParameters = snapshot.AllParameters
+                    .Where(parameter => parameter.name.StartsWith(serializedProperty.hasMultipleDifferentValues ? "" : serializedProperty.stringValue))
+                    .ToArray();
                 var parameterNames = filteredParameters.Select(parameter => parameter.name).ToArray();
                 var parameterDisplayNames = filteredParameters.Select(parameter => $"{parameter.name} ({parameter.itemKind})").ToArray();
                 var index = EditorGUI.Popup(right, -1, parameterDisplayNames);
