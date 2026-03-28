@@ -7,7 +7,7 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 #endif
 
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
 using Silksprite.AdLib.ChilloutVR.Extensions;
 #endif
 
@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard.Contexts
 #if EW_VRCSDK3_AVATARS
                     if (AvatarRoot.GetComponent<VRCAvatarDescriptor>()) detectedPlatform |= DetectedPlatform.VRChat;
 #endif
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
                     if (AvatarRoot.TryGetCVRAvatarAccess(out _)) detectedPlatform |= DetectedPlatform.ChilloutVR;
 #endif
 #if ATIV_DETECTED_VRM0

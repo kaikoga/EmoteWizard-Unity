@@ -24,7 +24,7 @@
         "VRCSDK3A.dll"
     ],
     "autoReferenced": false,
-    "defineConstraints": ["CVR_CCK_EXISTS"],
+    "defineConstraints": ["CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED"],
     "versionDefines": [],
     "noEngineReferences": false
 }

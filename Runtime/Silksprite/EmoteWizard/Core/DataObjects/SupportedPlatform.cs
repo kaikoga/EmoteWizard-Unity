@@ -12,7 +12,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         public const bool VRCSDK3_AVATARS = false;
 #endif
             
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
         public const bool CHILLOUTVR_AVATARS = true;
 #else
         public const bool CHILLOUTVR_AVATARS = false;

@@ -1,4 +1,4 @@
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
 
 using Silksprite.AdLib.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Configs;
@@ -80,14 +80,6 @@ namespace Silksprite.EmoteWizard
                         LEditorGUILayout.HelpBox(Loc("EmoteWizardRoot::runtimeAnimatorController::unknown."), MessageType.Warning);
                     }
                 });
-            }
-        }
-
-        void DummyController(LocalizedProperty lop, RuntimeAnimatorController dummyController)
-        {
-            using (new EditorGUI.DisabledScope(true))
-            {
-                LEditorGUILayout.ObjectField(lop.Loc, dummyController, false);
             }
         }
     }

@@ -144,7 +144,7 @@ namespace Silksprite.EmoteWizard
             }
 #endif
  
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
             if (env.IsChilloutVRAvatar())
             {
                 AvatarOutputCvr(env);

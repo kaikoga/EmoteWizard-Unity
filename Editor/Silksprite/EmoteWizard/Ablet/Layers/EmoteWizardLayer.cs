@@ -9,7 +9,7 @@ using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
 #endif
 
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions;
 #endif
 
@@ -48,7 +48,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
 #if EW_VRCSDK3_AVATARS
                     env.BuildVrcAvatar(undoable, false);
 #endif
-#if CVR_CCK_EXISTS
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
                     env.BuildCvrAvatar(undoable, false);
 #endif
 #if ATIV_DETECTED_VRM0
