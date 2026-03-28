@@ -121,12 +121,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
                 itemKind = _itemKind,
                 referenceUsages = _referenceUsages.ToList(),
                 writeUsages = _writeUsages
-                    .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.ForcedFloatValueUnsafe))
-                    .OrderBy(usage => usage.ForcedFloatValueUnsafe)
+                    .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.Value))
+                    .OrderBy(usage => usage.Value)
                     .ToList(),
                 readUsages = _readUsages
-                    .DistinctBy(usage => usage.ForcedFloatValueUnsafe)
-                    .OrderBy(usage => usage.ForcedFloatValueUnsafe)
+                    .DistinctBy(usage => usage.Value)
+                    .OrderBy(usage => usage.Value)
                     .ToList()
             };
         }

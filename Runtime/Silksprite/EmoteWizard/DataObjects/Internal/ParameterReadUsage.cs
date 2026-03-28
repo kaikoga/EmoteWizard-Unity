@@ -14,6 +14,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public bool IsDefault => value == 0;
 
+        public ParameterValue Value => ParameterValue.CreateInstance(itemKind, value);
+
+
         public ParameterReadUsage(ParameterItemKind itemKind, float value)
         {
             this.itemKind = itemKind;
