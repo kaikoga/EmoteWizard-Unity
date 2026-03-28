@@ -34,6 +34,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 ParameterWriteUsageKind.Bool => ParameterItemKind.Bool,
                 ParameterWriteUsageKind.Int => ParameterItemKind.Int,
                 ParameterWriteUsageKind.Float => ParameterItemKind.Float,
+                ParameterWriteUsageKind.Gesture => ParameterItemKind.Gesture,
                 _ => throw new ArgumentOutOfRangeException()
             }, value1);
         }

@@ -8,17 +8,14 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
     {
         static VRCExpressionParameters.ValueType GetVrcValueType(this ParameterInstance parameter)
         {
-            switch (parameter.ValueKind)
+            return parameter.ValueKind switch
             {
-                case ParameterValueKind.Bool:
-                    return VRCExpressionParameters.ValueType.Bool;
-                case ParameterValueKind.Int:
-                    return VRCExpressionParameters.ValueType.Int;
-                case ParameterValueKind.Float:
-                    return VRCExpressionParameters.ValueType.Float;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                ParameterValueKind.Bool => VRCExpressionParameters.ValueType.Bool,
+                ParameterValueKind.Int => VRCExpressionParameters.ValueType.Int,
+                ParameterValueKind.Float => VRCExpressionParameters.ValueType.Float,
+                ParameterValueKind.Gesture => VRCExpressionParameters.ValueType.Int,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
 
         public static VRCExpressionParameters.Parameter ToParameter(this ParameterInstance parameter)

@@ -8,17 +8,14 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
     {
         public static AnimatorControllerParameterType GetParameterType(this ParameterInstance parameter)
         {
-            switch (parameter.ValueKind)
+            return parameter.ValueKind switch
             {
-                case ParameterValueKind.Int:
-                    return AnimatorControllerParameterType.Int;
-                case ParameterValueKind.Float:
-                    return AnimatorControllerParameterType.Float;
-                case ParameterValueKind.Bool:
-                    return AnimatorControllerParameterType.Bool;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+                ParameterValueKind.Int => AnimatorControllerParameterType.Int,
+                ParameterValueKind.Float => AnimatorControllerParameterType.Float,
+                ParameterValueKind.Bool => AnimatorControllerParameterType.Bool,
+                ParameterValueKind.Gesture => AnimatorControllerParameterType.Int,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

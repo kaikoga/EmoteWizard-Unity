@@ -2,9 +2,10 @@ namespace Silksprite.EmoteWizard.DataObjects
 {
     public enum ParameterItemKind
     {
-        Auto,
-        Bool,
-        Int,
-        Float
+        Auto = 0,
+        Bool = 1,
+        Int = 2,
+        Float = 3,
+        Gesture = 4
     }
 }

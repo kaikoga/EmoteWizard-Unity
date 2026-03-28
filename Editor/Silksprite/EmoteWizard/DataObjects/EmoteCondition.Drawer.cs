@@ -44,6 +44,11 @@ namespace Silksprite.EmoteWizard.DataObjects
                 EmoteConditionMode.Greater,
                 EmoteConditionMode.Less,
             },
+            [ParameterItemKind.Gesture] = new []
+            {
+                EmoteConditionMode.Equals,
+                EmoteConditionMode.NotEqual,
+            },
         };
 
         static readonly Dictionary<EmoteConditionMode[], string[]> DisplayModes = new Dictionary<EmoteConditionMode[], string[]>();

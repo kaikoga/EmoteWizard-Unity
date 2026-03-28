@@ -4,6 +4,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     {
         Bool,
         Int,
-        Float
+        Float,
+        Gesture
     }
 }
