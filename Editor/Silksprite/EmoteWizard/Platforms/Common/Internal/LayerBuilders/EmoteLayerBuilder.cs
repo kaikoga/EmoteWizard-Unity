@@ -251,7 +251,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                         var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
                             .Where(cond => cond[0].Parameter == parameterName && cond[0].Mode == EmoteConditionMode.Equals).ToArray();
                         var values = equalConditions.Select(cond => cond[0].Threshold);
-                        var elseValues = readUsages.Select(usage => usage.value).Where(value => !values.Contains(value)).ToArray();
+                        var elseValues = readUsages.Select(usage => usage.ForcedFloatValueUnsafe).Where(value => !values.Contains(value)).ToArray();
                         if (elseValues.Length == 1)
                         {
                             currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();

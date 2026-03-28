@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 var usages = snapshot.ParameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Params.ActionSelect)?.readUsages;
                 if (usages != null)
                 {
-                    while (usages.Any(usage => (int)usage.value == newValue)) newValue++;
+                    while (usages.Any(usage => (int)usage.ForcedFloatValueUnsafe == newValue)) newValue++;
                 }
                 return newValue;
             }

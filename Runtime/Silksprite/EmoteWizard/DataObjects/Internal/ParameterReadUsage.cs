@@ -7,7 +7,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     public struct ParameterReadUsage
     {
         [SerializeField] public ParameterItemKind itemKind;
-        [SerializeField] public float value;
+        [SerializeField] float value;
+
+        [Obsolete]
+        public float ForcedFloatValueUnsafe => value;
+
+        public bool IsDefault => value == 0;
 
         public ParameterReadUsage(ParameterItemKind itemKind, float value)
         {

@@ -114,8 +114,8 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                             {
                                 new CVRAdvancedSettingsTargetEntryMaterialPropertyAccess
                                 {
-                                    minValue = parameter.readUsages.Select(usage => usage.value).Min(),
-                                    maxValue = parameter.readUsages.Select(usage => usage.value).Max()
+                                    minValue = parameter.readUsages.Select(usage => usage.ForcedFloatValueUnsafe).Min(),
+                                    maxValue = parameter.readUsages.Select(usage => usage.ForcedFloatValueUnsafe).Max()
                                 }
                             }
                         };

@@ -36,7 +36,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         void AddWriteDefault()
         {
             AddSynced();
-            if (_writeUsages.All(state => state.value != 0))
+            if (_writeUsages.All(state => !state.IsDefault))
             {
                 _writeUsages.Add(new ParameterWriteUsage(ParameterWriteUsageKind.Default, 0, ParameterWriteSourceKind.NoUI));
             }
@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
         void AddReadDefault()
         {
             AddSynced();
-            if (_readUsages.All(state => state.value != 0))
+            if (_readUsages.All(state => !state.IsDefault))
             {
                 _readUsages.Add(new ParameterReadUsage(ParameterItemKind.Auto, 0));
             }
@@ -121,12 +121,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
                 itemKind = _itemKind,
                 referenceUsages = _referenceUsages.ToList(),
                 writeUsages = _writeUsages
-                    .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.value))
-                    .OrderBy(usage => usage.value)
+                    .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.ForcedFloatValueUnsafe))
+                    .OrderBy(usage => usage.ForcedFloatValueUnsafe)
                     .ToList(),
                 readUsages = _readUsages
-                    .DistinctBy(usage => usage.value)
-                    .OrderBy(usage => usage.value)
+                    .DistinctBy(usage => usage.ForcedFloatValueUnsafe)
+                    .OrderBy(usage => usage.ForcedFloatValueUnsafe)
                     .ToList()
             };
         }

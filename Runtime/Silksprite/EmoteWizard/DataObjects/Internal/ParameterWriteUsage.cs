@@ -7,8 +7,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     public struct ParameterWriteUsage
     {
         [SerializeField] public ParameterWriteUsageKind writeUsageKind;
-        [SerializeField] public float value;
+        [SerializeField] float value;
         [SerializeField] public ParameterWriteSourceKind writeSourceKind;
+
+        [Obsolete]
+        public float ForcedFloatValueUnsafe => value;
+
+        public bool IsDefault => value == 0;
 
         public ParameterWriteUsage(ParameterWriteUsageKind writeUsageKind, float value, ParameterWriteSourceKind writeSourceKind)
         {
