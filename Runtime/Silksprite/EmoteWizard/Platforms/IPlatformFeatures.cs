@@ -10,6 +10,7 @@ namespace Silksprite.EmoteWizard.Platforms
     public interface IPlatformFeatures
     {
         string ParameterForAlwaysTrue { get; }
+        string ParameterReferenceForActionSelect { get; }
         string GestureLeft { get; }
         string GestureLeftWeight { get; }
         string GestureRight { get; }
@@ -43,6 +44,6 @@ namespace Silksprite.EmoteWizard.Platforms
 
         IEnumerable<IEmoteTemplate> UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign);
         IEnumerable<DefaultActionIndex> DefaultActionIndexes();
-        IEnumerable<IEmoteTemplate> UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index);
+        IEnumerable<IEmoteTemplate> UnpackDefaultAction(IPlatformFeatures platformFeatures, EmoteTemplatePath path, DefaultActionIndex index);
     }
 }

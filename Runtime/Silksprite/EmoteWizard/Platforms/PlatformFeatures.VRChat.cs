@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         class VRChatFeatures : IPlatformFeatures
         {
+            string IPlatformFeatures.ParameterReferenceForActionSelect => VRChat.Params.VRCEmote;
             string IPlatformFeatures.ParameterForAlwaysTrue => VRChat.Params.Viseme;
             string IPlatformFeatures.GestureLeft => VRChat.Params.GestureLeft;
             string IPlatformFeatures.GestureLeftWeight => VRChat.Params.GestureLeftWeight;
@@ -121,11 +122,11 @@ namespace Silksprite.EmoteWizard.Platforms
                     .Where(index => DefaultActionEmoteVRChat.Default(index) is { })
                     .Concat(new[] { DefaultActionIndex.Afk });
 
-            IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
+            IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultAction(IPlatformFeatures platformFeatures, EmoteTemplatePath path, DefaultActionIndex index)
             {
                 if (DefaultActionEmoteVRChat.Default(index) is { } defaultActionEmote)
                 {
-                    yield return defaultActionEmote.ToEmoteItemTemplate(path);
+                    yield return defaultActionEmote.ToEmoteItemTemplate(platformFeatures, path);
                 }
             }
         }

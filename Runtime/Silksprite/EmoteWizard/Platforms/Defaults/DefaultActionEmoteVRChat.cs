@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
         Motion? _clip;
         Motion? _exitClip;
 
-        public IEmoteTemplate ToEmoteItemTemplate(EmoteTemplatePath path)
+        public IEmoteTemplate ToEmoteItemTemplate(IPlatformFeatures platformFeatures, EmoteTemplatePath path)
         {
             if (_key == DefaultActionIndex.Afk)
             {
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             return EmoteItemTemplate.Builder(LayerKind.Action, path, EmoteWizardConstants.Groups.Action,
                     default,
                     EmoteItemKind.EmoteItem, EmoteSequenceFactoryKind.EmoteSequence)
-                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = EmoteWizardConstants.Params.ActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
+                .AddCondition(new EmoteCondition { kind = ParameterItemKind.Int, parameter = platformFeatures.ParameterReferenceForActionSelect, mode = EmoteConditionMode.Equals, threshold = _index })
                 .AddFixedDuration(true)
                 .AddClip(_clip)
                 .AddClipExitTime(_hasExitTime, _exitTime)

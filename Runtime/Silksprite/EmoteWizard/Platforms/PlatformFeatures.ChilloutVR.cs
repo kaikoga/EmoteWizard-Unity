@@ -17,6 +17,7 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         class ChilloutVRFeatures : IPlatformFeatures
         {
+            string IPlatformFeatures.ParameterReferenceForActionSelect => VRChat.Params.VRCEmote;
             string IPlatformFeatures.ParameterForAlwaysTrue => ChilloutVR.Params.VisemeIdx;
             string IPlatformFeatures.GestureLeft => ChilloutVR.Params.GestureLeftIdx;
             string IPlatformFeatures.GestureLeftWeight => ChilloutVR.Params.GestureLeft;
@@ -81,7 +82,7 @@ namespace Silksprite.EmoteWizard.Platforms
                 ("MovementX", "MovementX", ParameterItemKind.Float, Empty),
                 ("MovementY", "MovementY", ParameterItemKind.Float, Empty),
                 ("Grounded", "Grounded", ParameterItemKind.Bool, Empty),
-                ("VRCEmote", "Emote", ParameterItemKind.Int, Empty),
+                (VRChat.Params.VRCEmote, ChilloutVR.Params.Emote, ParameterItemKind.Int, Empty),
                 ("CancelEmote", "CancelEmote", ParameterItemKind.Bool, Empty),
                 (VRChat.Params.GestureLeftWeight, ChilloutVR.Params.GestureLeft, ParameterItemKind.Float, Empty),
                 (VRChat.Params.GestureRightWeight, ChilloutVR.Params.GestureRight, ParameterItemKind.Float, Empty),
@@ -119,11 +120,11 @@ namespace Silksprite.EmoteWizard.Platforms
                     .Where(index => DefaultActionEmoteChilloutVR.Default(index) is { })
                     .Concat(new[] { DefaultActionIndex.Afk });
 
-            IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultAction(EmoteTemplatePath path, DefaultActionIndex index)
+            IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultAction(IPlatformFeatures platformFeatures, EmoteTemplatePath path, DefaultActionIndex index)
             {
                 if (DefaultActionEmoteChilloutVR.Default(index) is { } defaultActionEmote)
                 {
-                    yield return defaultActionEmote.ToEmoteItemTemplate(path);
+                    yield return defaultActionEmote.ToEmoteItemTemplate(platformFeatures, path);
                 }
             }
         }
