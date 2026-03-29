@@ -7,7 +7,6 @@ using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
-using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using UnityEngine;

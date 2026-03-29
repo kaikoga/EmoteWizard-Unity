@@ -153,5 +153,13 @@ namespace Silksprite.EmoteWizard
  
             serializedObject.ApplyModifiedProperties();
         }
+
+        void DummyController(LocalizedProperty lop, RuntimeAnimatorController? dummyController)
+        {
+            using (new EditorGUI.DisabledScope(true))
+            {
+                LEditorGUILayout.ObjectField(lop.Loc, dummyController, false);
+            }
+        }
     }
 }
