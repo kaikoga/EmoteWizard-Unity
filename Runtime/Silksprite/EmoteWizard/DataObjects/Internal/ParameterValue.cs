@@ -1,4 +1,5 @@
 using System;
+using Silksprite.EmoteWizard.Platforms;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
@@ -13,8 +14,13 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public bool IsDefault => value == 0;
 
-        public int IntValue => (int)value;
-        public float FloatValue => value;
+        public int AsInt(IPlatformFeatures platformFeatures) => (int)AsFloat(platformFeatures);
+
+        public float AsFloat(IPlatformFeatures platformFeatures) => itemKind switch
+            {
+                ParameterItemKind.HandSign => platformFeatures.HandSignValue((HandSign)value),
+                _ => value
+            };
 
         ParameterValue(ParameterItemKind itemKind, float value)
         {
@@ -38,6 +44,18 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 ParameterWriteUsageKind.Float => ParameterItemKind.Float,
                 ParameterWriteUsageKind.HandSign => ParameterItemKind.HandSign,
                 _ => throw new ArgumentOutOfRangeException()
+            }, value);
+        }
+
+        public static ParameterValue Create(ParameterValueKind? valueKind, float value)
+        {
+            return new ParameterValue(valueKind switch {
+                null => ParameterItemKind.Auto,
+                ParameterValueKind.Bool => ParameterItemKind.Bool,
+                ParameterValueKind.Int => ParameterItemKind.Int,
+                ParameterValueKind.Float => ParameterItemKind.Float,
+                ParameterValueKind.HandSign => ParameterItemKind.HandSign,
+                _ => throw new ArgumentOutOfRangeException(nameof(valueKind), valueKind, null)
             }, value);
         }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
@@ -25,6 +26,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {
+            var platformFeatures = environment.GetPlatformFeatures();
             var path = EmoteTemplatePath.Context(environment, this);
 
             int GuessActionIndex()
@@ -34,7 +36,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 var usages = snapshot.ParameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Params.ActionSelect)?.readUsages;
                 if (usages != null)
                 {
-                    while (usages.Any(usage => usage.Value.IntValue == newValue)) newValue++;
+                    while (usages.Any(usage => usage.Value.AsInt(platformFeatures) == newValue)) newValue++;
                 }
                 return newValue;
             }

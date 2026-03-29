@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using UnityEditor.Animations;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
@@ -235,6 +236,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
 
         List<List<EmoteConditionInstance>> MergeForcedConditions(List<List<EmoteConditionInstance>> currentForcedConditions, List<EmoteConditionInstance> conditions)
         {
+            var platformFeatures = Environment.GetPlatformFeatures();
             currentForcedConditions.Add(conditions);
 
             // quick and dirty optimization starts here
@@ -251,7 +253,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                         var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
                             .Where(cond => cond[0].Parameter == parameterName && cond[0].Mode == EmoteConditionMode.Equals).ToArray();
                         var values = equalConditions.Select(cond => cond[0].Threshold);
-                        var elseValues = readUsages.Select(usage => usage.Value.IntValue).Where(value => !values.Contains(value)).ToArray();
+                        var elseValues = readUsages.Select(usage => usage.Value.AsInt(platformFeatures)).Where(value => !values.Contains(value)).ToArray();
                         if (elseValues.Length == 1)
                         {
                             currentForcedConditions = currentForcedConditions.Where(cond => !equalConditions.Contains(cond)).ToList();

@@ -90,7 +90,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             foreach (var group in groups)
             {
                 var controls = group.Items
-                    .Select(item => item.ToControl(path => menus.TryGetValue(path, out var v) ? v : null))
+                    .Select(item => item.ToControl(context.Environment, path => menus.GetValueOrDefault(path)))
                     .ToList();
                 menus[group.Path].controls = controls;
             }

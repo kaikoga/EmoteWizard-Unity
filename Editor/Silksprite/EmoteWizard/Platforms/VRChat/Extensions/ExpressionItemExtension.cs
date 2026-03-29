@@ -1,13 +1,17 @@
 using System;
 using System.Linq;
+using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Common.Extensions;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using VRC.SDK3.Avatars.ScriptableObjects;
 
 namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
 {
     public static class ExpressionItemExtension
     {
-        public static VRCExpressionsMenu.Control ToControl(this ExpressionItem expressionItem, Func<string, VRCExpressionsMenu?> subMenuResolver)
+        public static VRCExpressionsMenu.Control ToControl(this ExpressionItem expressionItem, EmoteWizardEnvironment environment, Func<string, VRCExpressionsMenu?> subMenuResolver)
         {
             VRCExpressionsMenu.Control.Parameter[] ToSubParameters()
             {
@@ -78,6 +82,8 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
                 }
             }
 
+            var parameterType = environment.GetContext<ParametersContext>().Snapshot().ResolveParameterTypeWithWarning(expressionItem.parameter, ParameterItemKind.Auto);
+            var value = ParameterValue.Create(parameterType, expressionItem.value);
             return new VRCExpressionsMenu.Control
             {
                 icon = expressionItem.icon,
@@ -88,7 +94,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
                 subMenu = ToSubMenu(),
                 subParameters = ToSubParameters(),
                 type = ToType(),
-                value = expressionItem.value
+                value = value.AsFloat(environment.GetPlatformFeatures())
             };
         }
     }

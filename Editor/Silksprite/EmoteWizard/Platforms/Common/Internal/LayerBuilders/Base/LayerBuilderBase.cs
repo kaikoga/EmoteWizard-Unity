@@ -16,7 +16,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
         protected readonly AnimatorLayerBuilder Builder;
         readonly AnimatorControllerLayer _layer;
 
-        EmoteWizardEnvironment Environment => Builder.Environment;
+        protected EmoteWizardEnvironment Environment => Builder.Environment;
         protected IEditorPlatformFeatures EditorFeatures => Builder.EditorFeatures;
         AnimatorStateMachine StateMachine => _layer.stateMachine;
 

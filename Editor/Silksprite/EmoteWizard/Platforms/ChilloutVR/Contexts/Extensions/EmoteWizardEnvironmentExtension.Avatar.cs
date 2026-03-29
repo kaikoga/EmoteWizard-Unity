@@ -6,6 +6,7 @@ using Silksprite.AdLib.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Context.Extensions;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
@@ -44,7 +45,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 CustomizeAnimationLayers(cvrAvatar, baseController, overrideController);
                 if (cvrAvatar.avatarSettings is { } avatarSettings)
                 {
-                    avatarSettings.settings = parameters.ExtractAdvancedSettingsEntries().ToList();
+                    avatarSettings.settings = parameters.ExtractAdvancedSettingsEntries(environment).ToList();
                 }
 
                 if (manualBuild)
@@ -54,8 +55,10 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             }
         }
 
-        static IEnumerable<CVRAdvancedSettingsEntryAccess?> ExtractAdvancedSettingsEntries(this ParametersSnapshot snapshot)
+        static IEnumerable<CVRAdvancedSettingsEntryAccess?> ExtractAdvancedSettingsEntries(this ParametersSnapshot snapshot, EmoteWizardEnvironment environment)
         {
+            var platformFeatures = environment.GetPlatformFeatures();
+
             foreach (var parameter in snapshot.AllParameters)
             {
                 var valueKind = parameter.ValueKind;
@@ -115,8 +118,8 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                             {
                                 new CVRAdvancedSettingsTargetEntryMaterialPropertyAccess
                                 {
-                                    minValue = parameter.readUsages.Select(usage => usage.Value.FloatValue).Min(),
-                                    maxValue = parameter.readUsages.Select(usage => usage.Value.FloatValue).Max()
+                                    minValue = parameter.readUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).Min(),
+                                    maxValue = parameter.readUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).Max()
                                 }
                             }
                         };
