@@ -82,7 +82,11 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
                 }
             }
 
-            var parameterType = environment.GetContext<ParametersContext>().Snapshot().ResolveParameterTypeWithWarning(expressionItem.parameter, ParameterItemKind.Auto);
+            if (!environment.GetContext<ParametersContext>().Snapshot().TryResolveParameterWithTypeAndWarning(expressionItem.parameter, ParameterItemKind.Auto, out _, out var parameterType))
+            {
+                parameterType = ParameterValueKind.Float;
+            }
+
             var value = ParameterValue.Create(parameterType, expressionItem.value);
             return new VRCExpressionsMenu.Control
             {
