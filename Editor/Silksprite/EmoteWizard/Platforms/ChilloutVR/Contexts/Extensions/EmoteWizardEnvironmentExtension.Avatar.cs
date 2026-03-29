@@ -58,6 +58,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
         static IEnumerable<CVRAdvancedSettingsEntryAccess?> ExtractAdvancedSettingsEntries(this ParametersSnapshot snapshot, EmoteWizardEnvironment environment)
         {
             var platformFeatures = environment.GetPlatformFeatures();
+            float[] zero = { 0f };
 
             foreach (var parameter in snapshot.AllParameters)
             {
@@ -110,7 +111,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                         settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D;
                         break;
                     case (_, _):
-                        var readUsageValues = parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).ToArray();
+                        var readUsageValues = parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).Concat(zero).ToArray();
                         setting = new CVRAdvancesAvatarSettingSliderAccess
                         {
                             usedType = usedType,
