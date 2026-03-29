@@ -37,16 +37,9 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             get
             {
-                return _detectedPlatform ?? DetectPlatform();
+                return _detectedPlatform ??= DetectPlatform();
 
                 DetectedPlatform DetectPlatform()
-                {
-                    var detected = DoDetect();
-                    _detectedPlatform = detected;
-                    return detected;
-                }
-
-                DetectedPlatform DoDetect()
                 {
                     if (!_detectPlatform) return DetectedPlatform.Mixed;
                     if (AvatarRoot == null) return DetectedPlatform.Mixed;
@@ -75,6 +68,22 @@ namespace Silksprite.EmoteWizard.Contexts
                         default: return DetectedPlatform.Mixed;
                     }
                 }
+            }
+        }
+
+        readonly ParameterScheme? _sourcePlatform;
+        public ParameterScheme ParameterScheme
+        {
+            get
+            {
+                return _sourcePlatform ?? DetectSourcePlatform();
+
+                ParameterScheme DetectSourcePlatform() =>
+                    Platform switch
+                    {
+                        DetectedPlatform.ChilloutVR => ParameterScheme.ChilloutVR,
+                        _ => ParameterScheme.VRChat
+                    };
             }
         }
 
@@ -142,6 +151,7 @@ namespace Silksprite.EmoteWizard.Contexts
             _rootOrAvatarRoot = Root;
             IsDetectedAvatarRoot = isDetectedAvatarRoot;
             _detectPlatform = root.detectPlatform;
+            _sourcePlatform = root.parameterScheme;
             _proxyAnimator = root.proxyAnimator;
             
             GenerateTrackingControlLayer = root.generateTrackingControlLayer;

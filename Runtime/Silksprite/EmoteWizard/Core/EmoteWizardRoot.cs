@@ -31,6 +31,7 @@ namespace Silksprite.EmoteWizard
 
         [SerializeField] public bool showTutorial;
         [SerializeField] public bool detectPlatform = true;
+        [SerializeField] public ParameterScheme parameterScheme = ParameterScheme.Detected;
 
         public EmoteWizardEnvironment ToEnv() => EmoteWizardEnvironment.FromRoot(this);
     }

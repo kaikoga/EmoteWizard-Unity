@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -36,6 +37,7 @@ namespace Silksprite.EmoteWizard
         LocalizedProperty _author = null!;
         LocalizedProperty _showTutorial = null!;
         LocalizedProperty _detectPlatform = null!;
+        LocalizedProperty _parameterScheme = null!;
         // ReSharper restore NotAccessedField.Local
 
         void OnEnable()
@@ -56,6 +58,7 @@ namespace Silksprite.EmoteWizard
             _author = Lop(nameof(EmoteWizardRoot.author), Loc("EmoteWizardRoot::author"));
             _showTutorial = Lop(nameof(EmoteWizardRoot.showTutorial), Loc("EmoteWizardRoot::showTutorial"));
             _detectPlatform = Lop(nameof(EmoteWizardRoot.detectPlatform), Loc("EmoteWizardRoot::detectPlatform"));
+            _parameterScheme = Lop(nameof(EmoteWizardRoot.parameterScheme), Loc("EmoteWizardRoot::sourcePlatform"));
         }
 
         protected override void OnInnerInspectorGUI()
@@ -66,6 +69,9 @@ namespace Silksprite.EmoteWizard
                 LEditorGUILayout.LocaleSelector();
                 LEditorGUILayout.Prop(_showTutorial);
                 LEditorGUILayout.Prop(_detectPlatform);
+#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
+                LEditorGUILayout.PropAsEnumPopup<ParameterScheme>(_parameterScheme);
+#endif
             });
 
             EmoteWizardSupportGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source"), undoable =>
