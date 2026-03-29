@@ -36,14 +36,14 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 ParameterWriteUsageKind.Bool => ParameterItemKind.Bool,
                 ParameterWriteUsageKind.Int => ParameterItemKind.Int,
                 ParameterWriteUsageKind.Float => ParameterItemKind.Float,
-                ParameterWriteUsageKind.Gesture => ParameterItemKind.Gesture,
+                ParameterWriteUsageKind.HandSign => ParameterItemKind.HandSign,
                 _ => throw new ArgumentOutOfRangeException()
             }, value);
         }
 
         public static ParameterValue HandSign(HandSign handSign)
         {
-            return new ParameterValue(ParameterItemKind.Gesture, (int)handSign);
+            return new ParameterValue(ParameterItemKind.HandSign, (int)handSign);
         }
 
         public int CompareTo(ParameterValue other)

@@ -66,7 +66,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                     ParameterValueKind.Bool => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Bool,
                     ParameterValueKind.Int => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Int,
                     ParameterValueKind.Float => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Float,
-                    ParameterValueKind.Gesture => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Int,
+                    ParameterValueKind.HandSign => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Int,
                     _ => throw new ArgumentOutOfRangeException()
                 });
                 

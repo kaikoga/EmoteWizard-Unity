@@ -5,6 +5,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         Bool,
         Int,
         Float,
-        Gesture
+        HandSign
     }
 }

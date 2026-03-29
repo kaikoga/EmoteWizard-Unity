@@ -52,8 +52,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 case ParameterValueKind.Float:
                     if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return resolvedValueKind;
                     break;
-                case ParameterValueKind.Gesture:
-                    if (itemKind == ParameterItemKind.Gesture) return resolvedValueKind;
+                case ParameterValueKind.HandSign:
+                    if (itemKind == ParameterItemKind.HandSign) return resolvedValueKind;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

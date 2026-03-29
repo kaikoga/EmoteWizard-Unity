@@ -44,7 +44,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 EmoteConditionMode.Greater,
                 EmoteConditionMode.Less,
             },
-            [ParameterItemKind.Gesture] = new []
+            [ParameterItemKind.HandSign] = new []
             {
                 EmoteConditionMode.Equals,
                 EmoteConditionMode.NotEqual,

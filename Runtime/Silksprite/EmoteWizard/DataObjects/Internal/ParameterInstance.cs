@@ -32,8 +32,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                         return ParameterValueKind.Int;
                     case ParameterItemKind.Float:
                         return ParameterValueKind.Float;
-                    case ParameterItemKind.Gesture:
-                        return ParameterValueKind.Gesture;
+                    case ParameterItemKind.HandSign:
+                        return ParameterValueKind.HandSign;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }

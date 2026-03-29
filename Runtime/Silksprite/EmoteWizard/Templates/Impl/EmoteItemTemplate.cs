@@ -56,7 +56,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                     break;
                 case ParameterItemKind.Bool:
                 case ParameterItemKind.Float:
-                case ParameterItemKind.Gesture:
+                case ParameterItemKind.HandSign:
                 default:
                     return false;
             }

@@ -6,6 +6,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         Bool = 1,
         Int = 2,
         Float = 3,
-        Gesture = 4
+        HandSign = 4
     }
 }

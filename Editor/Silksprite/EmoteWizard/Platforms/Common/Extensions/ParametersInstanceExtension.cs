@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
                 ParameterValueKind.Int => AnimatorControllerParameterType.Int,
                 ParameterValueKind.Float => AnimatorControllerParameterType.Float,
                 ParameterValueKind.Bool => AnimatorControllerParameterType.Bool,
-                ParameterValueKind.Gesture => AnimatorControllerParameterType.Int,
+                ParameterValueKind.HandSign => AnimatorControllerParameterType.Int,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }

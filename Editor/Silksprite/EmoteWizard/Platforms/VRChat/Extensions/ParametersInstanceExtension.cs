@@ -13,7 +13,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
                 ParameterValueKind.Bool => VRCExpressionParameters.ValueType.Bool,
                 ParameterValueKind.Int => VRCExpressionParameters.ValueType.Int,
                 ParameterValueKind.Float => VRCExpressionParameters.ValueType.Float,
-                ParameterValueKind.Gesture => VRCExpressionParameters.ValueType.Int,
+                ParameterValueKind.HandSign => VRCExpressionParameters.ValueType.Int,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
