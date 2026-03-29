@@ -1,15 +1,16 @@
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Platforms.References;
 
 namespace Silksprite.EmoteWizard.Platforms
 {
     public static partial class PlatformFeatures
     {
-        static readonly IPlatformFeatures VRChatInstance = new VRChatFeatures();
+        static readonly IPlatformFeatures VRChatInstance = new VRChatFeatures(PlatformReferences.VRChatInstance);
 
-        static readonly IPlatformFeatures ChilloutVRInstance = new ChilloutVRFeatures();
+        static readonly IPlatformFeatures ChilloutVRInstance = new ChilloutVRFeatures(PlatformReferences.ChilloutVRInstance);
 
-        static readonly IPlatformFeatures MaybeVRChatInstance = new MaybeVRChatFeatures();
+        static readonly IPlatformFeatures MaybeVRChatInstance = new MaybeVRChatFeatures(PlatformReferences.VRChatInstance);
 
         public static IPlatformFeatures GetPlatformFeatures(EmoteWizardEnvironment env)
         {

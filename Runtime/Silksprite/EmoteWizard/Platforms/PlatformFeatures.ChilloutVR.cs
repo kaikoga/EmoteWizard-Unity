@@ -4,6 +4,7 @@ using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Defaults;
+using Silksprite.EmoteWizard.Platforms.References;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards;
@@ -17,7 +18,48 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         class ChilloutVRFeatures : IPlatformFeatures
         {
-            string IPlatformFeatures.ParameterReferenceForActionSelect => VRChat.Params.VRCEmote;
+            readonly IPlatformReferences _platformReferences;
+            readonly DefaultParameterDatabase _defaultParameterDatabase;
+
+            static DefaultParameterDatabase DefaultParameterDatabase(IPlatformReferences platformReferences)
+            {
+                var empty = Array.Empty<int>();
+
+                return new DefaultParameterDatabase(new[]
+                {
+                    (platformReferences.VisemeReference, ChilloutVR.Params.VisemeIdx, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
+                    ("MovementX", "MovementX", ParameterItemKind.Float, empty),
+                    ("MovementY", "MovementY", ParameterItemKind.Float, empty),
+                    ("Grounded", "Grounded", ParameterItemKind.Bool, empty),
+                    (platformReferences.ActionSelectReference, ChilloutVR.Params.Emote, ParameterItemKind.Int, empty),
+                    ("CancelEmote", "CancelEmote", ParameterItemKind.Bool, empty),
+                    (platformReferences.GestureLeftWeightReference, ChilloutVR.Params.GestureLeft, ParameterItemKind.Float, empty),
+                    (platformReferences.GestureRightWeightReference, ChilloutVR.Params.GestureRight, ParameterItemKind.Float, empty),
+                    (platformReferences.GestureLeftReference, ChilloutVR.Params.GestureLeftIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                    (platformReferences.GestureRightReference, ChilloutVR.Params.GestureRightIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                    ("Toggle", "Toggle", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                    ("Sitting", "Sitting", ParameterItemKind.Bool, empty),
+                    ("Crouching", "Crouching", ParameterItemKind.Bool, empty),
+                    ("Prone", "Prone", ParameterItemKind.Bool, empty),
+                    ("Flying", "Flying", ParameterItemKind.Bool, empty),
+                    ("Swimming", "Swimming", ParameterItemKind.Bool, empty),
+                    (Params.Afk, Params.Afk, ParameterItemKind.Bool, empty),
+
+                    // These are mirrored into appropriate CVR default parameters
+                    (Params.Gesture, Params.Gesture, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                    (Params.GestureOther, Params.GestureOther, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                    (Params.GestureWeight, Params.GestureWeight, ParameterItemKind.Float, empty),
+                    (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, empty),
+                });
+            }
+
+            public ChilloutVRFeatures(IPlatformReferences platformReferences)
+            {
+                _platformReferences = platformReferences;
+                _defaultParameterDatabase = DefaultParameterDatabase(platformReferences);
+            }
+
+            string IPlatformFeatures.ParameterReferenceForActionSelect => _platformReferences.ActionSelectReference;
             string IPlatformFeatures.ParameterForAlwaysTrue => ChilloutVR.Params.VisemeIdx;
             string IPlatformFeatures.ResolveMirrorParameter(string virtualParameter, EmoteHand hand)
             {
@@ -85,40 +127,11 @@ namespace Silksprite.EmoteWizard.Platforms
                 };
             }
 
-            static readonly int[] Empty = {};
-        
-            static readonly DefaultParameterDatabase DefaultParameterDatabase = new DefaultParameterDatabase(new[]
-            {
-                (VRChat.Params.Viseme, ChilloutVR.Params.VisemeIdx, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
-                ("MovementX", "MovementX", ParameterItemKind.Float, Empty),
-                ("MovementY", "MovementY", ParameterItemKind.Float, Empty),
-                ("Grounded", "Grounded", ParameterItemKind.Bool, Empty),
-                (VRChat.Params.VRCEmote, ChilloutVR.Params.Emote, ParameterItemKind.Int, Empty),
-                ("CancelEmote", "CancelEmote", ParameterItemKind.Bool, Empty),
-                (VRChat.Params.GestureLeftWeight, ChilloutVR.Params.GestureLeft, ParameterItemKind.Float, Empty),
-                (VRChat.Params.GestureRightWeight, ChilloutVR.Params.GestureRight, ParameterItemKind.Float, Empty),
-                (VRChat.Params.GestureLeft, ChilloutVR.Params.GestureLeftIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                (VRChat.Params.GestureRight, ChilloutVR.Params.GestureRightIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("Toggle", "Toggle", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("Sitting", "Sitting", ParameterItemKind.Bool, Empty),
-                ("Crouching", "Crouching", ParameterItemKind.Bool, Empty),
-                ("Prone", "Prone", ParameterItemKind.Bool, Empty),
-                ("Flying", "Flying", ParameterItemKind.Bool, Empty),
-                ("Swimming", "Swimming", ParameterItemKind.Bool, Empty),
-                (Params.Afk, Params.Afk, ParameterItemKind.Bool, Empty),
+            List<ParameterInstance> IPlatformFeatures.DefaultParameters() => _defaultParameterDatabase.ToInstances();
 
-                // These are mirrored into appropriate CVR default parameters
-                (Params.Gesture, Params.Gesture, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                (Params.GestureOther, Params.GestureOther, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                (Params.GestureWeight, Params.GestureWeight, ParameterItemKind.Float, Empty),
-                (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
-            });
+            bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference) => _defaultParameterDatabase.IsDefaultParameterReference(parameterReference);
 
-            List<ParameterInstance> IPlatformFeatures.DefaultParameters() => DefaultParameterDatabase.ToInstances();
-
-            bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference) => DefaultParameterDatabase.IsDefaultParameterReference(parameterReference);
-
-            string IPlatformFeatures.ResolveParameterReference(string parameterReference) => DefaultParameterDatabase.ResolveParameterReference(parameterReference);
+            string IPlatformFeatures.ResolveParameterReference(string parameterReference) => _defaultParameterDatabase.ResolveParameterReference(parameterReference);
 
             IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
             {
