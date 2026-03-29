@@ -97,20 +97,6 @@ namespace Silksprite.EmoteWizard.Platforms
             AvatarMask IPlatformFeatures.HandLeft => CvrCckAssetLocator.GesturesLeft();
             AvatarMask IPlatformFeatures.HandRight => CvrCckAssetLocator.GesturesRight();
 
-            bool IPlatformFeatures.IsHandSignParameterReference(string parameterReference) =>
-                parameterReference switch
-                {
-                    VRChat.Params.GestureLeft => true,
-                    VRChat.Params.GestureLeftWeight => true,
-                    VRChat.Params.GestureRight => true,
-                    VRChat.Params.GestureRightWeight => true,
-                    Params.Gesture => true,
-                    Params.GestureOther => true,
-                    Params.GestureWeight => true,
-                    Params.GestureOtherWeight => true,
-                    _ => false
-                };
-
             int IPlatformFeatures.HandSignValue(HandSign handSign)
             {
                 return handSign switch

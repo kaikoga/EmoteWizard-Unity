@@ -33,7 +33,6 @@ namespace Silksprite.EmoteWizard.Platforms
         AvatarMask HandLeft { get; }
         AvatarMask HandRight { get; }
 
-        bool IsHandSignParameterReference(string parameterReference);
         int HandSignValue(HandSign handSign);
         List<ParameterInstance> DefaultParameters();
         bool IsDefaultParameterReference(string parameterReference);
