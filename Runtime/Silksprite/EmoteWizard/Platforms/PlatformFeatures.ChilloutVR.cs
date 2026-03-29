@@ -46,20 +46,15 @@ namespace Silksprite.EmoteWizard.Platforms
                 parameterReference switch
                 {
                     "GestureLeft" => true,
-                    "GestureLeftIdx" => true,
+                    "GestureLeftWeight" => true,
                     "GestureRight" => true,
-                    "GestureRightIdx" => true,
+                    "GestureRightWeight" => true,
                     Params.Gesture => true,
                     Params.GestureOther => true,
                     Params.GestureWeight => true,
                     Params.GestureOtherWeight => true,
                     _ => false
                 };
-
-            string IPlatformFeatures.ResolveParameterReference(string parameterReference)
-            {
-                return DefaultParameterData.FirstOrDefault(tuple => tuple.reference == parameterReference).name ?? parameterReference;
-            }
 
             int IPlatformFeatures.HandSignValue(HandSign handSign)
             {
@@ -79,7 +74,8 @@ namespace Silksprite.EmoteWizard.Platforms
 
             static readonly int[] Empty = {};
         
-            static readonly (string reference, string name, ParameterItemKind kind, int[] states)[] DefaultParameterData = {
+            static readonly DefaultParameterDatabase DefaultParameterDatabase = new DefaultParameterDatabase(new[]
+            {
                 (Params.Viseme, Params.VisemeIdx, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
                 ("MovementX", "MovementX", ParameterItemKind.Float, Empty),
                 ("MovementY", "MovementY", ParameterItemKind.Float, Empty),
@@ -103,39 +99,13 @@ namespace Silksprite.EmoteWizard.Platforms
                 (Params.GestureOther, Params.GestureOther, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
                 (Params.GestureWeight, Params.GestureWeight, ParameterItemKind.Float, Empty),
                 (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
-            };
+            });
 
-            List<ParameterInstance> IPlatformFeatures.DefaultParameters()
-            {
-                return DefaultParameterData.Select(tuple =>
-                {
-                    var (reference, name, kind, states) = tuple;
-                    var writeUsageKind = kind switch
-                    {
-                        ParameterItemKind.Auto => ParameterWriteUsageKind.Int,
-                        ParameterItemKind.Bool => ParameterWriteUsageKind.Int,
-                        ParameterItemKind.Int => ParameterWriteUsageKind.Int,
-                        ParameterItemKind.Float => ParameterWriteUsageKind.Int,
-                        ParameterItemKind.HandSign => ParameterWriteUsageKind.HandSign,
-                        _ => throw new ArgumentOutOfRangeException()
-                    };
+            List<ParameterInstance> IPlatformFeatures.DefaultParameters() => DefaultParameterDatabase.ToInstances();
 
-                    return new ParameterInstance(
-                        name: name,
-                        itemKind: kind,
-                        saved: false,
-                        defaultValue: ParameterValue.Default,
-                        synced: true,
-                        referenceUsages: new List<string> { reference },
-                        writeUsages: states.Select(state => new ParameterWriteUsage(writeUsageKind, state, ParameterWriteSourceKind.NoUI)),
-                        readUsages: states.Select(state => new ParameterReadUsage(ParameterValue.Create(kind, state))));
-                }).ToList();
-            }
+            bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference) => DefaultParameterDatabase.IsDefaultParameterReference(parameterReference);
 
-            bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference)
-            {
-                return DefaultParameterData.Any(data => parameterReference == data.reference);
-            }
+            string IPlatformFeatures.ResolveParameterReference(string parameterReference) => DefaultParameterDatabase.ResolveParameterReference(parameterReference);
 
             IEnumerable<IEmoteTemplate> IPlatformFeatures.UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign)
             {

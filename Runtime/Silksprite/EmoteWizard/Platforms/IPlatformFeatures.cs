@@ -36,10 +36,10 @@ namespace Silksprite.EmoteWizard.Platforms
         AvatarMask HandRight { get; }
 
         bool IsHandSignParameterReference(string parameterReference);
-        string ResolveParameterReference(string parameterReference);
         int HandSignValue(HandSign handSign);
         List<ParameterInstance> DefaultParameters();
         bool IsDefaultParameterReference(string parameterReference);
+        string ResolveParameterReference(string parameterReference);
 
         IEnumerable<IEmoteTemplate> UnpackDefaultHandSign(EmoteTemplatePath path, EmoteItemKind emoteItemKind, EmoteSequenceFactoryKind emoteSequenceFactoryKind, LayerKind layerKind, HandSign handSign);
         IEnumerable<DefaultActionIndex> DefaultActionIndexes();
