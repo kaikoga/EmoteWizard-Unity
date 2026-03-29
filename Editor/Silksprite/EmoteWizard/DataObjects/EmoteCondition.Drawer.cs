@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.Tools;
@@ -77,7 +78,7 @@ namespace Silksprite.EmoteWizard.DataObjects
                 LEditorGUI.Prop(top.UISliceH(0.0f, 0.6f), parameter);
                 LEditorGUI.PropAsEnumPopup<ParameterItemKind>(top.UISliceH(0.6f, 0.4f), kind);
                 ModePopup(bottom.UISliceH(0.1f, 0.4f), mode, (ParameterItemKind)kind.Property.intValue);
-                LEditorGUI.Prop(bottom.UISliceH(0.5f, 0.5f), threshold);
+                EmoteWizardGUI.PropAsParameterValue(bottom.UISliceH(0.5f, 0.5f), threshold, (ParameterItemKind)kind.Property.intValue);
             }
         }
 

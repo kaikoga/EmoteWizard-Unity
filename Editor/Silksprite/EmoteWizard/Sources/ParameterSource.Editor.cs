@@ -1,6 +1,7 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
@@ -35,7 +36,7 @@ namespace Silksprite.EmoteWizard.Sources
         {
             LEditorGUILayout.Prop(_name);
             LEditorGUILayout.PropAsEnumPopup<ParameterItemKind>(_itemKind);
-            LEditorGUILayout.Prop(_defaultValue);
+            EmoteWizardGUILayout.PropAsParameterValue(_defaultValue, (ParameterItemKind)_itemKind.Property.intValue);
             LEditorGUILayout.Prop(_saved);
             LEditorGUILayout.Prop(_synced);
 
