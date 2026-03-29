@@ -114,7 +114,7 @@ namespace Silksprite.EmoteWizard.Platforms
                     var (reference, name, kind, states) = tuple;
                     return new ParameterInstance
                     {
-                        defaultValue = 0,
+                        defaultValue = ParameterValue.Default,
                         name = name,
                         saved = false,
                         itemKind = kind,

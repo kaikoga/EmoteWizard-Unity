@@ -1,5 +1,6 @@
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizard.Utils;
 using UnityEditor;
@@ -13,7 +14,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
         {
             var expressionParams = context.ReplaceOrCreateOutputAsset(GeneratedPaths.GeneratedExprParams);
 
-            expressionParams.parameters = context.Snapshot().ToParameters();
+            expressionParams.parameters = context.Snapshot().ToParameters(context.Environment.GetPlatformFeatures());
 
             AssetDatabase.SaveAssets();
             

@@ -11,7 +11,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         [SerializeField] public string name = "";
         [SerializeField] public ParameterItemKind itemKind;
         [SerializeField] public bool saved = true;
-        [SerializeField] public float defaultValue;
+        [SerializeField] public ParameterValue defaultValue;
         [SerializeField] public bool synced = true;
         [SerializeField] public List<string> referenceUsages = new List<string>();
         [SerializeField] public List<ParameterWriteUsage> writeUsages = new List<ParameterWriteUsage>();

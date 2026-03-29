@@ -116,7 +116,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             {
                 name = _name,
                 saved = _saved,
-                defaultValue = _defaultValue,
+                defaultValue = ParameterValue.Create(_itemKind, _defaultValue),
                 synced = _synced,
                 itemKind = _itemKind,
                 referenceUsages = _referenceUsages.ToList(),

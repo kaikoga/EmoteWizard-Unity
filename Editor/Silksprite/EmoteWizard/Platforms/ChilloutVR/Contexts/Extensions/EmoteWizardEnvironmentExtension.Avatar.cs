@@ -95,7 +95,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                         setting = new CVRAdvancesAvatarSettingGameObjectToggleAccess
                         {
                             usedType = usedType,
-                            defaultValue = parameter.defaultValue != 0
+                            defaultValue = !parameter.defaultValue.IsDefault
                         };
                         settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle;
                         break;
@@ -110,16 +110,17 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                         settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D;
                         break;
                     case (_, _):
+                        var readUsageValues = parameter.readUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).ToArray();
                         setting = new CVRAdvancesAvatarSettingSliderAccess
                         {
                             usedType = usedType,
-                            defaultValue = parameter.defaultValue,
+                            defaultValue = parameter.defaultValue.AsFloat(platformFeatures),
                             materialPropertyTargets = new List<CVRAdvancedSettingsTargetEntryMaterialPropertyAccess?>
                             {
                                 new CVRAdvancedSettingsTargetEntryMaterialPropertyAccess
                                 {
-                                    minValue = parameter.readUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).Min(),
-                                    maxValue = parameter.readUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).Max()
+                                    minValue = readUsageValues.Min(),
+                                    maxValue = readUsageValues.Max()
                                 }
                             }
                         };

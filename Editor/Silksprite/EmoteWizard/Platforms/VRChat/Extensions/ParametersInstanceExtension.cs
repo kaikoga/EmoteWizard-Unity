@@ -18,13 +18,13 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
             };
         }
 
-        public static VRCExpressionParameters.Parameter ToParameter(this ParameterInstance parameter)
+        public static VRCExpressionParameters.Parameter ToParameter(this ParameterInstance parameter, IPlatformFeatures platformFeatures)
         {
             return new VRCExpressionParameters.Parameter
             {
                 name = parameter.name,
                 saved = parameter.saved,
-                defaultValue = parameter.defaultValue,
+                defaultValue = parameter.defaultValue.AsFloat(platformFeatures),
                 valueType = parameter.GetVrcValueType(),
                 networkSynced = parameter.synced
             };
