@@ -10,6 +10,7 @@ using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Wizards.Defaults;
+using Silksprite.Loch.Attributes;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Wizards
@@ -77,6 +78,7 @@ namespace Silksprite.EmoteWizard.Wizards
         }
     }
 
+    [LEnum]
     public enum DefaultSourceKind
     {
         [InspectorName("FX")]

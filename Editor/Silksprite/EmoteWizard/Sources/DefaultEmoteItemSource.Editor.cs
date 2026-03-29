@@ -1,5 +1,7 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
+using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
@@ -27,10 +29,10 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            LEditorGUILayout.Prop(_emoteItemKind);
-            LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
-            LEditorGUILayout.Prop(_layerKind);
-            LEditorGUILayout.Prop(_handSign);
+            LEditorGUILayout.PropAsEnumPopup<EmoteItemKind>(_emoteItemKind);
+            LEditorGUILayout.PropAsEnumPopup<EmoteSequenceFactoryKind>(_emoteSequenceFactoryKind);
+            LEditorGUILayout.PropAsEnumPopup<LayerKind>(_layerKind);
+            LEditorGUILayout.PropAsEnumPopup<HandSign>(_handSign);
 
             serializedObject.ApplyModifiedProperties();
 

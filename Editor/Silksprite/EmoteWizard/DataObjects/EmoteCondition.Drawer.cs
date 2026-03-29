@@ -57,8 +57,7 @@ namespace Silksprite.EmoteWizard.DataObjects
         {
             if (!DisplayModes.TryGetValue(modes, out var displayModes))
             {
-                // FIXME: Loch
-                displayModes = modes.Select(mode => $"{mode}").ToArray();
+                displayModes = modes.Select(TrEnum).ToArray();
                 DisplayModes.Add(modes, displayModes);
             }
             return displayModes;
@@ -76,7 +75,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             using (new HideLabelsScope())
             {
                 LEditorGUI.Prop(top.UISliceH(0.0f, 0.6f), parameter);
-                LEditorGUI.Prop(top.UISliceH(0.6f, 0.4f), kind);
+                LEditorGUI.PropAsEnumPopup<ParameterItemKind>(top.UISliceH(0.6f, 0.4f), kind);
                 ModePopup(bottom.UISliceH(0.1f, 0.4f), mode, (ParameterItemKind)kind.Property.intValue);
                 LEditorGUI.Prop(bottom.UISliceH(0.5f, 0.5f), threshold);
             }

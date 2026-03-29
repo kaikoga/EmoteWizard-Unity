@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.Loch.Attributes;
 
 namespace Silksprite.EmoteWizard.DataObjects
 {
-    [Serializable]
+    [LEnum]
     public enum ExpressionItemKind
     {
         Button,

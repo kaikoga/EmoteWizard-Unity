@@ -51,7 +51,7 @@ namespace Silksprite.EmoteWizard.Wizards
                 });
 
                 LEditorGUILayout.Prop(_hasExpressionItemSource);
-                LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
+                LEditorGUILayout.PropAsEnumPopup<EmoteSequenceFactoryKind>(_emoteSequenceFactoryKind);
 
                 serializedObject.ApplyModifiedProperties();
 

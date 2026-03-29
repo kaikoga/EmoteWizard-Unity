@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.Wizards
                     LGUILayout.Heading(Loc("CustomActionWizard::Advanced Settings"));
                     LEditorGUILayout.Prop(_parameterName);
                     LEditorGUILayout.Prop(_hasExpressionItemSource);
-                    LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
+                    LEditorGUILayout.PropAsEnumPopup<EmoteSequenceFactoryKind>(_emoteSequenceFactoryKind);
                 }
 
                 serializedObject.ApplyModifiedProperties();

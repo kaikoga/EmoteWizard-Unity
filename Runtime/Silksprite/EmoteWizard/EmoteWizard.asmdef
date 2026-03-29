@@ -2,6 +2,7 @@
     "name": "EmoteWizard",
     "rootNamespace": "Silksprite.EmoteWizard",
     "references": [
+        "Loch",
         "EmoteWizard.Core",
         "EmoteWizardSupport"
     ],

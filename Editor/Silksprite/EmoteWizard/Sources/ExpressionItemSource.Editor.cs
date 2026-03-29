@@ -78,7 +78,7 @@ namespace Silksprite.EmoteWizard.Sources
                     LEditorGUILayout.Prop(_value);
                 }
             }
-            LEditorGUILayout.Prop(_itemKind);
+            LEditorGUILayout.PropAsEnumPopup<ExpressionItemKind>(_itemKind);
 
             void DrawSubParameters(int subParametersCount, int labelsCount)
             {

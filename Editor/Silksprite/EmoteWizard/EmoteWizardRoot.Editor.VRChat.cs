@@ -4,6 +4,7 @@ using System;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
@@ -24,11 +25,11 @@ namespace Silksprite.EmoteWizard
         {
             HeaderOnce(Loc("EmoteWizardRoot::Options"));
 
-            LEditorGUILayout.Prop(_generateTrackingControlLayer);
+            LEditorGUILayout.PropAsEnumPopup<LayerKind>(_generateTrackingControlLayer);
 
             var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();
 
-            LEditorGUILayout.Prop(_overrideGesture);
+            LEditorGUILayout.PropAsEnumPopup<OverrideGeneratedControllerType2>(_overrideGesture);
             using (new EditorGUI.IndentLevelScope())
             {
                 switch (env.OverrideGesture)
@@ -52,7 +53,7 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            LEditorGUILayout.Prop(_overrideAction);
+            LEditorGUILayout.PropAsEnumPopup<OverrideGeneratedControllerType1>(_overrideAction);
             using (new EditorGUI.IndentLevelScope())
             {
                 switch (env.OverrideAction)
@@ -73,7 +74,7 @@ namespace Silksprite.EmoteWizard
                 }
             }
 
-            LEditorGUILayout.Prop(_overrideSitting);
+            LEditorGUILayout.PropAsEnumPopup<OverrideControllerType2>(_overrideSitting);
             using (new EditorGUI.IndentLevelScope())
             {
                 switch (env.OverrideSitting)

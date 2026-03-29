@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-03-24 09:46+0900\n"
+"POT-Creation-Date: 2026-03-29 10:51+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -107,6 +107,74 @@ msgstr ""
 msgid "DefaultActionEmoteItemSource::Unpack"
 msgstr ""
 
+#: 
+msgid "DefaultActionIndex::Afk"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Backflip"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Cheer"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Clap"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Dance"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Die"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote1"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote2"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote3"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote4"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote5"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote6"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote7"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Emote8"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Point"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::SadKick"
+msgstr ""
+
+#: 
+msgid "DefaultActionIndex::Wave"
+msgstr ""
+
 #: Editor/Silksprite/EmoteWizard/Sources/DefaultEmoteItemSource.Editor.cs:22
 msgid "DefaultEmoteItemSource::emoteItemKind"
 msgstr ""
@@ -129,6 +197,22 @@ msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Sources/DefaultEmoteItemSource.Editor.cs:37
 msgid "DefaultEmoteItemSource::Unpack"
+msgstr ""
+
+#: 
+msgid "DefaultSourceKind::Action"
+msgstr ""
+
+#: 
+msgid "DefaultSourceKind::Fx"
+msgstr ""
+
+#: 
+msgid "DefaultSourceKind::Gesture"
+msgstr ""
+
+#: 
+msgid "DefaultSourceKind::Vrm"
 msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Wizards/DefaultSourcesWizard.Editor.cs:40
@@ -199,20 +283,32 @@ msgstr ""
 msgid "EditorLayerConfig::Tutorial."
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:17
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:70
 msgid "EmoteCondition::kind"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:18
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:71
 msgid "EmoteCondition::mode"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:16
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:69
 msgid "EmoteCondition::parameter"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:19
+#: Editor/Silksprite/EmoteWizard/DataObjects/EmoteCondition.Drawer.cs:72
 msgid "EmoteCondition::threshold"
+msgstr ""
+
+#: 
+msgid "EmoteHand::Left"
+msgstr ""
+
+#: 
+msgid "EmoteHand::Neither"
+msgstr ""
+
+#: 
+msgid "EmoteHand::Right"
 msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Sources/EmoteItemSource.Editor.cs:60
@@ -417,6 +513,14 @@ msgstr ""
 msgid "EmoteSequence::trackingOverrides"
 msgstr ""
 
+#: 
+msgid "EmoteSequenceFactoryKind::EmoteSequence"
+msgstr ""
+
+#: 
+msgid "EmoteSequenceFactoryKind::GenericEmoteSequence"
+msgstr ""
+
 #: Editor/Silksprite/EmoteWizard/Sources/EmoteSequenceSource.Editor.cs:60
 msgid "EmoteSequenceSource::sequence"
 msgstr ""
@@ -437,71 +541,71 @@ msgstr ""
 msgid "EmoteTrigger::priority"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:97
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:98
 msgid "EmoteWizardDataSourceFactory::advanced"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:86
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:87
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:87
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:88
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard::Desc"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:80
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:81
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:81
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:82
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard::Desc"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:103
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:104
 msgid "EmoteWizardDataSourceFactory::Emote Item Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:73
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:74
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:74
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:75
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard::Desc"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:109
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:110
 msgid "EmoteWizardDataSourceFactory::Emote Sequence Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:41
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:42
 msgid "EmoteWizardDataSourceFactory::Expression Item Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:42
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:43
 msgid "EmoteWizardDataSourceFactory::Expression Item Source::Desc"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:117
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:118
 msgid "EmoteWizardDataSourceFactory::Generic Emote Item Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:123
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:124
 msgid "EmoteWizardDataSourceFactory::Generic Emote Sequence Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:66
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:67
 msgid "EmoteWizardDataSourceFactory::Parameter Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:67
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:68
 msgid "EmoteWizardDataSourceFactory::Parameter Source::Desc"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:53
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:54
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:54
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:55
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source::Desc"
 msgstr ""
 
@@ -681,7 +785,7 @@ msgstr ""
 msgid "EWS::Generate"
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/Core/Base/EmoteWizardEditorBase.cs:56
+#: Editor/Silksprite/EmoteWizard/Core/Base/EmoteWizardEditorBase.cs:58
 msgid "EWS::IgnoredByPlatform."
 msgstr ""
 
@@ -789,12 +893,52 @@ msgstr ""
 msgid "ExpressionItem::value"
 msgstr ""
 
+#: 
+msgid "ExpressionItemKind::Button"
+msgstr ""
+
+#: 
+msgid "ExpressionItemKind::FourAxisPuppet"
+msgstr ""
+
+#: 
+msgid "ExpressionItemKind::RadialPuppet"
+msgstr ""
+
+#: 
+msgid "ExpressionItemKind::SubMenu"
+msgstr ""
+
+#: 
+msgid "ExpressionItemKind::Toggle"
+msgstr ""
+
+#: 
+msgid "ExpressionItemKind::TwoAxisPuppet"
+msgstr ""
+
 #: Editor/Silksprite/EmoteWizard/Sources/ExpressionItemSource.Editor.cs:55
 msgid "ExpressionItemSource::expressionItem"
 msgstr ""
 
 #: Locales/Translations.cs:20
 msgid "ExpressionItemSource::Tutorial."
+msgstr ""
+
+#: 
+msgid "ExpressionKind::Builtin"
+msgstr ""
+
+#: 
+msgid "ExpressionKind::SimpleRadial"
+msgstr ""
+
+#: 
+msgid "ExpressionKind::SimpleToggle"
+msgstr ""
+
+#: 
+msgid "ExpressionKind::ToggleItems"
 msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Sources/GenericEmoteItemSource.Editor.cs:77
@@ -917,6 +1061,54 @@ msgstr ""
 msgid "GenericEmoteTrigger::vrm1Expression"
 msgstr ""
 
+#: 
+msgid "HandSign::Fist"
+msgstr ""
+
+#: 
+msgid "HandSign::Gun"
+msgstr ""
+
+#: 
+msgid "HandSign::Idle"
+msgstr ""
+
+#: 
+msgid "HandSign::Open"
+msgstr ""
+
+#: 
+msgid "HandSign::Peace"
+msgstr ""
+
+#: 
+msgid "HandSign::Point"
+msgstr ""
+
+#: 
+msgid "HandSign::RockNRoll"
+msgstr ""
+
+#: 
+msgid "HandSign::ThumbsUp"
+msgstr ""
+
+#: 
+msgid "LayerKind::Action"
+msgstr ""
+
+#: 
+msgid "LayerKind::FX"
+msgstr ""
+
+#: 
+msgid "LayerKind::Gesture"
+msgstr ""
+
+#: 
+msgid "LayerKind::None"
+msgstr ""
+
 #: Editor/Silksprite/EmoteWizard/DataObjects/MirroredClip.Drawer.cs:17
 msgid "MirroredMotion::clipLeft"
 msgstr ""
@@ -928,6 +1120,58 @@ msgstr ""
 #: Editor/Silksprite/EmoteWizard/DataObjects/MirroredClip.Drawer.cs:16
 #: Editor/Silksprite/EmoteWizard/DataObjects/MirroredClip.Drawer.cs:30
 msgid "MirroredMotion::useMirroredSettings"
+msgstr ""
+
+#: 
+msgid "OverrideControllerType2::Default1"
+msgstr ""
+
+#: 
+msgid "OverrideControllerType2::Default2"
+msgstr ""
+
+#: 
+msgid "OverrideControllerType2::Inherit"
+msgstr ""
+
+#: 
+msgid "OverrideControllerType2::Override"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType1::Default"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType1::Generate"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType1::Inherit"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType1::Override"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType2::Default1"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType2::Default2"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType2::Generate"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType2::Inherit"
+msgstr ""
+
+#: 
+msgid "OverrideGeneratedControllerType2::Override"
 msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:29
@@ -948,6 +1192,26 @@ msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:31
 msgid "ParameterItem::synced"
+msgstr ""
+
+#: 
+msgid "ParameterItemKind::Auto"
+msgstr ""
+
+#: 
+msgid "ParameterItemKind::Bool"
+msgstr ""
+
+#: 
+msgid "ParameterItemKind::Float"
+msgstr ""
+
+#: 
+msgid "ParameterItemKind::HandSign"
+msgstr ""
+
+#: 
+msgid "ParameterItemKind::Int"
 msgstr ""
 
 #: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:37
@@ -1012,6 +1276,50 @@ msgstr ""
 msgid "TrackingOverride::target"
 msgstr ""
 
+#: 
+msgid "TrackingTarget::Eyes"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::Head"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::Hip"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::LeftFingers"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::LeftFoot"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::LeftHand"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::Mouth"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::None"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::RightFingers"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::RightFoot"
+msgstr ""
+
+#: 
+msgid "TrackingTarget::RightHand"
+msgstr ""
+
 #: Editor/Silksprite/EmoteWizard/Platforms/Common/Extensions/ParametersSnapshotExtension.cs:17
 #: Editor/Silksprite/EmoteWizard/Platforms/Common/Extensions/ParametersSnapshotExtension.cs:32
 msgid "Warn::Parameter::NotFound."
@@ -1025,7 +1333,7 @@ msgstr ""
 msgid "Warn::ResetClip::MissingProperty."
 msgstr ""
 
-#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/Contexts/Extensions/BaseControllerContextExtension.cs:73
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/Contexts/Extensions/BaseControllerContextExtension.cs:74
 #: Editor/Silksprite/EmoteWizard/Platforms/VRChat/Contexts/Extensions/AnimatorLayerContextExtension.cs:71
 msgid "Warn::ResetClip::WithoutAvatar."
 msgstr ""

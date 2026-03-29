@@ -34,7 +34,7 @@ namespace Silksprite.EmoteWizard.Sources
         protected override void OnInnerInspectorGUI()
         {
             LEditorGUILayout.Prop(_name);
-            LEditorGUILayout.Prop(_itemKind);
+            LEditorGUILayout.PropAsEnumPopup<ParameterItemKind>(_itemKind);
             LEditorGUILayout.Prop(_defaultValue);
             LEditorGUILayout.Prop(_saved);
             LEditorGUILayout.Prop(_synced);

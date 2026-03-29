@@ -1,6 +1,7 @@
 using System;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms;
+using Silksprite.Loch.Attributes;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -32,7 +33,8 @@ namespace Silksprite.EmoteWizard.DataObjects
                 ParameterValue.Create(kind, threshold));
         }
     }
-
+    
+    [LEnum]
     public enum EmoteConditionMode
     {
         If = 1,

@@ -1,4 +1,5 @@
 using Silksprite.EmoteWizard.Base;
+using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
@@ -21,7 +22,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            LEditorGUILayout.Prop(_defaultActionIndex);
+            LEditorGUILayout.PropAsEnumPopup<DefaultActionIndex>(_defaultActionIndex);
 
             serializedObject.ApplyModifiedProperties();
             

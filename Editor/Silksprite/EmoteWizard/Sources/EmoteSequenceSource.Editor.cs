@@ -124,7 +124,7 @@ namespace Silksprite.EmoteWizard.Sources
 
         protected override void OnInnerInspectorGUI()
         {
-            LEditorGUILayout.Prop(_layerKind);
+            LEditorGUILayout.PropAsEnumPopup<LayerKind>(_layerKind);
             LEditorGUILayout.Prop(_groupName);
 
             using (new LabelWidthScope(200f))

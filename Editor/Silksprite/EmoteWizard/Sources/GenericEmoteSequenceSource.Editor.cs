@@ -106,7 +106,7 @@ namespace Silksprite.EmoteWizard.Sources
 
             if (environment.MaybeUnityPlatforms())
             {
-                LEditorGUILayout.Prop(_layerKind);
+                LEditorGUILayout.PropAsEnumPopup<LayerKind>(_layerKind);
                 LEditorGUILayout.Prop(_groupName);
 
                 LGUILayout.Heading(Loc("GenericEmoteSequence::Common Settings"));

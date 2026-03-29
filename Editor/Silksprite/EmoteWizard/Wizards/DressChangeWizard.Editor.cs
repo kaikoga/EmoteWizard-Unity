@@ -52,12 +52,12 @@ namespace Silksprite.EmoteWizard.Wizards
                     LEditorGUILayout.Prop(_parameterName);
                 });
 
-                LEditorGUILayout.Prop(_expressionKind);
+                LEditorGUILayout.PropAsEnumPopup<DressChangeWizard.ExpressionKind>(_expressionKind);
                 if ((DressChangeWizard.ExpressionKind)_expressionKind.Property.enumValueIndex != DressChangeWizard.ExpressionKind.SimpleToggle)
                 {
                     LEditorGUILayout.Prop(_itemCount);
                 }
-                LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
+                LEditorGUILayout.PropAsEnumPopup<EmoteSequenceFactoryKind>(_emoteSequenceFactoryKind);
 
                 serializedObject.ApplyModifiedProperties();
 

@@ -14,7 +14,7 @@ namespace Silksprite.EmoteWizard.DataObjects
             var target = property.Lop(nameof(TrackingOverride.target), Loc("TrackingOverride::target"));
             using (new EditorGUI.IndentLevelScope())
             {
-                LEditorGUI.Prop(position, target);
+                LEditorGUI.PropAsEnumPopup<TrackingTarget>(position, target);
             }
         }
     }

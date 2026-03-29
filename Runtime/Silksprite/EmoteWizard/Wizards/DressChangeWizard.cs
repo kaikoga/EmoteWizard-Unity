@@ -7,6 +7,7 @@ using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 using Silksprite.EmoteWizard.Wizards.Utils;
+using Silksprite.Loch.Attributes;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Wizards
@@ -112,6 +113,7 @@ namespace Silksprite.EmoteWizard.Wizards
             }
         }
 
+        [LEnum]
         public enum ExpressionKind
         {
             Builtin,

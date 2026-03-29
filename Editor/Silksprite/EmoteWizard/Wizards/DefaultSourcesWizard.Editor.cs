@@ -23,14 +23,14 @@ namespace Silksprite.EmoteWizard.Wizards
 
         protected override void OnInnerInspectorGUI()
         {
-            LEditorGUILayout.Prop(_defaultSourceKind);
+            LEditorGUILayout.PropAsEnumPopup<DefaultSourceKind>(_defaultSourceKind);
 
             switch ((DefaultSourceKind) _defaultSourceKind.Property.enumValueIndex)
             {
                 case DefaultSourceKind.Fx:
                 case DefaultSourceKind.Gesture:
-                    LEditorGUILayout.Prop(_emoteItemKind);
-                    LEditorGUILayout.Prop(_emoteSequenceFactoryKind);
+                    LEditorGUILayout.PropAsEnumPopup<EmoteItemKind>(_emoteItemKind);
+                    LEditorGUILayout.PropAsEnumPopup<EmoteSequenceFactoryKind>(_emoteSequenceFactoryKind);
                     break;
             }
 

@@ -38,7 +38,7 @@ namespace Silksprite.EmoteWizard.Sources
         protected override void OnInnerInspectorGUI()
         {
             EditorGUI.BeginChangeCheck();
-            LEditorGUILayout.Prop(_platform);
+            LEditorGUILayout.PropAsEnumPopup<GenericEmotePlatform>(_platform);
             if (EditorGUI.EndChangeCheck())
             {
                 _vrcHandSign.Property.intValue = 0;
