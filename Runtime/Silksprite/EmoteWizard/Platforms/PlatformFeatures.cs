@@ -5,19 +5,19 @@ namespace Silksprite.EmoteWizard.Platforms
 {
     public static partial class PlatformFeatures
     {
-        static readonly IPlatformFeatures VRChat = new VRChatFeatures();
+        static readonly IPlatformFeatures VRChatInstance = new VRChatFeatures();
 
-        static readonly IPlatformFeatures ChilloutVR = new ChilloutVRFeatures();
+        static readonly IPlatformFeatures ChilloutVRInstance = new ChilloutVRFeatures();
 
-        static readonly IPlatformFeatures MaybeVRChat = new MaybeVRChatFeatures();
+        static readonly IPlatformFeatures MaybeVRChatInstance = new MaybeVRChatFeatures();
 
         public static IPlatformFeatures GetPlatformFeatures(EmoteWizardEnvironment env)
         {
             return (env.Platform.HasFlag(DetectedPlatform.VRChat), env.Platform.HasFlag(DetectedPlatform.ChilloutVR)) switch
             {
-                (false, true) => ChilloutVR,
-                (true, false) => VRChat,
-                _ => MaybeVRChat
+                (false, true) => ChilloutVRInstance,
+                (true, false) => VRChatInstance,
+                _ => MaybeVRChatInstance
             };
         }
     }

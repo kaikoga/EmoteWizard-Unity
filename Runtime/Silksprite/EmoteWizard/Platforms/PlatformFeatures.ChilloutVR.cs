@@ -9,6 +9,7 @@ using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
+using static Silksprite.EmoteWizard.PlatformConstants;
 
 namespace Silksprite.EmoteWizard.Platforms
 {
@@ -16,11 +17,11 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         class ChilloutVRFeatures : IPlatformFeatures
         {
-            string IPlatformFeatures.ParameterForAlwaysTrue => Params.VisemeIdx;
-            string IPlatformFeatures.GestureLeft => "GestureLeftIdx";
-            string IPlatformFeatures.GestureLeftWeight => "GestureLeft";
-            string IPlatformFeatures.GestureRight => "GestureRightIdx";
-            string IPlatformFeatures.GestureRightWeight => "GestureRight";
+            string IPlatformFeatures.ParameterForAlwaysTrue => ChilloutVR.Params.VisemeIdx;
+            string IPlatformFeatures.GestureLeft => ChilloutVR.Params.GestureLeftIdx;
+            string IPlatformFeatures.GestureLeftWeight => ChilloutVR.Params.GestureLeft;
+            string IPlatformFeatures.GestureRight => ChilloutVR.Params.GestureRightIdx;
+            string IPlatformFeatures.GestureRightWeight => ChilloutVR.Params.GestureRight;
 
             Motion IPlatformFeatures.GestureClipIdleLeft => CvrCckAssetLocator.HandLeftRelaxed();
             Motion IPlatformFeatures.GestureClipFistLeft => CvrCckAssetLocator.HandLeftFist();
@@ -45,10 +46,10 @@ namespace Silksprite.EmoteWizard.Platforms
             bool IPlatformFeatures.IsHandSignParameterReference(string parameterReference) =>
                 parameterReference switch
                 {
-                    "GestureLeft" => true,
-                    "GestureLeftWeight" => true,
-                    "GestureRight" => true,
-                    "GestureRightWeight" => true,
+                    VRChat.Params.GestureLeft => true,
+                    VRChat.Params.GestureLeftWeight => true,
+                    VRChat.Params.GestureRight => true,
+                    VRChat.Params.GestureRightWeight => true,
                     Params.Gesture => true,
                     Params.GestureOther => true,
                     Params.GestureWeight => true,
@@ -76,16 +77,16 @@ namespace Silksprite.EmoteWizard.Platforms
         
             static readonly DefaultParameterDatabase DefaultParameterDatabase = new DefaultParameterDatabase(new[]
             {
-                (Params.Viseme, Params.VisemeIdx, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
+                (VRChat.Params.Viseme, ChilloutVR.Params.VisemeIdx, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
                 ("MovementX", "MovementX", ParameterItemKind.Float, Empty),
                 ("MovementY", "MovementY", ParameterItemKind.Float, Empty),
                 ("Grounded", "Grounded", ParameterItemKind.Bool, Empty),
                 ("VRCEmote", "Emote", ParameterItemKind.Int, Empty),
                 ("CancelEmote", "CancelEmote", ParameterItemKind.Bool, Empty),
-                ("GestureLeftWeight", "GestureLeft", ParameterItemKind.Float, Empty),
-                ("GestureRightWeight", "GestureRight", ParameterItemKind.Float, Empty),
-                ("GestureLeft", "GestureLeftIdx", ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("GestureRight", "GestureRightIdx", ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (VRChat.Params.GestureLeftWeight, ChilloutVR.Params.GestureLeft, ParameterItemKind.Float, Empty),
+                (VRChat.Params.GestureRightWeight, ChilloutVR.Params.GestureRight, ParameterItemKind.Float, Empty),
+                (VRChat.Params.GestureLeft, ChilloutVR.Params.GestureLeftIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (VRChat.Params.GestureRight, ChilloutVR.Params.GestureRightIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
                 ("Toggle", "Toggle", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
                 ("Sitting", "Sitting", ParameterItemKind.Bool, Empty),
                 ("Crouching", "Crouching", ParameterItemKind.Bool, Empty),

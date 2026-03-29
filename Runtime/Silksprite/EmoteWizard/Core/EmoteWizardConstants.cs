@@ -4,8 +4,6 @@ namespace Silksprite.EmoteWizard
     {
         public static class Params
         {
-            public const string Viseme = "Viseme";
-            public const string VisemeIdx = "VisemeIdx";
             public const string Afk = "AFK";
             public const string Gesture = "Gesture";
             public const string GestureOther = "GestureOther";

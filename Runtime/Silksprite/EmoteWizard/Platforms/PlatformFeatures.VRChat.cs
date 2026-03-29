@@ -9,6 +9,7 @@ using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
+using static Silksprite.EmoteWizard.PlatformConstants;
 
 namespace Silksprite.EmoteWizard.Platforms
 {
@@ -16,11 +17,11 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         class VRChatFeatures : IPlatformFeatures
         {
-            string IPlatformFeatures.ParameterForAlwaysTrue => Params.Viseme;
-            string IPlatformFeatures.GestureLeft => "GestureLeft";
-            string IPlatformFeatures.GestureLeftWeight => "GestureLeftWeight";
-            string IPlatformFeatures.GestureRight => "GestureRight";
-            string IPlatformFeatures.GestureRightWeight => "GestureRightWeight";
+            string IPlatformFeatures.ParameterForAlwaysTrue => VRChat.Params.Viseme;
+            string IPlatformFeatures.GestureLeft => VRChat.Params.GestureLeft;
+            string IPlatformFeatures.GestureLeftWeight => VRChat.Params.GestureLeftWeight;
+            string IPlatformFeatures.GestureRight => VRChat.Params.GestureRight;
+            string IPlatformFeatures.GestureRightWeight => VRChat.Params.GestureRightWeight;
 
             Motion IPlatformFeatures.GestureClipIdleLeft => VrcSdkAssetLocator.ProxyHandsIdle();
             Motion IPlatformFeatures.GestureClipFistLeft => VrcSdkAssetLocator.ProxyHandsFist();
@@ -45,10 +46,10 @@ namespace Silksprite.EmoteWizard.Platforms
             bool IPlatformFeatures.IsHandSignParameterReference(string parameterReference) =>
                 parameterReference switch
                 {
-                    "GestureLeft" => true,
-                    "GestureLeftWeight" => true,
-                    "GestureRight" => true,
-                    "GestureRightWeight" => true,
+                    VRChat.Params.GestureLeft => true,
+                    VRChat.Params.GestureLeftWeight => true,
+                    VRChat.Params.GestureRight => true,
+                    VRChat.Params.GestureRightWeight => true,
                     Params.Gesture => true,
                     Params.GestureOther => true,
                     Params.GestureWeight => true,
@@ -66,12 +67,12 @@ namespace Silksprite.EmoteWizard.Platforms
             static readonly DefaultParameterDatabase DefaultParameterDatabase = new DefaultParameterDatabase(new[]
             {
                 ("IsLocal", "IsLocal", ParameterItemKind.Bool, Empty),
-                (Params.Viseme, Params.Viseme, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
+                (VRChat.Params.Viseme, VRChat.Params.Viseme, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}),
                 ("Voice", "Voice", ParameterItemKind.Float, Empty),
-                ("GestureLeft", "GestureLeft", ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("GestureRight", "GestureRight", ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                ("GestureLeftWeight", "GestureLeftWeight", ParameterItemKind.Float, Empty),
-                ("GestureRightWeight", "GestureRightWeight", ParameterItemKind.Float, Empty),
+                (VRChat.Params.GestureLeft, VRChat.Params.GestureLeft, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (VRChat.Params.GestureRight, VRChat.Params.GestureRight, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (VRChat.Params.GestureLeftWeight, VRChat.Params.GestureLeftWeight, ParameterItemKind.Float, Empty),
+                (VRChat.Params.GestureRightWeight, VRChat.Params.GestureRightWeight, ParameterItemKind.Float, Empty),
                 ("AngularY", "AngularY", ParameterItemKind.Float, Empty),
                 ("VelocityX", "VelocityX", ParameterItemKind.Float, Empty),
                 ("VelocityY", "VelocityY", ParameterItemKind.Float, Empty),
