@@ -108,7 +108,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             
             if (!sequence.hasExitTime)
             {
-                if (sequence.hasTimeParameter && ResolveParameterType(sequence.timeParameter, ParameterItemKind.Float) == ParameterValueKind.Float)
+                if (sequence.hasTimeParameter
+                    && TryResolveParameterWithType(sequence.timeParameter, ParameterItemKind.Float, out var actualValueKind)
+                    && actualValueKind == ParameterValueKind.Float)
                 {
                     mainState.timeParameterActive = true;
                     mainState.timeParameter = sequence.timeParameter;
@@ -244,8 +246,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             if (conditions.Count == 1 && conditions[0].Kind != ParameterItemKind.Float)
             {
                 var parameterName = conditions[0].Parameter;
-                var parameter = Builder.ParametersSnapshot.ResolveParameterWithWarning(parameterName);
-                switch (parameter?.ValueKind)
+                Builder.ParametersSnapshot.TryResolveParameterWithTypeAndWarning(parameterName, conditions[0].Kind, out var parameter, out var actualValueKind);
+                switch (actualValueKind)
                 {
                     case ParameterValueKind.Int:
                     {

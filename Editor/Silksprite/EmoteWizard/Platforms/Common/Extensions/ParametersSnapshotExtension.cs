@@ -1,50 +1,17 @@
+using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizardSupport.Logger;
-using Silksprite.Loch;
-using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
     public static class ParametersSnapshotExtension
     {
-        // TODO: could this be error?  
-        public static ParameterInstance? ResolveParameterWithWarning(this ParametersSnapshot snapshot, string parameterName)
+        public static bool TryResolveParameterWithTypeAndWarning(this ParametersSnapshot snapshot, string parameterName, ParameterItemKind itemKind,
+            [MaybeNullWhen(false)] out ParameterInstance parameterInstance,
+            out ParameterValueKind actualValueKind)
         {
-            var result = snapshot.ResolveParameter(parameterName);
-            if (result == null)
-            {
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Substitution
-                {
-                    ["parameterName"] = parameterName 
-                });
-            }
-            return result;
-        }
-
-        // TODO: could this be error?  
-        public static ParameterValueKind? ResolveParameterTypeWithWarning(this ParametersSnapshot snapshot, string parameterName, ParameterItemKind itemKind)
-        {
-            var result = snapshot.ResolveParameterType(parameterName, itemKind, out var mismatch);
-
-            if (result == null)
-            {
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::NotFound."), new Substitution
-                {
-                    ["parameterName"] = parameterName 
-                });
-            }
-            else if (mismatch)
-            {
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::Parameter::TypeMismatch."),
-                    new Substitution
-                    {
-                        ["parameterName"] = parameterName,
-                        ["itemKind"] = $"{itemKind}",
-                        ["resolvedItemKind"] = $"{result}"
-                    });
-            }
-            return result;
+            return snapshot.TryResolveParameterWithType(parameterName, itemKind, out parameterInstance, out actualValueKind, ErrorReportWrapper.LogWarningFormat);
         }
     }
 }

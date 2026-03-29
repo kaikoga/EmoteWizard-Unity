@@ -14,7 +14,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
         public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteWizardEnvironment environment, EmoteConditionInstance emoteCondition)
         {
             var actualValueKind = environment.GetContext<ParametersContext>().Snapshot()
-                .ResolveParameterTypeWithWarning(emoteCondition.Parameter, emoteCondition.Kind);
+                .TryResolveParameterWithTypeAndWarning(emoteCondition.Parameter, emoteCondition.Kind, out _, out var valueKind)
+                ? valueKind:
+                (ParameterValueKind?)null;
 
             AnimatorControllerParameterType type;
             AnimatorConditionMode mode;

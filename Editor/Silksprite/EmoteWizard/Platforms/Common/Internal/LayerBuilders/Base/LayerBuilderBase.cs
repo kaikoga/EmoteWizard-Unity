@@ -34,9 +34,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
             _position.y += 75f;
         }
 
-        protected ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind)
+        protected bool TryResolveParameterWithType(string parameterName, ParameterItemKind itemKind, out ParameterValueKind actualValueKind)
         {
-            return Builder.ParametersSnapshot.ResolveParameterTypeWithWarning(parameterName, itemKind);
+            return Builder.ParametersSnapshot.TryResolveParameterWithTypeAndWarning(parameterName, itemKind, out _, out actualValueKind);
         }
 
         protected LayerBuilderBase(AnimatorLayerBuilder builder, AnimatorControllerLayer layer)

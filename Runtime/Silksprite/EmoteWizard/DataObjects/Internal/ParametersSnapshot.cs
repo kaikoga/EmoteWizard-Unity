@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
+using Silksprite.Loch;
 using UnityEngine;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -29,38 +32,49 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             validReferenceUsages = AllParameters.SelectMany(item => item.referenceUsages).ToList();
         }
 
-        public ParameterInstance? ResolveParameter(string parameterName)
+        public bool TryResolveParameterWithType(string parameterName, ParameterItemKind itemKind,
+            [MaybeNullWhen(false)] out ParameterInstance parameterInstance,
+            out ParameterValueKind valueKind,
+            Action<LocalizedContent, Substitution> onError)
         {
-            return AllParameters.FirstOrDefault(item => item.name == parameterName);
-        }
+            parameterInstance = AllParameters.FirstOrDefault(item => item.name == parameterName);
+            if (parameterInstance == null)
+            {
+                valueKind = default;
+                onError(Loc("Warn::Parameter::NotFound."), new Substitution
+                {
+                    ["parameterName"] = parameterName 
+                });
+                return false;
+            }
 
-        public ParameterValueKind? ResolveParameterType(string parameterName, ParameterItemKind itemKind, out bool mismatch)
-        {
-            mismatch = false;
-            var item = ResolveParameter(parameterName);
-            if (item == null) return null;
-
-            var resolvedValueKind = item.ValueKind;
-            switch (resolvedValueKind)
+            valueKind = parameterInstance.ValueKind;
+            switch (valueKind)
             {
                 case ParameterValueKind.Bool:
-                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Bool) return resolvedValueKind;
+                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Bool) return true;
                     break;
                 case ParameterValueKind.Int:
-                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Int) return resolvedValueKind;
+                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Int) return true;
                     break;
                 case ParameterValueKind.Float:
-                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return resolvedValueKind;
+                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return true;
                     break;
                 case ParameterValueKind.HandSign:
-                    if (itemKind == ParameterItemKind.HandSign) return resolvedValueKind;
+                    if (itemKind == ParameterItemKind.HandSign) return true;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            mismatch = true;
-            return resolvedValueKind;
+            onError(Loc("Warn::Parameter::TypeMismatch."),
+                new Substitution
+                {
+                    ["parameterName"] = parameterName,
+                    ["itemKind"] = $"{itemKind}",
+                    ["resolvedItemKind"] = $"{valueKind}"
+                });
+            return true;
         }
 
         public bool IsInvalidParameterReference(string parameterReference)

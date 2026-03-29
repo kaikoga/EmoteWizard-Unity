@@ -4,7 +4,8 @@
     "references": [
         "Loch",
         "EmoteWizard.Core",
-        "EmoteWizardSupport"
+        "EmoteWizardSupport",
+        "EmoteWizardSupport.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
