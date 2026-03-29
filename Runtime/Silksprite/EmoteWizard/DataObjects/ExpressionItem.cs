@@ -65,13 +65,13 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public IEnumerable<string> Folders()
+        public IEnumerable<string> FoldersIncludesRoot()
         {
-            var p = GetDirectoryName(path);
+            var p = path;
             while (!string.IsNullOrEmpty(p))
             {
-                yield return p!;
-                p = GetDirectoryName(p!);
+                p = GetDirectoryName(p) ?? "";
+                yield return p;
             }
         }
 

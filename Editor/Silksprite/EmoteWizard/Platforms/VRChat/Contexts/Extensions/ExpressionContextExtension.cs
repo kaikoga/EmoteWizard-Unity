@@ -21,7 +21,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             var activeExpressionItems = context.AllExpressionItems().ToList();
             var itemFolderIcon = VrcSdkAssetLocator.ItemFolder();
 
-            var folderNames = activeExpressionItems.SelectMany(item => item.Folders()).Distinct().ToList();
+            var folderNames = activeExpressionItems.SelectMany(item => item.FoldersIncludesRoot()).Distinct().ToList();
 
             var groups = folderNames
                 .Select(folder => new ExpressionItemSet
