@@ -261,7 +261,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                                     kind: conditions[0].Kind,
                                     parameter: conditions[0].Parameter,
                                     mode: EmoteConditionMode.NotEqual,
-                                    threshold: elseValues[0]
+                                    threshold: elseValues[0],
+                                    value: ParameterValue.Create(ParameterItemKind.Int, elseValues[0])
                                 )
                             });
                         }
@@ -301,7 +302,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                                     kind: ParameterItemKind.Bool,
                                     parameter: conditions[0].Parameter,
                                     mode: combinedMode,
-                                    threshold: 0
+                                    threshold: 0,
+                                    value: ParameterValue.Default
                                 )
                             });
                         }

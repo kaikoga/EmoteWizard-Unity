@@ -28,7 +28,8 @@ namespace Silksprite.EmoteWizard.DataObjects
                 kind,
                 resolvedParameter,
                 mode,
-                resolvedThreshold);
+                resolvedThreshold,
+                ParameterValue.Create(kind, threshold));
         }
     }
 

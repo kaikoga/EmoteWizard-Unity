@@ -6,6 +6,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public struct ParameterValue : IComparable<ParameterValue>
     {
+        public static ParameterValue Default => new ParameterValue(ParameterItemKind.Auto, 0);
+
         [SerializeField] ParameterItemKind itemKind;
         [SerializeField] float value;
 
@@ -20,12 +22,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             this.value = value;
         }
 
-        public static ParameterValue CreateInstance(ParameterItemKind itemKind, float value)
+        public static ParameterValue Create(ParameterItemKind itemKind, float value)
         {
             return new ParameterValue(itemKind, value);
         }
 
-        public static ParameterValue CreateInstance(ParameterWriteUsageKind writeUsageKind, float value1)
+        public static ParameterValue Create(ParameterWriteUsageKind writeUsageKind, float value)
         {
             return new ParameterValue(writeUsageKind switch
             {
@@ -36,7 +38,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 ParameterWriteUsageKind.Float => ParameterItemKind.Float,
                 ParameterWriteUsageKind.Gesture => ParameterItemKind.Gesture,
                 _ => throw new ArgumentOutOfRangeException()
-            }, value1);
+            }, value);
+        }
+
+        public static ParameterValue HandSign(HandSign handSign)
+        {
+            return new ParameterValue(ParameterItemKind.Gesture, (int)handSign);
         }
 
         public int CompareTo(ParameterValue other)

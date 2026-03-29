@@ -9,7 +9,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         [SerializeField] public ParameterItemKind itemKind;
         [SerializeField] float value;
 
-        public ParameterValue Value => ParameterValue.CreateInstance(itemKind, value);
+        public ParameterValue Value => ParameterValue.Create(itemKind, value);
 
         public ParameterReadUsage(ParameterItemKind itemKind, float value)
         {
