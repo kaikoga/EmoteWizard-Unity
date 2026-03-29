@@ -75,20 +75,19 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             }
         }
 
-        public IEnumerable<ExpressionItem> ToExpressionItems(IPlatformFeatures platformFeatures)
+        IEnumerable<ExpressionItem> ToExpressionItems(IPlatformFeatures platformFeatures)
         {
             if (!IsAutoExpression(platformFeatures)) yield break;
             if (ItemPathUtil.IsInvalidPathFormat(ExpressionItemPath)) yield break;
 
             var soleCondition = Trigger.conditions[0];
-            var (parameter, threshold) = soleCondition.ResolveParameter(platformFeatures);
             yield return new ExpressionItem
             {
                 enabled = true,
                 icon = ExpressionItemIcon,
                 path = ExpressionItemPath,
-                parameter = parameter,
-                value = threshold,
+                parameter = soleCondition.parameter,
+                value = soleCondition.threshold,
                 itemKind = SequenceFactory?.LooksLikeToggle == true ? ExpressionItemKind.Toggle : ExpressionItemKind.Button
             };
         }
