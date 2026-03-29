@@ -4,6 +4,8 @@
     "references": [
         "nadena.dev.ndmf",
         "nadena.dev.ndmf.runtime",
+        "Ablet.ErrorReporting",
+        "Ablet.API",
         "Loch",
         "Loch.Editor",
         "EmoteWizardSupport"
