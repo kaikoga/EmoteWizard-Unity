@@ -88,8 +88,8 @@ namespace Silksprite.EmoteWizard.Platforms
                 ("CancelEmote", "CancelEmote", ParameterItemKind.Bool, Empty),
                 ("GestureLeftWeight", "GestureLeft", ParameterItemKind.Float, Empty),
                 ("GestureRightWeight", "GestureRight", ParameterItemKind.Float, Empty),
-                ("GestureLeft", "GestureLeftIdx", ParameterItemKind.Int, new[]{-1, 0, 1, 2, 3, 4, 5, 6}),
-                ("GestureRight", "GestureRightIdx", ParameterItemKind.Int, new[]{-1, 0, 1, 2, 3, 4, 5, 6}),
+                ("GestureLeft", "GestureLeftIdx", ParameterItemKind.HandSign, new[]{-1, 0, 1, 2, 3, 4, 5, 6}),
+                ("GestureRight", "GestureRightIdx", ParameterItemKind.HandSign, new[]{-1, 0, 1, 2, 3, 4, 5, 6}),
                 ("Toggle", "Toggle", ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
                 ("Sitting", "Sitting", ParameterItemKind.Bool, Empty),
                 ("Crouching", "Crouching", ParameterItemKind.Bool, Empty),
@@ -99,8 +99,8 @@ namespace Silksprite.EmoteWizard.Platforms
                 (Params.Afk, Params.Afk, ParameterItemKind.Bool, Empty),
 
                 // These are mirrored into appropriate CVR default parameters
-                (Params.Gesture, Params.Gesture, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
-                (Params.GestureOther, Params.GestureOther, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (Params.Gesture, Params.Gesture, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                (Params.GestureOther, Params.GestureOther, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
                 (Params.GestureWeight, Params.GestureWeight, ParameterItemKind.Float, Empty),
                 (Params.GestureOtherWeight, Params.GestureOtherWeight, ParameterItemKind.Float, Empty),
             };
@@ -110,6 +110,16 @@ namespace Silksprite.EmoteWizard.Platforms
                 return DefaultParameterData.Select(tuple =>
                 {
                     var (reference, name, kind, states) = tuple;
+                    var writeUsageKind = kind switch
+                    {
+                        ParameterItemKind.Auto => ParameterWriteUsageKind.Int,
+                        ParameterItemKind.Bool => ParameterWriteUsageKind.Int,
+                        ParameterItemKind.Int => ParameterWriteUsageKind.Int,
+                        ParameterItemKind.Float => ParameterWriteUsageKind.Int,
+                        ParameterItemKind.HandSign => ParameterWriteUsageKind.HandSign,
+                        _ => throw new ArgumentOutOfRangeException()
+                    };
+
                     return new ParameterInstance
                     {
                         defaultValue = ParameterValue.Default,
@@ -117,8 +127,8 @@ namespace Silksprite.EmoteWizard.Platforms
                         saved = false,
                         itemKind = kind,
                         referenceUsages = new List<string> { reference },
-                        writeUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state, ParameterWriteSourceKind.NoUI)).ToList(),
-                        readUsages = states.Select(state => new ParameterReadUsage(ParameterValue.Create(ParameterItemKind.Int, state))).ToList(),
+                        writeUsages = states.Select(state => new ParameterWriteUsage(writeUsageKind, state, ParameterWriteSourceKind.NoUI)).ToList(),
+                        readUsages = states.Select(state => new ParameterReadUsage(ParameterValue.Create(kind, state))).ToList(),
                     };
                 }).ToList();
             }

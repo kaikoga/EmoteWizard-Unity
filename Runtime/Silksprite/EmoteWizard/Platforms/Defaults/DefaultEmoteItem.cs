@@ -17,7 +17,7 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             var builder = EmoteItemTemplate.Builder(layerKind, path, EmoteWizardConstants.Groups.HandSign, GenericEmoteTrigger.FromHandSign(_handSign), emoteItemKind, emoteSequenceFactoryKind)
                 .AddCondition(new EmoteCondition
                 {
-                    kind = ParameterItemKind.Int,
+                    kind = ParameterItemKind.HandSign,
                     parameter = EmoteWizardConstants.Params.Gesture,
                     mode = EmoteConditionMode.Equals,
                     threshold = (int)_handSign

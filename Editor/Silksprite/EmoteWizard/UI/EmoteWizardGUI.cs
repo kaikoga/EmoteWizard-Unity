@@ -19,7 +19,6 @@ namespace Silksprite.EmoteWizard.UI
                         EditorGUI.BeginChangeCheck();
                         var handSignValue = (HandSign)(int)lop.Property.floatValue;
                         handSignValue = LEditorGUI.EnumPopup(position, lop.Loc, handSignValue);
-                        EditorGUI.showMixedValue = false;
                         if (EditorGUI.EndChangeCheck())
                         {
                             lop.Property.floatValue = (int)handSignValue;
