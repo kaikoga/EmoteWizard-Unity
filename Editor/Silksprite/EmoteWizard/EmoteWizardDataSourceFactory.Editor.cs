@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard
             {
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    EmoteWizardGUILayout.Undoable(loc, callback);
+                    EmoteWizardSupportGUILayout.Undoable(loc, callback);
                     if (desc != null) LGUILayout.Label(desc);
                 }
             }

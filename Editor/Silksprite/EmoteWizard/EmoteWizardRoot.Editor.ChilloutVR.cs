@@ -24,7 +24,7 @@ namespace Silksprite.EmoteWizard
             LEditorGUILayout.Prop(_proxyAnimator);
             if (env.AvatarRoot.TryGetCVRAvatarAccess(out var cvrAvatar))
             {
-                EmoteWizardGUILayout.OutputUIArea(true, null, () =>
+                EmoteWizardSupportGUILayout.OutputUIArea(true, null, () =>
                 {
                     void EditAnimator(RuntimeAnimatorController? animatorController)
                     {
@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard
                     {
                         CachedEnv().CleanupCvrAvatar();
                     }
-                    EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
+                    EmoteWizardSupportGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
                         "Generate Everything and Update Avatar",
                         undoable =>
                         {

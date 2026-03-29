@@ -41,7 +41,7 @@ namespace Silksprite.EmoteWizard.Configs
             {
                 if (soleTarget.LayerOutputKind == LayerOutputKind.Gesture)
                 {
-                    EmoteWizardGUILayout.PropWithGenerate(_defaultAvatarMask, () =>
+                    EmoteWizardSupportGUILayout.PropWithGenerate(_defaultAvatarMask, () =>
                     {
                         var avatarMask = env.EnsureAsset<AvatarMask>(GeneratedPaths.GestureDefaultMask);
                         return AvatarMaskUtils.SetupAsGestureDefault(avatarMask);
@@ -54,7 +54,7 @@ namespace Silksprite.EmoteWizard.Configs
 
                 LEditorGUILayout.Prop(_hasResetClip);
 
-                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
+                EmoteWizardSupportGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
                 {
 #if EW_VRCSDK3_AVATARS
                     if (LGUILayout.Button(Loc("AnimatorLayerConfigBase::Generate Animation Controller"), new GUILayoutOption[0]))

@@ -63,7 +63,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
                 using (new EditorGUI.DisabledScope(checkInvalid.IsInvalid))
                 {
-                    if (EmoteWizardGUILayout.Undoable(Loc("DressChangeWizard::Add"), "Add from Dress Change Wizard", out var undoable))
+                    if (EmoteWizardSupportGUILayout.Undoable(Loc("DressChangeWizard::Add"), "Add from Dress Change Wizard", out var undoable))
                     {
                         soleTarget.Explode(CachedEnv(), undoable, true);
                     }

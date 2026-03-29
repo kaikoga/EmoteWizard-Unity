@@ -160,7 +160,7 @@ namespace Silksprite.EmoteWizard.Sources
             if (requireRefreshPreview) RefreshPreviewIfNeeded(CachedEnv());
             _previewWrapper.OnInspectorGUI();
 
-            if (EmoteWizardGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source", out var undoable))
+            if (EmoteWizardSupportGUILayout.Undoable(Loc("GenericEmoteSequenceSource::Explode"), "Explode Generic Emote Sequence source", out var undoable))
             {
                 string GetExplodePath(GenericEmoteSequenceSource source) => string.IsNullOrWhiteSpace(source.gameObject.name)
                     ? "Assets/EW_GeneratedClip.anim"

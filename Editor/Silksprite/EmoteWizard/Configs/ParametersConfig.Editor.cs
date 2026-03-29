@@ -45,7 +45,7 @@ namespace Silksprite.EmoteWizard.Configs
                 LEditorGUILayout.Prop(_debugSnapshot);
             }
 
-            EmoteWizardGUILayout.OutputUIArea(environment.PersistGeneratedAssets, () =>
+            EmoteWizardSupportGUILayout.OutputUIArea(environment.PersistGeneratedAssets, () =>
             {
 #if EW_VRCSDK3_AVATARS
                 if (LGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters"), new GUILayoutOption[0]))

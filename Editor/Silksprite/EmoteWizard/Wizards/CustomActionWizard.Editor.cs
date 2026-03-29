@@ -49,7 +49,7 @@ namespace Silksprite.EmoteWizard.Wizards
 
                 using (new EditorGUI.DisabledScope(checkInvalid.IsInvalid))
                 {
-                    if (EmoteWizardGUILayout.Undoable(Loc("CustomActionWizard::Add"), "Add from Custom Action Wizard", out var undoable))
+                    if (EmoteWizardSupportGUILayout.Undoable(Loc("CustomActionWizard::Add"), "Add from Custom Action Wizard", out var undoable))
                     {
                         soleTarget.Explode(CachedEnv(), undoable, true);
                     }

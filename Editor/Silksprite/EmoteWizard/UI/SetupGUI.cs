@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.UI
             if (env.MaybeVRCPlatforms())
             {
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRChat Sources") : singleLoc;
-                EmoteWizardGUILayout.Undoable(loc, undoable =>
+                EmoteWizardSupportGUILayout.Undoable(loc, undoable =>
                 {
                     QuickSetupDefaultVrcPlatformSources(env, undoable);
                     result = true;
@@ -43,7 +43,7 @@ namespace Silksprite.EmoteWizard.UI
             if (env.MaybeVRM())
             {
                 var loc = isMultiPlatform ? Loc("SetupGUI::Quick Setup VRM Sources") : singleLoc;
-                EmoteWizardGUILayout.Undoable(loc, undoable =>
+                EmoteWizardSupportGUILayout.Undoable(loc, undoable =>
                 {
                     QuickSetupDefaultVrmSources(env, undoable);
                     result = true;
@@ -52,7 +52,7 @@ namespace Silksprite.EmoteWizard.UI
 
             if (env.MaybeVRChat())
             {
-                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
+                EmoteWizardSupportGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {
                     GenerateConfigsForVRChat(env, undoable);
                     result = true;
@@ -61,7 +61,7 @@ namespace Silksprite.EmoteWizard.UI
 
             if (env.MaybeChilloutVR())
             {
-                EmoteWizardGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
+                EmoteWizardSupportGUILayout.Undoable(Loc("SetupGUI::Generate Configs"), undoable =>
                 {
                     GenerateConfigsForChilloutVR(env, undoable);
                     result = true;

@@ -31,7 +31,7 @@ namespace Silksprite.EmoteWizard.Configs
 
             LEditorGUILayout.Prop(_buildAsSubAsset);
 
-            EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
+            EmoteWizardSupportGUILayout.OutputUIArea(env.PersistGeneratedAssets, () =>
             {
 #if EW_VRCSDK3_AVATARS
                 if (LGUILayout.Button(Loc("ExpressionConfig::Generate Expression Menu"), new GUILayoutOption[0]))

@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.UI
 {
-    public static class EmoteWizardGUILayout
+    public static class EmoteWizardSupportGUILayout
     {
         const float GenerateButtonWidth = 64f;
 

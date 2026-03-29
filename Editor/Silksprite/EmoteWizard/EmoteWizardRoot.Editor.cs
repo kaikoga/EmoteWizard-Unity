@@ -61,14 +61,14 @@ namespace Silksprite.EmoteWizard
         protected override void OnInnerInspectorGUI()
         {
             var env = CachedEnv();
-            EmoteWizardGUILayout.ConfigUIArea(() =>
+            EmoteWizardSupportGUILayout.ConfigUIArea(() =>
             {
                 LEditorGUILayout.LocaleSelector();
                 LEditorGUILayout.Prop(_showTutorial);
                 LEditorGUILayout.Prop(_detectPlatform);
             });
 
-            EmoteWizardGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source"), undoable =>
+            EmoteWizardSupportGUILayout.Undoable(Loc("EmoteWizardRoot::Add Empty Data Source"), undoable =>
             {
                 undoable.AddChildComponentAndSelect<EmoteWizardDataSourceFactory>(soleTarget, "New Source");
             });
@@ -112,7 +112,7 @@ namespace Silksprite.EmoteWizard
 
                 LEditorGUILayout.Prop(_generatedAssetPrefix);
 
-                EmoteWizardGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardGUILayout.PropWithGenerate(_emptyClip, () => CachedEnv().ProvideEmptyClip()); });
+                EmoteWizardSupportGUILayout.OutputUIArea(env.PersistGeneratedAssets, () => { EmoteWizardSupportGUILayout.PropWithGenerate(_emptyClip, () => CachedEnv().ProvideEmptyClip()); });
                 if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Output Assets"), new GUILayoutOption[0]))
                 {
                     CachedEnv().DisconnectAllOutputAssets();
