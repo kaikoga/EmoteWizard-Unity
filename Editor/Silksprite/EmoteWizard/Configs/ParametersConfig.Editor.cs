@@ -1,6 +1,8 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Extensions;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
@@ -22,6 +24,7 @@ namespace Silksprite.EmoteWizard.Configs
         LocalizedProperty? _debugSnapshot;
 
         [SerializeField] ParametersSnapshot? debugSnapshot;
+        ParametersSnapshotDrawer? _drawer;
 
         void OnEnable()
         {
@@ -38,12 +41,15 @@ namespace Silksprite.EmoteWizard.Configs
                 {
                     debugSnapshot = soleTarget.GetContext(environment).Snapshot();
                     _debugSnapshot = new SerializedObject(this).Lop(nameof(debugSnapshot), Loc("ParametersConfig::debugSnapshot"));
+                    _drawer = new ParametersSnapshotDrawer(environment.GetPlatformFeatures(), debugSnapshot);
                 }
             }
             else
             {
                 LEditorGUILayout.Prop(_debugSnapshot);
             }
+
+            _drawer?.OnGUI();
 
             EmoteWizardSupportGUILayout.OutputUIArea(environment.PersistGeneratedAssets, () =>
             {

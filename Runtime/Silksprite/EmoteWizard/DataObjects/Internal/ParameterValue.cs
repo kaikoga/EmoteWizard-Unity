@@ -12,15 +12,18 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         [SerializeField] ParameterItemKind itemKind;
         [SerializeField] float value;
 
+        public ParameterItemKind ItemKind => itemKind;
         public bool IsDefault => value == 0;
 
         public readonly int AsInt(IPlatformFeatures platformFeatures) => (int)AsFloat(platformFeatures);
 
         public readonly float AsFloat(IPlatformFeatures platformFeatures) => itemKind switch
-            {
-                ParameterItemKind.HandSign => platformFeatures.HandSignValue((HandSign)value),
-                _ => value
-            };
+        {
+            ParameterItemKind.HandSign => platformFeatures.HandSignValue((HandSign)value),
+            _ => value
+        };
+
+        public readonly HandSign AsHandSign() => (HandSign)value;
 
         ParameterValue(ParameterItemKind itemKind, float value)
         {

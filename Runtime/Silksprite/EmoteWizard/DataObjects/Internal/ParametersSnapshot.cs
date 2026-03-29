@@ -19,6 +19,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         [SerializeField] List<ParameterInstance> implicitParameterItems;
         [SerializeField] List<ParameterInstance> defaultParameterItems;
 
+        public IEnumerable<string> ValidReferenceUsages => validReferenceUsages;
         public IEnumerable<ParameterInstance> ParameterItems => parameterItems;
         public IEnumerable<ParameterInstance> ImplicitParameterItems => implicitParameterItems;
         public IEnumerable<ParameterInstance> DefaultParameterItems => defaultParameterItems;
