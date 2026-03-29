@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 {
-    public class ConditionBuilder
+    class ConditionBuilder
     {
         readonly List<ConditionElement> _conditions = new List<ConditionElement>();
 

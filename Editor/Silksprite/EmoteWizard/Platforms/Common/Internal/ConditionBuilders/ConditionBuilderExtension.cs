@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 {
-    public static class ConditionBuilderExtension
+    static class ConditionBuilderExtension
     {
         const float FloatTolerance = 0.05f;
 

@@ -3,7 +3,7 @@ using UnityEditor.Animations;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
-    public static class AnimatorStateTransitionExtension
+    static class AnimatorStateTransitionExtension
     {
         public static void AddCondition(this AnimatorStateTransition transition, ConditionBuilder builder)
         {

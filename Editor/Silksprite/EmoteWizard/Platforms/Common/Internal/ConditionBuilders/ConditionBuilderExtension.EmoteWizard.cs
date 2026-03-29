@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 {
-    public static class ConditionBuilderEmoteWizardExtension
+    static class ConditionBuilderEmoteWizardExtension
     {
         public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteConditionInstance emoteCondition, ParameterValueKind? actualValueKind)
         {

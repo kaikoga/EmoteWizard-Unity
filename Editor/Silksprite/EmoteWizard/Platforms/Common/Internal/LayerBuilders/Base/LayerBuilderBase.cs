@@ -68,33 +68,33 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
 
         protected AnimatorState AddStateWithoutTransition(string stateName, Motion? motion) => AddStateWithoutTransition(stateName, motion, NextStatePosition());
 
-        protected AnimatorTransition AddEntryTransition(AnimatorState toState, ConditionBuilder? conditions = null)
+        private protected AnimatorTransition AddEntryTransition(AnimatorState toState, ConditionBuilder? conditions = null)
         {
             var transition = StateMachine.AddEntryTransition(toState);
             transition.conditions = conditions?.ToArray();
             return transition;
         }
 
-        protected AnimatorStateTransition AddTransition(AnimatorState fromState, AnimatorState toState, ConditionBuilder? conditions = null)
+        private protected AnimatorStateTransition AddTransition(AnimatorState fromState, AnimatorState toState, ConditionBuilder? conditions = null)
         {
             var transition = fromState.AddTransition(toState);
             transition.conditions = conditions?.ToArray();
             return transition;
         }
 
-        protected IEnumerable<AnimatorStateTransition> AddTransitions(AnimatorState fromState, AnimatorState toState, IEnumerable<ConditionBuilder> conditions)
+        private protected IEnumerable<AnimatorStateTransition> AddTransitions(AnimatorState fromState, AnimatorState toState, IEnumerable<ConditionBuilder> conditions)
         {
             return conditions.Select(cond => AddTransition(fromState, toState, cond)).ToArray();
         }
 
-        protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder? conditions = null)
+        private protected AnimatorStateTransition AddExitTransition(AnimatorState fromState, ConditionBuilder? conditions = null)
         {
             var transition = fromState.AddExitTransition(false);
             transition.conditions = conditions?.ToArray();
             return transition;
         }
 
-        protected IEnumerable<AnimatorStateTransition> AddExitTransitions(AnimatorState fromState, IEnumerable<ConditionBuilder> conditions)
+        private protected IEnumerable<AnimatorStateTransition> AddExitTransitions(AnimatorState fromState, IEnumerable<ConditionBuilder> conditions)
         {
             return conditions.Select(cond => AddExitTransition(fromState, cond)).ToArray();
         }
@@ -107,7 +107,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
             return defaultState;
         }
 
-        protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteConditionInstance> emoteConditions)
+        private protected void ApplyEmoteConditions(ConditionBuilder conditions, IEnumerable<EmoteConditionInstance> emoteConditions)
         {
             foreach (var condition in emoteConditions)
             {
