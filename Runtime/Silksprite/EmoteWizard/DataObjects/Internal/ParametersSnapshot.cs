@@ -49,31 +49,38 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             }
 
             valueKind = parameterInstance.ValueKind;
-            switch (valueKind)
+            switch (valueKind, itemKind)
             {
-                case ParameterValueKind.Bool:
-                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Bool) return true;
+                case (ParameterValueKind.Bool, ParameterItemKind.Auto):
+                case (ParameterValueKind.Bool, ParameterItemKind.Bool):
+                case (ParameterValueKind.Int, ParameterItemKind.Auto):
+                case (ParameterValueKind.Int, ParameterItemKind.Int):
+                case (ParameterValueKind.Float, ParameterItemKind.Auto):
+                case (ParameterValueKind.Float, ParameterItemKind.Float):
+                case (ParameterValueKind.HandSign, ParameterItemKind.HandSign):
                     break;
-                case ParameterValueKind.Int:
-                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Int) return true;
-                    break;
-                case ParameterValueKind.Float:
-                    if (itemKind == ParameterItemKind.Auto || itemKind == ParameterItemKind.Float) return true;
-                    break;
-                case ParameterValueKind.HandSign:
-                    if (itemKind == ParameterItemKind.HandSign) return true;
+                case (ParameterValueKind.HandSign, ParameterItemKind.Auto):
+                case (ParameterValueKind.HandSign, ParameterItemKind.Int):
+                case (ParameterValueKind.Int, ParameterItemKind.HandSign):
+                case (ParameterValueKind.Float, ParameterItemKind.HandSign):
+                    onError(Loc("Warn::Parameter::UnexpectedHandSignConversion."),
+                        new Substitution
+                        {
+                            ["parameterName"] = parameterName,
+                            ["itemKind"] = $"{itemKind}",
+                            ["resolvedItemKind"] = $"{valueKind}"
+                        });
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    onError(Loc("Warn::Parameter::TypeMismatch."),
+                        new Substitution
+                        {
+                            ["parameterName"] = parameterName,
+                            ["itemKind"] = $"{itemKind}",
+                            ["resolvedItemKind"] = $"{valueKind}"
+                        });
+                    break;
             }
-
-            onError(Loc("Warn::Parameter::TypeMismatch."),
-                new Substitution
-                {
-                    ["parameterName"] = parameterName,
-                    ["itemKind"] = $"{itemKind}",
-                    ["resolvedItemKind"] = $"{valueKind}"
-                });
             return true;
         }
 
