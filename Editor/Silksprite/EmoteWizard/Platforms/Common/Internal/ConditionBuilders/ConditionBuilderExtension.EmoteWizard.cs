@@ -54,11 +54,11 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
                             mode = AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.Greater:
-                            type = actualValueKind == ParameterValueKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
+                            type = actualValueKind != ParameterValueKind.Float ? AnimatorControllerParameterType.Float : AnimatorControllerParameterType.Int;
                             mode = AnimatorConditionMode.Greater;
                             break;
                         case EmoteConditionMode.Less:
-                            type = actualValueKind == ParameterValueKind.Int ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Float;
+                            type = actualValueKind != ParameterValueKind.Float ? AnimatorControllerParameterType.Float : AnimatorControllerParameterType.Int;
                             mode = AnimatorConditionMode.Less;
                             break;
                         case EmoteConditionMode.Equals:
