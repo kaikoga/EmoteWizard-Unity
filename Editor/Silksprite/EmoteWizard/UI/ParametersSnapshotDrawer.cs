@@ -86,26 +86,26 @@ namespace Silksprite.EmoteWizard.UI
         {
             using var _ = new BoxLayoutScope();
             var value = view.Value;
-            LEditorGUILayout.TextField(Loc("ParameterInstance::name"), value.name);
+            LEditorGUILayout.TextField(Loc("ParameterInstance::name"), value.Name);
             using var __ = new EditorGUI.IndentLevelScope();
-            LEditorGUILayout.EnumPopup(Loc("ParameterInstance::itemKind"), value.itemKind);
-            LEditorGUILayout.Toggle(Loc("ParameterInstance::saved"), value.saved);
-            ParameterValueField(LocEnum(value.defaultValue.ItemKind), value.defaultValue);
-            LEditorGUILayout.Toggle(Loc("ParameterInstance::synced"), value.synced);
+            LEditorGUILayout.EnumPopup(Loc("ParameterInstance::itemKind"), value.ItemKind);
+            LEditorGUILayout.Toggle(Loc("ParameterInstance::saved"), value.Saved);
+            ParameterValueField(LocEnum(value.DefaultValue.ItemKind), value.DefaultValue);
+            LEditorGUILayout.Toggle(Loc("ParameterInstance::synced"), value.Synced);
             if (view.ExpandUsages = LEditorGUILayout.Foldout(view.ExpandUsages, Loc("ParameterInstance::usages")))
             {
-                LEditorGUILayout.LabelField(Loc("ParameterInstance::referenceUsages"), $"[{value.referenceUsages.Count}]");
-                foreach (var referenceUsage in value.referenceUsages)
+                LEditorGUILayout.LabelField(Loc("ParameterInstance::referenceUsages"), $"[{value.ReferenceUsages.Count}]");
+                foreach (var referenceUsage in value.ReferenceUsages)
                 {
                     DrawReferenceUsage(referenceUsage);
                 }
-                LEditorGUILayout.LabelField(Loc("ParameterInstance::writeUsages"), $"[{value.writeUsages.Count}]");
-                foreach (var writeUsage in value.writeUsages)
+                LEditorGUILayout.LabelField(Loc("ParameterInstance::writeUsages"), $"[{value.WriteUsages.Count}]");
+                foreach (var writeUsage in value.WriteUsages)
                 {
                     DrawWriteUsage(writeUsage);
                 }
-                LEditorGUILayout.LabelField(Loc("ParameterInstance::readUsages"), $"[{value.readUsages.Count}]");
-                foreach (var readUsage in value.readUsages)
+                LEditorGUILayout.LabelField(Loc("ParameterInstance::readUsages"), $"[{value.ReadUsages.Count}]");
+                foreach (var readUsage in value.ReadUsages)
                 {
                     DrawReadUsage(readUsage);
                 }
@@ -122,9 +122,9 @@ namespace Silksprite.EmoteWizard.UI
         {
             using var _ = new EditorGUI.IndentLevelScope();
             using var __ = new GUILayout.HorizontalScope();
-            ParameterValueField(LocEnum(writeUsage.writeUsageKind), writeUsage.Value);
+            ParameterValueField(LocEnum(writeUsage.WriteUsageKind), writeUsage.Value);
             using var ___ = new EditorGUI.IndentLevelScope(-EditorGUI.indentLevel);
-            LEditorGUILayout.EnumPopup(LocEmpty(), writeUsage.writeSourceKind, GUILayout.Width(100));
+            LEditorGUILayout.EnumPopup(LocEmpty(), writeUsage.WriteSourceKind, GUILayout.Width(100));
         }
 
         void DrawReadUsage(ParameterReadUsage readUsage)

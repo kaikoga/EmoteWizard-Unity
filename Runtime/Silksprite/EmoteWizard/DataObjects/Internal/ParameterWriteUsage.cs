@@ -1,22 +1,16 @@
-using System;
-using UnityEngine;
-
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    [Serializable]
-    public struct ParameterWriteUsage
+    public readonly struct ParameterWriteUsage
     {
-        [SerializeField] public ParameterWriteUsageKind writeUsageKind;
-        [SerializeField] float value;
-        [SerializeField] public ParameterWriteSourceKind writeSourceKind;
-
-        public ParameterValue Value => ParameterValue.Create(writeUsageKind, value);
+        public readonly ParameterWriteUsageKind WriteUsageKind;
+        public readonly ParameterValue Value;
+        public readonly ParameterWriteSourceKind WriteSourceKind;
 
         public ParameterWriteUsage(ParameterWriteUsageKind writeUsageKind, float value, ParameterWriteSourceKind writeSourceKind)
         {
-            this.writeUsageKind = writeUsageKind;
-            this.value = value;
-            this.writeSourceKind = writeSourceKind;
+            WriteUsageKind = writeUsageKind;
+            Value = ParameterValue.Create(WriteUsageKind, value);
+            WriteSourceKind = writeSourceKind;
         }
     }
 }

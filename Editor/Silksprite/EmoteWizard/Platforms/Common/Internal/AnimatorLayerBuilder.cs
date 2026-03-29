@@ -42,7 +42,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             // TODO: do we need this on VRChat?
             foreach (var parameter in ParametersSnapshot.DefaultParameterItems)
             {
-                _referencedParameters.Add(parameter.name);
+                _referencedParameters.Add(parameter.Name);
             }
         }
 
@@ -165,7 +165,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
 
             foreach (var parameter in ParametersSnapshot.AllParameters)
             {
-                var parameterName = parameter.name;
+                var parameterName = parameter.Name;
                 if (!_referencedParameters.Contains(parameterName)) continue;
                 _animatorController.AddParameter(parameterName, parameter.GetParameterType());
             }

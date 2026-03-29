@@ -7,6 +7,7 @@ using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards;
+using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
 
@@ -120,16 +121,15 @@ namespace Silksprite.EmoteWizard.Platforms
                         _ => throw new ArgumentOutOfRangeException()
                     };
 
-                    return new ParameterInstance
-                    {
-                        defaultValue = ParameterValue.Default,
-                        name = name,
-                        saved = false,
-                        itemKind = kind,
-                        referenceUsages = new List<string> { reference },
-                        writeUsages = states.Select(state => new ParameterWriteUsage(writeUsageKind, state, ParameterWriteSourceKind.NoUI)).ToList(),
-                        readUsages = states.Select(state => new ParameterReadUsage(ParameterValue.Create(kind, state))).ToList(),
-                    };
+                    return new ParameterInstance(
+                        name: name,
+                        itemKind: kind,
+                        saved: false,
+                        defaultValue: ParameterValue.Default,
+                        synced: true,
+                        referenceUsages: new List<string> { reference },
+                        writeUsages: states.Select(state => new ParameterWriteUsage(writeUsageKind, state, ParameterWriteSourceKind.NoUI)),
+                        readUsages: states.Select(state => new ParameterReadUsage(ParameterValue.Create(kind, state))));
                 }).ToList();
             }
 

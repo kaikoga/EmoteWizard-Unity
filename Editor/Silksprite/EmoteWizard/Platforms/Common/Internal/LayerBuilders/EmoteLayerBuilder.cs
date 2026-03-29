@@ -251,7 +251,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 {
                     case ParameterValueKind.Int:
                     {
-                        var readUsages = parameter.readUsages;
+                        var readUsages = parameter.ReadUsages;
                         var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
                             .Where(cond => cond[0].Parameter == parameterName && cond[0].Mode == EmoteConditionMode.Equals).ToArray();
                         var values = equalConditions.Select(cond => cond[0].Value.AsInt(platformFeatures)).ToArray();

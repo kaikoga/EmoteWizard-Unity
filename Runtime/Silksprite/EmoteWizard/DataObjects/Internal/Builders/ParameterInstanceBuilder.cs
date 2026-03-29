@@ -112,23 +112,20 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 
         public ParameterInstance ToInstance()
         {
-            return new ParameterInstance
-            {
-                name = _name,
-                saved = _saved,
-                defaultValue = ParameterValue.Create(_itemKind, _defaultValue),
-                synced = _synced,
-                itemKind = _itemKind,
-                referenceUsages = _referenceUsages.ToList(),
-                writeUsages = _writeUsages
-                    .DistinctBy(writeUsage => (writeUsage.writeUsageKind, writeUsage.Value))
-                    .OrderBy(usage => usage.Value)
-                    .ToList(),
-                readUsages = _readUsages
+            return new ParameterInstance(
+                name: _name,
+                itemKind: _itemKind,
+                saved: _saved,
+                defaultValue: ParameterValue.Create(_itemKind, _defaultValue),
+                synced: _synced,
+                referenceUsages: _referenceUsages,
+                writeUsages: _writeUsages
+                    .DistinctBy(writeUsage => (writeUsageKind: writeUsage.WriteUsageKind, writeUsage.Value))
+                    .OrderBy(usage => usage.Value),
+                readUsages: _readUsages
                     .DistinctBy(usage => usage.Value)
                     .OrderBy(usage => usage.Value)
-                    .ToList()
-            };
+            );
         }
     }
 }

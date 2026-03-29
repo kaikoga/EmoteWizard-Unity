@@ -22,11 +22,11 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
         {
             return new VRCExpressionParameters.Parameter
             {
-                name = parameter.name,
-                saved = parameter.saved,
-                defaultValue = parameter.defaultValue.AsFloat(platformFeatures),
+                name = parameter.Name,
+                saved = parameter.Saved,
+                defaultValue = parameter.DefaultValue.AsFloat(platformFeatures),
                 valueType = parameter.GetVrcValueType(),
-                networkSynced = parameter.synced
+                networkSynced = parameter.Synced
             };
         }
     }

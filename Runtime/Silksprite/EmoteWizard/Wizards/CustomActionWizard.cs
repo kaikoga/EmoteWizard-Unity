@@ -33,7 +33,7 @@ namespace Silksprite.EmoteWizard.Wizards
             {
                 var snapshot = environment.GetContext<ParametersContext>().Snapshot();
                 var newValue = 21;
-                var usages = snapshot.ParameterItems.FirstOrDefault(v => v.name == EmoteWizardConstants.Params.ActionSelect)?.readUsages;
+                var usages = snapshot.ParameterItems.FirstOrDefault(v => v.Name == EmoteWizardConstants.Params.ActionSelect)?.ReadUsages;
                 if (usages != null)
                 {
                     while (usages.Any(usage => usage.Value.AsInt(platformFeatures) == newValue)) newValue++;

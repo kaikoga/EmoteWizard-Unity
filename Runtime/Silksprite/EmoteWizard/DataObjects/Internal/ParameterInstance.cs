@@ -1,31 +1,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    [Serializable]
     public class ParameterInstance
     {
-        [SerializeField] public string name = "";
-        [SerializeField] public ParameterItemKind itemKind;
-        [SerializeField] public bool saved = true;
-        [SerializeField] public ParameterValue defaultValue;
-        [SerializeField] public bool synced = true;
-        [SerializeField] public List<string> referenceUsages = new List<string>();
-        [SerializeField] public List<ParameterWriteUsage> writeUsages = new List<ParameterWriteUsage>();
-        [SerializeField] public List<ParameterReadUsage> readUsages = new List<ParameterReadUsage>();
+        public readonly string Name;
+        public readonly ParameterItemKind ItemKind;
+        public readonly bool Saved;
+        public readonly ParameterValue DefaultValue;
+        public readonly bool Synced;
+        public readonly ICollection<string> ReferenceUsages;
+        public readonly ICollection<ParameterWriteUsage> WriteUsages;
+        public readonly ICollection<ParameterReadUsage> ReadUsages;
+
+        public ParameterInstance(string name, ParameterItemKind itemKind, bool saved, ParameterValue defaultValue, bool synced,
+            IEnumerable<string> referenceUsages,
+            IEnumerable<ParameterWriteUsage> writeUsages,
+            IEnumerable<ParameterReadUsage> readUsages)
+        {
+            Name = name;
+            ItemKind = itemKind;
+            Saved = saved;
+            DefaultValue = defaultValue;
+            Synced = synced;
+            ReferenceUsages = referenceUsages.ToList();
+            WriteUsages = writeUsages.ToList();
+            ReadUsages = readUsages.ToList();
+        }
 
         public ParameterValueKind ValueKind
         {
             get
             {
-                switch (itemKind)
+                switch (ItemKind)
                 {
                     case ParameterItemKind.Auto:
-                        if (writeUsages.Any(usage => usage.writeUsageKind == ParameterWriteUsageKind.Float)) return ParameterValueKind.Float;
-                        return writeUsages.Count(usage => usage.writeUsageKind != ParameterWriteUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
+                        if (WriteUsages.Any(usage => usage.WriteUsageKind == ParameterWriteUsageKind.Float)) return ParameterValueKind.Float;
+                        return WriteUsages.Count(usage => usage.WriteUsageKind != ParameterWriteUsageKind.Default) > 1 ? ParameterValueKind.Int : ParameterValueKind.Bool;
                     case ParameterItemKind.Bool:
                         return ParameterValueKind.Bool;
                     case ParameterItemKind.Int:
@@ -40,7 +53,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             }
         }
 
-        public ParameterWriteSourceKind WriteSourceKind => writeUsages.Select(usage => usage.writeSourceKind)
+        public ParameterWriteSourceKind WriteSourceKind => WriteUsages.Select(usage => usage.WriteSourceKind)
                 .FirstOrDefault(writeUsage => !(writeUsage is ParameterWriteSourceKind.NoUI));
     }
 }

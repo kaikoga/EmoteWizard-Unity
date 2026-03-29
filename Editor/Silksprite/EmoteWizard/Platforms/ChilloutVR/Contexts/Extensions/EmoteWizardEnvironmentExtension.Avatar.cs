@@ -95,7 +95,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                         setting = new CVRAdvancesAvatarSettingGameObjectToggleAccess
                         {
                             usedType = usedType,
-                            defaultValue = !parameter.defaultValue.IsDefault
+                            defaultValue = !parameter.DefaultValue.IsDefault
                         };
                         settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle;
                         break;
@@ -110,11 +110,11 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                         settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D;
                         break;
                     case (_, _):
-                        var readUsageValues = parameter.readUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).ToArray();
+                        var readUsageValues = parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).ToArray();
                         setting = new CVRAdvancesAvatarSettingSliderAccess
                         {
                             usedType = usedType,
-                            defaultValue = parameter.defaultValue.AsFloat(platformFeatures),
+                            defaultValue = parameter.DefaultValue.AsFloat(platformFeatures),
                             materialPropertyTargets = new List<CVRAdvancedSettingsTargetEntryMaterialPropertyAccess?>
                             {
                                 new CVRAdvancedSettingsTargetEntryMaterialPropertyAccess
@@ -131,8 +131,8 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 {
                     type = new CVRAdvancedSettingsEntry_SettingsTypeAccess(settingsType),
                     setting = setting,
-                    name = parameter.name,
-                    machineName = parameter.name,
+                    name = parameter.Name,
+                    machineName = parameter.Name,
                 };
 
             }

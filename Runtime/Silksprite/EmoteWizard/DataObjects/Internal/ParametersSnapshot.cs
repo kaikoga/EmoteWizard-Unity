@@ -5,32 +5,30 @@ using System.Linq;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.Loch;
-using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    [Serializable]
     public class ParametersSnapshot
     {
-        [SerializeField] List<string> validReferenceUsages;
+        readonly List<string> _validReferenceUsages;
 
-        [SerializeField] List<ParameterInstance> parameterItems;
-        [SerializeField] List<ParameterInstance> implicitParameterItems;
-        [SerializeField] List<ParameterInstance> defaultParameterItems;
+        readonly List<ParameterInstance> _parameterItems;
+        readonly List<ParameterInstance> _implicitParameterItems;
+        readonly List<ParameterInstance> _defaultParameterItems;
 
-        public IEnumerable<string> ValidReferenceUsages => validReferenceUsages;
-        public IEnumerable<ParameterInstance> ParameterItems => parameterItems;
-        public IEnumerable<ParameterInstance> ImplicitParameterItems => implicitParameterItems;
-        public IEnumerable<ParameterInstance> DefaultParameterItems => defaultParameterItems;
-        public IEnumerable<ParameterInstance> AllParameters => parameterItems.Concat(implicitParameterItems).Concat(defaultParameterItems);
+        public IEnumerable<string> ValidReferenceUsages => _validReferenceUsages;
+        public IEnumerable<ParameterInstance> ParameterItems => _parameterItems;
+        public IEnumerable<ParameterInstance> ImplicitParameterItems => _implicitParameterItems;
+        public IEnumerable<ParameterInstance> DefaultParameterItems => _defaultParameterItems;
+        public IEnumerable<ParameterInstance> AllParameters => _parameterItems.Concat(_implicitParameterItems).Concat(_defaultParameterItems);
 
         public ParametersSnapshot(List<ParameterInstance> parameterItems, List<ParameterInstance> implicitParameterItems, List<ParameterInstance> defaultParameterItems)
         {
-            this.parameterItems = parameterItems;
-            this.implicitParameterItems = implicitParameterItems;
-            this.defaultParameterItems = defaultParameterItems;
-            validReferenceUsages = AllParameters.SelectMany(item => item.referenceUsages).ToList();
+            _parameterItems = parameterItems;
+            _implicitParameterItems = implicitParameterItems;
+            _defaultParameterItems = defaultParameterItems;
+            _validReferenceUsages = AllParameters.SelectMany(item => item.ReferenceUsages).ToList();
         }
 
         public bool TryResolveParameterWithType(string parameterName, ParameterItemKind itemKind,
@@ -38,7 +36,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             out ParameterValueKind valueKind,
             Action<LocalizedContent, Substitution> onError)
         {
-            parameterInstance = AllParameters.FirstOrDefault(item => item.name == parameterName);
+            parameterInstance = AllParameters.FirstOrDefault(item => item.Name == parameterName);
             if (parameterInstance == null)
             {
                 valueKind = default;
@@ -87,7 +85,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public bool IsInvalidParameterReference(string parameterReference)
         {
-            return !string.IsNullOrEmpty(parameterReference) && !validReferenceUsages.Contains(parameterReference);
+            return !string.IsNullOrEmpty(parameterReference) && !_validReferenceUsages.Contains(parameterReference);
         }
 
         public static ParametersSnapshotBuilder Builder(EmoteWizardEnvironment env) => new ParametersSnapshotBuilder(env);

@@ -1,14 +1,11 @@
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.Loch;
-using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
-using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
 #if EW_VRCSDK3_AVATARS
@@ -21,9 +18,7 @@ namespace Silksprite.EmoteWizard.Configs
     public class ParametersConfigEditor : EmoteWizardEditorBase<ParametersConfig>
     {
         LocalizedProperty _outputAsset = null!;
-        LocalizedProperty? _debugSnapshot;
 
-        [SerializeField] ParametersSnapshot? debugSnapshot;
         ParametersSnapshotDrawer? _drawer;
 
         void OnEnable()
@@ -35,26 +30,23 @@ namespace Silksprite.EmoteWizard.Configs
         {
             var environment = CachedEnv();
 
-            if (_debugSnapshot == null)
+            if (_drawer == null)
             {
-                if (LGUILayout.Button(Loc("ParametersConfig::debugSnapshot"), new GUILayoutOption[0]))
+                if (LGUILayout.Button(Loc("ParametersConfig::debugSnapshot")))
                 {
-                    debugSnapshot = soleTarget.GetContext(environment).Snapshot();
-                    _debugSnapshot = new SerializedObject(this).Lop(nameof(debugSnapshot), Loc("ParametersConfig::debugSnapshot"));
-                    _drawer = new ParametersSnapshotDrawer(environment.GetPlatformFeatures(), debugSnapshot);
+                    _drawer = new ParametersSnapshotDrawer(environment.GetPlatformFeatures(), soleTarget.GetContext(environment).Snapshot());
                 }
             }
             else
             {
-                LEditorGUILayout.Prop(_debugSnapshot);
+                _drawer.OnGUI();
             }
 
-            _drawer?.OnGUI();
 
             EmoteWizardSupportGUILayout.OutputUIArea(environment.PersistGeneratedAssets, () =>
             {
 #if EW_VRCSDK3_AVATARS
-                if (LGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters"), new GUILayoutOption[0]))
+                if (LGUILayout.Button(Loc("ParametersConfig::Generate Expression Parameters")))
                 {
                     soleTarget.GetContext(soleTarget.CreateEnv()).BuildOutputAsset();
                 }

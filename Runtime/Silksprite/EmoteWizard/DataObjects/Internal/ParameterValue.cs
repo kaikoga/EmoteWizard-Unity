@@ -1,34 +1,32 @@
 using System;
 using Silksprite.EmoteWizard.Platforms;
-using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
-    [Serializable]
-    public struct ParameterValue : IComparable<ParameterValue>
+    public readonly struct ParameterValue : IComparable<ParameterValue>
     {
         public static ParameterValue Default => new ParameterValue(ParameterItemKind.Auto, 0);
 
-        [SerializeField] ParameterItemKind itemKind;
-        [SerializeField] float value;
+        readonly ParameterItemKind _itemKind;
+        readonly float _value;
 
-        public ParameterItemKind ItemKind => itemKind;
-        public bool IsDefault => value == 0;
+        public ParameterItemKind ItemKind => _itemKind;
+        public bool IsDefault => _value == 0;
 
-        public readonly int AsInt(IPlatformFeatures platformFeatures) => (int)AsFloat(platformFeatures);
+        public int AsInt(IPlatformFeatures platformFeatures) => (int)AsFloat(platformFeatures);
 
-        public readonly float AsFloat(IPlatformFeatures platformFeatures) => itemKind switch
+        public float AsFloat(IPlatformFeatures platformFeatures) => _itemKind switch
         {
-            ParameterItemKind.HandSign => platformFeatures.HandSignValue((HandSign)value),
-            _ => value
+            ParameterItemKind.HandSign => platformFeatures.HandSignValue((HandSign)_value),
+            _ => _value
         };
 
-        public readonly HandSign AsHandSign() => (HandSign)value;
+        public HandSign AsHandSign() => (HandSign)_value;
 
         ParameterValue(ParameterItemKind itemKind, float value)
         {
-            this.itemKind = itemKind;
-            this.value = value;
+            _itemKind = itemKind;
+            _value = value;
         }
 
         public static ParameterValue Create(ParameterItemKind itemKind, float value)
@@ -69,12 +67,12 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public int CompareTo(ParameterValue other)
         {
-            var itemKindComparison = ((int)itemKind).CompareTo((int)other.itemKind);
+            var itemKindComparison = ((int)_itemKind).CompareTo((int)other._itemKind);
             if (itemKindComparison != 0)
             {
                 return itemKindComparison;
             }
-            return value.CompareTo(other.value);
+            return _value.CompareTo(other._value);
         }
     }
 }

@@ -22,9 +22,9 @@ namespace Silksprite.EmoteWizard.Ndmf.Introspection
         {
             return _root.ToEnv()
                 .GetContext<ParametersContext>().Snapshot().ParameterItems
-                .Select(parameterItem => new ProvidedParameter(parameterItem.name, ParameterNamespace.Animator, _root, EmoteWizardPlugin.Instance, parameterItem.GetParameterType())
+                .Select(parameterItem => new ProvidedParameter(parameterItem.Name, ParameterNamespace.Animator, _root, EmoteWizardPlugin.Instance, parameterItem.GetParameterType())
                 {
-                    WantSynced = parameterItem.synced
+                    WantSynced = parameterItem.Synced
                 });
         }
     }
