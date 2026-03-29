@@ -3,7 +3,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Wizards;
-using Silksprite.EmoteWizard.Wizards.Defaults;
 using Silksprite.EmoteWizardSupport.Undoable;
 using UnityEngine;
 

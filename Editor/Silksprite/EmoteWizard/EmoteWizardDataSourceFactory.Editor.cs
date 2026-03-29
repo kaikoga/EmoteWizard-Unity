@@ -5,7 +5,6 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Sources.Sequence;
-using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizard.Wizards;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.EmoteWizardSupport.UI;

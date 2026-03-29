@@ -2,12 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.Defaults;
-using Silksprite.EmoteWizard.Templates;
-using Silksprite.EmoteWizard.Wizards;
-using UnityEngine;
-using static Silksprite.EmoteWizard.EmoteWizardConstants;
 
 namespace Silksprite.EmoteWizard.Platforms
 {

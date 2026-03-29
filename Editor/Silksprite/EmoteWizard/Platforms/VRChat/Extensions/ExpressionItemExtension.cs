@@ -87,7 +87,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Extensions
             var value =
                 hasParameter
                 && environment.GetContext<ParametersContext>().Snapshot()
-                    .TryResolveParameterWithTypeAndWarning(parameter, ParameterItemKind.Auto, out _, out var parameterType)
+                    .TryResolveParameterWithTypeAndWarning(parameter!, ParameterItemKind.Auto, out _, out var parameterType)
                     ? ParameterValue.Create(parameterType, expressionItem.value).AsFloat(environment.GetPlatformFeatures())
                     : expressionItem.value;
 

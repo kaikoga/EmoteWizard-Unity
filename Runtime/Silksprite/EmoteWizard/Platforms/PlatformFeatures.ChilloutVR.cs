@@ -7,7 +7,6 @@ using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards;
-using UnityEditor;
 using UnityEngine;
 using static Silksprite.EmoteWizard.EmoteWizardConstants;
 

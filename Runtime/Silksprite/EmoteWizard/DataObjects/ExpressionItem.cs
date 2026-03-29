@@ -44,10 +44,10 @@ namespace Silksprite.EmoteWizard.DataObjects
             }
         }
 
-        public bool TryGetParameter([MaybeNullWhen(false)] out string parameter)
+        public bool TryGetParameter([MaybeNullWhen(false)] out string parameterValue)
         {
-            parameter = this.parameter;
-            return !string.IsNullOrWhiteSpace(parameter);
+            parameterValue = parameter;
+            return !string.IsNullOrWhiteSpace(parameterValue);
         }
 
         public string Name => GetFileName(path);

@@ -10,7 +10,6 @@ using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
-using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using UnityEngine;
