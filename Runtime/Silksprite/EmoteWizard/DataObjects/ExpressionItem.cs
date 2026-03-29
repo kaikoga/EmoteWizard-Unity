@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
@@ -41,6 +42,12 @@ namespace Silksprite.EmoteWizard.DataObjects
                 if (subParameters.Take(itemKind).Any(sub => ParameterNameUtil.IsInvalidParameterFormat(sub, false))) return false; 
                 return true;
             }
+        }
+
+        public bool TryGetParameter([MaybeNullWhen(false)] out string parameter)
+        {
+            parameter = this.parameter;
+            return !string.IsNullOrWhiteSpace(parameter);
         }
 
         public string Name => GetFileName(path);
