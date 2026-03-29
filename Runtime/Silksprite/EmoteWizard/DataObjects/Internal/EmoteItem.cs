@@ -56,6 +56,8 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IClipBuilder clipBuilder)
         {
+            var platformFeatures = environment.GetPlatformFeatures();
+
             // TODO: use AnimatorState mirror settings 
             Motion? ResolveMirroredMotion(MirroredMotion mirroredMotion, Motion? fallback) =>
                 Hand switch
@@ -65,28 +67,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     EmoteHand.Right => mirroredMotion.clipRight,
                     _ => throw new ArgumentOutOfRangeException()
                 };
-            string ResolveMirrorParameter(string parameter)
-            {
-                var platformFeatures = environment.GetPlatformFeatures();
-                switch (parameter)
-                {
-                    case EmoteWizardConstants.Params.Gesture:
-                        return Hand == EmoteHand.Left ? platformFeatures.GestureLeft : platformFeatures.GestureRight;
-                    case EmoteWizardConstants.Params.GestureOther:
-                        return Hand == EmoteHand.Left ? platformFeatures.GestureRight : platformFeatures.GestureLeft;
-                    case EmoteWizardConstants.Params.GestureWeight:
-                        return Hand == EmoteHand.Left ? platformFeatures.GestureLeftWeight : platformFeatures.GestureRightWeight;
-                    case EmoteWizardConstants.Params.GestureOtherWeight:
-                        return Hand == EmoteHand.Left ? platformFeatures.GestureRightWeight : platformFeatures.GestureLeftWeight;
-                    default:
-                        return parameter;
-                }
-            }
 
-            var instance = new EmoteInstance(new EmoteTriggerInstance(Trigger), _emoteSequenceFactory.Build(environment, clipBuilder))
-            {
-                Hand = Hand
-            };
+            var trigger = new EmoteTriggerInstance(Trigger);
+            var sequence = _emoteSequenceFactory.Build(environment, clipBuilder);
+            var instance = new EmoteInstance(trigger, sequence, Hand);
 
             switch (Hand)
             {
@@ -97,9 +81,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                     instance.Sequence.groupName = $"{GroupNameNoMirror} ({Hand})";
                     foreach (var condition in instance.Trigger.Conditions)
                     {
-                        condition.Parameter = ResolveMirrorParameter(condition.Parameter);
+                        condition.Parameter = platformFeatures.ResolveMirrorParameter(condition.Parameter, Hand);
                     }
-                    instance.Sequence.timeParameter = ResolveMirrorParameter(instance.Sequence.timeParameter);
+                    instance.Sequence.timeParameter = platformFeatures.ResolveMirrorParameter(instance.Sequence.timeParameter, Hand);
                     if (instance.Sequence.mirroredClip.useMirroredSettings)
                     {
                         instance.Sequence.clip = ResolveMirroredMotion(instance.Sequence.mirroredClip, instance.Sequence.clip);

@@ -19,10 +19,21 @@ namespace Silksprite.EmoteWizard.Platforms
         {
             string IPlatformFeatures.ParameterReferenceForActionSelect => VRChat.Params.VRCEmote;
             string IPlatformFeatures.ParameterForAlwaysTrue => VRChat.Params.Viseme;
-            string IPlatformFeatures.GestureLeft => VRChat.Params.GestureLeft;
-            string IPlatformFeatures.GestureLeftWeight => VRChat.Params.GestureLeftWeight;
-            string IPlatformFeatures.GestureRight => VRChat.Params.GestureRight;
-            string IPlatformFeatures.GestureRightWeight => VRChat.Params.GestureRightWeight;
+            string IPlatformFeatures.ResolveMirrorParameter(string virtualParameter, EmoteHand hand)
+            {
+                return (virtualParameter, hand) switch
+                {
+                    (Params.Gesture, EmoteHand.Left) => VRChat.Params.GestureLeft,
+                    (Params.Gesture, EmoteHand.Right) => VRChat.Params.GestureRight,
+                    (Params.GestureOther, EmoteHand.Left) => VRChat.Params.GestureRight,
+                    (Params.GestureOther, EmoteHand.Right) => VRChat.Params.GestureLeft,
+                    (Params.GestureWeight, EmoteHand.Left) => VRChat.Params.GestureLeftWeight,
+                    (Params.GestureWeight, EmoteHand.Right) => VRChat.Params.GestureRightWeight,
+                    (Params.GestureOtherWeight, EmoteHand.Left) => VRChat.Params.GestureRightWeight,
+                    (Params.GestureOtherWeight, EmoteHand.Right) => VRChat.Params.GestureLeftWeight,
+                    _ => virtualParameter
+                };
+            }
 
             Motion IPlatformFeatures.GestureClipIdleLeft => VrcSdkAssetLocator.ProxyHandsIdle();
             Motion IPlatformFeatures.GestureClipFistLeft => VrcSdkAssetLocator.ProxyHandsFist();

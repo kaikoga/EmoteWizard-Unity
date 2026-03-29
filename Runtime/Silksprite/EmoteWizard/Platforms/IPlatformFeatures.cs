@@ -11,10 +11,7 @@ namespace Silksprite.EmoteWizard.Platforms
     {
         string ParameterForAlwaysTrue { get; }
         string ParameterReferenceForActionSelect { get; }
-        string GestureLeft { get; }
-        string GestureLeftWeight { get; }
-        string GestureRight { get; }
-        string GestureRightWeight { get; }
+        string ResolveMirrorParameter(string virtualParameter, EmoteHand hand);
 
         Motion GestureClipIdleLeft { get; }
         Motion GestureClipFistLeft { get; }
