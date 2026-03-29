@@ -6,12 +6,12 @@ namespace Silksprite.EmoteWizard.Platforms.References
     {
         class ChilloutVRReferences : IPlatformReferences
         {
-            string IPlatformReferences.VisemeReference => VRChat.Params.Viseme;
-            string IPlatformReferences.ActionSelectReference => VRChat.Params.VRCEmote;
-            string IPlatformReferences.GestureLeftReference => VRChat.Params.GestureLeft;
-            string IPlatformReferences.GestureLeftWeightReference => VRChat.Params.GestureLeftWeight;
-            string IPlatformReferences.GestureRightReference => VRChat.Params.GestureRight;
-            string IPlatformReferences.GestureRightWeightReference => VRChat.Params.GestureRightWeight;
+            string IPlatformReferences.VisemeReference => ChilloutVR.Params.VisemeIdx;
+            string IPlatformReferences.ActionSelectReference => ChilloutVR.Params.Emote;
+            string IPlatformReferences.GestureLeftReference => ChilloutVR.Params.GestureLeftIdx;
+            string IPlatformReferences.GestureLeftWeightReference => ChilloutVR.Params.GestureLeft;
+            string IPlatformReferences.GestureRightReference => ChilloutVR.Params.GestureRightIdx;
+            string IPlatformReferences.GestureRightWeightReference => ChilloutVR.Params.GestureRight;
         }
     }
 }
