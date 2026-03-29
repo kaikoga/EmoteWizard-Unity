@@ -8,13 +8,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class ExpressionItemTemplate : IEmoteTemplate
     {
-        public EmoteTemplatePath Path { get; }
+        readonly EmoteTemplatePath _path;
+        EmoteTemplatePath IEmoteTemplate.Path => _path;
 
         readonly ExpressionItem _expressionItem;
 
         public ExpressionItemTemplate(EmoteTemplatePath path, ExpressionItem expressionItem)
         {
-            Path = path;
+            _path = path;
             _expressionItem = expressionItem;
         }
 
@@ -23,7 +24,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             yield return _expressionItem;
         }
 
-        public void PopulateSources(IUndoable undoable, Component target)
+        void IEmoteTemplate.PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<ExpressionItemSource>(target);
             source.expressionItem = _expressionItem;

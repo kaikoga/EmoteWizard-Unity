@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Extensions;
-using Silksprite.EmoteWizard.Templates.Impl;
+using Silksprite.EmoteWizard.Templates;
 
 namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 {
@@ -19,8 +19,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
         IEnumerable<EmoteItem> CollectAllMirroredEmoteItems()
         {
             var platformFeatures = Environment.GetPlatformFeatures();
-            return Environment.GetContext<EmoteTemplateContext>()
-                .UnpackedTemplates<EmoteItemTemplate>()
+            return Environment.GetContext<EmoteTemplateContext>().UnpackedTemplates<IEmoteItemTemplate>()
                 .SelectMany(template => template.ToEmoteItems(platformFeatures))
                 .SelectMany(item => item.IsMirrorItem ? item.Mirror() : item.NoMirror());
         }

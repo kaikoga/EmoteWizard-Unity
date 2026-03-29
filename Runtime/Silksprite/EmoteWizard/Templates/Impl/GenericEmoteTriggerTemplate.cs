@@ -7,17 +7,18 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class GenericEmoteTriggerTemplate : IEmoteTemplate
     {
-        public EmoteTemplatePath Path { get; }
+        readonly EmoteTemplatePath _path;
+        EmoteTemplatePath IEmoteTemplate.Path => _path;
 
         readonly GenericEmoteTrigger _trigger;
 
         public GenericEmoteTriggerTemplate(EmoteTemplatePath path, GenericEmoteTrigger trigger)
         {
-            Path = path;
+            _path = path;
             _trigger = trigger;
         }
 
-        public void PopulateSources(IUndoable undoable, Component target)
+        void IEmoteTemplate.PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<GenericEmoteItemSource>(target);
             source.trigger = _trigger;

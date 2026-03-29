@@ -64,7 +64,7 @@ namespace Silksprite.EmoteWizard.Contexts
         {
             return Environment.GetContext<EmoteTemplateContext>()
                 .UnpackedTemplates<ParameterItemTemplate>()
-                .Select(template => template.ParameterItem);
+                .SelectMany(template => template.ToParameterItems());
         }
 
         ParametersSnapshot BuildSnapshot()

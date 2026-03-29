@@ -6,17 +6,18 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class EmoteSequenceTemplate : IEmoteTemplate
     {
-        public EmoteTemplatePath Path { get; }
+        readonly EmoteTemplatePath _path;
+        EmoteTemplatePath IEmoteTemplate.Path => _path;
 
         readonly EmoteSequenceFactory _sequence;
 
         public EmoteSequenceTemplate(EmoteTemplatePath path, EmoteSequenceFactory sequence)
         {
-            Path = path;
+            _path = path;
             _sequence = sequence;
         }
 
-        public void PopulateSources(IUndoable undoable, Component target)
+        void IEmoteTemplate.PopulateSources(IUndoable undoable, Component target)
         {
             _sequence.PopulateSequenceSource(undoable, target);
         }

@@ -1,9 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizard.Platforms.Extensions;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizard.Templates.Sequence;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -11,32 +9,29 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Impl
 {
-    public class GenericEmoteItemTemplate : IEmoteTemplate
+    public class GenericEmoteItemTemplate : IEmoteItemTemplate
     {
-        public EmoteTemplatePath Path { get; }
+        readonly EmoteTemplatePath _path;
+        EmoteTemplatePath IEmoteTemplate.Path => _path;
 
-        public readonly GenericEmoteTrigger Trigger;
-        public readonly IEmoteSequenceFactoryTemplate? SequenceFactory;
+        readonly GenericEmoteTrigger _trigger;
+        readonly IEmoteSequenceFactoryTemplate? _sequenceFactory;
 
         public GenericEmoteItemTemplate(EmoteTemplatePath path,
             GenericEmoteTrigger trigger, 
             IEmoteSequenceFactoryTemplate? sequenceFactory)
         {
-            Path = path;
-            Trigger = trigger;
-            SequenceFactory = sequenceFactory;
+            _path = path;
+            _trigger = trigger;
+            _sequenceFactory = sequenceFactory;
         }
 
-        public bool LooksLikeMirrorItem => true;
-
-        EmoteItem? ToEmoteItem(EmoteWizardEnvironment environment)
+        EmoteItem? ToEmoteItem()
         {
-            if (SequenceFactory == null) return null;
+            if (_sequenceFactory == null) return null;
 
-            if (!Trigger.TryGetHandSign(out var handSign)) return null;
+            if (!_trigger.TryGetHandSign(out var handSign)) return null;
             
-            var platformFeatures = environment.GetPlatformFeatures();
-
             return new EmoteItem(new EmoteTriggerInstance
                 (
                     name: handSign.ToString(),
@@ -51,22 +46,22 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                         )
                     }
                 ),
-                SequenceFactory);
-        }
-
-        public IEnumerable<EmoteItem> ToEmoteItems(EmoteWizardEnvironment environment)
-        {
-            if (ToEmoteItem(environment) is { } emoteItem)
-            {
-                yield return emoteItem;
-            }
+                _sequenceFactory);
         }
 
         GenericEmoteItem? ToGenericEmoteItem()
         {
-            if (!(SequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
+            if (!(_sequenceFactory is IGenericEmoteSequenceFactory genericSequenceFactory)) return null;
 
-            return new GenericEmoteItem(Trigger, genericSequenceFactory);
+            return new GenericEmoteItem(_trigger, genericSequenceFactory);
+        }
+
+        IEnumerable<EmoteItem> IEmoteItemTemplate.ToEmoteItems(IPlatformFeatures platformFeatures)
+        {
+            if (ToEmoteItem() is { } emoteItem)
+            {
+                yield return emoteItem;
+            }
         }
 
         public IEnumerable<GenericEmoteItem> ToGenericEmoteItems()
@@ -77,13 +72,11 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             }
         }
 
-        public IEnumerable<ExpressionItem> ToExpressionItems() => Enumerable.Empty<ExpressionItem>();
-
-        public void PopulateSources(IUndoable undoable, Component target)
+        void IEmoteTemplate.PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<GenericEmoteItemSource>(target);
-            source.trigger = Trigger;
-            SequenceFactory?.PopulateSequenceSource(undoable, source);
+            source.trigger = _trigger;
+            _sequenceFactory?.PopulateSequenceSource(undoable, source);
         }
     }
 }

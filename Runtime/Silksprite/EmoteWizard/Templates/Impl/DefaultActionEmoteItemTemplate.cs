@@ -9,25 +9,26 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class DefaultActionEmoteItemTemplate : ICompositeEmoteTemplate
     {
-        public EmoteTemplatePath Path { get; }
+        readonly EmoteTemplatePath _path;
+        EmoteTemplatePath IEmoteTemplate.Path => _path;
 
         readonly DefaultActionIndex _defaultActionIndex;
 
         public DefaultActionEmoteItemTemplate(EmoteTemplatePath path, DefaultActionIndex defaultActionIndex)
         {
-            Path = path;
+            _path = path;
             _defaultActionIndex = defaultActionIndex;
         }
 
-        public void PopulateSources(IUndoable undoable, Component target)
+        void IEmoteTemplate.PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<DefaultActionEmoteItemSource>(target);
             source.defaultActionIndex = _defaultActionIndex;
         }
 
-        public IEnumerable<IEmoteTemplate> Unpack(IPlatformFeatures platformFeatures)
+        IEnumerable<IEmoteTemplate> ICompositeEmoteTemplate.Unpack(IPlatformFeatures platformFeatures)
         {
-            return platformFeatures.UnpackDefaultAction(Path, _defaultActionIndex);
+            return platformFeatures.UnpackDefaultAction(_path, _defaultActionIndex);
         }
     }
 }

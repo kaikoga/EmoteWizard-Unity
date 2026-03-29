@@ -10,7 +10,8 @@ namespace Silksprite.EmoteWizard.Templates.Impl
 {
     public class DefaultEmoteItemTemplate : ICompositeEmoteTemplate
     {
-        public EmoteTemplatePath Path { get; }
+        readonly EmoteTemplatePath _path;
+        EmoteTemplatePath IEmoteTemplate.Path => _path;
 
         readonly EmoteItemKind _emoteItemKind;
         readonly EmoteSequenceFactoryKind _emoteSequenceFactoryKind;
@@ -24,14 +25,14 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             HandSign handSign
         )
         {
-            Path = path;
+            _path = path;
             _emoteItemKind = emoteItemKind;
             _emoteSequenceFactoryKind = emoteSequenceFactoryKind;
             _layerKind = layerKind;
             _handSign = handSign;
         }
 
-        public void PopulateSources(IUndoable undoable, Component target)
+        void IEmoteTemplate.PopulateSources(IUndoable undoable, Component target)
         {
             var source = undoable.AddComponent<DefaultEmoteItemSource>(target);
             source.emoteItemKind = _emoteItemKind;
@@ -40,9 +41,9 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             source.handSign = _handSign;
         }
 
-        public IEnumerable<IEmoteTemplate> Unpack(IPlatformFeatures platformFeatures)
+        IEnumerable<IEmoteTemplate> ICompositeEmoteTemplate.Unpack(IPlatformFeatures platformFeatures)
         {
-            return platformFeatures.UnpackDefaultHandSign(Path, _emoteItemKind, _emoteSequenceFactoryKind, _layerKind, _handSign);
+            return platformFeatures.UnpackDefaultHandSign(_path, _emoteItemKind, _emoteSequenceFactoryKind, _layerKind, _handSign);
         }
     }
 }
