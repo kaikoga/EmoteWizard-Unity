@@ -111,7 +111,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base
         {
             foreach (var condition in emoteConditions)
             {
-                conditions.EmoteCondition(condition, ResolveParameterType(condition.Parameter, condition.Kind));
+                conditions.EmoteCondition(Environment, condition);
                 Builder.MarkParameter(condition.Parameter);
             }
         }

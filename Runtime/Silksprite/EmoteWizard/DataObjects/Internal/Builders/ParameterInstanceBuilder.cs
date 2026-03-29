@@ -47,7 +47,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             AddSynced();
             if (_readUsages.All(state => !state.Value.IsDefault))
             {
-                _readUsages.Add(new ParameterReadUsage(ParameterItemKind.Auto, 0));
+                _readUsages.Add(new ParameterReadUsage(ParameterValue.Default));
             }
         }
 
@@ -74,10 +74,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             }
         }
 
-        public void AddReadValue(ParameterItemKind itemKind, float value)
+        public void AddReadValue(ParameterValue value)
         {
             AddReadDefault();
-            _readUsages.Add(new ParameterReadUsage(itemKind, value));
+            _readUsages.Add(new ParameterReadUsage(value));
         }
 
         public void AddWritePuppet(ParameterWriteSourceKind sourceKind)

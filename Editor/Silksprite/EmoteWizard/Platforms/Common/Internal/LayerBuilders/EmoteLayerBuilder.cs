@@ -252,7 +252,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                         var readUsages = parameter.readUsages;
                         var equalConditions = currentForcedConditions.Where(cond => cond.Count == 1)
                             .Where(cond => cond[0].Parameter == parameterName && cond[0].Mode == EmoteConditionMode.Equals).ToArray();
-                        var values = equalConditions.Select(cond => cond[0].Threshold);
+                        var values = equalConditions.Select(cond => cond[0].Value.AsInt(platformFeatures)).ToArray();
                         var elseValues = readUsages.Select(usage => usage.Value.AsInt(platformFeatures)).Where(value => !values.Contains(value)).ToArray();
                         if (elseValues.Length == 1)
                         {
@@ -263,7 +263,6 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                                     kind: conditions[0].Kind,
                                     parameter: conditions[0].Parameter,
                                     mode: EmoteConditionMode.NotEqual,
-                                    threshold: elseValues[0],
                                     value: ParameterValue.Create(ParameterItemKind.Int, elseValues[0])
                                 )
                             });
@@ -287,9 +286,9 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                                 case EmoteConditionMode.Less:
                                     return EmoteConditionMode.IfNot;
                                 case EmoteConditionMode.Equals:
-                                    return cond[0].Threshold != 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
+                                    return cond[0].Value.IsDefault ? EmoteConditionMode.IfNot : EmoteConditionMode.If;
                                 case EmoteConditionMode.NotEqual:
-                                    return cond[0].Threshold == 0 ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
+                                    return cond[0].Value.IsDefault ? EmoteConditionMode.If : EmoteConditionMode.IfNot;
                                 default:
                                     throw new ArgumentOutOfRangeException();
                             }
@@ -304,7 +303,6 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                                     kind: ParameterItemKind.Bool,
                                     parameter: conditions[0].Parameter,
                                     mode: combinedMode,
-                                    threshold: 0,
                                     value: ParameterValue.Default
                                 )
                             });

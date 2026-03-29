@@ -47,7 +47,6 @@ namespace Silksprite.EmoteWizard.Templates.Impl
                             kind: ParameterItemKind.Auto,
                             parameter: EmoteWizardConstants.Params.Gesture,
                             mode: EmoteConditionMode.Equals,
-                            threshold: platformFeatures.HandSignValue(handSign),
                             value: ParameterValue.HandSign(handSign)
                         )
                     }

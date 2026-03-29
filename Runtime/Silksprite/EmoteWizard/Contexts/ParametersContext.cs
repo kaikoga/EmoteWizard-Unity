@@ -129,7 +129,7 @@ namespace Silksprite.EmoteWizard.Contexts
             {
                 foreach (var condition in emoteItem.Trigger.Conditions)
                 {
-                    builder.FindOrCreateAny(condition.Parameter).AddReadValue(condition.Kind, condition.Threshold);
+                    builder.FindOrCreateAny(condition.Parameter).AddReadValue(condition.Value);
                 }
             }
             

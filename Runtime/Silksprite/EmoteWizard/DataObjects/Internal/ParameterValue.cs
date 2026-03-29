@@ -14,9 +14,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
 
         public bool IsDefault => value == 0;
 
-        public int AsInt(IPlatformFeatures platformFeatures) => (int)AsFloat(platformFeatures);
+        public readonly int AsInt(IPlatformFeatures platformFeatures) => (int)AsFloat(platformFeatures);
 
-        public float AsFloat(IPlatformFeatures platformFeatures) => itemKind switch
+        public readonly float AsFloat(IPlatformFeatures platformFeatures) => itemKind switch
             {
                 ParameterItemKind.HandSign => platformFeatures.HandSignValue((HandSign)value),
                 _ => value

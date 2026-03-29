@@ -6,14 +6,17 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     [Serializable]
     public struct ParameterReadUsage
     {
-        [SerializeField] public ParameterItemKind itemKind;
-        [SerializeField] float value;
+        [SerializeField] ParameterValue value;
 
-        public ParameterValue Value => ParameterValue.Create(itemKind, value);
+        public ParameterValue Value => value;
 
         public ParameterReadUsage(ParameterItemKind itemKind, float value)
         {
-            this.itemKind = itemKind;
+            this.value = ParameterValue.Create(itemKind, value);
+        }
+
+        public ParameterReadUsage(ParameterValue value)
+        {
             this.value = value;
         }
     }

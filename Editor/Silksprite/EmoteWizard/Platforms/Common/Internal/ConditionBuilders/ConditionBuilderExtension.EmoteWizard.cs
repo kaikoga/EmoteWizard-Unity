@@ -2,6 +2,7 @@ using System;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -10,8 +11,11 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
 {
     static class ConditionBuilderEmoteWizardExtension
     {
-        public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteConditionInstance emoteCondition, ParameterValueKind? actualValueKind)
+        public static ConditionBuilder EmoteCondition(this ConditionBuilder builder, EmoteWizardEnvironment environment, EmoteConditionInstance emoteCondition)
         {
+            var actualValueKind = environment.GetContext<ParametersContext>().Snapshot()
+                .ResolveParameterTypeWithWarning(emoteCondition.Parameter, emoteCondition.Kind);
+
             AnimatorControllerParameterType type;
             AnimatorConditionMode mode;
             switch (actualValueKind)
@@ -33,10 +37,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
                             mode = AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.Equals:
-                            mode = emoteCondition.Threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
+                            mode = !emoteCondition.Value.IsDefault ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
                             break;
                         case EmoteConditionMode.NotEqual:
-                            mode = emoteCondition.Threshold != 0 ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
+                            mode = !emoteCondition.Value.IsDefault ? AnimatorConditionMode.If : AnimatorConditionMode.IfNot;
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
@@ -75,7 +79,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
                     break;
             }
 
-            builder.AddCondition(type, mode, emoteCondition.Parameter, emoteCondition.Threshold);
+            builder.AddCondition(type, mode, emoteCondition.Parameter, emoteCondition.Value.AsFloat(environment.GetPlatformFeatures()));
             return builder;
         }
 

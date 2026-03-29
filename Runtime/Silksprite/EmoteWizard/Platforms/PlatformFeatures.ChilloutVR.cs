@@ -118,7 +118,7 @@ namespace Silksprite.EmoteWizard.Platforms
                         itemKind = kind,
                         referenceUsages = new List<string> { reference },
                         writeUsages = states.Select(state => new ParameterWriteUsage(ParameterWriteUsageKind.Int, state, ParameterWriteSourceKind.NoUI)).ToList(),
-                        readUsages = states.Select(state => new ParameterReadUsage(ParameterItemKind.Int, state)).ToList(),
+                        readUsages = states.Select(state => new ParameterReadUsage(ParameterValue.Create(ParameterItemKind.Int, state))).ToList(),
                     };
                 }).ToList();
             }
