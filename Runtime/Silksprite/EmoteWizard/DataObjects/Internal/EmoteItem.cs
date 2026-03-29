@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Platforms.Extensions;
@@ -57,51 +56,10 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public EmoteInstance ToEmoteInstance(EmoteWizardEnvironment environment, IClipBuilder clipBuilder)
         {
             var platformFeatures = environment.GetPlatformFeatures();
-
-            // TODO: use AnimatorState mirror settings 
-            Motion? ResolveMirroredMotion(MirroredMotion mirroredMotion, Motion? fallback) =>
-                Hand switch
-                {
-                    EmoteHand.Neither => fallback,
-                    EmoteHand.Left => mirroredMotion.clipLeft,
-                    EmoteHand.Right => mirroredMotion.clipRight,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
-            var trigger = new EmoteTriggerInstance(Trigger);
-            var sequence = _emoteSequenceFactory.Build(environment, clipBuilder);
-            var instance = new EmoteInstance(trigger, sequence, Hand);
-
-            switch (Hand)
-            {
-                case EmoteHand.Neither:
-                    break;
-                case EmoteHand.Left:
-                case EmoteHand.Right:
-                    instance.Sequence.groupName = $"{GroupNameNoMirror} ({Hand})";
-                    foreach (var condition in instance.Trigger.Conditions)
-                    {
-                        condition.Parameter = platformFeatures.ResolveMirrorParameter(condition.Parameter, Hand);
-                    }
-                    instance.Sequence.timeParameter = platformFeatures.ResolveMirrorParameter(instance.Sequence.timeParameter, Hand);
-                    if (instance.Sequence.mirroredClip.useMirroredSettings)
-                    {
-                        instance.Sequence.clip = ResolveMirroredMotion(instance.Sequence.mirroredClip, instance.Sequence.clip);
-                    }
-                    if (instance.Sequence.mirroredEntryClip.useMirroredSettings)
-                    {
-                        instance.Sequence.entryClip = ResolveMirroredMotion(instance.Sequence.mirroredEntryClip, instance.Sequence.entryClip);
-                    }
-                    if (instance.Sequence.mirroredExitClip.useMirroredSettings)
-                    {
-                        instance.Sequence.exitClip = ResolveMirroredMotion(instance.Sequence.mirroredExitClip, instance.Sequence.exitClip);
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return instance;
+            return new EmoteInstance(
+                Trigger.ResolveMirror(platformFeatures, Hand),
+                _emoteSequenceFactory.Build(environment, clipBuilder).ResolveMirrorInplace(platformFeatures, Hand),
+                Hand);
         }
     }
 }

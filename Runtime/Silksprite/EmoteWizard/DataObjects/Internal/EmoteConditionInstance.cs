@@ -1,9 +1,11 @@
+using Silksprite.EmoteWizard.Platforms;
+
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
     public class EmoteConditionInstance
     {
         public readonly ParameterItemKind Kind;
-        public string Parameter;
+        public readonly string Parameter;
         public readonly EmoteConditionMode Mode;
         public readonly ParameterValue Value;
 
@@ -15,6 +17,9 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             Value = value;
         }
 
-        public EmoteConditionInstance(EmoteConditionInstance other) : this(other.Kind, other.Parameter, other.Mode, other.Value) { }
+        public EmoteConditionInstance ResolveMirror(IPlatformFeatures platformFeatures, EmoteHand hand)
+        {
+            return new EmoteConditionInstance(Kind, platformFeatures.ResolveMirrorParameter(Parameter, hand), Mode, Value);
+        }
     }
 }

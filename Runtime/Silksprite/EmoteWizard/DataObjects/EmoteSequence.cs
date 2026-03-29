@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects.Builders;
+using Silksprite.EmoteWizard.Platforms;
 using UnityEngine;
 
 namespace Silksprite.EmoteWizard.DataObjects
@@ -53,6 +54,46 @@ namespace Silksprite.EmoteWizard.DataObjects
                 layerKind = layerKind,
                 groupName = groupName
             });
+        }
+
+        public EmoteSequence ResolveMirrorInplace(IPlatformFeatures platformFeatures, EmoteHand hand)
+        {
+            // TODO: use AnimatorState mirror settings 
+            Motion? ResolveMirroredMotion(MirroredMotion mirroredMotion, Motion? fallback) =>
+                hand switch
+                {
+                    EmoteHand.Neither => fallback,
+                    EmoteHand.Left => mirroredMotion.clipLeft,
+                    EmoteHand.Right => mirroredMotion.clipRight,
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+
+            switch (hand)
+            {
+                case EmoteHand.Neither:
+                    break;
+                case EmoteHand.Left:
+                case EmoteHand.Right:
+                    groupName = $"{groupName} ({hand})";
+                    timeParameter = platformFeatures.ResolveMirrorParameter(timeParameter, hand);
+                    if (mirroredClip.useMirroredSettings)
+                    {
+                        clip = ResolveMirroredMotion(mirroredClip, clip);
+                    }
+                    if (mirroredEntryClip.useMirroredSettings)
+                    {
+                        entryClip = ResolveMirroredMotion(mirroredEntryClip, entryClip);
+                    }
+                    if (mirroredExitClip.useMirroredSettings)
+                    {
+                        exitClip = ResolveMirroredMotion(mirroredExitClip, exitClip);
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            return this;
         }
     }
 }
