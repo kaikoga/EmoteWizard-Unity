@@ -4,7 +4,7 @@ using Silksprite.AdLib.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch.IMGUI;
@@ -38,14 +38,14 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(cvrAvatar.BaseObject);
                     if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
-                        CachedEnv().CleanupCvrAvatar();
+                        CachedEnv().GetContext<ChilloutVRAvatarBuilderContext>().CleanupAvatar();
                     }
                     EmoteWizardSupportGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
                         "Generate Everything and Update Avatar",
                         undoable =>
                         {
                             undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                            CachedEnv().BuildCvrAvatar(undoable, true);
+                            CachedEnv().GetContext<ChilloutVRAvatarBuilderContext>().BuildAvatar(undoable, true);
                         });
 
                     using (new GUILayout.HorizontalScope())

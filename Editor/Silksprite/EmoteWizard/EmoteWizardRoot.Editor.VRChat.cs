@@ -6,7 +6,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.Utils;
-using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Builder;
 using Silksprite.EmoteWizard.Platforms.VRChat.Extensions;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
@@ -122,14 +122,14 @@ namespace Silksprite.EmoteWizard
                     var avatarAnimator = RuntimeUndoable.Instance.EnsureComponent<Animator>(avatarDescriptor);
                     if (LGUILayout.Button(Loc("EmoteWizardRoot::Disconnect Avatar Output Assets")))
                     {
-                        CachedEnv().CleanupVrcAvatar();
+                        CachedEnv().GetContext<VRChatAvatarBuilderContext>().CleanupAvatar();
                     }
                     EmoteWizardSupportGUILayout.Undoable(Loc("EmoteWizardRoot::Generate Everything and Update Avatar"),
                         "Generate Everything and Update Avatar",
                         undoable =>
                         {
                             undoable.EnsureComponent<EditorLayerConfig>(soleTarget);
-                            CachedEnv().BuildVrcAvatar(undoable, true);
+                            CachedEnv().GetContext<VRChatAvatarBuilderContext>().BuildAvatar(undoable, true);
                         });
 
                     using (new GUILayout.HorizontalScope())

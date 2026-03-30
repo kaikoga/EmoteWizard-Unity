@@ -8,6 +8,7 @@
         "Ablet.API",
         "EmoteWizard",
         "EmoteWizard.Core",
+        "EmoteWizard.Core.Editor",
         "EmoteWizard.Editor",
         "EmoteWizard.Platforms.Common.Editor",
         "EmoteWizard.Platforms.VRChat.Editor",

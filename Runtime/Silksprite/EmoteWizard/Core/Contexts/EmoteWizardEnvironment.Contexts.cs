@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Base;
 
 namespace Silksprite.EmoteWizard.Contexts

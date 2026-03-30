@@ -6,19 +6,19 @@ using Ablet.Builtin;
 using Silksprite.EmoteWizardSupport.Undoable;
 
 #if EW_VRCSDK3_AVATARS
-using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Builder;
 #endif
 
 #if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
-using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder;
 #endif
 
 #if ATIV_DETECTED_VRM0
-using Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Builder;
 #endif
 
 #if ATIV_DETECTED_VRM1
-using Silksprite.EmoteWizard.Platforms.VRM1.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.VRM1.Contexts.Builder;
 #endif
 
 namespace Silksprite.EmoteWizard.Ablet.Layers
@@ -46,16 +46,16 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
                     env.PersistGeneratedAssets = false;
                     env.AvatarRoot = context.CurrentRootTransform;
 #if EW_VRCSDK3_AVATARS
-                    env.BuildVrcAvatar(undoable, false);
+                    env.GetContext<VRChatAvatarBuilderContext>().BuildAvatar(undoable, false);
 #endif
 #if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
-                    env.BuildCvrAvatar(undoable, false);
+                    env.GetContext<ChilloutVRAvatarBuilderContext>().BuildAvatar(undoable, false);
 #endif
 #if ATIV_DETECTED_VRM0
-                    env.BuildVrm0Avatar(undoable, false);
+                    env.GetContext<VRM0AvatarBuilderContext>().BuildAvatar(undoable, false);
 #endif
 #if ATIV_DETECTED_VRM1
-                    env.BuildVrm1Avatar(undoable, false);
+                    env.GetContext<VRM1AvatarBuilderContext>().BuildAvatar(undoable, false);
 #endif
                 }
                 
