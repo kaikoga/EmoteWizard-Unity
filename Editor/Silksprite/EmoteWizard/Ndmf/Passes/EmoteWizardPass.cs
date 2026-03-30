@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Ndmf.Passes
     {
         protected override void Execute(BuildContext buildContext)
         {
-            var undoable = new EditorUndoable("Build Emote Wizard from ndmf");
+            var undoable = new EditorUndoable("Build Emote Wizard from NDMF");
 
             foreach (var root in buildContext.AvatarRootTransform.GetComponentsInChildren<EmoteWizardRoot>(true))
             {

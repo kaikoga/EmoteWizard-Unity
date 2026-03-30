@@ -32,7 +32,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
 
             return AbletBuildProcedure.Create(context =>
             {
-                var undoable = new EditorUndoable("Prepare Emote Wizard from ndmf");
+                var undoable = new EditorUndoable("Prepare Emote Wizard from Ablet");
 
                 var avatarRootTransform = context.CurrentRootTransform;
 
