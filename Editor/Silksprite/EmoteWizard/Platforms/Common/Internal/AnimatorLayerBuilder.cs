@@ -158,6 +158,12 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             new EditorLayerBuilder(this, editorLayer, clips).Build();
         }
 
+        public void BuildActionSelectDriverLayer(string layerName, int[] actions)
+        {
+            var actionSelectDriverLayer = PopulateLayer(layerName);
+            new ActionSelectDriverLayerBuilder(this, actionSelectDriverLayer, actions).Build();
+        }
+
         public void BuildParameters()
         {
             var platformFeatures = Environment.GetPlatformFeatures();

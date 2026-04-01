@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Wizards;
 using UnityEngine;
@@ -12,6 +13,9 @@ namespace Silksprite.EmoteWizard.Platforms
         string ParameterForAlwaysTrue { get; }
         string ParameterReferenceForActionSelect { get; }
         string ResolveMirrorParameter(string virtualParameter, EmoteHand hand);
+        string ParameterForActionSelect { get; }
+        string ParameterForPlatformActionSelect { get; }
+        string ParameterForPlatformCancelAction { get; }
 
         Motion GestureClipIdleLeft { get; }
         Motion GestureClipFistLeft { get; }
@@ -34,7 +38,7 @@ namespace Silksprite.EmoteWizard.Platforms
         AvatarMask HandRight { get; }
 
         int HandSignValue(HandSign handSign);
-        List<ParameterInstance> DefaultParameters();
+        void BuildDefaultParameters(ParametersSnapshotBuilder builder);
         bool IsDefaultParameterReference(string parameterReference);
         string ResolveParameterReference(string parameterReference);
 

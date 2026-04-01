@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.Loch;
 using static Silksprite.Loch.Tools.LochTool;
@@ -88,6 +87,6 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
             return !string.IsNullOrEmpty(parameterReference) && !_validReferenceUsages.Contains(parameterReference);
         }
 
-        public static ParametersSnapshotBuilder Builder(EmoteWizardEnvironment env) => new ParametersSnapshotBuilder(env);
+        public static ParametersSnapshotBuilder Builder() => new ParametersSnapshotBuilder();
     }
 }

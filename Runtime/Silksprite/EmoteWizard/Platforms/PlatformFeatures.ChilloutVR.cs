@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Platforms.References;
 using Silksprite.EmoteWizard.Platforms.Utils;
@@ -31,8 +31,9 @@ namespace Silksprite.EmoteWizard.Platforms
                     ("MovementX", "MovementX", ParameterItemKind.Float, empty),
                     ("MovementY", "MovementY", ParameterItemKind.Float, empty),
                     ("Grounded", "Grounded", ParameterItemKind.Bool, empty),
-                    (platformReferences.ActionSelectReference, ChilloutVR.Params.Emote, ParameterItemKind.Int, empty),
-                    ("CancelEmote", "CancelEmote", ParameterItemKind.Bool, empty),
+                    (platformReferences.ActionSelectReference, Params.ActionSelect, ParameterItemKind.Int, empty),
+                    ("___Emote", ChilloutVR.Params.Emote, ParameterItemKind.Int, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
+                    ("CancelEmote", ChilloutVR.Params.CancelEmote, ParameterItemKind.Bool, empty),
                     (platformReferences.GestureLeftWeightReference, ChilloutVR.Params.GestureLeft, ParameterItemKind.Float, empty),
                     (platformReferences.GestureRightWeightReference, ChilloutVR.Params.GestureRight, ParameterItemKind.Float, empty),
                     (platformReferences.GestureLeftReference, ChilloutVR.Params.GestureLeftIdx, ParameterItemKind.HandSign, new[]{0, 1, 2, 3, 4, 5, 6, 7}),
@@ -59,8 +60,8 @@ namespace Silksprite.EmoteWizard.Platforms
                 _defaultParameterDatabase = DefaultParameterDatabase(platformReferences);
             }
 
-            string IPlatformFeatures.ParameterReferenceForActionSelect => _platformReferences.ActionSelectReference;
             string IPlatformFeatures.ParameterForAlwaysTrue => ChilloutVR.Params.VisemeIdx;
+            string IPlatformFeatures.ParameterReferenceForActionSelect => _platformReferences.ActionSelectReference;
             string IPlatformFeatures.ResolveMirrorParameter(string virtualParameter, EmoteHand hand)
             {
                 return (virtualParameter, hand) switch
@@ -76,6 +77,10 @@ namespace Silksprite.EmoteWizard.Platforms
                     _ => virtualParameter
                 };
             }
+
+            string IPlatformFeatures.ParameterForActionSelect => Params.ActionSelect;
+            string IPlatformFeatures.ParameterForPlatformActionSelect => ChilloutVR.Params.Emote;
+            string IPlatformFeatures.ParameterForPlatformCancelAction => ChilloutVR.Params.CancelEmote;
 
             Motion IPlatformFeatures.GestureClipIdleLeft => CvrCckAssetLocator.HandLeftRelaxed();
             Motion IPlatformFeatures.GestureClipFistLeft => CvrCckAssetLocator.HandLeftFist();
@@ -113,7 +118,7 @@ namespace Silksprite.EmoteWizard.Platforms
                 };
             }
 
-            List<ParameterInstance> IPlatformFeatures.DefaultParameters() => _defaultParameterDatabase.ToInstances();
+            void IPlatformFeatures.BuildDefaultParameters(ParametersSnapshotBuilder builder) => _defaultParameterDatabase.BuildTo(builder);
 
             bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference) => _defaultParameterDatabase.IsDefaultParameterReference(parameterReference);
 

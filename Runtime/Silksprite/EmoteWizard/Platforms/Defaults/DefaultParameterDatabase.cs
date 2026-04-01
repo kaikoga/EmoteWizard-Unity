@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 
 namespace Silksprite.EmoteWizard.Platforms.Defaults
 {
@@ -25,9 +26,9 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
             return _tuples.Any(data => parameterReference == data.name);
         }
 
-        public List<ParameterInstance> ToInstances()
+        public void BuildTo(ParametersSnapshotBuilder builder)
         {
-            return _tuples.Select(tuple =>
+            foreach (var tuple in _tuples)
             {
                 var (reference, name, kind, states) = tuple;
                 var writeUsageKind = kind switch
@@ -40,18 +41,15 @@ namespace Silksprite.EmoteWizard.Platforms.Defaults
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
-                return new ParameterInstance(
-                    name: name,
-                    itemKind: kind,
-                    saved: false,
-                    defaultValue: ParameterValue.Default,
-                    synced: true,
-                    referenceUsages: new List<string> {
-                        reference
-                    },
-                    writeUsages: states.Select(state => new ParameterWriteUsage(writeUsageKind, state, ParameterWriteSourceKind.NoUI)),
-                    readUsages: states.Select(state => new ParameterReadUsage(ParameterValue.Create(kind, state))));
-            }).ToList();
+                var parameter = builder.FindOrCreateDefault(reference, name);
+                parameter.AddValueKind(kind);
+                parameter.AddSynced();
+                foreach (var state in states)
+                {
+                    parameter.AddWriteValue(writeUsageKind, state, ParameterWriteSourceKind.NoUI);
+                    parameter.AddReadValue(ParameterValue.Create(kind, state));
+                }
+            }
         }
     }
 }

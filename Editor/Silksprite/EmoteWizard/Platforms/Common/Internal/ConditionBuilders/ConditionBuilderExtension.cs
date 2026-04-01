@@ -13,6 +13,12 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders
             return builder;
         }
 
+        public static ConditionBuilder Trigger(this ConditionBuilder builder, string paramName)
+        {
+            builder.AddCondition(AnimatorControllerParameterType.Bool, AnimatorConditionMode.If, paramName, 0f);
+            return builder;
+        }
+
         public static ConditionBuilder NotEqual(this ConditionBuilder builder, string paramName, int value)
         {
             builder.AddCondition(AnimatorControllerParameterType.Int, AnimatorConditionMode.NotEqual, paramName, value);

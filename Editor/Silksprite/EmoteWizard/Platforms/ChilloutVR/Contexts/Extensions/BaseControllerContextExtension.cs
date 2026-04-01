@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Platforms.Utils;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
@@ -40,6 +41,13 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             if (context.DefaultAvatarMask)
             {
                 builder.BuildStaticLayer("Default Avatar Mask", null, context.DefaultAvatarMask);
+            }
+
+            var platformFeatures = context.Environment.GetPlatformFeatures();
+            if (parametersSnapshot.TryResolveParameterWithTypeAndWarning(platformFeatures.ParameterForPlatformActionSelect, ParameterItemKind.Int, out var actionSelectParameter, out _))
+            {
+                var actions = actionSelectParameter.ReadUsages.Select(usage => usage.Value.AsInt(platformFeatures)).ToArray();
+                builder.BuildActionSelectDriverLayer("Action Select Driver", actions);
             }
 
             AnimationClip? resetClip;

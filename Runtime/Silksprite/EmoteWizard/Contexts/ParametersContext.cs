@@ -5,6 +5,8 @@ using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
+using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Templates.Impl;
 
 #if EW_VRCSDK3_AVATARS
@@ -69,7 +71,8 @@ namespace Silksprite.EmoteWizard.Contexts
 
         ParametersSnapshot BuildSnapshot()
         {
-            var builder = ParametersSnapshot.Builder(Environment);
+            var builder = ParametersSnapshot.Builder();
+            Environment.GetPlatformFeatures().BuildDefaultParameters(builder);
 
             foreach (var expressionItem in Environment.GetContext<ExpressionContext>().AllExpressionItems())
             {
@@ -129,7 +132,7 @@ namespace Silksprite.EmoteWizard.Contexts
             {
                 foreach (var condition in emoteItem.Trigger.Conditions)
                 {
-                    builder.FindOrCreateAny(condition.Parameter).AddReadValue(condition.Value);
+                    builder.FindOrCreate(condition.Parameter).AddReadValue(condition.Value);
                 }
             }
             

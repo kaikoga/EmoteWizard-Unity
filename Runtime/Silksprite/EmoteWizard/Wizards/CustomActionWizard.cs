@@ -22,7 +22,13 @@ namespace Silksprite.EmoteWizard.Wizards
         [ItemPath]
         [SerializeField] public string itemPath = "";
         [ParameterName(false, true)]
-        [SerializeField] public string parameterName = EmoteWizardConstants.Params.ActionSelect;
+        [SerializeField] public string parameterName = PlatformConstants.VRChat.Params.VRCEmote;
+
+        void Reset()
+        {
+            var platformFeatures = CreateEnv().GetPlatformFeatures();
+            parameterName = platformFeatures.ParameterReferenceForActionSelect;
+        }
 
         protected override IEnumerable<IEmoteTemplate> SourceTemplates(EmoteWizardEnvironment environment)
         {

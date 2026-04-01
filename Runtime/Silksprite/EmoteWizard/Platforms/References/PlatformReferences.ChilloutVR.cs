@@ -1,3 +1,4 @@
+using static Silksprite.EmoteWizard.EmoteWizardConstants;
 using static Silksprite.EmoteWizard.PlatformConstants;
 
 namespace Silksprite.EmoteWizard.Platforms.References
@@ -7,7 +8,7 @@ namespace Silksprite.EmoteWizard.Platforms.References
         class ChilloutVRReferences : IPlatformReferences
         {
             string IPlatformReferences.VisemeReference => ChilloutVR.Params.VisemeIdx;
-            string IPlatformReferences.ActionSelectReference => ChilloutVR.Params.Emote;
+            string IPlatformReferences.ActionSelectReference => Params.ActionSelect;
             string IPlatformReferences.GestureLeftReference => ChilloutVR.Params.GestureLeftIdx;
             string IPlatformReferences.GestureLeftWeightReference => ChilloutVR.Params.GestureLeft;
             string IPlatformReferences.GestureRightReference => ChilloutVR.Params.GestureRightIdx;

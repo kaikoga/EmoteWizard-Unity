@@ -33,6 +33,11 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             };
         }
 
+        public void AddValueKind(ParameterItemKind kind)
+        {
+            _itemKind = kind;
+        }
+
         void AddWriteDefault()
         {
             AddSynced();

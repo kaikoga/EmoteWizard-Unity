@@ -27,6 +27,7 @@ namespace Silksprite.EmoteWizard
                 public const string GestureRightIdx = "GestureRightIdx";
 
                 public const string Emote = "Emote";
+                public const string CancelEmote = "CancelEmote";
             }
         }
     }

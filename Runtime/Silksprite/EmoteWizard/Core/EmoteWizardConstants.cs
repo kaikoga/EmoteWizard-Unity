@@ -23,7 +23,8 @@ namespace Silksprite.EmoteWizard
                         return false;
                 }
             }
-            public const string ActionSelect = "VRCEmote";
+            public const string ActionSelect = "ActionSelect";
+            public const string CancelAction = "CancelAction";
         }
 
         public static class Groups

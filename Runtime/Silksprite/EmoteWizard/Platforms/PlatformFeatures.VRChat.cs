@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
-using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.EmoteWizard.Platforms.Defaults;
 using Silksprite.EmoteWizard.Platforms.References;
 using Silksprite.EmoteWizard.Platforms.Utils;
@@ -71,8 +71,8 @@ namespace Silksprite.EmoteWizard.Platforms
                 _defaultParameterDatabase = DefaultParameterDatabase(platformReferences);
             }
 
-            string IPlatformFeatures.ParameterReferenceForActionSelect => _platformReferences.ActionSelectReference;
             string IPlatformFeatures.ParameterForAlwaysTrue => VRChat.Params.Viseme;
+            string IPlatformFeatures.ParameterReferenceForActionSelect => _platformReferences.ActionSelectReference;
             string IPlatformFeatures.ResolveMirrorParameter(string virtualParameter, EmoteHand hand)
             {
                 return (virtualParameter, hand) switch
@@ -88,6 +88,9 @@ namespace Silksprite.EmoteWizard.Platforms
                     _ => virtualParameter
                 };
             }
+            string IPlatformFeatures.ParameterForActionSelect => VRChat.Params.VRCEmote;
+            string IPlatformFeatures.ParameterForPlatformActionSelect => VRChat.Params.VRCEmote;
+            string IPlatformFeatures.ParameterForPlatformCancelAction => Params.CancelAction;
 
             Motion IPlatformFeatures.GestureClipIdleLeft => VrcSdkAssetLocator.ProxyHandsIdle();
             Motion IPlatformFeatures.GestureClipFistLeft => VrcSdkAssetLocator.ProxyHandsFist();
@@ -114,7 +117,7 @@ namespace Silksprite.EmoteWizard.Platforms
                 return (int)handSign;
             }
             
-            List<ParameterInstance> IPlatformFeatures.DefaultParameters() => _defaultParameterDatabase.ToInstances();
+            void IPlatformFeatures.BuildDefaultParameters(ParametersSnapshotBuilder builder) => _defaultParameterDatabase.BuildTo(builder);
 
             bool IPlatformFeatures.IsDefaultParameterReference(string parameterReference) => _defaultParameterDatabase.IsDefaultParameterReference(parameterReference);
 

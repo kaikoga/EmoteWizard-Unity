@@ -1,35 +1,30 @@
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.EmoteWizard.Contexts;
-using Silksprite.EmoteWizard.Platforms.Extensions;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
 {
     public class ParametersSnapshotBuilder
     {
-        readonly EmoteWizardEnvironment _environment;
+        readonly Dictionary<string, ParameterInstanceBuilder> _allParameterItems = new Dictionary<string, ParameterInstanceBuilder>();
+
         readonly List<ParameterInstanceBuilder> _parameterItems = new List<ParameterInstanceBuilder>();
         readonly List<ParameterInstanceBuilder> _implicitParameterItems = new List<ParameterInstanceBuilder>();
+        readonly List<ParameterInstanceBuilder> _defaultParameterItems = new List<ParameterInstanceBuilder>();
 
-        public ParametersSnapshotBuilder(EmoteWizardEnvironment environment)
+        public ParameterInstanceBuilder FindOrCreate(string name) => DoFindOrCreate(name, name, _parameterItems);
+        public ParameterInstanceBuilder FindOrCreateImplicit(string name) => DoFindOrCreate(name, name, _implicitParameterItems);
+        public ParameterInstanceBuilder FindOrCreateDefault(string reference, string name) => DoFindOrCreate(reference, name, _defaultParameterItems);
+
+        ParameterInstanceBuilder DoFindOrCreate(string reference, string name, List<ParameterInstanceBuilder> list)
         {
-            _environment = environment;
-        }
-
-        public ParameterInstanceBuilder FindOrCreate(string name) => DoFindOrCreate(name, _parameterItems, _parameterItems);
-        public ParameterInstanceBuilder FindOrCreateImplicit(string name) => DoFindOrCreate(name, _implicitParameterItems, _implicitParameterItems);
-        public ParameterInstanceBuilder FindOrCreateAny(string name) => DoFindOrCreate(name, _parameterItems.Concat(_implicitParameterItems), _parameterItems);
-
-        static ParameterInstanceBuilder DoFindOrCreate(string name, IEnumerable<ParameterInstanceBuilder> existing, List<ParameterInstanceBuilder> list)
-        {
-            var result = existing.FirstOrDefault(parameter => parameter.Name == name);
-            if (result == null)
+            if (!_allParameterItems.TryGetValue(reference, out var result))
             {
                 result = ParameterInstanceBuilder.Populate(name);
                 list.Add(result);
+                _allParameterItems.Add(reference, result);
             }
 
-            result.AddReferenceUsage(name);
+            result.AddReferenceUsage(reference);
             return result;
         }
 
@@ -38,7 +33,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal.Builders
             return new ParametersSnapshot(
                 parameterItems: _parameterItems.Where(item => item.HasWriteUsages).Select(item => item.ToInstance()).ToList(),
                 implicitParameterItems: _implicitParameterItems.Select(item => item.ToInstance()).ToList(),
-                defaultParameterItems: _environment.GetPlatformFeatures().DefaultParameters());
+                defaultParameterItems: _defaultParameterItems.Select(item => item.ToInstance()).ToList());
         }
     }
 }
