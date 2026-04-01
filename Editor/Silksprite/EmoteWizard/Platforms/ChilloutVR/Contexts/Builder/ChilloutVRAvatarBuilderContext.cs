@@ -117,7 +117,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                         settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D;
                         break;
                     case (_, _):
-                        var readUsageValues = parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures)).Concat(zero).ToArray();
+                        var readUsageValues = zero.Concat(parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures))).Distinct().ToArray();
                         setting = new CVRAdvancesAvatarSettingSliderAccess
                         {
                             usedType = usedType,

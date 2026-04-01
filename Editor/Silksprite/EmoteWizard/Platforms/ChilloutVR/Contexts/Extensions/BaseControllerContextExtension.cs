@@ -46,7 +46,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             var platformFeatures = context.Environment.GetPlatformFeatures();
             if (parametersSnapshot.TryResolveParameterWithTypeAndWarning(platformFeatures.ParameterForPlatformActionSelect, ParameterItemKind.Int, out var actionSelectParameter, out _))
             {
-                var actions = actionSelectParameter.ReadUsages.Select(usage => usage.Value.AsInt(platformFeatures)).ToArray();
+                var actions = actionSelectParameter.ReadUsages.Select(usage => usage.Value.AsInt(platformFeatures)).Distinct().ToArray();
                 builder.BuildActionSelectDriverLayer("Action Select Driver", actions);
             }
 
