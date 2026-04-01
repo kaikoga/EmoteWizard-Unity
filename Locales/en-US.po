@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-03-29 02:48+0900\n"
+"POT-Creation-Date: 2026-04-01 10:05+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -599,71 +599,71 @@ msgstr "Name"
 msgid "EmoteTrigger::priority"
 msgstr "Priority"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:98
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:97
 msgid "EmoteWizardDataSourceFactory::advanced"
 msgstr "Advanced"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:87
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:86
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard"
 msgstr "Custom Action Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:88
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:87
 msgid "EmoteWizardDataSourceFactory::Custom Action Wizard::Desc"
 msgstr "Action Emote preset"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:81
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:80
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard"
 msgstr "Dress Change Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:82
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:81
 msgid "EmoteWizardDataSourceFactory::Dress Change Wizard::Desc"
 msgstr "Outfit swapping preset"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:104
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:103
 msgid "EmoteWizardDataSourceFactory::Emote Item Source"
 msgstr "Emote Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:74
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:73
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard"
 msgstr "Emote Item Wizard"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:75
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:74
 msgid "EmoteWizardDataSourceFactory::Emote Item Wizard::Desc"
 msgstr "Conditional animations"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:110
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:109
 msgid "EmoteWizardDataSourceFactory::Emote Sequence Source"
 msgstr "Emote Sequence Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:42
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:41
 msgid "EmoteWizardDataSourceFactory::Expression Item Source"
 msgstr "Expression Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:43
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:42
 msgid "EmoteWizardDataSourceFactory::Expression Item Source::Desc"
 msgstr "Items in Expression Menu"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:118
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:117
 msgid "EmoteWizardDataSourceFactory::Generic Emote Item Source"
 msgstr "Generic Emote Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:124
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:123
 msgid "EmoteWizardDataSourceFactory::Generic Emote Sequence Source"
 msgstr "Generic Emote Sequence Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:67
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:66
 msgid "EmoteWizardDataSourceFactory::Parameter Source"
 msgstr "Parameter Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:68
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:67
 msgid "EmoteWizardDataSourceFactory::Parameter Source::Desc"
 msgstr "Parameters for external assets"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:54
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:53
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source"
 msgstr "Sub Menu Expression Item Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:55
+#: Editor/Silksprite/EmoteWizard/EmoteWizardDataSourceFactory.Editor.cs:54
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source::Desc"
 msgstr "Sub Menu preset"
 
@@ -681,171 +681,175 @@ msgstr ""
 "Also, generates Wizards. Wizards are intermediate components, which can "
 "generate Data Sources."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:71
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:77
 msgid "EmoteWizardRoot::Add Empty Data Source"
 msgstr "Add Empty Data Source"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:100
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:106
 msgid "EmoteWizardRoot::Assets Generation"
 msgstr "Assets Generation"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:56
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:58
 msgid "EmoteWizardRoot::author"
 msgstr "Set Author (VRM)"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:83
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:89
 msgid "EmoteWizardRoot::Avatar"
 msgstr "Avatar"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:21
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:102
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:101
 msgid "EmoteWizardRoot::Avatar Output"
 msgstr "Avatar Output"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:89
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:95
 msgid "EmoteWizardRoot::AvatarRoot::notFound."
 msgstr ""
 "Please place Emote Wizard Root as child of avatar or specify avatar root "
 "transform here."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:43
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:45
 msgid "EmoteWizardRoot::avatarRootTransform"
 msgstr "Avatar Root Transform"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:107
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:113
 msgid "EmoteWizardRoot::Browse..."
 msgstr "Browse..."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:96
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:102
 msgid "EmoteWizardRoot::Detected Avatar Root"
 msgstr "Detected"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:58
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:60
 msgid "EmoteWizardRoot::detectPlatform"
 msgstr "Optimize UI"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:39
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:124
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:123
 msgid "EmoteWizardRoot::Disconnect Avatar Output Assets"
 msgstr "Disconnect Avatar Output Assets"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:116
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:122
 msgid "EmoteWizardRoot::Disconnect Output Assets"
 msgstr "Disconnect Output Assets"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:55
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:140
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:139
 msgid "EmoteWizardRoot::Edit"
 msgstr "Edit"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:164
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:163
 msgid "EmoteWizardRoot::Edit Action"
 msgstr "Edit Action"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:156
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:155
 msgid "EmoteWizardRoot::Edit FX"
 msgstr "Edit FX"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:148
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:147
 msgid "EmoteWizardRoot::Edit Gesture"
 msgstr "Edit Gesture"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:48
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:50
 msgid "EmoteWizardRoot::emptyClip"
 msgstr "Empty Clip"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:43
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:128
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:127
 msgid "EmoteWizardRoot::Generate Everything and Update Avatar"
 msgstr "Generate Everything and Update Avatar"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:47
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:49
 msgid "EmoteWizardRoot::generatedAssetPrefix"
 msgstr "Generated Asset Prefix"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:46
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:48
 msgid "EmoteWizardRoot::generatedAssetRoot"
 msgstr "Generated Asset Root"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:49
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:51
 msgid "EmoteWizardRoot::generateTrackingControlLayer"
 msgstr "Tracking Control Layer"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:26
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:25
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRM.cs:12
 msgid "EmoteWizardRoot::Options"
 msgstr "Options"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:52
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:54
 msgid "EmoteWizardRoot::overrideAction"
 msgstr "Override Action"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:53
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:55
 msgid "EmoteWizardRoot::overrideActionController"
 msgstr "By Action Controller"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:50
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:52
 msgid "EmoteWizardRoot::overrideGesture"
 msgstr "Override Gesture"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:51
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:53
 msgid "EmoteWizardRoot::overrideGestureController"
 msgstr "By Gesture Controller"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:54
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:56
 msgid "EmoteWizardRoot::overrideSitting"
 msgstr "Override Sitting"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:55
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:57
 msgid "EmoteWizardRoot::overrideSittingController"
 msgstr "By Sitting Controller"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:45
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:47
 msgid "EmoteWizardRoot::persistGeneratedAssets"
 msgstr "Persist Generated Assets"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:44
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:46
 msgid "EmoteWizardRoot::proxyAnimator"
 msgstr "Proxy Animator"
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:62
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:171
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:170
 msgid "EmoteWizardRoot::Remove Animator Controller"
 msgstr "Remove Animator Controller"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:196
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:195
 msgid "EmoteWizardRoot::runtimeAnimatorController::action."
 msgstr "Currently editing animations in Action layer."
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:75
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:184
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:183
 msgid "EmoteWizardRoot::runtimeAnimatorController::editor."
 msgstr "Currently editing animations in the avatar."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:192
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:191
 msgid "EmoteWizardRoot::runtimeAnimatorController::fx."
 msgstr "Currently editing animations in FX layer."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:188
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:187
 msgid "EmoteWizardRoot::runtimeAnimatorController::gesture."
 msgstr "Currently editing animations in Gesture layer."
 
 #: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:79
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:200
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:199
 msgid "EmoteWizardRoot::runtimeAnimatorController::unknown."
 msgstr "An unknown Animator Controller is assigned to the Animator."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:109
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:115
 msgid "EmoteWizardRoot::Select Generated Assets Root"
 msgstr "Select Generated Assets Root"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:76
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:82
 msgid "EmoteWizardRoot::Setup"
 msgstr "Setup"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:57
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:59
 msgid "EmoteWizardRoot::showTutorial"
 msgstr "Show Tutorial"
+
+#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:61
+msgid "EmoteWizardRoot::sourcePlatform"
+msgstr "Parameter Scheme"
 
 #: Locales/Translations.cs:28
 msgid "EmoteWizardRoot::Tutorial."
@@ -1235,6 +1239,38 @@ msgstr "Inherit"
 msgid "OverrideGeneratedControllerType2::Override"
 msgstr "Override"
 
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:91
+msgid "ParameterInstance::itemKind"
+msgstr "Item Kind"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:89
+msgid "ParameterInstance::name"
+msgstr "Name"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:107
+msgid "ParameterInstance::readUsages"
+msgstr "Read Usages"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:97
+msgid "ParameterInstance::referenceUsages"
+msgstr "Reference Usages"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:92
+msgid "ParameterInstance::saved"
+msgstr "Saved"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:94
+msgid "ParameterInstance::synced"
+msgstr "Synced"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:95
+msgid "ParameterInstance::usages"
+msgstr "Usages"
+
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:102
+msgid "ParameterInstance::writeUsages"
+msgstr "Write Usages"
+
 #: Editor/Silksprite/EmoteWizard/Sources/ParameterSource.Editor.cs:30
 msgid "ParameterItem::defaultValue"
 msgstr "Default Value"
@@ -1270,16 +1306,25 @@ msgstr "HandSign"
 msgid "ParameterItemKind::Int"
 msgstr "Int"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:37
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:40
+msgid "ParameterScheme::ChilloutVR"
+msgstr "ChilloutVR"
+
+msgid "ParameterScheme::Detected"
+msgstr "Detected"
+
+msgid "ParameterScheme::VRChat"
+msgstr "VRChat"
+
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:35
+#: Editor/Silksprite/EmoteWizard/UI/ParametersSnapshotDrawer.cs:44
 msgid "ParametersConfig::debugSnapshot"
 msgstr "[DEBUG] Snapshot"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:51
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:49
 msgid "ParametersConfig::Generate Expression Parameters"
 msgstr "Generate Expression Parameters"
 
-#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:28
+#: Editor/Silksprite/EmoteWizard/Configs/ParametersConfig.Editor.cs:26
 msgid "ParametersConfig::outputAsset"
 msgstr "Output Asset"
 
@@ -1367,17 +1412,17 @@ msgstr "Right Foot"
 msgid "TrackingTarget::RightHand"
 msgstr "Right Hand"
 
-#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:44
+#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:42
 msgid "Warn::Parameter::NotFound."
 msgstr "Possibly not found parameter: {parameterName}"
 
-#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:75
+#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:73
 msgid "Warn::Parameter::TypeMismatch."
 msgstr ""
 "Possibly parameter type mismatch: {parameterName}, expected {itemKind}, was "
 "{resolvedItemKind}"
 
-#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:66
+#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:64
 msgid "Warn::Parameter::UnexpectedHandSignConversion."
 msgstr ""
 "Possibly parameter type mismatch: {parameterName}, expected {itemKind}, was "
@@ -1395,7 +1440,7 @@ msgstr ""
 "Property: {type} {propertyName}\n"
 "This property is not included in ResetClip."
 
-#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/Contexts/Extensions/BaseControllerContextExtension.cs:74
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/Contexts/Extensions/BaseControllerContextExtension.cs:82
 #: Editor/Silksprite/EmoteWizard/Platforms/VRChat/Contexts/Extensions/AnimatorLayerContextExtension.cs:71
 msgid "Warn::ResetClip::WithoutAvatar."
 msgstr ""
