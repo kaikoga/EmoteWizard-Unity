@@ -1,4 +1,5 @@
 #if EW_NDMF_SUPPORT
+using System;
 using nadena.dev.ndmf;
 using nadena.dev.ndmf.util;
 using Silksprite.EmoteWizard.Contexts;
@@ -10,22 +11,24 @@ namespace Silksprite.EmoteWizard.Scopes
 {
     public partial class ManualBundleGeneratedAssetsScopeBase
     {
-        class NdmfBackend : IBackend
+        class NdmfBackend : IDisposable
         {
+            readonly ManualBundleGeneratedAssetsScopeBase _scope;
             readonly EmoteWizardEnvironment _environment;
             readonly GameObject _gameObject;
             readonly BuildContext _buildContext;
 
-            public NdmfBackend(EmoteWizardEnvironment environment)
+            public NdmfBackend(ManualBundleGeneratedAssetsScopeBase scope, EmoteWizardEnvironment environment)
             {
+                _scope = scope;
                 _environment = environment;
                 _gameObject = new GameObject("Temporary");
                 _buildContext = new BuildContext(_gameObject, "Assets/ZZZ_GeneratedAssets/__EmoteWizard");
             }
 
-            void IBackend.OnDispose(ManualBundleGeneratedAssetsScopeBase scope)
+            void IDisposable.Dispose()
             {
-                foreach (var volatileAsset in scope.CollectVolatileAssets(_environment))
+                foreach (var volatileAsset in _scope.CollectVolatileAssets(_environment))
                 {
                     // we are sure these are not prefabs
                     foreach (var asset in volatileAsset.ReferencedAssets(traverseSaved: false, includeScene: true))

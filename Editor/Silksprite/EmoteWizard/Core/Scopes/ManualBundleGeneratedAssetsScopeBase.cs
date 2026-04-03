@@ -3,31 +3,24 @@ using System.Collections.Generic;
 using Silksprite.EmoteWizard.Contexts;
 using Object = UnityEngine.Object;
 
-#if EW_NDMF_SUPPORT && EW_ABLET_SUPPORT
-using Ablet.API;
-#endif
-
 namespace Silksprite.EmoteWizard.Scopes
 {
     public abstract partial class ManualBundleGeneratedAssetsScopeBase : IDisposable
     {
-        interface IBackend
-        {
-            void OnDispose(ManualBundleGeneratedAssetsScopeBase scope);
-        }
-
-        readonly IBackend? _backend;
+        readonly IDisposable? _backend;
 
         protected ManualBundleGeneratedAssetsScopeBase(EmoteWizardEnvironment environment, bool manualBuild)
         {
             if (manualBuild && !environment.PersistGeneratedAssets)
             {
 #if EW_NDMF_SUPPORT && EW_ABLET_SUPPORT
-                _backend = AbletSymbols.PreferAblet ? (IBackend)new AbletBackend(environment) : new NdmfBackend(environment);
+                _backend = Ablet.API.AbletSymbols.PreferAblet
+                    ? (IDisposable)new AbletBackend(this, environment)
+                    : new NdmfBackend(this, environment);
 #elif EW_NDMF_SUPPORT
-                _backend = new NdmfBackend(environment);
+                _backend = new NdmfBackend(this, environment);
 #elif EW_ABLET_SUPPORT
-                _backend = new AbletBackend(environment);
+                _backend = new AbletBackend(this, environment);
 #else
                 throw new InvalidOperationException("");
 #endif
@@ -37,7 +30,7 @@ namespace Silksprite.EmoteWizard.Scopes
 
         void IDisposable.Dispose()
         {
-            _backend?.OnDispose(this);
+            _backend?.Dispose();
         }
 
         protected abstract IEnumerable<Object> CollectVolatileAssets(EmoteWizardEnvironment environment);

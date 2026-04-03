@@ -1,5 +1,6 @@
 #if EW_ABLET_SUPPORT
 
+using System;
 using System.Linq;
 using Ablet.Building;
 using Ablet.Building.Ephemeral;
@@ -10,18 +11,20 @@ namespace Silksprite.EmoteWizard.Scopes
 {
     public partial class ManualBundleGeneratedAssetsScopeBase
     {
-        class AbletBackend : IBackend
+        class AbletBackend : IDisposable
         {
+            readonly ManualBundleGeneratedAssetsScopeBase _scope;
             readonly EmoteWizardEnvironment _environment;
 
-            public AbletBackend(EmoteWizardEnvironment environment)
+            public AbletBackend(ManualBundleGeneratedAssetsScopeBase scope, EmoteWizardEnvironment environment)
             {
+                _scope = scope;
                 _environment = environment;
             }
 
-            void IBackend.OnDispose(ManualBundleGeneratedAssetsScopeBase scope)
+            void IDisposable.Dispose()
             {
-                var generatedAssets = scope.CollectVolatileAssets(_environment)
+                var generatedAssets = _scope.CollectVolatileAssets(_environment)
                     .SelectMany(AssetPersister.IterateAssetObjectReferences)
                     .Distinct()
                     .Where(obj => !EditorUtility.IsPersistent(obj));
