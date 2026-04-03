@@ -25,7 +25,10 @@ namespace Silksprite.EmoteWizard.Scopes
                 throw new InvalidOperationException("");
 #endif
             }
-            _backend = null;
+            else
+            {
+                _backend = null;
+            }
         }
 
         void IDisposable.Dispose()
