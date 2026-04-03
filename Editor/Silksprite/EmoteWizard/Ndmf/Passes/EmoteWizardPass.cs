@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using nadena.dev.ndmf;
+using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Contexts.Builder;
 using Silksprite.EmoteWizardSupport.Undoable;
 
 #if EW_VRCSDK3_AVATARS
@@ -26,16 +29,24 @@ namespace Silksprite.EmoteWizard.Ndmf.Passes
                 var env = root.ToEnv();
                 env.PersistGeneratedAssets = false;
                 env.AvatarRoot = buildContext.AvatarRootTransform;
+                foreach (var builder in GuessBuilder(env))
+                {
+                    builder.BuildAvatar(undoable, false);
+                }
+            }
+        }
+
+        static IEnumerable<AvatarBuilderContextBase> GuessBuilder(EmoteWizardEnvironment env)
+        {
 #if EW_VRCSDK3_AVATARS
-                env.GetContext<VRChatAvatarBuilderContext>().BuildAvatar(undoable, false);
+            yield return env.GetContext<VRChatAvatarBuilderContext>();
 #endif
 #if ATIV_DETECTED_VRM0
-                env.GetContext<VRM0AvatarBuilderContext>().BuildAvatar(undoable, false);
+            yield return env.GetContext<VRM0AvatarBuilderContext>();
 #endif
 #if ATIV_DETECTED_VRM1
-                env.GetContext<VRM1AvatarBuilderContext>().BuildAvatar(undoable, false);
+            yield return env.GetContext<VRM1AvatarBuilderContext>();
 #endif
-            }
         }
     }
 }

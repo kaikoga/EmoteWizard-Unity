@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using Ablet.API;
 using Ablet.API.V1;
 using Ablet.API.V1.Attributes;
 using Ablet.API.V1.Building;
 using Ablet.Builtin;
+using Silksprite.EmoteWizard.Contexts;
+using Silksprite.EmoteWizard.Contexts.Builder;
 using Silksprite.EmoteWizardSupport.Undoable;
 
 #if EW_VRCSDK3_AVATARS
@@ -45,21 +48,29 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
                     var env = root.ToEnv();
                     env.PersistGeneratedAssets = false;
                     env.AvatarRoot = context.CurrentRootTransform;
+                    foreach (var builder in GuessBuilder(env))
+                    {
+                        builder.BuildAvatar(undoable, false);
+                    }
+                }
+            });
+
+            static IEnumerable<AvatarBuilderContextBase> GuessBuilder(EmoteWizardEnvironment env)
+            {
 #if EW_VRCSDK3_AVATARS
-                    env.GetContext<VRChatAvatarBuilderContext>().BuildAvatar(undoable, false);
+                yield return env.GetContext<VRChatAvatarBuilderContext>();
 #endif
 #if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
-                    env.GetContext<ChilloutVRAvatarBuilderContext>().BuildAvatar(undoable, false);
+                yield return env.GetContext<ChilloutVRAvatarBuilderContext>();
 #endif
 #if ATIV_DETECTED_VRM0
-                    env.GetContext<VRM0AvatarBuilderContext>().BuildAvatar(undoable, false);
+                yield return env.GetContext<VRM0AvatarBuilderContext>();
 #endif
 #if ATIV_DETECTED_VRM1
-                    env.GetContext<VRM1AvatarBuilderContext>().BuildAvatar(undoable, false);
+                yield return env.GetContext<VRM1AvatarBuilderContext>();
 #endif
-                }
-                
-            });
+            }
+
         }
     }
 }
