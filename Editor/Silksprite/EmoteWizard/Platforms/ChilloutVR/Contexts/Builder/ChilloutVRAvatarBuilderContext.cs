@@ -71,42 +71,42 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                 var valueKind = parameter.ValueKind;
                 var writeSourceKind = parameter.WriteSourceKind;
 
-                var usedType = new CVRAdvancesAvatarSettingBase_ParameterTypeAccess(valueKind switch
+                var usedType = valueKind switch
                 {
-                    ParameterValueKind.Bool => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Bool,
-                    ParameterValueKind.Int => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Int,
-                    ParameterValueKind.Float => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Float,
-                    ParameterValueKind.HandSign => CVRAdvancesAvatarSettingBase_ParameterTypeAccess.EnumValues.Int,
+                    ParameterValueKind.Bool => CVRAdvancesAvatarSettingBaseClass.ParameterTypeAccess.EnumValues.Bool,
+                    ParameterValueKind.Int => CVRAdvancesAvatarSettingBaseClass.ParameterTypeAccess.EnumValues.Int,
+                    ParameterValueKind.Float => CVRAdvancesAvatarSettingBaseClass.ParameterTypeAccess.EnumValues.Float,
+                    ParameterValueKind.HandSign => CVRAdvancesAvatarSettingBaseClass.ParameterTypeAccess.EnumValues.Int,
                     _ => throw new ArgumentOutOfRangeException()
-                });
+                };
                 
                 if (!(writeSourceKind switch
                 {
-                    ParameterWriteSourceKind.NoUI => (CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues?)null,
-                    ParameterWriteSourceKind.Button => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle,
-                    ParameterWriteSourceKind.Toggle => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle,
+                    ParameterWriteSourceKind.NoUI => (CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues?)null,
+                    ParameterWriteSourceKind.Button => CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Toggle,
+                    ParameterWriteSourceKind.Toggle => CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Toggle,
                     ParameterWriteSourceKind.SubMenu => null,
-                    ParameterWriteSourceKind.TwoAxisPuppet => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D,
+                    ParameterWriteSourceKind.TwoAxisPuppet => CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Joystick2D,
                     ParameterWriteSourceKind.FourAxisPuppet => null,
-                    ParameterWriteSourceKind.RadialPuppet => CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Slider,
+                    ParameterWriteSourceKind.RadialPuppet => CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Slider,
                     _ => throw new ArgumentOutOfRangeException()
                 } is { } maybeSettingsType))
                 {
                     continue;
                 }
                 CVRAdvancesAvatarSettingBaseAccess setting;
-                CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues settingsType;
+                CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues settingsType;
                 switch (valueKind, maybeSettingsType)
                 {
-                    case (ParameterValueKind.Bool, CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle):
+                    case (ParameterValueKind.Bool, CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Toggle):
                         setting = new CVRAdvancesAvatarSettingGameObjectToggleAccess
                         {
                             usedType = usedType,
                             defaultValue = !parameter.DefaultValue.IsDefault
                         };
-                        settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Toggle;
+                        settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Toggle;
                         break;
-                    case (ParameterValueKind.Float, CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D):
+                    case (ParameterValueKind.Float, CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Joystick2D):
                         setting = new CVRAdvancesAvatarSettingJoystick2DAccess
                         {
                             usedType = usedType,
@@ -114,7 +114,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                             rangeMin = new Vector2(-1f, -1f),
                             rangeMax = new Vector2(1f, 1f)
                         };
-                        settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Joystick2D;
+                        settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Joystick2D;
                         break;
                     case (_, _):
                         var readUsageValues = zero.Concat(parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures))).Distinct().ToArray();
@@ -131,12 +131,12 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                                 }
                             }
                         };
-                        settingsType = CVRAdvancedSettingsEntry_SettingsTypeAccess.EnumValues.Slider;
+                        settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Slider;
                         break;
                 }
                 yield return new CVRAdvancedSettingsEntryAccess
                 {
-                    type = new CVRAdvancedSettingsEntry_SettingsTypeAccess(settingsType),
+                    type = settingsType,
                     setting = setting,
                     name = parameter.Name,
                     machineName = parameter.Name,

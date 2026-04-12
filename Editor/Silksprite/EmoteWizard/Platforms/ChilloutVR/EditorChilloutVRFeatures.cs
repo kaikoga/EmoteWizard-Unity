@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Silksprite.AdLib.ChilloutVR;
 using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Extensions;
@@ -17,34 +16,34 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
 
         void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
-            var animatorDriver = state.AddStateMachineBehaviour2Access(CVRTypes.AnimatorDriver.Type, smb => new AnimatorDriverAccess(smb));
+            var animatorDriver = state.AddStateMachineBehaviour2Access(AnimatorDriverAccess.ActualType, smb => new AnimatorDriverAccess(smb));
             animatorDriver.localOnly = true;
 
             animatorDriver.EnterTasks = settings.Select(setting => (AnimatorDriverTaskAccess?)new AnimatorDriverTaskAccess
                 {
-                    targetType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
+                    targetType = AnimatorDriverTaskClass.ParameterTypeAccess.EnumValues.Trigger,
                     targetName = setting.target.ToAnimatorParameterName(setting.mode),
 
-                    op = AnimatorDriverTask_OperatorAccess.EnumValues.Set.ToAccess(),
+                    op = AnimatorDriverTaskClass.OperatorAccess.EnumValues.Set,
 
-                    aType = AnimatorDriverTask_SourceTypeAccess.EnumValues.Static.ToAccess(),
+                    aType = AnimatorDriverTaskClass.SourceTypeAccess.EnumValues.Static,
                     aValue = 0f,
                     aMax = 0f,
-                    aParamType = AnimatorDriverTask_ParameterTypeAccess.EnumValues.Trigger.ToAccess(),
+                    aParamType = AnimatorDriverTaskClass.ParameterTypeAccess.EnumValues.Trigger,
                     aName = ""
                 }).ToList();
         }
 
         void IEditorPlatformFeatures.PopulateTrackingControl(AnimatorState state, TrackingTarget target, TrackingMode mode)
         {
-            var bodyControl = state.AddStateMachineBehaviour2Access(CVRTypes.BodyControl.Type, smb => new BodyControlAccess(smb));
+            var bodyControl = state.AddStateMachineBehaviour2Access(BodyControlAccess.ActualType, smb => new BodyControlAccess(smb));
             var targetWeight = mode switch
             {
                 TrackingMode.Tracking => 1f,
                 TrackingMode.Override => 0f,
                 _ => throw new ArgumentOutOfRangeException(nameof(mode), mode, null)
             };
-            void ConfigureEnterTask(BodyControlTask_BodyMaskAccess bodyMask)
+            void ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues bodyMask)
             {
                 bodyControl.EnterTasks = new List<BodyControlTaskAccess?>
                 {
@@ -58,22 +57,22 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
             switch (target)
             {
                 case TrackingTarget.Head:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.Head.ToAccess()); 
+                    ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues.Head); 
                     break;
                 case TrackingTarget.LeftHand:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.LeftArm.ToAccess()); 
+                    ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues.LeftArm); 
                     break;
                 case TrackingTarget.RightHand:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.RightArm.ToAccess()); 
+                    ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues.RightArm); 
                     break;
                 case TrackingTarget.Hip:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.Pelvis.ToAccess()); 
+                    ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues.Pelvis); 
                     break;
                 case TrackingTarget.LeftFoot:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.LeftLeg.ToAccess()); 
+                    ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues.LeftLeg); 
                     break;
                 case TrackingTarget.RightFoot:
-                    ConfigureEnterTask(BodyControlTask_BodyMaskAccess.EnumValues.RightLeg.ToAccess()); 
+                    ConfigureEnterTask(BodyControlTaskClass.BodyMaskAccess.EnumValues.RightLeg); 
                     break;
                 case TrackingTarget.LeftFingers:
                 case TrackingTarget.RightFingers:
