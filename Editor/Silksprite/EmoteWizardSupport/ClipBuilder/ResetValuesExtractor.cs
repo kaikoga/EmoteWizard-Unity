@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.Loch;
+using Silksprite.Loch.Utils;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;

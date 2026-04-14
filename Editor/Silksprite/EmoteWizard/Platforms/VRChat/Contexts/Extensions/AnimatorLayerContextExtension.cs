@@ -9,8 +9,8 @@ using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal;
 using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
-using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.Loch;
+using Silksprite.Loch.Utils;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 

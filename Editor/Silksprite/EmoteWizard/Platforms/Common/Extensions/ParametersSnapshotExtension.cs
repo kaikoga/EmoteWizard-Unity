@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
-using Silksprite.EmoteWizardSupport.Logger;
+using Silksprite.Loch.Utils;
 
 namespace Silksprite.EmoteWizard.Platforms.Common.Extensions
 {
