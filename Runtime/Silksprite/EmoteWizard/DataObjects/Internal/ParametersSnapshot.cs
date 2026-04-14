@@ -33,16 +33,16 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public bool TryResolveParameterWithType(string parameterName, ParameterItemKind itemKind,
             [MaybeNullWhen(false)] out ParameterInstance parameterInstance,
             out ParameterValueKind valueKind,
-            Action<LocalizedContent, Substitution> onError)
+            Action<LocalizedContent> onError)
         {
             parameterInstance = AllParameters.FirstOrDefault(item => item.Name == parameterName);
             if (parameterInstance == null)
             {
                 valueKind = default;
-                onError(Loc("Warn::Parameter::NotFound."), new Substitution
+                onError(Loc("Warn::Parameter::NotFound.").Format(new Substitution
                 {
                     ["parameterName"] = parameterName 
-                });
+                }));
                 return false;
             }
 
@@ -61,22 +61,20 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
                 case (ParameterValueKind.HandSign, ParameterItemKind.Int):
                 case (ParameterValueKind.Int, ParameterItemKind.HandSign):
                 case (ParameterValueKind.Float, ParameterItemKind.HandSign):
-                    onError(Loc("Warn::Parameter::UnexpectedHandSignConversion."),
-                        new Substitution
-                        {
-                            ["parameterName"] = parameterName,
-                            ["itemKind"] = $"{itemKind}",
-                            ["resolvedItemKind"] = $"{valueKind}"
-                        });
+                    onError(Loc("Warn::Parameter::UnexpectedHandSignConversion.").Format(new Substitution
+                    {
+                        ["parameterName"] = parameterName,
+                        ["itemKind"] = $"{itemKind}",
+                        ["resolvedItemKind"] = $"{valueKind}"
+                    }));
                     break;
                 default:
-                    onError(Loc("Warn::Parameter::TypeMismatch."),
-                        new Substitution
-                        {
-                            ["parameterName"] = parameterName,
-                            ["itemKind"] = $"{itemKind}",
-                            ["resolvedItemKind"] = $"{valueKind}"
-                        });
+                    onError(Loc("Warn::Parameter::TypeMismatch.").Format(new Substitution
+                    {
+                        ["parameterName"] = parameterName,
+                        ["itemKind"] = $"{itemKind}",
+                        ["resolvedItemKind"] = $"{valueKind}"
+                    }));
                     break;
             }
             return true;

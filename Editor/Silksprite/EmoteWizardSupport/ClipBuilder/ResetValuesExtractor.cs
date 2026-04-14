@@ -13,15 +13,13 @@ namespace Silksprite.EmoteWizardSupport.ClipBuilder
         {
             void WarnBindingNotFound(EditorCurveBinding binding)
             {
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::MissingProperty."), avatarRoot,
-                    new Substitution
-                    {
-                        ["avatarRootName"] = avatarRoot.name,
-                        ["path"] = binding.path,
-                        ["type"] = $"{binding.type}",
-                        ["propertyName"] = binding.propertyName    
-                    }
-                );
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::MissingProperty.").Format(new Substitution
+                {
+                    ["avatarRootName"] = avatarRoot.name,
+                    ["path"] = binding.path,
+                    ["type"] = $"{binding.type}",
+                    ["propertyName"] = binding.propertyName
+                }), avatarRoot);
             }
 
             var boundFloats = new List<BoundValues.BoundFloatValue>();

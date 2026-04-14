@@ -68,11 +68,10 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
             if (avatar == null)
             {
                 var gameObject = context.Environment.ContainerTransform.gameObject;
-                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::WithoutAvatar."), gameObject,
-                    new Substitution
-                    {
-                        ["gameObjectName"] = gameObject.name 
-                    });
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::WithoutAvatar.").Format(new Substitution
+                {
+                    ["gameObjectName"] = gameObject.name 
+                }), gameObject);
                 return;
             }
 

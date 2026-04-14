@@ -14,29 +14,29 @@ namespace Silksprite.EmoteWizardSupport.Logger
 {
     public static class ErrorReportWrapper
     {
-        public static void LogWarningFormat(LocalizedContent loc, Substitution substitution)
+        public static void LogWarningFormat(LocalizedContent loc)
         {
 #if EW_NDMF_SUPPORT
             if (!AbletSymbols.PreferAblet)
             {
-                NdmfErrorReport.ReportError(new WrappedError(ErrorSeverity.NonFatal, loc, null, substitution));
+                NdmfErrorReport.ReportError(new WrappedError(ErrorSeverity.NonFatal, loc, null));
                 return;
             }
 #endif
-            AbletErrorReport.LogWarning(substitution.Format(loc.Tr));
+            AbletErrorReport.LogWarning(loc.Tr);
         }
 
-        public static void LogWarningFormat(LocalizedContent loc, Object target, Substitution substitution)
+        public static void LogWarningFormat(LocalizedContent loc, Object target)
         {
 #if EW_NDMF_SUPPORT
             if (!AbletSymbols.PreferAblet)
             {
-                NdmfErrorReport.ReportError(new WrappedError(ErrorSeverity.NonFatal, loc, target, substitution));
+                NdmfErrorReport.ReportError(new WrappedError(ErrorSeverity.NonFatal, loc, target));
                 return;
             }
 #endif
             using var _ = new InterestScope(target);
-            AbletErrorReport.LogWarning(substitution.Format(loc.Tr));
+            AbletErrorReport.LogWarning(loc.Tr);
         }
     }
 }

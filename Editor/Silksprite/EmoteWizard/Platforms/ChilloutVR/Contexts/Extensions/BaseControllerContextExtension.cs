@@ -12,9 +12,9 @@ using Silksprite.EmoteWizard.Utils;
 using Silksprite.EmoteWizardSupport.ClipBuilder;
 using Silksprite.EmoteWizardSupport.Logger;
 using Silksprite.Loch;
-using Silksprite.Loch.Tools;
 using UnityEditor.Animations;
 using UnityEngine;
+using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
 {
@@ -79,11 +79,10 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
             if (avatar == null)
             {
                 var gameObject = context.Environment.ContainerTransform.gameObject;
-                ErrorReportWrapper.LogWarningFormat(LochTool.Loc("Warn::ResetClip::WithoutAvatar."), gameObject,
-                    new Substitution
+                ErrorReportWrapper.LogWarningFormat(Loc("Warn::ResetClip::WithoutAvatar.").Format(new Substitution
                     {
                         ["gameObjectName"] = gameObject.name 
-                    });
+                    }), gameObject);
                 return;
             }
 

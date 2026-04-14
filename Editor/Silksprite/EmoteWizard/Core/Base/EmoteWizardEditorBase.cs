@@ -55,7 +55,7 @@ namespace Silksprite.EmoteWizard.Base
                     {
                         ["platform"] = env.Platform.ToSolePlatformString()
                     };
-                    LEditorGUILayout.HelpBox(LochTool.Loc("EWS::IgnoredByPlatform."), MessageType.Info, substitution);
+                    LEditorGUILayout.HelpBox(LochTool.Loc("EWS::IgnoredByPlatform.").Format(substitution), MessageType.Info);
                 }
 
                 if (!target || !env.ShowTutorial)

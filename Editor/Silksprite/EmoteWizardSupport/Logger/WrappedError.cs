@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace Silksprite.EmoteWizardSupport.Logger
 {
-    internal class WrappedError : SimpleError
+    class WrappedError : SimpleError
     {
         public override ErrorSeverity Severity { get; }
 
@@ -27,22 +27,21 @@ namespace Silksprite.EmoteWizardSupport.Logger
         public override string[] HintSubst => null!;
         #endregion
 
-        public WrappedError(ErrorSeverity errorSeverity, LocalizedContent loc, Object? context, Substitution? substitution)
+        public WrappedError(ErrorSeverity errorSeverity, LocalizedContent loc, Object? context)
         {
             Severity = errorSeverity;
             _loc = loc;
-            _substitution = substitution ?? Substitution.Empty;
             AddReference(ObjectRegistry.GetReference(context));
         }
 
         public override string? FormatTitle()
         {
-            return _loc.TrFormat(_substitution).SplitCompat("\n").FirstOrDefault();
+            return _loc.Tr.SplitCompat("\n").FirstOrDefault();
         }
 
         public override string FormatDetails()
         {
-            return _loc.TrFormat(_substitution);
+            return _loc.Tr;
         }
 
         public override string? FormatHint()
