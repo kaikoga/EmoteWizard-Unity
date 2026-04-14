@@ -37,14 +37,23 @@ namespace Silksprite.EmoteWizard.UI
         {
             if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is { } sharedMesh)
             {
+                var left = position;
+                left.width -= 72f;
+                var right = position;
+                right.xMin = right.xMax - 70f;
+
+                LEditorGUI.Prop(left, lop);
+
                 EditorGUI.BeginChangeCheck();
+                var blendShapeName = lop.Property.stringValue;
                 var options = Enumerable.Range(0, sharedMesh.blendShapeCount)
                     .Select(i => sharedMesh.GetBlendShapeName(i))
+                    .Where(name => name.StartsWith(blendShapeName))
                     .ToArray();
                 var newBlendShapeNameValue = EditorGUI.Popup(
-                    position,
-                    lop.Loc.Tr,
-                    Array.IndexOf(options, lop.Property.stringValue),
+                    right,
+                    "",
+                    Array.IndexOf(options, blendShapeName),
                     options
                 );
                 if (EditorGUI.EndChangeCheck())
