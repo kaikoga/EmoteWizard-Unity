@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
@@ -28,6 +30,31 @@ namespace Silksprite.EmoteWizard.UI
                 default:
                     LEditorGUI.Prop(position, lop);
                     break;
+            }
+        }
+        
+        public static void PropAsBlendShapeName(Rect position, LocalizedProperty lop, SkinnedMeshRenderer skinnedMeshRenderer)
+        {
+            if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is { } sharedMesh)
+            {
+                EditorGUI.BeginChangeCheck();
+                var options = Enumerable.Range(0, sharedMesh.blendShapeCount)
+                    .Select(i => sharedMesh.GetBlendShapeName(i))
+                    .ToArray();
+                var newBlendShapeNameValue = EditorGUI.Popup(
+                    position,
+                    lop.Loc.Tr,
+                    Array.IndexOf(options, lop.Property.stringValue),
+                    options
+                );
+                if (EditorGUI.EndChangeCheck())
+                {
+                    lop.Property.stringValue = options[newBlendShapeNameValue];
+                }
+            }
+            else
+            {
+                LEditorGUI.PropAsLabel(position, lop);
             }
         }
     }

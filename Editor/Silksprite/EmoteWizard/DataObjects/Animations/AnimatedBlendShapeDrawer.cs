@@ -1,5 +1,4 @@
-using System;
-using System.Linq;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.Extensions;
 using Silksprite.EmoteWizardSupport.Scopes;
 using Silksprite.Loch.Extensions;
@@ -28,27 +27,7 @@ namespace Silksprite.EmoteWizard.DataObjects.Animations
                 LEditorGUI.Prop(position.UISliceV(0), relativeRef);
 
                 var skinnedMeshRenderer = (SkinnedMeshRenderer)relativeRef.Property.FindPropertyRelative(nameof(RelativeSkinnedMeshRendererRef.target)).objectReferenceValue;
-                if (skinnedMeshRenderer && skinnedMeshRenderer.sharedMesh is { } sharedMesh)
-                {
-                    EditorGUI.BeginChangeCheck();
-                    var options = Enumerable.Range(0, sharedMesh.blendShapeCount)
-                        .Select(i => sharedMesh.GetBlendShapeName(i))
-                        .ToArray();
-                    var newBlendShapeNameValue = EditorGUI.Popup(
-                        position.UISliceV(1),
-                        blendShapeName.Loc.Tr,
-                        Array.IndexOf(options, blendShapeName.Property.stringValue),
-                        options
-                    );
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        blendShapeName.Property.stringValue = options[newBlendShapeNameValue];
-                    }
-                }
-                else
-                {
-                    LEditorGUI.PropAsLabel(position.UISliceV(1), blendShapeName);
-                }
+                EmoteWizardGUI.PropAsBlendShapeName(position.UISliceV(1), blendShapeName, skinnedMeshRenderer);
 
                 LEditorGUI.Prop(position.UISliceV(2), value);
             }
