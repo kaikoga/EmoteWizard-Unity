@@ -69,6 +69,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
             foreach (var parameter in snapshot.AllParameters)
             {
                 var valueKind = parameter.ValueKind;
+                var readUsageValues = zero.Concat(parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures))).Distinct().ToArray();
                 var writeSourceKind = parameter.WriteSourceKind;
 
                 var usedType = valueKind switch
@@ -116,8 +117,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                         };
                         settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Joystick2D;
                         break;
-                    case (_, _):
-                        var readUsageValues = zero.Concat(parameter.ReadUsages.Select(usage => usage.Value.AsFloat(platformFeatures))).Distinct().ToArray();
+                    case (ParameterValueKind.Float, CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Slider):
                         setting = new CVRAdvancesAvatarSettingSliderAccess
                         {
                             usedType = usedType,
@@ -132,6 +132,14 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                             }
                         };
                         settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Slider;
+                        break;
+                    case (_, _):
+                        setting = new CVRAdvancesAvatarSettingInputSingleAccess
+                        {
+                            usedType = usedType,
+                            defaultValue = parameter.DefaultValue.AsFloat(platformFeatures),
+                        };
+                        settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.InputSingle;
                         break;
                 }
                 yield return new CVRAdvancedSettingsEntryAccess
