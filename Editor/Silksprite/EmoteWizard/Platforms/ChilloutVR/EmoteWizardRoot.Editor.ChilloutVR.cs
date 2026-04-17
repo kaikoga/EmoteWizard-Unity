@@ -1,5 +1,3 @@
-#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
-
 using Silksprite.AdLib.ChilloutVR.Extensions;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
@@ -15,7 +13,7 @@ using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
 {
     public class EmoteWizardRootChilloutVREditor : EmoteWizardRootPlatformEditorBase<EmoteWizardRoot>
     {
@@ -108,5 +106,3 @@ namespace Silksprite.EmoteWizard
         }
     }
 }
-
-#endif

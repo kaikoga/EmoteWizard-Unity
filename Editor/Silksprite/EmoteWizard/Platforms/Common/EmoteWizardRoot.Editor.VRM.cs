@@ -1,5 +1,3 @@
-#if ATIV_DETECTED_VRM0 || ATIV_DETECTED_VRM1
-
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.Loch;
@@ -7,7 +5,7 @@ using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Platforms.Common
 {
     public class EmoteWizardRootVRMEditor : EmoteWizardRootPlatformEditorBase<EmoteWizardRoot>
     {
@@ -41,5 +39,3 @@ namespace Silksprite.EmoteWizard
         }
     }
 }
-
-#endif

@@ -1,5 +1,3 @@
-#if EW_VRCSDK3_AVATARS
-
 using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
@@ -19,7 +17,7 @@ using UnityEngine;
 using VRC.SDK3.Avatars.Components;
 using static Silksprite.Loch.Tools.LochTool;
 
-namespace Silksprite.EmoteWizard
+namespace Silksprite.EmoteWizard.Platforms.VRChat
 {
     public class EmoteWizardRootVRChatEditor : EmoteWizardRootPlatformEditorBase<EmoteWizardRoot>
     {
@@ -248,5 +246,3 @@ namespace Silksprite.EmoteWizard
         }
     }
 }
-
-#endif

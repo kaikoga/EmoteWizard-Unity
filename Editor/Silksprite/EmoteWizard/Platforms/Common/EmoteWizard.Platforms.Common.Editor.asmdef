@@ -27,6 +27,16 @@
             "name": "nadena.dev.modular-avatar",
             "expression": "[1.9.0-a,999.0.0)",
             "define": "EW_MODULAR_AVATAR"
+        },
+        {
+            "name": "com.vrmc.univrm",
+            "expression": "[0.0.0,1.0.0)",
+            "define": "ATIV_DETECTED_VRM0"
+        },
+        {
+            "name": "com.vrmc.vrm",
+            "expression": "[0.0.0,1.0.0)",
+            "define": "ATIV_DETECTED_VRM1"
         }
     ],
     "noEngineReferences": false
