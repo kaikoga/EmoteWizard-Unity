@@ -6,6 +6,7 @@ using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder;
+using Silksprite.EmoteWizard.UI;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
 using Silksprite.Loch;
@@ -88,7 +89,7 @@ namespace Silksprite.EmoteWizard
                         EditAnimator(null);
                     }
 
-                    EmoteWizardRootEditor.DummyController(_proxyAnimator, avatarAnimator.runtimeAnimatorController);
+                    EmoteWizardGUILayout.DummyController(_proxyAnimator, avatarAnimator.runtimeAnimatorController);
 
                     if (avatarAnimator.runtimeAnimatorController == null)
                     {
