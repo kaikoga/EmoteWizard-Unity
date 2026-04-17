@@ -1,12 +1,14 @@
 #if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
 
 using Silksprite.AdLib.ChilloutVR.Extensions;
+using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder;
 using Silksprite.EmoteWizardSupport.UI;
 using Silksprite.EmoteWizardSupport.Undoable;
+using Silksprite.Loch;
 using Silksprite.Loch.IMGUI;
 using UnityEditor;
 using UnityEngine;
@@ -14,17 +16,25 @@ using static Silksprite.Loch.Tools.LochTool;
 
 namespace Silksprite.EmoteWizard
 {
-    public partial class EmoteWizardRootEditor
+    public class EmoteWizardRootChilloutVREditor : EmoteWizardRootPlatformEditorBase<EmoteWizardRoot>
     {
         [InitializeOnLoadMethod]
         static void InitializeOnLoadChilloutVR()
         {
-            RegisterPlatformUIs += editor =>
+            EmoteWizardRootEditor.RegisterPlatformUIs += editor =>
             {
-                editor.PlatformOutputOptionsUI += editor.AvatarOutputChilloutVR;
+                var platformUI = new EmoteWizardRootChilloutVREditor(editor);
+                editor.PlatformOutputOptionsUI += platformUI.AvatarOutputChilloutVR;
             };
         }
-        
+
+        readonly LocalizedProperty _proxyAnimator;
+
+        EmoteWizardRootChilloutVREditor(EmoteWizardRootEditor editor) : base(editor)
+        {
+            _proxyAnimator = Lop(nameof(EmoteWizardRoot.proxyAnimator), Loc("EmoteWizardRoot::proxyAnimator"));
+        }
+
         void AvatarOutputChilloutVR(EmoteWizardEnvironment env)
         {
             if (!env.IsChilloutVRAvatar())
@@ -78,7 +88,7 @@ namespace Silksprite.EmoteWizard
                         EditAnimator(null);
                     }
 
-                    DummyController(_proxyAnimator, avatarAnimator.runtimeAnimatorController);
+                    EmoteWizardRootEditor.DummyController(_proxyAnimator, avatarAnimator.runtimeAnimatorController);
 
                     if (avatarAnimator.runtimeAnimatorController == null)
                     {

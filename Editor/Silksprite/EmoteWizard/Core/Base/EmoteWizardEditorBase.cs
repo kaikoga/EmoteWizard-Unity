@@ -18,7 +18,7 @@ namespace Silksprite.EmoteWizard.Base
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         EmoteWizardBehaviour soleTarget => (EmoteWizardBehaviour)target;
 
-        protected EmoteWizardEnvironment CachedEnv()
+        protected internal EmoteWizardEnvironment CachedEnv()
         {
             if (!InnerGUIEnvironmentScope.TryGetCurrentEnv(out var environment))
             {
@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Base
         }
 
         LocalizedContent? _lastHeader;
-        protected void HeadingOnce(LocalizedContent loc)
+        protected internal void HeadingOnce(LocalizedContent loc)
         {
             if (_lastHeader == loc) return;
             
@@ -86,7 +86,7 @@ namespace Silksprite.EmoteWizard.Base
     where T : EmoteWizardBehaviour
     {
         [SuppressMessage("ReSharper", "InconsistentNaming")]
-        protected T soleTarget => (T)target;
+        protected internal T soleTarget => (T)target;
 
         protected sealed override LocalizedContent TutorialContent => LochTool._Loc(typeof(T).Name + "::Tutorial.");
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
@@ -41,10 +42,14 @@ namespace Silksprite.EmoteWizard
         LocalizedProperty _parameterScheme = null!;
         // ReSharper restore NotAccessedField.Local
 
-        static event Action<EmoteWizardRootEditor>? RegisterPlatformUIs;
-        event Action<EmoteWizardEnvironment>? PlatformLayerOptionsUI;
-        event Action<EmoteWizardEnvironment>? PlatformExportOptionsUI;
-        event Action<EmoteWizardEnvironment>? PlatformOutputOptionsUI;
+        public static event Action<EmoteWizardRootEditor>? RegisterPlatformUIs;
+        public event Action<EmoteWizardEnvironment>? PlatformLayerOptionsUI;
+        public event Action<EmoteWizardEnvironment>? PlatformExportOptionsUI;
+        public event Action<EmoteWizardEnvironment>? PlatformOutputOptionsUI;
+
+        [SuppressMessage("ReSharper", "InconsistentNaming")]
+        internal new EmoteWizardRoot soleTarget => (EmoteWizardRoot)target;
+        internal new EmoteWizardEnvironment CachedEnv() => base.CachedEnv();
 
         void OnEnable()
         {
@@ -144,7 +149,7 @@ namespace Silksprite.EmoteWizard
             serializedObject.ApplyModifiedProperties();
         }
 
-        static void DummyController(LocalizedProperty lop, RuntimeAnimatorController? dummyController)
+        internal static void DummyController(LocalizedProperty lop, RuntimeAnimatorController? dummyController)
         {
             using (new EditorGUI.DisabledScope(true))
             {
