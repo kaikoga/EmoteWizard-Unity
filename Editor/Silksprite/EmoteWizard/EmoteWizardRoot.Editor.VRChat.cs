@@ -20,9 +20,24 @@ namespace Silksprite.EmoteWizard
 {
     public partial class EmoteWizardRootEditor
     {
-        void LayerOptionsVrc(EmoteWizardEnvironment env)
+        [InitializeOnLoadMethod]
+        static void InitializeOnLoadVRChat()
         {
-            HeaderOnce(Loc("EmoteWizardRoot::Options"));
+            RegisterPlatformUIs += editor =>
+            {
+                editor.PlatformLayerOptionsUI += editor.LayerOptionsVRChat;
+                editor.PlatformOutputOptionsUI += editor.AvatarOutputVRChat;
+            };
+        }
+        
+        void LayerOptionsVRChat(EmoteWizardEnvironment env)
+        {
+            if (!env.IsVRChatAvatar())
+            {
+                return;
+            }
+
+            HeadingOnce(Loc("EmoteWizardRoot::Options"));
 
             LEditorGUILayout.PropAsEnumPopup<LayerKind>(_generateTrackingControlLayer);
 
@@ -96,9 +111,14 @@ namespace Silksprite.EmoteWizard
             }
         }
 
-        void AvatarOutputVrc(EmoteWizardEnvironment env)
+        void AvatarOutputVRChat(EmoteWizardEnvironment env)
         {
-            LGUILayout.Heading(Loc("EmoteWizardRoot::Avatar Output"));
+            if (!env.IsVRChatAvatar())
+            {
+                return;
+            }
+
+            HeadingOnce(Loc("EmoteWizardRoot::Avatar Output"));
 
             LEditorGUILayout.Prop(_proxyAnimator);
             var avatarDescriptor = env.AvatarRoot.GetComponent<VRCAvatarDescriptor>();

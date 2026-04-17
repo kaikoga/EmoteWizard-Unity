@@ -1,3 +1,4 @@
+using System;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
@@ -40,6 +41,11 @@ namespace Silksprite.EmoteWizard
         LocalizedProperty _parameterScheme = null!;
         // ReSharper restore NotAccessedField.Local
 
+        static event Action<EmoteWizardRootEditor>? RegisterPlatformUIs;
+        event Action<EmoteWizardEnvironment>? PlatformLayerOptionsUI;
+        event Action<EmoteWizardEnvironment>? PlatformExportOptionsUI;
+        event Action<EmoteWizardEnvironment>? PlatformOutputOptionsUI;
+
         void OnEnable()
         {
             _avatarRootTransform = Lop(nameof(EmoteWizardRoot.avatarRootTransform), Loc("EmoteWizardRoot::avatarRootTransform"));
@@ -59,6 +65,8 @@ namespace Silksprite.EmoteWizard
             _showTutorial = Lop(nameof(EmoteWizardRoot.showTutorial), Loc("EmoteWizardRoot::showTutorial"));
             _detectPlatform = Lop(nameof(EmoteWizardRoot.detectPlatform), Loc("EmoteWizardRoot::detectPlatform"));
             _parameterScheme = Lop(nameof(EmoteWizardRoot.parameterScheme), Loc("EmoteWizardRoot::sourcePlatform"));
+            
+            RegisterPlatformUIs?.Invoke(this);
         }
 
         protected override void OnInnerInspectorGUI()
@@ -129,38 +137,14 @@ namespace Silksprite.EmoteWizard
                 env.DisconnectAllOutputAssets();
             }
 
-#if EW_VRCSDK3_AVATARS
-            if (env.IsVRChatAvatar())
-            {
-                LayerOptionsVrc(env);
-            }
-#endif
-
-#if ATIV_DETECTED_VRM0 || ATIV_DETECTED_VRM1
-            if (env.MaybeVRM())
-            {
-                ExportOptionsVrm();
-            }
-#endif
-
-#if EW_VRCSDK3_AVATARS
-            if (env.IsVRChatAvatar())
-            {
-                AvatarOutputVrc(env);
-            }
-#endif
- 
-#if CVR_CCK_EXISTS || ADLIB_CVR_CCK_STUBBED
-            if (env.IsChilloutVRAvatar())
-            {
-                AvatarOutputCvr(env);
-            }
-#endif
+            PlatformLayerOptionsUI?.Invoke(env);
+            PlatformExportOptionsUI?.Invoke(env);
+            PlatformOutputOptionsUI?.Invoke(env);
  
             serializedObject.ApplyModifiedProperties();
         }
 
-        void DummyController(LocalizedProperty lop, RuntimeAnimatorController? dummyController)
+        static void DummyController(LocalizedProperty lop, RuntimeAnimatorController? dummyController)
         {
             using (new EditorGUI.DisabledScope(true))
             {

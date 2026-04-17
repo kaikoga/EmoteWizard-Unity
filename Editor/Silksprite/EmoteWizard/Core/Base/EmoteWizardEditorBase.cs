@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Base
         }
 
         LocalizedContent? _lastHeader;
-        protected void HeaderOnce(LocalizedContent loc)
+        protected void HeadingOnce(LocalizedContent loc)
         {
             if (_lastHeader == loc) return;
             

@@ -16,9 +16,23 @@ namespace Silksprite.EmoteWizard
 {
     public partial class EmoteWizardRootEditor
     {
-        void AvatarOutputCvr(EmoteWizardEnvironment env)
+        [InitializeOnLoadMethod]
+        static void InitializeOnLoadChilloutVR()
         {
-            LGUILayout.Heading(Loc("EmoteWizardRoot::Avatar Output"));
+            RegisterPlatformUIs += editor =>
+            {
+                editor.PlatformOutputOptionsUI += editor.AvatarOutputChilloutVR;
+            };
+        }
+        
+        void AvatarOutputChilloutVR(EmoteWizardEnvironment env)
+        {
+            if (!env.IsChilloutVRAvatar())
+            {
+                return;
+            }
+
+            HeadingOnce(Loc("EmoteWizardRoot::Avatar Output"));
 
             LEditorGUILayout.Prop(_proxyAnimator);
             if (env.AvatarRoot.TryGetCVRAvatarAccess(out var cvrAvatar))
