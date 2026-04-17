@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Silksprite.EmoteWizard.Templates.Impl
 {
-    public class ParameterItemTemplate : IEmoteTemplate
+    public class ParameterItemTemplate : IParameterItemTemplate
     {
         readonly EmoteTemplatePath _path;
         EmoteTemplatePath IEmoteTemplate.Path => _path;
@@ -19,7 +19,7 @@ namespace Silksprite.EmoteWizard.Templates.Impl
             _parameterItem = parameterItem;
         }
 
-        public IEnumerable<ParameterItem> ToParameterItems()
+        IEnumerable<ParameterItem> IParameterItemTemplate.ToParameterItems()
         {
             yield return _parameterItem;
         }

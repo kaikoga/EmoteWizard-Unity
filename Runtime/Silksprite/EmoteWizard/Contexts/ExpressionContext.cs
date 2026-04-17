@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using Silksprite.EmoteWizard.Configs;
 using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.DataObjects;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 
 #if EW_VRCSDK3_AVATARS
@@ -62,7 +63,7 @@ namespace Silksprite.EmoteWizard.Contexts
         IEnumerable<ExpressionItem> CollectExpressionItems()
         {
             return Environment.GetContext<EmoteTemplateContext>()
-                .UnpackedTemplates<ExpressionItemTemplate>()
+                .UnpackedTemplates<IExpressionItemTemplate>()
                 .SelectMany(template => template.ToExpressionItems());
         }
 

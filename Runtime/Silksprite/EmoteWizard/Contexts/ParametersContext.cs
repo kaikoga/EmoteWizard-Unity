@@ -7,6 +7,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.DataObjects.Internal.Builders;
 using Silksprite.EmoteWizard.Platforms.Extensions;
+using Silksprite.EmoteWizard.Templates;
 using Silksprite.EmoteWizard.Templates.Impl;
 
 #if EW_VRCSDK3_AVATARS
@@ -65,7 +66,7 @@ namespace Silksprite.EmoteWizard.Contexts
         IEnumerable<ParameterItem> CollectSourceParameterItems()
         {
             return Environment.GetContext<EmoteTemplateContext>()
-                .UnpackedTemplates<ParameterItemTemplate>()
+                .UnpackedTemplates<IParameterItemTemplate>()
                 .SelectMany(template => template.ToParameterItems());
         }
 
