@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics.CodeAnalysis;
 using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Extensions;
@@ -17,7 +16,7 @@ using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardEditorTools;
 namespace Silksprite.EmoteWizard
 {
     [CustomEditor(typeof(EmoteWizardRoot))]
-    public partial class EmoteWizardRootEditor : EmoteWizardEditorBase<EmoteWizardRoot>
+    public class EmoteWizardRootEditor : EmoteWizardEditorBase<EmoteWizardRoot>
     {
         // NOTE: EmoteWizardRoot Editor is not in Core asmdef because Platform extensions 
         bool _isSetup;
@@ -46,10 +45,6 @@ namespace Silksprite.EmoteWizard
         public event Action<EmoteWizardEnvironment>? PlatformLayerOptionsUI;
         public event Action<EmoteWizardEnvironment>? PlatformExportOptionsUI;
         public event Action<EmoteWizardEnvironment>? PlatformOutputOptionsUI;
-
-        [SuppressMessage("ReSharper", "InconsistentNaming")]
-        internal new EmoteWizardRoot soleTarget => (EmoteWizardRoot)target;
-        internal new EmoteWizardEnvironment CachedEnv() => base.CachedEnv();
 
         void OnEnable()
         {
