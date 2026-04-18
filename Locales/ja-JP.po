@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2026-04-01 10:05+0900\n"
+"POT-Creation-Date: 2026-04-18 02:38+0900\n"
 "PO-Revision-Date: \n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -15,15 +15,15 @@ msgstr ""
 "X-Poedit-KeywordsList: Tr;Loc\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:24
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:23
 msgid "AnimatedBlendShape::blendShapeName"
 msgstr "ブレンドシェイプ"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:21
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:20
 msgid "AnimatedBlendShape::relativeRef"
 msgstr "対象"
 
-#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:26
+#: Editor/Silksprite/EmoteWizard/DataObjects/Animations/AnimatedBlendShapeDrawer.cs:25
 msgid "AnimatedBlendShape::value"
 msgstr "値"
 
@@ -35,6 +35,27 @@ msgstr "有効化"
 msgid "AnimatedEnable::relativeRef"
 msgstr "対象"
 
+#: Editor/Silksprite/EmoteWizard/Sources/AnimationClipMixinSource.Editor.cs:25
+msgid "AnimationClipMixin::clip"
+msgstr "Clip"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimationClipMixinSource.Editor.cs:26
+msgid "AnimationClipMixin::layerKind"
+msgstr "レイヤー"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimationClipMixinSource.Editor.cs:27
+msgid "AnimationClipMixin::order"
+msgstr "順序"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimationClipMixinSource.Editor.cs:23
+msgid "AnimationClipMixinSource::mixin"
+msgstr "Mixin"
+
+#: Locales/Translations.cs:24
+msgid "AnimationClipMixinSource::Tutorial."
+msgstr ""
+"指定されたAnimationClipを生成されるAnimatorControllerに組み込みます。"
+
 #: Editor/Silksprite/EmoteWizard/Core/Preview/AnimationPreviewWrapper.cs:47
 msgid "AnimationPreview::Active."
 msgstr ""
@@ -44,6 +65,28 @@ msgstr ""
 #: Editor/Silksprite/EmoteWizard/Core/Preview/AnimationPreviewWrapper.cs:51
 msgid "AnimationPreview::Blocked."
 msgstr "他のインスペクタでアニメーションのプレビューを表示中です。"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimatorControllerMixinSource.Editor.cs:25
+msgid "AnimatorControllerMixin::animatorController"
+msgstr "Animator Controller"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimatorControllerMixinSource.Editor.cs:26
+msgid "AnimatorControllerMixin::layerKind"
+msgstr "レイヤー"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimatorControllerMixinSource.Editor.cs:27
+msgid "AnimatorControllerMixin::order"
+msgstr "順序"
+
+#: Editor/Silksprite/EmoteWizard/Sources/AnimatorControllerMixinSource.Editor.cs:23
+msgid "AnimatorControllerMixinSource::mixin"
+msgstr "Mixin"
+
+#: Locales/Translations.cs:23
+msgid "AnimatorControllerMixinSource::Tutorial."
+msgstr ""
+"指定されたAnimatorControllerのレイヤーを生成されるAnimatorControllerに組"
+"み込みます。"
 
 #: Editor/Silksprite/EmoteWizard/Configs/AnimatorLayerConfig.Editor.cs:30
 msgid "AnimatorLayerConfigBase::defaultAvatarMask"
@@ -97,7 +140,7 @@ msgstr "パス"
 msgid "CustomActionWizard::parameterName"
 msgstr "パラメータ"
 
-#: Locales/Translations.cs:23
+#: Locales/Translations.cs:25
 msgid "CustomActionWizard::Tutorial."
 msgstr ""
 "Emote Item Sourceをカスタムエモートとしてセットアップします。\n"
@@ -226,7 +269,7 @@ msgstr "Emote Itemタイプ"
 msgid "DefaultSourcesWizard::emoteSequenceFactoryKind"
 msgstr "Emote Sequenceタイプ"
 
-#: Locales/Translations.cs:24
+#: Locales/Translations.cs:26
 msgid "DefaultSourcesWizard::Tutorial."
 msgstr "Emote Wizardのデフォルトソースをセットアップします。"
 
@@ -266,7 +309,7 @@ msgstr "パス"
 msgid "DressChangeWizard::parameterName"
 msgstr "パラメータ"
 
-#: Locales/Translations.cs:25
+#: Locales/Translations.cs:27
 msgid "DressChangeWizard::Tutorial."
 msgstr ""
 "複数のEmote Item SourceをExpressionメニューから切り替えられる一連の着せ替"
@@ -413,7 +456,7 @@ msgstr "パス"
 msgid "EmoteItemWizard::parameterName"
 msgstr "パラメータ"
 
-#: Locales/Translations.cs:26
+#: Locales/Translations.cs:28
 msgid "EmoteItemWizard::Tutorial."
 msgstr ""
 "Emote Item Sourceを１つの表情や着せ替えパターンとしてセットアップしま"
@@ -666,7 +709,7 @@ msgstr "Sub Menu Expression Item Source"
 msgid "EmoteWizardDataSourceFactory::Sub Menu Expression Item Source::Desc"
 msgstr "サブメニュープリセット"
 
-#: Locales/Translations.cs:27
+#: Locales/Translations.cs:29
 msgid "EmoteWizardDataSourceFactory::Tutorial."
 msgstr ""
 "様々なData Sourceを生成します。\n"
@@ -682,177 +725,187 @@ msgstr ""
 "ここから生成したWizardを「発動」することで、Data Sourceを効率よく生成する"
 "ことができます。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:77
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:85
 msgid "EmoteWizardRoot::Add Empty Data Source"
 msgstr "空のData Sourceを追加"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:106
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:114
 msgid "EmoteWizardRoot::Assets Generation"
 msgstr "アセット出力設定"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:58
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:64
+#: Editor/Silksprite/EmoteWizard/Platforms/Common/EmoteWizardRoot.Editor.VRM.cs:26
 msgid "EmoteWizardRoot::author"
 msgstr "Authorを設定 (VRM)"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:89
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:97
 msgid "EmoteWizardRoot::Avatar"
 msgstr "アバター設定"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:21
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:101
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:44
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:144
 msgid "EmoteWizardRoot::Avatar Output"
 msgstr "アバター出力"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:95
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:103
 msgid "EmoteWizardRoot::AvatarRoot::notFound."
 msgstr ""
 "アバターの子にEmote Wizard Rootを配置するか、アバターのルートとなるオブ"
 "ジェクトを指定してください。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:45
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:51
 msgid "EmoteWizardRoot::avatarRootTransform"
 msgstr "Avatar Root Transform"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:113
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:121
 msgid "EmoteWizardRoot::Browse..."
 msgstr "選択..."
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:102
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:110
 msgid "EmoteWizardRoot::Detected Avatar Root"
 msgstr "自動検出"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:60
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:66
 msgid "EmoteWizardRoot::detectPlatform"
 msgstr "UIを最適化"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:39
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:123
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:62
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:166
 msgid "EmoteWizardRoot::Disconnect Avatar Output Assets"
 msgstr "アバターをクリーンアップする"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:122
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:130
 msgid "EmoteWizardRoot::Disconnect Output Assets"
 msgstr "出力アセットをクリーンアップする"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:55
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:139
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:78
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:182
 msgid "EmoteWizardRoot::Edit"
 msgstr "編集"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:163
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:206
 msgid "EmoteWizardRoot::Edit Action"
 msgstr "Actionを編集"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:155
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:198
 msgid "EmoteWizardRoot::Edit FX"
 msgstr "FXを編集"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:147
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:190
 msgid "EmoteWizardRoot::Edit Gesture"
 msgstr "Gestureを編集"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:50
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:56
 msgid "EmoteWizardRoot::emptyClip"
 msgstr "Empty Clip"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:43
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:127
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:66
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:170
 msgid "EmoteWizardRoot::Generate Everything and Update Avatar"
 msgstr "全てを生成してアバターを更新する"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:49
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:55
 msgid "EmoteWizardRoot::generatedAssetPrefix"
 msgstr "永続化Prefix"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:48
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:54
 msgid "EmoteWizardRoot::generatedAssetRoot"
 msgstr "永続化ディレクトリ"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:51
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:57
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:47
 msgid "EmoteWizardRoot::generateTrackingControlLayer"
 msgstr "Trackingレイヤーを生成"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:25
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRM.cs:12
+#: Editor/Silksprite/EmoteWizard/Platforms/Common/EmoteWizardRoot.Editor.VRM.cs:36
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:63
 msgid "EmoteWizardRoot::Options"
 msgstr "一般設定"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:54
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:60
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:50
 msgid "EmoteWizardRoot::overrideAction"
 msgstr "Actionレイヤー"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:55
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:61
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:51
 msgid "EmoteWizardRoot::overrideActionController"
 msgstr "上書きする"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:52
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:58
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:48
 msgid "EmoteWizardRoot::overrideGesture"
 msgstr "Gestureレイヤー"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:53
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:59
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:49
 msgid "EmoteWizardRoot::overrideGestureController"
 msgstr "上書きする"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:56
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:62
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:52
 msgid "EmoteWizardRoot::overrideSitting"
 msgstr "Sittingレイヤー"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:57
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:63
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:53
 msgid "EmoteWizardRoot::overrideSittingController"
 msgstr "上書きする"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:47
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:53
 msgid "EmoteWizardRoot::persistGeneratedAssets"
 msgstr "アセットを永続化"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:46
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:52
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:34
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:46
 msgid "EmoteWizardRoot::proxyAnimator"
 msgstr "編集用Animator"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:62
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:170
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:85
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:213
 msgid "EmoteWizardRoot::Remove Animator Controller"
 msgstr "編集用のAnimator Controllerを切り離す"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:195
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:238
 msgid "EmoteWizardRoot::runtimeAnimatorController::action."
 msgstr "現在、Actionレイヤーのアニメーションを編集中です。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:75
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:183
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:98
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:226
 msgid "EmoteWizardRoot::runtimeAnimatorController::editor."
 msgstr "現在、アバターに含まれるアニメーションを編集中です。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:191
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:234
 msgid "EmoteWizardRoot::runtimeAnimatorController::fx."
 msgstr "現在、FXレイヤーのアニメーションを編集中です。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:187
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:230
 msgid "EmoteWizardRoot::runtimeAnimatorController::gesture."
 msgstr "現在、Gestureレイヤーのアニメーションを編集中です。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.ChilloutVR.cs:79
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.VRChat.cs:199
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/EmoteWizardRoot.Editor.ChilloutVR.cs:102
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/EmoteWizardRoot.Editor.VRChat.cs:242
 msgid "EmoteWizardRoot::runtimeAnimatorController::unknown."
 msgstr "Animatorに不明なAnimator Controllerが刺さっています。"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:115
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:123
 msgid "EmoteWizardRoot::Select Generated Assets Root"
 msgstr "永続化ディレクトリ"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:82
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:90
 msgid "EmoteWizardRoot::Setup"
 msgstr "初期設定"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:59
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:65
 msgid "EmoteWizardRoot::showTutorial"
 msgstr "チュートリアルを表示"
 
-#: Editor/Silksprite/EmoteWizard/EmoteWizardRoot.Editor.cs:61
+#: Editor/Silksprite/EmoteWizard/Core/EmoteWizardRoot.Editor.cs:67
 msgid "EmoteWizardRoot::sourcePlatform"
 msgstr "パラメータスキーム"
 
-#: Locales/Translations.cs:28
+#: Locales/Translations.cs:30
 msgid "EmoteWizardRoot::Tutorial."
 msgstr ""
 "EmoteWizardの全体的な設定を行うコンポーネントです。\n"
@@ -1344,32 +1397,32 @@ msgstr "外部アセットが利用するExpression Parameterを任意に登録�
 msgid "RelativeRef.relativePath"
 msgstr "相対パス"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:25
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:25
 msgid "SetupGUI::emoteItemKind"
 msgstr "Emote Itemタイプ"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:26
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:26
 msgid "SetupGUI::emoteSequenceFactoryKindFx"
 msgstr "FX Emote Sequenceタイプ"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:55
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:64
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:55
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:64
 msgid "SetupGUI::Generate Configs"
 msgstr "Configを全て生成"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:31
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:31
 msgid "SetupGUI::Quick Setup Default Data Sources"
 msgstr "デフォルトのData Sourceを全て生成"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:35
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:35
 msgid "SetupGUI::Quick Setup VRChat Sources"
 msgstr "VRChatのData Sourceを全て生成"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:45
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:45
 msgid "SetupGUI::Quick Setup VRM Sources"
 msgstr "VRMのData Sourceを全て生成"
 
-#: Editor/Silksprite/EmoteWizard/UI/SetupGUI.cs:27
+#: Editor/Silksprite/EmoteWizard/Core/UI/SetupGUI.cs:27
 msgid "SetupGUI::unpack"
 msgstr "展開する"
 
@@ -1414,7 +1467,7 @@ msgstr "Right Hand"
 msgid "Warn::Parameter::NotFound."
 msgstr "パラメータが見つかりませんでした: {parameterName}"
 
-#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:73
+#: Runtime/Silksprite/EmoteWizard/DataObjects/Internal/ParametersSnapshot.cs:72
 msgid "Warn::Parameter::TypeMismatch."
 msgstr ""
 "パラメータの型が一致しませんでした: {parameterName}, 期待: {itemKind}, 実"
@@ -1438,8 +1491,8 @@ msgstr ""
 "プロパティ: {type} {propertyName}\n"
 "このプロパティはReset Clipに含まれません。"
 
-#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/Contexts/Extensions/BaseControllerContextExtension.cs:82
-#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/Contexts/Extensions/AnimatorLayerContextExtension.cs:71
+#: Editor/Silksprite/EmoteWizard/Platforms/ChilloutVR/Contexts/Extensions/BaseControllerContextExtension.cs:96
+#: Editor/Silksprite/EmoteWizard/Platforms/VRChat/Contexts/Extensions/AnimatorLayerContextExtension.cs:85
 msgid "Warn::ResetClip::WithoutAvatar."
 msgstr ""
 "{gameObjectName}: アバターが未指定のため、Reset Clipの生成に失敗しまし"
