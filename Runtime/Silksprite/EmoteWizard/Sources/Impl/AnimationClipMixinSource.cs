@@ -10,11 +10,11 @@ namespace Silksprite.EmoteWizard.Sources.Impl
     [HelpURL("https://docs.kaikoga.net/emotewizard/sources/animation_clip_mixin_source")]
     public class AnimationClipMixinSource : EmoteWizardDataSourceBase, IEmoteTemplateSource
     {
-        [SerializeField] public AnimationClip? animationClip;
+        [SerializeField] public AnimationClipMixin mixin = new AnimationClipMixin();
 
         IEmoteTemplate IEmoteTemplateSource.ToEmoteTemplate()
         {
-            return new AnimationClipMixinTemplate(SelfPath);
+            return new AnimationClipMixinTemplate(SelfPath, mixin);
         }
     }
 }
