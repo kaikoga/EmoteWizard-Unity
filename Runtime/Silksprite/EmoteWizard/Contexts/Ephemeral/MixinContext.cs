@@ -25,7 +25,7 @@ namespace Silksprite.EmoteWizard.Contexts.Ephemeral
 
         IEnumerable<MixinInstance> AllMixins() => _mixins ??= CollectAllMixins().ToList();
 
-        public IEnumerable<MixinInstance> ForceMirroredEmoteItems(LayerKind layerKind)
+        public IEnumerable<MixinInstance> Mixins(LayerKind layerKind)
             => AllMixins().Where(item => item.LayerKind == layerKind);
     }
 }

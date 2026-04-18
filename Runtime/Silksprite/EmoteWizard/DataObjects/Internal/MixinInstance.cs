@@ -6,13 +6,15 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
     {
         public readonly RuntimeAnimatorController? SourceController;
         public readonly Motion? SourceClip;
+        public readonly string Name;
         public readonly LayerKind LayerKind;
         public readonly int Order;
 
-        public MixinInstance(RuntimeAnimatorController? sourceController, Motion? sourceClip, LayerKind layerKind, int order)
+        public MixinInstance(RuntimeAnimatorController? sourceController, Motion? sourceClip, string name, LayerKind layerKind, int order)
         {
             SourceController = sourceController;
             SourceClip = sourceClip;
+            Name = name;
             LayerKind = layerKind;
             Order = order;
         }

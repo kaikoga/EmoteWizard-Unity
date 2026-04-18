@@ -11,6 +11,6 @@ namespace Silksprite.EmoteWizard.DataObjects
         public LayerKind layerKind;
         public int order;
 
-        public MixinInstance ToInstance() => new MixinInstance(animatorController, null, layerKind, order);
+        public MixinInstance ToInstance() => new MixinInstance(animatorController, null, animatorController?.name ?? "", layerKind, order);
     }
 }

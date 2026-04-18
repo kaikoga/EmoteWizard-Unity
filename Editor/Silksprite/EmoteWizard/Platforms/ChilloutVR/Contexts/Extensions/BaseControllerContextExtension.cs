@@ -65,8 +65,22 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
 
             foreach (var layerKind in LayerOrder)
             {
+                var mixins = context.Environment.GetContext<MixinContext>().Mixins(layerKind)
+                    .OrderBy(mixin => mixin.Order)
+                    .ToArray();
+                foreach (var mixin in mixins.Where(mixin => mixin.Order >= 0))
+                {
+                    builder.BuildMixinLayer(mixin);
+                }
+
                 builder.BuildEmoteLayers(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(layerKind), layerKind);
+
+                foreach (var mixin in mixins.Where(mixin => mixin.Order >= 0))
+                {
+                    builder.BuildMixinLayer(mixin);
+                }
             }
+
             builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             builder.BuildParameters();
             return animatorController;

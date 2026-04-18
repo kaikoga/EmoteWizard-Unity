@@ -93,7 +93,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             return layer;
         }
 
-        public void BuildStaticLayer(string layerName, AnimationClip? clip, AvatarMask? defaultAvatarMask)
+        public void BuildStaticLayer(string layerName, Motion? clip, AvatarMask? defaultAvatarMask)
         {
             var resetLayer = PopulateLayer(layerName, defaultAvatarMask);
             new StaticLayerBuilder(this, resetLayer, layerName, clip).Build();
@@ -128,6 +128,22 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
                 }
                 var layer = PopulateLayer(groupName, avatarMask);
                 new EmoteLayerBuilder(this, layer, mirroredEmoteGroup).Build();
+            }
+        }
+
+        public void BuildMixinLayer(MixinInstance mixin)
+        {
+            if (mixin.SourceClip is { } clip)
+            {
+                BuildStaticLayer(mixin.Name, clip, null);
+            }
+
+            if (mixin.SourceController is AnimatorController animatorController)
+            {
+                foreach (var layer in animatorController.layers)
+                {
+                    _animatorController.AddLayer(layer);
+                }
             }
         }
 
