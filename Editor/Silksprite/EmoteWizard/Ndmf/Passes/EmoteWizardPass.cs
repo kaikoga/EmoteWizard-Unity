@@ -47,6 +47,7 @@ namespace Silksprite.EmoteWizard.Ndmf.Passes
 #if ATIV_DETECTED_VRM1
             yield return env.GetContext<VRM1AvatarBuilderContext>();
 #endif
+            yield break;
         }
     }
 }

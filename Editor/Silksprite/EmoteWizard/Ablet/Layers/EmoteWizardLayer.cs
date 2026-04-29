@@ -69,6 +69,7 @@ namespace Silksprite.EmoteWizard.Ablet.Layers
 #if ATIV_DETECTED_VRM1
                 yield return env.GetContext<VRM1AvatarBuilderContext>();
 #endif
+                yield break;
             }
 
         }
