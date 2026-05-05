@@ -176,8 +176,16 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
 
         public void BuildActionSelectDriverLayer(string layerName, int[] actions)
         {
+            var platformFeatures = Environment.GetPlatformFeatures();
             var actionSelectDriverLayer = PopulateLayer(layerName);
-            new ActionSelectDriverLayerBuilder(this, actionSelectDriverLayer, actions).Build();
+            ParameterRemapDriverLayerBuilder.Create(
+                this,
+                actionSelectDriverLayer,
+                actions,
+                platformFeatures.ParameterForPlatformActionSelect,
+                platformFeatures.ParameterForPlatformCancelAction,
+                platformFeatures.ParameterForActionSelect
+            ).Build();
         }
 
         public void BuildParameters()

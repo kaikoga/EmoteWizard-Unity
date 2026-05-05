@@ -14,6 +14,22 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorVRChatFeatures();
 
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, string parameterName, float parameterValue)
+        {
+            var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>();
+            avatarParameterDriver.localOnly = true;
+
+            avatarParameterDriver.parameters = settings.Select(setting => new VRC_AvatarParameterDriver.Parameter
+            {
+                name = parameterName,
+                value = parameterValue,
+                valueMin = 0f,
+                valueMax = 0f,
+                chance = 1f,
+                type = VRC_AvatarParameterDriver.ChangeType.Set
+            }).ToList();
+        }
+
         void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
             var avatarParameterDriver = state.AddStateMachineBehaviour2<VRCAvatarParameterDriver>();

@@ -14,6 +14,28 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
     {
         public static readonly IEditorPlatformFeatures Instance = new EditorChilloutVRFeatures();
 
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, string parameterName, float parameterValue)
+        {
+            var animatorDriver = state.AddStateMachineBehaviour2Access(AnimatorDriverAccess.ActualType, smb => new AnimatorDriverAccess(smb));
+            animatorDriver.localOnly = true;
+
+            animatorDriver.EnterTasks = new List<AnimatorDriverTaskAccess?>
+            {
+                new AnimatorDriverTaskAccess{
+                    targetType = AnimatorDriverTaskClass.ParameterTypeAccess.EnumValues.Float,
+                    targetName = parameterName,
+
+                    op = AnimatorDriverTaskClass.OperatorAccess.EnumValues.Set,
+
+                    aType = AnimatorDriverTaskClass.SourceTypeAccess.EnumValues.Static,
+                    aValue = 0f,
+                    aMax = 0f,
+                    aParamType = AnimatorDriverTaskClass.ParameterTypeAccess.EnumValues.Trigger,
+                    aName = ""
+                }
+            };
+        }
+
         void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
             var animatorDriver = state.AddStateMachineBehaviour2Access(AnimatorDriverAccess.ActualType, smb => new AnimatorDriverAccess(smb));

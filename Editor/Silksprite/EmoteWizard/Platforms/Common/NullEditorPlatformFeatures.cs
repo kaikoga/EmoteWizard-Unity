@@ -9,6 +9,11 @@ namespace Silksprite.EmoteWizard.Platforms.Common
     {
         public static readonly IEditorPlatformFeatures Instance = new NullEditorPlatformFeatures();
 
+        void IEditorPlatformFeatures.PopulateParameterDriver(AnimatorState state, string parameterName, float parameterValue)
+        {
+            throw new NotImplementedException();
+        }
+
         void IEditorPlatformFeatures.PopulateTriggerDriver(AnimatorState state, IEnumerable<(TrackingTarget target, TrackingMode mode)> settings)
         {
             throw new NotImplementedException();
