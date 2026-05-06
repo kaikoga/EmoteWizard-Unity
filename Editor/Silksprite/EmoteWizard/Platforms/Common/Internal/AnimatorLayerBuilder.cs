@@ -21,6 +21,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
         public readonly ParametersSnapshot ParametersSnapshot;
         readonly AnimatorController _animatorController;
 
+        readonly Dictionary<string, AnimatorControllerParameterType> _rawParameters = new Dictionary<string, AnimatorControllerParameterType>();
+
         readonly HashSet<string> _referencedParameters = new HashSet<string>();
 
         public void MarkParameter(string name) => _referencedParameters.Add(name);
@@ -49,6 +51,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
         readonly HashSet<TrackingTarget> _referencedTrackingTargets = new HashSet<TrackingTarget>();
         public void MarkTrackingTarget(TrackingTarget target) => _referencedTrackingTargets.Add(target);
 
+        public void MarkRawParameter(string name, AnimatorControllerParameterType parameterType)
+        {
+            _rawParameters.Add(name, parameterType);            
+        }
 
         public AnimatorLayerBuilder(
             EmoteWizardEnvironment environment,
@@ -188,6 +194,19 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             ).Build();
         }
 
+        public void BuildParameterRemapDriverLayer(string layerName, IReadOnlyDictionary<int, int> actions, string remapFrom, string remapTo)
+        {
+            var parameterRemapDriverLayer = PopulateLayer(layerName);
+            ParameterRemapDriverLayerBuilder.Create(
+                this,
+                parameterRemapDriverLayer,
+                actions,
+                remapFrom,
+                null,
+                remapTo
+            ).Build();
+        }
+
         public void BuildParameters()
         {
             var platformFeatures = Environment.GetPlatformFeatures();
@@ -203,6 +222,10 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal
             {
                 _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(TrackingMode.Tracking), AnimatorControllerParameterType.Trigger);
                 _animatorController.AddParameter(trackingTarget.ToAnimatorParameterName(TrackingMode.Override), AnimatorControllerParameterType.Trigger);
+            }
+            foreach (var rawParameter in _rawParameters)
+            {
+                _animatorController.AddParameter(rawParameter.Key, rawParameter.Value);
             }
         }
     }

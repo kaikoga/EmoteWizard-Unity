@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Silksprite.EmoteWizard.Platforms;
 
 namespace Silksprite.EmoteWizard.DataObjects.Internal
 {
@@ -14,6 +15,17 @@ namespace Silksprite.EmoteWizard.DataObjects.Internal
         public readonly ICollection<string> ReferenceUsages;
         public readonly ICollection<ParameterWriteUsage> WriteUsages;
         public readonly ICollection<ParameterReadUsage> ReadUsages;
+
+        public bool IsDense(IPlatformFeatures platformFeatures) => UsageIsDense(WriteUsages.Select(usage => usage.Value.AsInt(platformFeatures)));
+
+        static bool UsageIsDense(IEnumerable<int> usages)
+        {
+            var usage = usages.GroupBy(value => value)
+                .Select(g => g.Key)
+                .OrderBy(key => key)
+                .ToArray();
+            return usage.SequenceEqual(Enumerable.Range(0, usage.Length));
+        }
 
         public ParameterInstance(string name, ParameterItemKind itemKind, bool saved, ParameterValue defaultValue, bool synced,
             IEnumerable<string> referenceUsages,

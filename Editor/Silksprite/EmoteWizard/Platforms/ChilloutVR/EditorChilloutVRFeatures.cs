@@ -28,7 +28,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
                     op = AnimatorDriverTaskClass.OperatorAccess.EnumValues.Set,
 
                     aType = AnimatorDriverTaskClass.SourceTypeAccess.EnumValues.Static,
-                    aValue = 0f,
+                    aValue = parameterValue,
                     aMax = 0f,
                     aParamType = AnimatorDriverTaskClass.ParameterTypeAccess.EnumValues.Trigger,
                     aName = ""

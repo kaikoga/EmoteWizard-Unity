@@ -81,6 +81,22 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 }
             }
 
+            foreach (var parameter in parametersSnapshot.AllParameters.Where(parameter => parameter.ValueKind == ParameterValueKind.Int && !parameter.IsDense(platformFeatures)))
+            {
+                var usageRemap = parameter.WriteUsages
+                    .Select(usage => usage.Value.AsInt(platformFeatures))
+                    .OrderBy(value => value)
+                    .Select((value, index) => (value, index))
+                    .ToDictionary(vi => vi.index, vi => vi.value);
+                var remappedInputParameter = $"__EW__Input_{parameter.Name}";
+                builder.BuildParameterRemapDriverLayer(
+                    $"Remap {parameter.Name}",
+                    usageRemap,
+                    $"__EW__Input_{parameter.Name}",
+                    parameter.Name);
+                builder.MarkRawParameter(remappedInputParameter, AnimatorControllerParameterType.Int);
+
+            }
             builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             builder.BuildParameters();
             return animatorController;

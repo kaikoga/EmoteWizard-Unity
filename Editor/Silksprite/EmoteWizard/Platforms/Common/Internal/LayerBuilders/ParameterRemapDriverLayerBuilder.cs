@@ -30,6 +30,23 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
         public static ParameterRemapDriverLayerBuilder Create(
             AnimatorLayerBuilder builder,
             AnimatorControllerLayer layer,
+            IReadOnlyDictionary<int, int> actions,
+            string selectParameter,
+            string? cancelParameter,
+            string outputParameter)
+        {
+            return new ParameterRemapDriverLayerBuilder(
+                builder,
+                layer,
+                actions,
+                selectParameter,
+                cancelParameter,
+                outputParameter);
+        }
+
+        public static ParameterRemapDriverLayerBuilder Create(
+            AnimatorLayerBuilder builder,
+            AnimatorControllerLayer layer,
             IEnumerable<int> actions,
             string selectParameter,
             string? cancelParameter,
@@ -50,7 +67,7 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
             {
                 var (input, output) = actionIndex;
                 NextStateRow();
-                var state = AddStateWithoutTransition($"Action {actionIndex}", null);
+                var state = AddStateWithoutTransition($"Remap {input} -> {output}", null);
                 var entryCondition = new ConditionBuilder().Equals(_selectParameter, input);
                 AddEntryTransition(state, entryCondition);
                 var exitCondition = _cancelParameter != null

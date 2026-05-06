@@ -4,6 +4,7 @@ using System.Linq;
 using JetBrains.Annotations;
 using Silksprite.AdLib.ChilloutVR.Access;
 using Silksprite.AdLib.ChilloutVR.Extensions;
+using Silksprite.AdLib.Reflection.Extensions;
 using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Builder;
 using Silksprite.EmoteWizard.DataObjects.Internal;
@@ -63,8 +64,20 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
 
         IEnumerable<CVRAdvancedSettingsEntryAccess?> ExtractAdvancedSettingsEntries(ParametersSnapshot snapshot)
         {
+            var expressionContext = Environment.GetContext<ExpressionContext>();
             var platformFeatures = Environment.GetPlatformFeatures();
             float[] zero = { 0f };
+
+            string ExpressionName(string parameter, int value)
+            {
+                return expressionContext.AllExpressionItems()
+                        .FirstOrDefault(expression =>
+                        {
+                            expression.TryResolveParameter(platformFeatures, out var param);
+                            return param == parameter && (int)expression.value == value;
+                        })
+                        ?.Name ?? $"{value}";
+            }
 
             foreach (var parameter in snapshot.AllParameters)
             {
@@ -97,6 +110,8 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                 }
                 CVRAdvancesAvatarSettingBaseAccess setting;
                 CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues settingsType;
+                var entryName = parameter.Name;
+                var entryMachineName = parameter.Name;
                 switch (valueKind, maybeSettingsType)
                 {
                     case (ParameterValueKind.Bool, CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Toggle):
@@ -107,6 +122,42 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                         };
                         settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Toggle;
                         break;
+                    case (ParameterValueKind.Int, _) when parameter.IsDense(platformFeatures):
+                    {
+                        var usages = parameter.WriteUsages.OrderBy(usage => usage.Value.AsInt(platformFeatures)).ToArray();
+                        setting = new CVRAdvancesAvatarSettingGameObjectDropdownAccess
+                        {
+                            usedType = usedType,
+                            defaultValue = parameter.DefaultValue.AsInt(platformFeatures),
+                            options = usages
+                                .Select(usage => new CVRAdvancedSettingsDropDownEntryAccess
+                                {
+                                    name = ExpressionName(parameter.Name, usage.Value.AsInt(platformFeatures))
+                                })
+                                .ToList()!
+                        };
+                        settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Dropdown;
+                        break;
+                    }
+                    case (ParameterValueKind.Int, _):
+                    {
+                        var usages = parameter.WriteUsages.OrderBy(usage => usage.Value.AsInt(platformFeatures)).ToArray();
+                        var remappedInputParameter = $"__EW__Input_{parameter.Name}";
+                        setting = new CVRAdvancesAvatarSettingGameObjectDropdownAccess
+                        {
+                            usedType = usedType,
+                            defaultValue = parameter.DefaultValue.AsInt(platformFeatures),
+                            options = usages
+                                .Select(usage => new CVRAdvancedSettingsDropDownEntryAccess
+                                {
+                                    name = ExpressionName(parameter.Name, usage.Value.AsInt(platformFeatures))
+                                })
+                                .ToList()!
+                        };
+                        settingsType = CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Dropdown;
+                        entryMachineName = remappedInputParameter;
+                        break;
+                    }
                     case (ParameterValueKind.Float, CVRAdvancedSettingsEntryClass.SettingsTypeAccess.EnumValues.Joystick2D):
                         setting = new CVRAdvancesAvatarSettingJoystick2DAccess
                         {
@@ -146,8 +197,8 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                 {
                     type = settingsType,
                     setting = setting,
-                    name = parameter.Name,
-                    machineName = parameter.Name,
+                    name = entryName,
+                    machineName = entryMachineName,
                 };
 
             }

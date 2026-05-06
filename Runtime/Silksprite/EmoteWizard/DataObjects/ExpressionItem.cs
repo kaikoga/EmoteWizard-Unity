@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Silksprite.EmoteWizard.Platforms;
 using Silksprite.EmoteWizard.Utils;
 using UnityEngine;
 using static Silksprite.EmoteWizardSupport.Tools.EmoteWizardTools;
@@ -47,6 +48,14 @@ namespace Silksprite.EmoteWizard.DataObjects
         public bool TryGetParameter([MaybeNullWhen(false)] out string parameterValue)
         {
             parameterValue = parameter;
+            return !string.IsNullOrWhiteSpace(parameterValue);
+        }
+
+        public bool TryResolveParameter(IPlatformFeatures platformFeatures, [MaybeNullWhen(false)] out string parameterValue)
+        {
+            parameterValue = TryGetParameter(out var rawParameterReference)
+                ? platformFeatures.ResolveParameterReference(rawParameterReference)
+                : null;
             return !string.IsNullOrWhiteSpace(parameterValue);
         }
 
