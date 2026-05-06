@@ -44,7 +44,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR
             animatorDriver.EnterTasks = settings.Select(setting => (AnimatorDriverTaskAccess?)new AnimatorDriverTaskAccess
                 {
                     targetType = AnimatorDriverTaskClass.ParameterTypeAccess.EnumValues.Trigger,
-                    targetName = setting.target.ToAnimatorParameterName(setting.mode),
+                    targetName = GeneratedParameters.TrackingTrigger(setting.target, setting.mode),
 
                     op = AnimatorDriverTaskClass.OperatorAccess.EnumValues.Set,
 

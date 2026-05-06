@@ -4,6 +4,7 @@ using Silksprite.EmoteWizard.Contexts.Ephemeral;
 using Silksprite.EmoteWizard.Contexts.Extensions;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.DataObjects.Internal;
+using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Extensions;
 using Silksprite.EmoteWizard.Platforms.Common.Internal;
 using Silksprite.EmoteWizard.Platforms.Extensions;
@@ -43,13 +44,6 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 builder.BuildStaticLayer("Default Avatar Mask", null, context.DefaultAvatarMask);
             }
 
-            var platformFeatures = context.Environment.GetPlatformFeatures();
-            if (parametersSnapshot.TryResolveParameterWithTypeAndWarning(platformFeatures.ParameterForPlatformActionSelect, ParameterItemKind.Int, out var actionSelectParameter, out _))
-            {
-                var actions = actionSelectParameter.ReadUsages.Select(usage => usage.Value.AsInt(platformFeatures)).Distinct().ToArray();
-                builder.BuildActionSelectDriverLayer("Action Select Driver", actions);
-            }
-
             AnimationClip? resetClip;
             if (context.HasResetClip)
             {
@@ -81,6 +75,23 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 }
             }
 
+            
+            var platformFeatures = context.Environment.GetPlatformFeatures();
+            if (parametersSnapshot.TryResolveParameterWithTypeAndWarning(platformFeatures.ParameterForPlatformActionSelect, ParameterItemKind.Int, out var actionSelectParameter, out _))
+            {
+                var actions = actionSelectParameter.ReadUsages
+                    .Select(usage => usage.Value.AsInt(platformFeatures))
+                    .Distinct()
+                    .ToDictionary(i => i, i=> i);
+                builder.BuildParameterRemapDriverLayer(
+                    "Remap Action Select",
+                    actions,
+                    platformFeatures.ParameterForPlatformActionSelect,
+                    platformFeatures.ParameterForActionSelect,
+                    platformFeatures.ParameterForPlatformCancelAction
+                );
+            }
+                
             foreach (var parameter in parametersSnapshot.AllParameters.Where(parameter => parameter.ValueKind == ParameterValueKind.Int && !parameter.IsDense(platformFeatures)))
             {
                 var usageRemap = parameter.WriteUsages
@@ -88,14 +99,14 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                     .OrderBy(value => value)
                     .Select((value, index) => (value, index))
                     .ToDictionary(vi => vi.index, vi => vi.value);
-                var remappedInputParameter = $"__EW__Input_{parameter.Name}";
+                var remappedInputParameter = GeneratedParameters.RemappedInput(parameter);
                 builder.BuildParameterRemapDriverLayer(
                     $"Remap {parameter.Name}",
                     usageRemap,
-                    $"__EW__Input_{parameter.Name}",
-                    parameter.Name);
+                    remappedInputParameter,
+                    parameter.Name,
+                    null);
                 builder.MarkRawParameter(remappedInputParameter, AnimatorControllerParameterType.Int);
-
             }
             builder.BuildTrackingControlLayers(context.Environment.GetContext<EmoteItemContext>().AllMirroredEmoteItems());
             builder.BuildParameters();

@@ -23,8 +23,8 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
         {
             Builder.MarkTrackingTarget(_target);
 
-            var offTriggerConditions = new ConditionBuilder().Trigger(_target.ToAnimatorParameterName(TrackingMode.Tracking));
-            var onTriggerConditions = new ConditionBuilder().Trigger(_target.ToAnimatorParameterName(TrackingMode.Override));
+            var offTriggerConditions = new ConditionBuilder().Trigger(GeneratedParameters.TrackingTrigger(_target, TrackingMode.Tracking));
+            var onTriggerConditions = new ConditionBuilder().Trigger(GeneratedParameters.TrackingTrigger(_target, TrackingMode.Override));
 
             foreach (var emoteItem in _overriders)
             {

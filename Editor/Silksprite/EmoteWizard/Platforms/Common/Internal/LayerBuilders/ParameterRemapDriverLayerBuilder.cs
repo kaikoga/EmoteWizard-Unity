@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.ConditionBuilders;
 using Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders.Base;
 using UnityEditor.Animations;
@@ -9,56 +8,31 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
     public class ParameterRemapDriverLayerBuilder : LayerBuilderBase
     {
         readonly IReadOnlyDictionary<int, int> _actions;
-        readonly string _selectParameter;
+        readonly string _remapFrom;
+        readonly string _remapTo;
         readonly string? _cancelParameter;
-        readonly string _outputParameter;
 
-        ParameterRemapDriverLayerBuilder(
-            AnimatorLayerBuilder builder,
+        ParameterRemapDriverLayerBuilder(AnimatorLayerBuilder builder,
             AnimatorControllerLayer layer,
             IReadOnlyDictionary<int, int> actions,
-            string selectParameter,
-            string? cancelParameter,
-            string outputParameter) : base(builder, layer)
+            string remapFrom,
+            string remapTo,
+            string? cancelParameter) : base(builder, layer)
         {
             _actions = actions;
-            _selectParameter = selectParameter;
+            _remapFrom = remapFrom;
+            _remapTo = remapTo;
             _cancelParameter = cancelParameter;
-            _outputParameter = outputParameter;
         }
 
-        public static ParameterRemapDriverLayerBuilder Create(
-            AnimatorLayerBuilder builder,
+        public static ParameterRemapDriverLayerBuilder Create(AnimatorLayerBuilder builder,
             AnimatorControllerLayer layer,
             IReadOnlyDictionary<int, int> actions,
-            string selectParameter,
-            string? cancelParameter,
-            string outputParameter)
+            string remapFrom,
+            string remapTo,
+            string? cancelParameter)
         {
-            return new ParameterRemapDriverLayerBuilder(
-                builder,
-                layer,
-                actions,
-                selectParameter,
-                cancelParameter,
-                outputParameter);
-        }
-
-        public static ParameterRemapDriverLayerBuilder Create(
-            AnimatorLayerBuilder builder,
-            AnimatorControllerLayer layer,
-            IEnumerable<int> actions,
-            string selectParameter,
-            string? cancelParameter,
-            string outputParameter)
-        {
-            return new ParameterRemapDriverLayerBuilder(
-                builder,
-                layer,
-                actions.Select((action, index) => (Key: action, Value: index)).ToDictionary(kv => kv.Key, kv => kv.Value),
-                selectParameter,
-                cancelParameter,
-                outputParameter);
+            return new ParameterRemapDriverLayerBuilder(builder, layer, actions, remapFrom, remapTo, cancelParameter);
         }
 
         protected override void Process()
@@ -68,13 +42,13 @@ namespace Silksprite.EmoteWizard.Platforms.Common.Internal.LayerBuilders
                 var (input, output) = actionIndex;
                 NextStateRow();
                 var state = AddStateWithoutTransition($"Remap {input} -> {output}", null);
-                var entryCondition = new ConditionBuilder().Equals(_selectParameter, input);
+                var entryCondition = new ConditionBuilder().Equals(_remapFrom, input);
                 AddEntryTransition(state, entryCondition);
                 var exitCondition = _cancelParameter != null
                     ? new ConditionBuilder().Trigger(_cancelParameter)
-                    : new ConditionBuilder().NotEqual(_selectParameter, input);
+                    : new ConditionBuilder().NotEqual(_remapFrom, input);
                 AddExitTransition(state, exitCondition);
-                EditorFeatures.PopulateParameterDriver(state, _outputParameter, output);
+                EditorFeatures.PopulateParameterDriver(state, _remapTo, output);
             }
         }
     }

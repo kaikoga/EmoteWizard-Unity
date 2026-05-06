@@ -9,6 +9,7 @@ using Silksprite.EmoteWizard.Contexts;
 using Silksprite.EmoteWizard.Contexts.Builder;
 using Silksprite.EmoteWizard.DataObjects.Internal;
 using Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions;
+using Silksprite.EmoteWizard.Platforms.Common;
 using Silksprite.EmoteWizard.Platforms.Common.Context.Extensions;
 using Silksprite.EmoteWizard.Platforms.Extensions;
 using Silksprite.EmoteWizard.Scopes;
@@ -142,7 +143,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Builder
                     case (ParameterValueKind.Int, _):
                     {
                         var usages = parameter.WriteUsages.OrderBy(usage => usage.Value.AsInt(platformFeatures)).ToArray();
-                        var remappedInputParameter = $"__EW__Input_{parameter.Name}";
+                        var remappedInputParameter = GeneratedParameters.RemappedInput(parameter);
                         setting = new CVRAdvancesAvatarSettingGameObjectDropdownAccess
                         {
                             usedType = usedType,
