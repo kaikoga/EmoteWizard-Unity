@@ -11,6 +11,8 @@ namespace Silksprite.EmoteWizard.DataObjects
     [CustomPropertyDrawer(typeof(ParameterNameAttribute))]
     public class ParameterNameAttributeDrawer : PropertyDrawer
     {
+        public static ParameterItemKind SelectedParameterItemKind;
+
         public override void OnGUI(Rect position, SerializedProperty serializedProperty, GUIContent label)
         {
             var parameterNameAttribute = (ParameterNameAttribute)attribute;
@@ -54,7 +56,9 @@ namespace Silksprite.EmoteWizard.DataObjects
                 var index = EditorGUI.Popup(right, -1, parameterDisplayNames);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    serializedProperty.stringValue = parameterNames[index];
+                    var parameterName = parameterNames[index];
+                    serializedProperty.stringValue = parameterName;
+                    SelectedParameterItemKind = snapshot.AllParameters.FirstOrDefault(parameter => parameter.Name == parameterName)?.ItemKind ?? ParameterItemKind.Auto;
                     GUI.changed = true; // propagate
                 }
             }

@@ -75,7 +75,16 @@ namespace Silksprite.EmoteWizard.DataObjects
             var bottom = position.UISliceV(1);
             using (new HideLabelsScope())
             {
-                LEditorGUI.Prop(top.UISliceH(0.0f, 0.6f), parameter);
+                using (var changed = new EditorGUI.ChangeCheckScope())
+                {
+                    EditorGUI.BeginChangeCheck();
+                    LEditorGUI.Prop(top.UISliceH(0.0f, 0.6f), parameter);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        kind.Property.intValue = (int)ParameterNameAttributeDrawer.SelectedParameterItemKind;
+                    }
+                }
+                
                 LEditorGUI.PropAsEnumPopup<ParameterItemKind>(top.UISliceH(0.6f, 0.4f), kind);
                 ModePopup(bottom.UISliceH(0.1f, 0.4f), mode, (ParameterItemKind)kind.Property.intValue);
                 EmoteWizardGUI.PropAsParameterValue(bottom.UISliceH(0.5f, 0.5f), threshold, (ParameterItemKind)kind.Property.intValue);
