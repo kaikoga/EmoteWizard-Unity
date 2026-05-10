@@ -3,9 +3,11 @@ using Silksprite.EmoteWizard.Base;
 using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Sources.Impl;
 using Silksprite.EmoteWizardSupport.Scopes;
+using Silksprite.EmoteWizardSupport.Tools;
 using Silksprite.Loch;
 using Silksprite.Loch.Extensions;
 using Silksprite.Loch.IMGUI;
+using Silksprite.Loch.IMGUI.Scopes;
 using UnityEditor;
 using UnityEngine;
 using static Silksprite.Loch.Tools.LochTool;
@@ -16,7 +18,7 @@ namespace Silksprite.EmoteWizard.Sources
     [CustomEditor(typeof(ExpressionItemSource))]
     public class ExpressionItemSourceEditor : EmoteWizardEditorBase<ExpressionItemSource>
     {
-        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.VRChat;
+        protected override DetectedPlatform SupportedPlatforms => DetectedPlatform.UnityPlatforms;
 
         static readonly LocalizedContent[][] SubParameterLabels =
         {
@@ -69,6 +71,13 @@ namespace Silksprite.EmoteWizard.Sources
         {
             LEditorGUILayout.Prop(_icon);
             LEditorGUILayout.Prop(_path);
+
+            using (new ShowMixedValueScope(_path))
+            using (new EditorGUI.DisabledScope(true))
+            {
+                LEditorGUILayout.TextField(Loc("ExpressionItemSource::Name"), EmoteWizardTools.GetFileName(_path.Property.stringValue));
+            }
+
             using (new EditorGUILayout.HorizontalScope())
             {
                 LEditorGUILayout.Prop(_parameter);
