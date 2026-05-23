@@ -9,6 +9,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.VRM1.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
+using Silksprite.EmoteWizardSupport.Utils;
 using UniVRM10;
 using Object = UnityEngine.Object;
 
@@ -36,7 +37,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRM1.Contexts.Builder
 
             using (new ManualBundleGeneratedAssetsScope(Environment, manualBuild))
             {
-                vrm10Object = new CustomCloneVRM10Object().Clone(vrm10Object).mainAsset;
+                vrm10Object = EditorUtil.ToEphemeralClone(vrm10Object, v => new CustomCloneVRM10Object().Clone(v).mainAsset);
                 vrm10Instance.Vrm = vrm10Object;
 
                 var expression = vrm10Object.Expression;

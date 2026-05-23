@@ -9,6 +9,7 @@ using Silksprite.EmoteWizard.DataObjects;
 using Silksprite.EmoteWizard.Platforms.VRM0.Extensions;
 using Silksprite.EmoteWizard.Scopes;
 using Silksprite.EmoteWizardSupport.Undoable;
+using Silksprite.EmoteWizardSupport.Utils;
 using VRM;
 
 namespace Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Builder
@@ -37,7 +38,7 @@ namespace Silksprite.EmoteWizard.Platforms.VRM0.Contexts.Builder
 
             using (new ManualBundleGeneratedAssetsScope(Environment, manualBuild))
             {
-                blendShapeAvatar = new CustomCloneBlendShapeAvatar().Clone(blendShapeAvatar).mainAsset;
+                blendShapeAvatar = EditorUtil.ToEphemeralClone(blendShapeAvatar, b => new CustomCloneBlendShapeAvatar().Clone(b).mainAsset);
                 blendShapeProxy.BlendShapeAvatar = blendShapeAvatar;
 
                 foreach (var genericEmoteItem in Environment.GetContext<GenericEmoteItemContext>().GenericEmoteItems(GenericEmotePlatform.VRM0))
