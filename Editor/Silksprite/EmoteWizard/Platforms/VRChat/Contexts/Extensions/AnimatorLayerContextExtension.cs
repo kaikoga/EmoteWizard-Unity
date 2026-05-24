@@ -89,8 +89,9 @@ namespace Silksprite.EmoteWizard.Platforms.VRChat.Contexts.Extensions
                 return;
             }
 
-            var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(context.Environment.GetContext<EmoteItemContext>().ForceMirroredEmoteItems(layerKind).SelectMany(e => e.AllClipsRec()));
+            var allClips = context.Environment.GetContext<EmoteItemContext>()
+                .ForceMirroredEmoteItems(layerKind)
+                .SelectMany(e => e.AllClipsRec());
 
             var curveBindings = CurveBindings.Collect(allClips);
             var boundValues = ResetValuesExtractor.ExtractFromAvatarRoot(curveBindings, avatar);

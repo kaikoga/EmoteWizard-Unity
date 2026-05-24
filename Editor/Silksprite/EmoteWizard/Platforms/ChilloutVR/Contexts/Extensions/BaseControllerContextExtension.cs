@@ -84,7 +84,7 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                     .Distinct()
                     .ToDictionary(i => i, i=> i);
                 builder.BuildParameterRemapDriverLayer(
-                    "Remap Action Select",
+                    "Remap Action Select (Emote)",
                     actions,
                     platformFeatures.ParameterForPlatformActionSelect,
                     platformFeatures.ParameterForActionSelect,
@@ -127,8 +127,9 @@ namespace Silksprite.EmoteWizard.Platforms.ChilloutVR.Contexts.Extensions
                 return;
             }
 
-            var allClips = Enumerable.Empty<AnimationClip>()
-                .Concat(context.Environment.GetContext<EmoteItemContext>().AllForceMirroredEmoteItems().SelectMany(e => e.AllClipsRec()));
+            var allClips = context.Environment.GetContext<EmoteItemContext>()
+                .ForceMirroredEmoteItems(LayerKind.FX)
+                .SelectMany(e => e.AllClipsRec());
 
             var curveBindings = CurveBindings.Collect(allClips);
             var boundValues = ResetValuesExtractor.ExtractFromAvatarRoot(curveBindings, avatar);
